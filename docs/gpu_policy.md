@@ -36,13 +36,28 @@ work (workers keep claiming), so pause = stop first, requeue second; (4) `mainte
 only SIGSTOP/SIGCONTs; `remote_worker_guard.sh` only manages remote r1/r2; the editor_server ControlNet may stop/restore the
 c6 worker on its own. No one has yet named the fleet's operator; the user is asked to confirm or veto this procedure.
 
+## Operator review (2026-10-20, session newh3-fd, the fleet's operator): four mandatory corrections, all applied
+1. Requeue stranded claims by **moving** `claimed/<wid>__X.json` to `queue/X` unchanged (the file name is the job id that
+   story_editor tracks; rewriting as `cut%04d.json` lost 132 jobs on 10-01); never overwrite an existing `queue/X`.
+2. `thermal_guard.sh` may have SIGSTOPped a worker/backend (state T ignores SIGTERM): send SIGCONT, then SIGTERM, then
+   SIGKILL after 5 s (workers) / 10 s (backends).
+3. Restore order: run `start_fleet.sh` first, verify `/system_stats` and live workers, **then** remove `maintenance/c4,c6,c7`
+   (removing first lets the 5-minute watchdog race `start_fleet.sh` on the same ports). `maintenance/c5` stays.
+4. Run `start_fleet.sh` detached (`setsid … < /dev/null`) so a later Ctrl-C in the experiment's process group cannot kill the
+   restored fleet.
+Recommended and applied as an option: stop at a job boundary (`--drain-minutes N` waits until each claiming worker logs
+`done in` / `FAILED` / `REQUEUED`). Caveats: the film_en editor_server ControlNet (`:8878`) can restart the c6 worker on GPU 6
+by itself — the user should not use the webcam ControlNet during an experiment; remote members r1/r2 keep working.
+Checks after pause: GPUs 4/6/7 ~0 MiB, no `claimed/c{4,6,7}__*`, queue count = before + requeued. After restore: 200 on
+`:8194/:8189/:8188 /system_stats`, three live workers, claims reappearing within minutes.
+
 ## Pause procedure (`scripts/shigeru_run.py --fleet pause` implements it)
 1. Record `nvidia-smi` and fleet state (backends up, workers alive, queue/claimed counts) to `results/fleet_state_<ts>.json`.
 2. `touch maintenance/c4 maintenance/c6 maintenance/c7` so the watchdog does not restart anything.
-3. SIGTERM the three workers, requeue their stranded claims (`claimed/c{4,6,7}__*.json` -> `hold_norefs/` or `queue/`), then
-   SIGTERM the three backends; wait for the GPU memory on 4/6/7 to be released (< 1 GB).
+3. (optional) wait for a job boundary; CONT+TERM(+KILL) the three workers; move their stranded claims to `queue/` (names
+   unchanged, no overwrite); CONT+TERM(+KILL) the three backends; wait for the GPU memory on 4/6/7 to be released (< 1 GB).
 4. Run the experiment with `CUDA_VISIBLE_DEVICES` restricted to the freed GPUs (+5).
-5. Restore (always, via `atexit` + SIGINT/SIGTERM handlers): remove the maintenance files, run `start_fleet.sh`, verify
-   `/system_stats` on the three ports and three live workers; log the downtime.
+5. Restore (always, via `atexit` + SIGINT/SIGTERM handlers): `setsid start_fleet.sh`, verify `/system_stats` on the three
+   ports and three live workers, then remove the maintenance files; log the downtime.
 6. Recovery after an OS crash: `scripts/shigeru_run.py --fleet recover` reads `results/fleet_pause_state.json` and
    restores the fleet if a pause was in progress.

@@ -62,33 +62,57 @@ def pause_fleet(drain_minutes):
     log(f"fleet pause: begin (queue={st['queue']}, claimed={len(st['claimed'] or [])})")
     for wid in MEMBERS:
         open(os.path.join(FLEET, "maintenance", wid), "w").write(f"paused by shigeru_run.py {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-    deadline = time.time() + 60 * drain_minutes
-    while time.time() < deadline:
-        claimed = [c for c in (fleet_status()["claimed"] or []) if c.split("__")[0] in MEMBERS]
-        if not claimed:
-            break
-        log(f"fleet pause: waiting for {len(claimed)} claimed job(s) to finish"); time.sleep(30)
+    if drain_minutes > 0:
+        # job-boundary wait (operator's recommendation): a worker finishing a job appends "done in" / "FAILED" / "REQUEUED" to
+        # worker_p<port>.log; wait (bounded) until every member with a claim has logged a job end since the pause began
+        marks = {}
+        for wid, (g, port) in MEMBERS.items():
+            lp = os.path.join(FLEET, f"worker_p{port}.log"); marks[wid] = os.path.getsize(lp) if os.path.exists(lp) else 0
+        deadline = time.time() + 60 * drain_minutes
+        while time.time() < deadline:
+            pending = []
+            for wid, (g, port) in MEMBERS.items():
+                has_claim = any(c.startswith(wid + "__") for c in (fleet_status()["claimed"] or []))
+                lp = os.path.join(FLEET, f"worker_p{port}.log")
+                ended = False
+                if os.path.exists(lp):
+                    with open(lp, "rb") as f:
+                        f.seek(marks[wid]); tail = f.read().decode("utf-8", "replace")
+                    ended = any(k in tail for k in ("done in", "FAILED", "REQUEUED"))
+                if has_claim and not ended: pending.append(wid)
+            if not pending: break
+            log(f"fleet pause: waiting for a job boundary on {pending}"); time.sleep(20)
+    def stop(pids, what, grace):
+        for pid in pids:
+            try: os.kill(pid, signal.SIGCONT)   # thermal_guard may have SIGSTOPped it; a stopped process ignores SIGTERM
+            except OSError: pass
+            try: os.kill(pid, signal.SIGTERM); log(f"fleet pause: CONT+TERM {what} pid {pid}")
+            except OSError: pass
+        t_end = time.time() + grace
+        while time.time() < t_end and any(os.path.exists(f"/proc/{pid}") for pid in pids):
+            time.sleep(1)
+        for pid in pids:
+            if os.path.exists(f"/proc/{pid}"):
+                try: os.kill(pid, signal.SIGKILL); log(f"fleet pause: KILL {what} pid {pid} (did not exit in {grace}s)")
+                except OSError: pass
     for wid, (g, port) in MEMBERS.items():
-        for pid in worker_pids(port):
-            os.kill(pid, signal.SIGTERM); log(f"fleet pause: SIGTERM worker {wid} pid {pid}")
-    time.sleep(3)
-    # the watchdog skips members under maintenance, so its requeue branch never runs: put stranded claims back ourselves
-    # (same rule as comfy_watchdog.sh: no refs -> hold_norefs/, else queue/, as cut%04d.json; then delete the claim)
+        stop(worker_pids(port), f"worker {wid}", 5)
+    # the watchdog skips members under maintenance, so its requeue branch never runs: put stranded claims back ourselves.
+    # Fleet operator's rule (2026-10-20): move claimed/<wid>__X.json to queue/X unchanged (the file name is the job id that
+    # story_editor tracks); never overwrite an existing queue/X (film_en and space_detective_v2 share cut numbers).
     for wid in MEMBERS:
         for c in sorted(os.listdir(os.path.join(FLEET, "claimed"))):
-            if not c.startswith(wid + "__") or not c.endswith(".json"):
+            if not c.startswith(wid + "__"):
                 continue
-            path = os.path.join(FLEET, "claimed", c)
+            src, dst = os.path.join(FLEET, "claimed", c), os.path.join(FLEET, "queue", c[len(wid) + 2:])
+            if os.path.exists(dst):
+                log(f"fleet pause: NOT requeuing {c}: queue/{c[len(wid)+2:]} already exists (left in claimed/)"); continue
             try:
-                d = json.load(open(path)); j = d.get("job", d)
-                tgt = "hold_norefs" if not j.get("refs") else "queue"
-                json.dump(j, open(os.path.join(FLEET, tgt, f"cut{int(j['cut']):04d}.json"), "w"), ensure_ascii=False)
-                os.remove(path); log(f"fleet pause: requeued {c} -> {tgt}/")
-            except Exception as e:
-                log(f"fleet pause: could not requeue {c}: {e} (left in claimed/)")
+                os.rename(src, dst); log(f"fleet pause: requeued {c} -> queue/{c[len(wid)+2:]}")
+            except OSError as e:
+                log(f"fleet pause: could not requeue {c}: {e}")
     for wid, (g, port) in MEMBERS.items():
-        for pid in backend_pids(port):
-            os.kill(pid, signal.SIGTERM); log(f"fleet pause: SIGTERM backend {wid} pid {pid} (gpu {g})")
+        stop(backend_pids(port), f"backend {wid} (gpu {g})", 10)
     for _ in range(40):
         mem = gpu_mem()
         if all(mem.get(g, 0) < 1024 for g, _ in MEMBERS.values()):
@@ -102,17 +126,20 @@ def restore_fleet():
     s = json.load(open(STATE))
     if not s.get("was_running"):
         log("fleet restore: fleet was not running before the pause; leaving it stopped"); os.remove(STATE); return
-    for wid in MEMBERS:   # never touch maintenance/c5 (GPU 5 was removed from the fleet on purpose)
-        p = os.path.join(FLEET, "maintenance", wid)
-        if os.path.exists(p): os.remove(p)
-    log("fleet restore: start_fleet.sh")
-    subprocess.run(["bash", os.path.join(FLEET, "start_fleet.sh")], cwd=FLEET, stdout=open(os.path.join(ROOT, "results", "fleet_restore.log"), "a"), stderr=subprocess.STDOUT, timeout=600)
+    # operator's order: start_fleet.sh first (detached with setsid so a later Ctrl-C cannot kill the restored fleet),
+    # verify, THEN remove the maintenance files (otherwise the 5-minute watchdog may race start_fleet.sh on the same ports)
+    log("fleet restore: setsid start_fleet.sh")
+    with open(os.path.join(ROOT, "results", "fleet_restore.log"), "a") as lf:
+        subprocess.run(["setsid", "bash", os.path.join(FLEET, "start_fleet.sh")], cwd=FLEET, stdin=subprocess.DEVNULL, stdout=lf, stderr=subprocess.STDOUT, timeout=900)
     ok = False
-    for _ in range(40):
+    for _ in range(60):
         st = fleet_status()
         if all(m["backend_up"] and m["worker_pids"] for m in st["members"].values()):
             ok = True; break
         time.sleep(5)
+    for wid in MEMBERS:   # never touch maintenance/c5 (GPU 5 was removed from the fleet on purpose)
+        p = os.path.join(FLEET, "maintenance", wid)
+        if os.path.exists(p): os.remove(p)
     down = time.time() - s["paused_at"]
     log(f"fleet restore: {'OK' if ok else 'INCOMPLETE'} after {down/60:.1f} min of downtime; status {json.dumps({w: (m['backend_up'], len(m['worker_pids'])) for w, m in fleet_status()['members'].items()})}")
     os.remove(STATE)
