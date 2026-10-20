@@ -1,0 +1,2 @@
+Procedure in docs/gpu_policy.md derived from h3-fleet scripts (start_fleet.sh, comfy_watchdog.sh, thermal_guard.sh, remote_worker_guard.sh, crontab)
+and cross-checked by peer session donkeyhover-35 on 2026-10-20 (not the fleet operator). Remove this file to block fleet pauses.

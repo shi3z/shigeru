@@ -72,6 +72,20 @@ def pause_fleet(drain_minutes):
         for pid in worker_pids(port):
             os.kill(pid, signal.SIGTERM); log(f"fleet pause: SIGTERM worker {wid} pid {pid}")
     time.sleep(3)
+    # the watchdog skips members under maintenance, so its requeue branch never runs: put stranded claims back ourselves
+    # (same rule as comfy_watchdog.sh: no refs -> hold_norefs/, else queue/, as cut%04d.json; then delete the claim)
+    for wid in MEMBERS:
+        for c in sorted(os.listdir(os.path.join(FLEET, "claimed"))):
+            if not c.startswith(wid + "__") or not c.endswith(".json"):
+                continue
+            path = os.path.join(FLEET, "claimed", c)
+            try:
+                d = json.load(open(path)); j = d.get("job", d)
+                tgt = "hold_norefs" if not j.get("refs") else "queue"
+                json.dump(j, open(os.path.join(FLEET, tgt, f"cut{int(j['cut']):04d}.json"), "w"), ensure_ascii=False)
+                os.remove(path); log(f"fleet pause: requeued {c} -> {tgt}/")
+            except Exception as e:
+                log(f"fleet pause: could not requeue {c}: {e} (left in claimed/)")
     for wid, (g, port) in MEMBERS.items():
         for pid in backend_pids(port):
             os.kill(pid, signal.SIGTERM); log(f"fleet pause: SIGTERM backend {wid} pid {pid} (gpu {g})")
@@ -88,7 +102,7 @@ def restore_fleet():
     s = json.load(open(STATE))
     if not s.get("was_running"):
         log("fleet restore: fleet was not running before the pause; leaving it stopped"); os.remove(STATE); return
-    for wid in MEMBERS:
+    for wid in MEMBERS:   # never touch maintenance/c5 (GPU 5 was removed from the fleet on purpose)
         p = os.path.join(FLEET, "maintenance", wid)
         if os.path.exists(p): os.remove(p)
     log("fleet restore: start_fleet.sh")

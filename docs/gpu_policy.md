@@ -14,7 +14,7 @@
 |---|---|---|
 | 0,1,2,3 | DeepSeek-V4.1 production server (`run_128k_4slots.sh`, `--devices 2,3,0,1`) + ASR 2.3 GB on 2 | **conflict**: the brief allows 2,3 but they are part of the 4-GPU production server, which also spans 0,1 (untouchable). Until the user decides, SHIGERU uses 4–7 only. |
 | 4, 6, 7 | H3 fleet ComfyUI backends (41 GB each, ports 8194/8189/8188) + workers | paused per the procedure below |
-| 5 | TTS (11 GB) and proxy (8.5 GB), removed from the fleet on 2026-10-06 | shared; not touched; ~60 GB usable |
+| 5 | NEURAL RACER's live-commentary TTS/ASR (~10 GB, session donkeyhover-35: contact before any stop), hf_proxy (8.5 GB), Blender renders (varies; up to ~36 GB and 95% util seen) — removed from the fleet on 2026-10-06 | shared; never killed; usable VRAM varies 40-60 GB |
 
 ## Fleet anatomy (read from the scripts, not guessed)
 * `/mnt/ssdraid/project/h3-fleet/start_fleet.sh` (idempotent): starts missing ComfyUI backends
@@ -27,11 +27,20 @@
   only manages remote members r1/r2. Neither starts local members on its own.
 * The `h3-fleet` tmux session hosts a Claude session (fleet manager) — procedure confirmation requested from it on 2026-10-20.
 
-## Pause procedure (pending the fleet manager's confirmation; `scripts/shigeru_run.py --fleet pause` implements it)
+## Review (2026-10-20): the procedure was cross-checked by the session living in the `h3-fleet` tmux window (donkeyhover-35, NEURAL RACER;
+it reads the same scripts and is **not** the fleet's operator). Its corrections are applied below: (1) while `maintenance/<wid>`
+exists the watchdog skips the member entirely, including its requeue branch, so claims of killed workers must be requeued by us
+(same rule as the watchdog: no `refs` -> `hold_norefs/`, else `queue/`, written as `cut%04d.json`); (2) `comfy_worker.py` has no
+SIGTERM handler, so a worker dies immediately and its claim stays in `claimed/`; (3) waiting for `claimed/` to drain does not
+work (workers keep claiming), so pause = stop first, requeue second; (4) `maintenance/c5` must stay; (5) `thermal_guard.sh`
+only SIGSTOP/SIGCONTs; `remote_worker_guard.sh` only manages remote r1/r2; the editor_server ControlNet may stop/restore the
+c6 worker on its own. No one has yet named the fleet's operator; the user is asked to confirm or veto this procedure.
+
+## Pause procedure (`scripts/shigeru_run.py --fleet pause` implements it)
 1. Record `nvidia-smi` and fleet state (backends up, workers alive, queue/claimed counts) to `results/fleet_state_<ts>.json`.
 2. `touch maintenance/c4 maintenance/c6 maintenance/c7` so the watchdog does not restart anything.
-3. Wait up to N minutes for `claimed/c{4,6,7}__*.json` to drain (configurable); then SIGTERM the three workers, then the
-   three backends; wait for the GPU memory on 4/6/7 to be released (< 1 GB).
+3. SIGTERM the three workers, requeue their stranded claims (`claimed/c{4,6,7}__*.json` -> `hold_norefs/` or `queue/`), then
+   SIGTERM the three backends; wait for the GPU memory on 4/6/7 to be released (< 1 GB).
 4. Run the experiment with `CUDA_VISIBLE_DEVICES` restricted to the freed GPUs (+5).
 5. Restore (always, via `atexit` + SIGINT/SIGTERM handlers): remove the maintenance files, run `start_fleet.sh`, verify
    `/system_stats` on the three ports and three live workers; log the downtime.
