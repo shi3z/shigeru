@@ -85,6 +85,78 @@ faithful predictor against an uncached reference; the gate itself must be run on
 is the leftmost only when λ ≥ ln V. (c) HF `DynamicCache` + a dense `[1,1,T,P+T]` mask per step: correct, not fast (no
 paged cache, no CUDA graphs, one sequence at a time); the port to our engine's paged prefix cache is the next step.
 
+## Own-engine decoder (`fast_model.py`, `fast_decoder.py` — Phase E groundwork)
+
+`fast_model.FastQwen3` is our own Qwen3 (RMSNorm, per-head q/k RMSNorm before RoPE, GQA, rotate-half RoPE with
+explicit position ids, SwiGLU, tied or untied `lm_head`) loaded from an HF directory (`config.json` + safetensors;
+`from_hf` takes an in-memory `Qwen3ForCausalLM`), in the style of `engine/llada.py` / `engine/qwen_block.py`, with
+transformers' numerics (float32 RMSNorm, float32 cos/sin cast to the activation dtype, `repeat_kv` GQA, SDPA with an
+explicit boolean mask).  It owns one preallocated K/V cache `[layers, 1, Hkv, max_len, hd]` and the caller owns an
+integer `cache_len`:
+
+* `forward(tokens[T], pos_ids[T], cache_len, write=True, rows=None, key_mask=None)` rotates the window rows with their
+  own positions, writes their K/V at slots `cache_len..cache_len+T-1` and attends over `[cache[:cache_len] | window]`
+  with the causal window mask (row i sees the prefix and rows ≤ i).  Logits (float32) only for `rows`.  Committing the
+  leftmost filled run is `cache_len += m` — the DynamicCache.crop of `decoder.py` without any copy; the rows after the
+  run sit beyond `cache_len` and are overwritten by the next step.  `write=False` attends over the same context without
+  touching the cache.
+* `prefill(prompt_ids, cache_len=0, chunk=512)` fills the cache in chunks and returns the last token's logits.
+* `forward_static(tokens[Wb], pos[Wb], slots[Wb], key_mask[Wb, max_len], rows[Wb])` is the CUDA-graph shape of the same
+  step: the window padded to a bucket Wb ∈ {1, 4, 8, 16, 32}, the whole cache as context, key validity in the boolean
+  mask, write slots and logit rows as index tensors, a static `[Wb, V]` output — no Python-side shape depends on the
+  data.  `run(..., static=True)` pads/fills the static buffers and runs it eagerly on any device; `use_graph=True`
+  captures and replays one graph per bucket (engine/graphs.py recipe) **only when the model is on CUDA**; CPU never
+  captures.
+* `fast_decoder.generate(model, tok, prompt_ids, max_new_tokens, window, tau, lam, mask_id, stop_ids, greedy,
+  temperature, predict, generator, static, use_graph)` is `decoder.generate` on this model: same loop, same arguments,
+  same `(new_ids, stats)` (`cache_len`/`prompt_len` replace the DynamicCache in `stats`); it gathers logits only for
+  the mask rows plus, for `predict="ar"`, the last committed row.
+
+### Tested (`engine/cdlm/tests/test_fast.py`, plain asserts, CPU, float32, tiny random Qwen3 saved to a temp dir)
+
+```
+cd /mnt/ssdraid/project/open-mercury
+CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_fast
+```
+(~33 s, CPU.)  The HF side gets its `[MASK]` row from `add_mask_token` (re-randomised), is saved with
+`save_pretrained`, and the fast model loads that directory (so the mask row and `cdlm_mask_token_id` come from the
+checkpoint); tied and untied heads both.
+
+1. `test_logits_exact_vs_hf` — vs `Qwen3ForCausalLM` (sdpa): plain causal forward, chunked prefill (chunk 1/3/512) +
+   continuation with gathered rows, the observed-first window forward with original positions over the cache (vs HF
+   with the decoder's dict mask on a DynamicCache, logits and the written K/V), `write=False`, and the bucketed static
+   path; max abs logit diff 1.8e-5 (< 1e-4).
+2. `test_fast_decoder_matches_hf_decoder` — `fast_decoder.generate == decoder.generate` token for token and in stats
+   on 4 prompts × {no stop, random stop} × W ∈ {1, 4, 16} × τ ∈ {None, 0.5, 1e9} × predict ∈ {mask, ar} × {untied,
+   tied} = 288 cases; the static path gives the same tokens; default `mask_id`; τ=1e9 fills W per step; sampling;
+   `max_new_tokens=0`.
+3. `test_cache_len_bookkeeping` — after `generate`, slots `[0, cache_len)` equal a fresh HF causal forward of
+   `[prompt | output]` (7.8e-6 < 1e-5), garbage written beyond `cache_len` changes nothing (continuation of one token,
+   exact and static paths), and over-filling the cache is an assertion, not silent.
+
+Last run (verbatim):
+```
+  max |fast - HF| logits: 1.81e-05
+PASS test_logits_exact_vs_hf
+  288 decoder cases identical
+PASS test_fast_decoder_matches_hf_decoder
+  max |cache - full forward| / continuation: 7.75e-06
+PASS test_cache_len_bookkeeping
+3 passed, 0 failed
+```
+
+### Not done (needs a GPU)
+
+* **Graph capture validation**: `_capture` / `run(use_graph=True)` are written from the engine/graphs.py recipe but
+  have never executed (CPU only here); the first GPU step is `fast_decoder.generate(..., static=True)` vs
+  `use_graph=True` token equality on the real checkpoint, then capture cost per bucket.
+* **Timing**: tokens/step and tok/s of `fast_decoder` vs `decoder.py` (HF DynamicCache) vs the HF AR baseline on the
+  converted checkpoint, and the share of the step that is the `[Wb, max_len]` whole-cache attention (a context bucket
+  instead of `max_len` is the obvious follow-up).
+* **bf16**: the model loads in any dtype, but exactness is only established in float32; the bf16 drift vs HF bf16 and
+  the τ=None exactness gate on the converted checkpoint are not measured.
+* Single sequence, no batching, no paged cache; `rope_type` must be `default` (no YaRN), no sliding-window layers.
+
 ## Training loop (`distill/train_cdlm.py`, Phase C conversion trainer)
 
 Implemented on top of the modules above: JSONL → chat template (thinking disabled) + response + eos → `build_example` per
@@ -99,9 +171,10 @@ subprocesses incl. kill/resume and 2-process gloo DDP) last ran `4 passed, 0 fai
 
 ## Not yet implemented
 
-* **Decoder in our engine** (`docs/distill_design.md` §7 step 5/6 on real hardware): the HF-cache decoder above ported to
-  the paged prefix cache, batching across sequences, the τ=None exactness gate on the converted checkpoint against the AR
-  student on the eval prompts, tokens/step and tok/s versus the HF AR baseline.
+* **Decoder in our engine** (`docs/distill_design.md` §7 step 5/6 on real hardware): the own-engine port exists
+  (`fast_model.py` / `fast_decoder.py` above, CPU-exact vs HF) but has not run on a GPU — graph capture, timing, bf16,
+  batching across sequences, and the τ=None exactness gate on the converted checkpoint against the AR student on the
+  eval prompts, tokens/step and tok/s versus the HF AR baseline, are all open.
 * **Training on GPUs**: `distill/train_cdlm.py` has only run on CPU (tiny model). The 4B pilot config
   (`distill/configs/phaseC_pilot_4b.yaml`) is not launched; bf16 vs `master_fp32` and the ZeRO/FSDP question for the
   4B full fine-tune are open (DDP replicates the optimizer states, see §7 memory estimate). `<|im_end|>` tail tokens
