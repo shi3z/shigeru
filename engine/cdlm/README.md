@@ -85,16 +85,27 @@ faithful predictor against an uncached reference; the gate itself must be run on
 is the leftmost only when λ ≥ ln V. (c) HF `DynamicCache` + a dense `[1,1,T,P+T]` mask per step: correct, not fast (no
 paged cache, no CUDA graphs, one sequence at a time); the port to our engine's paged prefix cache is the next step.
 
+## Training loop (`distill/train_cdlm.py`, Phase C conversion trainer)
+
+Implemented on top of the modules above: JSONL → chat template (thinking disabled) + response + eos → `build_example` per
+sample and per epoch (prompt never masked, per-block γ ~ U(gamma.min, gamma.max]) → `collate` → `forward_rows` on the
+gathered MLM + AR rows → `mlm_loss` (1/γ self-normalised) and `ar_loss`, combined as `total_loss` (WeDLM weighting).
+Full fine-tune with a plain torch loop: AdamW (fused on CUDA), cosine schedule with warmup, grad accumulation, grad
+clipping, bf16 weights (optional fp32 master + bf16 autocast), gradient checkpointing, `<|mask|>` registered in the
+tokenizer and `add_mask_token` on the model (`config.cdlm_mask_token_id`, saved with `final/`), periodic checkpoints with
+automatic resume, `log.jsonl`, `run.json`, single-process or `torchrun` DDP, CUDA-OOM skip-and-halve. Command line, memory
+estimate and the test are in `docs/distill_design.md` §7; `distill/tests/test_train_cdlm.py` (CPU, tiny model, real
+subprocesses incl. kill/resume and 2-process gloo DDP) last ran `4 passed, 0 failed`.
+
 ## Not yet implemented
 
 * **Decoder in our engine** (`docs/distill_design.md` §7 step 5/6 on real hardware): the HF-cache decoder above ported to
   the paged prefix cache, batching across sequences, the τ=None exactness gate on the converted checkpoint against the AR
   student on the eval prompts, tokens/step and tok/s versus the HF AR baseline.
-* **Training loop**: data loading/packing from `data/distill/*.jsonl`, `<|im_end|>` tail tokens (`num_learnable_im_end`),
-  optimizer/scheduler, bf16/ZeRO-2 launch on GPUs 4–7, logging of AR vs MLM loss. `forward_batch` + `loss.py` are the
-  per-step core; everything around them is missing.
+* **Training on GPUs**: `distill/train_cdlm.py` has only run on CPU (tiny model). The 4B pilot config
+  (`distill/configs/phaseC_pilot_4b.yaml`) is not launched; bf16 vs `master_fp32` and the ZeRO/FSDP question for the
+  4B full fine-tune are open (DDP replicates the optimizer states, see §7 memory estimate). `<|im_end|>` tail tokens
+  (WeDLM `num_learnable_im_end`) are not appended; one example = one padded row (no packing, WeDLM `cum_seqlens`).
 * **FlexAttention execution**: `make_mask_mod` is written and checked for semantics only; `create_block_mask` +
   `attn_implementation="flex_attention"` are not wired or benchmarked (dense `[N,1,2L,2L]` masks are fine at ≤ 4K rows).
-* Packing several samples into one row (WeDLM `cum_seqlens`); here one example = one padded row.
 * Dropping the prompt-only xt blocks from the forward (they are all-observed and unscored; the reference also computes them).
-* Tokenizer registration of `<|mask|>` (only the model side is handled by `add_mask_token`).

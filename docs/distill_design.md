@@ -131,6 +131,63 @@ Mechanism to implement first, in this order, each step validated before the next
 6. **Exactness gate**: with τ=None (one token per step) the converted model must reproduce the AR student's greedy
    output on the eval prompts before parallel decoding is evaluated (row R4 vs R2).
 Only then A/B the Fast-dLLM v2 style bidirectional-within-block variant that `engine/qwen_block.py` implements.
+
+### 7.1 The conversion trainer (`distill/train_cdlm.py`, steps 1–4 wired into a training loop)
+
+Full fine-tune (not LoRA: the new mask row and the attention-behaviour change need every weight), plain torch loop, no HF
+Trainer, same conventions as `train_sft.py` (YAML config, GPU guard, `run.json` with git commit / `CUDA_VISIBLE_DEVICES` /
+physical GPUs / peak VRAM / full log history, automatic resume from the latest `checkpoint-*` under `out_dir`).
+
+```
+# single GPU
+CUDA_VISIBLE_DEVICES=5 .venv-train/bin/python -m distill.train_cdlm distill/configs/phaseC_pilot_4b.yaml
+# DDP, one process per GPU (NCCL; optimizer states replicated per rank — no ZeRO)
+CUDA_VISIBLE_DEVICES=4,5,6,7 .venv-train/bin/torchrun --nproc_per_node=4 -m distill.train_cdlm distill/configs/phaseC_pilot_4b.yaml
+# CPU smoke test (tiny random Qwen3, kill/resume, 2-process gloo DDP), ~25 s
+CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m distill.tests.test_train_cdlm
+```
+
+* **Data**: JSONL `instruction`/`context`/`response` → prompt via the chat template with `enable_thinking=False` (as Phase
+  B) + response + eos, truncated to `max_len` *logical* tokens (prompt kept whole; prompt-only examples dropped and
+  counted); `engine.cdlm.data.build_example` per sample with a fresh γ draw every epoch (prompt tokens never masked,
+  `block` 32, γ ~ U(`gamma.min`, `gamma.max`]); `collate` right-pads with the dense `[N,1,T,T]` mask. The dual stream
+  doubles the sequence: `max_len` 1024 → 2048 physical rows.
+* **Model**: `Qwen3ForCausalLM` bf16, `attn_implementation: sdpa` with the dict 4-D mask of `model_glue`, gradient
+  checkpointing (non-reentrant), `add_mask_token` (`<|mask|>` = 151669 for Qwen3: a free padded row, no resize; the
+  tokenizer gets the token as an additional special token + `mask_token`, and `final/` saves both plus
+  `config.cdlm_mask_token_id` / `cdlm_block`).
+* **Loss**: `total = (mlm + ar_weight·ar) / (1 + ar_weight)`, `ar_weight` 1.0 (WeDLM); `loss_mlm` and `loss_ar` are logged
+  separately every `logging_steps` to `out_dir/log.jsonl` with lr, grad norm, tokens/s (logical), rows/s (physical),
+  masked-row count, micro-batch size and peak VRAM.
+* **Optimisation**: AdamW (fused on CUDA; weight decay off for norms/biases), cosine with warmup to `min_lr_ratio`,
+  `grad_accum` micro-batches per step (step loss = mean of micro-batch losses, as accelerate), `grad_clip`.
+  `master_fp32: false` (default): bf16 weights and bf16 Adam states — cheapest, but bf16 has ~3 significant digits so an
+  update of relative size < 1e-3 (lr 1e-5 on O(1e-2) weights) is largely rounded away; if the loss stalls, `master_fp32:
+  true` keeps fp32 weights + Adam states and runs the forward under bf16 autocast (`final/` is still written in bf16).
+* **Checkpoints**: `checkpoint-<step>/state.pt` = model + optimizer + scheduler + step + micro-batch size + RNG + OOM log,
+  every `save_steps`, keeping `save_total_limit` (each one ≈ 3× the bf16 weights); resume re-seeds the sampler with
+  `seed + epoch` and skips the micro-batches already consumed, so the data order continues exactly.
+* **OOM policy**: a CUDA OOM inside a micro-batch drops that optimizer step's partial gradients, logs the event, advances
+  the step counter (schedule and resume stay consistent) and halves the micro-batch size for the rest of the run (loader
+  batches are forwarded in chunks, so the effective batch is unchanged). Under DDP an OOM is fatal (the other ranks would
+  hang in the all-reduce).
+* **Memory, Qwen3-4B, `max_len` 1024 (2048 rows), batch 2** (4.02 B params, 36 layers, hidden 2560, vocab 151 936):
+  bf16 weights 8 GiB + bf16 grads 8 GiB + bf16 Adam m/v 16 GiB = 32 GiB of state (`master_fp32`: 16 + 16 + 32 = 64 GiB).
+  Activations with checkpointing: 36 boundary tensors × [2, 2048, 2560] bf16 ≈ 0.75 GiB, one layer's recompute ≤ 1.5 GiB
+  (SDPA with an explicit mask may fall back to the math kernel: [2, 32, 2048, 2048] scores ≈ 0.5 GiB bf16 + fp32 softmax),
+  gathered logits only for the scored rows (≈ 1.5 × response tokens per example ≈ 2.7 k rows × 151 936 × ~10 B for
+  bf16 logits + fp32 CE + grad) ≈ 4 GiB. Total ≈ 40 GiB in bf16 (fits GPU 5 beside its tenants) or ≈ 72 GiB with fp32
+  master (needs an otherwise empty A100, or DDP does not help — optimizer states are replicated; ZeRO/FSDP or 8-bit Adam
+  would). Throughput is unmeasured (CPU-only so far).
+* **Config** `distill/configs/phaseC_pilot_4b.yaml` (base `/mnt/raid6/models/hf/Qwen3-4B` or the Phase B merged dir,
+  `data/distill/phaseA_small_train.jsonl`, block 32, `max_len` 1024, batch 2 × accum 8, lr 1e-5, 5 % warmup, 2 epochs,
+  `runs/phaseC_pilot_4b`) — written, not launched.
+* **Test** `distill/tests/test_train_cdlm.py`: tiny random Qwen3 (hidden 32, 2 layers, char-level tokenizer with a
+  Qwen-like chat template) saved to a temp dir, 6-example JSONL; (1) 4 steps with a checkpoint every 2, hard exit right
+  after `checkpoint-2` (`--exit-after-step`), restart → the log continues at step 3, `run.json` records the resume,
+  `final/` loads with `AutoModelForCausalLM`, mask id in `config.cdlm_mask_token_id` and in the tokenizer, weights
+  changed and equal to the last checkpoint; (2) epoch tail steps and `master_fp32`; (3) the OOM branch in-process;
+  (4) `torchrun --nproc_per_node=2` on CPU with gloo.
 WeDLM reports 100B CPT tokens on 7B/8B; our budget is 1–2B tokens on the 4B model (estimate: ~1 day on 4 × A100 at
 ~10k tok/s), so results will be reported as "partial conversion" unless they reach the AR student's quality.
 
