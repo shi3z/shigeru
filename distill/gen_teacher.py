@@ -147,6 +147,36 @@ class Gen:
                             "quality_score": 5 if st == "verified_pass" else 1, "usage": r["usage"], "latency_s": r["latency_s"],
                             "finish_reason": r["finish_reason"], "seed": seed, "tests": obj["tests"], "entry_point": obj.get("entry_point")})
 
+    def do_code_completion(self, k, seed):
+        """Code in HumanEval-style completion format: the instruction is a function signature + docstring (teacher-written,
+        with hidden tests validated against the teacher's reference solution); the response is the function body/code."""
+        topic = CODE_TOPICS[k % len(CODE_TOPICS)]
+        diff = ["easy", "medium", "medium", "hard"][(k // len(CODE_TOPICS)) % 4]
+        iid = item_id("code_completion", f"{topic}|{diff}|{seed}")
+        if iid in self.done:
+            return None
+        spec = self.ask(f"Invent one self-contained Python function task about {topic} (difficulty: {diff}). Variation seed: {seed}.\n"
+                        "Reply with JSON only: {\"header\": \"<the function signature line followed by a docstring with 1-2 examples, "
+                        "exactly as the start of the function, e.g. 'def f(x: int) -> int:\\n    \\\"\\\"\\\"...\\\"\\\"\\\"\\n'>\", "
+                        "\"entry_point\": \"<function name>\", \"reference_solution\": \"<complete Python code of a correct solution>\", "
+                        "\"tests\": [\"assert <call> == <expected>\", ... 4-6 asserts]}",
+                        seed=seed, max_tokens=2000, thinking=False)
+        obj = extract_json(spec["content"])
+        if obj and isinstance(obj.get("tests"), list) and obj.get("reference_solution"):
+            obj["tests"] = [t for t in obj["tests"] if verify_code("```python\n" + obj["reference_solution"] + "\n```", [t])[0] == "verified_pass"]
+        if not obj or not isinstance(obj.get("tests"), list) or len(obj["tests"]) < 3 or not obj.get("header") or not str(obj["header"]).lstrip().startswith("def "):
+            return self.record({"id": iid, "task_category": "code_completion", "source": "teacher_synth", "instruction": "", "context": "",
+                                "response": "", "verification_status": "spec_invalid", "verification_detail": spec["content"][:300],
+                                "quality_score": 0, "usage": spec["usage"], "latency_s": spec["latency_s"], "seed": seed})
+        header = str(obj["header"]).rstrip() + "\n"
+        instr = "Complete the following Python function. Return the complete function in a single ```python code block.\n\n```python\n" + header + "```"
+        r = self.ask(instr, seed=seed + 1)
+        st, det = verify_code(r["content"], obj["tests"])
+        return self.record({"id": iid, "task_category": "code_completion", "source": "teacher_synth", "instruction": instr, "context": "",
+                            "response": r["content"], "verification_status": st, "verification_detail": det[:500],
+                            "quality_score": 5 if st == "verified_pass" else 1, "usage": r["usage"], "latency_s": r["latency_s"],
+                            "finish_reason": r["finish_reason"], "seed": seed, "tests": obj["tests"], "entry_point": obj.get("entry_point")})
+
     def do_json(self, k, seed):
         topic = JSON_TOPICS[k % len(JSON_TOPICS)]
         iid = item_id("json_synth", f"{topic}|{seed}")
@@ -224,6 +254,8 @@ def main():
                 jobs.append((g.do_math, (row, base + i)))
         elif cat == "code_synth":
             jobs += [(g.do_code, (k, base + 1000 + 10 * k)) for k in range(n)]
+        elif cat == "code_completion":
+            jobs += [(g.do_code_completion, (k, base + 4000 + 10 * k)) for k in range(n)]
         elif cat == "json_synth":
             jobs += [(g.do_json, (k, base + 2000 + 10 * k)) for k in range(n)]
         else:

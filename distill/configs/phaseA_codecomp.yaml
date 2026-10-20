@@ -1,0 +1,7 @@
+# Code in completion format (§10.6 fix): 400 teacher-written function tasks with signature+docstring prompts.
+teacher: {base_url: http://127.0.0.1:8000, model: deepseek-v4.1-flash, concurrency: 2, min_interval_s: 0.5, timeout_s: 900}
+generation: {temperature: 0.6, top_p: 0.95, max_tokens: 2048, thinking: false}
+seed: 20261021
+out: data/distill/phaseA_codecomp.jsonl
+categories:
+  code_completion: {n: 400}

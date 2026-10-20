@@ -11,3 +11,4 @@ runs/*/adapter
 runs/*/final
 runs/*/checkpoint-*
 runs/*/*.pt
+runs/*/final_eval
