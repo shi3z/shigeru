@@ -347,6 +347,97 @@ This function `fibonacci` uses an iterative approach to calculate the n-th Fibon
 总结として、5 年後の花子の年齢は 18 歳です。
 ```
 
+## fast-dllm-v2-hf-generate — Fast_dLLM_v2_7B (threshold=0.9 small_block_size=8)
+`fastdllm_v2_t0.9_sb8_nocache.json`
+
+**en_explain** — 247 tokens, 66.5 tok/s
+
+```text
+A hash table is a data structure that maps keys to values using a hash function. It uses an array of buckets or slots to store the key-value pairs. When hash function takes a key as input, it generates a hash code, which is an index into the array. The key-value pair is stored in the bucket at that index. This allows for constant-time average-case complexity for search, insert, and delete operations.
+
+However, hash tables can degrade in performance when the load factor (the ratio of the number of elements to the number of buckets) is high. When the load factor exceeds a certain threshold, the hash table may be resized, which involves creating a new array with more buckets and rehashing all the key-value pairs. This can be computationally expensive and lead to temporary performance degradation.
+
+Another factor of performance degradation is the quality of the hash function. A poor hash function can lead to many collisions, where multiple keys generate the same hash code. This can result in increased search times and slower performance. A good hash function should distribute keys evenly across the buckets to minimize collisions.
+
+In summary, hash tables are efficient data structures for storing key-value pairs, but their performance can degrade when the load factor is high or
+```
+
+**en_code** — 209 tokens, 103.6 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+    n (int): The position of the Fibonacci number to return.
+
+    Returns:
+    int: The n-th Fibonacci number.
+
+    Examples:
+    >>> fibonacci(0)
+    0
+    >>> fibonacci(1)
+    1
+    >>> fibonacci(5)
+    5
+    >>> fibonacci(10)
+    55
+    """
+    if n < 0:
+        raise ValueError("Input should be a non-negative integer")
+
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+```
+
+This function calculates the n-th Fibonacci number using an iterative approach. It includes a docstring that explains the function's purpose, arguments, return value, and usage examples. The function raises a `ValueError` if the input is negative, as Fibonacci numbers are not defined for negative indices.
+```
+
+**ja_explain** — 212 tokens, 59.3 tok/s
+
+```text
+過学習は、機械学習において、モデルが訓練データを過度に記憶、、結果的に新しいデータへの適化力が低下する現象です。これは、モデルが複雑すぎる、データ量が不足、、適切な評価指が使用されていないなどがなどが主因です。防止するには、 
+
+1. モデルの複�さを制限し、�化や正規化などの技術を使用します。
+2. データ量を増やし、データの多様性を高めます。
+3. モデルの評価指標を適切に設定し、交差検証などの技術を使用します。
+4. モデルのトレーニングを適切に調整し、オーバーフィッテングが発する前にストップします。
+
+これらの方法によりすることで、過学習を防ぐことが可能で、モデルの�の適化力が向上します。
+```
+
+**ja_reason** — 202 tokens, 93.7 tok/s
+
+```text
+まず、太郎と花子の現在の年齢を x と y で表します。与えの条件は以下の2つです:
+
+1. 太郎は子より 3 歳年上
+2. 二人の年齢の和は 29
+
+これらのこれらの条件を式にすると:
+
+1. x = y + 3
+2. x + y = 29
+
+第式に第1式を代入して、y の値を計算:
+
+(y + 3) + y = 29
+2y + 3 = 29
+2y = 26
+y = 13
+
+つまり、花子の現在の年齢は13歳です。5年後、花子の年齢は:
+
+13 + 5 = 18
+
+した、 5年後、花子の年齢は 18 歳です。
+```
+
 ## llada-official-sampler — LLaDA-8B-Instruct (steps=128 block_length=32)
 `llada8b_g256_s128_b32.json`
 
@@ -624,6 +715,471 @@ x = 13
 
  年後の年子の年齢は：
 13 + 5 = 18 歳です。
+```
+
+## open-mercury/fixed — LLaDA-8B-Instruct (mode=fixed steps=256 block_length=32 threshold=0.9)
+`ours_fixed_s256_b32_cache.json`
+
+**en_explain** — 67 tokens, 14.1 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to an array index, allowing for efficient insertion, deletion, and lookup operations. Performance can degrade when collisions occur, leading to quadratic time complexity. When the hash table becomes too full (load factor), performance can degrade significantly.
+```
+
+**en_code** — 255 tokens, 53.7 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+        n (int): The position in the Fibonacci sequence.
+
+    Returns:
+        int: The n-th Fibonacci number.
+    """
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    elif n == 2:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(3, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example usage:
+print(fibonacci(10))  # Output: 55
+print(fibonacci(20))  # Output: 6765
+```
+
+This function uses an iterative approach to calculate the n-th Fibonacci number. It initializes two variables, `a` and `b`, to represent the first two Fibonacci numbers and iteratively updates them to compute the next Fibonacci number until it reaches the desired position. The function also includes a docstring and two usage examples to demonstrate its functionality.
+```
+
+**ja_explain** — 164 tokens, 32.3 tok/s
+
+```text
+過学習（Overfitting）は、機械学習モデルが訓練データに結合が良いが、テストデータに結合が悪いことがあります。これは、モデルがの特徴にの特徴を多くに設定したり、の特徴を多くに設定したりしているためです。
+
+防ぐためには、モデルの大きさを減らすことや、の特徴を減らすことや、の特徴を選択することなどができます。また、の特徴を正規化することや、の特徴を正規化することなどもできます。
+```
+
+**ja_reason** — 235 tokens, 49.3 tok/s
+
+```text
+首先、花子の年齢を \( y \) 歳とする。
+
+太郎は花子より 3 歳年上であるため、太郎の年齢は \( y + 3 \) 歳です。
+
+二人の年齢の和は 29 歳であるため、
+\[ y + (y + 3) = 29 \]
+
+この式を解くと、
+\[ 2y + 3 = 29 \]
+\[ 2y = 29 - 3 \]
+\[ 2y = 26 \]
+\[ y = \frac{26}{2} \]
+\[ y = 13 \]
+
+花子の年齢は 13 歳です。
+
+5 年後の花子の年齢を求めるため、
+\[ y + 5 = 13 + 5 = 18 \]
+
+5 年後の花子の年齢は 18 歳です。
+```
+
+## open-mercury/fixed-graph — LLaDA-8B-Instruct (mode=fixed steps=256 block_length=32 threshold=0.9 graph=True)
+`ours_fixed_s256_b32_graph.json`
+
+**en_explain** — 73 tokens, 15.8 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to indices in an array, allowing for efficient lookup, insertion, and deletion operations. When the hash table is empty, operations degrade to O(n) time complexity. When the table is full, operations degrade to O(n) time complexity due to collisions.
+```
+
+**en_code** — 132 tokens, 31.0 tok/s
+
+```text
+CertainlyCertainly!
+
+
+
+
+
+ Here an example of of of of: Python a docstringstring and: function```!
+defdefdefdef:
+
+```python
+defdefdefdef
+
+
+
+):
+
+   
+
+      def
+```
+
+**ja_explain** — 39 tokens, 9.2 tok/s
+
+```text
+学学習ににととととととととととととととととととととととととととととととと
+```
+
+**ja_reason** — 69 tokens, 16.1 tok/s
+
+```text
+花花5花花子より年年年年年年上で花子�ののより年齢ののののとを計算するするしますしますします。
+
+
+
+
+
+は花子より年年年5年年上で花花花花花年齢のをををを
+```
+
+## open-mercury/fixed-nocache — LLaDA-8B-Instruct (mode=fixed steps=256 block_length=32 threshold=0.9)
+`ours_fixed_s256_b32_nocache.json`
+
+**en_explain** — 94 tokens, 9.1 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to indices in an array. When a key is inserted, the hash function returns an index, and the value is stored there. If a collision occurs (two keys hash to the same index), the hash table uses chaining or open addressing to resolve it. Performance degrades when the hash table is too full, leading to more collisions and slower access times.
+```
+
+**en_code** — 255 tokens, 24.6 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Calculate the n-th Fibonacci number using an iterative approach.
+
+    Parameters:
+    n (int): The position in the Fibonacci sequence.
+
+    Returns:
+    int: The n-th Fibonacci number.
+    """
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example 1: Calculate the 5th Fibonacci number
+print(fibonacci(5))  # Output: 5
+
+# Example 2: Calculate the 10th Fibonacci number
+print(fibonacci(10))  # Output: 55
+```
+
+This function `fibonacci` uses an iterative approach to calculate the n-th Fibonacci number. It initializes two variables `a` and `b` to 0 and 1, respectively, and then iterates from 2 to n, updating these variables to hold the next Fibonacci number in the sequence.
+```
+
+**ja_explain** — 255 tokens, 24.2 tok/s
+
+```text
+過学習（Overfitting）は、機械学習モデルが訓練データに対して性能が良いが、テストデータに対して性能が悪いことがあります。これは、モデルが訓練データに特徴を特に結合したり、テストデータの特徴を正しく学習できないためです。
+
+過学習を防ぐためには、以下の手順を行うことができます。まず、訓練データとテストデータに分割し、訓練データでモデルを訓練し、テストデータでモデルを評価します。次に、モデルの複雑さを減らすこと、規化項を追加すること、モデルの数を減らすことなど、モデルの複雑さを減らすことができます。また、訓練データの数を増やすことや、データの特徴を改善することも、過学習を防止することができます。
+```
+
+**ja_reason** — 255 tokens, 23.9 tok/s
+
+```text
+首先、花子の年齢を \( x \) 歳と仮定します。太郎は花子より 3 歳年上であるため、太郎の年齢は \( x + 3 \) 歳です。
+
+二人の年齢の和は 29 歳であるため、次の等式を立てます：
+
+\[ x + (x + 3) = 29 \]
+
+この等式を化简します：
+
+\[ 2x + 3 = 29 \]
+
+次に、\( x \) を解出します：
+
+\[ 2x = 29 - 3 \]
+\[ 2x = 26 \]
+\[ x = 13 \]
+
+花子の年齢は 13 歳です。
+
+5 年後の花子の年齢は、5 年を年齢に加えます：
+
+\[ 13 + 5 = 18 \]
+
+よって、5 年後の花子の年齢は 18 歳です。
+```
+
+## open-mercury/threshold — LLaDA-8B-Instruct (mode=threshold block_length=32 threshold=0.8)
+`ours_t0.8_b32_cache.json`
+
+**en_explain** — 67 tokens, 43.3 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to an array index, allowing for efficient insertion, deletion, and lookup operations. Performance can degrade when collisions occur, leading to quadratic time complexity. When the hash table becomes too full (load factor), performance can degrade significantly.
+```
+
+**en_code** — 255 tokens, 149.4 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+        n (int): The position in the Fibonacci sequence.
+
+    Returns:
+        int: The n-th Fibonacci number.
+    """
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    elif n == 2:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example usage:
+print(fibonacci(10))  # Output: 55
+print(fibonacci(20))  # Output: 6765
+```
+
+This function uses an iterative approach to calculate the n-th Fibonacci number. It initializes two variables, `a` and `b`, to 0 and 1, respectively, and then iterates from 2 to n, updating `a` and `b` to the next Fibonacci numbers until it reaches the n-th Fibonacci number.
+```
+
+**ja_explain** — 164 tokens, 63.5 tok/s
+
+```text
+過学習（Overfitting）は、機械学習モデルが訓練データに結合が良いが、テストデータに結合が悪いことがあります。これは、モデルがの特徴にの特徴を多くに設定したり、の特徴を多くに設定したりしているためです。
+
+防ぐためには、モデルの大きさを減らすことや、の特徴を減らすことや、の特徴を選択することなどができます。また、の特徴を正規化することや、の特徴を正規化することなどもできます。
+```
+
+**ja_reason** — 236 tokens, 175.8 tok/s
+
+```text
+首先、花子の年齢を \( y \) 歳とする。
+
+太郎は花子より 3 歳年上であるため、太郎の年齢は \( y + 3 \) 歳です。
+
+二人の年齢の和は 29 歳であるため、
+
+\[ y + (y + 3) = 29 \]
+
+この式を解くと、
+
+\[ 2y + 3 = 29 \]
+
+\[ 2y = 29 - 3 \]
+
+\[ 2y = 26 \]
+
+\[ y = \frac{26}{2} \]
+
+\[ y = 13 \]
+
+花子の年齢は 13 歳です。
+
+5 年後の花子の年齢は、
+
+\[ 13 + 5 = 18 \]
+
+よって、5 年後の花子の年齢は 18 歳です。
+```
+
+## open-mercury/threshold — LLaDA-8B-Instruct (mode=threshold block_length=32 threshold=0.9)
+`ours_t0.9_b32_cache.json`
+
+**en_explain** — 67 tokens, 40.4 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to an array index, allowing for efficient insertion, deletion, and lookup operations. Performance can degrade when collisions occur, leading to quadratic time complexity. When the hash table becomes too full (load factor), performance can degrade significantly.
+```
+
+**en_code** — 255 tokens, 112.4 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+        n (int): The position in the Fibonacci sequence.
+
+    Returns:
+        int: The n-th Fibonacci number.
+    """
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    elif n == 2:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(3, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example usage:
+print(fibonacci(10))  # Output: 55
+print(fibonacci(20))  # Output: 6765
+```
+
+This function uses an iterative approach to calculate the n-th Fibonacci number. It initializes two variables, `a` and `b`, to represent the first two Fibonacci numbers and iteratively updates them to compute the next Fibonacci number until it reaches the desired position. The function also includes a docstring and two usage examples to demonstrate its functionality.
+```
+
+**ja_explain** — 164 tokens, 59.3 tok/s
+
+```text
+過学習（Overfitting）は、機械学習モデルが訓練データに結合が良いが、テストデータに結合が悪いことがあります。これは、モデルがの特徴にの特徴を多くに設定したり、の特徴を多くに設定したりしているためです。
+
+防ぐためには、モデルの大きさを減らすことや、の特徴を減らすことや、の特徴を選択することなどができます。また、の特徴を正規化することや、の特徴を正規化することなどもできます。
+```
+
+**ja_reason** — 235 tokens, 133.4 tok/s
+
+```text
+首先、花子の年齢を \( y \) 歳とする。
+
+太郎は花子より 3 歳年上であるため、太郎の年齢は \( y + 3 \) 歳です。
+
+二人の年齢の和は 29 歳であるため、
+\[ y + (y + 3) = 29 \]
+
+この式を解くと、
+\[ 2y + 3 = 29 \]
+\[ 2y = 29 - 3 \]
+\[ 2y = 26 \]
+\[ y = \frac{26}{2} \]
+\[ y = 13 \]
+
+花子の年齢は 13 歳です。
+
+5 年後の花子の年齢を求めるため、
+\[ y + 5 = 13 + 5 = 18 \]
+
+5 年後の花子の年齢は 18 歳です。
+```
+
+## open-mercury/threshold-graph — LLaDA-8B-Instruct (mode=threshold block_length=32 threshold=0.9 graph=True)
+`ours_t0.9_b32_graph.json`
+
+**en_explain** — 73 tokens, 40.6 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to indices in an array, allowing for efficient lookup, insertion, and deletion operations. When the hash table is empty, operations degrade to O(n) time complexity. When the table is full, operations degrade to O(n) time complexity due to collisions.
+```
+
+**en_code** — 132 tokens, 39.7 tok/s
+
+```text
+CertainlyCertainly!
+
+
+
+
+
+ Here an example of of of of: Python a docstringstring and: function```!
+defdefdefdef:
+
+```python
+defdefdefdef
+
+
+
+):
+
+   
+
+      def
+```
+
+**ja_explain** — 0 tokens, 0.0 tok/s
+
+```text
+
+```
+
+**ja_reason** — 34 tokens, 20.3 tok/s
+
+```text
+花子のの年齢を \( x \) 歳です。
+
+
+1。
+により、
+太郎の年�和は \(
+```
+
+## open-mercury/threshold-graph-eos — LLaDA-8B-Instruct (mode=threshold block_length=32 threshold=0.9 graph=True stop_on_eos=True)
+`ours_t0.9_b32_graph_eos.json`
+
+**en_explain** — 73 tokens, 44.0 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs. It uses a hash function to map keys to indices in an array, allowing for efficient lookup, insertion, and deletion operations. When the hash table is empty, operations degrade to O(n) time complexity. When the table is full, operations degrade to O(n) time complexity due to collisions.
+```
+
+**en_code** — 132 tokens, 40.2 tok/s
+
+```text
+CertainlyCertainly!
+
+
+
+
+
+ Here an example of of of of: Python a docstringstring and: function```!
+defdefdefdef:
+
+```python
+defdefdefdef
+
+
+
+):
+
+   
+
+      def
+```
+
+**ja_explain** — 0 tokens, 0.0 tok/s
+
+```text
+
+```
+
+**ja_reason** — 34 tokens, 38.9 tok/s
+
+```text
+花子のの年齢を \( x \) 歳です。
+
+
+1。
+により、
+太郎の年�和は \(
 ```
 
 ## hf-transformers-generate — Qwen3-8B ()

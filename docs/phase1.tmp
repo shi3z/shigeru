@@ -27,16 +27,26 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 | fastdllm_v1_dual_cache_tnone.json | fast-dllm-v1/dual_cache | LLaDA-8B-Instruct | mode=dual_cache steps=256 block_length=32 gen_length=256 | 23.2 | 32.2 | - | 46 | 7.95 | 256 | 184 | 15.7 |
 | fastdllm_v1_prefix_cache_t0.9.json | fast-dllm-v1/prefix_cache | LLaDA-8B-Instruct | mode=prefix_cache steps=256 block_length=32 threshold=0.9 gen_length=256 | 51.0 | 70.9 | - | 46 | 3.99 | 133 | 192 | 15.9 |
 | fastdllm_v1_vanilla_tnone.json | fast-dllm-v1/vanilla | LLaDA-8B-Instruct | mode=vanilla steps=256 block_length=32 gen_length=256 | 19.5 | 23.6 | - | 50 | 10.84 | 256 | 212 | 15.6 |
+| fastdllm_v2_t0.9_sb8_nocache.json | fast-dllm-v2-hf-generate | Fast_dLLM_v2_7B | threshold=0.9 small_block_size=8 max_new_tokens=256 | 78.7 | 78.9 | - | 17 | 2.83 | 163 | 213 | 14.3 |
 | gsm8k50_fastdllm_v1_dual_t0.9.json | fast-dllm-v1/dual_cache | LLaDA-8B-Instruct | mode=dual_cache steps=256 block_length=32 threshold=0.9 gen_length=256 | 101.2 | 108.7 | - | 41 | 2.47 | 79 | 240 | 15.9 |
 | gsm8k50_fastdllm_v2_t0.9.json | fast-dllm-v2-hf-generate | Fast_dLLM_v2_7B | threshold=0.9 small_block_size=8 max_new_tokens=384 | 148.9 | 149.4 | - | 18 | 1.81 | 103 | 267 | 14.3 |
 | gsm8k50_llada8b_s128.json | llada-official-sampler | LLaDA-8B-Instruct | steps=128 block_length=32 gen_length=256 | 43.7 | 46.6 | - | 43 | 5.50 | - | 240 | 15.2 |
 | gsm8k50_llada8b_s256.json | llada-official-sampler | LLaDA-8B-Instruct | steps=256 block_length=32 gen_length=256 | 22.0 | 23.4 | - | 43 | 10.97 | - | 241 | 15.2 |
 | gsm8k50_llada8b_s64.json | llada-official-sampler | LLaDA-8B-Instruct | steps=64 block_length=32 gen_length=256 | 84.2 | 93.4 | - | 43 | 2.74 | - | 231 | 15.2 |
+| gsm8k50_ours_t0.9_b32_cache.json | open-mercury/threshold | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.9 gen_length=256 | 157.4 | 168.7 | - | 41 | 1.58 | 78 | 239 | 15.4 |
+| gsm8k50_ours_t0.9_b32_graph_eos.json | open-mercury/threshold-graph-eos | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.9 gen_length=256 | 145.0 | 171.0 | - | 76 | 1.62 | 78 | 221 | 15.5 |
 | gsm8k50_qwen3_8b_hf.json | hf-transformers-generate | Qwen3-8B | max_new_tokens=384 | 51.7 | - | 51.8 | 25 | 5.09 | - | 263 | 15.3 |
 | llada8b_g256_s128_b32.json | llada-official-sampler | LLaDA-8B-Instruct | steps=128 block_length=32 gen_length=256 | 42.3 | 49.0 | - | 41 | 5.22 | - | 222 | 15.2 |
 | llada8b_g256_s256_b32.json | llada-official-sampler | LLaDA-8B-Instruct | steps=256 block_length=32 gen_length=256 | 20.3 | 24.6 | - | 40 | 10.41 | - | 212 | 15.2 |
 | llada8b_g256_s32_b32.json | llada-official-sampler | LLaDA-8B-Instruct | steps=32 block_length=32 gen_length=256 | 133.1 | 196.4 | - | 41 | 1.30 | - | 174 | 15.2 |
 | llada8b_g256_s64_b32.json | llada-official-sampler | LLaDA-8B-Instruct | steps=64 block_length=32 gen_length=256 | 64.9 | 98.2 | - | 41 | 2.61 | - | 169 | 15.2 |
+| ours_fixed_s256_b32_cache.json | open-mercury/fixed | LLaDA-8B-Instruct | mode=fixed steps=256 block_length=32 threshold=0.9 gen_length=256 | 39.6 | 53.4 | - | 39 | 4.80 | 256 | 190 | 15.3 |
+| ours_fixed_s256_b32_graph.json | open-mercury/fixed-graph | LLaDA-8B-Instruct | mode=fixed steps=256 block_length=32 threshold=0.9 gen_length=256 | 32.8 | 57.5 | - | 150 | 4.46 | 256 | 149 | 15.5 |
+| ours_fixed_s256_b32_nocache.json | open-mercury/fixed-nocache | LLaDA-8B-Instruct | mode=fixed steps=256 block_length=32 threshold=0.9 gen_length=256 | 19.5 | 24.4 | - | 41 | 10.48 | 256 | 205 | 15.3 |
+| ours_t0.8_b32_cache.json | open-mercury/threshold | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.8 gen_length=256 | 87.4 | 121.8 | - | 40 | 2.38 | 123 | 190 | 15.3 |
+| ours_t0.9_b32_cache.json | open-mercury/threshold | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.9 gen_length=256 | 75.6 | 107.8 | - | 40 | 2.61 | 137 | 190 | 15.3 |
+| ours_t0.9_b32_graph.json | open-mercury/threshold-graph | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.9 gen_length=256 | 39.1 | 235.9 | - | 145 | 2.30 | 122 | 126 | 15.5 |
+| ours_t0.9_b32_graph_eos.json | open-mercury/threshold-graph-eos | LLaDA-8B-Instruct | mode=threshold block_length=32 threshold=0.9 gen_length=256 | 43.1 | 957.9 | - | 147 | 2.10 | 113 | 126 | 15.5 |
 | qwen3_8b_hf_256.json | hf-transformers-generate | Qwen3-8B | max_new_tokens=256 | 51.4 | - | 51.5 | 22 | 4.23 | - | 217 | 15.3 |
 
 ### GSM8K-50 accuracy (greedy)
@@ -45,6 +55,8 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 * gsm8k50_llada8b_s128.json: 78% (50), 43.7 tok/s effective
 * gsm8k50_llada8b_s256.json: 84% (50), 22.0 tok/s effective
 * gsm8k50_llada8b_s64.json: 68% (50), 84.2 tok/s effective
+* gsm8k50_ours_t0.9_b32_cache.json: 86% (50), 157.4 tok/s effective
+* gsm8k50_ours_t0.9_b32_graph_eos.json: 82% (50), 145.0 tok/s effective
 * gsm8k50_qwen3_8b_hf.json: 84% (50), 51.7 tok/s effective
 
 ### HumanEval pass@1
