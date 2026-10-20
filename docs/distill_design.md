@@ -207,3 +207,19 @@ detached (`setsid`) with logs under `results/`; checkpoints resume automatically
 `scripts/shigeru_run.py --pause-fleet` (operator-confirmed procedure), only for runs that need GPUs 4/6/7, with the
 downtime logged. No `killall`, no indiscriminate `pkill`, no GPU resets, nothing on physical GPUs 0/1, no changes to
 the teacher service.
+
+## 10. Measured so far (2026-10-20)
+
+| Item | Result | Conditions |
+|---|---|---|
+| R1 Qwen3-4B released, GSM8K-50 greedy | **90 %** (45/50) | `bench/run_ar.py`, 384 new tokens, shared GPU 5 |
+| R0 Qwen3-8B released, GSM8K-50 greedy | 84 % | same harness, earlier Phase 1 run |
+| R0 Qwen3-8B HumanEval pass@1 | 85.4 % | `bench/run_code_eval.py` |
+| Qwen3-4B AR speed | 30 tok/s | **not a valid speed measurement**: GPU 5 was at 99 % utilization from other tenants; to be redone on an idle GPU |
+| Phase B LoRA dry run, Qwen3-4B | 3 steps, 9.2 GiB peak, merged weights load in the bench venv | GPU 5 |
+| Phase C trainer GPU smoke, Qwen3-0.6B | 4 steps, 8.6 GiB peak, 1.3–2.2k logical tok/s (contended GPU); MLM loss 20.0 → 11.0, AR loss 2.7 → 1.6 | GPU 5, batch 2 × accum 2, max_len 1024 (2048 rows) |
+| Phase A pilot (partial, 193/230) | math 59/60 verified correct, code 20/21 pass, ~7 s/item mean (EN), ~50 s/item for JA | teacher at concurrency 2 |
+
+The 50-item GSM8K subset cannot separate 4B from 8B (90 % vs 84 % is within noise at n = 50); Phase F uses the full
+1319-item test set. `engine/cdlm/` (data, mask, loss, HF glue, streaming decoder, trainer) is CPU-tested: 14 tests pass
+(`engine.cdlm.tests.test_cdlm` 6, `engine.cdlm.tests.test_decoder` 4, `distill.tests.test_train_cdlm` 4).

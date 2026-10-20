@@ -8,3 +8,6 @@ data/sources/*.parquet
 runs/*/checkpoint-*
 runs/*/merged
 runs/*/adapter
+runs/*/final
+runs/*/checkpoint-*
+runs/*/*.pt
