@@ -1,5 +1,5 @@
-# 4-GPU run (physical 4,5,6,7 -> logical 0-3; fleet paused): CUDA_VISIBLE_DEVICES=4,5,6,7 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=4 -m distill.train_cdlm distill/configs/phaseC_4b_4gpu.yaml
-# Global batch = 4 ranks x batch 4 x accum 2 = 32 examples/step. GPU 5 has ~20 GiB taken by other tenants: with DDP each rank holds the full optimizer state (~32 GiB + activations), so batch may need to drop to 2 there (OOM handler halves it automatically).
+# 4-GPU run (physical 4,6,7 -> logical 0-2; fleet paused): CUDA_VISIBLE_DEVICES=4,6,7 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=3 -m distill.train_cdlm distill/configs/phaseC_4b_4gpu.yaml
+# Global batch = 3 ranks x batch 4 x accum 2 = 24 examples/step; each rank holds the full optimizer state (~32 GiB + activations) on an otherwise idle 80 GiB GPU.
 # Phase C pilot: full fine-tune of Qwen3-4B into a WeDLM-style causal diffusion LM (distill/train_cdlm.py). NOT LAUNCHED YET.
 # Start from the Phase B merged student once it exists (runs/phaseB_pilot_4b/merged); the base model is the fallback.
 #   CUDA_VISIBLE_DEVICES=5 .venv-train/bin/python -m distill.train_cdlm distill/configs/phaseC_pilot_4b.yaml
