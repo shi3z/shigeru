@@ -87,7 +87,7 @@ class LLaDA(nn.Module):
         self.blocks = nn.ModuleList([Block(cfg) for _ in range(cfg.n_layers)])
         self.ln_f = RMSNorm(cfg.d_model, cfg.eps)
         self.lm_head = nn.Linear(cfg.d_model, cfg.vocab, bias=False)
-        self.register_buffer("cos", torch.zeros(1), persistent=False); self.register_buffer("sin", torch.zeros(1), persistent=False)
+        self.cos = self.sin = None  # rotary tables, set in from_pretrained (plain tensors, not buffers: the module is built on the meta device)
 
     @classmethod
     def from_pretrained(cls, path, device="cuda", dtype=torch.bfloat16):
