@@ -363,3 +363,29 @@ The guarantee holds on the real checkpoint (outputs identical to AR greedy, so q
 construction), and the diffusion head now contributes speed instead of errors: 1.27 tokens per step. End-to-end that is
 only ~1.1× because the HF-cache decoder re-encodes W+1 rows per step; the own engine and a better drafter (stage 2,
 CPT continuation) are the two levers, and the ceiling is (W+1)/2 tokens per step with a perfect drafter.
+
+### 10.5 Phase C stage 2 (teacher-data fine-tune of the CPT model) — measured 2026-10-20 19:43–20:00
+
+Run: `distill/configs/phaseC_sft_4b.yaml`: `runs/phaseC_cpt_4b/final` → 1 714 medium teacher items × 3 epochs
+(321 steps, 35 min, 35.5 GiB, GPU 7; first attempt died when the root filesystem filled up mid-checkpoint — see the
+disk guard in `train_cdlm.py`). MLM loss 2.7, AR loss 1.2 on teacher data.
+
+| Decoding (20 GSM8K prompts, W=16, idle GPU 7) | accuracy | tokens/step | acceptance | tok/s |
+|---|---|---|---|---|
+| AR greedy (reference) | 100 % | 1.00 | – | 50.6 |
+| τ=None (frontier only) | 80 % | 0.99 | – | 43.7 |
+| unverified τ=0.4 / 0.7 / 1.0 | 75 % / 60 % / 45 % | 1.29 / 1.42 / 1.59 | – | 55.8 / 60.9 / 69.6 |
+| **verified** τ=1.0, HF-cache decoder | 95 % | 1.46 | 40 % | 63.0 |
+| **verified** τ=0.7, own engine | 95 % | 1.42 | 58 % | 65.5 |
+| **verified** τ=1.0, own engine | **95 %** | **1.50** | 46 % | **68.4** |
+
+Stage 2 is the biggest single gain so far: unverified parallel decoding went from 10 % (CPT only) to 75 % at
+τ=0.4, and verified decoding from 1.27 to 1.50 tokens/step, 68.4 tok/s vs 50.6 for AR greedy (**1.35×**, 4B model,
+batch 1, one A100). On the "identical to AR" guarantee in bf16: 12/20 outputs are byte-identical; the 8 others diverge at
+near-tied tokens (e.g. "Determine apple pie sales" vs "Determine the number of boxes"), i.e. bf16 argmax flips between
+the window forward and HF's single-row forward, not drafting errors (the CPU float32 identity tests pass). The honest
+statement is "AR-equivalent up to bf16 ties".
+
+Next levers, in order of expected gain: (1) more conversion data — CPT continuation (60 M tokens, queued on GPUs 4/6)
+and a larger teacher set; (2) engine: the own engine already gives +9 % over the HF-cache path and has cache-length
+buckets and CUDA graphs still to do; (3) window/threshold tuning per task; (4) 8B conversion for the R7 row.
