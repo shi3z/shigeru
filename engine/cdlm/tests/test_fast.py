@@ -242,6 +242,142 @@ def test_cache_len_bookkeeping():
     print(f"  max |cache - full forward| / continuation: {worst:.2e}")
 
 
+VERIFY_OPTION_SETS = [dict(no_adjacent=True), dict(max_fill=2), dict(margin_tau=0.3), dict(fill_mode="leftmost_run")]
+
+
+def hf_greedy(m, prompt, n, stop_ids):
+    # explicit all-ones attention mask: without it generate() treats every prompt token equal to pad_token_id (0, a
+    # real id in this vocabulary) as padding and masks it out, which is not the greedy continuation of the prompt
+    kw = dict(max_new_tokens=n, min_new_tokens=0, do_sample=False, pad_token_id=0, num_beams=1,
+              attention_mask=torch.ones_like(prompt[None]))
+    if stop_ids:
+        kw["eos_token_id"] = list(stop_ids)
+    return m.generate(prompt[None], **kw)[0][prompt.numel():].tolist()
+
+
+def test_fast_decoder_matches_hf_decoder_verify():
+    """(2c) verify=True: fast_decoder.generate == decoder.generate token for token and in every stat (incl. the
+    verify stats and filled_positions) on 3 seeds (tied and untied) x 4 prompts x {no stop, random stop} x W in
+    {1, 4, 16} x tau in {None, 0.5, 1e9} x predict in {mask, ar}, plus the fill rules; both equal HF greedy
+    generate(); the static path agrees; tokens/step >= 1; slots [0, cache_len) hold [prompt | output] (incl. the
+    completion forward of a final correction)."""
+    g = torch.Generator().manual_seed(22)
+    n_cases = n_static = 0
+    tot_acc = tot_drafted = 0
+    worst = 0.0
+    for seed in (3, 4, 5):
+        tie = seed % 2 == 0
+        m, f, mask_id = pair(seed=seed, tie=tie)
+        for i, prompt in enumerate(random_prompts(g, 4)):
+            P = prompt.numel()
+            for stop_ids in ([], [int(torch.randint(0, VOCAB, (1,), generator=g))]):
+                ref_hf = hf_greedy(m, prompt, 30, stop_ids)
+                cases = [(W, tau, predict, {}) for W in (1, 4, 16) for tau in (None, 0.5, 1e9) for predict in ("mask", "ar")]
+                cases += [(W, tau, "mask", o) for o in VERIFY_OPTION_SETS for W in (4, 16) for tau in (0.5, 1e9)]
+                for W, tau, predict, opts in cases:
+                    ref, rs = hf_generate(m, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id, stop_ids=stop_ids,
+                                          predict=predict, verify=True, **opts)
+                    out, st = fast_generate(f, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id, stop_ids=stop_ids,
+                                            predict=predict, verify=True, **opts)
+                    assert out == ref == ref_hf, (seed, W, tau, predict, opts, stop_ids, out, ref, ref_hf)
+                    assert strip(st) == strip(rs), (seed, W, tau, predict, opts, strip(st), strip(rs))
+                    assert st["verify"] and st["tokens_per_step"] >= 1.0 and min(st["committed_per_step"]) >= 1
+                    assert st["forwards"] == st["steps"] + 1 + int(st["completion_forward"])
+                    assert st["cache_len"] == P + len(out) == rs["cache"].get_seq_length()
+                    tot_acc += st["accepted"]; tot_drafted += st["drafted"]
+                    if W == 16 and i % 2 == 0:
+                        out_s, st_s = fast_generate(f, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id,
+                                                    stop_ids=stop_ids, predict=predict, verify=True, static=True, **opts)
+                        assert out_s == ref and strip(st_s) == strip(rs), (seed, W, tau, predict, opts)
+                        n_static += 1
+                    if W == 16 and tau == 1e9 and predict == "mask" and not opts:
+                        full = torch.tensor(prompt.tolist() + out)
+                        cache = DynamicCache(config=m.config)
+                        m.model(input_ids=full[None], past_key_values=cache, use_cache=True)
+                        cl = st["cache_len"]
+                        for li in range(m.config.num_hidden_layers):
+                            d = max(maxdiff(f.kv.K[li, :, :, :cl], cache.layers[li].keys), maxdiff(f.kv.V[li, :, :, :cl], cache.layers[li].values))
+                            worst = max(worst, d); assert d < 1e-5, (seed, li, d)
+                    n_cases += 1
+    assert 0 < tot_acc < tot_drafted
+    out, st = fast_generate(f, None, prompt, 0, window=16, tau=None, mask_id=mask_id, stop_ids=[], verify=True)
+    assert out == [] and st["steps"] == 0 and st["cache_len"] == prompt.numel()
+    print(f"  {n_cases} verify cases identical in both decoders and == HF greedy ({n_static} static); drafts accepted"
+          f" {tot_acc}/{tot_drafted}; max |cache - full forward| {worst:.2e}")
+
+
+class SuppressMask(torch.nn.Module):
+    """lm_head wrapper: the mask id is never emitted (as for a real model; this random one otherwise emits it, which
+    would make an observed row holding it indistinguishable from a mask row for the oracle below)."""
+
+    def __init__(self, head, mask_id):
+        super().__init__(); self.head, self.mask_id = head, mask_id
+
+    def forward(self, h):
+        logits = self.head(h)
+        logits[..., self.mask_id] -= 1e4
+        return logits
+
+
+class OracleFast(FastQwen3):
+    """FastQwen3 whose mask rows are a deliberately good drafter: a window row holding the mask token gets a one-hot
+    of the greedy token at its position (wrong at every multiple of wrong_every when set); the AR rows are real
+    (with the mask id suppressed by SuppressMask on lm_head, installed by the test)."""
+    oracle, mask_id, wrong_every = {}, None, None
+
+    def run(self, tokens, pos_ids, cache_len, rows, static=False, use_graph=False):
+        logits = super().run(tokens, pos_ids, cache_len, rows, static=static, use_graph=use_graph).clone()
+        for i, r in enumerate(rows):
+            p = int(pos_ids[r])
+            if int(tokens[r]) == self.mask_id and p in self.oracle:
+                t = self.oracle[p]
+                if self.wrong_every and p % self.wrong_every == 0:
+                    t = (t + 1) % VOCAB
+                logits[i] = -50.0
+                logits[i, t] = 50.0
+        return logits
+
+
+def test_fast_verify_good_drafter():
+    """(2d) with a deliberately good mask head on the fast model, verify=True is still exactly HF greedy and reaches
+    tokens/step > 1 (perfect drafter: every draft accepted, W tokens in a fully accepted step; a drafter wrong at every
+    third position: in between), on the exact and the static path."""
+    g = torch.Generator().manual_seed(23)
+    m, mask_id = hf_model(seed=11)
+    d = tempfile.mkdtemp(prefix="cdlm_fast_oracle_")
+    m.save_pretrained(d)
+    f = OracleFast.from_pretrained(d, device="cpu", dtype=torch.float32, max_len=MAX_LEN)
+    f.mask_id = mask_id
+    f.lm_head, m.lm_head = SuppressMask(f.lm_head, mask_id), SuppressMask(m.lm_head, mask_id)
+    n_cases = 0
+    tps16 = {}
+    for prompt in random_prompts(g, 3):
+        P = prompt.numel()
+        ref = hf_greedy(m, prompt, 40, [])
+        assert mask_id not in ref
+        f.oracle = {P + i: t for i, t in enumerate(ref)}
+        for wrong_every in (None, 3):
+            f.wrong_every = wrong_every
+            for W in (4, 16):
+                for tau in (None, 1e9):
+                    for static in (False, True):
+                        out, st = fast_generate(f, None, prompt, 40, window=W, tau=tau, mask_id=mask_id, stop_ids=[],
+                                                verify=True, static=static)
+                        assert out == ref, (wrong_every, W, tau, static, out, ref)
+                        assert st["cache_len"] == P + 40 and st["tokens_per_step"] > 1.0, st
+                        if W == 16 and tau == 1e9 and not static:
+                            tps16[wrong_every] = st["tokens_per_step"]
+                        if wrong_every is None:
+                            assert st["draft_acceptance_rate"] == 1.0 and st["tokens_per_step"] > 1.5
+                            if tau == 1e9:
+                                assert max(st["committed_per_step"]) == W and st["tokens_per_step"] >= W / 3, (W, st)
+                        else:
+                            assert 0.0 < st["draft_acceptance_rate"] < 1.0
+                        n_cases += 1
+    print(f"  {n_cases} good-drafter cases exact on the fast model; W=16, tau=1e9, 40 tokens: {tps16[None]:.2f} tokens/step"
+          f" with the perfect drafter, {tps16[3]:.2f} with the every-third-wrong drafter")
+
+
 def main():
     tests = [v for k, v in globals().items() if k.startswith("test_")]
     passed = failed = 0

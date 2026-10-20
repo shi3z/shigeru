@@ -33,6 +33,7 @@ def main():
     ap.add_argument("--max-fill", type=int, default=None, help="cap on masks filled per step")
     ap.add_argument("--margin-tau", type=float, default=None, help="fill only masks with top1-top2 prob margin >= this")
     ap.add_argument("--fill-mode", default="all", choices=["all", "leftmost_run"])
+    ap.add_argument("--verify", action="store_true", help="verified (speculative) decoding: fills are drafts checked against the AR logits; output == AR greedy (engine/cdlm/decoder.py)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model)
@@ -65,11 +66,12 @@ def main():
             else:
                 new, stats = generate(dec_model, tok, ids[0].tolist(), a.max_new_tokens, window=a.window, tau=tau, lam=a.lam,
                                       mask_id=mask_id, stop_ids=stop_ids, greedy=True, no_adjacent=a.no_adjacent,
-                                      max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode)
+                                      max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode, verify=a.verify)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),
                  "steps": stats.get("steps"), "forwards": stats.get("forwards"), "correct": score(p, text) if "answer" in p else None,
+                 "drafted": stats.get("drafted"), "accepted": stats.get("accepted"), "draft_acceptance_rate": stats.get("draft_acceptance_rate"),
                  "text": text}
             runs.append(r)
             print(f"[{name}] {p['id']} {r['n_tokens']} tok in {dt:.1f}s = {r['tok_s']} tok/s, steps {r['steps']}, correct={r['correct']}", flush=True)
@@ -78,6 +80,10 @@ def main():
         rs = [r for r in runs if r["config"] == name]
         summary[name] = {"tok_s_mean": round(sum(r["tok_s"] for r in rs) / len(rs), 1), "tokens_per_step": round(sum(r["n_tokens"] for r in rs) / max(1, sum(r["steps"] or 0 for r in rs)), 2),
                          "accuracy": (sum(bool(r["correct"]) for r in rs) / len(rs)) if rs and rs[0]["correct"] is not None else None, "n": len(rs)}
+        if any(r.get("drafted") is not None for r in rs):       # verified decoding: draft statistics
+            drafted = sum(r["drafted"] or 0 for r in rs); accepted = sum(r["accepted"] or 0 for r in rs)
+            summary[name]["draft_acceptance_rate"] = round(accepted / drafted, 3) if drafted else None
+            summary[name]["accepted_per_step_mean"] = round(accepted / max(1, sum(r["steps"] or 0 for r in rs)), 3)
     # exactness gate: τ=None vs AR greedy on identical prompts
     if a.ar and any(n == "tau=none" for n, _ in configs):
         ar = {r["id"]: r["text"] for r in runs if r["config"] == "ar"}

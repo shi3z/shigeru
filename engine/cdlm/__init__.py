@@ -8,4 +8,4 @@ from .data import IGNORE, build_example, collate, uniform_gamma
 from .mask import allowed, batch_mask, dense_mask, make_mask_mod, to_additive
 from .loss import ar_loss, mlm_loss, total_loss
 from .model_glue import add_mask_token, forward_batch, forward_rows, model_attention_mask
-from .decoder import generate, select_positions, window_attention_mask
+from .decoder import generate, generate_verified, select_positions, verify_drafts, window_attention_mask

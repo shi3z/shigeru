@@ -13,10 +13,13 @@ weights (tests/test_fast.py):
 Logits are gathered only for the rows that are used: the mask rows and, for predict="ar", the last committed row.
 `static=True` runs the bucketed static-shape path of fast_model (and `use_graph=True` replays CUDA graphs when the
 model is on CUDA; on CPU it falls back to the eager static path).  stats carries `cache_len` instead of a DynamicCache.
+verify=True runs decoder.generate_verified (the verified / speculative loop is one function shared by both decoders;
+decoder.py module docstring "Verified (speculative) decoding") on this model: forward = model.run over all window
+rows (pending token + W slots, so W <= 31 on the static path), commit = cache_len.
 """
 import torch
 
-from .decoder import check_fill_options, entropy_from_logits, margin_from_logits, select_positions
+from .decoder import check_fill_options, entropy_from_logits, generate_verified, margin_from_logits, select_positions
 
 __all__ = ["generate"]
 
@@ -24,10 +27,11 @@ __all__ = ["generate"]
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, static=False, use_graph=False,
-             prefill_chunk=512, margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all"):
+             prefill_chunk=512, margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all", verify=False):
     """Decode one sequence with a FastQwen3.  Arguments as decoder.generate (mask_id defaults to the checkpoint's
     cdlm_mask_token_id; tok only defaults stop_ids to [tok.eos_token_id]; margin_tau / no_adjacent / max_fill /
-    fill_mode are the fill-selection rules of decoder.py, all off by default).  Returns (new_token_ids, stats) with
+    fill_mode are the fill-selection rules of decoder.py, all off by default; verify=True is verified decoding,
+    exactly greedy AR output, with the extra stats of decoder.generate_verified).  Returns (new_token_ids, stats) with
     stats = steps, forwards, window_rows, generated, tokens_per_step, filled_per_step, committed_per_step,
     filled_positions, finish_reason, prompt_len, cache_len (slots [0, cache_len) of model.kv hold [prompt | output])."""
     if predict not in ("mask", "ar"):
@@ -49,6 +53,29 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     last_logits, cache_len = model.prefill(prompt, 0, chunk=prefill_chunk)
     assert cache_len == prompt_len
 
+    def sample(logits):
+        if greedy:
+            return logits.argmax(-1)
+        probs = torch.softmax(logits.float() / temperature, dim=-1)
+        return torch.multinomial(probs, 1, generator=generator).squeeze(-1)
+
+    if verify:
+        state = {"cache_len": cache_len}
+
+        def forward(ids, pos, cl):
+            assert cl == state["cache_len"]
+            return model.run(ids, pos, cl, list(range(int(ids.numel()))), static=static, use_graph=use_graph)
+
+        def commit(n):
+            state["cache_len"] = n
+
+        out, stats = generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam,
+                                       mask_id, stop_ids, sample, predict, margin_tau, no_adjacent, max_fill,
+                                       fill_mode, dev)
+        assert state["cache_len"] == prompt_len + len(out)
+        stats.update(prompt_len=prompt_len, cache_len=state["cache_len"])
+        return out, stats
+
     cur = prompt_len
     out = []
     slots = [mask_id] * min(window, max_new_tokens)                  # window slot i <-> logical position cur + i
@@ -56,12 +83,6 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     steps = window_rows = 0
     filled_hist, commit_hist, filled_positions = {}, {}, []
     finish = "length" if not slots else None
-
-    def sample(logits):
-        if greedy:
-            return logits.argmax(-1)
-        probs = torch.softmax(logits.float() / temperature, dim=-1)
-        return torch.multinomial(probs, 1, generator=generator).squeeze(-1)
 
     while slots and finish is None:
         # 1. refill within the budget

@@ -48,6 +48,54 @@ Fill-selection rules (`select_positions`; identical in fast_decoder.py, which im
     max_fill=n: keep the n leftmost remaining candidates.
   The absolute logical positions filled in each step are recorded in stats["filled_positions"] (list per step).
 
+Verified (speculative) decoding (`verify=True`; the loop is `generate_verified`, imported by fast_decoder.py)
+  Motivation (docs/distill_design.md section 10.3, "Fill-selection rules on the CPT checkpoint"): on the converted
+  checkpoint every token filled ahead of the frontier is unreliable and is never revised, so parallel filling collapses
+  the accuracy even at 1.01 tokens/step.  With verify=True the fills are DRAFTS that the AR logits of the same forward
+  verify, and the output is exactly the greedy output of the AR rows (HF generate(do_sample=False)) whatever the
+  drafts are - the mask head's accuracy only buys speed.
+  State: the committed output `out` (cur = prompt_len + len(out)); the window of W slots (slot i <-> logical position
+  cur + i, each a draft or a mask; W rows are forwarded per step, the budget aside); `pending`: the last committed
+  token while its K/V are not in the cache yet (the cache then holds cur - 1 rows).
+  per step : 1. refill the window to W masks (budget-capped; fresh masks are forwarded now and draftable after step 3).
+             2. forward [pending | drafts (slot order) | masks (slot order)] with original positions (pending at
+                cur - 1).  The pending row's logits are the exact next-token logits of position cur; the row of a
+                draft at slot i of the LEADING contiguous drafted run attended exactly prefix + pending + drafts
+                0..i-1, so its logits are the exact AR logits of position cur+i+1 whenever drafts 0..i are the
+                greedy tokens.
+             3. verify: walk j = 0, 1, ...: g = argmax of the AR logits of position cur+j (the pending row for j = 0,
+                or the prefill logits on the first step; the row of the draft at slot j-1 otherwise); if slot j holds
+                a draft equal to g it is accepted and the walk continues, else it stops.  The accepted drafts 0..j-1
+                are committed (cache cropped/advanced to cur+j: their K/V are final by the argument below, they are
+                physical rows 1..j behind the pending row) and g is committed as the new pending: it is appended to
+                `out` and counted now, its K/V are written by the next forward, which carries it as the first observed
+                row.  A stop token or the budget inside the accepted run ends the sequence without a correction; when
+                the correction g is a stop token or exhausts the budget, one extra one-row forward writes its K/V
+                (stats completion_forward, counted in `forwards`) so that the cache holds [prompt | output] exactly as
+                in the plain mode.
+             4. window = slots j+1..: if slot j was a draft (mismatch) every draft to its right is re-masked (they
+                were conditioned on the wrong token); if slot j was a mask the drafts to its right stay drafts.
+             5. draft: the masks that were forwarded as masks this step (a re-masked row has no mask logits until the
+                next forward) are filled with the same rule as the plain mode (select_positions with tau / lam /
+                margin_tau / no_adjacent / max_fill / fill_mode) but WITHOUT the mandatory >= 1 fill (min_fill=0):
+                a step may draft nothing, because progress is guaranteed by the correction.  predict="ar": the
+                leftmost draftable mask takes the AR logits of the draft just before it when that draft is kept (the
+                mask-stop case); the mask right after the correction keeps its own logits (the corrected token's
+                next-token logits do not exist before the next forward, where they do the verification).
+  Every step commits >= 1 token (the correction, or the accepted run when it hits a stop id / the budget), so
+  tokens_per_step >= 1; the ceiling is W tokens in one step (W-1 accepted drafts + the correction) and (W+1)/2 on
+  average (a fully accepted step consumes the whole window, so the next step starts from W fresh masks and commits
+  only the correction).  W=1 is plain greedy decoding (one correction per step; the mask row is never used).
+  Guarantee: by induction `out` is a prefix of the greedy AR output: every committed token is the argmax of logits
+  computed on the exact committed prefix, and a draft is only ever committed after it was found equal to that argmax
+  (test_decoder.test_verify_equals_hf_greedy: every tau, W, predict, with/without stop ids, every fill rule;
+  test_fast.test_fast_decoder_matches_hf_decoder_verify: both decoders token- and stats-identical).  greedy=False
+  only randomises the drafts; the output stays the greedy one.
+  stats (both decoders): steps, forwards (= steps + 1 prefill + completion_forward), window_rows (incl. the pending
+  row), tokens_per_step, filled_per_step (drafts per step; 0 possible), committed_per_step (>= 1 per step),
+  accepted_per_step ({accepted drafts: n_steps}), drafted, accepted, draft_acceptance_rate (accepted / drafted; None
+  without drafts), filled_positions, finish_reason, verify=True, completion_forward.
+
 Why the committed K/V are valid without recomputation (docs/wedlm_analysis.md section 5)
   The committed run occupies window slots 0..m-1 and, because filled rows go first and keep their slot order, also the
   physical rows 0..m-1 of the forward.  Physical row i < m therefore (a) carries the token that is committed at logical
@@ -73,8 +121,8 @@ from transformers import DynamicCache
 
 from .model_glue import model_attention_mask
 
-__all__ = ["generate", "window_attention_mask", "entropy_from_logits", "margin_from_logits", "select_positions",
-           "FILL_MODES"]
+__all__ = ["generate", "generate_verified", "verify_drafts", "window_attention_mask", "entropy_from_logits",
+           "margin_from_logits", "select_positions", "FILL_MODES"]
 
 FILL_MODES = ("all", "leftmost_run")
 
@@ -111,7 +159,7 @@ def check_fill_options(margin_tau=None, no_adjacent=False, max_fill=None, fill_m
 
 
 def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None, no_adjacent=False, max_fill=None,
-                     fill_mode="all"):
+                     fill_mode="all", min_fill=1):
     """Indices (into mask_slots / the mask rows, ascending) to fill this step.
 
     Reference rule (all options off): tau=None -> the leftmost mask only; otherwise all rows with
@@ -119,6 +167,8 @@ def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None
     Options (module docstring, "Fill-selection rules"): margin_tau needs `margin` (margin_from_logits of the same
     rows) and is ANDed with the entropy rule when tau is given, replaces it when tau is None (fallback: index 0);
     then fill_mode="leftmost_run", no_adjacent and max_fill thin the candidates in that order, always keeping >= 1.
+    min_fill=0 (verified decoding) drops the two fallbacks (empty candidate set, empty leftmost run) and returns []
+    instead; the unconditional tau=None / margin_tau=None rule (the leftmost mask) is not a fallback and stays.
     """
     n = len(mask_slots)
     if tau is None:
@@ -129,6 +179,8 @@ def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None
         adjusted = entropy + lam * d
         cand = (adjusted < tau).nonzero(as_tuple=True)[0].tolist()
         fallback = [int(adjusted.argmin())]
+    if min_fill < 1:
+        fallback = []
     if margin_tau is not None:
         if margin is None:
             raise ValueError("margin_tau needs the margin per mask row")
@@ -144,7 +196,7 @@ def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None
             if k != len(run) or (k > 0 and mask_slots[k] != mask_slots[k - 1] + 1):
                 break
             run.append(k)
-        cand = run or [0]
+        cand = run or ([] if min_fill < 1 else [0])
     if no_adjacent:
         kept = []
         for i, k in enumerate(cand):
@@ -155,6 +207,135 @@ def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None
     if max_fill is not None:
         cand = cand[: int(max_fill)]
     return cand
+
+
+def verify_drafts(ar_logits, slots, is_mask):
+    """The verification walk of verified decoding.  ar_logits[j] = next-token logits of logical position (frontier + j):
+    [0] the pending row (or the prefill logits), [1 + i] the row of the draft at window slot i (valid for the leading
+    contiguous drafted run, which is all the walk ever reads).  Returns (j, g): slots 0..j-1 are the accepted drafts
+    (each equal to the greedy argmax given the tokens before it) and g is the greedy token of slot j (the correction,
+    or the token of the mask at j, or the token after the window when every slot was a draft and all were accepted).
+    """
+    j = 0
+    while True:
+        g = int(ar_logits[j].argmax())
+        if j < len(slots) and not is_mask[j] and slots[j] == g:
+            j += 1
+            continue
+        return j, g
+
+
+@torch.no_grad()
+def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam, mask_id, stop_ids,
+                      sample, predict, margin_tau, no_adjacent, max_fill, fill_mode, device):
+    """The verify=True loop (module docstring, "Verified (speculative) decoding"), shared by both decoders.
+
+    forward(ids[T], pos[T], cache_len) -> logits [T, V] of all T window rows, forwarded on top of the first cache_len
+    cached rows with the causal window mask (and written to the cache at cache_len..); commit(n) keeps exactly the
+    first n cached rows (DynamicCache crop / cache_len = n).  last_logits: next-token logits of the last prompt token.
+    sample(logits [n, V]) -> draft tokens [n] (argmax or a sample; the verification itself is always argmax).
+    Returns (new_token_ids, stats) without the cache entry (the caller adds cache / cache_len).
+    """
+    cur = prompt_len                            # prompt_len + len(out); the cache holds cur - (pending is not None) rows
+    out, pending = [], None
+    slots, is_mask = [], []                     # window slot i <-> logical position cur + i
+    steps = window_rows = drafted = accepted = 0
+    filled_hist, commit_hist, acc_hist, filled_positions = {}, {}, {}, []
+    completion = False
+    finish = "length" if max_new_tokens == 0 else None
+    while finish is None:
+        # 1. refill the window to W within the budget
+        add = min(window - len(slots), max_new_tokens - len(out) - len(slots))
+        if add > 0:
+            slots += [mask_id] * add
+            is_mask += [True] * add
+        assert slots and len(slots) <= window and len(out) + len(slots) <= max_new_tokens
+        # 2. forward [pending | drafts... | masks...] with original positions
+        filled_idx = [i for i, f in enumerate(is_mask) if not f]
+        mask_idx = [i for i, f in enumerate(is_mask) if f]
+        n_pend = int(pending is not None)
+        order = filled_idx + mask_idx
+        ids = torch.tensor(([pending] if n_pend else []) + [slots[i] for i in order], dtype=torch.long, device=device)
+        pos = torch.tensor(([cur - 1] if n_pend else []) + [cur + i for i in order], dtype=torch.long, device=device)
+        T = int(ids.numel())
+        logits = forward(ids, pos, cur - n_pend)
+        steps += 1
+        window_rows += T
+        # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order)
+        n_filled = len(filled_idx)
+        ar_rows = [logits[0] if n_pend else last_logits] + [logits[n_pend + i] for i in range(n_filled)]
+        j, g = verify_drafts(ar_rows, slots, is_mask)
+        # 4. commit the accepted drafts (their K/V are final), then the correction g as the new pending token
+        keep = j
+        for i in range(j):
+            if slots[i] in stop_ids:
+                keep, finish = i + 1, "stop"
+                break
+        if len(out) + keep >= max_new_tokens:
+            keep = max_new_tokens - len(out)
+            finish = finish or "length"
+        out += slots[:keep]
+        cur += keep
+        commit(cur)                             # cache = [prefix | pending | accepted run]
+        pending = None
+        accepted += keep
+        acc_hist[keep] = acc_hist.get(keep, 0) + 1
+        n_commit = keep
+        if finish is None:                      # len(out) < max_new_tokens: the correction fits
+            out.append(g)
+            cur += 1
+            pending = g
+            n_commit += 1
+            if g in stop_ids:
+                finish = "stop"
+            elif len(out) >= max_new_tokens:
+                finish = "length"
+        commit_hist[n_commit] = commit_hist.get(n_commit, 0) + 1
+        if finish is not None:
+            if pending is not None:             # write its K/V so that the cache holds [prompt | output]
+                forward(torch.tensor([pending], dtype=torch.long, device=device),
+                        torch.tensor([cur - 1], dtype=torch.long, device=device), cur - 1)
+                commit(cur)
+                completion = True
+            break
+        # 5. window = slots j+1..; a mismatch (slot j was a draft) re-masks every draft to its right
+        mismatch = j < len(slots) and not is_mask[j]
+        drop = j + 1
+        new_slots, new_mask = slots[drop:], is_mask[drop:]
+        if mismatch:
+            new_slots, new_mask = [mask_id] * len(new_slots), [True] * len(new_mask)
+        # 6. draft: the rows forwarded as masks this step and still in the window
+        draftable = [s for s in mask_idx if s >= drop]
+        sel_pos = []
+        if draftable:
+            mrow = {s: n_pend + n_filled + k for k, s in enumerate(mask_idx)}
+            mask_logits = logits[[mrow[s] for s in draftable]]
+            mask_slots = [s - drop for s in draftable]
+            prev = draftable[0] - 1
+            if predict == "ar" and not mismatch and prev >= drop and not is_mask[prev]:
+                frow = {s: n_pend + k for k, s in enumerate(filled_idx)}
+                mask_logits = torch.cat([logits[frow[prev]][None], mask_logits[1:]], 0)
+            ent = entropy_from_logits(mask_logits)
+            margin = margin_from_logits(mask_logits) if margin_tau is not None else None
+            toks = sample(mask_logits)
+            sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode,
+                                   min_fill=0)
+            for k in sel:
+                new_slots[mask_slots[k]] = int(toks[k])
+                new_mask[mask_slots[k]] = False
+            sel_pos = [cur + mask_slots[k] for k in sel]
+        slots, is_mask = new_slots, new_mask
+        drafted += len(sel_pos)
+        filled_hist[len(sel_pos)] = filled_hist.get(len(sel_pos), 0) + 1
+        filled_positions.append(sel_pos)
+    assert len(out) <= max_new_tokens and cur == prompt_len + len(out)
+    stats = dict(steps=steps, forwards=steps + 1 + int(completion), window_rows=window_rows, generated=len(out),
+                 tokens_per_step=(len(out) / steps if steps else 0.0),
+                 filled_per_step=dict(sorted(filled_hist.items())), committed_per_step=dict(sorted(commit_hist.items())),
+                 filled_positions=filled_positions, finish_reason=finish, verify=True,
+                 accepted_per_step=dict(sorted(acc_hist.items())), drafted=drafted, accepted=accepted,
+                 draft_acceptance_rate=(accepted / drafted if drafted else None), completion_forward=completion)
+    return out, stats
 
 
 def _crop_to(cache, keep_total):
@@ -168,7 +349,7 @@ def _crop_to(cache, keep_total):
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, margin_tau=None, no_adjacent=False,
-             max_fill=None, fill_mode="all"):
+             max_fill=None, fill_mode="all", verify=False):
     """Decode one sequence.  Returns (new_token_ids: list[int], stats: dict).
 
     model: Qwen3ForCausalLM (sdpa or eager) with a mask row (model_glue.add_mask_token).  tok: tokenizer, used only to
@@ -177,6 +358,8 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     stop_ids: ids that end generation (the stop token is kept in the output).  greedy: argmax, else sample at
     `temperature` (torch.Generator `generator`).  predict: "mask" | "ar" (see module docstring).
     margin_tau / no_adjacent / max_fill / fill_mode: fill-selection rules, all off by default (module docstring).
+    verify: verified (speculative) decoding - the fills are drafts checked against the AR logits, the output is exactly
+    HF greedy generate() (module docstring, "Verified (speculative) decoding"; extra stats listed there).
 
     stats: steps (decode forwards), forwards (steps + 1 prefill), window_rows (rows forwarded in decode steps),
     generated, tokens_per_step, filled_per_step / committed_per_step ({count: n_steps}), filled_positions (per step,
@@ -203,6 +386,27 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     last_logits = model.lm_head(out_pf.last_hidden_state[0, -1])     # next-token logits of the last cached token
     assert cache.get_seq_length() == prompt_len
 
+    def sample(logits):
+        if greedy:
+            return logits.argmax(-1)
+        probs = torch.softmax(logits.float() / temperature, dim=-1)
+        return torch.multinomial(probs, 1, generator=generator).squeeze(-1)
+
+    if verify:
+        def forward(ids, pos, cache_len):
+            assert cache.get_seq_length() == cache_len
+            h = model.model(input_ids=ids[None], position_ids=pos[None],
+                            attention_mask=window_attention_mask(model, cache_len, int(ids.numel()), dev),
+                            past_key_values=cache, use_cache=True).last_hidden_state[0]
+            return model.lm_head(h)
+
+        out, stats = generate_verified(forward, lambda n: _crop_to(cache, n), last_logits, prompt_len, max_new_tokens,
+                                       window, tau, lam, mask_id, stop_ids, sample, predict, margin_tau, no_adjacent,
+                                       max_fill, fill_mode, dev)
+        assert cache.get_seq_length() == prompt_len + len(out)
+        stats["cache"] = cache
+        return out, stats
+
     cur = prompt_len
     out = []
     slots = [mask_id] * min(window, max_new_tokens)                  # window slot i <-> logical position cur + i
@@ -210,12 +414,6 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     steps = window_rows = 0
     filled_hist, commit_hist, filled_positions = {}, {}, []
     finish = "length" if not slots else None
-
-    def sample(logits):
-        if greedy:
-            return logits.argmax(-1)
-        probs = torch.softmax(logits.float() / temperature, dim=-1)
-        return torch.multinomial(probs, 1, generator=generator).squeeze(-1)
 
     while slots and finish is None:
         # 1. refill: as many new masks as there are leading filled slots, within the max_new_tokens budget

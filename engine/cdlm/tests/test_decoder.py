@@ -34,7 +34,10 @@ def tiny_model(impl, seed=0, dtype=torch.float64):
 
 
 def hf_greedy(m, prompt, n, stop_ids):
-    kw = dict(max_new_tokens=n, min_new_tokens=0, do_sample=False, pad_token_id=0, num_beams=1)
+    # explicit all-ones attention mask: without it generate() treats every prompt token equal to pad_token_id (0, a
+    # real id in this vocabulary) as padding and masks it out, which is not the greedy continuation of the prompt
+    kw = dict(max_new_tokens=n, min_new_tokens=0, do_sample=False, pad_token_id=0, num_beams=1,
+              attention_mask=torch.ones_like(prompt[None]))
     if stop_ids:
         kw["eos_token_id"] = list(stop_ids)
     g = m.generate(prompt[None], **kw)[0]
@@ -414,6 +417,226 @@ def test_margin_tau_and_leftmost_run():
     out2, st2 = generate(m, None, prompt, 40, window=16, tau=1e9, mask_id=mask_id, stop_ids=[stop], fill_mode="leftmost_run")
     assert out2 == out[:out.index(stop) + 1] and st2["finish_reason"] == "stop"
     assert st2["cache"].get_seq_length() == P + len(out2)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Verified (speculative) decoding — docs/distill_design.md section 10.3, "Fill-selection rules on the CPT checkpoint"
+
+VERIFY_OPTION_SETS = [dict(no_adjacent=True), dict(max_fill=2), dict(margin_tau=0.3), dict(fill_mode="leftmost_run"),
+                      dict(margin_tau=0.2, no_adjacent=True, fill_mode="leftmost_run")]
+
+
+def check_verify_stats(st, out, max_new, W, P):
+    """Consistency of the verify=True stats: forwards = steps + prefill + completion; every step commits >= 1 and
+    <= W tokens; the accepted / drafted totals match their histograms; one draft list per non-final step."""
+    assert st["verify"] is True and st["finish_reason"] in ("stop", "length")
+    assert st["forwards"] == st["steps"] + 1 + int(st["completion_forward"])
+    assert st["generated"] == len(out) <= max_new
+    cps = st["committed_per_step"]
+    assert sum(cps.values()) == st["steps"] and sum(k * v for k, v in cps.items()) == len(out)
+    assert st["steps"] == 0 or (min(cps) >= 1 and max(cps) <= W), cps
+    assert st["tokens_per_step"] == (len(out) / st["steps"] if st["steps"] else 0.0)
+    assert st["steps"] == 0 or st["tokens_per_step"] >= 1.0
+    aps = st["accepted_per_step"]
+    assert sum(aps.values()) == st["steps"] and sum(k * v for k, v in aps.items()) == st["accepted"] <= st["drafted"]
+    fps = st["filled_per_step"]
+    assert sum(fps.values()) == max(st["steps"] - 1, 0) and sum(k * v for k, v in fps.items()) == st["drafted"]
+    fp = st["filled_positions"]
+    assert len(fp) == max(st["steps"] - 1, 0)
+    flat = [q for x in fp for q in x]
+    assert all(x == sorted(x) for x in fp) and all(P <= q < P + max_new for q in flat)
+    assert st["draft_acceptance_rate"] == (st["accepted"] / st["drafted"] if st["drafted"] else None)
+    assert st["window_rows"] >= st["steps"]
+    if "cache" in st:
+        assert st["cache"].get_seq_length() == P + len(out)
+
+
+def cache_equals_full_forward(m, cache, full, tol):
+    ref = DynamicCache(config=m.config)
+    m.model(input_ids=full[None], past_key_values=ref, use_cache=True)
+    assert cache.get_seq_length() == ref.get_seq_length() == full.numel()
+    worst = 0.0
+    for li in range(m.config.num_hidden_layers):
+        for a, b in ((cache.layers[li].keys, ref.layers[li].keys), (cache.layers[li].values, ref.layers[li].values)):
+            assert a.shape == b.shape
+            worst = max(worst, float((a - b).abs().max()))
+    assert worst < tol, worst
+    return worst
+
+
+def test_verify_equals_hf_greedy():
+    """verify=True: the output == HF greedy generate() token for token, for tau in {None, 0.5, 1e9} x W in {1, 4, 16}
+    x predict in {mask, ar} x {no stop id, random stop id} on random prompts (sdpa; eager on a subset) and for every
+    fill-selection rule on top; tokens/step >= 1; the final cache == a fresh causal forward of [prompt | output]
+    (float64 sdpa < 1e-9, incl. the completion forward of a final correction); W=1 is plain AR (one token per step);
+    non-vacuous: drafts are both accepted and rejected on this model, some steps commit >= 2 tokens; select_positions
+    with min_fill=0 is the documented rule minus its fallbacks."""
+    g = torch.Generator().manual_seed(15)
+    n_cases = multi = completions = 0
+    tot_acc = tot_drafted = 0
+    worst = 0.0
+    for impl, n_prompts in (("sdpa", 5), ("eager", 2)):
+        m, mask_id = tiny_model(impl, seed=0)
+        for prompt in random_prompts(g, n_prompts):
+            P = prompt.numel()
+            for stop_ids in ([], [int(torch.randint(0, VOCAB, (1,), generator=g))]):
+                ref = hf_greedy(m, prompt, 30, stop_ids)
+                for W in (1, 4, 16):
+                    for tau in (None, 0.5, 1e9):
+                        for predict in ("mask", "ar"):
+                            out, st = generate(m, None, prompt, 30, window=W, tau=tau, mask_id=mask_id, stop_ids=stop_ids,
+                                               predict=predict, verify=True)
+                            assert out == ref, (impl, W, tau, predict, stop_ids, out, ref)
+                            check_verify_stats(st, out, 30, W, P)
+                            if impl == "sdpa":
+                                worst = max(worst, cache_equals_full_forward(m, st["cache"], torch.tensor(prompt.tolist() + out), 1e-9))
+                            if W == 1:
+                                assert st["committed_per_step"] == {1: len(out)} and st["steps"] == len(out) and st["drafted"] == 0
+                                assert st["window_rows"] == 2 * len(out) - 1, st      # [M], then [pending, M] per step
+                            multi += sum(v for k, v in st["committed_per_step"].items() if k >= 2)
+                            completions += st["completion_forward"]
+                            tot_acc += st["accepted"]; tot_drafted += st["drafted"]
+                            n_cases += 1
+                # every fill-selection rule on top of the drafts: still exact
+                for opts in VERIFY_OPTION_SETS:
+                    for W in (4, 16):
+                        for tau in (0.5, 1e9, None):
+                            if tau is None and opts.get("margin_tau") is None:
+                                continue
+                            out, st = generate(m, None, prompt, 30, window=W, tau=tau, mask_id=mask_id, stop_ids=stop_ids,
+                                               verify=True, **opts)
+                            assert out == ref, (impl, W, tau, opts, stop_ids, out, ref)
+                            check_verify_stats(st, out, 30, W, P)
+                            if impl == "sdpa":
+                                worst = max(worst, cache_equals_full_forward(m, st["cache"], torch.tensor(prompt.tolist() + out), 1e-9))
+                            if opts.get("no_adjacent"):
+                                assert all(b - a >= 2 for pos in st["filled_positions"] for a, b in zip(pos, pos[1:]))
+                            if opts.get("max_fill"):
+                                assert all(len(pos) <= opts["max_fill"] for pos in st["filled_positions"])
+                            n_cases += 1
+    assert multi > 0 and 0 < tot_acc < tot_drafted and completions > 0, (multi, tot_acc, tot_drafted, completions)
+    # sampling only randomises the drafts: the output is still the greedy one
+    out, st = generate(m, None, prompt, 30, window=16, tau=1e9, mask_id=mask_id, stop_ids=[], verify=True, greedy=False,
+                       generator=torch.Generator().manual_seed(0))
+    assert out == hf_greedy(m, prompt, 30, []) and st["verify"]
+    # max_new_tokens=0 and a budget smaller than the window
+    out, st = generate(m, None, prompt, 0, window=16, tau=1e9, mask_id=mask_id, stop_ids=[], verify=True)
+    assert out == [] and st["steps"] == 0 and st["forwards"] == 1
+    out, st = generate(m, None, prompt, 3, window=16, tau=1e9, mask_id=mask_id, stop_ids=[], verify=True)
+    assert out == hf_greedy(m, prompt, 3, []) and st["window_rows"] <= 4 * st["steps"]
+    # select_positions(min_fill=0): the documented rule without its fallbacks
+    n_unit = n_empty = 0
+    for _ in range(200):
+        n = int(torch.randint(1, 17, (1,), generator=g))
+        slots = random_mask_slots(g, n)
+        ent = torch.rand(n, generator=g, dtype=torch.float32) * 4.0
+        margin = torch.rand(n, generator=g, dtype=torch.float32)
+        for tau in (None, 0.5, 2.0, 1e9):
+            for opts in OPTION_SETS:
+                o = dict(margin=margin, margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all")
+                o.update(opts)
+                sel1 = select_positions(ent, slots, tau, 0.02, **o)
+                sel0 = select_positions(ent, slots, tau, 0.02, min_fill=0, **o)
+                adj = ent + 0.02 * torch.tensor([s - slots[0] for s in slots], dtype=ent.dtype)
+                passing = [k for k in range(n) if (tau is None or float(adj[k]) < tau)
+                           and (o["margin_tau"] is None or float(margin[k]) >= o["margin_tau"])]
+                if tau is None and o["margin_tau"] is None:
+                    passing = [0]
+                if o["fill_mode"] == "leftmost_run" and passing and (passing[0] != 0):
+                    passing = []
+                if passing:
+                    assert sel0 == sel1 and len(sel0) >= 1, (tau, opts, sel0, sel1)
+                else:
+                    assert sel0 == [] and sel1 == ([0] if tau is None or o["fill_mode"] == "leftmost_run" and not passing and tau is None else sel1)
+                    assert len(sel1) == 1
+                    n_empty += 1
+                n_unit += 1
+    assert n_empty > 0
+    print(f"  {n_cases} verify cases == HF greedy; drafts accepted {tot_acc}/{tot_drafted}; max |cache - full forward| {worst:.2e};"
+          f" {n_unit} min_fill=0 selections checked ({n_empty} empty)")
+
+
+class OracleMaskHead(torch.nn.Module):
+    """lm_head replacement that makes the mask rows a deliberately good drafter: a window row whose input id is the
+    mask token gets a one-hot of the greedy token at its logical position (the HF greedy output computed beforehand),
+    or, when wrong_every is set, a wrong token at every position that is a multiple of wrong_every.  The AR rows are
+    untouched (verification is against the real model) except that the mask id is suppressed as an output in every
+    row, as for a real model (this random model otherwise emits it, which would make an observed row look like a
+    mask row).  Needs the decoder's forward (input_ids + position_ids as keyword arguments to model.model), recorded
+    by a pre-hook; generate() calls lm_head on 3-D hidden states and only sees the suppression."""
+
+    def __init__(self, model, mask_id, oracle, wrong_every=None):
+        super().__init__()
+        self.head, self.mask_id, self.oracle, self.wrong_every = model.lm_head, mask_id, oracle, wrong_every
+        self.last = (None, None)
+        model.model.register_forward_pre_hook(lambda mod, args, kw: setattr(self, "last", (kw.get("input_ids"), kw.get("position_ids"))),
+                                              with_kwargs=True)
+
+    def forward(self, h):
+        logits = self.head(h)
+        logits[..., self.mask_id] -= 1e4
+        ids, pos = self.last
+        if h.dim() == 2 and ids is not None and pos is not None:
+            ids, pos = ids[0], pos[0]
+            assert ids.numel() == h.shape[0]
+            for r in range(ids.numel()):
+                if int(ids[r]) == self.mask_id and int(pos[r]) in self.oracle:
+                    p = int(pos[r]); t = self.oracle[p]
+                    if self.wrong_every and p % self.wrong_every == 0:
+                        t = (t + 1) % VOCAB
+                    logits[r] = -50.0
+                    logits[r, t] = 50.0
+        return logits
+
+
+def test_verify_good_drafter_speeds_up():
+    """A deliberately good mask head (one-hot of the greedy token at the mask row's position; the AR rows are the real
+    model) shows the speed side of verify=True: every draft is accepted, tokens/step reaches (W+1)/2 on average with
+    tau=1e9 (W tokens in a fully accepted step), ~2 with tau=None (one draft per step); a drafter that is wrong at
+    every third position is still exact (the wrong drafts are rejected) and lands in between."""
+    g = torch.Generator().manual_seed(16)
+    n_cases = 0
+    tps16 = {}
+    for prompt in random_prompts(g, 3):
+        P = prompt.numel()
+        for wrong_every in (None, 3):
+            m, mask_id = tiny_model("sdpa", seed=4)
+            head = m.lm_head = OracleMaskHead(m, mask_id, {}, wrong_every)
+            ref = hf_greedy(m, prompt, 40, [])
+            assert len(ref) == 40 and mask_id not in ref
+            head.oracle = {P + i: t for i, t in enumerate(ref)}
+            for W in (4, 16):
+                for tau in (None, 1e9, 0.5):
+                    for opts in (dict(), dict(fill_mode="leftmost_run"), dict(max_fill=3)):
+                        out, st = generate(m, None, prompt, 40, window=W, tau=tau, mask_id=mask_id, stop_ids=[], verify=True, **opts)
+                        assert out == ref, (wrong_every, W, tau, opts, out, ref)
+                        check_verify_stats(st, out, 40, W, P)
+                        tps = st["tokens_per_step"]
+                        if W == 16 and tau == 1e9 and not opts:
+                            tps16[wrong_every] = tps
+                        if wrong_every is None:
+                            assert st["draft_acceptance_rate"] == 1.0 and tps > 1.5, (W, tau, opts, st)
+                            if tau == 1e9 and not opts:
+                                assert tps >= W / 3 and max(st["committed_per_step"]) == W, (W, st)   # (W+1)/2 minus the budget tail
+                            if tau is None:
+                                assert st["filled_per_step"] == {1: st["steps"] - 1} and abs(tps - 2.0) < 0.2, (W, st)
+                        else:
+                            assert 0.0 < st["draft_acceptance_rate"] < 1.0 and 1.0 < tps, (W, tau, opts, st)
+                            assert set(st["committed_per_step"]) - {1}, st
+                        n_cases += 1
+            # the plain (unverified) mode with the same perfect drafter would also be right here, but a drafter wrong
+            # at every third position commits wrong tokens without verification - the point of verify=True
+            if wrong_every:
+                out_plain, _ = generate(m, None, prompt, 40, window=16, tau=1e9, mask_id=mask_id, stop_ids=[])
+                assert out_plain != ref
+            else:
+                # with the perfect drafter the stop id is honoured inside an accepted run too
+                stop = ref[7]
+                out, st = generate(m, None, prompt, 40, window=16, tau=1e9, mask_id=mask_id, stop_ids=[stop], verify=True)
+                assert out == ref[:ref.index(stop) + 1] and st["finish_reason"] == "stop"
+                assert st["cache"].get_seq_length() == P + len(out)
+    print(f"  {n_cases} good-drafter cases exact; W=16, tau=1e9, 40 tokens: {tps16[None]:.2f} tokens/step with the perfect drafter,"
+          f" {tps16[3]:.2f} with the every-third-wrong drafter")
 
 
 def main():
