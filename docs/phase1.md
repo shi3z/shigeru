@@ -30,7 +30,9 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 * gsm8k50_llada8b_s64.json: 68% (50), 84.2 tok/s effective
 * gsm8k50_ours_t0.9_b32_cache.json: 86% (50), 157.4 tok/s effective
 * gsm8k50_ours_t0.9_b32_graph_eos.json: 82% (50), 145.0 tok/s effective
+* gsm8k50_qwen3_4b_hf.json: 90% (50), 30.5 tok/s effective
 * gsm8k50_qwen3_8b_hf.json: 84% (50), 51.7 tok/s effective
 
 ### HumanEval pass@1
 * humaneval_ours_t0.9_graph.json: 37.8% (164 problems)
+* humaneval_qwen3_8b_hf.json: 85.4% (164 problems)
