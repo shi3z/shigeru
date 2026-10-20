@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "runs/phaseB_medium_8b/merged",
+  "config": {
+    "model": "runs/phaseB_medium_8b/merged",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/phaseB_medium_8b_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 3.6226096153259277,
+  "gpu_state": [
+    "81084 MiB, 0 %",
+    "79797 MiB, 0 %",
+    "80789 MiB, 0 %",
+    "80625 MiB, 0 %",
+    "8455 MiB, 76 %",
+    "19799 MiB, 0 %",
+    "16373 MiB, 43 %",
+    "42981 MiB, 100 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.021569580305367708,
+      "e2e_s": 4.91523616714403,
+      "tok_s_effective": 52.082950095304845,
+      "decode_tok_s": 52.10816786861066,
+      "peak_mem_gib": 15.307592391967773,
+      "answer": "A hash table maps keys to values using a hash function that converts a key into an index in an array. When you insert a key-value pair, the hash function computes the index, and the value is stored there. Retrieval is fast: compute the index and fetch the value directly.\n\nPerformance degrades when collisions occur — two keys hash to the same index. Common solutions include chaining (linked lists at each index) or open addressing (probing for the next available slot). In the worst case, collisions can reduce lookup time from O(1) to O(n) if many keys hash to the same bucket.\n\nDegradation happens under three main conditions:\n\n1. **High load factor** — as the table fills, collisions increase. A load factor above ~0.7–1.0 often triggers resizing (doubling the array size and rehashing), which is expensive but keeps average performance low.\n2. **Poor hash function** — a weak function produces many collisions, especially for similar keys (e.g., \"apple\" and \"apply\").\n3. **Collision resolution strategy** — chaining is generally robust but can slow searches if chains grow long; open addressing can suffer from clustering and require careful probing.\n\nIn practice, hash tables perform well with a",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 222,
+      "ttft_s": 0.022028698585927486,
+      "e2e_s": 4.289333402644843,
+      "tok_s_effective": 51.75629384815662,
+      "decode_tok_s": 51.78913045271698,
+      "peak_mem_gib": 15.303200244903564,
+      "answer": "```python\ndef fibonacci(n):\n    \"\"\"\n    Return the n-th Fibonacci number using an iterative approach.\n\n    The Fibonacci sequence is defined as:\n    fib(0) = 0\n    fib(1) = 1\n    fib(n) = fib(n-1) + fib(n-2) for n >= 2\n\n    Parameters:\n    n (int): The index of the Fibonacci number to return.\n\n    Returns:\n    int: The n-th Fibonacci number.\n\n    Raises:\n    ValueError: If n is negative.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n must be a non-negative integer\")\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n\n\n# Example 1: Get the 10th Fibonacci number\nprint(fibonacci(10))  # Output: 55\n\n# Example 2: Get the 0th Fibonacci number\nprint(fibonacci(0))   # Output: 0\n```",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.02453071204945445,
+      "e2e_s": 4.969795704819262,
+      "tok_s_effective": 51.51117172719075,
+      "decode_tok_s": 51.564476397689724,
+      "peak_mem_gib": 15.312541007995605,
+      "answer": "Let's go step-by-step.\n\n---\n\n**Step 1: Define variables**\n\nLet \\( t \\) be the time in hours after 9:00 when they meet.\n\n- Train from A (Train 1) has a head start of 30 minutes = 0.5 hours.\n- In those 0.5 hours, Train 1 travels:  \n  \\( 80 \\times 0.5 = 40 \\) km.\n\nSo at 9:30, Train 1 is 40 km from A, and Train 2 starts from B.\n\n---\n\n**Step 2: Distance between them at 9:30**\n\nTotal distance = 300 km.  \nAt 9:30, distance between them = \\( 300 - 40 = 260 \\) km.\n\n---\n\n**Step 3: Relative speed**\n\nThey are moving toward each other:  \nRelative speed = \\( 80 + 100 = 180 \\) km/h.\n\n---\n\n**Step 4: Time to meet after 9:30**\n\nTime = distance / speed = \\( 260 / 180 = 13/9 \\)",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 185,
+      "ttft_s": 0.02133099688217044,
+      "e2e_s": 3.610248018987477,
+      "tok_s_effective": 51.24301683070648,
+      "decode_tok_s": 51.26894794911228,
+      "peak_mem_gib": 15.29784345626831,
+      "answer": "The letter came on a Tuesday, sealed with a wax crest that hadn't been seen in thirty years. Elias hadn't expected anything—his father had died the year before, and the postmark was from a town he'd never visited. But the handwriting was unmistakable: his mother's.\n\nInside was a single sentence: *I'm sorry I left you at the cliff edge. I never stopped loving you.*\n\nThe lighthouse had been quiet for weeks, the sea a pale gray. He read it twice, then once more, the words curling like smoke. Outside, the wind picked up, and the light blinked on, steady and unblinking. He hadn't realized he'd been holding his breath until it let out in a sigh that tasted of salt and forgiveness. That night, he lit the lamp not for the harbor, but for the shore where his mother's voice had once called him home.",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 173,
+      "ttft_s": 0.021890467032790184,
+      "e2e_s": 3.386101583018899,
+      "tok_s_effective": 51.09120200870076,
+      "decode_tok_s": 51.126399048706496,
+      "peak_mem_gib": 15.295095920562744,
+      "answer": "- **Financial crisis**: Heavy debt from the Seven Years' War and American Revolution, along with a regressive tax system, strained the monarchy's finances and eroded public confidence.\n\n- **Social inequality**: The First Estate (clergy) and Second Estate (nobility) enjoyed privileges and exemptions, while the Third Estate (commoners) bore most taxes and had little political power.\n\n- **Enlightenment ideas**: Philosophers like Rousseau and Voltaire promoted liberty, equality, and popular sovereignty, challenging traditional authority and inspiring demands for reform.\n\n- **Economic hardship**: Poor harvests, rising bread prices, and unemployment fueled resentment among the working and peasant classes, creating widespread unrest.\n\n- **Political stagnation**: The monarchy's inability to reform and the Estates-General's failure to address grievances led to calls for a constitutional assembly and ultimately to revolution.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 108,
+      "ttft_s": 0.021913019008934498,
+      "e2e_s": 2.054416905157268,
+      "tok_s_effective": 52.569660875007486,
+      "decode_tok_s": 52.644425788906496,
+      "peak_mem_gib": 15.28795337677002,
+      "answer": "過学習とは、訓練データに過度に適合し、新しいデータへの汎化性能が低下する現象です。モデルがノイズや特異なパターンを記憶してしまうため、テストデータで性能が落ちます。防ぐ方法には、データ拡張、正則化（L2正則化、ドロップアウト）、学習率の調整、早止まり（early stopping）、クロスバリデーション、バッチ正則化などが挙げられます。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.021944636944681406,
+      "e2e_s": 4.914130900986493,
+      "tok_s_effective": 52.09466437872239,
+      "decode_tok_s": 52.12393523817405,
+      "peak_mem_gib": 15.310203075408936,
+      "answer": "以下に、要件に沿った関数を書きます。\n\n```python\ndef unique_sorted_by_length(strings):\n    \"\"\"文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す。\n\n    Args:\n        strings (list[str]): 入力文字列のリスト\n\n    Returns:\n        list[str]: 重複を除き、長さの短い順に並べたリスト\n    \"\"\"\n    return sorted(set(strings), key=lambda s: len(s))\n```\n\n### 説明\n\n- `set(strings)`：重複を除去します。順序は失われますが、この時点で重複が取り除かれます。\n- `sorted(..., key=lambda s: len(s))`：長さでソートします。短い順に並べています。\n- 最終的なリストは、重複を除いた文字列を長さの短い順に並べたものになります。\n\n### 例\n\n```python\nprint(unique_sorted_by_length([\"apple\", \"banana\", \"cherry\", \"apple\", \"date\"]))\n# ['date', 'apple', 'cherry', 'banana']\n```\n\n> 注意: `set` は順序を",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 172,
+      "ttft_s": 0.022219172678887844,
+      "e2e_s": 3.3243882176466286,
+      "tok_s_effective": 51.73884298078782,
+      "decode_tok_s": 51.78414480645418,
+      "peak_mem_gib": 15.299628257751465,
+      "answer": "まず、太郎と花子の現在の年齢を求めます。\n\n太郎は花子より3歳年上なので、  \n太郎の年齢 = 花子の年齢 + 3\n\n二人の年齢の和は29なので、  \n(花子の年齢 + 3) + 花子の年齢 = 29  \n2 × 花子の年齢 + 3 = 29  \n2 × 花子の年齢 = 26  \n花子の年齢 = 13\n\nよって、花子は現在13歳です。\n\n5年後の花子の年齢は、  \n13 + 5 = 18\n\n**答え：18歳**",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 116,
+      "ttft_s": 0.021757792681455612,
+      "e2e_s": 2.2286850828677416,
+      "tok_s_effective": 52.048627637754,
+      "decode_tok_s": 52.10864921167969,
+      "peak_mem_gib": 15.28905200958252,
+      "answer": "灯台守の佐伯は、夜明け前の静けさを灯りで満たしていた。突然、風が吹き寄せた手紙。封筒には「灯台守へ」の文字。中を開くと、懐かしい香りが漂う。そこには、かつて灯台で働いていた故郷の友人の手書きの言葉。「今も海はあなた方の灯りを待っている」。佐伯は、涙を拭きながら灯りを強くした。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.021323457825928926,
+      "e2e_s": 4.952607275918126,
+      "tok_s_effective": 51.689945464642584,
+      "decode_tok_s": 51.710671988588516,
+      "peak_mem_gib": 15.307593822479248,
+      "answer": "明治維新の主な要因を5つ挙げます。\n\n1. **幕府の腐敗と権力の集中**：江戸幕府は末期に腐敗が進み、大名・旗本・浪人による内部の対立が激化。幕政の混乱が社会の不安定化を招いた。\n\n2. **外部からの圧力（開国・不平等条約）**：ペリーの来航と開国によって、幕府は国際的弱さを露呈され、国内の改革論が高まった。\n\n3. **天皇制の復活と尊王思想の高まり**：京都の朝廷が「天皇は神聖不可侵」という尊王思想を背景に、幕府を倒す正当性を主張した。\n\n4. **西南戦争などの倒幕運動の成功**：長州・薩摩などの藩主が倒幕を推進し、幕府を倒す軍事的・政治的基盤が整った。\n\n5. **近代化の必要性と知識人の主張**：開明派・国学者・実学派などの知識",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.022050853399559856,
+      "min": 0.021323457825928926,
+      "max": 0.02453071204945445,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 3.8644943259190767,
+      "min": 2.054416905157268,
+      "max": 4.969795704819262,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 51.782637584697376,
+      "min": 51.09120200870076,
+      "max": 52.569660875007486,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 51.82289487506391,
+      "min": 51.126399048706496,
+      "max": 52.644425788906496,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 200.0,
+      "min": 108,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 15.301070356369019,
+      "min": 15.28795337677002,
+      "max": 15.312541007995605,
+      "n": 10
+    }
+  }
+}

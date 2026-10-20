@@ -397,8 +397,11 @@ buckets and CUDA graphs still to do; (3) window/threshold tuning per task; (4) 8
 | R2 (pilot) | Qwen3-4B + 185 items | 89.7 % | 76.2 % | |
 | R2 (medium) | Qwen3-4B + 1 714 items | 88.2 % | 72.0 % | GSM8K-50: 92 % |
 | R1 | Qwen3-4B released | 86.1 % | 81.7 % | |
+| R3 (pilot) | Qwen3-8B + 185 items | 91.7 % | 83.5 % | |
+| R3 (medium) | Qwen3-8B + 1 714 items | 91.1 % | 78.7 % | GSM8K-50: 94 % |
+| R0 | Qwen3-8B released | 86.4 % | 85.4 % | |
 
-Negative result: 9× more teacher data (same recipe, lr 1e-4, 2 epochs) did not improve the 4B student over the 185-item
+Negative result (both sizes): 9× more teacher data (same recipe, lr 1e-4, 2 epochs) did not improve the 4B student over the 185-item
 pilot and cost 4 more HumanEval points. Candidate causes, to be tested with the 8B numbers in hand: the LoRA recipe
 over-fits style with more epochs' worth of steps (216 steps vs 24), the teacher's code answers (full programs from prose
 problems) are a format mismatch with HumanEval (completion of a signature + docstring), and category balance
