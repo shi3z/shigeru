@@ -58,10 +58,10 @@ NUMA nodes SYS. Consequences:
 **Decision (relayed 2026-10-20 by the donkeyhover-35 session from the user, latest wording "4,6,7 でやる"): experiments
 run on physical GPUs 4, 6, 7; GPU 5 is left to its other tenants; the teacher stays on 0–3 and is not restarted.** So every plan below is sized for 4 × A100 80 GB
 3 × A100 80 GB (`CUDA_VISIBLE_DEVICES=4,6,7`, `torchrun --nproc_per_node=3`); the TTS/ASR and hf_proxy services on GPU 5
-are not touched. `distill/run_467.sh` is the launcher (pause → Phase B pilot → evaluation → clean speed baseline → restore). Using 4/6/7 requires the first H3 fleet pause; that pause is executed
-only after the user confirms it directly in the SHIGERU session (relayed instructions are not treated as that
-confirmation), via `scripts/shigeru_run.py --pause-fleet`, logged to `results/fleet_downtime.log` and announced to
-the fleet operator session beforehand.
+are not touched. `distill/run_467.sh` is the launcher (pause → Phase B pilot → evaluation → clean speed baseline → restore). Using 4/6/7 requires the H3 fleet to be stopped. **The user decided (directly, 2026-10-20) to stop the fleet
+themselves ("停止は自分でやるので待て")**: this project does not pause or restore the fleet; `distill/run_467.sh`
+refuses to start while GPUs 4/6/7 hold memory and waits for the user's go-ahead. `scripts/shigeru_run.py --pause-fleet`
+stays available but unused.
 
 ## 4. Separating the three effects
 
