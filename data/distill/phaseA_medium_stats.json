@@ -1,0 +1,22 @@
+{
+ "input": 2300,
+ "reject:unverified": 100,
+ "reject:eval_contamination": 1,
+ "reject:dup_near": 145,
+ "reject:dup_exact": 30,
+ "reject:low_score": 118,
+ "reject:truncated": 2,
+ "test": 95,
+ "val": 95,
+ "train": 1714,
+ "kept": 1904,
+ "by_category": {
+  "math": 678,
+  "code": 325,
+  "en_general": 292,
+  "ja_general": 389,
+  "json": 102,
+  "reasoning": 118
+ },
+ "response_tokens_total": 864092
+}
