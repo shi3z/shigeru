@@ -1,0 +1,21 @@
+# Phase A, medium set (~2300 items, est. ~5 h at concurrency 2): launched only after the small pilot is reviewed.
+teacher:
+  base_url: http://127.0.0.1:8000        # DeepSeek V4.1 Flash on this host (tsuginosuke:8000; 8188 is a ComfyUI backend)
+  model: deepseek-v4.1-flash
+  concurrency: 2                          # server has 5 slots and production users; stay well below
+  min_interval_s: 0.5
+  timeout_s: 900
+generation:
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 2048
+  thinking: false
+seed: 20261020
+out: data/distill/phaseA_medium.jsonl
+categories:
+  math_gsm8k:   {n: 700}      # GSM8K train questions (MIT); verified against the gold answer
+  code_synth:   {n: 400}      # teacher-written problems with hidden tests; solution verified in a sandbox
+  json_synth:   {n: 200}      # structured output; verified by parser + required keys
+  en_general:   {n: 300}      # self-instruct; judged by the teacher (1-5)
+  ja_general:   {n: 400}      # Japanese self-instruct; judged
+  reasoning:    {n: 300}      # logic puzzles / multi-step reasoning, judged
