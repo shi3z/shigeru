@@ -406,8 +406,12 @@ pilot and cost 4 more HumanEval points. Candidate causes, to be tested with the 
 over-fits style with more epochs' worth of steps (216 steps vs 24), the teacher's code answers (full programs from prose
 problems) are a format mismatch with HumanEval (completion of a signature + docstring), and category balance
 (math 678 of 1 904). Ablation 1 (lr 5e-5, 1 epoch, 108 steps): GSM8K-50 92 %, HumanEval **71.3 %** — the gentler recipe does not recover
-code, so the cause is the data, not the number of steps. Ablation 2 (queued on GPU 7): same recipe without the 325 code
-items, to test whether the teacher's code answers themselves cause the regression.
+code, so the cause is the data, not the number of steps. Ablation 2 (same recipe, medium set without the 325 code items, 1 431 train): GSM8K-50 90 %, HumanEval **79.3 %**
+(vs 72.0 % with the code items, 81.7 % released). Confirmed: the teacher's code answers as generated (full programs
+written from a prose problem statement, verified by hidden tests) teach a style that hurts HumanEval's
+signature-plus-docstring completion. Fix for the next data round: generate the code category in completion format
+(prompt = function signature + docstring, response = body) and keep the sandbox verification; until then the
+no-code set is the better Phase B training set.
 
 ### 10.7 Headline row R5 on the full GSM8K test set (1 319 items, stage-2 4B model, own engine, idle GPU 7, bf16)
 
