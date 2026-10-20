@@ -424,5 +424,7 @@ Reference rows on the same set: released Qwen3-4B 86.1 %, released Qwen3-8B 86.4
 LoRA students 89.7 % (4B) / 91.7 % (8B). So **Shigeru-4B-Diffusion at 90.1 % and 66 tok/s beats the released Qwen3-8B
 (86.4 %, 50 tok/s) on both axes**, with the quality coming from distillation and the speed (1.27×) from verified
 parallel decoding. The 0.3-point gap to its own AR decoding is bf16 tie-breaking (identical on CPU float32), not
-drafting error. The speed target of the brief (500 tok/s) is far away: tokens/step is the lever (ceiling (W+1)/2 = 8.5
+drafting error. Code: the stage-2 diffusion model's AR rows score **68.9 %** on HumanEval (Phase B 4B student 76.2 %, released
+81.7 %): raw-text CPT plus the prose-format code items both cost code ability; stage 2 on the CPT-continuation model
+will use the no-code set plus completion-format code. The speed target of the brief (500 tok/s) is far away: tokens/step is the lever (ceiling (W+1)/2 = 8.5
 with a perfect drafter) and the engine still lacks CUDA graphs with cache-length buckets.
