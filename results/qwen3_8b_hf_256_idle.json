@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "/mnt/ssd/models/hf/Qwen3-8B",
+  "config": {
+    "model": "/mnt/ssd/models/hf/Qwen3-8B",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/qwen3_8b_hf_256_idle.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 3.3773763179779053,
+  "gpu_state": [
+    "80656 MiB, 83 %",
+    "80991 MiB, 87 %",
+    "80931 MiB, 86 %",
+    "80325 MiB, 84 %",
+    "8451 MiB, 79 %",
+    "19799 MiB, 0 %",
+    "16 MiB, 0 %",
+    "16369 MiB, 79 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.021660903934389353,
+      "e2e_s": 4.945789284072816,
+      "tok_s_effective": 51.761202367519004,
+      "decode_tok_s": 51.78581472988148,
+      "peak_mem_gib": 15.307592391967773,
+      "answer": "A hash table is a data structure that stores key-value pairs. It uses a hash function to compute an index (or \"hash\") from the key, which determines where the value is stored in an array. This allows for fast lookups, insertions, and deletions, typically in constant time, O(1).\n\nWhen multiple keys hash to the same index, a collision occurs. Hash tables handle collisions using techniques like chaining (linked lists at each index) or open addressing (probing for the next available slot). These methods help maintain efficiency.\n\nPerformance degrades when collisions become frequent, leading to longer chains or more probing steps. This can happen if the hash function is poor, causing many keys to hash to the same index. It can also occur when the table becomes too full, increasing the likelihood of collisions and slowing down operations.\n\nAdditionally, resizing the hash table (expanding the array) when it becomes too full can temporarily degrade performance, as all existing entries must be rehashed. However, this is usually done in a way that maintains overall efficiency in the long run.\n\nIn summary, a hash table is efficient when the hash function distributes keys uniformly and the table isn't too full. Performance degrades due to collisions, poor hash functions, or excessive resizing.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 256,
+      "ttft_s": 0.022383937146514654,
+      "e2e_s": 4.883753944188356,
+      "tok_s_effective": 52.41869326865633,
+      "decode_tok_s": 52.45434921238761,
+      "peak_mem_gib": 15.30786943435669,
+      "answer": "Here's a Python function that returns the n-th Fibonacci number using an iterative approach, along with a docstring and two usage examples:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Returns the n-th Fibonacci number using an iterative approach.\n\n    The Fibonacci sequence is defined as:\n    F(0) = 0\n    F(1) = 1\n    F(n) = F(n-1) + F(n-2) for n > 1\n\n    Parameters:\n    n (int): The index of the Fibonacci number to return.\n\n    Returns:\n    int: The n-th Fibonacci number.\n\n    Raises:\n    ValueError: If n is negative.\n\n    Examples:\n    >>> fibonacci(0)\n    0\n    >>> fibonacci(7)\n    13\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n must be a non-negative integer.\")\n    \n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n\n# Example usage:\nprint(fibonacci(0))  # Output: 0\nprint(fibonacci(7))  # Output: 13\n```\n\n### Explanation:\n- The function",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.024110977072268724,
+      "e2e_s": 4.862705747131258,
+      "tok_s_effective": 52.64558731546251,
+      "decode_tok_s": 52.70125152408479,
+      "peak_mem_gib": 15.312541007995605,
+      "answer": "We are given:\n\n- Train A leaves **City A** at **9:00 AM** traveling toward **City B** at **80 km/h**.\n- The distance between **City A** and **City B** is **300 km**.\n- Train B leaves **City B** at **9:30 AM** traveling toward **City A** at **100 km/h**.\n\nWe are to find **when and where** the two trains meet.\n\n---\n\n### Step 1: Define the time variable\n\nLet’s define:\n\n- Let **t** be the time in **hours** after **9:00 AM** when the two trains meet.\n\nSo:\n\n- Train A has been traveling for **t** hours when they meet.\n- Train B has been traveling for **t - 0.5** hours (since it left 30 minutes later).\n\n---\n\n### Step 2: Write the distance each train has traveled\n\n- Distance covered by Train A = **80t** km\n- Distance covered by Train B = **100(t - 0.5)** km\n\nSince the total distance between the cities is 300 km, the sum of the distances they have traveled when they",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 226,
+      "ttft_s": 0.02322268532589078,
+      "e2e_s": 4.318998412229121,
+      "tok_s_effective": 52.32694676619641,
+      "decode_tok_s": 52.37703602422458,
+      "peak_mem_gib": 15.303475379943848,
+      "answer": "The lighthouse keeper had long been used to the silence of the sea. Each evening, he climbed the spiral stairs, lit the beacon, and watched the waves roll in. But one stormy night, a letter arrived—wet, wrinkled, and sealed with a strange wax emblem. It was addressed to him, though it had been written decades ago.\n\nInside, the letter spoke of a lost ship, the *Eleanor's Grace*, and a passenger who had vanished without a trace. The writer, a sailor named Elias, claimed he had seen the lighthouse beam on the night of the ship's disappearance. Intrigued, the keeper began to search the old logs, uncovering a pattern of disappearances tied to the same date.\n\nAs the days passed, the lighthouse became a place of quiet investigation. The keeper found a faded photograph of the *Eleanor's Grace* and a name—Margaret, a woman who had never been recorded as boarding the ship. With the beacon still burning, he felt the pull of the past, and the sea, as if whispering its own secrets.",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 188,
+      "ttft_s": 0.021843984257429838,
+      "e2e_s": 3.640449327416718,
+      "tok_s_effective": 51.6419768802017,
+      "decode_tok_s": 51.677368009614526,
+      "peak_mem_gib": 15.29715633392334,
+      "answer": "- **Social Inequality**: A rigid class system, with the First Estate (clergy) and Second Estate (nobility) enjoying privileges while the Third Estate (commoners) bore heavy taxes and had little political power.  \n- **Economic Hardship**: Financial crisis, caused by costly wars and lavish spending by the monarchy, led to rising taxes and widespread poverty among the common people.  \n- **Enlightenment Ideas**: Philosophers like Rousseau and Voltaire promoted concepts of liberty, equality, and popular sovereignty, inspiring demands for political reform.  \n- **Weak Monarchy**: King Louis XVI's inability to address financial issues and his resistance to reform fueled public discontent and loss of trust in the government.  \n- **Triggering Events**: The Estates-General meeting in 1789 and the subsequent formation of the National Assembly sparked the revolution, leading to the fall of the monarchy and the rise of democratic ideals.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 128,
+      "ttft_s": 0.022193552926182747,
+      "e2e_s": 2.4058336252346635,
+      "tok_s_effective": 53.20401155649945,
+      "decode_tok_s": 53.27985608037059,
+      "peak_mem_gib": 15.29069995880127,
+      "answer": "過学習は、モデルが訓練データに過度に適合し、新しいデータへの汎化性能が低下する現象である。これは、モデルがノイズや特殊なパターンを学習してしまうため起こる。過学習を防ぐには、データの増強、正則化（例：L2正則化）、早止（early stopping）、交差検証、バッチ正則化などの手法が有効である。また、モデルの複雑さを適切に制御し、十分なデータ量を確保することも重要である。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.022061871830374002,
+      "e2e_s": 4.88270875159651,
+      "tok_s_effective": 52.4299140136702,
+      "decode_tok_s": 52.46215294131159,
+      "peak_mem_gib": 15.310203075408936,
+      "answer": "以下は、Pythonで文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数の例です。簡単な説明も添えます。\n\n---\n\n### ✅ 関数の説明\n\nこの関数は以下の手順で動作します：\n\n1. **重複を除去**：`set` を使ってリストから重複を削除します。\n2. **リストに変換**：`set` は無秩序なデータ構造なので、`list` に変換してから並び替えます。\n3. **長さでソート**：`sorted()` 関数で、各文字列の長さを基準に昇順に並び替えます。\n\n---\n\n### 📌 関数のコード\n\n```python\ndef sort_strings_by_length(strings):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す。\n\n    Args:\n        strings (list): 文字列のリスト\n\n    Returns:\n        list: 重複を除き、長さ順に並べた文字列のリスト\n    \"\"\"\n    # ",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 256,
+      "ttft_s": 0.02235326822847128,
+      "e2e_s": 4.943239877931774,
+      "tok_s_effective": 51.78789747648441,
+      "decode_tok_s": 51.81993007056402,
+      "peak_mem_gib": 15.31116533279419,
+      "answer": "太郎と花子の年齢に関する問題を解いていきましょう。\n\n---\n\n### 与えられた条件：\n\n1. **太郎は花子より 3 歳年上**  \n2. **二人の年齢の和は 29 歳**\n\n---\n\n### 1. 太郎と花子の年齢を式で表す\n\n- 花子の年齢を $ x $ 歳とすると、  \n- 太郎の年齢は $ x + 3 $ 歳（花子より3歳年上）\n\n---\n\n### 2. 年齢の和が 29 なので、式を立てます\n\n$$\nx + (x + 3) = 29\n$$\n\n---\n\n### 3. 式を計算する\n\n$$\nx + x + 3 = 29 \\\\\n2x + 3 = 29 \\\\\n2x = 29 - 3 \\\\\n2x = 26 \\\\\nx = 13\n$$\n\n---\n\n### 4. 花子の現在の年齢\n\n$$\nx = 13 \\text{ 歳}\n$$\n\n",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 112,
+      "ttft_s": 0.0222494313493371,
+      "e2e_s": 2.1480122511275113,
+      "tok_s_effective": 52.141229614128214,
+      "decode_tok_s": 52.21654973323081,
+      "peak_mem_gib": 15.288503170013428,
+      "answer": "灯台守の佐藤は、夜の海に浮かぶ灯台で孤独に勤務していた。ある夜、不思議な手紙が届いた。それは、かつて灯台を守った父の手書きで、彼の名前を呼びながら、かつての事故の真相を告げる内容だった。佐藤は震えながら読み、心の奥に眠っていた記憶がよみがえった。灯台の光は、今や彼の心の灯りとなった。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 237,
+      "ttft_s": 0.021206149831414223,
+      "e2e_s": 4.519773750100285,
+      "tok_s_effective": 52.43625303030742,
+      "decode_tok_s": 52.46114340615772,
+      "peak_mem_gib": 15.30498456954956,
+      "answer": "- **外圧の増大（外国との不平等条約）**：蘭銀条約や日米修好通商条約など、外国との不平等条約によって国際的孤立と経済的劣位が深刻化した。  \n- **国内の混乱と統一の必要性**：江戸幕府の腐敗や地方の反乱（如くしの乱など）により、国家の統一と強化が急務となった。  \n- **西洋文明の影響（文明開化）**：欧米の技術・制度・思想が日本に流入し、国際競争力を高めるための改革が求められた。  \n- **天皇の権威の回復**：幕府の権限を縮小し、天皇を新たな国家の中心として再編成する必要性が生じた。  \n- **軍事的危機（ペリー来航）**：アメリカのペリー来航によって、日本の鎖国体制が崩壊し、国際社会への参入が迫られた。",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.02232867619022727,
+      "min": 0.021206149831414223,
+      "max": 0.024110977072268724,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 4.155126497102901,
+      "min": 2.1480122511275113,
+      "max": 4.945789284072816,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 52.27937122891257,
+      "min": 51.6419768802017,
+      "max": 53.20401155649945,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 52.32354517318278,
+      "min": 51.677368009614526,
+      "max": 53.27985608037059,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 217.1,
+      "min": 112,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 15.303419065475463,
+      "min": 15.288503170013428,
+      "max": 15.312541007995605,
+      "n": 10
+    }
+  }
+}

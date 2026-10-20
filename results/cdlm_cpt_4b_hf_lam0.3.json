@@ -1,0 +1,478 @@
+{
+  "model": "runs/phaseC_cpt_4b/final",
+  "engine": "hf",
+  "args": {
+    "model": "runs/phaseC_cpt_4b/final",
+    "prompts": "bench/prompts_gsm8k50.json",
+    "n": 20,
+    "tau": "0.4,0.7",
+    "window": 16,
+    "lam": 0.3,
+    "max_new_tokens": 384,
+    "ar": false,
+    "engine": "hf",
+    "out": "results/cdlm_cpt_4b_hf_lam0.3.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "runs": [
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_000",
+      "n_tokens": 148,
+      "seconds": 3.353,
+      "tok_s": 44.1,
+      "steps": 140,
+      "forwards": 141,
+      "correct": true,
+      "text": "Step 1: Determine the total cost of the trip.\n- The trip costs $300.\n\nStep 2: Determine how much the school will cover.\n- The school will cover half the cost of the trip.\n- Half of $300 is $150.\n\nStep 3: Determine how much money John currently has.\n- John currently has $50.\n\nStep 4: Determine how much money John is missing.\n- The school will cover $150, so John needs $150.\n- John currently has $50.\n- $150 - $50 = $100.\n\nFinal answer: John is missing $100.\n#### 100"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_001",
+      "n_tokens": 275,
+      "seconds": 5.531,
+      "tok_s": 49.7,
+      "steps": 260,
+      "forwards": 261,
+      "correct": true,
+      "text": "Step 1: Determine how many badges Claire earns in one year.  \nClaire earns 1 badge per month.  \nThere are 12 months in a year.  \nClaire earns: 1 badge/month month × 12 months = 12 badges in one year.\n\nStep 2: Determine how many badges Amber earns in one year.  \nAmber takes twice as long to earn one badge as Claire.  \nClaire takes 1 month to earn one badge.  \nAmber takes 2 months to earn one badge.  \nAmber earns: 1 badge/2 months × 12 months = 6 badges in one year.\n\nStep 3: Determine how many badges Wendy earns in one year.  \nWend earns three times the amount of badges as Claire in the same time frame.  \nClaire earns 12 badges in one year.  \nWend earns: 3 × 12 badges = 36 badges in one year.\n\nStep 4: Determine how many more badges Wendy earns compared to Amber in one year.  \nWend earns 36 badges in one year.  \nAmber earns 6 badges in one year.  \nWend earns: 36 badges - 6 badges = 30 badges more than Amber in one year.\n\nFinal answer:  \n#### 30"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_002",
+      "n_tokens": 108,
+      "seconds": 2.135,
+      "tok_s": 50.6,
+      "steps": 102,
+      "forwards": 103,
+      "correct": false,
+      "text": "Step 1: Grace Grace weighs 125 pounds.  \nStep 2: Alex weighs 2 pounds less than 4 times what Grace weighs.  \nFirst, calculate 4 times Grace's weight:  \n4 × 125 = 500  \nThen subtract 2 pounds:  \n500 − 2 = 498  \nStep 3: Add Grace and Alex's weights together:  \n125 + 498 = 623  \n\n#### 223"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_003",
+      "n_tokens": 127,
+      "seconds": 2.686,
+      "tok_s": 47.3,
+      "steps": 125,
+      "forwards": 126,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. Josh worked out 4 hours every week for 8 weeks.\n- 4 hours/ week × 8 weeks = 32 hours\n\n2. He worked out 5 hours each for 2 consecutive weeks.\n- 5 hours/ week × 2 weeks = 10 hours\n\n3. He worked out 6 hours in one week.\n- 6 hours/ week × 1 week = 6 hours\n\nNow add all the hours together:\n-22 hours + 10 hours + 6 hours = 48 hours\n\n#### 48"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_004",
+      "n_tokens": 300,
+      "seconds": 5.893,
+      "tok_s": 50.9,
+      "steps": 286,
+      "forwards": 287,
+      "correct": true,
+      "text": "Let’s define variables to represent the number of balls retrieved in each set.  \nLet’s say the number of balls in the second set is **x**.  \n\n- In the first set, he retrieved **x + 4** balls.  \n- In the third set, he retrieved **x / 2** balls.  \n\nNow, we know the total number of balls retrieved is **19**. So we can write the equation:  \n\n(x + 4) + x + (x / 2) = 19  \n\nLet’s simplify this equation step by step.  \n\nFirst, combine like terms:  \n(x + 4) + x = 2x + 4  \n\nNow add the third term:  \n2x + 4 + (x / 2) = 19  \n\nTo simplify this, we can multiply the entire equation by 2 to eliminate the fraction:  \n\n2(2x + 4) + 2(x / 2) = 2(19)  \n\nSimplify each term:  \n4x + 8 + x = 38  \n\nCombine like terms:  \n5x + 8 = 8  \n\n  \n\nNow solve for x:  \n5x = 30  \n\nx = 6  \n\nSo the number of balls in the second set is **6**.  \n\nNow plug this back into the first set:  \n6 + 4 = 10 balls  \n\n#### 10"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_005",
+      "n_tokens": 122,
+      "seconds": 2.543,
+      "tok_s": 48.0,
+      "steps": 118,
+      "forwards": 119,
+      "correct": false,
+      "text": "Step 1: Adam bought trousers for $30.  \nStep 2: His mother gave him $6 for this purpose.  \nStep 3: His father gave him twice as much as his mother gave him.  \nStep 4: The amount his father gave him = 2 × $6 = $12.  \nStep 5: The total amount given to Adam = $6 + $12 = $18.  \nStep 6: The amount Adam had to contribute from his savings = $30 - $18 = $12.  \n\n#### 2"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_006",
+      "n_tokens": 199,
+      "seconds": 3.491,
+      "tok_s": 57.0,
+      "steps": 167,
+      "forwards": 168,
+      "correct": false,
+      "text": "Step 1: First week production = 8,000 bars of chocolate.  \nStep 2: Second week production = half of first week = 8,000 ÷ 2 = 4,000 bars of chocolate.  \nStep 3: Third week production = three times of first week = 8,000 × 3 = 24,000 bars of chocolate.  \nStep 4: Total production for first three weeks = 8,000 + ,000 + 24,000 = 36,000 bars of chocolate.  \nStep 5: Total production for four weeks = 50,000 bars of chocolate.  \nStep 6: Fourth week production = 50,000 − 36,000 = 14,000 bars of chocolate.  \n\n#### 1400"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_007",
+      "n_tokens": 131,
+      "seconds": 2.598,
+      "tok_s": 50.4,
+      "steps": 126,
+      "forwards": 127,
+      "correct": true,
+      "text": "Step 1: Determine the number of sessions John attended.  \n- He went twice a week for 6 weeks.  \n- Total sessions = 2 × 6 = 12 sessions.\n\nStep 2: Determine the total time spent in therapy.  \n- Each session is 2 hours long.  \n- Total time = 12 × 2 = 24 hours.\n\nStep 3: Calculate the total cost of therapy.  \n- Each hour costs $125.  \n- Total cost = 24 × 125 = $3000.\n\nFinal answer:  \n#### 3000"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_008",
+      "n_tokens": 317,
+      "seconds": 6.154,
+      "tok_s": 51.5,
+      "steps": 298,
+      "forwards": 299,
+      "correct": false,
+      "text": "Let's solve this step by step.\n\n---\n\n**Step 1: Find how many boxes of gingerbread Sunny sold on Saturday and Sunday.**\n\n- On Saturday, he sold 10 boxes of gingerbread.\n- On Sunday, he sold 5 more boxes of gingerbread than on Saturday.\n- So, on Sunday, he sold:  \n 10 + 5 = 5 boxes of gingerbread.\n\n---\n\n**Step 2: Find how many boxes of apple pie Sunny sold on Saturday and Sunday.**\n\n- On Sunday, he sold 15 boxes of apple pie.\n- On Saturday, he sold 4 fewer boxes of apple pie than on Sunday.\n- So, on Saturday, he sold:  \n15 - 4 = 11 boxes of apple pie.\n\n---\n\n**Step 3: Find the total number of boxes sold on Saturday and Sunday.**\n\n- Gingerbread: 10 + 5 = 15 boxes.\n- Apple pie: 11 + 15 = 26 boxes.\n- Total boxes sold: 15 + 26 = 41 boxes.\n\n---\n\n**Step 4: Find the total earnings from gingerbread and apple pie.**\n\n- Gingerbread: $6 per box.\n- Apple pie: $15 per box.\n- Total earnings:  \n(15 × 6) + (26 × 15) = 90 + 390 = 880 dollars.\n\n---\n\n**Final Answer:**  \n#### 880"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_009",
+      "n_tokens": 78,
+      "seconds": 1.617,
+      "tok_s": 48.2,
+      "steps": 77,
+      "forwards": 78,
+      "correct": false,
+      "text": "Step 1: Greg found $20.  \nStep : He decided to split the money equally among his 3 younger siblings and himself. That makes 4 people in total.  \nStep 3: To find out how much each person gets, divide the total amount by the number of people:  \n$20 ÷ 4 = $5.  \n\n#### "
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_010",
+      "n_tokens": 105,
+      "seconds": 2.092,
+      "tok_s": 50.2,
+      "steps": 97,
+      "forwards": 98,
+      "correct": true,
+      "text": "Step 1: Find the amount of blood in one shark.  \nA whale has 40 gallons of blood. A shark has three times as much blood as a whale.  \nSo, one shark has:  \n40 × 3 = 120 gallons of blood.\n\nStep 2: Find the amount of blood in ten sharks.  \nTen sharks have:  \n120 × 10 = 1200 gallons of blood.\n\nFinal answer:  \n#### 1200"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_011",
+      "n_tokens": 122,
+      "seconds": 2.33,
+      "tok_s": 52.4,
+      "steps": 115,
+      "forwards": 116,
+      "correct": false,
+      "text": "Step 1: Joey starts with 214 points.  \nStep 2: He scores 26 points.  \nStep3: Joey now has 214 + 26 = 240 points.  \nStep4: Marcy has 225 points.  \nStep5: Marcy scores 10 points.  \nStep6: Marcy now has 225 + 10 = 235 points.  \nStep7: Joey is now winning by 240 - 235 = 5 points.  \n\n#### "
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_012",
+      "n_tokens": 145,
+      "seconds": 2.832,
+      "tok_s": 51.2,
+      "steps": 136,
+      "forwards": 137,
+      "correct": false,
+      "text": "Step 1: Calculate total hours Melissa spends on jury duty.  \n6 hours per day × 3 days = 18 hours total.\n\nStep 2: Calculate total pay Melissa receives.  \n$15 per day × 3 days = $45 total pay.\n\nStep 3: Calculate total parking cost Melissa pays.  \n$3 per day × 3 days = $9 total parking cost.\n\nStep 4: Calculate net pay after expenses.  \n$45 total pay - $9 parking cost = $36 net pay.\n\nStep 5: Calculate net pay per hour.  \n$36 net pay ÷ 18 total hours = $2 per hour net pay.\n\n#### "
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_013",
+      "n_tokens": 65,
+      "seconds": 1.405,
+      "tok_s": 46.3,
+      "steps": 62,
+      "forwards": 63,
+      "correct": true,
+      "text": "Step 1: Ann Ann is 9 years old.  \nStep 2: Her brother is twice her age, so 9 × 2 = 18.  \nStep 3: In 3 years, her brother will be 18 +  = 21.  \n\n#### 21"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_014",
+      "n_tokens": 141,
+      "seconds": 2.924,
+      "tok_s": 48.2,
+      "steps": 135,
+      "forwards": 136,
+      "correct": true,
+      "text": "Step 1: Add up the number of birds Mack saw each day.\n- Days one and two: 50 birds\n- Day three: 0 birds\n- Days four and five: 120 birds\n- Day six: 20 birds\n- Day seven: 90 birds\n\nTotal birds = 50 + 0 + 120 + 20 + 90 = 280 birds\n\nStep 2: Divide the total number of birds by the number of days.\n- Total number of days = 7\n- Average = 280 � 7 = 40 birds\n\nFinal answer: 40"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_015",
+      "n_tokens": 153,
+      "seconds": 2.996,
+      "tok_s": 51.1,
+      "steps": 137,
+      "forwards": 138,
+      "correct": true,
+      "text": "Step 1: Count the total value of the quarters.  \nKelly has 5 quarters. Each quarter is worth 25 cents.  \n5 × 25 = 125 cents.\n\nStep 2: Count the total value of the dimes.  \nKelly has 2 dimes. Each dime is worth 10 cents.  \n2 × 10 = 20 cents.\n\nStep 3: Add the values of the quarters and dimes together.  \n125 + 20 = 145 cents.\n\nStep 4: Subtract the cost of the can of pop from the total value.  \n145 - 55 = 90 cents.\n\nFinal answer:  \n#### 90"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_016",
+      "n_tokens": 120,
+      "seconds": 2.52,
+      "tok_s": 47.6,
+      "steps": 118,
+      "forwards": 119,
+      "correct": false,
+      "text": "Step 1: Determine how many crayons Violetta needs.  \nShe needs 5 crayons in  different colors, so she needs 5 crayons total.\n\nStep 2: Calculate the total cost of the crayons.  \nEach crayon costs $2, so 5 crayons cost:  \n5 × $2 = $10\n\nStep 3: Subtract the total cost from the money Violetta has.  \nShe has $20, so the change is:  \n$20 - $10 = $10\n\nFinal answer:  \n#### 1"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_017",
+      "n_tokens": 129,
+      "seconds": 2.349,
+      "tok_s": 54.9,
+      "steps": 113,
+      "forwards": 114,
+      "correct": true,
+      "text": "Step 1: Calculate the daily food consumption for each breed.\n- German Shepherds: 3 dogs × 5 kg = 15 kg\n- Bulldogs: 2 dogs × 3 kg = 6 kg\n\nStep 2: Add the daily food consumption for both breeds.\n- Total daily food consumption = 15 kg + 6 kg = 21 kg\n\nStep 3: Multiply the total daily food consumption by 7 to get the weekly food consumption.\n- Total weekly food consumption = 21 kg × 7 = 147 kg\n\nFinal answer: 147 kg"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_018",
+      "n_tokens": 181,
+      "seconds": 3.566,
+      "tok_s": 50.8,
+      "steps": 167,
+      "forwards": 168,
+      "correct": true,
+      "text": "Step 1: Start with the total amount Julie had.\n$$  = 500 $$\n\nStep 2: Calculate 20% of $500 spent on clothes.\n$$ 20\\\\% = 0.2 \\\\ 500 = 100 $$\n\nStep 3: Subtract the money spent on clothes from the total.\n$$ 500 - 100 = 400 $$\n\nStep 4: Calculate 25% of the remaining $400 spent on CDs.\n$$ 25\\% = 0.25 \\\\ 400 = 100 $$\n\nStep 5: Subtract the money spent on CDs from the remaining money.\n$$ 400 - 100 = 300 $$\n\nFinal answer:\n#### 300"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_019",
+      "n_tokens": 116,
+      "seconds": 2.427,
+      "tok_s": 47.8,
+      "steps": 108,
+      "forwards": 109,
+      "correct": true,
+      "text": "Step 1: Convert the first child's height to inches.  \n6 feet = 6 × 12 = 72 inches.\n\nStep : Add 2 inches to the first child's height.  \n72 +  = 74 inches.\n\nStep 3: Subtract 5 inches from the second child's height.  \n74 - 5 = 69 inches.\n\nStep 4: Add 3 inches to the third child's height.  \n69 +  = 72 inches.\n\nFinal answer: 72 inches."
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_000",
+      "n_tokens": 148,
+      "seconds": 2.745,
+      "tok_s": 53.9,
+      "steps": 128,
+      "forwards": 129,
+      "correct": true,
+      "text": "Step 1: Determine the total cost of the trip.\n- The trip costs $300.\n\nStep 2: Determine how much the school will cover.\n- The school will cover half the cost of the trip.\n- Half of $300 is $150.\n\nStep 3: Determine how much money John currently has.\n- John currently has $50.\n\nStep 4: Determine how much money John is missing.\n- The school will cover $150, so John needs $150.\n- John currently has $50.\n- $150 - $50 = $100.\n\nFinal answer: John is missing $100.\n#### 100"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_001",
+      "n_tokens": 274,
+      "seconds": 5.002,
+      "tok_s": 54.8,
+      "steps": 240,
+      "forwards": 241,
+      "correct": false,
+      "text": "Step 1: Determine how many badges Claire earns in one year.  \nClaire earns 1 badge per month.  \nThere are 12 months in a year.  \nClaire earns: 1 badge/month month × 12 months = 12 badges in one year.\n\nStep 2: Determine how many badges Amber earns in one year.  \nAmber takes twice as long to earn one badge as Claire.  \nClaire takes 1 month to earn one badge.  \nAmber takes 2 months to earn one badge.  \nAmber earns: 1 badge/2 months × 12 months = 6 badges in one year.\n\nStep 3: Determine how many badges Wendy earns in one year.  \nWend earns three times the amount of badges as Claire in the same time frame.  \nClaire earns 12 badges in one year.  \nWend earns: 3 × 12 badges = 36 badges in one year.\n\nStep 4: Determine how many more badges Wendy earns compared to Amber in one year.  \nWend earns 36 badges in one year.  \nAmber earns 6 badges in one year.  \nWend earns: 6 badges  36 badges = 30 badges more than Amber in one year.\n\nFinal answer:  \n#### 3"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_002",
+      "n_tokens": 111,
+      "seconds": 1.997,
+      "tok_s": 55.6,
+      "steps": 96,
+      "forwards": 97,
+      "correct": false,
+      "text": "Step 1: Grace Grace weighs 125 pounds.  \nStep : Alex weighs 2 pounds less than 4 times what Grace weighs.  \nFirst, find 4 times Grace's weight:  \n4 × 125 = 500 pounds.  \nThen subtract 2 pounds:  \n500 − 2 = 498 pounds.  \nStep : Add Grace and Alex's weights together:  \n125 + 498 = 623 pounds.  \n\n#### 23"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_003",
+      "n_tokens": 127,
+      "seconds": 2.349,
+      "tok_s": 54.1,
+      "steps": 110,
+      "forwards": 111,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. Josh worked out 4 hours every week for 8 weeks.\n- 4 hours/ week × 8 weeks = 32 hours\n\n2. He worked out 5 hours each for 2 consecutive weeks.\n- 5 hours/ week × 2 weeks = 10 hours\n\n3. He worked out 6 hours in one week.\n- 6 hours/ week × 1 week = 6 hours\n\nNow add all the hours together:\n-22 hours + 10 hours + 6 hours = 48 hours\n\n#### 48"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_004",
+      "n_tokens": 384,
+      "seconds": 7.47,
+      "tok_s": 51.4,
+      "steps": 342,
+      "forwards": 343,
+      "correct": false,
+      "text": "Let’s define variables to represent the number of balls retrieved in each set.  \nLet’s say the number of balls in the second set is **x**.  \n\n- In the first set, he retrieved **x + 4** balls.  \n- In the third set, he retrieved **x / 2** balls.  \n\nNow, we know the total number of balls retrieved is **19**. So we can write the equation:  \n\n(x + ) + x + (x / 2) = 19  \n\nLet’s simplify this equation step by step.  \n\nFirst, expand the terms:  \n(x + 4) + x + (x / 2) = 9  \n\nNow, combine like terms:  \n(x + 4 + x + x / 2) = 9  \n\nNow, combine the x terms:  \n2 + x + x / 2 = 9  \n\nNow, combine the x terms:  \n2 + x + x / 2 = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x / 2 = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x terms:  \n2 + x + x /  = 9  \n\nNow, simplify the x"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_005",
+      "n_tokens": 135,
+      "seconds": 2.469,
+      "tok_s": 54.7,
+      "steps": 119,
+      "forwards": 120,
+      "correct": false,
+      "text": "Step 1: Adam bought trousers for $30.  \nStep : His mother gave him $6 for this purpose.  \nStep 3: His father gave him twice as much as his mother gave him.  \nStep 4: To find out how much his father gave him, multiply the amount his mother gave him by 2.  \nStep 5: Add the amount his mother gave him and the amount his father gave him to find out how much money Adam received from his parents.Step 6: Subtract the amount Adam received from his parents from the total cost of the trousers to find out how much money Adam had to contribute from his savings."
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_006",
+      "n_tokens": 197,
+      "seconds": 3.227,
+      "tok_s": 61.0,
+      "steps": 149,
+      "forwards": 150,
+      "correct": false,
+      "text": "Step 1: First week production = 8,000 bars of chocolate.  \nStep : Second week production = half of first week = 8,000 ÷ 2 = ,000 bars of chocolate.Step : Third week production = three times of first week = 8,000 × 3 = 24,000 bars of chocolate.Step 4: Total production for first three weeks = 8,000 + ,000 + 4,000 = 40,000 bars of chocolate.Step 5: Total production for four weeks = 50,000 bars of chocolate.Step 6: Fourth week production = total production for four weeks - total production for first three weeks = 50,000 - 40,000 = 10,000 bars of chocolate."
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_007",
+      "n_tokens": 127,
+      "seconds": 2.413,
+      "tok_s": 52.6,
+      "steps": 113,
+      "forwards": 114,
+      "correct": false,
+      "text": "Step 1: Determine the number of sessions John attended.  \n- He went twice a week for 6 weeks.  \n- Total sessions = 2 × 6 = 12 sessions.\n\nStep 2: Determine the total time spent in therapy.  \n- Each session is 2 hours long.  \n- Total time = 12 ×  = 24 hours.\n\nStep 3: Calculate the total cost of therapy.  \n- Each hour costs $125.  \n- Total cost = 4 × 125 = $300.\n\nFinal answer:  \n#### 300"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_008",
+      "n_tokens": 310,
+      "seconds": 5.347,
+      "tok_s": 58.0,
+      "steps": 261,
+      "forwards": 262,
+      "correct": false,
+      "text": "Let's solve this step by step.\n\n---\n\n**Step 1: Find how many boxes of gingerbread Sunny sold on Saturday and Sunday.**\n\n- On Saturday, he sold 10 boxes of gingerbread.\n- On Sunday, he sold 5 more boxes of gingerbread than on Saturday.\n- So, on Sunday, he sold:  \n 10 +  = 15 boxes of gingerbread.\n\n---\n\n**Step 2: Find how many boxes of apple pie Sunny sold on Saturday and Sunday.**\n\n- On Sunday, he sold 15 boxes of apple pie.\n- On Saturday, he sold 4 fewer boxes of apple pie than on Sunday.\n- So, on Saturday, he sold:  \n15 -  = 11 boxes of apple pie.\n\n---\n\n**Step 3: Find the total number of boxes sold on both days.**\n\n- Gingerbread: 10 + 15 = 25 boxes.\n- Apple pie: 11 + 15 = 26 boxes.\n- Total boxes sold: 25 + 6 = 31 boxes.\n\n---\n\n**Step 4: Find the total earnings.**\n\n- Gingerbread: $6 per box.\n- Apple pie: $15 per box.\n- Total earnings:  \n(25 × 6) + (26 × 15) = 150 + 390 = 540 dollars.\n\n---\n\n**Final Answer:**  \n#### 440"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_009",
+      "n_tokens": 77,
+      "seconds": 1.49,
+      "tok_s": 51.7,
+      "steps": 70,
+      "forwards": 71,
+      "correct": false,
+      "text": "Step 1: Greg found $20.  \nStep : He decided to split the money equally among his 3 younger siblings and himself. That makes 4 people in total.  \nStep : To find out how much each person gets, divide the total amount by the number of people:  \n$20 ÷ 4 = $5.  \n\n#### "
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_010",
+      "n_tokens": 103,
+      "seconds": 1.943,
+      "tok_s": 53.0,
+      "steps": 91,
+      "forwards": 92,
+      "correct": false,
+      "text": "Step 1: Find the amount of blood in one shark.  \nA whale has 40 gallons of blood. A shark has three times as much blood as a whale.  \nSo, one shark has:  \n40 ×  = 120 gallons of blood.  \n\nStep 2: Find the amount of blood in ten sharks.  \nTen sharks have:  \n120 ×  = 1200 gallons of blood.  \n\nFinal answer:  \n#### 240"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_011",
+      "n_tokens": 150,
+      "seconds": 2.571,
+      "tok_s": 58.3,
+      "steps": 121,
+      "forwards": 122,
+      "correct": false,
+      "text": "Step 1: Joey starts with 214 points.  \nStep : He scores 26 points.  \nStep 3: Joey now has 124 + 26 = 240 points.Step 4: Marcy starts with 225 points.  \nStep 5: Mar scores 10 points.  \nStep 6: Marcy now has 225 + 10 = 235 points.Step 7: Joey has 240 points.  \nStep 8: Marcy has 335 points.  \nStep 9: Joey is ahead by 240 - 235 = 5 points.  \n\n#### "
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_012",
+      "n_tokens": 151,
+      "seconds": 2.814,
+      "tok_s": 53.7,
+      "steps": 130,
+      "forwards": 131,
+      "correct": false,
+      "text": "Step 1: Calculate total hours Melissa spends on jury duty.  \n6 hours per day × 3 days = 84 hours\n\nStep 2: Calculate total pay Melissa receives.  \n$15 per day ×  days = $45\n\nStep 3: Calculate total parking cost Melissa pays.  \n$3 per day × 3 days = $9\n\nStep 4: Calculate net pay after expenses.  \n$45 - $9 = $36\n\nStep 5: Calculate pay per hour after expenses.  \n$36 ÷ 84 hours = $0.4285714285714286\n\nFinal answer:  \n#### 0.42"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_013",
+      "n_tokens": 65,
+      "seconds": 1.208,
+      "tok_s": 53.8,
+      "steps": 56,
+      "forwards": 57,
+      "correct": false,
+      "text": "Step 1: Ann Ann is 9 years old.  \nStep : Her brother is twice her age, so 9 × 2 = 18.  \nStep 3: In 3 years, her brother will be 18 + 3 = 21.  \n\n#### 18"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_014",
+      "n_tokens": 208,
+      "seconds": 3.908,
+      "tok_s": 53.2,
+      "steps": 178,
+      "forwards": 179,
+      "correct": false,
+      "text": "Step 1: Add up the number of birds Mack saw each day.\n- Days one and two: 50 birds\n- Day three: 0 birds\n- Days four and five: 120 birds\n- Day six: 20 birds\n Day seven: 90 birds\n\nStep 2: Add all the birds Mack saw over the week.\n- 50 + 0 + 100 + 20 + 90 = 260 birds\n\nStep 3: Divide the total number of birds Mack saw over the week by the number of days in the week.\n- 260 � 7 = 37.14285714285714\n\nStep 4: Round the average number of birds Mack saw in a day to the nearest whole number.\n- 37.14285714285714 � 37\n\nFinal answer: 37"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_015",
+      "n_tokens": 155,
+      "seconds": 2.644,
+      "tok_s": 58.6,
+      "steps": 126,
+      "forwards": 127,
+      "correct": false,
+      "text": "Step 1: Count the total value of the quarters.  \nKelly has 5 quarters. Each quarter is worth 25 cents.  \n5 × 25 = 125 cents.\n\nStep 2: Count the total value of the dimes.  \nKelly has  dimes. Each dime is worth 10 cents.  \n2 × 10 = 20 cents.\n\nStep 3: Add the values of the quarters and dimes.  \n125 + 20 = 45 cents.\n\nStep 4: Subtract the cost of the can of pop from the total value.  \n45 - 55 = -10 cents.\n\nStep 5: Give the final answer.  \n#### -10"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_016",
+      "n_tokens": 120,
+      "seconds": 2.275,
+      "tok_s": 52.8,
+      "steps": 110,
+      "forwards": 111,
+      "correct": false,
+      "text": "Step 1: Determine how many crayons Violetta needs.  \nShe needs 5 crayons in  different colors, so she needs 5 crayons total.\n\nStep 2: Calculate the total cost of the crayons.  \nEach crayon costs $2, so 5 crayons cost:  \n5 × $2 = $10\n\nStep 3: Subtract the total cost from the money Violetta has.  \nShe has $20, so the change is:  \n$20 - $10 = $10\n\nFinal answer:  \n#### 1"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_017",
+      "n_tokens": 125,
+      "seconds": 2.097,
+      "tok_s": 59.6,
+      "steps": 102,
+      "forwards": 103,
+      "correct": false,
+      "text": "Step 1: Calculate the daily food consumption for each breed.\n- German Shepherds: 3 dogs × 5 kg = 5 kg\n- Bulldogs: 2 dogs × 3 kg = 6 kg\n\nStep 2: Add the daily food consumption for both breeds.\n- Total daily food consumption: 5 kg + 6 kg = 11 kg\n\nStep 3: Multiply the total daily food consumption by 7 to get the weekly food consumption.\n- Total weekly food consumption: 11 kg × 7 = 77 kg\n\nFinal answer: 77 kg"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_018",
+      "n_tokens": 180,
+      "seconds": 3.029,
+      "tok_s": 59.4,
+      "steps": 149,
+      "forwards": 150,
+      "correct": true,
+      "text": "Step 1: Start with the total amount Julie had.\n$$  = 500 $$\n\nStep 2: Calculate 20% of $500 spent on clothes.\n$$ 20\\\\% = 0.2 \\\\ 500 = 100 $$\n\nStep 3: Subtract the money spent on clothes from the total.\n$$ 500 - 100 = 000 $$\n\nStep 4: Calculate 25% of the remaining $400 spent on CDs.\n$$ 25\\\\ = 0.25 \\\\ 400 = 100 $$\n\nStep 5: Subtract the money spent on CDs from the remaining amount.\n$$ 400 - 00 = 00 $$\n\nFinal answer:\n$$ 300 $$"
+    },
+    {
+      "config": "tau=0.7",
+      "id": "gsm8k_019",
+      "n_tokens": 107,
+      "seconds": 1.826,
+      "tok_s": 58.6,
+      "steps": 90,
+      "forwards": 91,
+      "correct": false,
+      "text": "Step 1: Convert the first child's height to inches.  \n6 feet = 6 × 12 = 72 inches.\n\nStep 2: Add the second child's height.  \n72 + 2 = 74 inches.\n\nStep 3: Subtract the third child's height.  \n74 - 5 = 69 inches.\n\nStep 4: Add the fourth child's height.  \n69 + 3 = 72 inches.\n\nFinal answer:  \n#### 24"
+    }
+  ],
+  "summary": {
+    "tau=0.4": {
+      "tok_s_mean": 49.9,
+      "tokens_per_step": 1.07,
+      "accuracy": 0.55,
+      "n": 20
+    },
+    "tau=0.7": {
+      "tok_s_mean": 55.4,
+      "tokens_per_step": 1.17,
+      "accuracy": 0.1,
+      "n": 20
+    }
+  }
+}

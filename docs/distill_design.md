@@ -285,3 +285,47 @@ because the static step attends over the whole 4 096-slot cache every step; they
 conversion training (next run) produces a confident mask predictor. Also to check: τ=0.4 accuracy differs between the HF
 decoder (0.6) and the own engine (0.3) on these 10 prompts — bf16 differences flip threshold decisions; a bf16 GPU
 token-identity test is pending (CPU float32 identity holds).
+
+### 10.3 Phase C stage 1 (continued pretraining conversion) — measured 2026-10-20 17:16–17:40
+
+Run: `distill/configs/phaseC_cpt_4b_3gpu.yaml`, Phase B 4B student → dual-stream causal-diffusion objective on 60 M
+logical tokens of FineWeb-Edu + FineWeb-2 JA (58 594 sequences of 1 024, 2 442 steps, 3 × A100 DDP, 3 h 51 min,
+4.6 k logical tok/s aggregate, 43.5 GiB per rank, no OOM). MLM loss 12.4 → 3.7–3.9 (plateau from step ~500), AR loss
+2.3–2.6 throughout (raw text).
+
+Diffusion decoding of the result (`bench/run_cdlm.py`, HF-cache decoder, 20 GSM8K prompts, window 16, idle GPU 4):
+
+| Decoding | accuracy (20) | tokens/step | tok/s |
+|---|---|---|---|
+| AR rows (HF greedy) | 90 % | 1.00 | 54.2 |
+| τ=None (one mask per step) | **80 %** (shakedown: 60 %) | 0.99 | 47.0 |
+| τ=0.4, λ=0.02 | 10 % | 1.14 | 54.4 |
+| τ=0.7, λ=0.02 | 0 % | 1.23 | 60.4 |
+| τ=1.0, λ=0.02 | 0 % | 1.34 | 64.1 |
+| τ=0.4, λ=0.1 | 20 % | 1.12 | 47.4 |
+| τ=0.4, λ=0.3 | 55 % | 1.07 | 49.9 |
+
+Reading: 60 M tokens of CPT bring the mask predictor close to the AR rows at one token per step (80 % vs 90 %), but
+parallel filling still breaks answers: the typical failure is a multi-token number filled as independent masks
+("#### 10" for 100), i.e. the conditional-independence problem that WeDLM's distance penalty and far more training
+address. A larger λ trades the parallelism back for accuracy. The exactness gate (τ=None identical to AR) is still
+0/20. Next: stage 2 on the medium teacher set (`phaseC_sft_4b.yaml`, queued on GPU 7), then more CPT tokens if the
+budget allows; decoding-side: confidence rules that forbid filling adjacent masks in one step unless both clear a
+stricter threshold.
+
+### 10.4 Idle-GPU re-measurement of the LLaDA-8B engines (`bench/phase2_idle.sh`, GPU 7, 256 tokens, 10 prompts)
+
+| Engine / configuration | effective tok/s | raw tok/s |
+|---|---|---|
+| LLaDA official sampler, 256 steps | 19.9 | 24.1 |
+| our engine, fixed 256 steps, no cache (parity) | 19.4 | 24.3 |
+| Fast-dLLM v1 dual cache, thr 0.9 | 47.9 | 69.2 |
+| Fast-dLLM v2 (Qwen2.5-7B block diffusion), thr 0.9 | 79.2 | – |
+| **our engine, thr 0.9 + prefix/block cache** | **74.8** | **106.7** |
+| our engine, thr 0.9 + cache + CUDA graphs | 59.2 | 84.5 |
+| our engine, thr 0.9 + cache + CUDA graphs + EOS stop | 60.2 | 86.9 |
+| Qwen3-8B HF greedy (AR) | 52.3 | – |
+
+Correction to the morning's log: the CUDA-graph path is **slower** than the plain cached path on an idle GPU (it
+attends over the full 4 096-slot cache every step, like the cdlm static path); the earlier "171 raw / 145 effective"
+graph figure does not reproduce and is withdrawn. Accuracy of the graph+EOS configuration is unaffected (GSM8K-50 88 %).
