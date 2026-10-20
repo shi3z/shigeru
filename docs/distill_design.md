@@ -405,4 +405,6 @@ Negative result (both sizes): 9× more teacher data (same recipe, lr 1e-4, 2 epo
 pilot and cost 4 more HumanEval points. Candidate causes, to be tested with the 8B numbers in hand: the LoRA recipe
 over-fits style with more epochs' worth of steps (216 steps vs 24), the teacher's code answers (full programs from prose
 problems) are a format mismatch with HumanEval (completion of a signature + docstring), and category balance
-(math 678 of 1 904). Planned: lr 5e-5 / 1 epoch variant, a code subset in completion format, and per-category ablations.
+(math 678 of 1 904). Ablation 1 (lr 5e-5, 1 epoch, 108 steps): GSM8K-50 92 %, HumanEval **71.3 %** — the gentler recipe does not recover
+code, so the cause is the data, not the number of steps. Ablation 2 (queued on GPU 7): same recipe without the 325 code
+items, to test whether the teacher's code answers themselves cause the regression.
