@@ -19,4 +19,4 @@ On this machine GPUs 0-3 and 4/6/7 are taken by other services; experiments star
 ## Setup
     uv venv --python 3.12 .venv && source .venv/bin/activate
     uv pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
-    uv pip install "transformers>=4.51" accelerate safetensors sentencepiece huggingface_hub numpy tqdm fastapi uvicorn
+    uv pip install "transformers==4.57.*"  # 5.x breaks LLaDA remote code accelerate safetensors sentencepiece huggingface_hub numpy tqdm fastapi uvicorn
