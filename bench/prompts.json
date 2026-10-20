@@ -1,0 +1,12 @@
+[
+  {"id": "en_explain", "lang": "en", "prompt": "Explain how a hash table works and when its performance degrades. Keep it under 200 words."},
+  {"id": "en_code", "lang": "en", "prompt": "Write a Python function that returns the n-th Fibonacci number using an iterative approach, with a docstring and two usage examples."},
+  {"id": "en_reason", "lang": "en", "prompt": "A train leaves city A at 9:00 traveling 80 km/h toward city B, 300 km away. Another train leaves B at 9:30 toward A at 100 km/h. When and where do they meet? Show your reasoning."},
+  {"id": "en_story", "lang": "en", "prompt": "Write a short story (about 150 words) about a lighthouse keeper who receives an unexpected letter."},
+  {"id": "en_summary", "lang": "en", "prompt": "Summarize the main causes of the French Revolution in five bullet points."},
+  {"id": "ja_explain", "lang": "ja", "prompt": "機械学習における過学習とは何か、どのように防ぐかを 200 字程度で説明してください。"},
+  {"id": "ja_code", "lang": "ja", "prompt": "Python で、文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数を書いてください。簡単な説明も添えてください。"},
+  {"id": "ja_reason", "lang": "ja", "prompt": "太郎は花子より 3 歳年上で、二人の年齢の和は 29 です。5 年後の花子の年齢を、途中の計算を示して求めてください。"},
+  {"id": "ja_story", "lang": "ja", "prompt": "灯台守が思いがけない手紙を受け取る、150 字程度の短い物語を書いてください。"},
+  {"id": "ja_summary", "lang": "ja", "prompt": "明治維新の主な要因を 5 つの箇条書きでまとめてください。"}
+]
