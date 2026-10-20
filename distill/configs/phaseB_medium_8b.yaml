@@ -1,0 +1,15 @@
+# Phase B medium: LoRA SFT of Qwen3-8B on the Phase A medium set (~2 000 items).
+model: /mnt/ssd/models/hf/Qwen3-8B
+data_train: data/distill/phaseA_medium_train.jsonl
+data_val: data/distill/phaseA_medium_val.jsonl
+out_dir: runs/phaseB_medium_8b
+lora: {r: 32, alpha: 64, dropout: 0.05}
+max_len: 2048
+lr: 1e-4
+epochs: 2
+batch: 2
+grad_accum: 8
+seed: 0
+save_steps: 50
+eval_steps: 25
+merge: true
