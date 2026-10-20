@@ -39,6 +39,7 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 * gsm8k50_qwen3_8b_idle.json: 84% (50), 50.3 tok/s effective
 
 ### HumanEval pass@1
+* humaneval_fastdllm_v1_t0.9.json: 39.0% (164 problems)
 * humaneval_llada_official.json: 41.5% (164 problems)
 * humaneval_ours_t0.9_graph.json: 37.8% (164 problems)
 * humaneval_phaseB_pilot_4b.json: 76.2% (164 problems)
