@@ -1,0 +1,101 @@
+{
+ "config": {
+  "model": "/mnt/raid6/models/hf/Qwen3-4B",
+  "data_train": "data/distill/phaseA_small_train.jsonl",
+  "data_val": "data/distill/phaseA_small_val.jsonl",
+  "out_dir": "runs/phaseB_pilot_4b",
+  "lora": {
+   "r": 32,
+   "alpha": 64,
+   "dropout": 0.05
+  },
+  "max_len": 2048,
+  "lr": "1e-4",
+  "epochs": 2,
+  "batch": 4,
+  "grad_accum": 4,
+  "seed": 0,
+  "save_steps": 50,
+  "eval_steps": 25,
+  "merge": true
+ },
+ "config_path": "distill/configs/phaseB_pilot_4b.yaml",
+ "git_commit": "ca529cb",
+ "cuda_visible_devices": [
+  "4"
+ ],
+ "physical_gpus_used": [
+  4
+ ],
+ "gpu_name": "NVIDIA A100 80GB PCIe",
+ "n_train": 185,
+ "n_val": 10,
+ "train_seconds": 124.1,
+ "peak_vram_gib": 12.34,
+ "log_history": [
+  {
+   "loss": 1.7014814376831056,
+   "grad_norm": 0.5309838652610779,
+   "learning_rate": 9.330127018922194e-05,
+   "entropy": 0.8628521263599396,
+   "mean_token_accuracy": 0.6664063572883606,
+   "num_tokens": 47093.0,
+   "epoch": 0.425531914893617,
+   "step": 5
+  },
+  {
+   "loss": 1.284264087677002,
+   "grad_norm": 0.5220097899436951,
+   "learning_rate": 6.91341716182545e-05,
+   "entropy": 1.1377956308424473,
+   "mean_token_accuracy": 0.7317737579345703,
+   "num_tokens": 87100.0,
+   "epoch": 0.851063829787234,
+   "step": 10
+  },
+  {
+   "loss": 1.4710377693176269,
+   "grad_norm": 0.37653648853302,
+   "learning_rate": 3.705904774487396e-05,
+   "entropy": 1.5227947266478288,
+   "mean_token_accuracy": 0.6912378292334708,
+   "num_tokens": 129430.0,
+   "epoch": 1.2553191489361701,
+   "step": 15
+  },
+  {
+   "loss": 1.3247600555419923,
+   "grad_norm": 0.365545392036438,
+   "learning_rate": 1.0332332985438248e-05,
+   "entropy": 1.3190535336732865,
+   "mean_token_accuracy": 0.7079589873552322,
+   "num_tokens": 176565.0,
+   "epoch": 1.6808510638297873,
+   "step": 20
+  },
+  {
+   "eval_loss": 1.511771559715271,
+   "eval_runtime": 1.4683,
+   "eval_samples_per_second": 6.811,
+   "eval_steps_per_second": 1.362,
+   "eval_entropy": 1.2848286628723145,
+   "eval_mean_token_accuracy": 0.7026205658912659,
+   "eval_num_tokens": 204208.0,
+   "epoch": 2.0,
+   "step": 24
+  },
+  {
+   "train_runtime": 123.7378,
+   "train_samples_per_second": 2.99,
+   "train_steps_per_second": 0.194,
+   "total_flos": 8023550848822272.0,
+   "train_loss": 1.4033507704734802,
+   "epoch": 2.0,
+   "step": 24
+  }
+ ],
+ "finished_at": "2026-10-20T09:40:19",
+ "trainable_params": 66060288,
+ "total_params": 4088528384,
+ "merged_dir": "/mnt/ssdraid/project/open-mercury/runs/phaseB_pilot_4b/merged"
+}

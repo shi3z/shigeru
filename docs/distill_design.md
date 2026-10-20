@@ -223,7 +223,24 @@ the teacher service.
 | Qwen3-4B AR speed | 30 tok/s | **not a valid speed measurement**: GPU 5 was at 99 % utilization from other tenants; to be redone on an idle GPU |
 | Phase B LoRA dry run, Qwen3-4B | 3 steps, 9.2 GiB peak, merged weights load in the bench venv | GPU 5 |
 | Phase C trainer GPU smoke, Qwen3-0.6B | 4 steps, 8.6 GiB peak, 1.3–2.2k logical tok/s (contended GPU); MLM loss 20.0 → 11.0, AR loss 2.7 → 1.6 | GPU 5, batch 2 × accum 2, max_len 1024 (2048 rows) |
-| Phase A pilot (partial, 193/230) | math 59/60 verified correct, code 20/21 pass, ~7 s/item mean (EN), ~50 s/item for JA | teacher at concurrency 2 |
+| Phase A pilot (230 items, 50 min, 466 calls, 0 errors) | 205 kept after curation (185/10/10); math 59/60 verified, code 34/40 pass, reasoning 17/30 judged ≥4 | teacher at concurrency 2, 13 s/item mean |
+| **Phase B pilot, Qwen3-4B LoRA** (185 items, 2 epochs, 24 steps, 124 s, 12.3 GiB) | train loss 1.40, eval loss 1.51; **GSM8K-50 90 %** (released 4B: 90 %); 50.1 tok/s | GPU 4, idle |
+| **Phase B pilot, Qwen3-8B LoRA** (155 s, 19.3 GiB) | train loss 1.25, eval loss 1.35; **GSM8K-50 90 %** (released 8B: 84 %); 50.3 tok/s | GPU 6, idle |
+| Released Qwen3-4B / Qwen3-8B, idle GPU, HF greedy batch 1 | **53.5 / 50.3 tok/s**, GSM8K-50 90 % / 84 % | GPUs 4, 7 |
+| **Phase C shakedown**: full fine-tune of the Phase B 4B student into the dual-stream causal-diffusion form (185 items × 4 epochs = 46 steps, 6 s/step, 35.3 GiB, 1.25k logical tok/s) | MLM loss 20 → 3.3 (final step), AR loss ≈ 0.8–1.2 | GPU 7 |
+| Phase C shakedown decoded with `engine/cdlm/decoder.py` (10 GSM8K items, window 16) | AR rows: 80 %, 50.6 tok/s · τ=None (one mask/step): 60 %, 43.5 tok/s, **0/10 identical to AR** · τ=0.4: 60 %, 1.00 tok/step · τ=1.0: 40 %, 1.04 tok/step; several runs never emit EOS (384-token cap) | `bench/run_cdlm.py`, GPU 7 |
+
+Reading of the Phase C shakedown (negative result, as expected for ~0.6 M training tokens against WeDLM's 100 B): the AR
+rows keep the student's quality, but the mask predictor is far from the AR distribution (exactness gate fails 10/10), its
+confidence never clears the τ thresholds, so no parallelism is obtained (1.0 token per step) and stop tokens are
+unreliable. The conversion recipe is mechanically working end to end (data → mask → loss → decoder with prefix KV reuse);
+what is missing is training tokens. The next conversion run uses the medium set (~2 300 items, ~1 M response tokens)
+and, if still insufficient, a larger teacher set; the per-step cost (6 s for 16 examples of 2 048 rows on one A100)
+puts 1 B tokens at ~5 GPU-days, so a 3-GPU DDP run is the practical path.
+
+Speed observation that shapes the project: at batch 1 with HF decoding, 4B and 8B run at the same ~50 tok/s (kernel-launch
+bound), so halving the model does not buy speed by itself. The speed target (500–1000 tok/s) has to come from parallel
+decoding plus the engine (CUDA graphs, fused kernels), not from size.
 
 The 50-item GSM8K subset cannot separate 4B from 8B (90 % vs 84 % is within noise at n = 50); Phase F uses the full
 1319-item test set. `engine/cdlm/` (data, mask, loss, HF glue, streaming decoder, trainer) is CPU-tested: 14 tests pass
