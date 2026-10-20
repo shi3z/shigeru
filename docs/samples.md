@@ -1373,6 +1373,103 @@ defdefdefdef
 太郎の年�和は \(
 ```
 
+## hf-transformers-generate — Qwen3-4B ()
+`qwen3_4b_hf_256.json`
+
+**en_explain** — 220 tokens, 29.5 tok/s
+
+```text
+A hash table is a data structure that stores key-value pairs using a hash function to compute an index (or "bucket") for each key. When a key is inserted, the hash function maps it to an index, and the value is stored at that position. Lookup, insertion, and deletion are typically O(1) on average.
+
+Performance degrades when collisions occur—when two keys hash to the same index. To handle this, hash tables use techniques like chaining (linked lists) or open addressing (probing). However, as the table fills up, the number of collisions increases, leading to longer search times. If the load factor (ratio of entries to buckets) exceeds a threshold, the table may resize, rehashing all entries, which is time-consuming.
+
+Performance also degrades if the hash function is poor, leading to uneven distribution of keys. Additionally, in the worst case, all keys hash to the same bucket, resulting in O(n) time complexity for operations. Thus, hash tables perform best with a good hash function, proper resizing, and low load factors.
+```
+
+**en_code** — 256 tokens, 30.4 tok/s
+
+```text
+Here's a Python function that returns the **n-th Fibonacci number** using an **iterative approach**, along with a **docstring** and **two usage examples**:
+
+```python
+def fibonacci(n):
+    """
+    Calculate the n-th Fibonacci number using an iterative approach.
+
+    The Fibonacci sequence is defined as:
+    F(0) = 0
+    F(1) = 1
+    F(n) = F(n-1) + F(n-2) for n >= 2
+
+    Parameters:
+    n (int): The position in the Fibonacci sequence (0-based index).
+
+    Returns:
+    int: The n-th Fibonacci number.
+
+    Examples:
+    >>> fibonacci(0)
+    0
+    >>> fibonacci(10)
+    55
+    """
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example usage:
+print(fibonacci(0))  # Output: 0
+print(fibonacci(10)) # Output
+```
+
+**ja_explain** — 90 tokens, 30.6 tok/s
+
+```text
+過学習は、モデルが訓練データに過度に適合し、新しいデータに通用しない現象です。これには正則化、ドロップアウト、データ拡張、学習率の調整などの手法が用いられます。過学習を防ぐためには、訓練データと検証データの分割や、モデルの複雑度の適切な管理が重要です。
+```
+
+**ja_reason** — 222 tokens, 30.4 tok/s
+
+```text
+太郎は花子より3歳年上です。  
+二人の年齢の和は29歳です。
+
+まず、花子の年齢を未知数として求めます。  
+花子の年齢を $ x $ とすると、太郎の年齢は $ x + 3 $ になります。
+
+二人の年齢の和が29なので、次の式が成り立ちます：
+
+$$
+x + (x + 3) = 29
+$$
+
+この式を解きます：
+
+$$
+x + x + 3 = 29 \\
+2x + 3 = 29 \\
+2x = 29 - 3 \\
+2x = 26 \\
+x = 13
+$$
+
+よって、花子の現在の年齢は **13歳** です。
+
+5年後には、花子の年齢は：
+
+$$
+13 + 5 = 18
+$$
+
+### 答え：**18歳**
+```
+
 ## hf-transformers-generate — Qwen3-8B ()
 `qwen3_8b_hf_256.json`
 

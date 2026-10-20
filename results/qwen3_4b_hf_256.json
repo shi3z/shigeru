@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "/mnt/raid6/models/hf/Qwen3-4B",
+  "config": {
+    "model": "/mnt/raid6/models/hf/Qwen3-4B",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/qwen3_4b_hf_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "5",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 3.689655303955078,
+  "gpu_state": [
+    "79318 MiB, 36 %",
+    "79565 MiB, 35 %",
+    "78255 MiB, 23 %",
+    "75757 MiB, 25 %",
+    "41751 MiB, 0 %",
+    "44533 MiB, 96 %",
+    "41659 MiB, 0 %",
+    "41847 MiB, 0 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 220,
+      "ttft_s": 0.04151298711076379,
+      "e2e_s": 7.466974345967174,
+      "tok_s_effective": 29.46307162804429,
+      "decode_tok_s": 29.493116914384974,
+      "peak_mem_gib": 7.589547634124756,
+      "answer": "A hash table is a data structure that stores key-value pairs using a hash function to compute an index (or \"bucket\") for each key. When a key is inserted, the hash function maps it to an index, and the value is stored at that position. Lookup, insertion, and deletion are typically O(1) on average.\n\nPerformance degrades when collisions occur—when two keys hash to the same index. To handle this, hash tables use techniques like chaining (linked lists) or open addressing (probing). However, as the table fills up, the number of collisions increases, leading to longer search times. If the load factor (ratio of entries to buckets) exceeds a threshold, the table may resize, rehashing all entries, which is time-consuming.\n\nPerformance also degrades if the hash function is poor, leading to uneven distribution of keys. Additionally, in the worst case, all keys hash to the same bucket, resulting in O(n) time complexity for operations. Thus, hash tables perform best with a good hash function, proper resizing, and low load factors.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 256,
+      "ttft_s": 0.028063689824193716,
+      "e2e_s": 8.418288504704833,
+      "tok_s_effective": 30.409981774433856,
+      "decode_tok_s": 30.39251100253476,
+      "peak_mem_gib": 7.594769477844238,
+      "answer": "Here's a Python function that returns the **n-th Fibonacci number** using an **iterative approach**, along with a **docstring** and **two usage examples**:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Calculate the n-th Fibonacci number using an iterative approach.\n\n    The Fibonacci sequence is defined as:\n    F(0) = 0\n    F(1) = 1\n    F(n) = F(n-1) + F(n-2) for n >= 2\n\n    Parameters:\n    n (int): The position in the Fibonacci sequence (0-based index).\n\n    Returns:\n    int: The n-th Fibonacci number.\n\n    Examples:\n    >>> fibonacci(0)\n    0\n    >>> fibonacci(10)\n    55\n    \"\"\"\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        a, b = 0, 1\n        for _ in range(2, n + 1):\n            a, b = b, a + b\n        return b\n\n# Example usage:\nprint(fibonacci(0))  # Output: 0\nprint(fibonacci(10)) # Output",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.042250691913068295,
+      "e2e_s": 8.465266994666308,
+      "tok_s_effective": 30.241219817555354,
+      "decode_tok_s": 30.27419048407254,
+      "peak_mem_gib": 7.5994415283203125,
+      "answer": "We are given:\n\n- **Train 1** leaves **City A** at **9:00 AM** heading toward **City B**, traveling at **80 km/h**.\n- **Train 2** leaves **City B** at **9:30 AM** heading toward **City A**, traveling at **100 km/h**.\n- The distance between **City A** and **City B** is **300 km**.\n\nWe are to find **when and where** the two trains meet.\n\n---\n\n### Step 1: Define variables\n\nLet’s define:\n\n- Let $ t $ be the time (in hours) after **9:00 AM** when the two trains meet.\n- Then, **Train 1** has been traveling for $ t $ hours.\n- **Train 2** left 30 minutes (or 0.5 hours) later, so it has been traveling for $ t - 0.5 $ hours.\n\n---\n\n### Step 2: Distance traveled by each train\n\n- **Train 1** (from A to B):  \n  $$\n  \\text{Distance}_1 = 80t\n  $$\n\n- **Train 2** (from B to A",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 245,
+      "ttft_s": 0.04321338329464197,
+      "e2e_s": 8.13330483296886,
+      "tok_s_effective": 30.123056375174475,
+      "decode_tok_s": 30.16035127882586,
+      "peak_mem_gib": 7.592985153198242,
+      "answer": "The lighthouse keeper, Elias, had lived alone on the cliff for twenty years, his days filled with the rhythm of the sea and the steady glow of the beacon. One stormy evening, as rain lashed the rocks, a letter arrived, sealed with a wax stamp he didn’t recognize. Curious, he opened it to find a message from a young girl he’d never met, written in a trembling hand: *“I saw the light from your lighthouse when I was lost at sea. Please know I’m not alone.”* \n\nElias’s heart swelled. He had always believed the lighthouse was just a tower of stone, but this letter reminded him of the lives it touched. He wrote back, sharing his story and offering comfort. The next morning, he found a second letter, this time with a sketch of a girl and a map to a hidden cove. \n\nThough the sea was wild, Elias set sail, guided by the light and the hope of a stranger. In the cove, he found a small boat and a girl, her eyes filled with wonder. From that day on, the lighthouse was no longer just a beacon—it was a bridge between souls.",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 169,
+      "ttft_s": 0.04512827517464757,
+      "e2e_s": 5.563630150165409,
+      "tok_s_effective": 30.375850917224533,
+      "decode_tok_s": 30.443044834569573,
+      "peak_mem_gib": 7.581447601318359,
+      "answer": "- **Social inequality**: A large gap existed between the wealthy nobility and clergy (the First Estate) and the common people (the Third Estate), leading to widespread resentment.  \n- **Economic hardship**: Poor harvests, rising food prices, and government financial mismanagement caused widespread poverty and unemployment.  \n- **Enlightenment ideas**: Philosophers like Voltaire, Rousseau, and Montesquieu challenged traditional authority and promoted ideas of liberty, equality, and democracy.  \n- **Political corruption**: The French monarchy, particularly under Louis XVI, was seen as inefficient and out of touch with the needs of the people.  \n- **Immediate trigger**: The Estates-General convened in 1789, leading to the formation of the National Assembly and the adoption of the Declaration of the Rights of Man and of the Citizen.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 90,
+      "ttft_s": 0.04639753885567188,
+      "e2e_s": 2.9437177628278732,
+      "tok_s_effective": 30.573583220675946,
+      "decode_tok_s": 30.71804050640345,
+      "peak_mem_gib": 7.572381973266602,
+      "answer": "過学習は、モデルが訓練データに過度に適合し、新しいデータに通用しない現象です。これには正則化、ドロップアウト、データ拡張、学習率の調整などの手法が用いられます。過学習を防ぐためには、訓練データと検証データの分割や、モデルの複雑度の適切な管理が重要です。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.03946730634197593,
+      "e2e_s": 8.404252724256366,
+      "tok_s_effective": 30.460768898718673,
+      "decode_tok_s": 30.484942202328448,
+      "peak_mem_gib": 7.597103595733643,
+      "answer": "もちろんです。以下は、Pythonで文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数の例です。\n\n---\n\n### ✅ 関数の説明\n\nこの関数は以下の手順で動作します：\n\n1. **重複を除く**：`set()` を使って一意な文字列に変換します。\n2. **長さ順に並べ替える**：`sorted()` で長さ（`len()`）に基づいてソートします。\n3. **リストに戻す**：`list()` で結果をリスト型に戻します。\n\n---\n\n### ✅ Pythonコード\n\n```python\ndef unique_sorted_strings(strings):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数。\n\n    Parameters:\n    strings (list): 文字列のリスト\n\n    Returns:\n    list: 重複を除き、長さ順に並べたリスト\n    \"\"\"\n    # 重複を除く\n    unique_strings = set(strings)\n    # 長さ順に並べる\n    sorted_strings = sorted(unique_strings, key",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 222,
+      "ttft_s": 0.046650622971355915,
+      "e2e_s": 7.307733699679375,
+      "tok_s_effective": 30.378775297975103,
+      "decode_tok_s": 30.4362307475754,
+      "peak_mem_gib": 7.5933966636657715,
+      "answer": "太郎は花子より3歳年上です。  \n二人の年齢の和は29歳です。\n\nまず、花子の年齢を未知数として求めます。  \n花子の年齢を $ x $ とすると、太郎の年齢は $ x + 3 $ になります。\n\n二人の年齢の和が29なので、次の式が成り立ちます：\n\n$$\nx + (x + 3) = 29\n$$\n\nこの式を解きます：\n\n$$\nx + x + 3 = 29 \\\\\n2x + 3 = 29 \\\\\n2x = 29 - 3 \\\\\n2x = 26 \\\\\nx = 13\n$$\n\nよって、花子の現在の年齢は **13歳** です。\n\n5年後には、花子の年齢は：\n\n$$\n13 + 5 = 18\n$$\n\n### 答え：**18歳**",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 82,
+      "ttft_s": 0.0393131491728127,
+      "e2e_s": 2.6537459320388734,
+      "tok_s_effective": 30.89971764440893,
+      "decode_tok_s": 30.981863649676278,
+      "peak_mem_gib": 7.571282386779785,
+      "answer": "灯台守が思いがけない手紙を受け取った。紙は古びて、字も曖昧だった。しかし、その内容は心を打つものだった。「お元気ですか？遠くから見守ってくれてありがとう。」と書かれていた。守が読み終わると、海風がそっとそっと灯台にそよぎ始めた。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.04358536098152399,
+      "e2e_s": 8.45234613167122,
+      "tok_s_effective": 30.28744871684319,
+      "decode_tok_s": 30.325514894995,
+      "peak_mem_gib": 7.594493865966797,
+      "answer": "明治維新的の主な要因は、日本の近代化と西洋の影響を受けて起こった変化を背景にしています。以下に、5つの主な要因を箇条書きでまとめます。\n\n1. **西洋の影響と技術の進歩**  \n   西洋の軍事・技術・経済の発展に気づき、日本の国力の弱さを認識した。このため、西洋の制度や技術を模倣して国を強化する必要性が生じた。\n\n2. **国内の経済的・社会的不況**  \n   19世紀前半には、農村の衰退や商業の停滞、農民の貧困が深刻化していた。この不況は、国家の統治を強化し、改革を推進する動機となった。\n\n3. **外国の圧力と開国**  \n   西洋諸国による貿易制限や領事裁判所の設置など、日本の閉鎖的な外交政策が国際的な不満を引き起こした。これにより、開国と西洋の制度を導入する必要性が",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.04155830056406558,
+      "min": 0.028063689824193716,
+      "max": 0.046650622971355915,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 6.780926107894629,
+      "min": 2.6537459320388734,
+      "max": 8.465266994666308,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 30.321347429105437,
+      "min": 29.46307162804429,
+      "max": 30.89971764440893,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 30.370980651536627,
+      "min": 29.493116914384974,
+      "max": 30.981863649676278,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 205.2,
+      "min": 82,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 7.588684988021851,
+      "min": 7.571282386779785,
+      "max": 7.5994415283203125,
+      "n": 10
+    }
+  }
+}
