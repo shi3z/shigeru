@@ -1,6 +1,6 @@
 #!/bin/bash
 # Ablation 2 after the full verified run has released GPU 7: 4B LoRA on the medium set minus code, then GSM8K-50 + HumanEval.
-cd "$(dirname "$0")/.."; until grep -q "end results/cdlm_sft_4b_full_fast_verify.json" results/phaseE_runs.log 2>/dev/null; do sleep 120; done
+cd "$(dirname "$0")/.."
 until [ "$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits -i 7)" -lt 1024 ]; do sleep 30; done
 GPU=7 MIN_FREE_GIB=60 bash distill/run_phaseB.sh distill/configs/phaseB_medium_4b_nocode.yaml phaseB_medium_4b_nocode
 out=results/humaneval_phaseB_medium_4b_nocode.json; echo "=== $(date +%T) start $out (gpu 7)" >> results/phaseF_runs.log
