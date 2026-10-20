@@ -20,7 +20,33 @@ The loop (one sequence)
                   adjusted = entropy + lam * (slot - first_mask_slot); fill the rows with adjusted < tau (at least one:
                   argmin if none passes); tau=None fills exactly one token per step, the leftmost mask (the reference
                   takes argmin(adjusted) in that case, which coincides with the leftmost mask whenever lam >= ln(V)).
+                  Optional fill-selection rules (all off by default, `select_positions`): margin_tau, no_adjacent,
+                  max_fill, fill_mode="leftmost_run" - see "Fill-selection rules" below.
                5. window = window[m:]; loop while the window is non-empty.
+
+Fill-selection rules (`select_positions`; identical in fast_decoder.py, which imports it)
+  Motivation (docs/distill_design.md section 10.3): masks filled in the same step are conditionally independent given
+  the context, so a multi-token number is split ("#### 10" for "#### 100") as soon as two adjacent masks both clear
+  the threshold.  The rules below restrict *which* of the passing masks are filled; none of them changes the forward,
+  the cache or the commit logic, and with all of them off the selection is exactly the reference rule above.
+  Candidate set C (step 1):
+    tau given, margin_tau None : C = {k : entropy_k + lam*d_k < tau}            (reference rule)
+    tau given, margin_tau given: C = {k : entropy_k + lam*d_k < tau  and  margin_k >= margin_tau}   (both must hold)
+    tau None,  margin_tau given: C = {k : margin_k >= margin_tau}                 (margin replaces the entropy rule)
+    tau None,  margin_tau None : C = {0}                                          (leftmost mask, the exact-AR step)
+    margin_k = p_top1 - p_top2 of softmax(logits_k) (float32, no temperature, same logits as the entropy).  The
+    mandatory >= 1 fill when C is empty: argmin(entropy + lam*d) when tau is given (reference fallback), else the
+    leftmost mask (index 0, whose left context is fully committed).
+  Post-filters (step 2), applied in this order; each keeps the leftmost elements, so the mandatory fill survives:
+    fill_mode="leftmost_run": keep the run 0, 1, 2, ... of mask indices that are all in C and occupy consecutive
+        logical slots, anchored at the leftmost mask (slot 0 of the window after the commit = logical position cur,
+        whose left context is entirely committed); if the leftmost mask is not in C it is filled alone (the tau=None
+        step).  Everything right of the first failing mask waits, so the window never holds filled-after-a-gap rows
+        and every filled token is committed in the next step.  fill_mode="all" (default) keeps C as is.
+    no_adjacent=True: of every maximal run of candidates at consecutive logical slots keep only the leftmost
+        (slots 0,1,2,3,5,6,8 -> 0,5,8); two masks adjacent in logical position are never filled in the same step.
+    max_fill=n: keep the n leftmost remaining candidates.
+  The absolute logical positions filled in each step are recorded in stats["filled_positions"] (list per step).
 
 Why the committed K/V are valid without recomputation (docs/wedlm_analysis.md section 5)
   The committed run occupies window slots 0..m-1 and, because filled rows go first and keep their slot order, also the
@@ -47,7 +73,10 @@ from transformers import DynamicCache
 
 from .model_glue import model_attention_mask
 
-__all__ = ["generate", "window_attention_mask", "entropy_from_logits", "select_positions"]
+__all__ = ["generate", "window_attention_mask", "entropy_from_logits", "margin_from_logits", "select_positions",
+           "FILL_MODES"]
+
+FILL_MODES = ("all", "leftmost_run")
 
 
 def window_attention_mask(model, past_len, n_rows, device=None):
@@ -64,18 +93,68 @@ def entropy_from_logits(logits):
     return -(logp.exp() * logp).sum(-1)
 
 
-def select_positions(entropy, mask_slots, tau, lam):
-    """Indices (into mask_slots / the mask rows) to fill this step.  tau=None: the leftmost mask only.  Otherwise all
-    rows with entropy + lam*(slot - first slot) < tau, or the argmin of that quantity if none passes (reference
-    sampler.py:169-222)."""
+def margin_from_logits(logits):
+    """Top-1 minus top-2 probability of softmax(logits) per row (float32, no temperature)."""
+    top2 = torch.softmax(logits.float(), dim=-1).topk(2, dim=-1).values
+    return top2[..., 0] - top2[..., 1]
+
+
+def check_fill_options(margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all"):
+    """Validate the fill-selection options (shared by both decoders)."""
+    if fill_mode not in FILL_MODES:
+        raise ValueError(f"fill_mode={fill_mode!r}, expected one of {FILL_MODES}")
+    if max_fill is not None and int(max_fill) < 1:
+        raise ValueError(f"max_fill={max_fill!r} must be >= 1 or None")
+    if margin_tau is not None and not (0.0 <= float(margin_tau) <= 1.0):
+        raise ValueError(f"margin_tau={margin_tau!r} must be in [0, 1] or None")
+    return bool(no_adjacent)
+
+
+def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None, no_adjacent=False, max_fill=None,
+                     fill_mode="all"):
+    """Indices (into mask_slots / the mask rows, ascending) to fill this step.
+
+    Reference rule (all options off): tau=None -> the leftmost mask only; otherwise all rows with
+    entropy + lam*(slot - first slot) < tau, or the argmin of that quantity if none passes (sampler.py:169-222).
+    Options (module docstring, "Fill-selection rules"): margin_tau needs `margin` (margin_from_logits of the same
+    rows) and is ANDed with the entropy rule when tau is given, replaces it when tau is None (fallback: index 0);
+    then fill_mode="leftmost_run", no_adjacent and max_fill thin the candidates in that order, always keeping >= 1.
+    """
+    n = len(mask_slots)
     if tau is None:
-        return [0]
-    d = torch.tensor([s - mask_slots[0] for s in mask_slots], dtype=entropy.dtype, device=entropy.device)
-    adjusted = entropy + lam * d
-    cand = (adjusted < tau).nonzero(as_tuple=True)[0]
-    if cand.numel() > 0:
-        return cand.tolist()
-    return [int(adjusted.argmin())]
+        cand = list(range(n))
+        fallback = [0]
+    else:
+        d = torch.tensor([s - mask_slots[0] for s in mask_slots], dtype=entropy.dtype, device=entropy.device)
+        adjusted = entropy + lam * d
+        cand = (adjusted < tau).nonzero(as_tuple=True)[0].tolist()
+        fallback = [int(adjusted.argmin())]
+    if margin_tau is not None:
+        if margin is None:
+            raise ValueError("margin_tau needs the margin per mask row")
+        ok = (margin >= margin_tau).tolist()
+        cand = [k for k in cand if ok[k]]
+    elif tau is None:
+        cand = [0]                                                     # reference: exactly the leftmost mask
+    if not cand:
+        cand = fallback
+    if fill_mode == "leftmost_run":
+        run = []
+        for k in cand:
+            if k != len(run) or (k > 0 and mask_slots[k] != mask_slots[k - 1] + 1):
+                break
+            run.append(k)
+        cand = run or [0]
+    if no_adjacent:
+        kept = []
+        for i, k in enumerate(cand):
+            if i > 0 and mask_slots[k] == mask_slots[cand[i - 1]] + 1:
+                continue                     # continues a run of adjacent candidates: only its leftmost is filled
+            kept.append(k)
+        cand = kept
+    if max_fill is not None:
+        cand = cand[: int(max_fill)]
+    return cand
 
 
 def _crop_to(cache, keep_total):
@@ -88,7 +167,8 @@ def _crop_to(cache, keep_total):
 
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
-             greedy=True, temperature=1.0, predict="mask", generator=None):
+             greedy=True, temperature=1.0, predict="mask", generator=None, margin_tau=None, no_adjacent=False,
+             max_fill=None, fill_mode="all"):
     """Decode one sequence.  Returns (new_token_ids: list[int], stats: dict).
 
     model: Qwen3ForCausalLM (sdpa or eager) with a mask row (model_glue.add_mask_token).  tok: tokenizer, used only to
@@ -96,13 +176,16 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     threshold or None (one token per step).  lam: distance penalty.  mask_id: default model.config.cdlm_mask_token_id.
     stop_ids: ids that end generation (the stop token is kept in the output).  greedy: argmax, else sample at
     `temperature` (torch.Generator `generator`).  predict: "mask" | "ar" (see module docstring).
+    margin_tau / no_adjacent / max_fill / fill_mode: fill-selection rules, all off by default (module docstring).
 
     stats: steps (decode forwards), forwards (steps + 1 prefill), window_rows (rows forwarded in decode steps),
-    generated, tokens_per_step, filled_per_step / committed_per_step ({count: n_steps}), finish_reason
-    ("stop" | "length"), cache (the DynamicCache holding [prompt | output], reusable for a continuation).
+    generated, tokens_per_step, filled_per_step / committed_per_step ({count: n_steps}), filled_positions (per step,
+    the absolute logical positions filled, ascending), finish_reason ("stop" | "length"), cache (the DynamicCache
+    holding [prompt | output], reusable for a continuation).
     """
     if predict not in ("mask", "ar"):
         raise ValueError(f"predict={predict!r}")
+    no_adjacent = check_fill_options(margin_tau, no_adjacent, max_fill, fill_mode)
     if mask_id is None:
         mask_id = getattr(model.config, "cdlm_mask_token_id", None)
         if mask_id is None:
@@ -125,7 +208,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     slots = [mask_id] * min(window, max_new_tokens)                  # window slot i <-> logical position cur + i
     is_mask = [True] * len(slots)
     steps = window_rows = 0
-    filled_hist, commit_hist = {}, {}
+    filled_hist, commit_hist, filled_positions = {}, {}, []
     finish = "length" if not slots else None
 
     def sample(logits):
@@ -189,16 +272,18 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
             # next-token logits are last_logits after the update above) - exact AR for the leftmost position
             mask_logits = torch.cat([last_logits[None], mask_logits[1:]], 0)
         ent = entropy_from_logits(mask_logits)
+        margin = margin_from_logits(mask_logits) if margin_tau is not None else None
         toks = sample(mask_logits)
-        sel = select_positions(ent, mask_slots, tau, lam)
+        sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode)
         for k in sel:
             slots[mask_slots[k]] = int(toks[k])
             is_mask[mask_slots[k]] = False
         filled_hist[len(sel)] = filled_hist.get(len(sel), 0) + 1
+        filled_positions.append([cur + mask_slots[k] for k in sel])
 
     assert len(out) <= max_new_tokens and cache.get_seq_length() == prompt_len + len(out)
     stats = dict(steps=steps, forwards=steps + 1, window_rows=window_rows, generated=len(out),
                  tokens_per_step=(len(out) / steps if steps else 0.0),
                  filled_per_step=dict(sorted(filled_hist.items())), committed_per_step=dict(sorted(commit_hist.items())),
-                 finish_reason=finish, cache=cache)
+                 filled_positions=filled_positions, finish_reason=finish, cache=cache)
     return out, stats

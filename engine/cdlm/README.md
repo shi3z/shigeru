@@ -11,8 +11,55 @@ analysis and validated against the reference's mask rule in the tests.
 | `data.py` | `build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler, rng, ar_on_prompt)` → physical rows `[x0 clean \| xt]`: per 32-token block γ~U(0,1], `round(n_response·γ)` response tokens masked (prompt never), observed-first reordering, `position_ids` = original positions shared with x0, `mlm_labels` (true id on masked rows, −100 elsewhere), `mlm_weights` (1/γ on masked rows), `ar_labels` (next token on x0 rows, −100 when the target is a prompt token, −100 on all xt rows). `collate(examples, pad_id)` right-pads to `[N, T]` and attaches the dense `[N,1,T,T]` mask. Mask-token choice for Qwen3 is documented in the module docstring (free rows 151669…151935; `<|mask|>` = 151669). |
 | `mask.py` | `allowed(q, k, L, B)` — the one rule (x0 causal; xt block k → x0 blocks < k and same-block xt rows at smaller physical index; nothing else; padded rows self-only). `dense_mask` / `batch_mask` for sequences ≤ ~4K rows, `make_mask_mod(seq_lens, B)` with FlexAttention's `(b, h, q_idx, kv_idx)` signature built on the same function, `to_additive` for eager. The leakage argument is in the module docstring. |
 | `loss.py` | `mlm_loss(logits, labels, weights)` = Σ wᵢ·CEᵢ / Σ wᵢ over masked rows (WeDLM's self-normalised 1/γ weighting, `loss.py:38-45`; `normalize="tokens"` alternative), `ar_loss` (plain mean CE; the shift is folded into `ar_labels`), `total_loss = (mlm + w·ar)/(1+w)`. |
-| `decoder.py` | `generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id, stop_ids, greedy=True, temperature, predict="mask"\|"ar")` → `(new_ids, stats)`: WeDLM's streaming window (analysis §5–6) on a HF `DynamicCache`. Prefill into the cache; per step forward the window rows observed-first with their original position ids and a causal mask over `[cache \| window]` (`window_attention_mask`, dict passthrough as in `model_glue`); commit the leftmost filled run by **cropping** the cache to `[prefix \| run]` (`DynamicCache.crop(-(T-m))`, no K/V copy or recomputation — the run sits at physical rows 0..m-1, so its K/V were computed at the right positions attending exactly the prefix + earlier run tokens; argument in the module docstring); fill masks with `entropy + λ·(slot − first_mask_slot) < τ` (argmin fallback, `select_positions`), `τ=None` = exactly the leftmost mask; refill; stop on a stop id in the committed run (kept in the output, later tokens dropped) or `max_new_tokens` (window and refill are budget-capped). `stats`: steps, forwards (+1 prefill), window_rows, tokens_per_step, `filled_per_step`/`committed_per_step` histograms, finish_reason, and the cache (reusable for a continuation). `predict="ar"` lets the leftmost mask take the next-token logits of the preceding filled row (exact AR at τ=None, the free speculative proposal of analysis §11 step 7). Single sequence only. |
+| `decoder.py` | `generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id, stop_ids, greedy=True, temperature, predict="mask"\|"ar")` → `(new_ids, stats)`: WeDLM's streaming window (analysis §5–6) on a HF `DynamicCache`. Prefill into the cache; per step forward the window rows observed-first with their original position ids and a causal mask over `[cache \| window]` (`window_attention_mask`, dict passthrough as in `model_glue`); commit the leftmost filled run by **cropping** the cache to `[prefix \| run]` (`DynamicCache.crop(-(T-m))`, no K/V copy or recomputation — the run sits at physical rows 0..m-1, so its K/V were computed at the right positions attending exactly the prefix + earlier run tokens; argument in the module docstring); fill masks with `entropy + λ·(slot − first_mask_slot) < τ` (argmin fallback, `select_positions`), `τ=None` = exactly the leftmost mask; refill; stop on a stop id in the committed run (kept in the output, later tokens dropped) or `max_new_tokens` (window and refill are budget-capped). `stats`: steps, forwards (+1 prefill), window_rows, tokens_per_step, `filled_per_step`/`committed_per_step` histograms, `filled_positions` (the absolute logical positions filled in each step), finish_reason, and the cache (reusable for a continuation). `predict="ar"` lets the leftmost mask take the next-token logits of the preceding filled row (exact AR at τ=None, the free speculative proposal of analysis §11 step 7). Optional fill-selection rules `margin_tau`, `no_adjacent`, `max_fill`, `fill_mode="leftmost_run"` (all off by default; section "Fill-selection rules" below). Single sequence only. |
 | `model_glue.py` | `forward_rows(model, input_ids, position_ids, mask, rows)` runs a HF `Qwen3ForCausalLM` (transformers 5.20) on the dual stream and returns logits only for the gathered `(batch, row)` indices; `forward_batch(model, batch)` does one forward for the MLM and AR rows of a `collate()` batch. The 4-D mask is passed as `attention_mask={"full_attention": m, "sliding_attention": m}`, which `Qwen3Model.forward` hands to the layers untouched (bool for `sdpa`, additive float for `eager`; a plain 4-D tensor also passes through, `flash_attention_2` cannot take it). `add_mask_token(model, mask_id)` resizes embedding + lm_head when needed and initialises the row from the mean embedding, returning the ids it added. |
+
+## Fill-selection rules (`decoder.select_positions`, shared by both decoders; all off by default)
+
+**Why.** `docs/distill_design.md` §10.3: after the CPT conversion the one-mask-per-step path (τ=None) reaches 80 %
+GSM8K (20 prompts) but parallel filling with the reference rule `entropy + λ·d < τ` collapses to 0–20 % at only
+1.1–1.3 tokens/step; a larger λ (0.3) recovers 55 % at 1.07 tokens/step. The failure is one of *conditional
+independence*: masks filled in the same step are predicted independently given the context, so a multi-token number
+whose tokens all clear the threshold is split ("#### 10" for "#### 100"). The rules below restrict *which* of the
+passing masks are filled in a step. They change neither the forward, nor the cache or commit logic, nor the fallback
+"≥ 1 fill per step" guarantee; with all of them off the selection is byte-for-byte the reference rule (test (a)).
+
+**Candidate set C** (first stage; `margin_k = p_top1 − p_top2` of `softmax(logits_k)` in float32, no temperature, from
+the same logits as the entropy, so `predict="ar"` affects both alike):
+
+| `tau` | `margin_tau` | C | fallback when C is empty |
+|---|---|---|---|
+| given | None | `{k : entropy_k + λ·d_k < tau}` (reference) | argmin of `entropy + λ·d` (reference) |
+| given | given | `{k : entropy_k + λ·d_k < tau and margin_k ≥ margin_tau}` — both must hold | argmin of `entropy + λ·d` |
+| None | given | `{k : margin_k ≥ margin_tau}` — the margin replaces the entropy rule | the leftmost mask (index 0) |
+| None | None | `{0}`, the leftmost mask (the exact-AR step) | — |
+
+So `margin_tau` is an *additional* gate when `tau` is given and the *only* gate when `tau=None`. The margin is a
+different confidence measure from the entropy: a row can have low entropy with two near-tied top tokens (small margin),
+which is exactly the "1 vs 10" ambiguity, and vice versa.
+
+**Post-filters** (second stage, applied in this order; each keeps the leftmost elements, so the mandatory fill survives):
+
+* `fill_mode="leftmost_run"` — keep the run `0, 1, 2, …` of mask indices that are all in C and sit at consecutive
+  logical slots, anchored at the leftmost mask (slot 0 of the window after the commit = logical position `cur`, whose
+  left context is entirely committed). If the leftmost mask is not in C it is filled alone (the τ=None step). Everything
+  right of the first failing mask waits. Consequences: the window never holds filled-after-a-gap rows, every filled
+  token is committed in the very next step (`committed_per_step == filled_per_step + {0: 1}`), no token is ever
+  re-encoded, and the filled run is always conditioned on a fully known left context (the tokens *inside* the run are
+  still conditionally independent of each other — combine with `no_adjacent` or `max_fill` to limit that).
+  `fill_mode="all"` (default) keeps C as is (the reference behaviour: fills anywhere in the window).
+* `no_adjacent=True` — of every maximal run of candidates at consecutive logical slots keep only the leftmost
+  (slots `0,1,2,3,5,6,8 → 0,5,8`): two masks adjacent in logical position are never filled in the same step, so the
+  second token of a number is always predicted after the first one is known. Degenerate case: τ=1e9 (everything
+  passes, masks contiguous) becomes one fill per step; with `leftmost_run` it is always exactly one fill.
+* `max_fill=n` — keep the `n` leftmost remaining candidates. `max_fill=1` with a threshold is one token per step but
+  not the τ=None step (it fills the best-scoring mask, wherever it is).
+
+`stats["filled_positions"]` (both decoders) lists, per fill step, the absolute logical positions that were filled —
+the instrument the tests use for the adjacency / contiguity invariants. `bench/run_cdlm.py` exposes the rules as
+`--no-adjacent`, `--max-fill`, `--margin-tau`, `--fill-mode` (recorded in the saved JSON under `args`); they are not
+yet measured on the converted checkpoint — the design-doc table is the baseline to beat (`τ=0.4, λ=0.3`: 55 % at 1.07
+tokens/step; the target is ≥ 80 % at > 1.0 tokens/step).
 
 ## Tested (`engine/cdlm/tests/test_cdlm.py`, plain asserts, CPU, tiny random Qwen3Config model in float64, no downloads)
 
@@ -47,7 +94,7 @@ re-randomised after `add_mask_token` so nothing relies on the mean init)
 cd /mnt/ssdraid/project/open-mercury
 CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_decoder
 ```
-(~14 s, CPU.)
+(~32 s, CPU.)
 
 1. `test_tau_none_equals_hf_greedy` (1) — `predict="ar"`, `τ=None`: output `==` HF `generate(do_sample=False)` token for
    token on 6 random prompts × {no stop id, random stop id} × W ∈ {1, 3, 16} × {sdpa, eager} (72 cases); one token per
@@ -63,6 +110,22 @@ CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_decoder
 4. `test_tau_large_terminates_and_respects_budget` (3) — `τ=1e9`: every mask filled each step, `steps == ceil(n/W) + 1`,
    output length exactly `max_new_tokens` for (W, n) ∈ {(16, 37), (16, 16), (4, 50), (1, 7), (8, 3)}; with a stop id
    the output ends at it and the cache length matches; sampling path (`greedy=False`) and `max_new_tokens=0`.
+5. `test_fill_options_default_to_reference` (a) — `select_positions` with every option off `==` a frozen copy of the
+   pre-option function kept in the test, on 300 random (entropy, margin, gapped mask slots) × τ ∈ {None, 0.5, 2, 1e9}
+   × λ ∈ {0, 0.02, 0.3}; every option combination (11 sets) `==` an independent pure-Python transcription of the
+   documented semantics (39 600 cases); `generate()` with default arguments gives identical tokens and stats to the
+   same run with the frozen function patched into the module (3 prompts × W ∈ {4, 16} × τ ∈ {None, 0.5, 2.5, 1e9} ×
+   predict, 48 cases); invalid `fill_mode` / `max_fill=0` / `margin_tau>1` / `margin_tau` without a margin raise.
+6. `test_no_adjacent_never_fills_adjacent` (b) — from `stats["filled_positions"]`: no step fills two adjacent
+   positions, for τ ∈ {2.5, 3.2, 1e9}, margin-only and τ+margin, W ∈ {4, 16}, 4 prompts; non-vacuous (steps with ≥ 2
+   fills exist, and the same runs without the rule fill hundreds of adjacent pairs); τ=1e9 degenerates to `{1: n}`.
+7. `test_max_fill_respected` (c) — `max(filled_per_step) ≤ max_fill` for max_fill ∈ {1, 2, 3, 5} × W ∈ {4, 16} × four
+   rules; with τ=1e9 every step fills exactly `min(max_fill, W)` and `steps == ceil(n / min(max_fill, W)) + 1`.
+8. `test_margin_tau_and_leftmost_run` — a spy on the module's `select_positions` checks for every step that the
+   filled set is exactly the masks with `margin ≥ margin_tau` (ANDed with `entropy + λd < τ` when τ is given), or the
+   documented fallback when none passes (both branches hit); the margin equals `margin_from_logits` of a fresh forward;
+   `leftmost_run`: every step's positions are exactly `cur, cur+1, …`, `committed_per_step == filled_per_step + {0: 1}`,
+   τ=1e9 is `W` per step; a stop token inside a run truncates the output and the cache consistently.
 
 Last run (verbatim):
 ```
@@ -71,7 +134,13 @@ PASS test_tau_none_mask_predictor_matches_naive
   max |cache - full forward|: float32/sdpa 3.81e-06, float32/eager 2.86e-06, float64/sdpa 1.78e-15, float64/eager 7.53e-07
 PASS test_cache_matches_full_forward
 PASS test_tau_large_terminates_and_respects_budget
-4 passed, 0 failed
+  39600 selection cases == documented semantics, 48 generate() cases == frozen reference rule
+PASS test_fill_options_default_to_reference
+  27 steps filled >= 2 masks, none adjacent (without the rule: 346 adjacent pairs)
+PASS test_no_adjacent_never_fills_adjacent
+PASS test_max_fill_respected
+PASS test_margin_tau_and_leftmost_run
+8 passed, 0 failed
 ```
 Illustration on the random model (W=16, 64 tokens, λ=0.02): τ=None → 65 steps, 968 window rows; τ=1e9 → 5 steps
 (`filled_per_step {16: 4}`, 12.8 tokens/step). Speed is meaningless here (random weights, CPU); the honest metric on a
@@ -108,9 +177,11 @@ integer `cache_len`:
   captures and replays one graph per bucket (engine/graphs.py recipe) **only when the model is on CUDA**; CPU never
   captures.
 * `fast_decoder.generate(model, tok, prompt_ids, max_new_tokens, window, tau, lam, mask_id, stop_ids, greedy,
-  temperature, predict, generator, static, use_graph)` is `decoder.generate` on this model: same loop, same arguments,
-  same `(new_ids, stats)` (`cache_len`/`prompt_len` replace the DynamicCache in `stats`); it gathers logits only for
-  the mask rows plus, for `predict="ar"`, the last committed row.
+  temperature, predict, generator, static, use_graph, prefill_chunk, margin_tau, no_adjacent, max_fill, fill_mode)`
+  is `decoder.generate` on this model: same loop, same arguments, same `(new_ids, stats)` (`cache_len`/`prompt_len`
+  replace the DynamicCache in `stats`); it gathers logits only for the mask rows plus, for `predict="ar"`, the last
+  committed row. The fill-selection rules are literally `decoder.select_positions` (imported), so both decoders
+  cannot drift apart there.
 
 ### Tested (`engine/cdlm/tests/test_fast.py`, plain asserts, CPU, float32, tiny random Qwen3 saved to a temp dir)
 
@@ -118,7 +189,7 @@ integer `cache_len`:
 cd /mnt/ssdraid/project/open-mercury
 CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_fast
 ```
-(~33 s, CPU.)  The HF side gets its `[MASK]` row from `add_mask_token` (re-randomised), is saved with
+(~68 s, CPU.)  The HF side gets its `[MASK]` row from `add_mask_token` (re-randomised), is saved with
 `save_pretrained`, and the fast model loads that directory (so the mask row and `cdlm_mask_token_id` come from the
 checkpoint); tied and untied heads both.
 
@@ -130,7 +201,13 @@ checkpoint); tied and untied heads both.
    on 4 prompts × {no stop, random stop} × W ∈ {1, 4, 16} × τ ∈ {None, 0.5, 1e9} × predict ∈ {mask, ar} × {untied,
    tied} = 288 cases; the static path gives the same tokens; default `mask_id`; τ=1e9 fills W per step; sampling;
    `max_new_tokens=0`.
-3. `test_cache_len_bookkeeping` — after `generate`, slots `[0, cache_len)` equal a fresh HF causal forward of
+3. `test_fast_decoder_matches_hf_decoder_fill_options` (d) — `fast_decoder.generate == decoder.generate` in tokens
+   and stats (including `filled_positions`) for 7 option sets (`no_adjacent`, `max_fill` ∈ {1, 3}, `margin_tau=0.3`,
+   `leftmost_run`, `no_adjacent+max_fill=2+margin_tau=0.2`, `margin_tau=0.5+leftmost_run`) × W ∈ {4, 16} × τ ∈
+   {0.5, 2.5, 1e9} (+ τ=None for the margin-only sets) × predict ∈ {mask, ar} × 4 prompts (two with a random stop id)
+   = 384 cases; the static path agrees on the W=16 cases; 189 of the 384 outputs differ from the reference rule (the
+   options are exercised, not vacuous).
+4. `test_cache_len_bookkeeping` — after `generate`, slots `[0, cache_len)` equal a fresh HF causal forward of
    `[prompt | output]` (7.8e-6 < 1e-5), garbage written beyond `cache_len` changes nothing (continuation of one token,
    exact and static paths), and over-filling the cache is an assertion, not silent.
 
@@ -140,9 +217,11 @@ Last run (verbatim):
 PASS test_logits_exact_vs_hf
   288 decoder cases identical
 PASS test_fast_decoder_matches_hf_decoder
+  384 decoder cases with fill options identical (189 differ from the reference rule)
+PASS test_fast_decoder_matches_hf_decoder_fill_options
   max |cache - full forward| / continuation: 7.75e-06
 PASS test_cache_len_bookkeeping
-3 passed, 0 failed
+4 passed, 0 failed
 ```
 
 ### Not done (needs a GPU)
@@ -156,6 +235,9 @@ PASS test_cache_len_bookkeeping
 * **bf16**: the model loads in any dtype, but exactness is only established in float32; the bf16 drift vs HF bf16 and
   the τ=None exactness gate on the converted checkpoint are not measured.
 * Single sequence, no batching, no paged cache; `rope_type` must be `default` (no YaRN), no sliding-window layers.
+* **Fill-selection rules on the converted checkpoint**: `no_adjacent` / `max_fill` / `margin_tau` / `leftmost_run`
+  are CPU-verified for semantics and decoder equality only; their accuracy / tokens-per-step trade-off against the
+  §10.3 table (`bench/run_cdlm.py --no-adjacent --margin-tau … --fill-mode leftmost_run`) is unmeasured.
 
 ## Training loop (`distill/train_cdlm.py`, Phase C conversion trainer)
 

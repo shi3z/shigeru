@@ -165,6 +165,46 @@ def test_fast_decoder_matches_hf_decoder():
     print(f"  {n_cases} decoder cases identical")
 
 
+FILL_OPTION_SETS = [dict(no_adjacent=True), dict(max_fill=3), dict(max_fill=1), dict(margin_tau=0.3),
+                    dict(fill_mode="leftmost_run"), dict(no_adjacent=True, max_fill=2, margin_tau=0.2),
+                    dict(margin_tau=0.5, fill_mode="leftmost_run")]
+
+
+def test_fast_decoder_matches_hf_decoder_fill_options():
+    """(2b) fast_decoder.generate == decoder.generate (tokens, stats incl. filled_positions) for every fill-selection
+    option set x W in {4, 16} x tau in {0.5, 2.5, 1e9} x predict in {mask, ar} on 4 prompts (+ a random stop id on
+    half of them), the margin-only rule at tau=None, and the static path; the options do change the output vs the
+    reference rule somewhere (non-vacuous)."""
+    g = torch.Generator().manual_seed(21)
+    m, f, mask_id = pair(seed=9)
+    n_cases = differs = 0
+    for i, prompt in enumerate(random_prompts(g, 4)):
+        stop_ids = [] if i % 2 == 0 else [int(torch.randint(0, VOCAB, (1,), generator=g))]
+        for W in (4, 16):
+            for tau in (0.5, 2.5, 1e9, None):
+                for predict in ("mask", "ar"):
+                    for opts in FILL_OPTION_SETS:
+                        if tau is None and opts.get("margin_tau") is None:
+                            continue                      # tau=None without margin_tau is the leftmost mask (test 2)
+                        ref, rs = hf_generate(m, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id,
+                                              stop_ids=stop_ids, predict=predict, **opts)
+                        out, st = fast_generate(f, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id,
+                                                stop_ids=stop_ids, predict=predict, **opts)
+                        assert out == ref, (W, tau, predict, opts, stop_ids, out, ref)
+                        assert strip(st) == strip(rs), (W, tau, predict, opts, strip(st), strip(rs))
+                        assert st["cache_len"] == prompt.numel() + len(out) == rs["cache"].get_seq_length()
+                        if W == 16 and predict == "mask":
+                            out_s, st_s = fast_generate(f, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id,
+                                                        stop_ids=stop_ids, predict=predict, static=True, **opts)
+                            assert out_s == ref and strip(st_s) == strip(rs), (W, tau, predict, opts)
+                        base, _ = fast_generate(f, None, prompt, 30, window=W, tau=tau, lam=0.02, mask_id=mask_id,
+                                                stop_ids=stop_ids, predict=predict)
+                        differs += base != out
+                        n_cases += 1
+    assert differs > 0
+    print(f"  {n_cases} decoder cases with fill options identical ({differs} differ from the reference rule)")
+
+
 def test_cache_len_bookkeeping():
     """(3) after generate, slots [0, cache_len) hold the K/V of a fresh causal forward of [prompt | output] (< 1e-5),
     the slots beyond cache_len are scratch (overwriting them changes nothing), and the cache can be continued."""

@@ -7,14 +7,16 @@ weights (tests/test_fast.py):
               ORIGINAL position ids (cache_len + slot) at cache slots cache_len.. -> commit the leftmost filled run by
               cache_len += kept (no crop: the rows after the run sit beyond cache_len and are overwritten next step)
               -> predict the mask rows (entropy + lam*distance < tau; tau=None = leftmost mask only; predict="ar"
-              gives the leftmost mask the next-token logits of the preceding row) -> window = window[m:].
+              gives the leftmost mask the next-token logits of the preceding row; the optional fill-selection rules
+              margin_tau / no_adjacent / max_fill / fill_mode are decoder.select_positions itself, so they are the
+              same function in both decoders) -> window = window[m:].
 Logits are gathered only for the rows that are used: the mask rows and, for predict="ar", the last committed row.
 `static=True` runs the bucketed static-shape path of fast_model (and `use_graph=True` replays CUDA graphs when the
 model is on CUDA; on CPU it falls back to the eager static path).  stats carries `cache_len` instead of a DynamicCache.
 """
 import torch
 
-from .decoder import entropy_from_logits, select_positions
+from .decoder import check_fill_options, entropy_from_logits, margin_from_logits, select_positions
 
 __all__ = ["generate"]
 
@@ -22,13 +24,15 @@ __all__ = ["generate"]
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, static=False, use_graph=False,
-             prefill_chunk=512):
+             prefill_chunk=512, margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all"):
     """Decode one sequence with a FastQwen3.  Arguments as decoder.generate (mask_id defaults to the checkpoint's
-    cdlm_mask_token_id; tok only defaults stop_ids to [tok.eos_token_id]).  Returns (new_token_ids, stats) with
+    cdlm_mask_token_id; tok only defaults stop_ids to [tok.eos_token_id]; margin_tau / no_adjacent / max_fill /
+    fill_mode are the fill-selection rules of decoder.py, all off by default).  Returns (new_token_ids, stats) with
     stats = steps, forwards, window_rows, generated, tokens_per_step, filled_per_step, committed_per_step,
-    finish_reason, prompt_len, cache_len (slots [0, cache_len) of model.kv hold [prompt | output])."""
+    filled_positions, finish_reason, prompt_len, cache_len (slots [0, cache_len) of model.kv hold [prompt | output])."""
     if predict not in ("mask", "ar"):
         raise ValueError(f"predict={predict!r}")
+    no_adjacent = check_fill_options(margin_tau, no_adjacent, max_fill, fill_mode)
     if mask_id is None:
         mask_id = model.cfg.mask_id
         if mask_id is None:
@@ -50,7 +54,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
     slots = [mask_id] * min(window, max_new_tokens)                  # window slot i <-> logical position cur + i
     is_mask = [True] * len(slots)
     steps = window_rows = 0
-    filled_hist, commit_hist = {}, {}
+    filled_hist, commit_hist, filled_positions = {}, {}, []
     finish = "length" if not slots else None
 
     def sample(logits):
@@ -110,16 +114,18 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         if predict == "ar":
             mask_logits = torch.cat([last_logits[None], mask_logits[1:]], 0)
         ent = entropy_from_logits(mask_logits)
+        margin = margin_from_logits(mask_logits) if margin_tau is not None else None
         toks = sample(mask_logits)
-        sel = select_positions(ent, mask_slots, tau, lam)
+        sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode)
         for k in sel:
             slots[mask_slots[k]] = int(toks[k])
             is_mask[mask_slots[k]] = False
         filled_hist[len(sel)] = filled_hist.get(len(sel), 0) + 1
+        filled_positions.append([cur + mask_slots[k] for k in sel])
 
     assert len(out) <= max_new_tokens and cache_len == prompt_len + len(out)
     stats = dict(steps=steps, forwards=steps + 1, window_rows=window_rows, generated=len(out),
                  tokens_per_step=(len(out) / steps if steps else 0.0),
                  filled_per_step=dict(sorted(filled_hist.items())), committed_per_step=dict(sorted(commit_hist.items())),
-                 finish_reason=finish, prompt_len=prompt_len, cache_len=cache_len)
+                 filled_positions=filled_positions, finish_reason=finish, prompt_len=prompt_len, cache_len=cache_len)
     return out, stats

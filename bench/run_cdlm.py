@@ -28,6 +28,11 @@ def main():
     ap.add_argument("--max-new-tokens", type=int, default=384)
     ap.add_argument("--ar", action="store_true")
     ap.add_argument("--engine", default="hf", choices=["hf", "fast", "fast_static", "fast_graph"])
+    # fill-selection rules (engine/cdlm/decoder.py "Fill-selection rules"; all off by default, recorded in args)
+    ap.add_argument("--no-adjacent", action="store_true", help="never fill two adjacent masks in one step")
+    ap.add_argument("--max-fill", type=int, default=None, help="cap on masks filled per step")
+    ap.add_argument("--margin-tau", type=float, default=None, help="fill only masks with top1-top2 prob margin >= this")
+    ap.add_argument("--fill-mode", default="all", choices=["all", "leftmost_run"])
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model)
@@ -59,7 +64,8 @@ def main():
                 new = out[0, ids.shape[1]:].tolist(); stats = {"steps": len(new), "forwards": len(new)}
             else:
                 new, stats = generate(dec_model, tok, ids[0].tolist(), a.max_new_tokens, window=a.window, tau=tau, lam=a.lam,
-                                      mask_id=mask_id, stop_ids=stop_ids, greedy=True)
+                                      mask_id=mask_id, stop_ids=stop_ids, greedy=True, no_adjacent=a.no_adjacent,
+                                      max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),
