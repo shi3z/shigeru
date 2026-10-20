@@ -1,0 +1,16 @@
+# Phase C stage 1, continuation: another 60M tokens (new shards) on top of runs/phaseC_cpt_4b/final, 2 ranks (GPUs 4,6)
+# while GPU 7 runs the stage-2 teacher SFT. Launched by distill/chain_cpt2.sh after chain_medium releases GPUs 4/6.
+#   CUDA_VISIBLE_DEVICES=4,6 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=2 -m distill.train_cdlm distill/configs/phaseC_cpt2_4b_2gpu.yaml
+model: runs/phaseC_cpt_4b/final
+data_text: ["/mnt/raid6/data/fineweb-edu/001_00000.parquet", "/mnt/raid6/data/fineweb2-ja/000_00001.parquet"]
+text_max_tokens: 60000000
+out_dir: runs/phaseC_cpt2_4b
+block: 32
+max_len: 1024
+batch: 2
+grad_accum: 6            # 2 ranks x 2 x 6 = 24 sequences per step, as in stage 1
+lr: 8e-6
+warmup_ratio: 0.02
+epochs: 1
+save_steps: 200
+seed: 1
