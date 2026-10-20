@@ -10,5 +10,5 @@ grad_accum: 8
 lr: 1e-5
 warmup_ratio: 0.03
 epochs: 3
-save_steps: 100
+save_steps: 1000           # 35-min run: no intermediate checkpoints (disk)
 seed: 0

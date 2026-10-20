@@ -309,6 +309,13 @@ def latest_checkpoint(out_dir):
 def save_checkpoint(out_dir, step, model, opt, sched, state, limit, torch):
     d = os.path.join(out_dir, f"checkpoint-{step}")
     tmp = d + ".tmp"
+    # disk guard: a full-model checkpoint (weights + Adam states) is ~6x the bf16 weights; the root filesystem filled up on
+    # 2026-10-20 and killed a run mid-save. Skip the checkpoint (keep training) when free space is below MIN_FREE_GIB.
+    need_gib = 6 * sum(p.numel() for p in model.parameters()) * 2 / 2**30
+    free_gib = shutil.disk_usage(out_dir).free / 2**30
+    if free_gib < need_gib + float(os.environ.get("CDLM_MIN_FREE_GIB", "20")):
+        print(f"[train_cdlm] WARNING: {free_gib:.0f} GiB free < {need_gib:.0f} GiB needed: checkpoint-{step} skipped", flush=True)
+        return
     shutil.rmtree(tmp, ignore_errors=True)
     os.makedirs(tmp)
     torch.save({"model": model.state_dict(), "optimizer": opt.state_dict(), "scheduler": sched.state_dict(), "step": step,
