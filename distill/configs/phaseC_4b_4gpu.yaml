@@ -1,0 +1,34 @@
+# 4-GPU run (physical 4,5,6,7 -> logical 0-3; fleet paused): CUDA_VISIBLE_DEVICES=4,5,6,7 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=4 -m distill.train_cdlm distill/configs/phaseC_4b_4gpu.yaml
+# Global batch = 4 ranks x batch 4 x accum 2 = 32 examples/step. GPU 5 has ~20 GiB taken by other tenants: with DDP each rank holds the full optimizer state (~32 GiB + activations), so batch may need to drop to 2 there (OOM handler halves it automatically).
+# Phase C pilot: full fine-tune of Qwen3-4B into a WeDLM-style causal diffusion LM (distill/train_cdlm.py). NOT LAUNCHED YET.
+# Start from the Phase B merged student once it exists (runs/phaseB_pilot_4b/merged); the base model is the fallback.
+#   CUDA_VISIBLE_DEVICES=5 .venv-train/bin/python -m distill.train_cdlm distill/configs/phaseC_pilot_4b.yaml
+# Memory (docs/distill_design.md §7): bf16 weights+grads+Adam ≈ 32 GiB + ≈ 6–8 GiB activations/logits at batch 2 × 2048 rows
+# → ≈ 40 GiB on one A100; with master_fp32: true ≈ 72 GiB (needs an otherwise empty GPU or DDP over GPUs 4–7).
+model: /mnt/raid6/models/hf/Qwen3-4B          # or runs/phaseB_pilot_4b/merged
+data_train: data/distill/phaseA_small_train.jsonl
+out_dir: runs/phaseC_4b_4gpu
+mask_token: "<|mask|>"        # registered in the tokenizer; Qwen3 hands out id 151669 (a free padded embedding row, no resize)
+block: 32                     # WeDLM block size B (train B=32, decode W<=32)
+max_len: 1024                 # logical tokens (prompt kept whole, response truncated); the forward sees 2*max_len = 2048 rows
+batch: 4                      # examples per micro-batch (halved automatically after a CUDA OOM)
+grad_accum: 2                 # -> 16 examples (≈ 12k logical tokens) per optimizer step
+lr: 1e-5
+warmup_ratio: 0.05
+min_lr_ratio: 0.1
+weight_decay: 0.0
+betas: [0.9, 0.95]
+grad_clip: 1.0
+epochs: 2
+ar_weight: 1.0                # total = (mlm + ar_weight*ar) / (1 + ar_weight), as in WeDLM
+mlm_normalize: wedlm          # 1/gamma self-normalised MLM loss
+gamma: {min: 0.0, max: 1.0}   # per-block mask ratio ~ U(min, max]
+ar_on_prompt: false
+seed: 0
+save_steps: 50
+save_total_limit: 2           # each checkpoint holds model + Adam states (≈ 24 GiB in bf16)
+logging_steps: 1
+attn: sdpa                    # dense 4-D mask; flash_attention_2 cannot take it
+grad_ckpt: true
+master_fp32: false            # true = fp32 master weights/Adam + bf16 autocast (≈ 2x state memory; needed if the loss stalls in pure bf16)
+num_workers: 0

@@ -55,8 +55,13 @@ NUMA nodes SYS. Consequences:
 3. `distill/gpu_guard.py` refuses to start without `CUDA_VISIBLE_DEVICES`, refuses 0/1, and after model load checks
    from `nvidia-smi` that the process holds no memory on physical 0/1.
 
-This conflict is for the user to resolve (move the teacher off 2,3, or accept 4 GPUs). Until then every plan below is
-sized for 4 × A100 80 GB with GPU 5 partially occupied.
+**Decision (relayed 2026-10-20 ~09:40 by the donkeyhover-35 session from the user): "とりあえず GPU 4〜7 でやろう";
+the teacher stays on 0–3 and is not restarted.** So every plan below is sized for 4 × A100 80 GB
+(`CUDA_VISIBLE_DEVICES=4,5,6,7`, `torchrun --nproc_per_node=4`) with GPU 5 partially occupied by the TTS/ASR and
+hf_proxy services, which must not be touched. Using 4/6/7 requires the first H3 fleet pause; that pause is executed
+only after the user confirms it directly in the SHIGERU session (relayed instructions are not treated as that
+confirmation), via `scripts/shigeru_run.py --pause-fleet`, logged to `results/fleet_downtime.log` and announced to
+the fleet operator session beforehand.
 
 ## 4. Separating the three effects
 
