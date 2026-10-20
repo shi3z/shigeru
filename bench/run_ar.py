@@ -6,7 +6,7 @@ import argparse, os, sys, time, threading
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 sys.path.insert(0, os.path.dirname(__file__))
-from common import load_prompts, gpu_info, other_tenants, save_json, summarize
+from common import load_prompts, gpu_info, other_tenants, save_json, summarize, score, accuracy
 
 class FirstTokenTimer:
     """records the wall time of the first generated token through a logits processor hook"""
@@ -46,11 +46,11 @@ def main():
             decode_s = e2e - ttft if ttft else None
             r = {"id": p["id"], "lang": p["lang"], "rep": rep, "prompt_tokens": enc.input_ids.shape[1], "effective_tokens": n,
                  "ttft_s": ttft, "e2e_s": e2e, "tok_s_effective": n / e2e, "decode_tok_s": (n - 1) / decode_s if decode_s and n > 1 else None,
-                 "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": tok.decode(gen, skip_special_tokens=True)}
+                 "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": tok.decode(gen, skip_special_tokens=True), "correct": score(p, tok.decode(gen, skip_special_tokens=True))}
             runs.append(r)
             print(f"[{p['id']}] {n} tok, ttft {ttft*1000:.0f} ms, e2e {e2e:.2f} s, {r['tok_s_effective']:.1f} tok/s e2e, decode {r['decode_tok_s']:.1f} tok/s | {r['answer'][:70]!r}", flush=True)
     res = {"engine": "hf-transformers-generate", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s, "gpu_state": other_tenants(),
-           "runs": runs, "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "decode_tok_s", "effective_tokens", "peak_mem_gib"])}
+           "runs": runs, "accuracy": accuracy(runs), "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "decode_tok_s", "effective_tokens", "peak_mem_gib"])}
     save_json(a.out, res)
     s = res["summary"]
     print(f"=== AR {os.path.basename(a.model)}: mean {s['tok_s_effective']['mean']:.1f} tok/s e2e, decode {s['decode_tok_s']['mean']:.1f} tok/s, ttft {s['ttft_s']['mean']*1000:.0f} ms, peak mem {s['peak_mem_gib']['max']:.1f} GiB")

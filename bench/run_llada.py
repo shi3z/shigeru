@@ -7,7 +7,7 @@ import argparse, json, os, sys, time
 import numpy as np, torch, torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModel
 sys.path.insert(0, os.path.dirname(__file__))
-from common import load_prompts, gpu_info, other_tenants, save_json, summarize
+from common import load_prompts, gpu_info, other_tenants, save_json, summarize, score, accuracy
 
 MASK_ID = 126336
 EOS_ID = 126081
@@ -104,11 +104,11 @@ def main():
                  "effective_tokens": eff, **tm,
                  "tok_s_effective": eff / tm["e2e_s"], "tok_s_raw": a.gen_length / tm["e2e_s"],
                  "forward_per_s": tm["n_forward"] / tm["e2e_s"], "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30,
-                 "answer": answer}
+                 "answer": answer, "correct": score(p, answer)}
             runs.append(r)
             print(f"[{p['id']}] eff {eff}/{a.gen_length} tok, ttft {tm['ttft_s']*1000:.0f} ms, e2e {tm['e2e_s']:.2f} s, {r['tok_s_effective']:.1f} tok/s (raw {r['tok_s_raw']:.1f}), {tm['n_forward']} fwd @ {tm['step_ms_mean']:.1f} ms | {answer[:70]!r}", flush=True)
     res = {"engine": "llada-official-sampler", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s,
-           "gpu_state": other_tenants(), "runs": runs,
+           "gpu_state": other_tenants(), "runs": runs, "accuracy": accuracy(runs),
            "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "step_ms_mean", "effective_tokens", "peak_mem_gib"])}
     save_json(a.out, res)
     s = res["summary"]

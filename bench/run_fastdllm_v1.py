@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from transformers import AutoTokenizer
 from model.modeling_llada import LLaDAModelLM          # Fast-dLLM's KV-cache-enabled LLaDA
 import generate as fd                                   # Fast-dLLM v1 samplers
-from common import load_prompts, gpu_info, other_tenants, save_json, summarize
+from common import load_prompts, gpu_info, other_tenants, save_json, summarize, score, accuracy
 
 EOS_ID = 126081
 
@@ -63,11 +63,11 @@ def main():
             answer = tok.decode(seq[:eff], skip_special_tokens=True)
             r = {"id": p["id"], "lang": p["lang"], "rep": rep, "prompt_tokens": ids.shape[1], "gen_length": a.gen_length, "effective_tokens": eff,
                  "ttft_s": cnt.t_first - t0, "e2e_s": e2e, "n_forward": cnt.n, "tok_s_effective": eff / e2e, "tok_s_raw": a.gen_length / e2e,
-                 "forward_per_s": cnt.n / e2e, "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": answer}
+                 "forward_per_s": cnt.n / e2e, "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": answer, "correct": score(p, answer)}
             runs.append(r)
             print(f"[{p['id']}] eff {eff}/{a.gen_length}, ttft {r['ttft_s']*1000:.0f} ms, e2e {e2e:.2f} s, {r['tok_s_effective']:.1f} tok/s (raw {r['tok_s_raw']:.1f}), {cnt.n} fwd | {answer[:70]!r}", flush=True)
     res = {"engine": f"fast-dllm-v1/{a.mode}", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s, "gpu_state": other_tenants(),
-           "runs": runs, "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "n_forward", "effective_tokens", "peak_mem_gib"])}
+           "runs": runs, "accuracy": accuracy(runs), "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "n_forward", "effective_tokens", "peak_mem_gib"])}
     save_json(a.out, res); s = res["summary"]
     print(f"=== Fast-dLLM v1 {a.mode} thr={a.threshold} factor={a.factor} gen={a.gen_length} block={a.block_length}: mean {s['tok_s_effective']['mean']:.1f} tok/s effective, {s['tok_s_raw']['mean']:.1f} raw, {s['n_forward']['mean']:.0f} fwd, ttft {s['ttft_s']['mean']*1000:.0f} ms, peak {s['peak_mem_gib']['max']:.1f} GiB")
 

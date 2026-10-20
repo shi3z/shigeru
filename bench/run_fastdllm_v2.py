@@ -6,7 +6,7 @@ import argparse, os, sys, time
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import load_prompts, gpu_info, other_tenants, save_json, summarize
+from common import load_prompts, gpu_info, other_tenants, save_json, summarize, score, accuracy
 
 STOP_ID = 151645  # <|im_end|>
 
@@ -49,11 +49,11 @@ def main():
             answer = tok.decode(seq[:eff], skip_special_tokens=True)
             r = {"id": p["id"], "lang": p["lang"], "rep": rep, "prompt_tokens": ids.shape[1], "gen_length": a.max_new_tokens, "effective_tokens": eff,
                  "ttft_s": state["t_first"] - t0, "e2e_s": e2e, "n_forward": state["n"], "tok_s_effective": eff / e2e, "tok_s_raw": len(seq) / e2e,
-                 "forward_per_s": state["n"] / e2e, "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": answer}
+                 "forward_per_s": state["n"] / e2e, "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": answer, "correct": score(p, answer)}
             runs.append(r)
             print(f"[{p['id']}] eff {eff}/{len(seq)}, ttft {r['ttft_s']*1000:.0f} ms, e2e {e2e:.2f} s, {r['tok_s_effective']:.1f} tok/s, {state['n']} fwd | {answer[:70]!r}", flush=True)
     res = {"engine": "fast-dllm-v2-hf-generate", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s, "gpu_state": other_tenants(),
-           "runs": runs, "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "n_forward", "effective_tokens", "peak_mem_gib"])}
+           "runs": runs, "accuracy": accuracy(runs), "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "n_forward", "effective_tokens", "peak_mem_gib"])}
     save_json(a.out, res); s = res["summary"]
     print(f"=== Fast-dLLM v2 thr={a.threshold} sub={a.small_block_size} cache={a.block_cache}: mean {s['tok_s_effective']['mean']:.1f} tok/s effective, {s['n_forward']['mean']:.0f} fwd, ttft {s['ttft_s']['mean']*1000:.0f} ms, peak {s['peak_mem_gib']['max']:.1f} GiB")
 

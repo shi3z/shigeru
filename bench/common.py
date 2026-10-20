@@ -31,3 +31,30 @@ def summarize(runs, keys):
         if vals:
             agg[k] = {"mean": sum(vals) / len(vals), "min": min(vals), "max": max(vals), "n": len(vals)}
     return agg
+
+import re
+def extract_number(text):
+    """last number in the text, preferring the one after '####'"""
+    t = text.split('####')[-1] if '####' in text else text
+    nums = re.findall(r'-?\d[\d,]*\.?\d*', t)
+    if not nums:
+        return None
+    try:
+        return float(nums[-1].replace(',', '').rstrip('.'))
+    except ValueError:
+        return None
+
+def score(prompt, answer_text):
+    """returns True/False when the prompt carries a gold numeric answer, else None"""
+    gold = prompt.get("answer")
+    if gold is None:
+        return None
+    got = extract_number(answer_text)
+    try:
+        return got is not None and abs(got - float(gold)) < 1e-6
+    except ValueError:
+        return None
+
+def accuracy(runs):
+    sc = [r["correct"] for r in runs if r.get("correct") is not None]
+    return {"n": len(sc), "accuracy": sum(sc) / len(sc)} if sc else None
