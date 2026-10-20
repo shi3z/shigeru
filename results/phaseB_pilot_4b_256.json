@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "runs/phaseB_pilot_4b/merged",
+  "config": {
+    "model": "runs/phaseB_pilot_4b/merged",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/phaseB_pilot_4b_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 2.430856943130493,
+  "gpu_state": [
+    "78440 MiB, 76 %",
+    "81107 MiB, 82 %",
+    "79957 MiB, 78 %",
+    "77617 MiB, 78 %",
+    "8457 MiB, 68 %",
+    "38555 MiB, 100 %",
+    "16403 MiB, 86 %",
+    "8327 MiB, 73 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 189,
+      "ttft_s": 0.020200110040605068,
+      "e2e_s": 3.4040470090694726,
+      "tok_s_effective": 55.52214746049141,
+      "decode_tok_s": 55.5580691472638,
+      "peak_mem_gib": 7.585290431976318,
+      "answer": "A hash table maps keys to values using a hash function that computes an index. When inserting, the key is hashed, and the value is stored at that index. Retrieval uses the same hash to find the value quickly. Collisions—when two keys hash to the same index—are resolved via chaining (linked lists) or open addressing (probing). Performance is O(1) average for insert, delete, and lookup, but degrades when the table becomes too full. As the load factor (number of entries divided by size) approaches 1, collisions increase, slowing operations. Hash tables degrade significantly when the load factor exceeds ~0.7–0.8, requiring resizing (rehashing) to maintain efficiency. Without resizing, performance becomes O(n) in worst-case scenarios due to linear probing or linked list traversal. Thus, hash tables are most efficient when the number of entries is small relative to the table size.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 256,
+      "ttft_s": 0.018023849930614233,
+      "e2e_s": 4.679598750080913,
+      "tok_s_effective": 54.70554499903941,
+      "decode_tok_s": 54.70254269469708,
+      "peak_mem_gib": 7.594769477844238,
+      "answer": "Here's a Python function that computes the n-th Fibonacci number iteratively, along with a docstring and two usage examples:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Compute the n-th Fibonacci number using an iterative approach.\n\n    Parameters:\n    n (int): The index of the Fibonacci sequence to return. Must be a non-negative integer.\n\n    Returns:\n    int: The n-th Fibonacci number.\n\n    Raises:\n    ValueError: If n is negative.\n\n    Examples:\n    >>> fibonacci(0)\n    0\n    >>> fibonacci(1)\n    1\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n must be a non-negative integer.\")\n    elif n == 0:\n        return 0\n    elif n == 1:\n        return 1\n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n\n# Example usage\nif __name__ == \"__main__\":\n    print(fibonacci(0))  # Output: 0\n    print(fibonacci(10)) # Output: 55\n```\n\n### Explanation:\n- The function starts with the base cases",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.01944207213819027,
+      "e2e_s": 4.6856847810558975,
+      "tok_s_effective": 54.63449035987256,
+      "decode_tok_s": 54.64782179303848,
+      "peak_mem_gib": 7.5994415283203125,
+      "answer": "Let's break this down step by step.\n\n---\n\n### Step 1: Understand the timeline and distances\n\n- **Train A** leaves **City A** at **9:00** heading toward **City B**, which is **300 km away**.\n- **Train B** leaves **City B** at **9:30** heading toward **City A**, going **100 km/h**.\n- Train A is going **80 km/h**.\n\nSo, Train A has a **30-minute head start** over Train B.\n\n---\n\n### Step 2: Calculate how far Train A travels before Train B starts\n\nTrain A travels for **30 minutes = 0.5 hours** at 80 km/h:\n\n$$\n\\text{Distance} = 80 \\times 0.5 = 40 \\text{ km}\n$$\n\nSo, at **9:30**, Train A is **40 km** from City A, and **260 km** from City B.\n\n---\n\n### Step 3: Define the time variable\n\nLet **t** be the number of hours after **9:30** when the two trains meet.\n\n- Train A has already traveled 40",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.01917949179187417,
+      "e2e_s": 4.564193094614893,
+      "tok_s_effective": 56.088775100695024,
+      "decode_tok_s": 56.10544264193473,
+      "peak_mem_gib": 7.59449577331543,
+      "answer": "The lighthouse keeper, Elias, had spent decades alone on the jagged cliffs of Blackmoor Point, his only companions the sea and the wind. One stormy night, a letter arrived—unmarked, sealed with a wax stamp he didn’t recognize. Inside was a single line: *“The beacon is not yours to keep.”* \n\nElias’s hands trembled. He’d inherited the lighthouse from his father, who’d died in a storm years ago. The letter was unsigned, but the wax bore the crest of the old shipping company that once ran the coast. He’d never heard of them again. \n\nThe next morning, he found the beacon dim, its lens cracked. The tide had washed in a rusted key, the only one that fit the lock. Inside the tower, he discovered a ledger—his father’s handwriting, entries from decades past. The last page held a date: *“1892. The lighthouse was taken.”* \n\nElias stood at the cliff’s edge, the sea roaring below. He’d been a fool to think the beacon was his. The letter had been a warning, a message from the past. He turned the key, and the light flared to life, casting the waves",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 189,
+      "ttft_s": 0.021869874093681574,
+      "e2e_s": 3.4458454120904207,
+      "tok_s_effective": 54.84865900741126,
+      "decode_tok_s": 54.90693432640378,
+      "peak_mem_gib": 7.584194183349609,
+      "answer": "- **Social inequality and class tensions**: The Third Estate bore most of the tax burden while the nobility and clergy enjoyed privileges, fueling resentment and demands for reform.  \n- **Economic hardship**: A severe financial crisis, exacerbated by costly wars and extravagant spending by the monarchy, led to widespread poverty and bread shortages.  \n- **Enlightenment ideas**: Philosophers like Rousseau and Voltaire challenged traditional authority, promoting concepts of liberty, equality, and popular sovereignty that inspired revolutionary sentiment.  \n- **Political grievances**: The absolute monarchy’s refusal to reform the Estates-General and the Estates-General’s failure to produce a fair constitution deepened public distrust of the monarchy.  \n- **Immediate triggers**: Events like the Estates-General’s assembly in 1789, the storming of the Bastille in July 1789, and the Declaration of the Rights of Man and of the Citizen marked the revolution’s outbreak.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 92,
+      "ttft_s": 0.017963057849556208,
+      "e2e_s": 1.7469580140896142,
+      "tok_s_effective": 52.66297143835115,
+      "decode_tok_s": 52.63173248225794,
+      "peak_mem_gib": 7.572656631469727,
+      "answer": "過学習は、訓練データに過剰に適合し、汎化力が低下する現象。特徴量の多さやモデルの複雑さが原因。正則化（L1/L2）、ドロップアウト、データ拡張、交差検証、学習率調整などで防ぐ。モデルの複雑さとデータ量のバランスを取る。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.019824165850877762,
+      "e2e_s": 4.6479530041106045,
+      "tok_s_effective": 55.07800956111133,
+      "decode_tok_s": 55.09786112520699,
+      "peak_mem_gib": 7.597103595733643,
+      "answer": "Pythonで、文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数を書くには、以下のような手順があります。\n\n### 説明\n1. **重複を除く**：`set`で一意化します。\n2. **長さ順に並べ替える**：`sorted`で`key=len`を指定します。\n3. **リストに戻す**：`list`に変換します。\n\n### コード\n```python\ndef unique_sorted_by_length(strings):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返します。\n\n    Args:\n        strings (list): 文字列のリスト\n\n    Returns:\n        list: 重複を除いた長さ順のリスト\n    \"\"\"\n    return list(sorted(set(strings), key=len))\n```\n\n### 使用例\n```python\nstrings = [\"apple\", \"banana\", \"cherry\", \"apple\", \"date\"]\nresult = unique_sorted_by_length(strings)\nprint(result)\n```\n\n### 出力\n```\n['date', 'apple', 'banana', 'cherry']\n```\n\n### 注意点\n-",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 256,
+      "ttft_s": 0.020130157936364412,
+      "e2e_s": 4.751134583726525,
+      "tok_s_effective": 53.881866633886816,
+      "decode_tok_s": 53.89975934283987,
+      "peak_mem_gib": 7.5980658531188965,
+      "answer": "太郎は花子より3歳年上、二人の年齢の和は29歳です。5年後の花子の年齢を求めます。\n\n---\n\n### 1. 太郎と花子の年齢を変数で表す\n\n太郎の年齢を $ T $、花子の年齢を $ H $ とします。\n\n- 太郎は花子より3歳年上 → $ T = H + 3 $\n- 二人の年齢の和は29 → $ T + H = 29 $\n\n---\n\n### 2. 連立方程式を解く\n\n$ T = H + 3 $ を $ T + H = 29 $ に代入します。\n\n$$\n(H + 3) + H = 29\n$$\n$$\n2H + 3 = 29\n$$\n$$\n2H = 26\n$$\n$$\nH = 13\n$$\n\n---\n\n### 3. 5年後の花子の年齢を求める\n\n花子の現在の年齢は13歳なので、5年後は：\n\n$$\n13",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 106,
+      "ttft_s": 0.01918934565037489,
+      "e2e_s": 1.9205773286521435,
+      "tok_s_effective": 55.19173761901612,
+      "decode_tok_s": 55.22281666797635,
+      "peak_mem_gib": 7.57457971572876,
+      "answer": "灯台守の手紙は、いつも同じように海風に揺れる。だが今日は、紙面に「**あなたは誰ですか**」とだけ書かれた手紙が届いた。守は思わず笑みを浮かべた。海は静かに、彼の心も静かに。灯台の光が海へと届くその瞬間、守は答えを知った。**「あなたは、灯台守の心の声だ**。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.02027639001607895,
+      "e2e_s": 4.705975207965821,
+      "tok_s_effective": 54.39892661709477,
+      "decode_tok_s": 54.420911353320164,
+      "peak_mem_gib": 7.594494342803955,
+      "answer": "明治維新の主な要因を5つの箇条書きでまとめると以下の通りです。\n\n1. **外国の圧力と貿易の不況**  \n   西洋諸国による不平等条約（如：下関条約）や貿易制限により、日本の経済が危機に陥り、国内の産業や農業が衰退。外貨の不足と貿易の停滞が国内の混乱を招く。\n\n2. **幕府の無能と倒幕運動の台頭**  \n   德川幕府が政治・経済・軍事の統治に失敗し、倒幕運動が広がる。特に薩摩・長州藩が倒幕を主導し、倒幕派の勢力が幕府を脅かす。\n\n3. **天皇制の復活と新政府の設立**  \n   天皇を中心とした新政府が設立され、幕府を倒し、明治天皇が統治を開始。天皇制の復活は国家統一と改革の象徴となり、倒幕運動",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.019609851529821754,
+      "min": 0.017963057849556208,
+      "max": 0.021869874093681574,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 3.8551967185456304,
+      "min": 1.7469580140896142,
+      "max": 4.751134583726525,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 54.70131287969698,
+      "min": 52.66297143835115,
+      "max": 56.088775100695024,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 54.71938915749392,
+      "min": 52.63173248225794,
+      "max": 56.10544264193473,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 211.2,
+      "min": 92,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 7.589509153366089,
+      "min": 7.572656631469727,
+      "max": 7.5994415283203125,
+      "n": 10
+    }
+  }
+}
