@@ -1,0 +1,14 @@
+# Phase C stage 2 on the CPT-continuation model (120M CPT tokens in total).
+# dual-stream objective (chat template, prompt never masked). Single GPU (physical 7). ~2 000 items x 3 epochs.
+model: runs/phaseC_cpt2_4b/final
+data_train: data/distill/phaseA_medium_train.jsonl
+out_dir: runs/phaseC_sft2_4b
+block: 32
+max_len: 1024
+batch: 2
+grad_accum: 8
+lr: 1e-5
+warmup_ratio: 0.03
+epochs: 3
+save_steps: 1000           # 35-min run: no intermediate checkpoints (disk)
+seed: 0

@@ -28,3 +28,12 @@ On this machine GPUs 0-3 and 4/6/7 are taken by other services; experiments star
 
 ## Models and licenses used
 LLaDA-8B-Instruct (MIT), LLaDA2.1-mini (Apache-2.0), Fast-dLLM v2 7B (Apache-2.0), Qwen3-8B (Apache-2.0); reference code: LLaDA, Fast-dLLM, dInfer, dllm, DiffusionLLM (all Apache-2.0). Our engine re-implements the published techniques; no code is copied from the reference repositories.
+
+## DeepSeek-distilled causal diffusion LM (SHIGERU, 2026-10-20)
+
+Design, measurements and negative results: [`docs/distill_design.md`](docs/distill_design.md); WeDLM code-level
+analysis: [`docs/wedlm_analysis.md`](docs/wedlm_analysis.md). Pipeline: `distill/` (teacher data from DeepSeek V4.1
+Flash with verification, curation, LoRA SFT, dual-stream causal-diffusion conversion trainer), `engine/cdlm/` (data,
+mask, losses, HF glue, streaming decoder, own engine with static KV cache, verified/speculative decoding; CPU-tested).
+Headline (full GSM8K, one A100, bf16): Shigeru-4B-Diffusion with verified decoding 90.1 % at 66 tok/s (1.41 tokens
+per step) vs its own AR decoding 90.4 % at 52 tok/s and the released Qwen3-8B 86.4 % at 50 tok/s.
