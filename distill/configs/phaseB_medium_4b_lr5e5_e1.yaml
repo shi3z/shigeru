@@ -1,0 +1,15 @@
+# Ablation of §10.6: same data, lr 5e-5, 1 epoch (108 steps) — does a gentler recipe keep HumanEval?
+model: /mnt/raid6/models/hf/Qwen3-4B
+data_train: data/distill/phaseA_medium_train.jsonl
+data_val: data/distill/phaseA_medium_val.jsonl
+out_dir: runs/phaseB_medium_4b_lr5e5_e1
+lora: {r: 32, alpha: 64, dropout: 0.05}
+max_len: 2048
+lr: 5e-5
+epochs: 1
+batch: 4
+grad_accum: 4
+seed: 0
+save_steps: 50
+eval_steps: 25
+merge: true
