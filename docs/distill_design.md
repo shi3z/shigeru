@@ -253,3 +253,17 @@ closing brackets in code; the same checkpoint generates correctly under transfor
 configs (now applied automatically by both trainers); the affected result files are quarantined in
 `results/invalid_rope/` and the pilots are being re-evaluated (`bench/phaseF_pilots_redo.sh`). The `bench/run_cdlm.py`
 numbers were produced in the training venv and are unaffected.
+
+### 10.1 Phase F, AR rows on the full GSM8K test set (1 319 items, greedy, thinking off, 384 new tokens, idle A100)
+
+| Row | Model | GSM8K (1 319) | HumanEval pass@1 | tok/s (HF greedy, batch 1) |
+|---|---|---|---|---|
+| R1 | Qwen3-4B released | 86.1 % | 81.7 % | 53 |
+| R0 | Qwen3-8B released | 86.4 % | 85.4 % | 50 |
+| R2 | Qwen3-4B + LoRA SFT on 185 teacher items | **89.7 %** | 76.2 % | 53 |
+| R3 | Qwen3-8B + LoRA SFT on 185 teacher items | **91.7 %** | 83.5 % | 51 |
+
+Distillation moves GSM8K by +3.6 / +5.3 points with only 185 verified items (59 of them GSM8K-train math), and the
+distilled 4B already exceeds the released 8B on GSM8K. HumanEval drops slightly (−5.5 / −1.9); the pilot set has
+34 code items, so this is re-checked with the medium set. The 50-item subset's "4B 90 % vs 8B 84 %" was noise: on the
+full set both released models are at 86 %.
