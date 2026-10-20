@@ -267,3 +267,21 @@ Distillation moves GSM8K by +3.6 / +5.3 points with only 185 verified items (59 
 distilled 4B already exceeds the released 8B on GSM8K. HumanEval drops slightly (−5.5 / −1.9); the pilot set has
 34 code items, so this is re-checked with the medium set. The 50-item subset's "4B 90 % vs 8B 84 %" was noise: on the
 full set both released models are at 86 %.
+
+### 10.2 Phase E timing on the shakedown checkpoint (idle GPU 7, bf16, 10 GSM8K prompts, window 16)
+
+| Decoder | τ=None tok/s | τ=0.4 tok/s | tokens/step |
+|---|---|---|---|
+| HF greedy generate (AR rows) | 53.2 | – | 1.0 |
+| HF DynamicCache decoder (`engine/cdlm/decoder.py`) | 44.8 | 45.5 | 0.99 |
+| own engine, plain (`fast_decoder.py`) | **49.1** | 48.9 | 0.99 |
+| own engine, static shapes | 33.6 | 33.5 | 0.99 |
+| own engine, CUDA graphs | 38.7 | 38.7 | 0.99 |
+
+Reading: with the model still decoding one token per step, the own engine is only ~9 % faster than the HF-cache decoder
+and ~8 % slower than plain AR generate (the window re-encodes 16 rows per step). The static/graph paths are **slower**
+because the static step attends over the whole 4 096-slot cache every step; they need cache-length buckets (as in
+`engine/graphs.py`) before graphs can pay off. The engine's real lever is tokens/step, which is 1.0 until the
+conversion training (next run) produces a confident mask predictor. Also to check: τ=0.4 accuracy differs between the HF
+decoder (0.6) and the own engine (0.3) on these 10 prompts — bf16 differences flip threshold decisions; a bf16 GPU
+token-identity test is pending (CPU float32 identity holds).

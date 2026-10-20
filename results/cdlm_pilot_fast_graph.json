@@ -1,0 +1,258 @@
+{
+  "model": "runs/phaseC_pilot_4b/final",
+  "engine": "fast_graph",
+  "args": {
+    "model": "runs/phaseC_pilot_4b/final",
+    "prompts": "bench/prompts_gsm8k50.json",
+    "n": 10,
+    "tau": "none,0.4",
+    "window": 16,
+    "lam": 0.02,
+    "max_new_tokens": 384,
+    "ar": false,
+    "engine": "fast_graph",
+    "out": "results/cdlm_pilot_fast_graph.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "runs": [
+    {
+      "config": "tau=none",
+      "id": "gsm8k_000",
+      "n_tokens": 95,
+      "seconds": 2.468,
+      "tok_s": 38.5,
+      "steps": 96,
+      "forwards": 97,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. The total cost of the trip is $300.\n2. The school will cover half of that, so the school will pay $300 �÷2 = $150.\n3. John has $50.\n4. The amount John is missing is $300 - $150 (school) - $50 (John) = $100.\n\n####100"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_001",
+      "n_tokens": 182,
+      "seconds": 4.683,
+      "tok_s": 38.9,
+      "steps": 183,
+      "forwards": 184,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. Claire earns 1 badge every month.  \n  In 1 year (12 months), Claire earns:  \n1 badge/month × 12 months = 12 badges.\n\n2. Amber takes twice as long to earn a badge as Claire.  \nClaire takes 1 month per badge, so Amber takes 2 months per badge.  \nIn 1 year, Amber earns:  \n1 badge / 2 months × 12 months = 6 badges.\n\n3. Wendy earns three times the amount of badges as Claire.  \nClaire earns 12 badges in a year, so Wendy earns:  \n3 × 12 badges = 36 badges.\n\n4. Difference between Wendy and Amber:  \n36 badges (Wendy) - 6 badges (Amber) = 30 badges.\n\n####30"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_002",
+      "n_tokens": 119,
+      "seconds": 3.077,
+      "tok_s": 38.7,
+      "steps": 120,
+      "forwards": 121,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. Grace weighs 125 pounds.\n2. Alex weighs 2 pounds less than 4 times what Grace weighs.\n   - First, calculate 4 times Grace's weight:  \n     4 × 125 = 500 pounds.\n  - Then subtract 2 pounds:  \n     500 - 2 = 498 pounds.\n3. Add Grace's and Alex's weights together:  \n   125 + 498 = 623 pounds.\n\n####623"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_003",
+      "n_tokens": 145,
+      "seconds": 3.739,
+      "tok_s": 38.8,
+      "steps": 146,
+      "forwards": 147,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. **Total weeks:** 8  \n2. **Average weekly hours:** 4 hours  \n   So, if he had worked out 4 hours every week, total would be:  \n   8 × 4 = 32 hours\n\n3. **Adjust for the extra hours:**  \n- Two weeks at 5 hours: 2 × (5 - 4) = 2 hours extra  \n- One week at 6 hours: 1 × (6 -4) = 2 hours extra  \nTotal extra: 2 +2 = 4 hours\n\n4. **Total hours:** 32 +4 = 36\n\n####36"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_004",
+      "n_tokens": 188,
+      "seconds": 4.836,
+      "tok_s": 38.9,
+      "steps": 189,
+      "forwards": 190,
+      "correct": true,
+      "text": "Let's go step by step.\n\nLet the number of balls retrieved in the second set be **x**.\n\nThen, the number in the first set is **x + 4** (since it's four more than the second).\n\nThe number in the third set is **x / 2** (half as many as the second).\n\nTotal balls:  \n(x +4) + x + (x /2) = 19\n\nCombine terms:  \nx +4 +x +x/2 = 19  \n(2x +4) +x/2 =19  \nMultiply all terms by 2 to eliminate the fraction:  \n4x +8 +x =38  \n5x +8 =38  \n5x =30  \nx=6\n\nSo the second set had 6 balls.\n\nFirst set: x +4 =6+4=10\n\n####10"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_005",
+      "n_tokens": 102,
+      "seconds": 2.645,
+      "tok_s": 38.6,
+      "steps": 103,
+      "forwards": 104,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. **Trousers cost:** $30.\n\n2. **Mother gave him:** $6.\n\n3. **Father gave him:** twice as much as the mother, so 2 × $6 = $12.\n\n4. **Total from parents:** $6 + $12 = $18.\n\n5. **Adam's contribution:** $30 - $18 = $12.\n\n**Final answer:**  \n####12."
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_006",
+      "n_tokens": 170,
+      "seconds": 4.372,
+      "tok_s": 38.9,
+      "steps": 171,
+      "forwards": 172,
+      "correct": false,
+      "text": "Let's go step by step.\n\n**First week:**  \nBoris produces 8,000 bars.\n\n**Second week:**  \nHe produces half as much as the first week:  \n8,000 � � 2 = 4,000 bars.\n\n**Third week:**  \nHe produces three times as much as the first week:  \n8,000 ×   = 24,00 bars.\n\n**Fourth week:**  \nTotal produced in the first three weeks:  \n8,00 + ,00 + 4,00 = ,00 bars.\n\nTotal produced in the month: 0,00 bars.  \nSo, fourth week production:  \n0,00 -,0 = ,0 bars.\n\n#### ,000."
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_007",
+      "n_tokens": 118,
+      "seconds": 3.05,
+      "tok_s": 38.7,
+      "steps": 119,
+      "forwards": 120,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. **Number of sessions:**  \n He went twice per week for 6 weeks.  \n  2 sessions/week × 6 weeks = 12 sessions.\n\n2. **Time per session:**  \n Each session is 2 hours.  \n  12 sessions × 2 hours/session = 24 hours.\n\n3. **Cost per hour:**  \n $125 per hour.\n\n4. **Total cost:**  \n 24 hours × $125/hour = $300.\n\n####300"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_008",
+      "n_tokens": 238,
+      "seconds": 6.103,
+      "tok_s": 39.0,
+      "steps": 239,
+      "forwards": 240,
+      "correct": false,
+      "text": "Let's go step by step.\n\n**Step 1: Determine the number of boxes sold each day.**\n\n- On Saturday:\n - Gingerbread: 10 boxes\n - Apple pie: 4 fewer than gingerbread → 10 -4 = 6 boxes\n\n- On Sunday:\n - Gingerbread: 5 more than Saturday → 10 +5 =15 boxes\n- Apple pie: 15 boxes\n\n**Step 2: Calculate earnings.**\n\n- Gingerbread:\n  Saturday: 10 × $6 = $60\n  Sunday: 15 × $6 = $90\n Total gingerbread: $60 + $90 = $150\n\n- Apple pie:\n Saturday: 6 × $15 = $90\n Sunday: 15 × $15 = $225\nTotal apple pie: $90 + $25 = $315\n\n**Step 3: Total earnings.**\n\n$150 (gingerbread) + $315 (apple pie) = $465\n\n####465"
+    },
+    {
+      "config": "tau=none",
+      "id": "gsm8k_009",
+      "n_tokens": 79,
+      "seconds": 2.057,
+      "tok_s": 38.4,
+      "steps": 80,
+      "forwards": 81,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. Greg found $20.\n2. He has 3 younger siblings, so including himself, there are 4 people.\n3. To split $20 equally among 4 people, divide $20 by 4.\n\n$$20 \\\\div 4 = 5$$\n\nEach of them gets $5.\n\n#### 5"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_000",
+      "n_tokens": 91,
+      "seconds": 2.714,
+      "tok_s": 33.5,
+      "steps": 105,
+      "forwards": 106,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. The total cost of the trip is $300.\n2. The school will cover half of that cost:  \n   $ \\300 \\ \\div  2 = 150.\n.\n3. John has $50.\n4. The amount John is missing is:  \n $300 - 100 = 200.\n\n####200."
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_001",
+      "n_tokens": 384,
+      "seconds": 9.761,
+      "tok_s": 39.3,
+      "steps": 385,
+      "forwards": 386,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. Claire earns 1 badge every month.  \n  In  year (12 months), Claire earns:  \n1 badge/month × 2 = months = 12 badges.\n\n2. Amber takes twice as long to earn  badge as Claire.  \nClaire takes 1 month, so Amber takes 2 months per badge.  \nIn  year, Amber earns:  \n1 badge /  months ×  months =   badges.\n\n3. Wendy earns three times as many badges as Claire in the same time..  \nClaire earns 1 badges in year year, so Wendy earns:  \n3 ×  = 3 badges.\n\n4. Difference between Wendy and Amber:  \n Wendy - Amber =  - - =  badges.\n\n#### 6.           6                               6.                           6.   6                6.     6.  6.  6.  6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6.6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6. 6.6. 6. 6. 6. 6.6. 6.6. 6.6."
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_002",
+      "n_tokens": 127,
+      "seconds": 3.198,
+      "tok_s": 39.7,
+      "steps": 125,
+      "forwards": 126,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. Grace weighs 125 pounds.\n2. Alex weighs 2 pounds less than 4 times what Grace Grace weighs.  \n   First, calculate 4 times Grace's weight:  \n   4 × 125 = 500 pounds.  \n   Then subtract 2 pounds:  \n   500 - 2 = 498 pounds.  \n So Alex weighs 498 pounds.\n3. Add Grace and Alex's weights:  \n 125 + 498 = 623 pounds.\n\n####623"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_003",
+      "n_tokens": 384,
+      "seconds": 9.805,
+      "tok_s": 39.2,
+      "steps": 385,
+      "forwards": 386,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. **Total weeks:** 8  \n2. **Average weekly hours:** 4 hours  \n   So, if he had worked out 4 hours every week, total total would be:  \n   $ 8 \\ \\\\\\ \\imes\\\\ 4 = 32 $ hours.\n\n3. **Adjust for the extra hours:**  \n  - Two weeks at 5 hours: $ 2 \\\\ \\imes\\\\ (5 - 4) = 2 \\\\\\\\\\\\\\\\1 hour extra.  \n- One week at 6 hours: $ 6 -4 = 2 hours extra hours.  \nTotal extra hours: $ 2 + 2 = 4 hours.\n\n4. **Add the extra hours to the base:**  \n $ 32 +  = 36 hours.\n\n####36....\\      4\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_004",
+      "n_tokens": 207,
+      "seconds": 5.292,
+      "tok_s": 39.1,
+      "steps": 207,
+      "forwards": 208,
+      "correct": false,
+      "text": "Let's define step through the problem carefully.\n\nLet the number of balls retrieved in the second set be **x**.\n\nFrom the problem:\n- In the first set, he retrieved **x + 4** balls.\n- In the third set, he retrieved **x / 2** balls.\n\nTotal balls retrieved:  \n(x + 4) + x + (x / 2) = 19\n\nCombine terms:  \nx + 4 + x + x/2 = 19  \n2x + x/2 +  = 19  \n(4x/2 + x/2) + 4 = 9x/2 + 4 = 9\n\nMultiply both sides by 2 to eliminate the fraction:  \n9x + 8 = 38  \n9x = 30  \nx = 10\n\nSo the second set had 10 balls.\n\nFirst set: x +4 = 10 +4 =14\n\n####14"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_005",
+      "n_tokens": 384,
+      "seconds": 9.769,
+      "tok_s": 39.3,
+      "steps": 384,
+      "forwards": 385,
+      "correct": false,
+      "text": "Let's go step by step.\n\n1. **Trousers cost:** $30.\n\n2. **Mother gave him:** $6.\n\n3. **Father gave him:** twice as much as the mother, so 2 × $6 = $12.\n\n4. **Total from parents:** $6 + $12 = $18.\n\n5. **Adam's contribution:** $30 - $18 = $12.\n\n**Final answer:**  \n####12..............12....................................................................................................................................................................................12..........................................1.2........................................."
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_006",
+      "n_tokens": 164,
+      "seconds": 4.183,
+      "tok_s": 39.2,
+      "steps": 165,
+      "forwards": 166,
+      "correct": false,
+      "text": "Let's go step by step.\n\n**First week:**  \nBoris produces 8,000 bars.\n\n**Second week:**  \nHe produces half as much as the first week:  \n8,000 � �   = 4,000 bars.\n\n**Third week:**  \nHe produces three times as much as the first week:  \n3 ×  ,000 = ,,00 bars.\n\n**Total produced in the first three weeks:**  \n,,00 + ,00 + ,00 = ,,00 bars.\n\n**Total total produced in four weeks:**  \n5,000 bars.\n\n**Fourth week:**  \n,00 -,,00 = ,00 bars.\n\n#### 000"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_007",
+      "n_tokens": 120,
+      "seconds": 3.026,
+      "tok_s": 39.7,
+      "steps": 118,
+      "forwards": 119,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. **Number of sessions:**  \n He went twice per week for 6 weeks.  \n  2 sessions/week × 6 weeks = 12 sessions.\n\n2. **Time per session:**  \n Each session is 2 hours.  \n  12 sessions × 2 hours/session = 24 hours.\n\n3. **Cost per hour:**  \n $125 per hour.\n\n4. **Total cost:**  \n 24 hours × $125/hour = $3000.\n\n####3000"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_008",
+      "n_tokens": 384,
+      "seconds": 9.797,
+      "tok_s": 39.2,
+      "steps": 385,
+      "forwards": 386,
+      "correct": false,
+      "text": "Let's go step by step.\n\n**Step 1: Determine the number of boxes sold each day.**\n\n- On Saturday:\n - Gingerbread: 10 boxes\n - Apple pie: 4 fewer than gingerbread → 10 -  = 6 boxes\n\n- On Sunday:\n - Gingerbread: 5 more than Saturday → 0 +  = 5 boxes\n- Apple pie: 5 boxes\n\n**Step 2: Calculate earnings.**\n\n- Gingerbread:\n  Saturday: 0 × $6 = $60\n  Sunday: 5 × $6 = $30\n Total gingerbread: $60 + $0 = $000\n\n- Apple pie:\n Saturday: 6 × $5 = $000\n Sunday:  × $5 = $00\nTotal apple pie: $00 + $0 = $00\n\n**Step 3: Total earnings.**\n\n$00 + $0 = $00\n\n#### 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "config": "tau=0.4",
+      "id": "gsm8k_009",
+      "n_tokens": 76,
+      "seconds": 1.976,
+      "tok_s": 38.5,
+      "steps": 77,
+      "forwards": 78,
+      "correct": true,
+      "text": "Let's go step by step.\n\n1. Greg found $20.\n2. He has 3 younger siblings, so including himself, there are 4 people.\n3. To split $ equally, divide $20 by 4:  \n   $20 � �  4 = 5.\n4. Each person gets $5.\n\n#### 5."
+    }
+  ],
+  "summary": {
+    "tau=none": {
+      "tok_s_mean": 38.7,
+      "tokens_per_step": 0.99,
+      "accuracy": 0.7,
+      "n": 10
+    },
+    "tau=0.4": {
+      "tok_s_mean": 38.7,
+      "tokens_per_step": 0.99,
+      "accuracy": 0.3,
+      "n": 10
+    }
+  }
+}
