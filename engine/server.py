@@ -23,13 +23,12 @@ def decode_blocks(model, runner, prompt, gen_length, block_length, threshold, us
     """threshold block decoding (same algorithm as engine.sampler.generate) that calls on_block(block_token_ids) per finished block
     and stops after an all-EOS block."""
     dev = prompt.device; P = prompt.shape[1]; L = P + gen_length; Lb = bucket(L)
-    cache = runner.get_cache(Lb)
-    key_mask = torch.zeros(Lb, dtype=torch.bool, device=dev); key_mask[:L] = True
+    runner.get_cache(Lb)
     x = torch.full((1, Lb), EOS_ID, dtype=torch.long, device=dev); x[:, P:L] = MASK_ID; x[:, :P] = prompt
     pos_all = torch.arange(Lb, device=dev); n_fwd = 0
     for nb in range(gen_length // block_length):
         bs, be = P + nb * block_length, P + (nb + 1) * block_length
-        logits = runner.run(x, pos_all, key_mask, use_graph=use_graph)[:, bs:be].clone(); n_fwd += 1
+        logits = runner.run(x, pos_all, L, use_graph=use_graph)[:, bs:be].clone(); n_fwd += 1
         while True:
             masked = (x[:, bs:be] == MASK_ID)
             if not masked.any():
@@ -41,7 +40,7 @@ def decode_blocks(model, runner, prompt, gen_length, block_length, threshold, us
             blk = x[:, bs:be]; blk[sel] = x0[sel]; x[:, bs:be] = blk
             if not (x[:, bs:be] == MASK_ID).any():
                 break
-            logits = runner.run(x[:, bs:be], pos_all[bs:be], key_mask, use_graph=use_graph).clone(); n_fwd += 1
+            logits = runner.run(x[:, bs:be], pos_all[bs:be], L, use_graph=use_graph).clone(); n_fwd += 1
         ids = x[0, bs:be].tolist()
         on_block(ids)
         if all(t == EOS_ID for t in ids) or EOS_ID in ids:

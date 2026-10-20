@@ -24,22 +24,21 @@ def generate(model, prompt, gen_length=256, block_length=32, steps=None, mode="t
     dev = prompt.device
     n_blocks = gen_length // block_length
     steps_per_block = (steps or gen_length) // n_blocks
-    if runner is not None:                      # padded, masked cache + optional CUDA graphs
+    if runner is not None:                      # runner-owned cache (max_len) + key mask + optional CUDA graphs
         Lb = bucket(L); cache = runner.get_cache(Lb)
-        key_mask = torch.zeros(Lb, dtype=torch.bool, device=dev); key_mask[:L] = True
         x = torch.full((B, Lb), EOS_ID, dtype=torch.long, device=dev)
     else:
-        Lb = L; cache = model.new_cache(B, L, dev) if use_cache else None; key_mask = None
+        Lb = L; cache = model.new_cache(B, L, dev) if use_cache else None
         x = torch.full((B, L), MASK_ID, dtype=torch.long, device=dev)
     x[:, P:L] = MASK_ID; x[:, :P] = prompt
     pos_all = torch.arange(Lb, device=dev)
     def full_forward():
         if runner is not None:
-            return runner.run(x, pos_all, key_mask, use_graph=use_graph)
+            return runner.run(x, pos_all, L, use_graph=use_graph)
         return model(x, cache=cache, start=0) if use_cache else model(x)
     def block_forward(bs, be):
         if runner is not None:
-            return runner.run(x[:, bs:be], pos_all[bs:be], key_mask, use_graph=use_graph)
+            return runner.run(x[:, bs:be], pos_all[bs:be], L, use_graph=use_graph)
         return model(x[:, bs:be], cache=cache, start=bs)
     n_forward = 0; t_first = None; t0 = time.perf_counter()
     for nb in range(n_blocks):
