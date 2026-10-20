@@ -357,6 +357,7 @@ checkpoint and on the stage-2 checkpoint.
 | verify, τ=0.4, W=16 | **90 % (identical outputs)** | 1.19 | 74 % | 50.3 |
 | verify, τ=1.0, W=16 | 90 % | 1.27 | 43 % | 55.4 |
 | verify, τ=1.0, W=32 | 90 % | 1.27 | 41 % | 56.3 |
+| verify, τ=1.0, W=16, **own engine** (`--engine fast`) | 90 % | 1.27 | 39 % | **60.0** |
 
 The guarantee holds on the real checkpoint (outputs identical to AR greedy, so quality is the AR student's by
 construction), and the diffusion head now contributes speed instead of errors: 1.27 tokens per step. End-to-end that is
