@@ -88,7 +88,12 @@ def main():
         merged = trainer.model.merge_and_unload()
         mdir = os.path.join(out_dir, "merged")
         merged.save_pretrained(mdir, safe_serialization=True)
-        tok.save_pretrained(mdir)
+        # copy the base model's tokenizer files verbatim (files written by transformers 5 do not load in the 4.57 bench venv)
+        import shutil
+        for fn in ["tokenizer.json", "tokenizer_config.json", "vocab.json", "merges.txt", "special_tokens_map.json", "generation_config.json"]:
+            src = os.path.join(cfg["model"], fn)
+            if os.path.exists(src):
+                shutil.copy(src, mdir)
         info["merged_dir"] = mdir
     json.dump(info, open(os.path.join(out_dir, "run.json"), "w"), indent=1, ensure_ascii=False)
     print(json.dumps({k: v for k, v in info.items() if k != "log_history"}, indent=1, ensure_ascii=False, default=str))
