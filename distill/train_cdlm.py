@@ -105,6 +105,38 @@ def load_jsonl(path):
         return [json.loads(line) for line in f if line.strip()]
 
 
+def tokenize_text_corpus(paths, tok, max_len, max_tokens=None, text_key="text", seed=0, min_doc_tokens=32):
+    """Raw-text (continued-pretraining) mode for the conversion objective, as WeDLM's CPT stage: parquet/JSONL documents are
+    tokenized, each document gets a leading BOS-like separator (eos token, Qwen has no BOS), documents are concatenated and
+    chunked into fixed max_len windows (prompt_len = 0: every token is maskable, AR loss everywhere).  max_tokens caps the
+    corpus; the budget is split equally over the files (so EN and JA shards both contribute); chunks are shuffled with seed."""
+    import torch, random
+    rng = random.Random(seed)
+    out = []
+    per_file = (max_tokens // len(paths)) if max_tokens else None
+    for path in paths:
+        buf, total = [], 0
+        if path.endswith(".parquet"):
+            import pyarrow.parquet as pq
+            pf = pq.ParquetFile(path)
+            docs_iter = (str(d) for rg in range(pf.num_row_groups) for d in pf.read_row_group(rg, columns=[text_key]).column(text_key).to_pylist())
+        else:
+            docs_iter = (json.loads(l)[text_key] for l in open(path) if l.strip())
+        for doc in docs_iter:
+            ids = tok(doc, add_special_tokens=False)["input_ids"]
+            if len(ids) < min_doc_tokens:
+                continue
+            buf += ids + [tok.eos_token_id]
+            while len(buf) >= max_len:
+                out.append((torch.tensor(buf[:max_len], dtype=torch.long), 0))
+                buf = buf[max_len:]
+                total += max_len
+            if per_file and total >= per_file:
+                break
+    rng.shuffle(out)
+    return out, 0, 0
+
+
 def tokenize_examples(rows, tok, max_len):
     """-> list of (tokens LongTensor [L], prompt_len), n_dropped, n_truncated.  Same prompt/completion split as train_sft."""
     import torch
@@ -330,8 +362,13 @@ def main():
 
     # --- data
     max_len, block = int(cfg["max_len"]), int(cfg.get("block", 32))
-    data_path = cfg["data_train"] if os.path.isabs(cfg["data_train"]) else os.path.join(ROOT, cfg["data_train"])
-    items, n_dropped, n_truncated = tokenize_examples(load_jsonl(data_path), tok, max_len)
+    if cfg.get("data_text"):     # raw-text CPT mode (list of parquet/JSONL paths); data_train is ignored
+        paths = [p if os.path.isabs(p) else os.path.join(ROOT, p) for p in cfg["data_text"]]
+        items, n_dropped, n_truncated = tokenize_text_corpus(paths, tok, max_len, cfg.get("text_max_tokens"), cfg.get("text_key", "text"), seed)
+        data_path = ",".join(paths)
+    else:
+        data_path = cfg["data_train"] if os.path.isabs(cfg["data_train"]) else os.path.join(ROOT, cfg["data_train"])
+        items, n_dropped, n_truncated = tokenize_examples(load_jsonl(data_path), tok, max_len)
     assert items, f"no trainable examples in {data_path}"
     gamma = cfg.get("gamma") or {}
     ds = CDLMDataset(items, mask_id, block, gamma.get("min", 0.0), gamma.get("max", 1.0), seed, cfg.get("ar_on_prompt", False))

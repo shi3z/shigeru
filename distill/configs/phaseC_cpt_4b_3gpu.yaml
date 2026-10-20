@@ -1,0 +1,20 @@
+# Phase C conversion, stage 1 (continued pretraining on public text, WeDLM-style CPT) of the Phase B 4B student.
+# Rationale (docs/distill_design.md §7/§10): the 46-step shakedown on 185 teacher items gave no parallelism; the mask
+# predictor needs orders of magnitude more tokens than the teacher can produce (13 s/item). Text: FineWeb-Edu sample shard 000
+# (EN, ODC-By) + FineWeb-2 jpn_Jpan shard 000 (JA, ODC-By); stage 2 then fine-tunes on the teacher set (phaseC_*_sft.yaml).
+# Launch on physical GPUs 4,6,7 (fleet stopped by the user), DDP:
+#   CUDA_VISIBLE_DEVICES=4,6,7 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=3 -m distill.train_cdlm distill/configs/phaseC_cpt_4b_3gpu.yaml
+# Budget: text_max_tokens 60M logical tokens ≈ 3 × 1.25k tok/s → ~4.5 h; per rank 35 GiB at batch 2 × 2048 rows.
+model: runs/phaseB_pilot_4b/merged
+data_text: ["/mnt/raid6/data/fineweb-edu/000_00000.parquet", "/mnt/raid6/data/fineweb2-ja/000_00000.parquet"]
+text_max_tokens: 60000000
+out_dir: runs/phaseC_cpt_4b
+block: 32
+max_len: 1024
+batch: 2
+grad_accum: 4            # 3 ranks x 2 x 4 = 24 sequences = 24k logical tokens per step
+lr: 1e-5
+warmup_ratio: 0.03
+epochs: 1
+save_steps: 200
+seed: 0
