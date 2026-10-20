@@ -348,3 +348,17 @@ agree (AR-exact speculative decoding with the diffusion head as the drafter; the
 lists as a free proposal). This keeps the AR student's quality by construction and turns the mask predictor's
 accuracy into speed. Implementation queued in both decoders with CPU exactness tests; measured next on the CPT
 checkpoint and on the stage-2 checkpoint.
+
+**Verified (speculative) decoding on the CPT checkpoint (18:45, same 20 prompts, HF decoder, GPU 4):**
+
+| Decoding | accuracy | tokens/step | draft acceptance | tok/s |
+|---|---|---|---|---|
+| AR greedy (reference) | 90 % | 1.00 | – | 50.9 |
+| verify, τ=0.4, W=16 | **90 % (identical outputs)** | 1.19 | 74 % | 50.3 |
+| verify, τ=1.0, W=16 | 90 % | 1.27 | 43 % | 55.4 |
+| verify, τ=1.0, W=32 | 90 % | 1.27 | 41 % | 56.3 |
+
+The guarantee holds on the real checkpoint (outputs identical to AR greedy, so quality is the AR student's by
+construction), and the diffusion head now contributes speed instead of errors: 1.27 tokens per step. End-to-end that is
+only ~1.1× because the HF-cache decoder re-encodes W+1 rows per step; the own engine and a better drafter (stage 2,
+CPT continuation) are the two levers, and the ceiling is (W+1)/2 tokens per step with a perfect drafter.
