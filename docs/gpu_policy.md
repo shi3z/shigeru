@@ -61,3 +61,11 @@ Checks after pause: GPUs 4/6/7 ~0 MiB, no `claimed/c{4,6,7}__*`, queue count = b
    ports and three live workers, then remove the maintenance files; log the downtime.
 6. Recovery after an OS crash: `scripts/shigeru_run.py --fleet recover` reads `results/fleet_pause_state.json` and
    restores the fleet if a pause was in progress.
+
+### Operator notes added 2026-10-20 (after the confirmation)
+* During `--drain-minutes`, if `thermal_guard.sh` pauses a worker (SIGSTOP) the job's "done in" line does not appear until
+  the GPU cools below 73 °C; the drain then hits its time limit. A job cut off this way is not ingested and will be
+  re-rendered later. This is accepted behaviour, not an error.
+* A worker that claims a new job right after its "done in" line is normal; that claim is returned to `queue/` by the
+  move-requeue step with its original name.
+* Every pause/restore is logged in `results/fleet_downtime.log`; the operator reads that file when checking fleet health.
