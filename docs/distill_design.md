@@ -329,3 +329,22 @@ stricter threshold.
 Correction to the morning's log: the CUDA-graph path is **slower** than the plain cached path on an idle GPU (it
 attends over the full 4 096-slot cache every step, like the cdlm static path); the earlier "171 raw / 145 effective"
 graph figure does not reproduce and is withdrawn. Accuracy of the graph+EOS configuration is unaffected (GSM8K-50 88 %).
+
+**Fill-selection rules on the CPT checkpoint (same 20 prompts, HF decoder, `engine/cdlm` options added 18:10):**
+
+| Rule | accuracy | tokens/step |
+|---|---|---|
+| τ=0.4 / 0.7, `no_adjacent` | 25 % / 30 % | 1.01 / 1.04 |
+| τ=0.4 / 0.7, `fill_mode=leftmost_run` | 30 % / 20 % | 1.18 / 1.29 |
+| margin ≥ 0.5 (no entropy rule) | 10 % | 1.69 |
+| margin ≥ 0.5 + `no_adjacent` | 35 % | 1.21 |
+| τ=None (frontier mask only, reference) | 80 % | 0.99 |
+
+Reading: even at 1.01 tokens/step (`no_adjacent`, i.e. ~1 % of fills ahead of the frontier) accuracy collapses from 80 % to
+25 %, so adjacency is not the main cause: **any token filled ahead of the frontier is unreliable at this training
+budget and is never revised**, and one wrong committed token derails the answer. Parallelism therefore has to come with
+verification: use the ahead-of-frontier fills as *drafts* and accept them only where the AR rows of the same forward
+agree (AR-exact speculative decoding with the diffusion head as the drafter; the same mechanism WeDLM's analysis §11
+lists as a free proposal). This keeps the AR student's quality by construction and turns the mask predictor's
+accuracy into speed. Implementation queued in both decoders with CPU exactness tests; measured next on the CPT
+checkpoint and on the stage-2 checkpoint.
