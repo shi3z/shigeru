@@ -348,6 +348,104 @@ This function `fibonacci` uses an iterative approach to calculate the n-th Fibon
 ```
 
 ## fast-dllm-v2-hf-generate — Fast_dLLM_v2_7B (threshold=0.9 small_block_size=8)
+`fastdllm_v2_t0.9_sb8_cache.json`
+
+**en_explain** — 247 tokens, 67.1 tok/s
+
+```text
+A hash table is a data structure that maps keys to values using a hash function. It uses an array of buckets or slots to store the key-value pairs. When hash function takes a key as input, it generates a hash code, which is an index into the array. The key-value pair is stored in the bucket at that index. 
+
+Hash tables provide average O(1) time complexity for insertion, deletion, and lookup operations. However, their performance can degrade under several conditions:
+
+1. **Hash function collisions**: When two keys produce the same hash code, it leads to a collision. Hash tables handle collisions using techniques like chaining (where each bucket contains a linked list of key-value pairs) or open addressing (where the hash table searches for an empty slot in the same bucket). The number of collisions increases as the hash table becomes more full, leading to slower performance.
+
+2. **Hash table resizing**: When the hash table is full, it needs to be resized by creating a new, larger table and rehashing all existing key-value pairs. This operation can be expensive, especially for large hash tables.
+
+3. **Poor hash function**: A poor hash function that generates a limited number of hash codes can lead to
+```
+
+**en_code** — 245 tokens, 104.9 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+    n (int): The position of the Fibonacci number to return.
+
+    Returns:
+    int: The n-th Fibonacci number.
+
+    Examples:
+    >>> fibonacci(0)
+    0
+    >>> fibonacci(1)
+    1
+    >>> fibonacci(5)
+    5
+    >>> fibonacci(10)
+    55
+    """
+    if n < 0:
+        raise ValueError("Input should be a non-negative integer")
+    elif n == 0:
+        return 0
+    elif n == 1:
+        return 1
+
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+```
+
+This function calculates the n-th Fibonacci number using an iterative approach, which is more efficient than a recursive approach for larger values of n. The function includes a docstring that describes its purpose, arguments, return value, and usage examples. The function also includes a check to ensure that the input is a non-negative integer,
+```
+
+**ja_explain** — 242 tokens, 62.2 tok/s
+
+```text
+過学習は、機械学習において、モデルがトレー�データを過度に適合化し、結果的に新しいデータへの適化力が低下する現象です。これは、モデルの複雑さやトレーデータの大きさ、およびハイパー�の調整が適切でない場合に�生します。
+
+過学習を防ぐには、以下の方法が有られます。
+
+1. モデルの複�さを制限：ノ数の深さや、重数などを調整し、モデルの複�ささを制限します。
+2. �ーベストデータ割：トレー�データに含まれるテストードデータを適切に割り当てし、モデルの適化力を評価します。
+3. ハーパー�調整：ハイーパーパラメータを調整し、トレー�データへの適合合度を適切に調整しますします。
+4. モデルの評合：トレーデータだけでなく、テストードデータへの適化力も評価し、適切に評合します。
+5. バーベストデータの使用
+```
+
+**ja_reason** — 202 tokens, 95.8 tok/s
+
+```text
+まず、太郎と花子の現在の年齢を x と y で表します。与えの条件は以下の2つです:
+
+1. 太郎は子より 3 歳年上
+2. 二人の年齢の和は 29
+
+これらのこれらの条件を式にすると:
+
+1. x = y + 3
+2. x + y = 29
+
+第式に第1式を代入して、y の値を計算:
+
+(y + 3) + y = 29
+2y + 3 = 29
+2y = 26
+y = 13
+
+つまり、花子の現在の年齢は13歳です。5年後、花子の年齢は:
+
+13 + 5 = 18
+
+した、 5年後、花子の年齢は 18 歳です。
+```
+
+## fast-dllm-v2-hf-generate — Fast_dLLM_v2_7B (threshold=0.9 small_block_size=8)
 `fastdllm_v2_t0.9_sb8_nocache.json`
 
 **en_explain** — 247 tokens, 66.5 tok/s
@@ -436,6 +534,99 @@ y = 13
 13 + 5 = 18
 
 した、 5年後、花子の年齢は 18 歳です。
+```
+
+## fast-dllm-v2-hf-generate — Fast_dLLM_v2_7B (threshold=1.0 small_block_size=8)
+`fastdllm_v2_t1.0_sb8_nocache.json`
+
+**en_explain** — 247 tokens, 56.5 tok/s
+
+```text
+A hash table is a data structure that maps keys to values using a hash function. It uses an array of buckets or slots to store the key-value pairs. When hash function takes a key as input, it generates a hash code, which is an index into the array. The key-value pair is stored in the bucket at that index. This allows for constant-time average-case complexity for search, insert, and delete operations.
+
+However, hash tables can degrade in performance when the load factor (the ratio of the number of elements to the number of buckets) is high. When the load factor exceeds a certain threshold, the hash table may be resized, which involves creating a new array with more buckets and rehashing all the key-value pairs. This can be computationally expensive and lead to temporary performance degradation.
+
+Another factor of performance degradation is the quality of the hash function. A poor hash function can lead to many collisions, where multiple keys generate the same hash code. This can result in increased search times and slower performance. A good hash function should distribute keys evenly across the buckets to minimize collisions.
+
+In summary, hash tables are efficient data structures for storing key-value pairs, but their performance can degrade when the load factor is high or
+```
+
+**en_code** — 209 tokens, 56.6 tok/s
+
+```text
+```python
+def fibonacci(n):
+    """
+    Returns the n-th Fibonacci number using an iterative approach.
+
+    Args:
+    n (int): The position of the Fibonacci number to return.
+
+    Returns:
+    int: The n-th Fibonacci number.
+
+    Examples:
+    >>> fibonacci(0)
+    0
+    >>> fibonacci(1)
+    1
+    >>> fibonacci(5)
+    5
+    >>> fibonacci(10)
+    55
+    """
+    if n < 0:
+        raise ValueError("Input should be a non-negative integer")
+
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+```
+
+This function calculates the n-th Fibonacci number using an iterative approach. It includes a docstring that explains the function's purpose, arguments, return value, and usage examples. The function raises a `ValueError` if the input is negative, as Fibonacci numbers are not defined for negative indices.
+```
+
+**ja_explain** — 210 tokens, 56.5 tok/s
+
+```text
+過学習は、機械学習において、モデルが訓練データを過度に記憶、、結果的に新しいデータへの適化力が低下する現象です。これは、モデルが複雑すぎる、データ量が不足、、適切な評価指が使用されていないなどがなどが主因です。防止するには、 
+
+1. モデルの複雑さを制限し、�化や正規化などの技術を用。
+2. データ量を増やし、データの多様性を。
+。
+3. モデルの評価指標を適切に設定し、トレーニングを。
+。
+4. モデルの評価指標を適切に設定し、トレーニングを。
+。
+5. モデルの評価指標を適切に設定し、トレーニングを。
+
+これらの手を講することで、過学習を防ぐことが可能になります。
+```
+
+**ja_reason** — 194 tokens, 56.4 tok/s
+
+```text
+まず、太郎と花子の現在の年齢を x と y で表します。与えの条件は以下の2つです:
+
+1. 太郎は花子より 3 歳年上
+2. 二人の年齢の和は 29
+
+これらのこれらの条件を数学式に翻訳すると:
+
+1. x = y + 3
+2. x + y = 29
+
+次に、(1) を (2) に代入して y を求めます:
+
+(y + 3) + y = 29
+2y + 3 = 29
+2y = 26
+y = 13
+
+つまり、花子の現在 13 歳です。5 年後、花子の年齢は 13 + 5 = 18 歳になります。
+
+Answer: 18
 ```
 
 ## llada-official-sampler — LLaDA-8B-Instruct (steps=128 block_length=32)
