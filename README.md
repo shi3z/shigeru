@@ -20,3 +20,11 @@ On this machine GPUs 0-3 and 4/6/7 are taken by other services; experiments star
     uv venv --python 3.12 .venv && source .venv/bin/activate
     uv pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
     uv pip install "transformers==4.57.*" einops  # 5.x breaks LLaDA remote code; einops for Fast-dLLM v2 accelerate safetensors sentencepiece huggingface_hub numpy tqdm fastapi uvicorn
+
+## Samples and results
+* `docs/samples.md` — verbatim English/Japanese outputs of every engine on the shared prompts (regenerate with `bench/make_samples.py`).
+* `docs/phase1.md` — Phase-1 method and measured table; `docs/research.md` — survey of the reference repos and the Mercury paper.
+* `results/*.json` — one file per run (config, GPU state, per-prompt timings, generated text, GSM8K correctness); `bench/summarize.py` tabulates them.
+
+## Models and licenses used
+LLaDA-8B-Instruct (MIT), LLaDA2.1-mini (Apache-2.0), Fast-dLLM v2 7B (Apache-2.0), Qwen3-8B (Apache-2.0); reference code: LLaDA, Fast-dLLM, dInfer, dllm, DiffusionLLM (all Apache-2.0). Our engine re-implements the published techniques; no code is copied from the reference repositories.
