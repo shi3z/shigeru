@@ -59,9 +59,10 @@ class Block(nn.Module):
         self.ff_out = nn.Linear(cfg.mlp_hidden, d, bias=False)
         self.cfg = cfg
 
-    def forward(self, x, cos, sin, cache=None, start=0):
-        """x [B,T,d] for sequence positions [start, start+T). cache: (K,V) tensors [B,H,L,hd] for the whole sequence or None.
-        With a cache the block's k/v are written in place and attention spans all L positions."""
+    def forward(self, x, cos, sin, cache=None, pos=None, key_mask=None):
+        """x [B,T,d] at sequence positions `pos` [T] (LongTensor). cache: (K,V) [B,H,L,hd] for the whole sequence or None.
+        With a cache the span's k/v are scattered into the cache (index_copy_, graph-capturable) and attention spans all L
+        cache positions; key_mask [L] (bool, True = valid) masks padded cache slots."""
         B, T, _ = x.shape; H, hd = self.cfg.n_heads, self.cfg.head_dim
         h = self.attn_norm(x)
         q = self.q_proj(h).view(B, T, H, hd).transpose(1, 2)
@@ -70,10 +71,12 @@ class Block(nn.Module):
         q, k = apply_rope(q, cos, sin), apply_rope(k, cos, sin)
         if cache is None:
             K, V = k, v
+            a = F.scaled_dot_product_attention(q, K, V, is_causal=False)  # bidirectional
         else:
             K, V = cache
-            K[:, :, start:start + T] = k; V[:, :, start:start + T] = v
-        a = F.scaled_dot_product_attention(q, K, V, is_causal=False)  # bidirectional
+            K.index_copy_(2, pos, k); V.index_copy_(2, pos, v)
+            mask = None if key_mask is None else key_mask[None, None, None, :]   # [1,1,1,L] broadcast over queries
+            a = F.scaled_dot_product_attention(q, K, V, attn_mask=mask, is_causal=False)
         x = x + self.attn_out(a.transpose(1, 2).reshape(B, T, -1))
         h = self.ff_norm(x)
         x = x + self.ff_out(F.silu(self.ff_proj(h)) * self.up_proj(h))
@@ -117,12 +120,15 @@ class LLaDA(nn.Module):
         return [(torch.empty(B, H, L, hd, device=device, dtype=dtype), torch.empty(B, H, L, hd, device=device, dtype=dtype)) for _ in self.blocks]
 
     @torch.no_grad()
-    def forward(self, tokens, cache=None, start=0):
-        """tokens [B,T] at positions [start, start+T). Returns logits [B,T,V] (float32).
-        cache=None: plain full forward (no cache). cache given: write this span's K/V and attend over the full cache."""
+    def forward(self, tokens, cache=None, start=0, pos=None, key_mask=None):
+        """tokens [B,T] at positions `pos` [T] (or [start, start+T) when pos is None). Returns logits [B,T,V] (float32).
+        cache=None: plain full forward. cache given: scatter this span's K/V into the cache and attend over the whole cache
+        (key_mask marks the valid cache slots when the cache is padded to a bucket length)."""
         T = tokens.shape[1]
-        cos, sin = self.cos[start:start + T], self.sin[start:start + T]
+        if pos is None:
+            pos = torch.arange(start, start + T, device=tokens.device)
+        cos, sin = self.cos.index_select(0, pos), self.sin.index_select(0, pos)
         x = self.wte(tokens)
         for i, b in enumerate(self.blocks):
-            x = b(x, cos, sin, cache[i] if cache is not None else None, start)
+            x = b(x, cos, sin, cache[i] if cache is not None else None, pos, key_mask)
         return self.lm_head(self.ln_f(x)).float()
