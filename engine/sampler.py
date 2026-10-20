@@ -2,6 +2,8 @@
 
 generate(): semi-autoregressive blocks of `block_length` tokens; inside a block, denoising steps unmask tokens by confidence.
   mode "fixed":     exactly steps_per_block steps, k tokens per step (parity with the official sampler, low-confidence remasking)
+  remask_threshold: selective remasking — decoded tokens of the current block whose confidence falls below it (and whose
+                    argmax changed) are re-masked and re-decoded (bounded by remask_max per step and max_steps_per_block)
   mode "threshold": confidence-aware parallel decoding — unmask every masked position whose argmax probability >= threshold
                     (at least one per step), so the number of steps adapts to the text (dynamic step scheduling)
 Caching: at each block start a full forward refreshes the dual cache (prompt + decoded blocks + masked future blocks);
@@ -15,7 +17,7 @@ from .graphs import GraphRunner, bucket
 
 @torch.no_grad()
 def generate(model, prompt, gen_length=256, block_length=32, steps=None, mode="threshold", threshold=0.9,
-             use_cache=True, runner=None, use_graph=False, stop_on_eos=False, stats=None):
+             use_cache=True, runner=None, use_graph=False, stop_on_eos=False, remask_threshold=None, remask_max=2, max_steps_per_block=64, stats=None):
     B, P = prompt.shape
     assert B == 1, "single sequence for now"
     L = P + gen_length
@@ -59,8 +61,22 @@ def generate(model, prompt, gen_length=256, block_length=32, steps=None, mode="t
                 n_masked = int(masked.sum()); remaining = max(1, steps_per_block - step)
                 k = n_masked if remaining == 1 else max(1, math.ceil(n_masked / remaining))
                 sel = torch.zeros_like(masked); sel[0, conf[0].topk(k).indices] = True
-            blk = x[:, bs:be]; blk[sel] = x0[sel]; x[:, bs:be] = blk
+            blk = x[:, bs:be]; blk[sel] = x0[sel]
+            if remask_threshold is not None and step > 0:
+                # selective remasking: a decoded (non-prompt) token of this block whose argmax probability dropped below the
+                # remask threshold and whose argmax changed is put back to [MASK] (at most remask_max per step)
+                decoded = (blk != MASK_ID) & ~sel
+                bad = decoded & (p < remask_threshold) & (x0 != blk)
+                if bad.any():
+                    idx = torch.nonzero(bad[0]).flatten()
+                    if idx.numel() > remask_max:
+                        idx = idx[p[0, idx].argsort()[:remask_max]]
+                    blk[0, idx] = MASK_ID
+            x[:, bs:be] = blk
             step += 1
+            if remask_threshold is not None and step > max_steps_per_block:
+                # safety: finish the block greedily if remasking keeps the block open
+                blk = x[:, bs:be]; m = (blk == MASK_ID); blk[m] = x0[m]; x[:, bs:be] = blk
             if t_first is None:
                 torch.cuda.synchronize(); t_first = time.perf_counter() - t0
             if not (x[:, bs:be] == MASK_ID).any():

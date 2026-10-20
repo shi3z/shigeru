@@ -17,12 +17,12 @@ def main():
     ap.add_argument("--prompts", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts.json")); ap.add_argument("--ids", nargs="*")
     ap.add_argument("--mode", choices=["threshold", "fixed"], default="threshold"); ap.add_argument("--threshold", type=float, default=0.9)
     ap.add_argument("--steps", type=int, default=None); ap.add_argument("--gen-length", type=int, default=256); ap.add_argument("--block-length", type=int, default=32)
-    ap.add_argument("--no-cache", action="store_true"); ap.add_argument("--graph", action="store_true", help="padded masked cache + CUDA graphs"); ap.add_argument("--stop-on-eos", action="store_true"); ap.add_argument("--repeat", type=int, default=1); ap.add_argument("--out", required=True)
+    ap.add_argument("--no-cache", action="store_true"); ap.add_argument("--graph", action="store_true", help="padded masked cache + CUDA graphs"); ap.add_argument("--stop-on-eos", action="store_true"); ap.add_argument("--remask", type=float, default=None, help="selective remasking threshold"); ap.add_argument("--repeat", type=int, default=1); ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model, trust_remote_code=True)
     t_load = time.time(); model = LLaDA.from_pretrained(a.model); load_s = time.time() - t_load
     runner = GraphRunner(model) if a.graph else None
-    kw = dict(gen_length=a.gen_length, block_length=a.block_length, steps=a.steps, mode=a.mode, threshold=a.threshold, use_cache=not a.no_cache, runner=runner, use_graph=a.graph, stop_on_eos=a.stop_on_eos)
+    kw = dict(gen_length=a.gen_length, block_length=a.block_length, steps=a.steps, mode=a.mode, threshold=a.threshold, use_cache=not a.no_cache, runner=runner, use_graph=a.graph, stop_on_eos=a.stop_on_eos, remask_threshold=a.remask)
     warm = tok.apply_chat_template([{"role": "user", "content": "Hello"}], add_generation_prompt=True, tokenize=False)
     generate(model, tok(warm, return_tensors="pt").input_ids.cuda(), **{**kw, "gen_length": 32, "block_length": 32, "steps": 32 if a.steps else None})
     runs = []
@@ -38,7 +38,7 @@ def main():
                  "peak_mem_gib": torch.cuda.max_memory_allocated() / 2**30, "answer": answer, "correct": score(p, answer)}
             runs.append(r)
             print(f"[{p['id']}] eff {eff}/{a.gen_length}, ttft {st['ttft_s']*1000:.0f} ms, e2e {st['e2e_s']:.2f} s, {r['tok_s_effective']:.1f} tok/s (raw {r['tok_s_raw']:.1f}), {st['n_forward']} fwd | {answer[:70]!r}", flush=True)
-    res = {"engine": f"open-mercury/{a.mode}{'-nocache' if a.no_cache else ''}{'-graph' if a.graph else ''}{'-eos' if a.stop_on_eos else ''}", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s,
+    res = {"engine": f"open-mercury/{a.mode}{'-nocache' if a.no_cache else ''}{'-graph' if a.graph else ''}{'-eos' if a.stop_on_eos else ''}{f'-remask{a.remask}' if a.remask else ''}", "model": a.model, "config": vars(a), "gpu": gpu_info(), "load_s": load_s,
            "gpu_state": other_tenants(), "runs": runs, "accuracy": accuracy(runs),
            "summary": summarize(runs, ["ttft_s", "e2e_s", "tok_s_effective", "tok_s_raw", "n_forward", "effective_tokens", "peak_mem_gib"])}
     save_json(a.out, res); s = res["summary"]
