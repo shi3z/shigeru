@@ -474,6 +474,7 @@ def main():
             lm = lm.to(torch.bfloat16)
         lm.save_pretrained(final, safe_serialization=True)
         tok.save_pretrained(final)
+        from distill.fix_config import fix as _fix_cfg; _fix_cfg(final)   # transformers-5 config -> also correct under 4.57
         info = {"config": cfg, "config_path": a.config, "git_commit": git_commit(), "cuda_visible_devices": visible,
                 "physical_gpus_used": used, "world_size": dist.world,
                 "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,

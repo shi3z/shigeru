@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "runs/phaseB_pilot_8b/merged",
+  "config": {
+    "model": "runs/phaseB_pilot_8b/merged",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/phaseB_pilot_8b_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 4.3348870277404785,
+  "gpu_state": [
+    "81122 MiB, 80 %",
+    "81095 MiB, 86 %",
+    "79947 MiB, 82 %",
+    "77609 MiB, 81 %",
+    "8351 MiB, 71 %",
+    "38555 MiB, 99 %",
+    "16375 MiB, 60 %",
+    "16395 MiB, 92 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 124,
+      "ttft_s": 0.03181406203657389,
+      "e2e_s": 2.8774224328808486,
+      "tok_s_effective": 43.0941243048044,
+      "decode_tok_s": 43.22450034243702,
+      "peak_mem_gib": 15.289462089538574,
+      "answer": "A hash table maps keys to values using a hash function. The function converts the key into an index (hash code) in an array. The value is stored at that index.\n\nPerformance degrades when collisions occur. Collisions happen when two keys hash to the same index. To handle collisions, hash tables use techniques like chaining (linked lists at each index) or open addressing (probing for the next available index)).\n\nPerformance degrades when the number of collisions increases, leading to longer search times. This typically happens when the hash table becomes too full, or when the hash function is not well-distributed.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 255,
+      "ttft_s": 0.02251177793368697,
+      "e2e_s": 5.09548152377829,
+      "tok_s_effective": 50.04433806894034,
+      "decode_tok_s": 50.0692913077311,
+      "peak_mem_gib": 15.30773115158081,
+      "answer": "```python\ndef fibonacci(n):\n    \"\"\"\n    Returns the n-th Fibonacci number using an iterative approach.\n\n    Parameters:\n    n (int): The index of the Fibonacci number to return.\n\n    Returns:\n    int: The n-th Fibonacci number.\n\n    Raises:\n    ValueError: If n is not a non-negative integer.\n    \"\"\"\n    if not isinstance(n, int) or n < 0:\n        raise ValueError(\"n must be a non-negative integer.\")\n\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n\n    a, b = 0, 1\n    for _ in range(2, n + 1)):\n        a, b = b, a + b\n    return b\n\n# Example usage\nif __name__ == \"__main__\":\n    print(fibonacci(10))  # Output: 55\n    print(fibonacci(0)))    # Output: 0\n```\n\n### Explanation:\n- The function uses an iterative approach to compute the n-th Fibonacci number.\n- It includes a detailed docstring with parameters, returns, and raises.\n- Two usage examples are provided, showing how to call the function and what outputs to expect.",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.024563611019402742,
+      "e2e_s": 5.099341747816652,
+      "tok_s_effective": 50.20255802812385,
+      "decode_tok_s": 50.248502126820746,
+      "peak_mem_gib": 15.312541007995605,
+      "answer": "Let’s break this down step by step.\n\n---\n\n### Step 1: Define the timeline\n\n- Train A leaves city A at **9:00**.\n- Train B leaves city B at **9:30**.\n\nSo, Train B starts **30 minutes later** than Train A.\n\n---\n\n### Step 2: Define the distance between the cities\n\n- Distance between A and B = **300 km**.\n\n---\n\n### Step 3: Define the speeds\n\n- Train A: **80 km/h** toward B.\n- Train B: **100 km/h** toward A.\n\n---\n\n### Step 4: Define the time variable\n\nLet’s define **t** as the number of hours **after 9:00****.\n\nSo:\n\n- Train A has been traveling for **t** hours.\n- Train B has been traveling for **t - 0.5** hours (since it started 30 minutes later).\n\n---\n\n### Step 5: Write the distance equations\n\nLet’s define:\n\n- **x(t)** = distance Train A has traveled from A at time t.\n- **y(t)** = distance Train B has traveled from B at time t.\n\nThen:\n\n- **x(t)** = ",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.021640500985085964,
+      "e2e_s": 5.121760189067572,
+      "tok_s_effective": 49.98281656107866,
+      "decode_tok_s": 49.998826614963896,
+      "peak_mem_gib": 15.307595252990723,
+      "answer": "The lighthouse had stood for over a century, its beam cutting through the fog like a silver knife. Elias had been its keeper for nearly twenty years, his life measured in the rhythm of the waves and the steady pulse of the lighthouse lamp.\n\nOne stormy evening, as the wind howled like a wounded beast, Elias found a letter tucked inside the lighthouse door. The envelope was worn and damp, the ink smudged by the sea’s breath.\n\nElias opened the letter with trembling fingers. The words were written in a careful, deliberate hand, and they spoke of a long-lost relative, a woman named Clara, who had once lived in the same village where Elias had been born.\n\nThe letter went on to describe Clara’s life, her love for the sea, and the way she had always felt a deep connection to the lighthouse and the land it stood upon.\n\nElias read the letter again and again, his heart pounding with a mixture of emotions—sadness, longing, and a deep, aching sense of loss.\n\nHe had never known Clara, never seen her face, never heard her voice. And yet, the letter had somehow reached him, had somehow found its way to the lighthouse door, and had somehow spoken to him",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 219,
+      "ttft_s": 0.021624695975333452,
+      "e2e_s": 4.31661474192515,
+      "tok_s_effective": 50.73420101010197,
+      "decode_tok_s": 50.756811463526994,
+      "peak_mem_gib": 15.301413536071777,
+      "answer": "- **Social inequality**: A rigid class system, with the First Estate (clergy), Second Estate (nobility), and Third Estate (commoners), created widespread resentment among the Third Estate.\n\n- **Economic hardship**: France faced severe financial crises due to costly wars (e.g., American Revolution), extravagant spending by the monarchy, and a regressive tax system that disproportionately burdened the Third Estate.\n\n- **Political absolutism**: The French monarchy, particularly under Louis XVI, was characterized by absolute power, lack of political representation, and resistance to reform. This led to growing public dissatisfaction and demands for political change.\n\n- **Enlightenment ideas**: The spread of Enlightenment philosophy, particularly the ideas of liberty, equality, and popular sovereignty, inspired many French citizens to question the legitimacy of the monarchy and the existing social order.\n\n- **Immediate triggers**: Several immediate events, such as the financial crisis of 1788, the convening of the Estates-General in 1789, and the subsequent formation of the National Assembly, served as catalysts for the revolution.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 63,
+      "ttft_s": 0.02180175995454192,
+      "e2e_s": 1.2063680719584227,
+      "tok_s_effective": 52.222867518141086,
+      "decode_tok_s": 52.33983051157113,
+      "peak_mem_gib": 15.281772136688232,
+      "answer": "過学習とは、学習データに過剰に適合し、新しいデータへの汎用性が低下することです。防ぐには、学習データとテストデータの分離、正則化、データ拡張、学習率の調整などが有効です。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.0221752249635756,
+      "e2e_s": 4.960085002705455,
+      "tok_s_effective": 51.61201871749496,
+      "decode_tok_s": 51.641283757236295,
+      "peak_mem_gib": 15.310202598571777,
+      "answer": "以下に、要求された機能を持つ Python 関数を示します。\n\n```python\ndef unique_sorted_strings(string_list):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数。\n\n    Args:\n        string_list (list): 文字列のリスト。\n\n    Returns:\n        list: 重複を除いて長さ順に並べ替えた文字列のリスト。\n    \"\"\"\n    # 重複を除く\n    unique_strings = list(set(string_list)))\n    # 長さ順に並べ替える\n    sorted_strings = sorted(unique_strings, key=lambda x: len(x)))\n    return sorted_strings\n```\n\n### 説明\n\nこの関数は、以下の手順で動作します。\n\n1. **重複を除く**  \n   `set()` を使用して、リスト内の重複を除去します。その後、`list()` を使用して、セットをリストに戻します。\n\n2. **長さ順に並べ替える**  \n   `sorted()` を使用して、リスト内の文字列を長さ順に並べ替えます。`key=lambda x: len(x))` を使用",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 256,
+      "ttft_s": 0.022100830916315317,
+      "e2e_s": 4.930971644818783,
+      "tok_s_effective": 51.9167455097804,
+      "decode_tok_s": 51.94677343673654,
+      "peak_mem_gib": 15.31116533279419,
+      "answer": "太郎と花子の年齢に関する問題です。\n\n---\n\n### 1. 太郎と花子の年齢を求める\n\n太郎は花子より **3歳年上** です。\n\n二人の年齢の和は **29** です。\n\n---\n\n### 2. 太郎と花子の年齢を求める\n\n太郎の年齢を **T**、花子の年齢を **H** とします。\n\n---\n\n#### 条件1: 太郎は花子より3歳年上\n\n$$\nT = H + 3\n$$\n\n---\n\n#### 条件2: 二人の年齢の和は29\n\n$$\nT + H = 29\n$$\n\n---\n\n#### 連立方程式を解く\n\n$$\nT = H + 3 \\quad \\text{(1)}\n$$\n$$\nT + H = 29 \\quad \\text{(2)}\n$$\n\n(1) を (2) に代入：\n\n$$\n(H + 3) + H = 29\n$$\n$$\n2H + 3 = 29\n$$\n$$\n",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 51,
+      "ttft_s": 0.02271649381145835,
+      "e2e_s": 0.9815899240784347,
+      "tok_s_effective": 51.956523543048114,
+      "decode_tok_s": 52.14452546263446,
+      "peak_mem_gib": 15.28012466430664,
+      "answer": "灯台守の佐藤は、夜の海を守る日々を送っていた。ある夜、彼の手元に思いがけない手紙が届いた。それは、かつて灯台守だった人物からのものだった。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.021133490838110447,
+      "e2e_s": 4.968156429938972,
+      "tok_s_effective": 51.52816816662608,
+      "decode_tok_s": 51.54615273450645,
+      "peak_mem_gib": 15.30759334564209,
+      "answer": "明治維新の主な要因を5つの箇条書きでまとめます。\n\n1. **国内の混乱と国際的孤立**  \n   江戸時代末期、国内では西南戦争などの混乱が続き、国際的には列強の侵略や経済的圧力にさらされていた。\n\n2. **西洋の近代化の影響**  \n   西洋の科学技術、軍事、政治制度などが日本に広まり、国内の知識人や改革派の間で西洋の近代化を模倣する動きが広がった。\n\n3. **幕府の権威の衰退**  \n   江戸幕府は長年、国内の混乱を抑え、国際的孤立を防ぐために努力したが、その権威は時代の変化とともに衰退していった。\n\n4. **国内の改革派の台頭**  \n   江戸時代末期、国内では知識人や改革派の間で、幕府の権威を疑い、西洋の近代化を模倣する動きが広がった。\n\n5. **国際情勢の変",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.023208244843408464,
+      "min": 0.021133490838110447,
+      "max": 0.03181406203657389,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 3.955779170896858,
+      "min": 0.9815899240784347,
+      "max": 5.121760189067572,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 50.32943614281398,
+      "min": 43.0941243048044,
+      "max": 52.222867518141086,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 50.39164977581646,
+      "min": 43.22450034243702,
+      "max": 52.33983051157113,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 199.2,
+      "min": 51,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 15.300960111618043,
+      "min": 15.28012466430664,
+      "max": 15.312541007995605,
+      "n": 10
+    }
+  }
+}

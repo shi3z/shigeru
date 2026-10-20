@@ -94,6 +94,7 @@ def main():
             src = os.path.join(cfg["model"], fn)
             if os.path.exists(src):
                 shutil.copy(src, mdir)
+        from distill.fix_config import fix as _fix_cfg; _fix_cfg(mdir)   # transformers-5 config -> also correct under 4.57
         info["merged_dir"] = mdir
     json.dump(info, open(os.path.join(out_dir, "run.json"), "w"), indent=1, ensure_ascii=False)
     print(json.dumps({k: v for k, v in info.items() if k != "log_history"}, indent=1, ensure_ascii=False, default=str))

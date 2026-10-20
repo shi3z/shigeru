@@ -1,0 +1,1158 @@
+{
+  "task": "humaneval",
+  "engine": "hf:runs/phaseB_pilot_4b/merged",
+  "model": "runs/phaseB_pilot_4b/merged",
+  "n": 164,
+  "pass@1": 0.24390243902439024,
+  "seconds": 335.15778398513794,
+  "results": [
+    {
+      "id": "HumanEval/0",
+      "pass": false,
+      "secs": 4.1,
+      "err": "  File \"/tmp/tmpy4am_pan.py\", line 12\n    for i in range(len(numbers))):\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "bers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for i in range(len(numbers))):\n        for j in range(i + 1, len(numbers))):\n            if abs(numbers[i]] - numbers[j]] < threshold:\n                return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/1",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "ces in the input string.\n    >>> separate_paren_groups('( ) (( )) (( )( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n    paren_string = paren_string.replace(\" \", \"\")\n    result = []\n    current = \"\"\n    for char in paren_string:\n        current += char\n        if char == ')' and current.count('(') == current.count(')'):\n            result.append(current)\n            current = \"\"\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/2",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "```python\ndef truncate_number(number: float) -> float:\n    return number - int(number)\n```"
+    },
+    {
+      "id": "HumanEval/3",
+      "pass": true,
+      "secs": 1.0,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef below_zero(operations: List[int]) -> bool:\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/4",
+      "pass": false,
+      "secs": 2.9,
+      "err": "9ettva_.py\", line 30, in check\n    assert abs(candidate([1.0, 2.0, 3.0]) - 2.0/3.0) < 1e-6\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp29ettva_.py\", line 16, in mean_absolute_deviation\n    return sum(abs(x - mean)) / len(numbers)\n                   ^\nNameError: name 'x' is not defined\n",
+      "answer": "iation\n    around the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    if not numbers:\n        return 0.0\n    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean)) / len(numbers)\n```"
+    },
+    {
+      "id": "HumanEval/5",
+      "pass": true,
+      "secs": 2.7,
+      "err": "",
+      "answer": "    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers`\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n    result = [numbers[0]]  # Start with the first element\n    for num in numbers[1:]:\n        result.append(delimeter)\n        result.append(num)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/6",
+      "pass": false,
+      "secs": 4.6,
+      "err": "  File \"/tmp/tmpagm2v5eq.py\", line 19\n    max_depth = max(max_depth, current_depth))\n                                             ^\nSyntaxError: unmatched ')'\n",
+      "answer": " '(':\n            current_depth += 1\n            max_depth = max(max_depth, current_depth))\n        elif char == ')':\n            current_depth -= 1\n            max_depth = max(max_depth, current_depth)))\n        elif char == ' ':\n            result.append(max_depth)\n            max_depth = 0\n            current_depth = 0\n    if max_depth > 0:\n        result.append(max_depth)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/7",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [s for s in strings if substring in s]\n```"
+    },
+    {
+      "id": "HumanEval/8",
+      "pass": false,
+      "secs": 3.2,
+      "err": "  File \"/tmp/tmpwhxmmetl.py\", line 4\n    def sum_product(numbers: List[int]) -> Tuple[int, int]]:\n                                                          ^\nSyntaxError: unmatched ']'\n",
+      "answer": "m and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    if not numbers:\n        return (0, 1)\n    total_sum = sum(numbers)\n    total_product = 1\n    for num in numbers:\n        total_product *= num\n    return (total_sum, total_product))\n```"
+    },
+    {
+      "id": "HumanEval/9",
+      "pass": true,
+      "secs": 2.8,
+      "err": "",
+      "answer": "[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    current_max = -float('inf')\n    for num in numbers:\n        if num > current_max:\n            current_max = num\n        result.append(current_max)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/10",
+      "pass": false,
+      "secs": 3.4,
+      "err": "  File \"/tmp/tmp4vocss3x.py\", line 18\n    if is_palindrome(string[-i:]]):\n                                ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "e palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'catac'\n    \"\"\"\n    if not string:\n        return string\n\n    # Find the longest palindromic suffix\n    for i in range(len(string), 0, -1):\n        if is_palindrome(string[-i:]]):\n            return string + string[:i][::-1]]\n\n    return string + string[::-1]]\n```"
+    },
+    {
+      "id": "HumanEval/11",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpgpolt5tv.py\", line 11\n    for x, y in zip(a, b)):\n                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\nfrom typing import List\n\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    result = []\n    for x, y in zip(a, b)):\n        result.append('1' if x != y else '0')\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/12",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpcgyvf_b7.py\", line 7\n    max_len = max(len(s) for s in strings))\n                                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\nfrom typing import List, Optional\n\n\ndef longest(strings: List[str]) -> Optional[str]:\n    if not strings:\n        return None\n    max_len = max(len(s) for s in strings))\n    for s in strings:\n        if len(s) == max_len:\n            return s\n    return None\n```"
+    },
+    {
+      "id": "HumanEval/13",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef greatest_common_divisor(a: int, b: int) -> int:\n    while b:\n        a, b = b, a % b\n    return a\n```"
+    },
+    {
+      "id": "HumanEval/14",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmp1m1xdbhw.py\", line 9\n    return [string[:i]] for i in range(1, len(string)+1)]\n                                                        ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\nfrom typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [string[:i]] for i in range(1, len(string)+1)]\n```"
+    },
+    {
+      "id": "HumanEval/15",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp0nwghxrg.py\", line 2\n    return ' '.join(str(i)) for i in range(n + 1))\n                                                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef string_sequence(n: int) -> str:\n    return ' '.join(str(i)) for i in range(n + 1))\n```"
+    },
+    {
+      "id": "HumanEval/16",
+      "pass": true,
+      "secs": 0.7,
+      "err": "",
+      "answer": "```python\ndef count_distinct_characters(string: str) -> int:\n    return len(set(string.lower()))  # Convert to lowercase and count unique characters\n```"
+    },
+    {
+      "id": "HumanEval/17",
+      "pass": false,
+      "secs": 5.6,
+      "err": "  File \"/tmp/tmplh98wvw_.py\", line 19\n    while i < len(music_string)):\n                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "   while i < len(music_string)):\n        if music_string[i] == 'o':\n            result.append(4)\n            i += 1\n        elif music_string[i] == 'o' and music_string[i+1]] == '|':\n            result.append(2)\n            i += 2\n        elif music_string[i] == '.' and music_string[i+1]] == '|':\n            result.append(1)\n            i += 2\n        else:\n            i += 1\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/18",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpph2hqj43.py\", line 5\n    start = string.find(substring, start))\n                                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef how_many_times(string: str, substring: str) -> int:\n    count = 0\n    start = 0\n    while True:\n        start = string.find(substring, start))\n        if start == -1:\n            break\n        count += 1\n        start += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/19",
+      "pass": false,
+      "secs": 4.1,
+      "err": "  File \"/tmp/tmp7908whz7.py\", line 25\n    sorted_words = sorted(words, key=lambda word: number_words[word]))\n                                                                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "three one five')\n    'one three five'\n    \"\"\"\n    number_words = {\n        'zero': 0,\n        'one': 1,\n        'two': 2,\n        'three': 3,\n        'four': 4,\n        'five': 5,\n        'six': 6,\n        'seven': 7,\n        'eight': 8,\n        'nine': 9\n    }\n\n    words = numbers.split()\n    sorted_words = sorted(words, key=lambda word: number_words[word]))\n    return ' '.join(sorted_words))\n```"
+    },
+    {
+      "id": "HumanEval/20",
+      "pass": false,
+      "secs": 6.3,
+      "err": "  File \"/tmp/tmpgxro050v.py\", line 4\n    def find_closest_elements(numbers: List[float]) -> Tuple[float, float]]:\n                                                                          ^\nSyntaxError: unmatched ']'\n",
+      "answer": "s(sorted_numbers[1]] - sorted_numbers[0]])\n    \n    # Iterate through the sorted list to find the closest pair\n    for i in range(1, len(sorted_numbers))):\n        current_diff = abs(sorted_numbers[i]] - sorted_numbers[i-1]])\n        if current_diff < min_diff:\n            min_diff = current_diff\n            closest_pair = (sorted_numbers[i-1]], sorted_numbers[i]])\n    \n    return closest_pair\n```"
+    },
+    {
+      "id": "HumanEval/21",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef rescale_to_unit(numbers: List[float]) -> List[float]:\n    min_val = min(numbers)\n    max_val = max(numbers)\n    return [(x - min_val) / (max_val - min_val) for x in numbers]\n```"
+    },
+    {
+      "id": "HumanEval/22",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpuh3h87b9.py\", line 11\n    return [x for x in values if isinstance(x, int))]\n                                                   ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```python\nfrom typing import List, Any\n\n\ndef filter_integers(values: List[Any]) -> List[int]:\n    \"\"\" Filter given list of any python values only for integers\n    >>> filter_integers(['a', 3.14, 5])]\n    [5]\n    >>> filter_integers([1, 2, 3, 'abc', {}, []])]\n    [1, 2, 3]\n    \"\"\"\n    return [x for x in values if isinstance(x, int))]\n\n```"
+    },
+    {
+      "id": "HumanEval/23",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "```python\ndef strlen(string: str) -> int:\n    \"\"\" Return length of given string\n    >>> strlen('')\n    0\n    >>> strlen('abc')\n    3\n    \"\"\"\n    return len(string)\n```"
+    },
+    {
+      "id": "HumanEval/24",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpsrppwewp.py\", line 2\n    for i in range(n - 1, 0, -1)):\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef largest_divisor(n: int) -> int:\n    for i in range(n - 1, 0, -1)):\n        if n % i == 0:\n            return i\n    return 1\n```"
+    },
+    {
+      "id": "HumanEval/25",
+      "pass": true,
+      "secs": 3.7,
+      "err": "",
+      "answer": "ares in factorization.\n    Input number should be equal to the product of all factors\n    >>> factorize(8)\n    [2, 2, 2]\n    >>> factorize(25)\n    [5, 5]\n    >>> factorize(70)\n    [2, 5, 7]\n    \"\"\"\n    factors = []\n    i = 2\n    while i * i <= n:\n        while n % i == 0:\n            factors.append(i)\n            n //= i\n        i += 1\n    if n > 1:\n        factors.append(n)\n    return factors\n```"
+    },
+    {
+      "id": "HumanEval/26",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpo9rzbd9o.py\", line 31, in <module>\n    check(remove_duplicates)\n  File \"/tmp/tmpo9rzbd9o.py\", line 28, in check\n    assert candidate([1, 2, 3, 2, 4, 3, 5]) == [1, 4, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\nfrom typing import List\n\n\ndef remove_duplicates(numbers: List[int]) -> List[int]:\n    seen = set()\n    result = []\n    for num in numbers:\n        if num in seen:\n            continue\n        seen.add(num)\n        result.append(num)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/27",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "```python\ndef flip_case(string: str) -> str:\n    return string.swapcase()\n```"
+    },
+    {
+      "id": "HumanEval/28",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef concatenate(strings: List[str]) -> str:\n    \"\"\" Concatenate list of strings into a single string\n    >>> concatenate([])\n    ''\n    >>> concatenate(['a', 'b', 'c']))\n    'abc'\n    \"\"\"\n    return ''.join(strings)\n```"
+    },
+    {
+      "id": "HumanEval/29",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpgx2989n3.py\", line 1\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "```python\nfrom typing import List\n\n\ndef filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if s.startswith(prefix)]"
+    },
+    {
+      "id": "HumanEval/30",
+      "pass": true,
+      "secs": 0.5,
+      "err": "",
+      "answer": "```python\ndef get_positive(l: list):\n    return [x for x in l if x > 0]\n```"
+    },
+    {
+      "id": "HumanEval/31",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpj7dhpzom.py\", line 10\n    if n % i == 0 or n % (i + 2)) == 0:\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef is_prime(n):\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2)) == 0:\n            return False\n        i += 6\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/32",
+      "pass": false,
+      "secs": 9.9,
+      "err": "  File \"/tmp/tmp17i90sw2.py\", line 6\n    return sum([coeff * math.pow(x, i)) for i, coeff in enumerate(xs)])\n                                      ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": ")\n    if xs[-1] == 0:\n        raise ValueError(\"xs must have at least one non-zero coefficient\")\n    if xs[-1] != 0:\n        raise ValueError(\"xs must have at least one non-zero coefficient\")\n    if xs[-1] == 0:\n        raise ValueError(\"xs must have at least one non-zero coefficient\")\n    if xs[-1] != 0:\n        raise ValueError(\"xs must have at least one non-zero coefficient\")\n    if xs[-1] == 0"
+    },
+    {
+      "id": "HumanEval/33",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmp8odwb34v.py\", line 2\n    third = l[::3]]\n                  ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef sort_third(l: list):\n    third = l[::3]]\n    third.sort()\n    return l[::3]] + l[1::3]] + l[2::3]]  # noqa: E501\n```"
+    },
+    {
+      "id": "HumanEval/34",
+      "pass": false,
+      "secs": 0.3,
+      "err": "  File \"/tmp/tmp5vfsubzh.py\", line 2\n    return sorted(set(l)))\n                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef unique(l: list):\n    return sorted(set(l)))\n```"
+    },
+    {
+      "id": "HumanEval/35",
+      "pass": true,
+      "secs": 0.5,
+      "err": "",
+      "answer": "```python\ndef max_element(l: list):\n    \"\"\"Return maximum element in the list.\"\"\"\n    return max(l)\n```"
+    },
+    {
+      "id": "HumanEval/36",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef fizz_buzz(n: int):\n    count = 0\n    for i in range(1, n):\n        if i % 11 == 0 or i % 13 == 0:\n            count += str(i).count('7')\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/37",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpsgj17uvr.py\", line 2\n    even_indices = [i for i in range(len(l))) if i % 2 == 0]\n                                            ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```python\ndef sort_even(l: list):\n    even_indices = [i for i in range(len(l))) if i % 2 == 0]\n    even_values = [l[i] for i in even_indices]]\n    even_values.sort()\n    result = l.copy()\n    for i in range(len(even_values))):\n        result[even_indices[i]] = even_values[i]\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/38",
+      "pass": false,
+      "secs": 2.7,
+      "err": "  File \"/tmp/tmpj729q2lh.py\", line 6\n    groups = [s[(3 * i):min((3 * i + 3), len(s))]] for i in range((len(s) + 2) // 3)]\n                                                                                    ^\nSyntaxError: unmatched ']'\n",
+      "answer": "ng encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # Split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))]] for i in range((len(s) + 2) // 3)]\n    # Cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n```"
+    },
+    {
+      "id": "HumanEval/39",
+      "pass": false,
+      "secs": 5.4,
+      "err": "  File \"/tmp/tmp59iokudo.py\", line 30\n    for _ in range(3, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": " if n == 1:\n            return 1\n        elif n == 2:\n            return 1\n        else:\n            a, b = 1, 1\n            for _ in range(3, n + 1)):\n                a, b = b, a + b\n            return b\n\n    count = 0\n    i = 1\n    while True:\n        fib_num = fib(i)\n        if is_prime(fib_num):\n            count += 1\n            if count == n:\n                return fib_num\n        i += 1\n```"
+    },
+    {
+      "id": "HumanEval/40",
+      "pass": false,
+      "secs": 4.4,
+      "err": "  File \"/tmp/tmpae4cvx9b.py\", line 20\n    for j in range(i + 1, n)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "_zero([1, 3, -2, 1])\n    True\n    >>> triples_sum_to_zero([1, 2, 3, 7])\n    False\n    >>> triples_sum_to_zero([2, 4, -5, 3, 9, 7])\n    True\n    >>> triples_sum_to_zero([1])\n    False\n    \"\"\"\n    n = len(l)\n    for i in range(n):\n        for j in range(i + 1, n)):\n            for k in range(j + 1, n))):\n                if l[i] + l[j] + l[k] == 0:\n                    return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/41",
+      "pass": false,
+      "secs": 0.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7jg5gd_n.py\", line 21, in <module>\n    check(car_race_collision)\n  File \"/tmp/tmp7jg5gd_n.py\", line 13, in check\n    assert candidate(2) == 4\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef car_race_collision(n: int):\n    return n * (n - 1) // 2\n```"
+    },
+    {
+      "id": "HumanEval/42",
+      "pass": true,
+      "secs": 0.5,
+      "err": "",
+      "answer": "```python\ndef incr_list(l: list):\n    return [x + 1 for x in l]\n```"
+    },
+    {
+      "id": "HumanEval/43",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "```python\ndef pairs_sum_to_zero(l):\n    seen = set()\n    for num in l:\n        if -num in seen:\n            return True\n        seen.add(num)\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/44",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmp5glilxve.py\", line 19\n    return ''.join(str(d) for d in reversed(digits)))\n                                                    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "nput number x to base.\n    return string representation after the conversion.\n    base numbers are less than 10.\n    >>> change_base(8, 3)\n    '22'\n    >>> change_base(8, 2)\n    '1000'\n    >>> change_base(7, 2)\n    '111'\n    \"\"\"\n    if x == 0:\n        return '0'\n    digits = []\n    while x > 0:\n        digits.append(x % base)\n        x //= base\n    return ''.join(str(d) for d in reversed(digits)))"
+    },
+    {
+      "id": "HumanEval/45",
+      "pass": true,
+      "secs": 1.1,
+      "err": "",
+      "answer": "```python\ndef triangle_area(a, h):\n    \"\"\"Given length of a side and high return area for a triangle.\n    >>> triangle_area(5, 3)\n    7.5\n    \"\"\"\n    return (a * h) / 2\n```"
+    },
+    {
+      "id": "HumanEval/46",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpw7llnr0k.py\", line 10\n    for _ in range(4, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef fib4(n: int):\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        a, b, c, d = 0, 0, 2, 0\n        for _ in range(4, n + 1)):\n            next_val = a + b + c + d\n            a, b, c, d = b, c, d, next_val\n        return d\n```"
+    },
+    {
+      "id": "HumanEval/47",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpdz4xc09w.py\", line 5\n    return l[n // 2]]\n                    ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef median(l: list):\n    l.sort()\n    n = len(l)\n    if n % 2 == 1:\n        return l[n // 2]]\n    else:\n        return (l[n // 2 - 1]] + l[n // 2]])) / 2\n```"
+    },
+    {
+      "id": "HumanEval/48",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpczks3ep9.py\", line 2\n    return text == text[::-1]]\n                             ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef is_palindrome(text: str):\n    return text == text[::-1]]\n```"
+    },
+    {
+      "id": "HumanEval/49",
+      "pass": true,
+      "secs": 2.7,
+      "err": "",
+      "answer": "```python\ndef modp(n: int, p: int):\n    \"\"\"Return 2^n modulo p (be aware of numerics)).\n    >>> modp(3, 5)\n    3\n    >>> modp(1101, 101)\n    2\n    >>> modp(0, 101)\n    1\n    >>> modp(3, 11)\n    8\n    >>> modp(100, 101)\n    1\n    \"\"\"\n    return pow(2, n, p) if p != 1 else 1\n```"
+    },
+    {
+      "id": "HumanEval/50",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmprtsdq1f4.py\", line 6\n    return \"\".join([chr(((ord(ch) + 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s]))\n                                                                                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": "ft(s: str):\n    \"\"\"\n    returns encoded string by shifting every character by 5 in the alphabet.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) + 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s]))\n\n\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s]))"
+    },
+    {
+      "id": "HumanEval/51",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmprq765ngi.py\", line 3\n    return ''.join(char for char in text if char not in vowels))\n                                                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef remove_vowels(text):\n    vowels = \"aeiouAEIOU\"\n    return ''.join(char for char in text if char not in vowels))\n```"
+    },
+    {
+      "id": "HumanEval/52",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmp0eyz_yue.py\", line 2\n    return all(x < t for x in l))\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef below_threshold(l: list, t: int):\n    return all(x < t for x in l))\n```"
+    },
+    {
+      "id": "HumanEval/53",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef add(x: int, y: int):\n    \"\"\"Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12\n    \"\"\"\n    return x + y\n```"
+    },
+    {
+      "id": "HumanEval/54",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwwow6n6d.py\", line 23, in <module>\n    check(same_chars)\n  File \"/tmp/tmpwwow6n6d.py\", line 13, in check\n    assert candidate('eabcdzzzz', 'dddzzzzzzzddeddabc') == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef same_chars(s0: str, s1: str):\n    return sorted(s0) == sorted(s1)\n```"
+    },
+    {
+      "id": "HumanEval/55",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmps94_7ga8.py\", line 7\n    for _ in range(2, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef fib(n: int):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    a, b = 0, 1\n    for _ in range(2, n + 1)):\n        a, b = b, a + b\n    return b\n```"
+    },
+    {
+      "id": "HumanEval/56",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef correct_bracketing(brackets: str):\n    balance = 0\n    for bracket in brackets:\n        if bracket == \"<\":\n            balance += 1\n        else:\n            balance -= 1\n        if balance < 0:\n            return False\n    return balance == 0\n```"
+    },
+    {
+      "id": "HumanEval/57",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpbp6cqa2i.py\", line 4\n    increasing = all(l[i] <= l[i+1]] for i in range(len(l)-1)))\n                                   ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```python\ndef monotonic(l: list):\n    if not l:\n        return True\n    increasing = all(l[i] <= l[i+1]] for i in range(len(l)-1)))\n    decreasing = all(l[i] >= l[i+1]] for i in range(len(l)-1)))\n    return increasing or decreasing\n```"
+    },
+    {
+      "id": "HumanEval/58",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp3mi_mpmq.py\", line 3\n    return sorted(set(l1)) & sorted(set(l2)))\n                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\"\"\"\n    return sorted(set(l1)) & sorted(set(l2)))\n```"
+    },
+    {
+      "id": "HumanEval/59",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```python\ndef largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\"\"\"\n    largest = 1\n    i = 2\n    while i * i <= n:\n        while n % i == 0:\n            largest = i\n            n //= i\n        i += 1\n    if n > 1:\n        largest = n\n    return largest\n```"
+    },
+    {
+      "id": "HumanEval/60",
+      "pass": true,
+      "secs": 0.5,
+      "err": "",
+      "answer": "```python\ndef sum_to_n(n: int):\n    return n * (n + 1) // 2\n```"
+    },
+    {
+      "id": "HumanEval/61",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef correct_bracketing(brackets: str):\n    balance = 0\n    for char in brackets:\n        if char == '(':\n            balance += 1\n        else:\n            balance -= 1\n        if balance < 0:\n            return False\n    return balance == 0\n```"
+    },
+    {
+      "id": "HumanEval/62",
+      "pass": true,
+      "secs": 0.6,
+      "err": "",
+      "answer": "```python\ndef derivative(xs: list):\n    return [i * xs[i] for i in range(1, len(xs))]\n\n```"
+    },
+    {
+      "id": "HumanEval/63",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmp_7zsndkf.py\", line 8\n    for _ in range(3, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef fibfib(n: int):\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        a, b, c = 0, 0, 1\n        for _ in range(3, n + 1)):\n            next_val = a + b + c\n            a, b, c = b, c, next_val\n        return c\n```"
+    },
+    {
+      "id": "HumanEval/64",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3fs97yda.py\", line 30, in <module>\n    check(vowels_count)\n  File \"/tmp/tmp3fs97yda.py\", line 18, in check\n    assert candidate(\"Alone\") == 3, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+      "answer": "```python\ndef vowels_count(s):\n    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}\n    count = 0\n    for i, char in enumerate(s):\n        if char in vowels:\n            count += 1\n            if char == 'y' and i == len(s) - 1:\n                count -= 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/65",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmp612etw8h.py\", line 9\n    return s[-shift:] + s[:-shift]]\n                                  ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef circular_shift(x, shift):\n    s = str(x)\n    n = len(s)\n    shift %= n\n    if shift == 0:\n        return s\n    if shift > n:\n        return s[::-1]\n    return s[-shift:] + s[:-shift]]\n```"
+    },
+    {
+      "id": "HumanEval/66",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmpqp1tm3wx.py\", line 2\n    return sum(ord(c) for c in s if c.isupper()))\n                                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef digitSum(s):\n    return sum(ord(c) for c in s if c.isupper()))\n```"
+    },
+    {
+      "id": "HumanEval/67",
+      "pass": false,
+      "secs": 6.9,
+      "err": "  File \"/tmp/tmpa19o5f9z.py\", line 26\n    apples = int(part.split()[0]])\n                                ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "            apples = int(part)\n            else:\n                oranges = int(part)\n        elif part.endswith('apples') or part.endswith('apples'):\n            apples = int(part.split()[0]])\n        elif part.endswith('oranges') or part.endswith('oranges'):\n            oranges = int(part.split()[0]])\n    # Calculate the number of mango fruits\n    mango = n - apples - oranges\n    return mango\n```"
+    },
+    {
+      "id": "HumanEval/68",
+      "pass": false,
+      "secs": 2.2,
+      "err": "  File \"/tmp/tmp0pxfhcz4.py\", line 16\n    return [min_even, min_index]]\n                                ^\nSyntaxError: unmatched ']'\n",
+      "answer": "rn []\n    min_even = None\n    min_index = None\n    for i, val in enumerate(arr):\n        if val % 2 == 0:\n            if min_even is None or val < min_even:\n                min_even = val\n                min_index = i\n            elif val == min_even:\n                if i < min_index:\n                    min_index = i\n    if min_even is None:\n        return []\n    return [min_even, min_index]]\n```"
+    },
+    {
+      "id": "HumanEval/69",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpz352kild.py\", line 5\n    for num in sorted(freq.keys(), reverse=True)):\n                                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef search(lst):\n    freq = {}\n    for num in lst:\n        freq[num] = freq.get(num, 0) + 1\n    for num in sorted(freq.keys(), reverse=True)):\n        if freq[num] >= num:\n            return num\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/70",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpoikbfpt8.py\", line 38, in <module>\n    check(strange_sort_list)\n  File \"/tmp/tmpoikbfpt8.py\", line 27, in check\n    assert candidate([5, 5, 5, 5]) == [5, 5, 5, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef strange_sort_list(lst):\n    if not lst:\n        return []\n    result = []\n    while lst:\n        min_val = min(lst)\n        max_val = max(lst)\n        if min_val == max_val:\n            result.append(min_val)\n            break\n        result.append(min_val)\n        result.append(max_val)\n        lst.remove(min_val)\n        lst.remove(max_val)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/71",
+      "pass": false,
+      "secs": 4.9,
+      "err": "  File \"/tmp/tmpei1jvlyq.py\", line 16\n    area = (s * (s - a) * (s - b) * (s - c))) ** 0.5\n                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "= 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n    # Check if the three sides form a valid triangle\n    if (a + b > c) and (a + c > b) and (b + c > a):\n        # Use Heron's formula to calculate the area\n        s = (a + b + c) / 2\n        area = (s * (s - a) * (s - b) * (s - c))) ** 0.5\n        # Round the area to two decimal places\n        return round(area, 2))\n    else:\n        return -1\n```"
+    },
+    {
+      "id": "HumanEval/72",
+      "pass": true,
+      "secs": 0.6,
+      "err": "",
+      "answer": "```python\ndef will_it_fly(q, w):\n    return q == q[::-1] and sum(q) <= w\n```"
+    },
+    {
+      "id": "HumanEval/73",
+      "pass": true,
+      "secs": 1.4,
+      "err": "",
+      "answer": "```python\ndef smallest_change(arr):\n    n = len(arr)\n    left = 0\n    right = n - 1\n    changes = 0\n\n    while left < right:\n        if arr[left] != arr[right]:\n            changes += 1\n        left += 1\n        right -= 1\n\n    return changes\n```"
+    },
+    {
+      "id": "HumanEval/74",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpb_c6lhq9.py\", line 3\n    return sum(len(s) for s in lst))\n                                   ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef total_match(lst1, lst2):\n    def total_chars(lst):\n        return sum(len(s) for s in lst))\n    \n    total1 = total_chars(lst1))\n    total2 = total_chars(lst2))\n    \n    if total1 < total2:\n        return lst1\n    elif total2 < total1:\n        return lst2\n    else:\n        return lst1\n```"
+    },
+    {
+      "id": "HumanEval/75",
+      "pass": false,
+      "secs": 10.1,
+      "err": "lse None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i\n                                    ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "nge(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i) else None for i in range(2, a)) if is_prime(i"
+    },
+    {
+      "id": "HumanEval/76",
+      "pass": true,
+      "secs": 1.4,
+      "err": "",
+      "answer": "```python\ndef is_simple_power(x, n):\n    if n == 1:\n        return x == 1\n    if x < 1:\n        return False\n    power = 1\n    while power <= x:\n        if power == x:\n            return True\n        power *= n\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/77",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmppuz8w2nk.py\", line 4\n    n = round(a ** (1/3))))\n                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef iscube(a):\n    if a < 0:\n        a = -a\n    n = round(a ** (1/3))))\n    return n ** 3 == a\n```"
+    },
+    {
+      "id": "HumanEval/78",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef hex_key(num):\n    primes = {'2', '3', '5', '7', 'B', 'D'}\n    count = 0\n    for c in num:\n        if c in primes:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/79",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "```python\ndef decimal_to_binary(decimal):\n    if decimal == 0:\n        return \"db0db\"\n    binary_str = bin(decimal)[2:]\n    return f\"db{binary_str}db\"\n```"
+    },
+    {
+      "id": "HumanEval/80",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpju9if1gy.py\", line 4\n    for i in range(len(s) - 2)):\n                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef is_happy(s):\n    if len(s) < 3:\n        return False\n    for i in range(len(s) - 2)):\n        if s[i] == s[i+1]] or s[i+1]] == s[i+2]]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/81",
+      "pass": true,
+      "secs": 5.6,
+      "err": "",
+      "answer": "(\"C+\")\n        elif gpa > 1.7:\n            letter_grades.append(\"C\")\n        elif gpa > 1.3:\n            letter_grades.append(\"C-\")\n        elif gpa > 1.0:\n            letter_grades.append(\"D+\")\n        elif gpa > 0.7:\n            letter_grades.append(\"D\")\n        elif gpa > 0.0:\n            letter_grades.append(\"D-\")\n        else:\n            letter_grades.append(\"E\")\n    return letter_grades\n```"
+    },
+    {
+      "id": "HumanEval/82",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmprab0dh_3.py\", line 11\n    if n % i == 0 or n % (i + 2)) == 0:\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef prime_length(string):\n    def is_prime(n):\n        if n <= 1:\n            return False\n        if n <= 3:\n            return True\n        if n % 2 == 0 or n % 3 == 0:\n            return False\n        i = 5\n        while i * i <= n:\n            if n % i == 0 or n % (i + 2)) == 0:\n                return False\n            i += 6\n        return True\n\n    return is_prime(len(string)))\n```"
+    },
+    {
+      "id": "HumanEval/83",
+      "pass": false,
+      "secs": 3.9,
+      "err": "  File \"/tmp/tmpt2bax56l.py\", line 10\n    start_with_1 = 10 ** (n - 1))\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "= 1:\n        return 1  # Only number is 1\n\n    # Count numbers that start with 1\n    start_with_1 = 10 ** (n - 1))\n\n    # Count numbers that end with 1\n    end_with_1 = 10 ** (n - 1)))\n\n    # Subtract overlap (numbers that both start and end with 1)\n    overlap = 10 ** (n - 2)))  # 10^(n-2)) is the count of numbers that both start and end with 1.\n\n    return start_with_1 + end_with_1 - overlap\n```"
+    },
+    {
+      "id": "HumanEval/84",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp9y5k3pim.py\", line 4\n    total = sum(int(d) for d in str(N)))\n                                       ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef solve(N):\n    if N == 0:\n        return \"0\"\n    total = sum(int(d) for d in str(N)))\n    return bin(total)[2:]\n```"
+    },
+    {
+      "id": "HumanEval/85",
+      "pass": false,
+      "secs": 0.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmph95ulz7n.py\", line 19, in <module>\n    check(add)\n  File \"/tmp/tmph95ulz7n.py\", line 11, in check\n    assert candidate([4, 5, 6, 7, 2, 122]) == 122\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef add(lst):\n    return sum(lst[i] for i in range(1, len(lst), 2)) if lst else 0\n```"
+    },
+    {
+      "id": "HumanEval/86",
+      "pass": true,
+      "secs": 1.1,
+      "err": "",
+      "answer": "```python\ndef anti_shuffle(s):\n    words = s.split()\n    result = []\n    for word in words:\n        chars = sorted(word)\n        new_word = ''.join(chars)\n        result.append(new_word)\n    return ' '.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/87",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp76c0aj19.py\", line 6\n    result.append((row_idx, col_idx)))\n                                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef get_row(lst, x):\n    result = []\n    for row_idx, row in enumerate(lst):\n        for col_idx, val in enumerate(row):\n            if val == x:\n                result.append((row_idx, col_idx)))\n    result.sort(key=lambda t: (t[0], -t[1]))  # sort by row ascending, then column descending\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/88",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpgit73aqi.py\", line 9\n    return sorted(array, reverse=True))\n                                      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef sort_array(array):\n    if not array:\n        return array\n    first = array[0]\n    last = array[-1]\n    if (first + last) % 2 == 1:\n        return sorted(array)\n    else:\n        return sorted(array, reverse=True))\n```"
+    },
+    {
+      "id": "HumanEval/89",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpw5g7_sy0.py\", line 5\n    return s.translate(str.maketrans(alphabet, rotated))))\n                                                        ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef encrypt(s):\n    \"\"\"Rotate the alphabet by two places down.\"\"\"\n    alphabet = \"abcdefghijklmnopqrstuvwxyz\"\n    rotated = alphabet[2:] + alphabet[:2]\n    return s.translate(str.maketrans(alphabet, rotated))))\n```"
+    },
+    {
+      "id": "HumanEval/90",
+      "pass": false,
+      "secs": 1.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpw3jyc2gw.py\", line 28, in <module>\n    check(next_smallest)\n  File \"/tmp/tmpw3jyc2gw.py\", line 18, in check\n    assert candidate([1, 1]) == None\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef next_smallest(lst):\n    if not lst:\n        return None\n    sorted_lst = sorted(lst)\n    if len(sorted_lst) < 2:\n        return None\n    return sorted_lst[1]\n```"
+    },
+    {
+      "id": "HumanEval/91",
+      "pass": false,
+      "secs": 4.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpuo40t0sw.py\", line 42, in <module>\n    check(is_bored)\n  File \"/tmp/tmpuo40t0sw.py\", line 32, in check\n    assert candidate(\"I love It !\") == 1, \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n",
+      "answer": "is_bored(\"The sky is blue. The sun is shining. I love this weather\")\n    1\n    \"\"\"\n    count = 0\n    words = S.split()\n    i = 0\n    while i < len(words):\n        if words[i] == \"I\":\n            # Check if the next word is a sentence delimiter\n            if i + 1 < len(words) and words[i + 1] in ['.', '?', '!'] or i + 1 >= len(words):\n                count += 1\n        i += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/92",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpz9y3gmat.py\", line 2\n    if not all(isinstance(n, int)) for n in (x, y, z))]:\n                                                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef any_int(x, y, z):\n    if not all(isinstance(n, int)) for n in (x, y, z))]:\n        return False\n    return any(a == b + c for a, b, c in ((x, y, z)), ((y, x, z)), ((z, x, y)))) \n```"
+    },
+    {
+      "id": "HumanEval/93",
+      "pass": false,
+      "secs": 3.3,
+      "err": "  File \"/tmp/tmpci_x2fcp.py\", line 2\n    vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}}\n                                                               ^\nSyntaxError: unmatched '}'\n",
+      "answer": "    # Find the letter two places ahead\n                # Handle wrap-around\n                index = ord(swapped) - ord('a')\n                next_index = (index + 2) % 26\n                next_char = chr(ord('a') + next_index))\n                result.append(next_char)\n            else:\n                result.append(swapped)\n        else:\n            result.append(char)\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/94",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpos3z_l89.py\", line 12\n    return sum(int(d) for d in str(max_prime))))\n                                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef skjkasdkd(lst):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5)) + 1:\n            if n % i == 0:\n                return False\n        return True\n\n    primes = [n for n in lst if is_prime(n)] or [0]\n    max_prime = max(primes)\n    return sum(int(d) for d in str(max_prime))))\n```"
+    },
+    {
+      "id": "HumanEval/95",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmp15dkd552.py\", line 4\n    all_lower = all(k.islower() and k.isalpha() for k in dict.keys())))\n                                                                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef check_dict_case(dict):\n    if not dict:\n        return False\n    all_lower = all(k.islower() and k.isalpha() for k in dict.keys())))\n    all_upper = all(k.isupper() and k.isalpha() for k in dict.keys())))\n    return all_lower or all_upper\n```"
+    },
+    {
+      "id": "HumanEval/96",
+      "pass": false,
+      "secs": 1.9,
+      "err": " File \"/tmp/tmpqg63ah75.py\", line 20, in check\n    assert candidate(5) == [2,3]\n           ^^^^^^^^^^^^\n  File \"/tmp/tmpqg63ah75.py\", line 7, in count_up_to\n    for j in range(2, int(i**0.5)) + 1:\n             ~~~~~~~~~~~~~~~~~~~~~~^~~\nTypeError: unsupported operand type(s) for +: 'range' and 'int'\n",
+      "answer": "```python\ndef count_up_to(n):\n    if n < 2:\n        return []\n    primes = []\n    for i in range(2, n):\n        is_prime = True\n        for j in range(2, int(i**0.5)) + 1:\n            if i % j == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(i)\n    return primes\n```"
+    },
+    {
+      "id": "HumanEval/97",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpa0zu4yiq.py\", line 2\n    return (a % 10) * (b % 10))\n                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef multiply(a, b):\n    return (a % 10) * (b % 10))\n```"
+    },
+    {
+      "id": "HumanEval/98",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmppeab867k.py\", line 10\n    vowels = {'A', 'E', 'I', 'O', 'U'}}\n                                      ^\nSyntaxError: unmatched '}'\n",
+      "answer": "def count_upper(s):\n    \"\"\"\n    Given a string s, count the number of uppercase vowels in even indices.\n    \n    For example:\n    count_upper('aBCdEf') returns 1\n    count_upper('abcdefg') returns 0\n    count_upper('dBBE') returns 0\n    \"\"\"\n    vowels = {'A', 'E', 'I', 'O', 'U'}}\n    count = 0\n    for i in range(0, len(s), 2)):\n        if s[i] in vowels:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/99",
+      "pass": false,
+      "secs": 5.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmppa_b2fa_.py\", line 50, in <module>\n    check(closest_integer)\n  File \"/tmp/tmppa_b2fa_.py\", line 42, in check\n    assert candidate(\"-15.5\") == -16, \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n",
+      "answer": "d return -15.\n    '''\n    num = float(value)\n    integer_part = int(num)\n    fractional_part = num - integer_part\n\n    if fractional_part < 0.5:\n        return integer_part\n    elif fractional_part > 0.5:\n        return integer_part + 1\n    else:\n        # equidistant, round away from zero\n        if num > 0:\n            return integer_part + 1\n        else:\n            return integer_part - 1\n```"
+    },
+    {
+      "id": "HumanEval/100",
+      "pass": false,
+      "secs": 3.7,
+      "err": "  File \"/tmp/tmp5oypf__7.py\", line 18\n    for i in range(1, n)):\n                        ^\nSyntaxError: unmatched ')'\n",
+      "answer": " stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1)).\n\n    Examples:\n    >>> make_a_pile(3)\n    [3, 5, 7]\n    \"\"\"\n    result = []\n    current = n\n    result.append(current)\n    for i in range(1, n)):\n        if n % 2 == 1:\n            current += 2\n        else:\n            current += 2\n        result.append(current)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/101",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "```python\ndef words_string(s):\n    return s.replace(',', ' ').split()\n```"
+    },
+    {
+      "id": "HumanEval/102",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmp929vbnto.py\", line 4\n    for i in range(x, y + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef choose_num(x, y):\n    if x > y:\n        return -1\n    for i in range(x, y + 1)):\n        if i % 2 == 0:\n            return i\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/103",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmp8iabg5gp.py\", line 4\n    total = sum(range(n, m + 1))))\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef rounded_avg(n, m):\n    if n > m:\n        return -1\n    total = sum(range(n, m + 1))))\n    avg = total / (m - n + 1))\n    rounded = round(avg)\n    return bin(rounded)[2:] if rounded >= 0 else -1\n```"
+    },
+    {
+      "id": "HumanEval/104",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmp9wfh37c0.py\", line 3\n    return any(int(d) % 2 == 0) for d in str(n))\n                                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef unique_digits(x):\n    def has_even_digit(n):\n        return any(int(d) % 2 == 0) for d in str(n))\n    \n    return sorted([n for n in x if not has_even_digit(n)]))\n```"
+    },
+    {
+      "id": "HumanEval/105",
+      "pass": false,
+      "secs": 1.2,
+      "err": "e \"/tmp/tmp_nfsaoke.py\", line 14, in check\n    assert candidate([2, 1, 1, 4, 5, 8, 2, 3]) == [\"Eight\", \"Five\", \"Four\", \"Three\", \"Two\", \"Two\", \"One\", \"One\"], \"Error\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Error\n",
+      "answer": "```python\ndef by_length(arr):\n    valid = [x for x in arr if 1 <= x <= 9]\n    valid.sort()\n    valid.reverse()\n    return [x for x in valid if x != 0]  # Remove zero if any\n```"
+    },
+    {
+      "id": "HumanEval/106",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpp_61pk8x.py\", line 3\n    for i in range(1, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef f(n):\n    result = []\n    for i in range(1, n + 1)):\n        if i % 2 == 0:\n            result.append(factorial(i)))\n        else:\n            result.append(sum(range(1, i + 1)) + 1))\n    return result\n\ndef factorial(x):\n    if x == 0:\n        return 1\n    result = 1\n    for i in range(1, x + 1)):\n        result *= i\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/107",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpa4jefl40.py\", line 4\n    for i in range(1, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef even_odd_palindrome(n):\n    even = 0\n    odd = 0\n    for i in range(1, n + 1)):\n        s = str(i)\n        if s == s[::-1]]:\n            if i % 2 == 0:\n                even += 1\n            else:\n                odd += 1\n    return (even, odd))\n```"
+    },
+    {
+      "id": "HumanEval/108",
+      "pass": false,
+      "secs": 5.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpu_k8zaxo.py\", line 44, in <module>\n    check(count_nums)\n  File \"/tmp/tmpu_k8zaxo.py\", line 31, in check\n    assert candidate([-1, -2, 0]) == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "d 3.\n    >>> count_nums([]) == 0\n    >>> count_nums([-1, 11, -11]) == 1\n    >>> count_nums([1, 1, 2]) == 3\n    \"\"\"\n    count = 0\n    for num in arr:\n        digits = []\n        if num < 0:\n            digits.append(-1)\n            num = -num\n        while num > 0:\n            digits.append(num % 10)\n            num = num // 10\n        if sum(digits) > 0:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/109",
+      "pass": false,
+      "secs": 1.4,
+      "err": "dule>\n    check(move_one_ball)\n  File \"/tmp/tmpvoaejlz6.py\", line 19, in check\n    assert candidate([3, 4, 5, 1, 2])==True, \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+      "answer": "```python\ndef move_one_ball(arr):\n    if not arr:\n        return True\n    n = len(arr)\n    sorted_arr = sorted(arr)\n    i = 0\n    while i < n:\n        if arr[i] > sorted_arr[i]:\n            return False\n        i += 1\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/110",
+      "pass": false,
+      "secs": 2.7,
+      "err": "  File \"/tmp/tmplvm9lhhz.py\", line 3\n    odd1 = [x for x in lst1 if x % 2 == 1]]\n                                          ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef exchange(lst1, lst2):\n    even1 = [x for x in lst1 if x % 2 == 0]\n    odd1 = [x for x in lst1 if x % 2 == 1]]\n    even2 = [x for x in lst2 if x % 2 == 0]]\n    odd2 = [x for x in lst2 if x % 2 == 1]]\n    if len(even1) == len(lst1)):\n        return \"YES\"\n    if len(odd1) <= len(odd2)):\n        return \"YES\"\n    return \"NO\"\n```"
+    },
+    {
+      "id": "HumanEval/111",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmp1ri29kd2.py\", line 8\n    result = {k: v for k, v in counts.items() if v == max_count}}\n                                                                ^\nSyntaxError: unmatched '}'\n",
+      "answer": "```python\ndef histogram(test):\n    if not test:\n        return {}\n    counts = {}\n    for letter in test.split():\n        counts[letter] = counts.get(letter, 0) + 1\n    max_count = max(counts.values()) if counts else 0\n    result = {k: v for k, v in counts.items() if v == max_count}}\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/112",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmpcl8hjq4d.py\", line 2\n    result = ''.join([ch for ch in s if ch not in c]])\n                                                    ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```python\ndef reverse_delete(s, c):\n    result = ''.join([ch for ch in s if ch not in c]])\n    is_palindrome = result == result[::-1]]\n    return (result, is_palindrome))\n```"
+    },
+    {
+      "id": "HumanEval/113",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpx_spnbz3.py\", line 4\n    odd_digits = sum(1 for c in s if int(c) % 2 == 1))\n                                                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef odd_count(lst):\n    result = []\n    for i, s in enumerate(lst):\n        odd_digits = sum(1 for c in s if int(c) % 2 == 1))\n        result.append(f\"the number of odd elements {odd_digits}n the str{odd_digits}ng {odd_digits} of the {odd_digits}nput.\")\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/114",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpe5kf3z7i.py\", line 7\n    min_sum = min(min_sum, current_sum))\n                                       ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef minSubArraySum(nums):\n    min_sum = float('inf')\n    current_sum = 0\n\n    for num in nums:\n        current_sum += num\n        min_sum = min(min_sum, current_sum))\n        if current_sum < 0:\n            current_sum = 0\n\n    return min_sum\n```"
+    },
+    {
+      "id": "HumanEval/115",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpwtmd_pwr.py\", line 12\n    count += math.ceil(total / capacity))\n                                        ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef max_fill(grid, capacity):\n    import math\n    count = 0\n    for row in grid:\n        total = 0\n        for cell in row:\n            if cell == 1:\n                total += 1\n            else:\n                total = 0\n        if total > 0:\n            count += math.ceil(total / capacity))\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/116",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmparpo0k33.py\", line 6\n    return sorted(arr, key=key))\n                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef sort_array(arr):\n    def key(x):\n        ones = bin(x).count('1')\n        return (ones, x)\n\n    return sorted(arr, key=key))\n```"
+    },
+    {
+      "id": "HumanEval/117",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpxsjjg3eg.py\", line 7\n    consonants = sum(1 for c in word if c.isalpha() and c not in vowels))\n                                                                        ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef select_words(s, n):\n    vowels = {'a', 'e', 'i', 'o', 'u'}\n    words = s.split()\n    result = []\n\n    for word in words:\n        consonants = sum(1 for c in word if c.isalpha() and c not in vowels))\n        if consonants == n:\n            result.append(word)\n\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/118",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpa0sk7h3k.py\", line 1\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "ython\ndef get_closest_vowel(word):\n    vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}\n    left = 0\n    right = len(word) - 1\n\n    while left < right:\n        if word[left] in vowels:\n            left += 1\n            continue\n        if word[right] in vowels:\n            right -= 1\n            continue\n        left += 1\n        right -= 1\n\n    return word[left] if left < right else \"\""
+    },
+    {
+      "id": "HumanEval/119",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmpkrswk57t.py\", line 14\n    for order in [(s1, s2)), (s2, s1))]:\n                          ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "           else:\n                balance -= 1\n            if balance < 0:\n                return False\n        return balance == 0\n\n    def check_order(s1, s2):\n        for order in [(s1, s2)), (s2, s1))]:\n            combined = order[0] + order[1]\n            if is_balanced(combined):\n                return True\n        return False\n\n    return 'Yes' if check_order(lst[0]], lst[1])) else 'No'\n```"
+    },
+    {
+      "id": "HumanEval/120",
+      "pass": false,
+      "secs": 0.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpt5y00bzn.py\", line 26, in <module>\n    check(maximum)\n  File \"/tmp/tmpt5y00bzn.py\", line 10, in check\n    assert candidate([-3, -4, 5], 3) == [-4, -3, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef maximum(arr, k):\n    return sorted(arr)[-k:][::-1] if k else []\n```"
+    },
+    {
+      "id": "HumanEval/121",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpzcl80ra3.py\", line 3\n    for i in range(1, len(lst), 2)):\n                                  ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef solution(lst):\n    total = 0\n    for i in range(1, len(lst), 2)):\n        if lst[i] % 2 == 1:\n            total += lst[i]\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/122",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpxaj8hdqv.py\", line 2\n    return sum(x for x in arr[:k]] if x < 100 else 0)\n                                 ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```python\ndef add_elements(arr, k):\n    return sum(x for x in arr[:k]] if x < 100 else 0)\n```"
+    },
+    {
+      "id": "HumanEval/123",
+      "pass": true,
+      "secs": 6.0,
+      "err": "",
+      "answer": " in increasing order.\n\n    For example:\n    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.\n    \"\"\"\n    odd_numbers = []\n    while n != 1:\n        if n % 2 == 1:\n            odd_numbers.append(n)\n        n = n // 2 if n % 2 == 0 else 3 * n + 1\n    if n == 1:\n        odd_numbers.append(1)\n    return sorted(odd_numbers)\n```"
+    },
+    {
+      "id": "HumanEval/124",
+      "pass": false,
+      "secs": 5.4,
+      "err": "  File \"/tmp/tmpk5mv8q8u.py\", line 8\n    month_str = date[0:2]]\n                         ^\nSyntaxError: unmatched ']'\n",
+      "answer": " False\n    if day < 1:\n        return False\n    if month in [1, 3, 5, 7, 8, 10, 12]]:\n        if day > 31:\n            return False\n    elif month in [4, 6, 9, 11]]:\n        if day > 30:\n            return False\n    elif month == 2:\n        if year % 4 != 0:\n            if day > 29:\n                return False\n        else:\n            if day > 29:\n                return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/125",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpz3hgo1ss.py\", line 4\n    return txt.count(',') if ',' in txt else sum(1 for c in txt if c.islower() and (ord(c) - ord('a')) % 27 == 0))\n                                                                                                                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef split_words(txt):\n    words = txt.split()\n    if not words:\n        return txt.count(',') if ',' in txt else sum(1 for c in txt if c.islower() and (ord(c) - ord('a')) % 27 == 0))\n    return words\n```"
+    },
+    {
+      "id": "HumanEval/126",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpamvxytjg.py\", line 2\n    for i in range(len(lst) - 1)):\n                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef is_sorted(lst):\n    for i in range(len(lst) - 1)):\n        if lst[i] > lst[i + 1]]:\n            return False\n        if lst[i] == lst[i + 1]]:\n            if i > 0 and lst[i - 1]] == lst[i]]:\n                return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/127",
+      "pass": false,
+      "secs": 3.3,
+      "err": "  File \"/tmp/tmp6ngsyk1e.py\", line 6\n    start = max(start1, start2))\n                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "f the intersection\n    end = min(end1, end2))\n\n    # If the intervals do not overlap\n    if start > end:\n        return \"NO\"\n\n    # Calculate the length of the intersection\n    length = end - start\n\n    # Check if the length is a prime number\n    if length < 2:\n        return \"NO\"\n    for i in range(2, int(length**0.5)) + 1):\n        if length % i == 0:\n            return \"NO\"\n    return \"YES\"\n```"
+    },
+    {
+      "id": "HumanEval/128",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp78epnrmn.py\", line 5\n    sum_magnitudes = sum(abs(x) for x in arr))\n                                             ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef prod_signs(arr):\n    if not arr:\n        return None\n\n    sum_magnitudes = sum(abs(x) for x in arr))\n    product_signs = 1\n    for x in arr:\n        if x == 0:\n            product_signs = 0\n            break\n        product_signs *= 1 if x > 0 else -1\n\n    return sum_magnitudes * product_signs\n```"
+    },
+    {
+      "id": "HumanEval/129",
+      "pass": false,
+      "secs": 4.5,
+      "err": "  File \"/tmp/tmprqmdh8fb.py\", line 10\n    heappush(heap, (grid[i][j]], i, j, [grid[i][j]])))\n                              ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "hile k > 0:\n        current = heappop(heap)\n        val, i, j, path = current\n        if visited[i][j]:\n            continue\n        visited[i][j] = True\n        new_path = path + [val]]\n        for ni, nj in [(i-1, j)), (i+1, j)), (i, j-1)), (i, j+1))]:\n            if 0 <= ni < N and 0 <= nj < N:\n                heappush(heap, (grid[ni][nj]], ni, nj, new_path)))\n        k -= 1\n    return path\n```"
+    },
+    {
+      "id": "HumanEval/130",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmp5qm3iocr.py\", line 9\n    return [1, 3, 2, 8]]\n                       ^\nSyntaxError: unmatched ']'\n",
+      "answer": "f n == 0:\n        return [1]\n    elif n == 1:\n        return [1, 3]\n    elif n == 2:\n        return [1, 3, 2]\n    elif n == 3:\n        return [1, 3, 2, 8]]\n    else:\n        res = [1, 3, 2]\n        for i in range(4, n + 1)):\n            if i % 2 == 0:\n                res.append(1 + i // 2)\n            else:\n                res.append(res[i - 1]] + res[i - 2]] + res[i + 1]]))\n        return res\n```"
+    },
+    {
+      "id": "HumanEval/131",
+      "pass": false,
+      "secs": 1.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp1sl1pad9.py\", line 29, in <module>\n    check(digits)\n  File \"/tmp/tmp1sl1pad9.py\", line 18, in check\n    assert candidate(54) == 5\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef digits(n):\n    product = 1\n    for digit in str(n):\n        d = int(digit)\n        if d % 2 == 1:\n            product *= d\n        else:\n            return 0\n    return product\n```"
+    },
+    {
+      "id": "HumanEval/132",
+      "pass": false,
+      "secs": 1.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpv6nr2pqs.py\", line 41, in <module>\n    check(is_nested)\n  File \"/tmp/tmpv6nr2pqs.py\", line 29, in check\n    assert candidate('[[]') == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef is_nested(string):\n    stack = []\n    nested = False\n    for char in string:\n        if char == '[':\n            stack.append(char)\n        elif char == ']':\n            if stack:\n                stack.pop()\n                if len(stack) > 0:\n                    nested = True\n            else:\n                return False\n    return nested\n```"
+    },
+    {
+      "id": "HumanEval/133",
+      "pass": false,
+      "secs": 0.6,
+      "err": "a.py\", line 29, in <module>\n    check(sum_squares)\n  File \"/tmp/tmpz5skfkxa.py\", line 10, in check\n    assert candidate([1,2,3])==14, \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+      "answer": "```python\ndef sum_squares(lst):\n    return sum(round(x) for x in lst if x != 0) ** 2\n```"
+    },
+    {
+      "id": "HumanEval/134",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpw83525us.py\", line 35, in <module>\n    check(check_if_last_char_is_a_letter)\n  File \"/tmp/tmpw83525us.py\", line 19, in check\n    assert candidate(\"apple\") == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef check_if_last_char_is_a_letter(txt):\n    if not txt:\n        return False\n    last_char = txt[-1]\n    if not last_char.isalpha():\n        return False\n    if ' ' in txt:\n        last_space_index = txt.rfind(' ')\n        if last_space_index == len(txt) - 1:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/135",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmphilsm0ap.py\", line 2\n    for i in range(1, len(arr))):\n                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef can_arrange(arr):\n    for i in range(1, len(arr))):\n        if arr[i] < arr[i - 1]]:\n            return i\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/136",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpd97reetu.py\", line 3\n    pos = [x for x in lst if x > 0]]\n                                   ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef largest_smallest_integers(lst):\n    neg = [x for x in lst if x < 0]\n    pos = [x for x in lst if x > 0]]\n    \n    a = None\n    if neg:\n        a = max(neg)\n    \n    b = None\n    if pos:\n        b = min(pos)\n    \n    return (a, b)\n```"
+    },
+    {
+      "id": "HumanEval/137",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "   if isinstance(val, str):\n            val = val.replace(',', '.').replace(' ', '')\n            try:\n                return float(val)\n            except ValueError:\n                return val\n        else:\n            return val\n\n    a_val = parse_value(a)\n    b_val = parse_value(b)\n\n    if a_val > b_val:\n        return a\n    elif b_val > a_val:\n        return b\n    else:\n        return None\n```"
+    },
+    {
+      "id": "HumanEval/138",
+      "pass": true,
+      "secs": 1.0,
+      "err": "",
+      "answer": "```python\ndef is_equal_to_sum_even(n):\n    if n < 8:\n        return False\n    if n % 2 != 0:\n        return False\n    return (n - 8) % 2 == 0\n```"
+    },
+    {
+      "id": "HumanEval/139",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpdotdnjdn.py\", line 3\n    for i in range(1, n + 1)):\n                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef special_factorial(n):\n    result = 1\n    for i in range(1, n + 1)):\n        result *= i\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/140",
+      "pass": false,
+      "secs": 2.1,
+      "err": "ert candidate(\"Yellow Yellow  Dirty  Fellow\") == \"Yellow_Yellow__Dirty__Fellow\", \"This prints if this assert fails 3 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 3 (good for debugging!)\n",
+      "answer": "spaces = 0\n    for char in text:\n        if char == ' ':\n            spaces += 1\n        else:\n            if spaces > 2:\n                result.append('-')\n            elif spaces > 0:\n                result.append('_')\n            result.append(char)\n            spaces = 0\n    if spaces > 2:\n        result.append('-')\n    elif spaces > 0:\n        result.append('_')\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/141",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmp42mgw0i_.py\", line 13\n    digits = sum(1 for c in parts[0] if c.isdigit()))\n                                                    ^\nSyntaxError: unmatched ')'\n",
+      "answer": " if file_name.count('.') != 1:\n        return 'No'\n    parts = file_name.split('.')\n    if not parts[0] or not parts[1]:\n        return 'No'\n    if not parts[0][0].isalpha():\n        return 'No'\n    if parts[1] not in ['txt', 'exe', 'dll'] or not parts[1].isalpha():\n        return 'No'\n    digits = sum(1 for c in parts[0] if c.isdigit()))\n    if digits > 3:\n        return 'No'\n    return 'Yes'\n```"
+    },
+    {
+      "id": "HumanEval/142",
+      "pass": false,
+      "secs": 1.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp8kq81_6i.py\", line 33, in <module>\n    check(sum_squares)\n  File \"/tmp/tmp8kq81_6i.py\", line 17, in check\n    assert candidate([1,2,3]) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sum_squares(lst):\n    total = 0\n    for i, num in enumerate(lst):\n        if i % 3 == 0:\n            total += num ** 2\n        elif i % 4 == 0:\n            total += num ** 3\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/143",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpg0akb3_c.py\", line 11\n    result = [word for word in words if is_prime(len(word)))]\n                                                           ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```python\ndef words_in_sentence(sentence):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5)) + 1:\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    result = [word for word in words if is_prime(len(word)))]\n\n    return ' '.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/144",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmp9bjjcgb7.py\", line 6\n    x_frac = Fraction(x.split('/')[0]), Fraction(x.split('/')[1])))\n                                                                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": "sult is a whole number, False otherwise.\"\"\"\n    from fractions import Fraction\n\n    # Parse x and n into fractions\n    x_frac = Fraction(x.split('/')[0]), Fraction(x.split('/')[1])))\n    n_frac = Fraction(n.split('/')[0]), Fraction(n.split('/')[1])))\n\n    # Multiply the two fractions\n    product = x_frac * n_frac\n\n    # Check if the product is a whole number\n    return product.denominator == 1\n```"
+    },
+    {
+      "id": "HumanEval/145",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmp3ynat7tw.py\", line 3\n    return sum(int(d) for d in str(abs(n)))) \n                                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef order_by_points(nums):\n    def sum_digits(n):\n        return sum(int(d) for d in str(abs(n)))) \n\n    def key_func(n, index):\n        return (sum_digits(n), index)\n\n    return sorted(nums, key=key_func))\n```"
+    },
+    {
+      "id": "HumanEval/146",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmptpl8_vea.py\", line 4\n    return int(s[0]) % 2 == 1 and int(s[-1]]) % 2 == 1\n                                           ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```python\ndef specialFilter(nums):\n    def is_odd_digit(n):\n        s = str(n)\n        return int(s[0]) % 2 == 1 and int(s[-1]]) % 2 == 1\n\n    count = 0\n    for num in nums:\n        if num > 10 and is_odd_digit(num)):\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/147",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpzv1d2v0h.py\", line 2\n    a = [i * i - i + 1 for i in range(1, n + 1))]\n                                               ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```python\ndef get_max_triples(n):\n    a = [i * i - i + 1 for i in range(1, n + 1))]\n\n    count = 0\n    for i in range(n):\n        for j in range(i + 1, n)):\n            for k in range(j + 1, n)):\n                if (a[i] + a[j] + a[k]) % 3 == 0:\n                    count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/148",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpoxmybab4.py\", line 5\n    index1 = planets.index(planet1))\n                                   ^\nSyntaxError: unmatched ')'\n",
+      "answer": "cury\", \"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\", \"Uranus\", \"Neptune\"]\n    if planet1 not in planets or planet2 not in planets:\n        return tuple()\n    index1 = planets.index(planet1))\n    index2 = planets.index(planet2))\n    if index1 > index2:\n        index1, index2 = index2, index1\n    return tuple(planets[index] for index in range(index1 + 1, index2)) if index1 < index2 else tuple()\n```"
+    },
+    {
+      "id": "HumanEval/149",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmpxfquzksc.py\", line 3\n    filtered.sort(key=lambda x: (len(x), x)))\n                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef sorted_list_sum(lst):\n    filtered = [word for word in lst if len(word) % 2 == 0]\n    filtered.sort(key=lambda x: (len(x), x)))\n    return filtered\n```"
+    },
+    {
+      "id": "HumanEval/150",
+      "pass": false,
+      "secs": 1.2,
+      "err": "tmp/tmp3n44uikd.py\", line 15, in check\n    assert candidate(7, 34, 12) == 34\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp3n44uikd.py\", line 4, in x_or_y\n    for i in range(2, int(n**0.5)) + 1:\n             ~~~~~~~~~~~~~~~~~~~~~~^~~\nTypeError: unsupported operand type(s) for +: 'range' and 'int'\n",
+      "answer": "```python\ndef x_or_y(n, x, y):\n    if n < 2:\n        return y\n    for i in range(2, int(n**0.5)) + 1:\n        if n % i == 0:\n            return y\n    return x\n```"
+    },
+    {
+      "id": "HumanEval/151",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmplwoo_qd8.py\", line 2\n    return sum((x ** 2) for x in lst if x > 0 and x % 1 == 0 and x % 2 == 1))\n                                                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef double_the_difference(lst):\n    return sum((x ** 2) for x in lst if x > 0 and x % 1 == 0 and x % 2 == 1))\n```"
+    },
+    {
+      "id": "HumanEval/152",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpz6n_cxdb.py\", line 2\n    return [abs(g - g2)) for g, g2 in zip(game, guess)]\n                       ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```python\ndef compare(game, guess):\n    return [abs(g - g2)) for g, g2 in zip(game, guess)]\n```"
+    },
+    {
+      "id": "HumanEval/153",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpn2og2uwe.py\", line 1\n    def Strongest_Extension(class_name, extensions)):\n                                                   ^\nSyntaxError: unmatched ')'\n",
+      "answer": "wer()))\n        strength = cap - sm\n\n        if strength > max_strength:\n            max_strength = strength\n            strongest_extension = ext\n        elif strength == max_strength:\n            if extensions.index(ext) < extensions.index(strongest_extension))):\n                strongest_extension = ext\n\n    return f\"{class_name}.{strongest_extension}\" if strongest_extension else class_name\n```"
+    },
+    {
+      "id": "HumanEval/154",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpe5gudrmq.py\", line 5\n    for i in range(len(b))):\n                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef cycpattern_check(a, b):\n    \"\"\"Check if any rotation of b is a substring of a.\"\"\"\n    if len(b) > len(a):\n        return False\n    for i in range(len(b))):\n        rotated = b[i:] + b[:i]]\n        if rotated in a:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/155",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmp8vc04gbt.py\", line 4\n    for digit in str(abs(num))):\n                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef even_odd_count(num):\n    even = 0\n    odd = 0\n    for digit in str(abs(num))):\n        if int(digit) % 2 == 0:\n            even += 1\n        else:\n            odd += 1\n    return (even, odd))\n```"
+    },
+    {
+      "id": "HumanEval/156",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "o_mini_roman(number):\n    roman_numerals = [\n        (1000, 'm'), (900, 'cm'), (500, 'd'), (400, 'cd'),\n        (100, 'c'), (90, 'xc'), (50, 'l'), (40, 'xl'),\n        (10, 'x'), (9, 'ix'), (5, 'v'), (4, 'iv'),\n        (1, 'i')\n    ]\n\n    result = ''\n    for value, symbol in roman_numerals:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/157",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmps4ym2nie.py\", line 2\n    sides = sorted([a, b, c]])\n                            ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```python\ndef right_angle_triangle(a, b, c):\n    sides = sorted([a, b, c]])\n    return sides[0] ** 2 + sides[1] ** 2 == sides[2] ** 2\n```"
+    },
+    {
+      "id": "HumanEval/158",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef find_max(words):\n    max_unique = -1\n    result = \"\"\n    for word in words:\n        unique_chars = set(word)\n        unique_count = len(unique_chars)\n        if unique_count > max_unique:\n            max_unique = unique_count\n            result = word\n        elif unique_count == max_unique:\n            if word < result:\n                result = word\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/159",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmppsyj3_2h.py\", line 12\n    return [total, left]]\n                        ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```python\ndef eat(number, need, remaining):\n    total = number\n    left = remaining\n\n    if need <= left:\n        total += need\n        left -= need\n    else:\n        total += left\n        left = 0\n\n    return [total, left]]\n```"
+    },
+    {
+      "id": "HumanEval/160",
+      "pass": false,
+      "secs": 4.9,
+      "err": "  File \"/tmp/tmpymfu1jtb.py\", line 28\n    for op, num in zip(operator, operand[1:]]):\n                                            ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": " to the length of operand list minus one.\n        Operand is a list of of non-negative integers.\n        Operator list has at least one operator, and operand list has at least two operands.\n\n    \"\"\"\n    # Build the expression\n    expression = operand[0]\n    for op, num in zip(operator, operand[1:]]):\n        expression += f\" {op} {num}\"\n    # Evaluate the expression\n    return eval(expression)\n```"
+    },
+    {
+      "id": "HumanEval/161",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmplpmomzd8.py\", line 7\n    result.append(char.swapcase()))\n                                  ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef solve(s):\n    result = []\n    has_letter = False\n    for char in s:\n        if char.isalpha():\n            has_letter = True\n            result.append(char.swapcase()))\n        else:\n            result.append(char)\n    if not has_letter:\n        return s[::-1]\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/162",
+      "pass": true,
+      "secs": 0.7,
+      "err": "",
+      "answer": "```python\nimport hashlib\n\ndef string_to_md5(text):\n    if not text:\n        return None\n    return hashlib.md5(text.encode()).hexdigest()\n```"
+    },
+    {
+      "id": "HumanEval/163",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmp64cjapon.py\", line 12\n    for i in range(min(a, b)), max(a, b) + 1):\n                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "    \"\"\"\n    Given two positive integers a and b, return the even digits between a\n    and b, in ascending order.\n\n    For example:\n    generate_integers(2, 8) => [2, 4, 6, 8]\n    generate_integers(8, 2) => [2, 4, 6, 8]]\n    generate_integers(10, 14) => []\n    \"\"\"\n    result = []\n    for i in range(min(a, b)), max(a, b) + 1):\n        if i % 2 == 0:\n            result.append(i)\n    return result\n```"
+    }
+  ]
+}

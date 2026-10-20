@@ -245,3 +245,11 @@ decoding plus the engine (CUDA graphs, fused kernels), not from size.
 The 50-item GSM8K subset cannot separate 4B from 8B (90 % vs 84 % is within noise at n = 50); Phase F uses the full
 1319-item test set. `engine/cdlm/` (data, mask, loss, HF glue, streaming decoder, trainer) is CPU-tested: 14 tests pass
 (`engine.cdlm.tests.test_cdlm` 6, `engine.cdlm.tests.test_decoder` 4, `distill.tests.test_train_cdlm` 4).
+
+**Correction (10:05):** the Phase B pilot rows above that were evaluated in the benchmark venv (GSM8K-50 90 %/90 %,
+50 tok/s, HumanEval 24 % for the 4B pilot) were run with the **wrong RoPE base**: transformers 5 writes
+`rope_parameters`, transformers 4.57 ignores it and falls back to θ = 10 000 instead of 1 000 000. Symptom: doubled
+closing brackets in code; the same checkpoint generates correctly under transformers 5. `distill/fix_config.py` repairs the
+configs (now applied automatically by both trainers); the affected result files are quarantined in
+`results/invalid_rope/` and the pilots are being re-evaluated (`bench/phaseF_pilots_redo.sh`). The `bench/run_cdlm.py`
+numbers were produced in the training venv and are unaffected.
