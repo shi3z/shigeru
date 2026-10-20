@@ -1,0 +1,64 @@
+{
+ "time": "2026-10-20 09:37:56",
+ "gpus": [
+  4,
+  6,
+  7
+ ],
+ "gpu_mem_before": {
+  "0": 81120,
+  "1": 81093,
+  "2": 79945,
+  "3": 77607,
+  "4": 12,
+  "5": 37907,
+  "6": 16,
+  "7": 12
+ },
+ "fleet": {
+  "time": "2026-10-20 09:37:56",
+  "members": {
+   "c4": {
+    "gpu": 4,
+    "port": 8194,
+    "backend_up": false,
+    "backend_pids": [],
+    "worker_pids": []
+   },
+   "c6": {
+    "gpu": 6,
+    "port": 8189,
+    "backend_up": false,
+    "backend_pids": [],
+    "worker_pids": []
+   },
+   "c7": {
+    "gpu": 7,
+    "port": 8188,
+    "backend_up": false,
+    "backend_pids": [],
+    "worker_pids": []
+   }
+  },
+  "queue": 0,
+  "claimed": [],
+  "maintenance": [
+   "c4",
+   "c5",
+   "c6",
+   "c7"
+  ],
+  "gpu_mem_mib": {
+   "0": 81120,
+   "1": 81093,
+   "2": 79945,
+   "3": 77607,
+   "4": 12,
+   "5": 37907,
+   "6": 16,
+   "7": 12
+  },
+  "watchdog_pids": [],
+  "running": false
+ }
+}
