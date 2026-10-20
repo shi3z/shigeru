@@ -58,13 +58,16 @@ def main():
         l = cfg["lora"]
         peft_config = LoraConfig(r=l["r"], lora_alpha=l["alpha"], lora_dropout=l.get("dropout", 0.0), task_type="CAUSAL_LM",
                                  target_modules=l.get("targets", ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]))
+    steps_per_epoch = max(1, len(ds["train"]) // (cfg["batch"] * cfg["grad_accum"]))
+    total_steps = a.max_steps if a.max_steps > 0 else int(steps_per_epoch * cfg["epochs"])
+    warmup_steps = int(cfg.get("warmup_ratio", 0.03) * total_steps)
     args = SFTConfig(output_dir=out_dir, per_device_train_batch_size=cfg["batch"], gradient_accumulation_steps=cfg["grad_accum"],
                      learning_rate=float(cfg["lr"]), num_train_epochs=cfg["epochs"], max_steps=a.max_steps, bf16=True,
                      logging_steps=cfg.get("logging_steps", 5), save_steps=cfg.get("save_steps", 200), save_total_limit=3,
                      eval_strategy="steps" if "validation" in ds else "no", eval_steps=cfg.get("eval_steps", 100),
-                     warmup_ratio=cfg.get("warmup_ratio", 0.03), lr_scheduler_type=cfg.get("scheduler", "cosine"),
+                     warmup_steps=warmup_steps, lr_scheduler_type=cfg.get("scheduler", "cosine"),
                      max_length=cfg["max_len"], gradient_checkpointing=cfg.get("grad_ckpt", True), completion_only_loss=True,
-                     report_to=[], seed=cfg.get("seed", 0), dataloader_num_workers=2, logging_dir=os.path.join(out_dir, "logs"))
+                     report_to=[], seed=cfg.get("seed", 0), dataloader_num_workers=2)
     trainer = SFTTrainer(model=model, args=args, train_dataset=ds["train"], eval_dataset=ds.get("validation"),
                          processing_class=tok, peft_config=peft_config)
     used = check_runtime()
