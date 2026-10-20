@@ -1,0 +1,19 @@
+{
+ "input": 230,
+ "reject:unverified": 7,
+ "reject:dup_near": 9,
+ "reject:low_score": 9,
+ "test": 10,
+ "val": 10,
+ "train": 185,
+ "kept": 205,
+ "by_category": {
+  "ja_general": 39,
+  "json": 27,
+  "math": 59,
+  "en_general": 29,
+  "reasoning": 17,
+  "code": 34
+ },
+ "response_tokens_total": 87272
+}
