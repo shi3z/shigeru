@@ -224,9 +224,9 @@ the teacher service.
 | Phase B LoRA dry run, Qwen3-4B | 3 steps, 9.2 GiB peak, merged weights load in the bench venv | GPU 5 |
 | Phase C trainer GPU smoke, Qwen3-0.6B | 4 steps, 8.6 GiB peak, 1.3–2.2k logical tok/s (contended GPU); MLM loss 20.0 → 11.0, AR loss 2.7 → 1.6 | GPU 5, batch 2 × accum 2, max_len 1024 (2048 rows) |
 | Phase A pilot (230 items, 50 min, 466 calls, 0 errors) | 205 kept after curation (185/10/10); math 59/60 verified, code 34/40 pass, reasoning 17/30 judged ≥4 | teacher at concurrency 2, 13 s/item mean |
-| **Phase B pilot, Qwen3-4B LoRA** (185 items, 2 epochs, 24 steps, 124 s, 12.3 GiB) | train loss 1.40, eval loss 1.51; **GSM8K-50 90 %** (released 4B: 90 %); 50.1 tok/s | GPU 4, idle |
-| **Phase B pilot, Qwen3-8B LoRA** (155 s, 19.3 GiB) | train loss 1.25, eval loss 1.35; **GSM8K-50 90 %** (released 8B: 84 %); 50.3 tok/s | GPU 6, idle |
-| Released Qwen3-4B / Qwen3-8B, idle GPU, HF greedy batch 1 | **53.5 / 50.3 tok/s**, GSM8K-50 90 % / 84 % | GPUs 4, 7 |
+| **Phase B pilot, Qwen3-4B LoRA** (185 items, 2 epochs, 24 steps, 124 s, 12.3 GiB) | train loss 1.40, eval loss 1.51; **GSM8K-50 92 %**, HumanEval **76.2 %** (released 4B: 90 % / 81.7 %); 52.6 tok/s | GPU 7, idle, config repaired |
+| **Phase B pilot, Qwen3-8B LoRA** (155 s, 19.3 GiB) | train loss 1.25, eval loss 1.35; **GSM8K-50 94 %**, HumanEval **83.5 %** (released 8B: 84 % / 85.4 %); 50.4 tok/s | GPU 7, idle, config repaired |
+| Released Qwen3-4B / Qwen3-8B, idle GPU, HF greedy batch 1 | **53.5 / 50.3 tok/s**, GSM8K-50 90 % / 84 %, HumanEval 81.7 % / 85.4 % | GPUs 4, 7 |
 | **Phase C shakedown**: full fine-tune of the Phase B 4B student into the dual-stream causal-diffusion form (185 items × 4 epochs = 46 steps, 6 s/step, 35.3 GiB, 1.25k logical tok/s) | MLM loss 20 → 3.3 (final step), AR loss ≈ 0.8–1.2 | GPU 7 |
 | Phase C shakedown decoded with `engine/cdlm/decoder.py` (10 GSM8K items, window 16) | AR rows: 80 %, 50.6 tok/s · τ=None (one mask/step): 60 %, 43.5 tok/s, **0/10 identical to AR** · τ=0.4: 60 %, 1.00 tok/step · τ=1.0: 40 %, 1.04 tok/step; several runs never emit EOS (384-token cap) | `bench/run_cdlm.py`, GPU 7 |
 
