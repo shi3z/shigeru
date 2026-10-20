@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "runs/phaseB_medium_4b/merged",
+  "config": {
+    "model": "runs/phaseB_medium_4b/merged",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/phaseB_medium_4b_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 2.2080724239349365,
+  "gpu_state": [
+    "81084 MiB, 0 %",
+    "79797 MiB, 0 %",
+    "80789 MiB, 0 %",
+    "80625 MiB, 0 %",
+    "8327 MiB, 64 %",
+    "19799 MiB, 0 %",
+    "22849 MiB, 100 %",
+    "52635 MiB, 100 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 237,
+      "ttft_s": 0.023811981081962585,
+      "e2e_s": 4.579520657192916,
+      "tok_s_effective": 51.752141270015066,
+      "decode_tok_s": 51.8031368505909,
+      "peak_mem_gib": 7.591883659362793,
+      "answer": "A hash table maps keys to values using a hash function that computes an index. When you insert a key, the hash function converts it to an integer, which becomes the array index. The value is stored at that index. For collisions (same index for different keys), common methods include chaining (linked lists) or open addressing (probing).\n\nPerformance degrades in two main ways:\n\n1. **High load factor** (number of entries divided by array size): As entries fill the array, collisions increase, and probing becomes longer, slowing lookups. A load factor above ~0.7–0.8 typically triggers resizing (doubling the array and rehashing), which is O(n) but amortizes to O(1) per operation.\n\n2. **Poor hash function**: If keys map to few indices, collisions dominate, and performance drops sharply. A good hash function distributes keys evenly.\n\n3. **Large number of entries**: Even with a good hash, a very large table means longer probes in open addressing or longer chains in chaining.\n\nIn practice, hash tables are fast for moderate loads but degrade predictably as they approach capacity or with bad hashing.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 256,
+      "ttft_s": 0.022190494928508997,
+      "e2e_s": 4.998758742120117,
+      "tok_s_effective": 51.21271363687039,
+      "decode_tok_s": 51.24012920829577,
+      "peak_mem_gib": 7.5947699546813965,
+      "answer": "Here's a Python function that returns the n-th Fibonacci number using an iterative approach:\n\n```python\ndef fibonacci(n):\n    \"\"\"\n    Return the n-th Fibonacci number using an iterative approach.\n\n    The Fibonacci sequence starts with 0 and 1, and each subsequent number\n    is the sum of the two preceding ones. So:\n    fib(0) = 0\n    fib(1) = 1\n    fib(2) = 1\n    fib(3) = 2\n    ...\n\n    Parameters:\n        n (int): The index of the Fibonacci number to return.\n\n    Returns:\n        int: The n-th Fibonacci number.\n\n    Raises:\n        ValueError: If n is negative.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Input must be a non-negative integer.\")\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n\n\n# Usage examples\nprint(fibonacci(0))  # Output: 0\nprint(fibonacci(10)) #",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.023893408942967653,
+      "e2e_s": 5.066414009779692,
+      "tok_s_effective": 50.528835485186086,
+      "decode_tok_s": 50.569947093064314,
+      "peak_mem_gib": 7.5994415283203125,
+      "answer": "Let's go step-by-step.\n\n---\n\n**Step 1: Define variables**\n\nLet \\( t \\) be the time in hours after 9:00 when the two trains meet.\n\n- Train from A: leaves at 9:00, speed = 80 km/h.  \n  Distance covered by Train A at time \\( t \\) is \\( 80t \\) km.\n\n- Train from B: leaves at 9:30, so it starts 0.5 hours later.  \n  Its travel time until meeting is \\( t - 0.5 \\) hours.  \n  Speed = 100 km/h.  \n  Distance covered by Train B at meeting time is \\( 100(t - 0.5) \\) km.\n\n---\n\n**Step 2: Set up the equation**\n\nThe total distance between A and B is 300 km.  \nAt meeting time, the sum of distances covered equals 300 km:\n\n\\[\n80t + 100(t - 0.5) = 300\n\\]\n\n---\n\n**Step 3: Solve the equation**\n\n\\[\n80t + 100t - 50 = ",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 204,
+      "ttft_s": 0.021717752795666456,
+      "e2e_s": 3.89332752302289,
+      "tok_s_effective": 52.397338470411704,
+      "decode_tok_s": 52.43297027532968,
+      "peak_mem_gib": 7.587353229522705,
+      "answer": "The lighthouse stood alone on the jagged coast, its beam slicing through the mist. Elias had tended it for thirty years, his days measured by the rhythm of the waves and the steady hum of the engine. One stormy evening, a letter arrived—no return address, just a single line: *“The beacon is out. Come see.”*\n\nHe read it twice, then went to the tower. The engine was silent, the lens dark. He turned the key, but nothing happened. The sea was calm, the sky clear. He climbed the spiral stairs, his boots echoing down the stone. At the top, he found the room empty, the lamp still warm. A note on the desk: *“The sea is not what it seems. I’ve been waiting for you.”*\n\nElias stared at the empty room, then at the sea beyond. The waves were still, the wind still, and the lighthouse beam—*it was shining, faintly, from the window*.",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 212,
+      "ttft_s": 0.02174416510388255,
+      "e2e_s": 3.9881584169343114,
+      "tok_s_effective": 53.15736684375841,
+      "decode_tok_s": 53.196662426933166,
+      "peak_mem_gib": 7.587352275848389,
+      "answer": "- **Social inequality and class tension**: A rigid feudal system with a tiny nobility and clergy, a growing middle class (bourgeoisie) demanding political rights, and a starving peasantry under heavy land taxes and corvée labor.\n- **Economic crisis**: A severe financial crisis from years of war spending, bad loans, and a corrupt bureaucracy, culminating in a massive deficit that forced heavy taxation and the sale of church assets.\n- **Political absolutism and Enlightenment ideas**: Louis XVI's autocratic rule and the Estates-General's failure to reform clashed with Enlightenment thinkers' calls for liberty, equality, and popular sovereignty.\n- **Immediate trigger**: The Estates-General of 1789, the storming of the Bastille in July 1789, and the Declaration of the Rights of Man and of the Citizen marked the revolution's outbreak.\n- **Ideological and revolutionary momentum**: The revolution evolved from a demand for reform to a radical transformation of government and society, driven by radical Jacobins and the Reign of Terror.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 111,
+      "ttft_s": 0.020502267871052027,
+      "e2e_s": 2.1118067116476595,
+      "tok_s_effective": 52.561628575086935,
+      "decode_tok_s": 52.59875018548479,
+      "peak_mem_gib": 7.575265884399414,
+      "answer": "過学習とは、訓練データに過剰に適合し、新しいデータで性能が低下する現象です。特徴量の多さやモデルの複雑さが原因です。防ぐには、正規化（L1/L2）、ドロップアウト、正則化、データ拡張、交差検証、学習率の調整、モデルの複雑さの制限など、複数の手法を組み合わせることが効果的です。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.0213782568462193,
+      "e2e_s": 4.961553952656686,
+      "tok_s_effective": 51.596738127361014,
+      "decode_tok_s": 51.6175973693109,
+      "peak_mem_gib": 7.597103595733643,
+      "answer": "# 文字列リストを重複を除いて長さ順に並べ替える関数\n\n以下は、Python で文字列のリストを受け取り、重複を除き長さ順に並べ替える関数です。\n\n```python\ndef unique_sorted_strings(strings):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す。\n\n    Args:\n        strings (list of str): 入力リスト\n\n    Returns:\n        list of str: 重複を除いた長さ順リスト\n    \"\"\"\n    # 重複を除く（setに変換）\n    unique_set = set(strings)\n    # listに戻し、長さでソート\n    sorted_list = sorted(unique_set, key=lambda s: len(s))\n    return sorted_list\n```\n\n## 説明\n\n1. **重複を除く**：`set()` でリストを変換することで、重複した文字列が消えます。\n2. **長さ順に並べる**：`sorted()` で `key=lambda s: len(s)` を指定し、文字列の長さでソートします。\n3",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 155,
+      "ttft_s": 0.02175489580258727,
+      "e2e_s": 2.9571057348512113,
+      "tok_s_effective": 52.41611693935555,
+      "decode_tok_s": 52.46391605097294,
+      "peak_mem_gib": 7.584194183349609,
+      "answer": "太郎は花子より3歳年上なので、太郎の年齢をT、花子の年齢をHとすると、T = H + 3 です。\n\n二人の年齢の和は29なので、\nT + H = 29\n\nT = H + 3 を代入すると、\n(H + 3) + H = 29\n2H + 3 = 29\n2H = 26\nH = 13\n\n花子の現在の年齢は13歳です。\n\n5年後には、花子の年齢は13 + 5 = 18歳になります。\n\n**答え：18歳**",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 107,
+      "ttft_s": 0.0195865030400455,
+      "e2e_s": 2.0067351879552007,
+      "tok_s_effective": 53.32043841271832,
+      "decode_tok_s": 53.342762323054785,
+      "peak_mem_gib": 7.574716567993164,
+      "answer": "灯台の下で夜明けの潮風を浴びながら、守り手は手紙を受け取った。封筒は誰かの手で届いた。開くと、かつて灯台の下で出会った少女の手紙だった。彼女は遠くの国へ旅に出たが、最後の手紙で「灯台の光が私の道を照らすように」と書いた。守り手は微笑み、灯台の光を上げた。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.018942961934953928,
+      "e2e_s": 4.856519802939147,
+      "tok_s_effective": 52.71264411298597,
+      "decode_tok_s": 52.71234098827599,
+      "peak_mem_gib": 7.594494342803955,
+      "answer": "明治維新的主な要因を5つの箇条書きでまとめると以下の通りです。\n\n1. **外国列強の圧力と不平等条約**  \n   西洋列強による不平等条約（開国・貿易制限・領事裁判権など）が日本の経済・政治を脅かし、自立を迫る。\n\n2. **国内の経済・社会の衰退**  \n   江戸幕府の鎖国政策がもたらした経済停滞、農村の衰退、士農工商の格差、そして幕府の財政危機。\n\n3. **士族の地位低下と新貴族の台頭**  \n   士族が武士以外の職業に転向し、幕府の支配力が弱まり、新貴族（商人・知識人）の影響が増大。\n\n4. **西洋文明への関心と改革志向**  \n   西洋の軍事・技術・制度に目覚め、明治天皇が「王政復古」を掲げ、改革を推進する。\n\n5",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.021552268834784626,
+      "min": 0.018942961934953928,
+      "max": 0.023893408942967653,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 3.941990073909983,
+      "min": 2.0067351879552007,
+      "max": 5.066414009779692,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 52.165596187374945,
+      "min": 50.528835485186086,
+      "max": 53.32043841271832,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 52.197821277131325,
+      "min": 50.569947093064314,
+      "max": 53.342762323054785,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 205.0,
+      "min": 107,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 7.588657522201538,
+      "min": 7.574716567993164,
+      "max": 7.5994415283203125,
+      "n": 10
+    }
+  }
+}

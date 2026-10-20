@@ -389,3 +389,17 @@ statement is "AR-equivalent up to bf16 ties".
 Next levers, in order of expected gain: (1) more conversion data — CPT continuation (60 M tokens, queued on GPUs 4/6)
 and a larger teacher set; (2) engine: the own engine already gives +9 % over the HF-cache path and has cache-length
 buckets and CUDA graphs still to do; (3) window/threshold tuning per task; (4) 8B conversion for the R7 row.
+
+### 10.6 Phase B on the medium teacher set (1 714 train items, 2 epochs, LoRA r 32)
+
+| Row | Model | GSM8K (1 319) | HumanEval | note |
+|---|---|---|---|---|
+| R2 (pilot) | Qwen3-4B + 185 items | 89.7 % | 76.2 % | |
+| R2 (medium) | Qwen3-4B + 1 714 items | 88.2 % | 72.0 % | GSM8K-50: 92 % |
+| R1 | Qwen3-4B released | 86.1 % | 81.7 % | |
+
+Negative result: 9× more teacher data (same recipe, lr 1e-4, 2 epochs) did not improve the 4B student over the 185-item
+pilot and cost 4 more HumanEval points. Candidate causes, to be tested with the 8B numbers in hand: the LoRA recipe
+over-fits style with more epochs' worth of steps (216 steps vs 24), the teacher's code answers (full programs from prose
+problems) are a format mismatch with HumanEval (completion of a signature + docstring), and category balance
+(math 678 of 1 904). Planned: lr 5e-5 / 1 epoch variant, a code subset in completion format, and per-category ablations.
