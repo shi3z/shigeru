@@ -33,7 +33,7 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 * gsm8k50_llada8b_s256.json: 84% (50), 22.0 tok/s effective
 * gsm8k50_llada8b_s64.json: 68% (50), 84.2 tok/s effective
 * gsm8k50_ours_t0.9_b32_cache.json: 86% (50), 157.4 tok/s effective
-* gsm8k50_ours_t0.9_b32_graph_eos.json: 82% (50), 145.0 tok/s effective
+* gsm8k50_ours_t0.9_b32_graph_eos.json: 88% (50), 123.4 tok/s effective
 * gsm8k50_phaseB_pilot_4b.json: 92% (50), 52.6 tok/s effective
 * gsm8k50_phaseB_pilot_8b.json: 94% (50), 50.4 tok/s effective
 * gsm8k50_qwen3_4b_hf.json: 90% (50), 30.5 tok/s effective
@@ -44,6 +44,7 @@ Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, 
 
 ### HumanEval pass@1
 * humaneval_fastdllm_v1_t0.9.json: 39.0% (164 problems)
+* humaneval_fastdllm_v2_t0.9.json: 64.0% (164 problems)
 * humaneval_llada_official.json: 41.5% (164 problems)
 * humaneval_ours_t0.9_graph.json: 37.8% (164 problems)
 * humaneval_phaseB_pilot_4b.json: 76.2% (164 problems)
