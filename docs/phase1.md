@@ -17,6 +17,10 @@
   * **peak GPU memory**: `torch.cuda.max_memory_allocated` during generation (weights included).
 * Every run writes a JSON under `results/` with the full config, GPU state and the generated text.
 
+> Caveat (2026-10-20): GPU 5 became a shared GPU (TTS/ASR, hf_proxy at ~99 % utilization) during the day, so speed numbers
+> measured on it after ~09:00 are depressed and not comparable with the morning runs; accuracy numbers are unaffected.
+> Clean speeds for the key configurations are re-measured on an idle GPU by `bench/phase2_idle.sh` (`*_idle.json`).
+
 ## Results
 
 Measured on GPU 5 (one A100 80GB PCIe), 256 generated tokens, 10 EN/JA prompts, greedy; mean over prompts. GSM8K-50 accuracy from results/gsm8k50_*.json. Updated automatically as runs complete.
