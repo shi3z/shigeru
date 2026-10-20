@@ -1,0 +1,15 @@
+# Phase B pilot: LoRA SFT of Qwen3-4B on the Phase A small set. Single shared GPU (physical 5), no fleet pause needed.
+model: /mnt/raid6/models/hf/Qwen3-4B
+data_train: data/distill/phaseA_small_train.jsonl
+data_val: data/distill/phaseA_small_val.jsonl
+out_dir: runs/phaseB_pilot_4b
+lora: {r: 32, alpha: 64, dropout: 0.05}
+max_len: 2048
+lr: 1e-4
+epochs: 2
+batch: 4
+grad_accum: 4
+seed: 0
+save_steps: 50
+eval_steps: 25
+merge: true

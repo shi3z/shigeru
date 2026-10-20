@@ -1,0 +1,21 @@
+# Phase A, small pilot: validates the pipeline end to end before scaling.
+teacher:
+  base_url: http://127.0.0.1:8000        # DeepSeek V4.1 Flash on this host (tsuginosuke:8000; 8188 is a ComfyUI backend)
+  model: deepseek-v4.1-flash
+  concurrency: 2                          # server has 5 slots and production users; stay well below
+  min_interval_s: 0.5
+  timeout_s: 900
+generation:
+  temperature: 0.6
+  top_p: 0.95
+  max_tokens: 2048
+  thinking: false
+seed: 20261020
+out: data/distill/phaseA_small.jsonl
+categories:
+  math_gsm8k:   {n: 60}      # GSM8K train questions (MIT); verified against the gold answer
+  code_synth:   {n: 40}      # teacher-written problems with hidden tests; solution verified in a sandbox
+  json_synth:   {n: 30}      # structured output; verified by parser + required keys
+  en_general:   {n: 30}      # self-instruct; judged by the teacher (1-5)
+  ja_general:   {n: 40}      # Japanese self-instruct; judged
+  reasoning:    {n: 30}      # logic puzzles / multi-step reasoning, judged

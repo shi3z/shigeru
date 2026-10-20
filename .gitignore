@@ -3,3 +3,8 @@ third_party/
 __pycache__/
 *.pyc
 results/*.log
+data/sources/*.parquet
+.venv-train
+runs/*/checkpoint-*
+runs/*/merged
+runs/*/adapter
