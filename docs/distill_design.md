@@ -408,3 +408,17 @@ problems) are a format mismatch with HumanEval (completion of a signature + docs
 (math 678 of 1 904). Ablation 1 (lr 5e-5, 1 epoch, 108 steps): GSM8K-50 92 %, HumanEval **71.3 %** — the gentler recipe does not recover
 code, so the cause is the data, not the number of steps. Ablation 2 (queued on GPU 7): same recipe without the 325 code
 items, to test whether the teacher's code answers themselves cause the regression.
+
+### 10.7 Headline row R5 on the full GSM8K test set (1 319 items, stage-2 4B model, own engine, idle GPU 7, bf16)
+
+| Decoding | GSM8K (1 319) | tokens/step | draft acceptance | tok/s |
+|---|---|---|---|---|
+| AR greedy (same weights, HF generate) | 90.4 % | 1.00 | – | 52.1 |
+| **verified diffusion decoding, τ=1.0, W=16** | **90.1 %** | **1.41** | 42 % | **66.2** |
+
+Reference rows on the same set: released Qwen3-4B 86.1 %, released Qwen3-8B 86.4 % (both at ~50 tok/s), Phase B
+LoRA students 89.7 % (4B) / 91.7 % (8B). So **Shigeru-4B-Diffusion at 90.1 % and 66 tok/s beats the released Qwen3-8B
+(86.4 %, 50 tok/s) on both axes**, with the quality coming from distillation and the speed (1.27×) from verified
+parallel decoding. The 0.3-point gap to its own AR decoding is bf16 tie-breaking (identical on CPU float32), not
+drafting error. The speed target of the brief (500 tok/s) is far away: tokens/step is the lever (ceiling (W+1)/2 = 8.5
+with a perfect drafter) and the engine still lacks CUDA graphs with cache-length buckets.
