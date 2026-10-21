@@ -465,3 +465,22 @@ Enlarging the window changes nothing because the mask predictor is only reliable
 frontier: even when every mask is drafted (τ=∞), the verified run accepts 0.7 tokens per step on top of the AR
 token, and a 32-slot window accepts no more than a 16-slot one (it only drafts more wrong tokens). The lever is the
 drafter's accuracy at distance ≥ 2, i.e. training (WeDLM: 100 B tokens; ours: 0.12 B), not W.
+
+### 10.10 Stage 2b: CPT ×2 (120 M tokens) + no-code/completion-code teacher set (03:00, GPU 4, 20 prompts)
+
+| Decoding | accuracy | tokens/step | acceptance | tok/s |
+|---|---|---|---|---|
+| AR rows | 100 % | 1.00 | – | 56.5 |
+| τ=None (frontier only) | 90 % (stage 2: 80 %) | 0.99 | – | 47.8 |
+| unverified τ=0.4 | 85 % (stage 2: 75 %) | 1.32 | – | 64.0 |
+| verified τ=1.0, own engine plain | 95 % | 1.48 (stage 2: 1.50) | 41 % | 73.2 |
+
+Doubling the CPT tokens improved the pure-diffusion modes (+10 points at τ=None and at τ=0.4) but left the verified
+tokens/step flat (1.48 vs 1.50): at this scale the mask predictor gets better at the frontier but not at distance ≥ 2.
+The full-GSM8K CUDA-graph run of this checkpoint is in progress (`results/cdlm_sft2_4b_full_fast_graph_verify.json`).
+
+### Ops note (2026-10-21 03:32–06:20)
+On the user's instruction the DeepSeek teacher server was stopped and a Qwen3-8B abliterated vLLM server was run on
+GPU 0 (port 8000) for ~25 minutes, then the user reverted: DeepSeek is back on GPUs 0–3 (port 8000) and the Qwen
+server is stopped (`/mnt/ssdraid/project/qwen-server/`, kept for on-demand use on GPU 4 / port 8001). The teacher
+configuration in `distill/configs/*.yaml` (port 8000) is valid again.
