@@ -52,16 +52,27 @@ def normalize(text):
     m = FC.search(text)
     if m:
         body = m.group(1)
+        obj = None
         try:
-            obj = json.loads(body.replace("'", "\"").replace('\\"', "'")) if "'" in body else json.loads(body)
+            obj = json.loads(body)
+        except json.JSONDecodeError:
+            mn = re.search(r'"name"\s*:\s*"([^"]+)"', body)
+            ma = re.search(r'"arguments"\s*:\s*\'(.*)\'\s*\}\s*$', body, re.S)
+            if mn:
+                args = ma.group(1) if ma else "{}"
+                try:
+                    args = json.loads(args)
+                except json.JSONDecodeError:
+                    pass
+                obj = {"name": mn.group(1), "arguments": args}
+        if obj is not None:
             if isinstance(obj.get("arguments"), str):
                 try:
                     obj["arguments"] = json.loads(obj["arguments"])
                 except json.JSONDecodeError:
                     pass
-            text = text[: m.start()].rstrip() + ("\n" if text[: m.start()].strip() else "") + "<tool_call>\n" + json.dumps(obj, ensure_ascii=False) + "\n</tool_call>"
-        except Exception:
-            pass
+            head = text[: m.start()].rstrip()
+            text = (head + "\n" if head else "") + "<tool_call>\n" + json.dumps(obj, ensure_ascii=False) + "\n</tool_call>"
     return text.replace("FUNCTION RESPONSE:", "<tool_response>").strip()
 
 
