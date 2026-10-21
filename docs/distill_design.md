@@ -523,3 +523,4 @@ After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch 
 |---|---|---|---|---|---|
 | stage 2b reference (120 M, old mix) | 100 % | 90.5 % | 1.44 | 126.8 | 68.9 % (old mix) |
 | 2000 (170 M) | 90 % | 89.5 % | 1.44 | 121.2 | 70.1 % |
+| 4000 (220 M), 1 epoch | 85 % | 89.5 % | 1.42 | 119.6 | 69.5 % |
