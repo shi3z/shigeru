@@ -7,6 +7,8 @@ FORBIDDEN = {"0", "1"}
 
 
 def check_env():
+    if os.environ.get("SHIGERU_GPU_GUARD") == "off":   # other hosts (e.g. zeta, single GPU 0): the 0/1 rule is tsuginosuke-specific
+        return [x.strip() for x in os.environ.get("CUDA_VISIBLE_DEVICES", "0").split(",") if x.strip()]
     cvd = os.environ.get("CUDA_VISIBLE_DEVICES")
     if cvd is None:
         sys.exit("CUDA_VISIBLE_DEVICES is unset: refusing to run (physical GPUs 0,1 are forbidden; set e.g. 4,5,6,7)")
@@ -20,6 +22,8 @@ def check_env():
 def check_runtime(pid=None):
     """Return the list of physical GPU indices on which `pid` holds memory; raise if any is forbidden."""
     pid = pid or os.getpid()
+    if os.environ.get("SHIGERU_GPU_GUARD") == "off":
+        return None
     try:
         bus = subprocess.check_output(["nvidia-smi", "--query-gpu=index,pci.bus_id", "--format=csv,noheader"], text=True)
         apps = subprocess.check_output(["nvidia-smi", "--query-compute-apps=pid,gpu_bus_id", "--format=csv,noheader"], text=True)
