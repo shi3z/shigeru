@@ -1,0 +1,15 @@
+# Ablation 3: medium set without prose-code items + 296 completion-format code items (does completion-format code keep HumanEval?)
+model: /mnt/raid6/models/hf/Qwen3-4B
+data_train: data/distill/phaseA_stage2b_train.jsonl
+data_val: data/distill/phaseA_medium_val_nocode.jsonl
+out_dir: runs/phaseB_medium_4b_codecomp
+lora: {r: 32, alpha: 64, dropout: 0.05}
+max_len: 2048
+lr: 1e-4
+epochs: 2
+batch: 4
+grad_accum: 4
+seed: 0
+save_steps: 50
+eval_steps: 25
+merge: true
