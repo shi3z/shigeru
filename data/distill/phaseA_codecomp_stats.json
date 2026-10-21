@@ -1,0 +1,15 @@
+{
+ "input": 400,
+ "reject:unverified": 62,
+ "reject:dup_near": 5,
+ "reject:dup_exact": 4,
+ "reject:truncated": 1,
+ "test": 16,
+ "val": 16,
+ "train": 296,
+ "kept": 328,
+ "by_category": {
+  "code_completion": 328
+ },
+ "response_tokens_total": 88998
+}
