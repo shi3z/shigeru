@@ -425,6 +425,7 @@ or rejection-sampling the student's own HumanEval-style outputs against the teac
 |---|---|---|---|---|
 | AR greedy (same weights, HF generate) | 90.4 % | 1.00 | – | 52.1 |
 | **verified diffusion decoding, τ=1.0, W=16** | **90.1 %** | **1.41** | 42 % | **66.2** |
+| **same, CUDA-graph engine** (02:30, GPU 7) | **90.1 %** | 1.41 | 42 % | **102.2** |
 
 Reference rows on the same set: released Qwen3-4B 86.1 %, released Qwen3-8B 86.4 % (both at ~50 tok/s), Phase B
 LoRA students 89.7 % (4B) / 91.7 % (8B). So **Shigeru-4B-Diffusion at 90.1 % and 66 tok/s beats the released Qwen3-8B
