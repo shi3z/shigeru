@@ -41,7 +41,7 @@ def main():
 
     def to_pc(ex):
         # Qwen3 chat template; thinking disabled so the student learns the visible answer only (teacher data has no reasoning)
-        prompt = tok.apply_chat_template([{"role": "user", "content": ex["instruction"] + (("\n\n" + ex["context"]) if ex.get("context") else "")}],
+        prompt = tok.apply_chat_template([{"role": "user", "content": ((ex["context"] + "\n\n") if ex.get("context") else "") + ex["instruction"]}],
                                          tokenize=False, add_generation_prompt=True, enable_thinking=False)
         return {"prompt": prompt, "completion": ex["response"] + tok.eos_token}
 

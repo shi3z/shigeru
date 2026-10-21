@@ -142,7 +142,7 @@ def tokenize_examples(rows, tok, max_len):
     import torch
     out, dropped, truncated = [], 0, 0
     for ex in rows:
-        prompt = tok.apply_chat_template([{"role": "user", "content": ex["instruction"] + (("\n\n" + ex["context"]) if ex.get("context") else "")}],
+        prompt = tok.apply_chat_template([{"role": "user", "content": ((ex["context"] + "\n\n") if ex.get("context") else "") + ex["instruction"]}],
                                          tokenize=False, add_generation_prompt=True, enable_thinking=False)
         p_ids = tok(prompt, add_special_tokens=False)["input_ids"]
         r_ids = tok(ex["response"] + tok.eos_token, add_special_tokens=False)["input_ids"]
