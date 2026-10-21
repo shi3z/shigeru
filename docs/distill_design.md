@@ -477,7 +477,9 @@ drafter's accuracy at distance ≥ 2, i.e. training (WeDLM: 100 B tokens; ours: 
 
 Doubling the CPT tokens improved the pure-diffusion modes (+10 points at τ=None and at τ=0.4) but left the verified
 tokens/step flat (1.48 vs 1.50): at this scale the mask predictor gets better at the frontier but not at distance ≥ 2.
-The full-GSM8K CUDA-graph run of this checkpoint is in progress (`results/cdlm_sft2_4b_full_fast_graph_verify.json`).
+Full GSM8K (1 319), CUDA-graph verified decoding, τ=1.0, GPU 7: **90.5 %, 1.44 tokens/step, 103.7 tok/s**
+(stage 2: 90.1 %, 1.41, 102.2). All SHIGERU GPU work is finished as of 06:30; GPUs 4/6/7 are idle and the next step
+(a multi-day CPT at ≥ 1 B tokens) needs the user's go-ahead.
 
 ### Ops note (2026-10-21 03:32–06:20)
 On the user's instruction the DeepSeek teacher server was stopped and a Qwen3-8B abliterated vLLM server was run on
