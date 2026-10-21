@@ -448,3 +448,19 @@ with a perfect drafter) and the engine still lacks CUDA graphs with cache-length
 1.38× the plain path and **1.83× HF AR greedy** on the same weights; its step is now GPU-bound (GEMMs 45 %, ~300
 small elementwise/RMSNorm kernels 25 %, attention 4.5 %), so the next engine gains are kernel fusion (RMSNorm+residual,
 RoPE) and a better drafter (tokens/step). Details and verbatim output: `engine/cdlm/README.md`.
+
+### 10.9 Window size is not the limit (02:20–02:40, stage-2 4B, own engine plain, verified, 20 prompts, GPU 6)
+
+| W | τ | tokens/step | draft acceptance | accepted/step | tok/s |
+|---|---|---|---|---|---|
+| 16 | 1.0 | 1.50 | 46 % | 0.51 | 75 |
+| 32 | 1.0 | 1.45 | 40 % | 0.45 | 70 |
+| 64 | 1.0 | 1.45 | 41 % | 0.46 | 74 |
+| 128 | 1.0 | 1.45 | 39 % | 0.46 | 61 |
+| 16 | ∞ (draft every mask) | **1.73** | 10 % | 0.73 | 75 |
+| 32 | ∞ | 1.70 | 4.5 % | 0.70 | 74 |
+
+Enlarging the window changes nothing because the mask predictor is only reliable one or two positions beyond the
+frontier: even when every mask is drafted (τ=∞), the verified run accepts 0.7 tokens per step on top of the AR
+token, and a 32-slot window accepts no more than a 16-slot one (it only drafts more wrong tokens). The lever is the
+drafter's accuracy at distance ≥ 2, i.e. training (WeDLM: 100 B tokens; ours: 0.12 B), not W.
