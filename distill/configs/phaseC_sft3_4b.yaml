@@ -1,0 +1,16 @@
+# Phase C stage 2 on the 1B-token CPT model (runs/phaseC_cpt3_4b/final) with the enlarged mix (data/distill/phaseA_stage2c_train.jsonl):
+# teacher no-code 1431 + completion-format code 296 + glaive-ja 4000 (2000 tool calls) + UltraChat 4000 + SWE-smith resolved 1500.
+# max_len 2048 (-> 4096 rows) for the long tool/SWE contexts: batch 1 x accum 16, single GPU. ~11.2k examples x 2 epochs ~= 1400 steps.
+model: runs/phaseC_cpt3_4b/final
+data_train: data/distill/phaseA_stage2c_train.jsonl
+out_dir: runs/phaseC_sft3_4b
+block: 32
+max_len: 2048
+batch: 1
+grad_accum: 16
+lr: 1e-5
+warmup_ratio: 0.03
+epochs: 2
+save_steps: 500
+save_total_limit: 1
+seed: 0

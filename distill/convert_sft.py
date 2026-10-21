@@ -26,9 +26,16 @@ def to_messages(kind, r):
         conv = r.get("conversations") or r.get("conversation") or []
         return [{"role": ROLE.get(str(m.get("from", m.get("role", ""))).lower(), "user"), "content": normalize(str(m.get("value", m.get("content", ""))))} for m in conv]
     if kind == "messages":
-        return [{"role": ROLE.get(str(m.get("role", "")).lower(), "user"), "content": str(m.get("content", ""))} for m in (r.get("messages") or [])]
+        msgs = r.get("messages") or []
+        if isinstance(msgs, str):
+            msgs = json.loads(msgs)
+        return [{"role": ROLE.get(str(m.get("role", "")).lower(), "user"), "content": str(m.get("content", ""))} for m in msgs]
     if kind == "swesmith":
+        if str(r.get("resolved", "True")).lower() == "false":      # keep only trajectories that solved the task
+            return []
         msgs = r.get("messages") or r.get("trajectory") or r.get("conversations") or []
+        if isinstance(msgs, str):
+            msgs = json.loads(msgs)
         out = []
         for m in msgs:
             role = ROLE.get(str(m.get("role", m.get("from", ""))).lower(), "user")

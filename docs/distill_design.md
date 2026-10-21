@@ -486,3 +486,17 @@ On the user's instruction the DeepSeek teacher server was stopped and a Qwen3-8B
 GPU 0 (port 8000) for ~25 minutes, then the user reverted: DeepSeek is back on GPUs 0–3 (port 8000) and the Qwen
 server is stopped (`/mnt/ssdraid/project/qwen-server/`, kept for on-demand use on GPU 4 / port 8001). The teacher
 configuration in `distill/configs/*.yaml` (port 8000) is valid again.
+
+### 11. Long run (2026-10-21 06:38 →): 1 B-token CPT and the enlarged stage-2 mix ("とりあえずやり切ろう")
+
+* Stage 1: `phaseC_cpt3_4b_3gpu.yaml` — 1.0 B pre-tokenized logical tokens (FineWeb-Edu shards 000/001 + FineWeb-2 JA
+  shards 000_00000/00001, 250 M each, `distill/pretokenize.py` → `data/cpt/fineweb_1b.bin`), 3 × A100, 40 690 steps at
+  5.3 s ≈ 2.5 days; HF snapshots every 2 000 steps are evaluated beside the training on GPU 4 (`results/cdlm_cpt3_snapshot-*`).
+* Stage 2 (`phaseC_sft3_4b.yaml`, queued): teacher no-code 1 431 + completion-format code 296 + **public SFT sets
+  (user's suggestion, all MIT)**: `nappa0326/glaive-function-calling-v2-sharegpt-japanese` 4 000 (2 000 Hermes-format
+  tool calls after normalisation), `HuggingFaceH4/ultrachat_200k` 4 000, `SWE-bench/SWE-smith-trajectories` 1 500
+  (resolved trajectories only). Provenance note: the SWE-smith trajectories were generated with Claude 3.7 Sonnet by the
+  SWE-bench team and redistributed under MIT; we do not generate training data with Claude ourselves (Anthropic's terms).
+  Converted by `distill/convert_sft.py` (one example per assistant turn, conversation history as context).
+* Evaluation after stage 2: verified decoding (20 and 1 319 GSM8K), pure-diffusion modes, HumanEval and full GSM8K of the
+  AR rows, Phase F table regenerated.
