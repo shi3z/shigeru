@@ -507,3 +507,19 @@ Same stage-2b checkpoint, same benchmark (20 GSM8K prompts, verified τ=1.0, W=1
 engine with CUDA graphs **126.8 tok/s** (1.48 tokens/step, 42 % acceptance, 100 % on the 20 items). The engine and
 checkpoints run unchanged on Blackwell (`SHIGERU_GPU_GUARD=off`, `~/shigeru/open-mercury` on zeta). zeta takes over the
 stage-2 fine-tunes and evaluations of the CPT snapshots while the three A100s stay on the 1 B-token run.
+
+### 11.1 Scaling curve of the 1 B-token run (updated as cycles complete)
+
+CPT-only snapshots evaluated beside the training on GPU 4 (20 GSM8K prompts, contended tok/s not reported):
+
+| snapshot (CPT tokens incl. 120 M before) | τ=None | τ=0.4 unverified | verified tok/step |
+|---|---|---|---|
+| 2000 (170 M) | 65 % | 5 % | 1.28 |
+| 4000 (220 M) | 90 % | 30 % | 1.33 |
+
+After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch from snapshot-4000 on), RTX PRO 6000:
+
+| snapshot | AR (20) | verified GSM8K 1 319 | tok/step | tok/s (zeta, graphs) | HumanEval (AR rows) |
+|---|---|---|---|---|---|
+| stage 2b reference (120 M, old mix) | 100 % | 90.5 % | 1.44 | 126.8 | 68.9 % (old mix) |
+| 2000 (170 M) | 90 % | 89.5 % | 1.44 | 121.2 | 70.1 % |
