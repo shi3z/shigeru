@@ -1,0 +1,21 @@
+# Phase C stage 1, long run ("やり切ろう", 2026-10-21): 1 B logical tokens of FineWeb-Edu (EN) + FineWeb-2 (JA), pre-tokenized
+# (data/cpt/fineweb_1b.bin via distill/pretokenize.py), on top of runs/phaseC_cpt2_4b/final (120 M tokens so far).
+# 3 ranks (physical GPUs 4,6,7): 24 sequences x 1024 = 24.6k tokens/step, ~5.4 s/step -> ~41k steps ~= 2.6 days.
+# HF snapshots every 2000 steps (evaluated on the side while training continues); optimizer checkpoints every 2000 (keep 1).
+#   CUDA_VISIBLE_DEVICES=4,6,7 PYTHONPATH=. .venv-train/bin/torchrun --nproc_per_node=3 -m distill.train_cdlm distill/configs/phaseC_cpt3_4b_3gpu.yaml
+model: runs/phaseC_cpt2_4b/final
+data_tokens: data/cpt/fineweb_1b.bin
+out_dir: runs/phaseC_cpt3_4b
+block: 32
+max_len: 1024
+batch: 2
+grad_accum: 4
+lr: 1e-5
+min_lr_ratio: 0.1
+warmup_steps: 300
+epochs: 1
+save_steps: 2000
+save_total_limit: 1
+hf_snapshot_every: 2000
+hf_snapshot_keep: 2
+seed: 2

@@ -12,3 +12,4 @@ runs/*/final
 runs/*/checkpoint-*
 runs/*/*.pt
 runs/*/final_eval
+data/cpt/

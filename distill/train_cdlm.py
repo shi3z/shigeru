@@ -155,6 +155,29 @@ def tokenize_examples(rows, tok, max_len):
     return out, dropped, truncated
 
 
+class TokenStreamItems:
+    """Lazy list of (tokens[max_len], prompt_len=0) windows over a memory-mapped uint32 token stream (distill/pretokenize.py).
+    Window order is a seeded permutation so DDP ranks and resumed runs see the same order."""
+
+    def __init__(self, path, max_len, seed, max_tokens=None):
+        import numpy as np, torch
+        self.arr = np.memmap(path, dtype=np.uint32, mode="r")
+        n = len(self.arr) // max_len
+        if max_tokens:
+            n = min(n, int(max_tokens) // max_len)
+        g = torch.Generator().manual_seed(int(seed))
+        self.order = torch.randperm(n, generator=g).tolist()
+        self.max_len = max_len
+
+    def __len__(self):
+        return len(self.order)
+
+    def __getitem__(self, i):
+        import numpy as np, torch
+        j = self.order[i]
+        return torch.from_numpy(np.array(self.arr[j * self.max_len:(j + 1) * self.max_len], dtype=np.int64)), 0
+
+
 class CDLMDataset:
     """Tokenized examples -> dual-stream examples; the gamma/mask draw is deterministic in (seed, epoch, index)."""
 
@@ -369,7 +392,10 @@ def main():
 
     # --- data
     max_len, block = int(cfg["max_len"]), int(cfg.get("block", 32))
-    if cfg.get("data_text"):     # raw-text CPT mode (list of parquet/JSONL paths); data_train is ignored
+    if cfg.get("data_tokens"):   # pre-tokenized uint32 stream (distill/pretokenize.py); fastest start-up, exact resume
+        data_path = cfg["data_tokens"] if os.path.isabs(cfg["data_tokens"]) else os.path.join(ROOT, cfg["data_tokens"])
+        items, n_dropped, n_truncated = TokenStreamItems(data_path, max_len, seed, cfg.get("text_max_tokens")), 0, 0
+    elif cfg.get("data_text"):     # raw-text CPT mode (list of parquet/JSONL paths); data_train is ignored
         paths = [p if os.path.isabs(p) else os.path.join(ROOT, p) for p in cfg["data_text"]]
         items, n_dropped, n_truncated = tokenize_text_corpus(paths, tok, max_len, cfg.get("text_max_tokens"), cfg.get("text_key", "text"), seed)
         data_path = ",".join(paths)
@@ -445,6 +471,18 @@ def main():
             if dist.main:
                 save_checkpoint(out_dir, step, model, opt, sched,
                                 {"micro_bs": state["micro_bs"], "oom_events": oom_events, "epoch": epoch}, save_limit, torch)
+                snap_every = int(cfg.get("hf_snapshot_every", 0))
+                if snap_every and (step % snap_every == 0 or step >= total_steps):
+                    # HF-format snapshot (bf16 weights + tokenizer, config repaired for transformers 4.57) so the checkpoint can be
+                    # evaluated while training continues; keeps the last `hf_snapshot_keep` (default 2).
+                    _lm = model.module if hasattr(model, "module") else model
+                    snap = os.path.join(out_dir, f"snapshot-{step}")
+                    _lm.save_pretrained(snap, safe_serialization=True); tok.save_pretrained(snap)
+                    from distill.fix_config import fix as _fix_cfg; _fix_cfg(snap)
+                    snaps = sorted(glob.glob(os.path.join(out_dir, "snapshot-*")), key=lambda d: int(d.rsplit("-", 1)[1]))
+                    for old in snaps[:-int(cfg.get("hf_snapshot_keep", 2))]:
+                        shutil.rmtree(old, ignore_errors=True)
+                    print(f"[train_cdlm] snapshot-{step} written", flush=True)
             dist.barrier()
             if a.exit_after_step > 0 and step >= a.exit_after_step:
                 print(f"[train_cdlm] --exit-after-step {a.exit_after_step}: hard exit after checkpoint-{step}", flush=True)
