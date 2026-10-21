@@ -171,20 +171,26 @@ def select_positions(entropy, mask_slots, tau, lam, margin=None, margin_tau=None
     instead; the unconditional tau=None / margin_tau=None rule (the leftmost mask) is not a fallback and stays.
     """
     n = len(mask_slots)
+    if margin_tau is not None and margin is None:
+        raise ValueError("margin_tau needs the margin per mask row")
     if tau is None:
         cand = list(range(n))
         fallback = [0]
+        ok = (margin >= margin_tau).tolist() if margin_tau is not None else None
     else:
         d = torch.tensor([s - mask_slots[0] for s in mask_slots], dtype=entropy.dtype, device=entropy.device)
         adjusted = entropy + lam * d
-        cand = (adjusted < tau).nonzero(as_tuple=True)[0].tolist()
-        fallback = [int(adjusted.argmin())]
+        # the pass flags, the argmin and the margin flags are read back from the device in ONE sync
+        parts = [(adjusted < tau).long(), adjusted.argmin().view(1)]
+        if margin_tau is not None:
+            parts.append((margin >= margin_tau).long())
+        flat = torch.cat(parts).tolist()
+        cand = [k for k in range(n) if flat[k]]
+        fallback = [int(flat[n])]
+        ok = flat[n + 1:] if margin_tau is not None else None
     if min_fill < 1:
         fallback = []
     if margin_tau is not None:
-        if margin is None:
-            raise ValueError("margin_tau needs the margin per mask row")
-        ok = (margin >= margin_tau).tolist()
         cand = [k for k in cand if ok[k]]
     elif tau is None:
         cand = [0]                                                     # reference: exactly the leftmost mask
@@ -215,10 +221,18 @@ def verify_drafts(ar_logits, slots, is_mask):
     contiguous drafted run, which is all the walk ever reads).  Returns (j, g): slots 0..j-1 are the accepted drafts
     (each equal to the greedy argmax given the tokens before it) and g is the greedy token of slot j (the correction,
     or the token of the mask at j, or the token after the window when every slot was a draft and all were accepted).
+    ar_logits may also be the greedy tokens themselves (a list of ints or a 1-D long tensor): the callers compute the
+    argmax of all rows in one kernel and one device sync instead of one per walked row (same walk, same result).
     """
+    if torch.is_tensor(ar_logits):
+        greedy = ar_logits.argmax(-1).tolist() if ar_logits.dim() == 2 else ar_logits.tolist()
+    elif ar_logits and torch.is_tensor(ar_logits[0]):
+        greedy = torch.stack(list(ar_logits)).argmax(-1).tolist()
+    else:
+        greedy = list(ar_logits)
     j = 0
     while True:
-        g = int(ar_logits[j].argmax())
+        g = int(greedy[j])
         if j < len(slots) and not is_mask[j] and slots[j] == g:
             j += 1
             continue
@@ -234,6 +248,8 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
     cached rows with the causal window mask (and written to the cache at cache_len..); commit(n) keeps exactly the
     first n cached rows (DynamicCache crop / cache_len = n).  last_logits: next-token logits of the last prompt token.
     sample(logits [n, V]) -> draft tokens [n] (argmax or a sample; the verification itself is always argmax).
+    device: where the ids/pos tensors handed to forward are built (the own engine passes "cpu": its run() stages them
+    itself, so no per-step host->device tensor is created here).
     Returns (new_token_ids, stats) without the cache entry (the caller adds cache / cache_len).
     """
     cur = prompt_len                            # prompt_len + len(out); the cache holds cur - (pending is not None) rows
@@ -261,10 +277,13 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         logits = forward(ids, pos, cur - n_pend)
         steps += 1
         window_rows += T
-        # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order)
+        # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order): the greedy tokens of
+        #    all AR rows in one argmax + one sync (the walk only reads the leading contiguous run of them)
         n_filled = len(filled_idx)
-        ar_rows = [logits[0] if n_pend else last_logits] + [logits[n_pend + i] for i in range(n_filled)]
-        j, g = verify_drafts(ar_rows, slots, is_mask)
+        ar_tok = logits[: n_pend + n_filled].argmax(-1).tolist()
+        if not n_pend:
+            ar_tok = [int(last_logits.argmax())] + ar_tok
+        j, g = verify_drafts(ar_tok, slots, is_mask)
         # 4. commit the accepted drafts (their K/V are final), then the correction g as the new pending token
         keep = j
         for i in range(j):
@@ -308,8 +327,9 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         draftable = [s for s in mask_idx if s >= drop]
         sel_pos = []
         if draftable:
-            mrow = {s: n_pend + n_filled + k for k, s in enumerate(mask_idx)}
-            mask_logits = logits[[mrow[s] for s in draftable]]
+            # draftable is a suffix of mask_idx (ascending), so its rows are the trailing mask rows: a slice, no gather
+            first = n_pend + n_filled + (len(mask_idx) - len(draftable))
+            mask_logits = logits[first:first + len(draftable)]
             mask_slots = [s - drop for s in draftable]
             prev = draftable[0] - 1
             if predict == "ar" and not mismatch and prev >= drop and not is_mask[prev]:
@@ -320,6 +340,7 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
             toks = sample(mask_logits)
             sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode,
                                    min_fill=0)
+            toks = toks.tolist() if sel else []
             for k in sel:
                 new_slots[mask_slots[k]] = int(toks[k])
                 new_mask[mask_slots[k]] = False
@@ -473,6 +494,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         margin = margin_from_logits(mask_logits) if margin_tau is not None else None
         toks = sample(mask_logits)
         sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode)
+        toks = toks.tolist() if sel else []
         for k in sel:
             slots[mask_slots[k]] = int(toks[k])
             is_mask[mask_slots[k]] = False

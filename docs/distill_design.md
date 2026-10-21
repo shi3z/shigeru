@@ -281,7 +281,9 @@ full set both released models are at 86 %.
 Reading: with the model still decoding one token per step, the own engine is only ~9 % faster than the HF-cache decoder
 and ~8 % slower than plain AR generate (the window re-encodes 16 rows per step). The static/graph paths are **slower**
 because the static step attends over the whole 4 096-slot cache every step; they need cache-length buckets (as in
-`engine/graphs.py`) before graphs can pay off. The engine's real lever is tokens/step, which is 1.0 until the
+`engine/graphs.py`) before graphs can pay off — **done 2026-10-21**: with 256-slot cache buckets and one graph per
+(window bucket, cache bucket) the graph path is the fastest engine; numbers in `engine/cdlm/README.md`, "Cache-length
+buckets and CUDA graphs". The engine's real lever is tokens/step, which is 1.0 until the
 conversion training (next run) produces a confident mask predictor. Also to check: τ=0.4 accuracy differs between the HF
 decoder (0.6) and the own engine (0.3) on these 10 prompts — bf16 differences flip threshold decisions; a bf16 GPU
 token-identity test is pending (CPU float32 identity holds).

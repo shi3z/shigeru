@@ -41,6 +41,10 @@ def main():
     mask_id = getattr(model.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
     stop_ids = [tok.eos_token_id] + ([tok.convert_tokens_to_ids("<|im_end|>")] if "<|im_end|>" in tok.get_vocab() else [])
     prompts = load_prompts(a.prompts)[: a.n]
+    for p in prompts:
+        ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
+        p["ids"] = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
+    graph_capture = None
     if a.engine == "hf":
         generate = generate_hf; dec_model = model
     else:
@@ -49,15 +53,24 @@ def main():
         dec_model = FastQwen3.from_hf(model, device="cuda", dtype=torch.bfloat16, max_len=4096)
         kw = {"static": a.engine != "fast", "use_graph": a.engine == "fast_graph"}
         generate = lambda m, *args, **k: generate_fast(m, *args, **k, **kw)
-        # warm-up (graph capture happens on the first use of each window bucket)
+        # warm-up (cuBLAS / SDPA kernel selection)
         generate(dec_model, tok, tok("warm up", return_tensors="pt")["input_ids"][0].tolist(), 48, window=a.window, tau=None, mask_id=mask_id, stop_ids=stop_ids)
+        if a.engine == "fast_graph":
+            # capture every (window bucket, cache bucket) graph these prompts can need up front, so no capture lands in a timed run
+            from engine.cdlm.fast_model import bucket_for
+            max_ctx = max(len(p["ids"]) for p in prompts) + a.max_new_tokens + bucket_for(a.window + 1)   # verify forwards W+1 rows, padded to a bucket
+            torch.cuda.synchronize(); t0 = time.time()
+            done = dec_model.capture_graphs(max_ctx)
+            torch.cuda.synchronize()
+            graph_capture = {"n_graphs": len(done), "seconds": round(time.time() - t0, 2), "max_ctx": max_ctx, "cache_bucket": dec_model.cache_bucket,
+                             "graphs": [list(k) for k in sorted(dec_model.graphs)]}
+            print(f"captured {len(done)} CUDA graphs (window x cache buckets up to {max_ctx}) in {graph_capture['seconds']}s", flush=True)
     configs = [("ar", None)] if a.ar else []
     configs += [(f"tau={t}", None if t == "none" else float(t)) for t in a.tau.split(",")]
     runs = []
     for name, tau in configs:
         for p in prompts:
-            ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
-            ids = ids.cuda() if torch.is_tensor(ids) else torch.tensor(ids["input_ids"]).cuda()
+            ids = torch.tensor([p["ids"]]).cuda()
             torch.cuda.synchronize(); t0 = time.time()
             if name == "ar":
                 with torch.no_grad():
@@ -89,7 +102,9 @@ def main():
         ar = {r["id"]: r["text"] for r in runs if r["config"] == "ar"}
         summary["tau_none_equals_ar"] = sum(r["text"] == ar[r["id"]] for r in runs if r["config"] == "tau=none")
     print("=== cdlm", json.dumps(summary), flush=True)
-    save_json(a.out, {"model": a.model, "engine": a.engine, "args": vars(a), "gpu": gpu_info(), "runs": runs, "summary": summary})
+    for p in prompts:
+        p.pop("ids", None)
+    save_json(a.out, {"model": a.model, "engine": a.engine, "args": vars(a), "gpu": gpu_info(), "graph_capture": graph_capture, "runs": runs, "summary": summary})
 
 
 if __name__ == "__main__":

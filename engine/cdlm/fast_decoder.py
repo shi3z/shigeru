@@ -69,9 +69,10 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         def commit(n):
             state["cache_len"] = n
 
+        # ids/pos are built on the CPU: model.run stages them to the device itself (one copy per step)
         out, stats = generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam,
                                        mask_id, stop_ids, sample, predict, margin_tau, no_adjacent, max_fill,
-                                       fill_mode, dev)
+                                       fill_mode, torch.device("cpu"))
         assert state["cache_len"] == prompt_len + len(out)
         stats.update(prompt_len=prompt_len, cache_len=state["cache_len"])
         return out, stats
@@ -92,12 +93,13 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         if add > 0:
             slots += [mask_id] * add
             is_mask += [True] * add
-        # 2. forward [filled..., masks...] with original positions at cache slots cache_len..
+        # 2. forward [filled..., masks...] with original positions at cache slots cache_len.. (ids/pos are CPU
+        #    tensors: model.run moves them in one copy, or stages them for the static buffers)
         filled_idx = [i for i, f in enumerate(is_mask) if not f]
         mask_idx = [i for i, f in enumerate(is_mask) if f]
         order = filled_idx + mask_idx
-        ids = torch.tensor([slots[i] for i in order], dtype=torch.long, device=dev)
-        pos = torch.tensor([cur + i for i in order], dtype=torch.long, device=dev)
+        ids = torch.tensor([slots[i] for i in order], dtype=torch.long)
+        pos = torch.tensor([cur + i for i in order], dtype=torch.long)
         T = len(order)
         assert cache_len == cur
         n_commit = mask_idx[0] if mask_idx else len(slots)
@@ -138,6 +140,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         margin = margin_from_logits(mask_logits) if margin_tau is not None else None
         toks = sample(mask_logits)
         sel = select_positions(ent, mask_slots, tau, lam, margin, margin_tau, no_adjacent, max_fill, fill_mode)
+        toks = toks.tolist() if sel else []
         for k in sel:
             slots[mask_slots[k]] = int(toks[k])
             is_mask[mask_slots[k]] = False

@@ -283,18 +283,37 @@ integer `cache_len`:
   run sit beyond `cache_len` and are overwritten by the next step.  `write=False` attends over the same context without
   touching the cache.
 * `prefill(prompt_ids, cache_len=0, chunk=512)` fills the cache in chunks and returns the last token's logits.
-* `forward_static(tokens[Wb], pos[Wb], slots[Wb], key_mask[Wb, max_len], rows[Wb])` is the CUDA-graph shape of the same
-  step: the window padded to a bucket Wb ∈ {1, 4, 8, 16, 32}, the whole cache as context, key validity in the boolean
-  mask, write slots and logit rows as index tensors, a static `[Wb, V]` output — no Python-side shape depends on the
-  data.  `run(..., static=True)` pads/fills the static buffers and runs it eagerly on any device; `use_graph=True`
-  captures and replays one graph per bucket (engine/graphs.py recipe) **only when the model is on CUDA**; CPU never
-  captures.
+* `forward_static(tokens[Wb], pos[Wb], slots[Wb], key_mask[Wb, Cb], rows[Wb])` is the CUDA-graph shape of the same
+  step: the window padded to a bucket Wb ∈ {1, 4, 8, 16, 32}, the **first Cb cache slots** as context (a prefix view
+  of the cache; `Cb = cache_bucket_for(cache_len + Wb)` = the smallest multiple of `CACHE_BUCKET = 256` covering the
+  prefix plus the padded window, capped at `max_len`; `model.cache_bucket = None` restores the whole-cache context),
+  key validity in the boolean mask (row i sees key slot j iff `j ≤ cache_len + i`, unchanged), write slots and logit
+  rows as index tensors, a static `[Wb, V]` output — no Python-side shape depends on the data.  `run(..., static=True)`
+  pads/fills the static buffers and runs it eagerly on any device; `use_graph=True` captures and replays **one graph
+  per (Wb, Cb)** (engine/graphs.py recipe) **only when the model is on CUDA**; CPU never captures.
+  Static buffers: one set for all graphs — the four index rows `[4, 32]` (tokens, pos, slots, rows; filled on the host,
+  staged through pinned memory, one `copy_` per step guarded by a CUDA event) and one `key_mask [32, max_len]`; a
+  graph reads the fixed prefix views `[:Wb]` / `[:Wb, :Cb]` and the cache's `[:, :, :Cb]`, so views of one static
+  tensor serve every bucket.  All graphs share one memory pool (`torch.cuda.graph_pool_handle()`): replays are
+  sequential and every graph's logits buffer stays allocated, so the shared pool is safe and the 10–15 graphs of a
+  384-token GSM8K decode cost 1.8–3.6 s of capture and no measurable extra memory.  `capture_graphs(max_ctx)` captures
+  every (Wb, Cb) a decode within `max_ctx` cache slots can need up front (the bench does this so no capture lands in
+  a timed run); otherwise capture is lazy on the first step that needs a bucket.  Cb is not monotone within a decode
+  (it steps down when the window bucket shrinks at the budget end); `cache_len += m` commits are untouched.
+  Per-step host work of the static path: `tokens.tolist()` (the decoders build ids/pos on the CPU), four padded
+  lists, one pinned copy, three small kernels for the key mask, one graph launch.
 * `fast_decoder.generate(model, tok, prompt_ids, max_new_tokens, window, tau, lam, mask_id, stop_ids, greedy,
   temperature, predict, generator, static, use_graph, prefill_chunk, margin_tau, no_adjacent, max_fill, fill_mode)`
   is `decoder.generate` on this model: same loop, same arguments, same `(new_ids, stats)` (`cache_len`/`prompt_len`
   replace the DynamicCache in `stats`); it gathers logits only for the mask rows plus, for `predict="ar"`, the last
   committed row. The fill-selection rules are literally `decoder.select_positions` (imported), so both decoders
-  cannot drift apart there.
+  cannot drift apart there.  Device syncs per step were trimmed without changing semantics (both decoders): the
+  verification walk takes the argmax of all AR rows in one kernel and one `.tolist()` (`verify_drafts` accepts the
+  greedy tokens as ints), `select_positions` reads the pass flags, the argmin and the margin flags back in one
+  `.tolist()`, the drafted rows are a slice of the logits (they are the trailing mask rows) instead of a gather, the
+  filled tokens are one `.tolist()`, and the own engine builds ids/pos on the CPU (`generate_verified(..., device=
+  "cpu")`) so `run` moves them in one copy.  Measured on the graph path: the loop outside `model.run` is 0.44 ms of a
+  14.2 ms step.
 
 ### Tested (`engine/cdlm/tests/test_fast.py`, plain asserts, CPU, float32, tiny random Qwen3 saved to a temp dir)
 
@@ -324,18 +343,87 @@ checkpoint); tied and untied heads both.
    `[prompt | output]` (7.8e-6 < 1e-5), garbage written beyond `cache_len` changes nothing (continuation of one token,
    exact and static paths), and over-filling the cache is an assertion, not silent.
 
-Last run: `6 passed, 0 failed` (verbatim output, with tests 5–6, in the section "Verified (speculative) decoding").
+7. `test_static_cache_buckets` — `cache_bucket_for` arithmetic (256/512/768 boundaries, the `max_len` cap, `None`);
+   for 19 cache lengths around the 256/512 boundaries (1 … 700) × 6 windows (W ∈ {1, 3, 8, 11, 16, 32}) on a
+   `max_len=1024` model, the bucketed static step equals the exact forward in logits and written K/V (< 1e-4,
+   measured 1.5e-5) **while the cache slots beyond Cb hold NaN** (any read of them would poison the output, so the
+   step really attends over the prefix view only), the key mask has exactly `min(Cb, cache_len+i+1)` valid keys per
+   row, the whole-cache static path (`cache_bucket=None`) gives the same logits, and no graph is captured on CPU.
+8. `test_decoder_static_buckets_cross_boundaries` — whole decodes of 300 tokens from prompts of 200 / 240 / 300
+   tokens (cache length crossing 256 and 512; one prompt with a random stop id): fast plain == bucketed static ==
+   whole-cache static == HF decoder in tokens and stats, for {plain, verified} × (τ, predict, options) ∈ {(None,
+   mask), (0.5, mask), (1e9, mask), (0.5, ar, no_adjacent), (1e9, mask, leftmost_run), (0.5, mask, margin_tau=0.3 +
+   max_fill=3)} = 36 decodes × 4 paths; the static runs use ≥ 2 cache buckets each and {256, 512, 768} overall.
 
-### Not done (needs a GPU)
+Last run: `8 passed, 0 failed` (verbatim output below, "Cache-length buckets and CUDA graphs").
 
-* **Graph capture validation**: `_capture` / `run(use_graph=True)` are written from the engine/graphs.py recipe but
-  have never executed (CPU only here); the first GPU step is `fast_decoder.generate(..., static=True)` vs
-  `use_graph=True` token equality on the real checkpoint, then capture cost per bucket.
-* **Timing**: tokens/step and tok/s of `fast_decoder` vs `decoder.py` (HF DynamicCache) vs the HF AR baseline on the
-  converted checkpoint, and the share of the step that is the `[Wb, max_len]` whole-cache attention (a context bucket
-  instead of `max_len` is the obvious follow-up).
+### Cache-length buckets and CUDA graphs (GPU 7, bf16, `runs/phaseC_sft_4b/final`)
+
+Measured 2026-10-21 with `bench/run_cdlm.py --verify --tau 1.0 --window 16 --max-new-tokens 384 --n 20`
+(`bench/prompts_gsm8k50.json`, the §10.5 prompts; `results/cdlm_sft_4b_fast_v2.json` (with `--ar`),
+`results/cdlm_sft_4b_fast_static_v2.json`, `results/cdlm_sft_4b_fast_graph_v2.json`; load average 3–4 from other
+tenants' jobs on GPUs 4/6 — the launch-bound paths (HF AR, plain) move with CPU load, the graph path does not):
+
+| Engine (`--engine`) | tok/s | tokens/step | accuracy (20) | draft acceptance | notes |
+|---|---|---|---|---|---|
+| HF AR greedy (`--ar`) | 57.1 | 1.00 | 100 % | – | reference |
+| `fast` (plain, exact-length attention) | 75.4 | 1.50 | 95 % | 46.0 % | 13/20 outputs byte-identical to AR (§10.5: bf16 ties) |
+| `fast_static` (bucketed static shapes, eager) | 75.8 | 1.46 | 90 % | 40.5 % | 15/20 identical to plain; before the cache buckets it was **slower** than plain (§10.2: 33.6 vs 49.1) |
+| **`fast_graph` (bucketed, CUDA graphs)** | **104.3** | 1.46 | 90 % | 40.5 % | 20/20 identical to `fast_static`; 10 graphs pre-captured in 1.77 s |
+
+Verbatim summaries:
+```
+fast        === cdlm {"ar": {"tok_s_mean": 57.1, "tokens_per_step": 1.0, "accuracy": 1.0, "n": 20}, "tau=1.0": {"tok_s_mean": 75.4, "tokens_per_step": 1.5, "accuracy": 0.95, "n": 20, "draft_acceptance_rate": 0.46, "accepted_per_step_mean": 0.507}}
+fast_static === cdlm {"tau=1.0": {"tok_s_mean": 75.8, "tokens_per_step": 1.46, "accuracy": 0.9, "n": 20, "draft_acceptance_rate": 0.405, "accepted_per_step_mean": 0.46}}
+fast_graph  captured 10 CUDA graphs (window x cache buckets up to 540) in 1.77s
+            === cdlm {"tau=1.0": {"tok_s_mean": 104.3, "tokens_per_step": 1.46, "accuracy": 0.9, "n": 20, "draft_acceptance_rate": 0.405, "accepted_per_step_mean": 0.46}}
+```
+
+Reading. The graph path is now **1.38× the plain own engine and 1.83× HF AR greedy** (104.3 vs 75.4 vs 57.1 tok/s)
+at the same 4B model, batch 1, one A100; the whole-cache static path of §10.2 was 0.68× plain. The graph-less static
+path equals plain (75.8 vs 75.4): bucketing removed the whole-cache attention penalty, and the remaining launch
+overhead is what the graphs remove (14.2 ms/step → the step is GPU-bound: in a `torch.profiler` run of the graph
+path 93 % of the CUDA time is inside the replayed graph — bf16 GEMMs 45 %, the ~300 small elementwise/RMSNorm reduce
+kernels of 36 layers 25 %, the attention kernel `fmha_cutlassF` 4.5 % — and the loop outside `model.run` is 0.44 ms
+of the 14.2 ms step, measured with a sync after every `run`; the plain path spends 23.3 ms/step, of which the
+GPU is busy for ~10 ms: launch-bound). The accuracy difference (95 % plain vs 90 % static/graph) is one item,
+`gsm8k_008`, which diverges at the known bf16 tie of §10.5 ("Determine apple pie sales" vs "Determine the number of
+boxes"): the static step sums the same keys in a different order (index_copy_ + the masked prefix view + the
+fmha kernel instead of the exact-length math over 150–550 keys), the argmax flips at a near-tie, and the verified
+decoder faithfully follows that argmax — the output is still exactly the AR greedy continuation of *that* forward.
+`fast_static` and `fast_graph` are byte-identical on all 20 (the graph replays the same kernels). The tokens/step
+difference (1.50 vs 1.46) is the same tie: different continuations, different draft acceptance.
+Next levers for the engine: fusing the per-layer elementwise/RMSNorm kernels (25 % of the graph), batching
+sequences, and a better drafter (the ceiling is (W+1)/2 tokens per step).
+
+Tests (verbatim, CPU, ~4 min):
+```
+$ CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_fast
+  max |fast - HF| logits: 1.81e-05
+PASS test_logits_exact_vs_hf
+  288 decoder cases identical
+PASS test_fast_decoder_matches_hf_decoder
+  384 decoder cases with fill options identical (189 differ from the reference rule)
+PASS test_fast_decoder_matches_hf_decoder_fill_options
+  max |cache - full forward| / continuation: 7.75e-06
+PASS test_cache_len_bookkeeping
+  816 verify cases identical in both decoders and == HF greedy (168 static); drafts accepted 2528/18062; max |cache - full forward| 3.81e-06
+PASS test_fast_decoder_matches_hf_decoder_verify
+  48 good-drafter cases exact on the fast model; W=16, tau=1e9, 40 tokens: 6.67 tokens/step with the perfect drafter, 1.54 with the every-third-wrong drafter
+PASS test_fast_verify_good_drafter
+  114 bucketed static steps == exact forward (max diff 1.53e-05)
+PASS test_static_cache_buckets
+  36 decodes crossing the 256/512 boundaries identical on plain / bucketed static / whole-cache static / HF (cache buckets used: [256, 512, 768])
+PASS test_decoder_static_buckets_cross_boundaries
+8 passed, 0 failed
+```
+(`test_decoder.py` after the sync trimming: `10 passed, 0 failed`, same output as above.)
+
+### Not done
+
 * **bf16**: the model loads in any dtype, but exactness is only established in float32; the bf16 drift vs HF bf16 and
-  the τ=None exactness gate on the converted checkpoint are not measured.
+  the τ=None exactness gate on the converted checkpoint are not measured (the verified mode is "AR-equivalent up to
+  bf16 ties", §10.5 of the design doc).
 * Single sequence, no batching, no paged cache; `rope_type` must be `default` (no YaRN), no sliding-window layers.
 * **Fill-selection rules on the converted checkpoint**: `no_adjacent` / `max_fill` / `margin_tau` / `leftmost_run`
   are CPU-verified for semantics and decoder equality only; their accuracy / tokens-per-step trade-off against the
@@ -357,10 +445,10 @@ subprocesses incl. kill/resume and 2-process gloo DDP) last ran `4 passed, 0 fai
 
 ## Not yet implemented
 
-* **Decoder in our engine** (`docs/distill_design.md` §7 step 5/6 on real hardware): the own-engine port exists
-  (`fast_model.py` / `fast_decoder.py` above, CPU-exact vs HF) but has not run on a GPU — graph capture, timing, bf16,
-  batching across sequences, and the τ=None exactness gate on the converted checkpoint against the AR student on the
-  eval prompts, tokens/step and tok/s versus the HF AR baseline, are all open.
+* **Decoder in our engine** (`docs/distill_design.md` §7 step 5/6 on real hardware): the own-engine port
+  (`fast_model.py` / `fast_decoder.py` above, CPU-exact vs HF) runs on the GPU with cache-length buckets and CUDA
+  graphs (measured above); batching across sequences, kernel fusion (the graph step is GPU-bound in ~300 small
+  elementwise/reduce kernels per step, see the profile above) and the τ=None exactness gate in bf16 are open.
 * **Training on GPUs**: `distill/train_cdlm.py` has only run on CPU (tiny model). The 4B pilot config
   (`distill/configs/phaseC_pilot_4b.yaml`) is not launched; bf16 vs `master_fp32` and the ZeRO/FSDP question for the
   4B full fine-tune are open (DDP replicates the optimizer states, see §7 memory estimate). `<|im_end|>` tail tokens

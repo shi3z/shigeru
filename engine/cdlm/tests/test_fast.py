@@ -15,7 +15,7 @@ from transformers import DynamicCache, Qwen3Config, Qwen3ForCausalLM
 from engine.cdlm import add_mask_token
 from engine.cdlm.decoder import generate as hf_generate, window_attention_mask
 from engine.cdlm.fast_decoder import generate as fast_generate
-from engine.cdlm.fast_model import BUCKETS, FastQwen3, bucket_for
+from engine.cdlm.fast_model import BUCKETS, CACHE_BUCKET, FastQwen3, bucket_for, cache_bucket_for
 
 VOCAB = 97
 MAX_LEN = 160
@@ -376,6 +376,118 @@ def test_fast_verify_good_drafter():
                         n_cases += 1
     print(f"  {n_cases} good-drafter cases exact on the fast model; W=16, tau=1e9, 40 tokens: {tps16[None]:.2f} tokens/step"
           f" with the perfect drafter, {tps16[3]:.2f} with the every-third-wrong drafter")
+
+
+class SpyStatic(FastQwen3):
+    """FastQwen3 that records the context length (key_mask.shape[1] = Cb) of every static step."""
+    seen = None
+
+    def forward_static(self, tokens, pos_ids, slots, key_mask, rows):
+        if self.seen is not None:
+            self.seen.append(int(key_mask.shape[1]))
+        return super().forward_static(tokens, pos_ids, slots, key_mask, rows)
+
+
+def test_static_cache_buckets():
+    """(4) the static step attends over the cache-bucket prefix only: cache_bucket_for arithmetic; for cache lengths
+    around the 256/512 boundaries x every window bucket the bucketed static logits and written K/V equal the exact
+    forward (< 1e-4) while the slots beyond Cb hold NaN (so any read of them would show), and equal the whole-cache
+    static path (cache_bucket=None); no graph is ever captured on CPU."""
+    assert CACHE_BUCKET == 256
+    for ctx, L, b, want in ((1, 1024, 256, 256), (256, 1024, 256, 256), (257, 1024, 256, 512), (512, 1024, 256, 512),
+                            (513, 1024, 256, 768), (1000, 1024, 256, 1024), (900, 900, 256, 900), (5, 160, 256, 160),
+                            (5, 1024, None, 1024), (700, 1024, 64, 704), (0, 1024, 256, 0)):
+        assert cache_bucket_for(ctx, L, b) == want, (ctx, L, b, cache_bucket_for(ctx, L, b), want)
+    g = torch.Generator().manual_seed(40)
+    m, f, mask_id = pair(seed=13, max_len=1024)
+    f.__class__ = SpyStatic
+    f.seen = []
+    worst = 0.0
+    n_cases = 0
+    for cl in (1, 7, 200, 224, 239, 240, 241, 250, 255, 256, 257, 300, 480, 496, 497, 511, 512, 513, 700):
+        prompt = torch.randint(0, VOCAB, (cl,), generator=g)
+        for W in (1, 3, 8, 11, 16, 32):
+            Wb = bucket_for(W)
+            Cb = cache_bucket_for(cl + Wb, 1024)
+            assert cl + Wb <= Cb <= 1024 and Cb % 256 == 0 and Cb - (cl + Wb) < 256
+            n_filled = int(torch.randint(0, W + 1, (1,), generator=g))
+            filled = sorted(torch.randperm(W, generator=g)[:n_filled].tolist())
+            order = filled + [s for s in range(W) if s not in filled]
+            win = torch.tensor([int(torch.randint(0, VOCAB, (1,), generator=g)) if s in filled else mask_id for s in order])
+            pos = torch.tensor([cl + s for s in order])
+            rows = list(range(W))[::-1][: max(1, W // 2)]
+            f.kv.zero_()
+            _, n = f.prefill(prompt, 0, chunk=512)
+            assert n == cl
+            ref = f.forward(win, pos, cl, write=True, rows=rows)                # exact path, writes the window K/V
+            K_ref, V_ref = f.kv.K[:, :, :, cl:cl + W].clone(), f.kv.V[:, :, :, cl:cl + W].clone()
+            # bucketed static step with NaN beyond Cb: finite, equal logits and K/V
+            f.kv.K[:, :, :, cl:] = 0; f.kv.V[:, :, :, cl:] = 0
+            f.kv.K[:, :, :, Cb:] = float("nan"); f.kv.V[:, :, :, Cb:] = float("nan")
+            f.seen.clear()
+            out = f.run(win, pos, cl, rows, static=True)
+            assert f.seen == [Cb] and not f.graphs, (f.seen, Cb)
+            assert torch.isfinite(out).all()
+            d = max(maxdiff(out, ref), maxdiff(f.kv.K[:, :, :, cl:cl + W], K_ref), maxdiff(f.kv.V[:, :, :, cl:cl + W], V_ref))
+            worst = max(worst, d); assert d < 1e-4, (cl, W, d)
+            assert f.static["key_mask"].shape == (BUCKETS[-1], 1024) and f.static["idx"].shape == (4, BUCKETS[-1])
+            assert f.static["key_mask"][:Wb, :Cb].sum(1).tolist() == [min(Cb, cl + i + 1) for i in range(Wb)]
+            # whole-cache static path (the pre-bucket behaviour) on zeros beyond cl: identical logits
+            f.kv.K[:, :, :, cl:] = 0; f.kv.V[:, :, :, cl:] = 0
+            f.cache_bucket = None
+            f.seen.clear()
+            out_w = f.run(win, pos, cl, rows, static=True)
+            f.cache_bucket = CACHE_BUCKET
+            assert f.seen == [1024]
+            d = maxdiff(out_w, ref); worst = max(worst, d); assert d < 1e-4, (cl, W, d)
+            n_cases += 1
+    f.kv.zero_()
+    print(f"  {n_cases} bucketed static steps == exact forward (max diff {worst:.2e})")
+
+
+def test_decoder_static_buckets_cross_boundaries():
+    """(5) whole decodes whose cache length crosses the 256 and 512 cache-bucket boundaries (prompts of 200 / 240 /
+    300 tokens, 300 new tokens): fast plain == bucketed static == whole-cache static (cache_bucket=None) == HF
+    decoder, token for token and in stats, in the plain and the verified mode, with and without fill options; the
+    static runs really use several cache buckets (256, 512, 768)."""
+    g = torch.Generator().manual_seed(41)
+    m, f, mask_id = pair(seed=14, max_len=1024)
+    f.__class__ = SpyStatic
+    cases = [(None, "mask", {}), (0.5, "mask", {}), (1e9, "mask", {}), (0.5, "ar", dict(no_adjacent=True)),
+             (1e9, "mask", dict(fill_mode="leftmost_run")), (0.5, "mask", dict(margin_tau=0.3, max_fill=3))]
+    n_cases = 0
+    buckets_seen = set()
+    # (the plain mode forwards W + the committed run <= 2W rows, the verified mode W + 1: both must fit the 32 bucket)
+    for P, W, Wver in ((200, 16, 16), (240, 8, 31), (300, 16, 16)):
+        prompt = torch.randint(0, VOCAB, (P,), generator=g)
+        stop_ids = [] if P != 240 else [int(torch.randint(0, VOCAB, (1,), generator=g))]
+        for verify in (False, True):
+            for tau, predict, opts in cases:
+                Wv = Wver if verify else W
+                kw = dict(window=Wv, tau=tau, lam=0.02, mask_id=mask_id, stop_ids=stop_ids, predict=predict, verify=verify, **opts)
+                ref, rs = hf_generate(m, None, prompt, 300, **kw)
+                out, st = fast_generate(f, None, prompt, 300, **kw)
+                assert out == ref and strip(st) == strip(rs), (P, W, verify, tau, predict, opts, out[:20], ref[:20])
+                if not verify:
+                    assert P + len(out) > 256 and len(out) == 300 or stop_ids, (P, len(out))
+                f.seen = []
+                out_s, st_s = fast_generate(f, None, prompt, 300, static=True, **kw)
+                assert out_s == ref and strip(st_s) == strip(rs), (P, W, verify, tau, predict, opts, out_s[:20], ref[:20])
+                seen = set(f.seen)
+                assert seen <= {256, 512, 768} and len(seen) >= 2, (P, seen)
+                buckets_seen |= seen
+                # (Cb can step down near the budget end, when the window bucket shrinks: it is not monotone)
+                assert all(c % 256 == 0 for c in f.seen), f.seen[:40]
+                f.cache_bucket = None
+                f.seen = []
+                out_w, st_w = fast_generate(f, None, prompt, 300, static=True, **kw)
+                f.cache_bucket = CACHE_BUCKET
+                assert out_w == ref and strip(st_w) == strip(rs) and set(f.seen) == {1024}, (P, W, verify, tau, predict, opts)
+                assert not f.graphs
+                n_cases += 1
+    assert buckets_seen == {256, 512, 768}, buckets_seen
+    print(f"  {n_cases} decodes crossing the 256/512 boundaries identical on plain / bucketed static / whole-cache"
+          f" static / HF (cache buckets used: {sorted(buckets_seen)})")
 
 
 def main():

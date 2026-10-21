@@ -16,14 +16,20 @@ Cache semantics (the thing decoder.py gets from DynamicCache.crop, done here wit
   without touching the cache (the window K/V are concatenated on the fly).
 
 CUDA-graph friendliness (engine/graphs.py style; capture is wired but gated on `use_graph and cuda`, never on CPU)
-  forward_static(tokens[Wb], pos[Wb], slots[Wb], key_mask[Wb, max_len], rows[Wb]) has no Python-side dependence on the
-  data: the window is padded to a fixed bucket Wb in BUCKETS, the context is the whole cache (max_len slots) and the
-  validity of every key is in the boolean key_mask, the write slots and the logits rows are index tensors, and the
-  output is a static [Wb, V] buffer.  `run(...)` pads to the bucket, fills the static buffers and either calls
-  forward_static eagerly (static=True on any device) or replays the captured graph of that bucket (use_graph=True,
+  forward_static(tokens[Wb], pos[Wb], slots[Wb], key_mask[Wb, Cb], rows[Wb]) has no Python-side dependence on the
+  data: the window is padded to a fixed bucket Wb in BUCKETS, the context is the first Cb cache slots (a prefix view
+  of the cache, Cb = the CACHE_BUCKET multiple covering cache_len + Wb, at most max_len) and the validity of every key
+  is in the boolean key_mask, the write slots and the logits rows are index tensors, and the output is a static
+  [Wb, V] buffer.  One graph per (Wb, Cb): the graphs are captured lazily (or all at once by capture_graphs) and share
+  one memory pool; every graph reads fixed prefix views of ONE set of static buffers (tokens/pos/slots/rows [4, 32],
+  key_mask [32, max_len]), so a step costs one pinned host->device copy of the four index rows, three small kernels
+  for the key mask and one graph launch.  `run(...)` pads to the bucket, fills the static buffers and either calls
+  forward_static eagerly (static=True on any device) or replays the captured graph of that (Wb, Cb) (use_graph=True,
   CUDA only).  Invalid cache slots are zero (never NaN), so masked-out keys contribute exactly 0 and padded rows are
   finite; the padded rows write K/V beyond cache_len+T, which the next step overwrites.  The non-static forward()
-  attends over exactly cache_len+T keys and is what the CPU tests compare against HF.
+  attends over exactly cache_len+T keys and is what the CPU tests compare against HF; attending over the Cb-slot
+  prefix instead of max_len is what makes the static/graph path faster than it (docs/distill_design.md §10.2 measured
+  the whole-cache version slower than the plain path).  cache_bucket=None restores the whole-cache context.
 
 Numerics follow transformers 5.20 modeling_qwen3.py: RMSNorm in float32 then cast and scaled by the weight; RoPE cos/sin
 computed in float32 from the explicit position ids and cast to the activation dtype before q*cos + rotate_half(q)*sin;
@@ -41,9 +47,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from safetensors.torch import load_file
 
-__all__ = ["BUCKETS", "bucket_for", "Config", "FastQwen3", "KVCache"]
+__all__ = ["BUCKETS", "CACHE_BUCKET", "bucket_for", "cache_bucket_for", "Config", "FastQwen3", "KVCache"]
 
 BUCKETS = (1, 4, 8, 16, 32)
+CACHE_BUCKET = 256
 
 
 def bucket_for(T):
@@ -51,6 +58,15 @@ def bucket_for(T):
         if T <= b:
             return b
     raise ValueError(f"window of {T} rows exceeds the largest bucket {BUCKETS[-1]}")
+
+
+def cache_bucket_for(ctx, max_len, bucket=CACHE_BUCKET):
+    """Context length of the static step: the smallest multiple of `bucket` >= ctx (= cache_len + Wb), capped at
+    max_len; bucket=None means the whole cache (max_len)."""
+    assert 0 <= ctx <= max_len, (ctx, max_len)
+    if bucket is None:
+        return max_len
+    return min(max_len, -(-ctx // int(bucket)) * int(bucket))
 
 
 class Config:
@@ -160,8 +176,10 @@ class FastQwen3(nn.Module):
         self.lm_head = nn.Linear(cfg.hidden, cfg.vocab, bias=False)
         self.cos = self.sin = None       # float32 rotary tables [max_pos, hd] (plain tensors, built on the real device)
         self.kv = None                   # KVCache
-        self.graphs = {}                 # bucket -> (graph, static buffers)
-        self.static = None               # static input/output buffers for forward_static (allocated lazily)
+        self.graphs = {}                 # (Wb, Cb) -> (graph, static output)
+        self.static = None               # static input buffers for forward_static (allocated lazily)
+        self.cache_bucket = CACHE_BUCKET  # context granularity of the static step (None = whole cache)
+        self.pool = None                 # shared CUDA-graph memory pool
 
     # ------------------------------------------------------------------ loading
     @classmethod
@@ -231,7 +249,7 @@ class FastQwen3(nn.Module):
 
     def new_cache(self, max_len):
         self.kv = KVCache(self.cfg, max_len, self.device, self.dtype)
-        self.graphs, self.static = {}, None
+        self.graphs, self.static, self.pool = {}, None, None
         return self.kv
 
     # ------------------------------------------------------------------ masks
@@ -289,15 +307,24 @@ class FastQwen3(nn.Module):
     def _alloc_static(self):
         dev, L = self.device, self.kv.max_len
         Wb = BUCKETS[-1]
-        self.static = dict(tokens=torch.zeros(Wb, dtype=torch.long, device=dev), pos=torch.zeros(Wb, dtype=torch.long, device=dev),
-                           slots=torch.zeros(Wb, dtype=torch.long, device=dev), rows=torch.zeros(Wb, dtype=torch.long, device=dev),
-                           key_mask=torch.zeros(Wb, L, dtype=torch.bool, device=dev))
+        cuda = dev.type == "cuda"
+        self.static = dict(idx=torch.zeros(4, Wb, dtype=torch.long, device=dev),          # rows: tokens, pos, slots, rows
+                           stage=torch.zeros(4, Wb, dtype=torch.long, pin_memory=cuda),   # host staging for one copy
+                           key_mask=torch.zeros(Wb, L, dtype=torch.bool, device=dev),
+                           qpos=torch.arange(Wb, device=dev)[:, None], kpos=torch.arange(L, device=dev)[None, :],
+                           event=torch.cuda.Event() if cuda else None)
+
+    def _static_args(self, Wb, Cb):
+        st = self.static
+        return (st["idx"][0, :Wb], st["idx"][1, :Wb], st["idx"][2, :Wb], st["key_mask"][:Wb, :Cb], st["idx"][3, :Wb])
 
     @torch.no_grad()
     def forward_static(self, tokens, pos_ids, slots, key_mask, rows):
-        """All inputs are bucket-shaped device tensors: tokens/pos/slots/rows [Wb], key_mask [Wb, max_len].  Writes the
-        window K/V at `slots` (index_copy_), attends over the WHOLE cache under key_mask, returns float32 logits
-        [Wb, V] for the window rows `rows` (gathered by index).  No shape depends on the data: graph-capturable."""
+        """All inputs are bucket-shaped device tensors: tokens/pos/slots/rows [Wb], key_mask [Wb, Cb].  Writes the
+        window K/V at `slots` (index_copy_), attends over the first Cb cache slots under key_mask, returns float32
+        logits [Wb, V] for the window rows `rows` (gathered by index).  No shape depends on the data: graph-capturable
+        per (Wb, Cb)."""
+        Cb = key_mask.shape[1]
         mask = key_mask[None, None]
         cos, sin = self.cos.index_select(0, pos_ids).to(self.dtype), self.sin.index_select(0, pos_ids).to(self.dtype)
         x = self.embed_tokens(tokens[None])
@@ -305,53 +332,85 @@ class FastQwen3(nn.Module):
             q, k, v = L.qkv(x, cos, sin)
             self.kv.K[i].index_copy_(2, slots, k)
             self.kv.V[i].index_copy_(2, slots, v)
-            x = L.finish(x, L.attend(q, self.kv.K[i], self.kv.V[i], mask))
+            x = L.finish(x, L.attend(q, self.kv.K[i][:, :, :Cb], self.kv.V[i][:, :, :Cb], mask))
         x = x.index_select(1, rows)
         return self.lm_head(self.norm(x))[0].float()
 
-    def _capture(self, Wb):
-        """CUDA-graph capture of forward_static for one bucket (engine/graphs.py recipe).  CUDA only."""
+    def _capture(self, Wb, Cb):
+        """CUDA-graph capture of forward_static for one (window bucket, cache bucket) (engine/graphs.py recipe; all
+        graphs share one memory pool, which is safe because they are replayed one at a time and every graph's output
+        buffer stays allocated).  CUDA only."""
         assert self.device.type == "cuda", "graph capture is CUDA-only"
-        st = self.static
-        args = (st["tokens"][:Wb], st["pos"][:Wb], st["slots"][:Wb], st["key_mask"][:Wb], st["rows"][:Wb])
+        if self.static is None:
+            self._alloc_static()
+        if self.pool is None:
+            self.pool = torch.cuda.graph_pool_handle()
+        args = self._static_args(Wb, Cb)
         s = torch.cuda.Stream(); s.wait_stream(torch.cuda.current_stream())
         with torch.cuda.stream(s):
             for _ in range(2):
                 self.forward_static(*args)
         torch.cuda.current_stream().wait_stream(s)
         g = torch.cuda.CUDAGraph()
-        with torch.cuda.graph(g):
+        with torch.cuda.graph(g, pool=self.pool):
             out = self.forward_static(*args)
-        self.graphs[Wb] = (g, out)
-        return self.graphs[Wb]
+        self.graphs[(Wb, Cb)] = (g, out)
+        return self.graphs[(Wb, Cb)]
+
+    def capture_graphs(self, max_ctx, window_buckets=BUCKETS):
+        """Capture (once, up front) every graph a decode whose cache never exceeds max_ctx slots can need: window
+        buckets x cache buckets up to cache_bucket_for(max_ctx).  Returns the list of (Wb, Cb) captured now."""
+        assert self.device.type == "cuda"
+        step = self.cache_bucket or self.kv.max_len
+        top = cache_bucket_for(min(max_ctx, self.kv.max_len), self.kv.max_len, self.cache_bucket)
+        done = []
+        for Wb in window_buckets:
+            for Cb in sorted(set(min(self.kv.max_len, c) for c in range(step, top + 1, step)) | {top}):
+                if (Wb, Cb) not in self.graphs and Wb <= Cb:
+                    self._capture(Wb, Cb)
+                    done.append((Wb, Cb))
+        return done
 
     @torch.no_grad()
     def run(self, tokens, pos_ids, cache_len, rows, static=False, use_graph=False):
-        """The decoder's step.  static=False: exact forward() over cache_len+T keys.  static=True: pad the window to
-        its bucket, fill the static buffers and run forward_static over the whole cache (eagerly, or as a replayed
-        CUDA graph when use_graph and the model is on CUDA — never on CPU).  Returns float32 logits [len(rows), V]
-        (static path: a view of a reusable buffer — clone if kept across steps)."""
+        """The decoder's step.  tokens/pos_ids: [T] long on any device (CPU tensors are cheapest: the static path
+        stages them through pinned memory, the plain path moves them in one copy).  static=False: exact forward()
+        over cache_len+T keys.  static=True: pad the window to its bucket Wb, fill the static buffers and run
+        forward_static over the Cb = cache_bucket_for(cache_len + Wb) first cache slots (eagerly, or as the replayed
+        CUDA graph of (Wb, Cb) when use_graph and the model is on CUDA — never on CPU).  Returns float32 logits
+        [len(rows), V] (static path: a view of a reusable buffer — clone if kept across steps)."""
         T = int(tokens.numel())
+        dev = self.device
         if not static and not use_graph:
+            if tokens.device != dev or pos_ids.device != dev:
+                tp = torch.stack([tokens, pos_ids]).to(dev, non_blocking=False)
+                tokens, pos_ids = tp[0], tp[1]
             return self.forward(tokens, pos_ids, cache_len, write=True, rows=rows)
         Wb = bucket_for(T)
         assert cache_len + Wb <= self.kv.max_len, (cache_len, Wb, self.kv.max_len)
+        Cb = cache_bucket_for(cache_len + Wb, self.kv.max_len, self.cache_bucket)
         if self.static is None:
             self._alloc_static()
-        st, dev = self.static, self.device
+        st = self.static
         rows = list(rows) if rows is not None else list(range(T))
         assert len(rows) <= Wb                      # rows may be empty: the step still writes the window K/V
-        pad = Wb - T
-        st["tokens"][:Wb].copy_(torch.cat([tokens, tokens.new_zeros(pad)]))
-        st["pos"][:Wb].copy_(torch.cat([pos_ids, pos_ids.new_full((pad,), int(pos_ids[-1]))]))
-        st["slots"][:Wb].copy_(torch.arange(cache_len, cache_len + Wb, device=dev))
-        st["rows"][:Wb].copy_(torch.tensor(rows + [rows[0] if rows else 0] * (Wb - len(rows)), dtype=torch.long, device=dev))
-        st["key_mask"][:Wb].copy_(self.window_mask(cache_len, Wb, self.kv.max_len, dev))
+        Wmax = BUCKETS[-1]                          # the four index rows are always copied in full (one contiguous copy)
+        tl, pl = tokens.tolist(), pos_ids.tolist()
+        host = [tl + [0] * (Wmax - T), pl + [pl[-1]] * (Wmax - T), list(range(cache_len, cache_len + Wmax)),
+                rows + [rows[0] if rows else 0] * (Wmax - len(rows))]
+        if st["event"] is not None:
+            st["event"].synchronize()               # the previous step's staged copy has landed: the buffer is free
+            st["stage"].copy_(torch.tensor(host, dtype=torch.long))
+            st["idx"].copy_(st["stage"], non_blocking=True)
+            st["event"].record()
+        else:
+            st["idx"].copy_(torch.tensor(host, dtype=torch.long))
+        st["key_mask"][:Wb, :Cb].copy_(st["kpos"][:, :Cb] <= st["qpos"][:Wb] + cache_len)
         if use_graph and dev.type == "cuda":
-            if Wb not in self.graphs:
-                self._capture(Wb)
-            g, out = self.graphs[Wb]
+            if (Wb, Cb) not in self.graphs:
+                self._capture(Wb, Cb)
+            g, out = self.graphs[(Wb, Cb)]
             g.replay()
         else:
-            out = self.forward_static(st["tokens"][:Wb], st["pos"][:Wb], st["slots"][:Wb], st["key_mask"][:Wb], st["rows"][:Wb])
+            out = self.forward_static(*self._static_args(Wb, Cb))
         return out[:len(rows)]
