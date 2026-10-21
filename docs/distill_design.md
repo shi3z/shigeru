@@ -500,3 +500,10 @@ configuration in `distill/configs/*.yaml` (port 8000) is valid again.
   Converted by `distill/convert_sft.py` (one example per assistant turn, conversation history as context).
 * Evaluation after stage 2: verified decoding (20 and 1 319 GSM8K), pure-diffusion modes, HumanEval and full GSM8K of the
   AR rows, Phase F table regenerated.
+
+### 10.11 Second host: zeta (RTX PRO 6000 Blackwell 96 GB, torch 2.9.1+cu128), 2026-10-21 08:20
+
+Same stage-2b checkpoint, same benchmark (20 GSM8K prompts, verified τ=1.0, W=16): HF AR greedy **79.3 tok/s**, own
+engine with CUDA graphs **126.8 tok/s** (1.48 tokens/step, 42 % acceptance, 100 % on the 20 items). The engine and
+checkpoints run unchanged on Blackwell (`SHIGERU_GPU_GUARD=off`, `~/shigeru/open-mercury` on zeta). zeta takes over the
+stage-2 fine-tunes and evaluations of the CPT snapshots while the three A100s stay on the 1 B-token run.
