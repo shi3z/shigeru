@@ -8,11 +8,39 @@ analysis and validated against the reference's mask rule in the tests.
 
 | file | what |
 |---|---|
-| `data.py` | `build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler, rng, ar_on_prompt)` → physical rows `[x0 clean \| xt]`: per 32-token block γ~U(0,1], `round(n_response·γ)` response tokens masked (prompt never), observed-first reordering, `position_ids` = original positions shared with x0, `mlm_labels` (true id on masked rows, −100 elsewhere), `mlm_weights` (1/γ on masked rows), `ar_labels` (next token on x0 rows, −100 when the target is a prompt token, −100 on all xt rows). `collate(examples, pad_id)` right-pads to `[N, T]` and attaches the dense `[N,1,T,T]` mask. Mask-token choice for Qwen3 is documented in the module docstring (free rows 151669…151935; `<|mask|>` = 151669). |
+| `data.py` | `build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler, rng, ar_on_prompt, mask_mode="random")` → physical rows `[x0 clean \| xt]`: per 32-token block γ~U(0,1], `round(n_response·γ)` response tokens masked (prompt never; `mask_mode` chooses *which* ones, see "mask_mode" below), observed-first reordering, `position_ids` = original positions shared with x0, `mlm_labels` (true id on masked rows, −100 elsewhere), `mlm_weights` (1/γ on masked rows), `ar_labels` (next token on x0 rows, −100 when the target is a prompt token, −100 on all xt rows). `collate(examples, pad_id)` right-pads to `[N, T]` and attaches the dense `[N,1,T,T]` mask. Mask-token choice for Qwen3 is documented in the module docstring (free rows 151669…151935; `<|mask|>` = 151669). |
 | `mask.py` | `allowed(q, k, L, B)` — the one rule (x0 causal; xt block k → x0 blocks < k and same-block xt rows at smaller physical index; nothing else; padded rows self-only). `dense_mask` / `batch_mask` for sequences ≤ ~4K rows, `make_mask_mod(seq_lens, B)` with FlexAttention's `(b, h, q_idx, kv_idx)` signature built on the same function, `to_additive` for eager. The leakage argument is in the module docstring. |
 | `loss.py` | `mlm_loss(logits, labels, weights)` = Σ wᵢ·CEᵢ / Σ wᵢ over masked rows (WeDLM's self-normalised 1/γ weighting, `loss.py:38-45`; `normalize="tokens"` alternative), `ar_loss` (plain mean CE; the shift is folded into `ar_labels`), `total_loss = (mlm + w·ar)/(1+w)`. |
 | `decoder.py` | `generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id, stop_ids, greedy=True, temperature, predict="mask"\|"ar")` → `(new_ids, stats)`: WeDLM's streaming window (analysis §5–6) on a HF `DynamicCache`. Prefill into the cache; per step forward the window rows observed-first with their original position ids and a causal mask over `[cache \| window]` (`window_attention_mask`, dict passthrough as in `model_glue`); commit the leftmost filled run by **cropping** the cache to `[prefix \| run]` (`DynamicCache.crop(-(T-m))`, no K/V copy or recomputation — the run sits at physical rows 0..m-1, so its K/V were computed at the right positions attending exactly the prefix + earlier run tokens; argument in the module docstring); fill masks with `entropy + λ·(slot − first_mask_slot) < τ` (argmin fallback, `select_positions`), `τ=None` = exactly the leftmost mask; refill; stop on a stop id in the committed run (kept in the output, later tokens dropped) or `max_new_tokens` (window and refill are budget-capped). `stats`: steps, forwards (+1 prefill), window_rows, tokens_per_step, `filled_per_step`/`committed_per_step` histograms, `filled_positions` (the absolute logical positions filled in each step), finish_reason, and the cache (reusable for a continuation). `predict="ar"` lets the leftmost mask take the next-token logits of the preceding filled row (exact AR at τ=None, the free speculative proposal of analysis §11 step 7). Optional fill-selection rules `margin_tau`, `no_adjacent`, `max_fill`, `fill_mode="leftmost_run"` (all off by default; section "Fill-selection rules" below). `verify=True`: verified (speculative) decoding, output exactly HF greedy (section "Verified (speculative) decoding"). Single sequence only. |
 | `model_glue.py` | `forward_rows(model, input_ids, position_ids, mask, rows)` runs a HF `Qwen3ForCausalLM` (transformers 5.20) on the dual stream and returns logits only for the gathered `(batch, row)` indices; `forward_batch(model, batch)` does one forward for the MLM and AR rows of a `collate()` batch. The 4-D mask is passed as `attention_mask={"full_attention": m, "sliding_attention": m}`, which `Qwen3Model.forward` hands to the layers untouched (bool for `sdpa`, additive float for `eager`; a plain 4-D tensor also passes through, `flash_attention_2` cannot take it). `add_mask_token(model, mask_id)` resizes embedding + lm_head when needed and initialises the row from the mean embedding, returning the ids it added. |
+
+## mask_mode (`build_example(..., mask_mode=)`, config key `mask_mode`; default `"random"` = unchanged WeDLM behaviour)
+
+Motivation (`docs/distill_design.md` §10.9, §11.1): verified decoding is stuck at ~1.43 tokens/step whatever the window
+size (W = 16…128 all give 1.45; τ=∞ drafting 1.73 with 10 % acceptance) because the mask predictor is only reliable one or
+two positions past the committed frontier. The decoder's window is a *contiguous run of masks after the frontier*: a
+drafted token sits at distance 1..W from the last observed token with masks — never observed tokens — on its right. The
+WeDLM training masks are a uniform random subset of each block (γ ~ U(0,1] per block), so a training mask almost always
+has observed tokens on its right inside the block and is rarely more than one or two positions from an observed one:
+training hardly ever shows the situation inference poses.
+
+Definition (per block of B tokens, n = number of response tokens in the block, n_mask = `round(n·γ_k)` with the same
+γ_k draw in every mode, so the 1/γ_k weights and the count statistics are identical):
+
+* `"random"` (default): n_mask positions drawn without replacement among the block's response tokens (WeDLM).
+* `"suffix"`: the **last** n_mask response positions of the block are masked (the first n − n_mask response tokens stay
+  observed; prompt tokens are never maskable, so in the block where the prompt ends the suffix is the response part only).
+  The observed-first reorder then coincides with the original order — observed prefix, then the masks ascending — which is
+  exactly the decoder's window layout: a mask at distance d from the last observed token sees the clean x0 blocks before
+  (the committed prefix), the observed prefix of its block and the d − 1 masks before it. n_mask comes from the γ draw,
+  not from a separate k ~ U{1..B}, so a block with `round(n·γ) = 0` stays all-observed as in random mode.
+* `"mixed"`: one extra Bernoulli(½) draw per *example* (only in this mode) picks `"random"` or `"suffix"` for all of its
+  blocks; the effective mode is returned as `example["mask_mode"]`.
+
+Only the choice of masked positions changes: `mlm_labels`, `mlm_weights` (1/γ), `ar_labels`, `position_ids` and the
+attention mask are built exactly as before, the leakage guarantees hold unchanged (`test_no_leakage_suffix`), and in
+`"random"` mode no extra random number is drawn, so every example is byte-identical to what it was before the option
+existed (`test_suffix_mask_mode` checks that draw for draw). Not yet measured on a real run.
 
 ## Fill-selection rules (`decoder.select_positions`, shared by both decoders; all off by default)
 
@@ -199,7 +227,8 @@ CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_cdlm
 1. `test_mask_dense_vs_mask_mod` — dense mask == `mask_mod` materialised by Python loops (with padded rows), and both equal
    the reference rule from `masking.py:86-90` written out independently; pad rows attend only themselves.
 2. `test_no_leakage` (a) — sdpa and eager: perturbing any physical token leaves every row that must not see it bit-for-bit
-   unchanged (< 1e-9 in float64 through 2 layers) and changes every row that may see it.
+   unchanged (< 1e-9 in float64 through 2 layers) and changes every row that may see it. `test_no_leakage_suffix` (a')
+   runs the same check on a `mask_mode="suffix"` example.
 3. `test_single_block_masks_visibility` (b) — γ > 0 only in block k: each MLM row's visible set is exactly x0 positions
    < k·B ∪ observed xt rows of its block ∪ earlier masks of its block; its own position is visible in neither stream; the
    information test by perturbation agrees row by row.
@@ -211,8 +240,14 @@ CUDA_VISIBLE_DEVICES="" .venv-train/bin/python -m engine.cdlm.tests.test_cdlm
 6. `test_tau_none_equivalence` (e) — with zero masks, the x0 rows of the dual-stream forward reproduce the plain HF causal
    forward to 1e-9 (sdpa and eager) and so do the all-observed xt rows (sdpa 1e-9; eager 1e-4 because HF eager runs
    softmax in float32 and the xt rows sum the same keys in a different order).
+7. `test_suffix_mask_mode` (f) — `mask_mode="suffix"`: per block the masked rows are exactly the trailing `round(n·γ)`
+   response rows, the xt block keeps the original order, the prompt is never masked (prompt ending mid-block, γ = 1, γ → 0,
+   L = 1); against random mode with the same γ draw: same counts, weight mass, AR labels, x0 half, attention mask; labels
+   restore x0; `mask_mode="random"` consumes the rng exactly as the no-argument call; unknown modes raise `ValueError`.
+8. `test_mixed_mask_mode` (g) — 40 mixed examples: both modes occur (≥ 10 each), suffix ones pass the suffix check, random
+   ones are not suffix-shaped, the prompt is never masked, and the pick is a deterministic function of the rng.
 
-Last run: `6 passed, 0 failed`.
+Last run: `9 passed, 0 failed`.
 
 ## Decoder tests (`engine/cdlm/tests/test_decoder.py`, same style; float64 tiny model unless stated, the `[MASK]` row is
 re-randomised after `add_mask_token` so nothing relies on the mean init)
@@ -434,14 +469,16 @@ PASS test_decoder_static_buckets_cross_boundaries
 ## Training loop (`distill/train_cdlm.py`, Phase C conversion trainer)
 
 Implemented on top of the modules above: JSONL → chat template (thinking disabled) + response + eos → `build_example` per
-sample and per epoch (prompt never masked, per-block γ ~ U(gamma.min, gamma.max]) → `collate` → `forward_rows` on the
+sample and per epoch (prompt never masked, per-block γ ~ U(gamma.min, gamma.max], `mask_mode` random/suffix/mixed as
+above) → `collate` → `forward_rows` on the
 gathered MLM + AR rows → `mlm_loss` (1/γ self-normalised) and `ar_loss`, combined as `total_loss` (WeDLM weighting).
 Full fine-tune with a plain torch loop: AdamW (fused on CUDA), cosine schedule with warmup, grad accumulation, grad
 clipping, bf16 weights (optional fp32 master + bf16 autocast), gradient checkpointing, `<|mask|>` registered in the
 tokenizer and `add_mask_token` on the model (`config.cdlm_mask_token_id`, saved with `final/`), periodic checkpoints with
 automatic resume, `log.jsonl`, `run.json`, single-process or `torchrun` DDP, CUDA-OOM skip-and-halve. Command line, memory
 estimate and the test are in `docs/distill_design.md` §7; `distill/tests/test_train_cdlm.py` (CPU, tiny model, real
-subprocesses incl. kill/resume and 2-process gloo DDP) last ran `4 passed, 0 failed`.
+subprocesses incl. kill/resume and 2-process gloo DDP, `mask_mode` plumbing incl. a 1-step suffix run and the rejection of
+an unknown mode before the model loads) last ran `5 passed, 0 failed`.
 
 ## Not yet implemented
 

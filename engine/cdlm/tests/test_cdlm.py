@@ -12,8 +12,8 @@ import torch
 import torch.nn.functional as F
 from transformers import Qwen3Config, Qwen3ForCausalLM
 
-from engine.cdlm import (IGNORE, add_mask_token, ar_loss, batch_mask, build_example, collate, dense_mask, forward_batch,
-                         forward_rows, make_mask_mod, mlm_loss, model_attention_mask, total_loss)
+from engine.cdlm import (IGNORE, MASK_MODES, add_mask_token, ar_loss, batch_mask, build_example, collate, dense_mask,
+                         forward_batch, forward_rows, make_mask_mod, mlm_loss, model_attention_mask, total_loss)
 
 VOCAB, B = 97, 8
 BASE_CFG = Qwen3Config(vocab_size=VOCAB, hidden_size=64, intermediate_size=128, num_hidden_layers=2,
@@ -67,12 +67,13 @@ def test_mask_dense_vs_mask_mod():
     assert bm.shape == (2, 1, 10, 10) and torch.equal(bm[1, 0], dense_mask(3, B, 10))
 
 
-def test_no_leakage():
-    """(a) perturbing any token a query must not see leaves that query's output unchanged (and visible ones change)."""
+def check_no_leakage(mask_mode):
+    """Perturbing any token a query must not see leaves that query's output unchanged (and visible ones change)."""
     g = torch.Generator().manual_seed(3)
     for impl in ("sdpa", "eager"):
         m, mask_id = tiny_model(impl)
-        ex = build_example(torch.randint(0, VOCAB, (21,), generator=g), 4, mask_id, block=B, rng=g)
+        ex = build_example(torch.randint(0, VOCAB, (21,), generator=g), 4, mask_id, block=B, rng=g, mask_mode=mask_mode)
+        assert ex["mask_mode"] == mask_mode and (ex["mlm_labels"] != IGNORE).sum() > 0
         T = ex["input_ids"].numel()
         ref, mask = hidden_all(m, ex)
         n_hidden = n_seen = 0
@@ -88,6 +89,109 @@ def test_no_leakage():
             assert (diff | cannot_see).all(), (impl, k, (~diff & ~cannot_see).nonzero().flatten().tolist())
             n_hidden += int(cannot_see.sum()); n_seen += int((~cannot_see).sum())
         assert n_hidden > 0 and n_seen > 0
+
+
+def test_no_leakage():
+    """(a) the perturbation check on the default (random-subset) masks."""
+    check_no_leakage("random")
+
+
+def test_no_leakage_suffix():
+    """(a') the same perturbation check on suffix-mode examples: a mask row sees the committed-prefix x0 blocks, the
+    observed prefix of its block and the masks before it (the decoder's window), never its own x0 row or anything right
+    of it."""
+    check_no_leakage("suffix")
+
+
+def suffix_block_check(e, mask_id):
+    """Per block of a suffix-mode example: masked rows == trailing round(n_response * gamma) rows of the block, the xt
+    block keeps the original order (observed prefix, then the masks ascending), prompt never masked.  Returns the
+    number of masked rows."""
+    L, Bk, p = e["seq_len"], e["block"], e["prompt_len"]
+    ids, pos, lab, w = e["input_ids"][L:], e["position_ids"][L:], e["mlm_labels"][L:], e["mlm_weights"][L:]
+    assert torch.equal(pos, torch.arange(L))                                   # observed-first == original order
+    total = 0
+    for blk in range((L + Bk - 1) // Bk):
+        s, t = blk * Bk, min(L, (blk + 1) * Bk)
+        is_m = ids[s:t] == mask_id
+        n_resp = max(0, t - max(s, p))
+        n_mask = int(round(n_resp * float(e["gamma"][blk])))
+        assert int(is_m.sum()) == n_mask, (blk, int(is_m.sum()), n_mask)
+        assert torch.equal(is_m, torch.arange(s, t) >= t - n_mask), blk          # exactly the trailing n_mask rows
+        assert (pos[s:t][is_m] >= p).all()                                       # inside the response
+        assert torch.equal(lab[s:t][is_m], e["input_ids"][t - n_mask:t]) and (lab[s:t][~is_m] == IGNORE).all()
+        assert torch.allclose(w[s:t][is_m], 1.0 / e["gamma"][blk]) and (w[s:t][~is_m] == 0).all()
+        total += n_mask
+    return total
+
+
+def test_suffix_mask_mode():
+    """(f) mask_mode="suffix": each block masks exactly a contiguous suffix of round(n_response * gamma) response tokens;
+    the prompt is never masked (also when the prompt ends mid-block); everything except WHICH positions are masked is
+    identical to random mode with the same gamma draw."""
+    g = torch.Generator().manual_seed(17)
+    mask_id = VOCAB
+    n_examples = n_masked = 0
+    for L, p in ((21, 4), (24, 0), (9, 9), (30, 11), (8, 3), (1, 0), (40, 13)):
+        toks = torch.randint(0, VOCAB, (L,), generator=g)
+        gam = torch.rand((L + B - 1) // B, generator=g).clamp_min(1e-8)
+        sampler = lambda n, rng, gam=gam: gam.clone()
+        es = build_example(toks, p, mask_id, block=B, gamma_sampler=sampler, rng=g, mask_mode="suffix")
+        er = build_example(toks, p, mask_id, block=B, gamma_sampler=sampler, rng=g, mask_mode="random")
+        assert es["mask_mode"] == "suffix" and er["mask_mode"] == "random"
+        n_masked += suffix_block_check(es, mask_id); n_examples += 1
+        # same gamma -> same number of masks per block, same AR labels, same x0 half, same weight mass; labels restore x0
+        assert torch.equal(es["gamma"], er["gamma"]) and torch.equal(es["ar_labels"], er["ar_labels"])
+        assert torch.equal(es["input_ids"][:L], er["input_ids"][:L]) and torch.equal(es["is_xt"], er["is_xt"])
+        assert (es["mlm_labels"] != IGNORE).sum() == (er["mlm_labels"] != IGNORE).sum()
+        assert torch.allclose(es["mlm_weights"].sum(), er["mlm_weights"].sum())
+        assert torch.equal(es["position_ids"].sort().values, er["position_ids"].sort().values)
+        rs = torch.where(es["mlm_labels"][L:] == IGNORE, es["input_ids"][L:], es["mlm_labels"][L:])
+        assert torch.equal(rs[es["position_ids"][L:].argsort()], toks)
+        # the attention mask depends on (L, B) only: identical in both modes
+        assert torch.equal(batch_mask([es["seq_len"]], es["block"]), batch_mask([er["seq_len"]], er["block"]))
+    assert n_examples == 7 and n_masked > 0
+    # extremes: gamma = 1 masks every response token of every block (the prompt-boundary block: its response part only)
+    e1 = build_example(torch.arange(21), 5, mask_id, block=B, gamma_sampler=lambda n, rng: torch.ones(n), rng=g,
+                       mask_mode="suffix")
+    assert suffix_block_check(e1, mask_id) == 16 and (e1["position_ids"][21:][e1["input_ids"][21:] == mask_id] >= 5).all()
+    assert e1["input_ids"][21 + 5:21 + 8].tolist() == [mask_id] * 3 and e1["input_ids"][21:21 + 5].tolist() == [0, 1, 2, 3, 4]
+    e0 = build_example(torch.arange(21), 5, mask_id, block=B, gamma_sampler=lambda n, rng: torch.full((n,), 1e-8), rng=g,
+                       mask_mode="suffix")
+    assert suffix_block_check(e0, mask_id) == 0 and torch.equal(e0["input_ids"][21:], torch.arange(21))
+    # the default rng stream is untouched: mask_mode="random" == no argument, draw for draw
+    g1, g2 = torch.Generator().manual_seed(23), torch.Generator().manual_seed(23)
+    a = build_example(torch.arange(30), 4, mask_id, block=B, rng=g1)
+    b = build_example(torch.arange(30), 4, mask_id, block=B, rng=g2, mask_mode="random")
+    assert all(torch.equal(a[k], b[k]) for k in ("input_ids", "position_ids", "mlm_labels", "mlm_weights", "ar_labels", "gamma"))
+    assert torch.equal(torch.rand(3, generator=g1), torch.rand(3, generator=g2))
+    try:
+        build_example(torch.arange(5), 0, mask_id, block=B, mask_mode="prefix"); assert False
+    except ValueError as err:
+        assert "prefix" in str(err) and str(MASK_MODES) in str(err)
+
+
+def test_mixed_mask_mode():
+    """(g) mask_mode="mixed": per example a coin picks suffix or random; both occur, suffix examples pass the suffix check,
+    random ones are genuinely random subsets (some block is not a suffix), and the pick is a function of the rng."""
+    g = torch.Generator().manual_seed(29)
+    mask_id, L, p = VOCAB, 40, 6
+    modes = {"random": 0, "suffix": 0}
+    n_non_suffix = 0
+    for _ in range(40):
+        e = build_example(torch.randint(0, VOCAB, (L,), generator=g), p, mask_id, block=B, rng=g, mask_mode="mixed")
+        assert e["mask_mode"] in modes
+        modes[e["mask_mode"]] += 1
+        if e["mask_mode"] == "suffix":
+            suffix_block_check(e, mask_id)
+        else:
+            n_non_suffix += int(not torch.equal(e["position_ids"][L:], torch.arange(L)))
+        assert (e["position_ids"][L:][e["mlm_labels"][L:] != IGNORE] >= p).all()        # prompt never masked
+    assert modes["random"] >= 10 and modes["suffix"] >= 10 and n_non_suffix >= modes["random"] // 2, modes
+    g1, g2 = torch.Generator().manual_seed(31), torch.Generator().manual_seed(31)
+    e1 = build_example(torch.arange(L), p, mask_id, block=B, rng=g1, mask_mode="mixed")
+    e2 = build_example(torch.arange(L), p, mask_id, block=B, rng=g2, mask_mode="mixed")
+    assert e1["mask_mode"] == e2["mask_mode"] and torch.equal(e1["input_ids"], e2["input_ids"])
 
 
 def test_single_block_masks_visibility():

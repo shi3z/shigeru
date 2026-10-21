@@ -10,8 +10,8 @@ right after the checkpoint at step N is written, to exercise the resume path).
 
 Config keys (distill/configs/phaseC_pilot_4b.yaml documents each): model, data_train, out_dir, mask_token, block, max_len,
 batch, grad_accum, lr, epochs, warmup_ratio | warmup_steps, min_lr_ratio, weight_decay, betas, grad_clip, ar_weight,
-mlm_normalize, gamma {min, max}, ar_on_prompt, seed, save_steps, save_total_limit, logging_steps, attn, grad_ckpt,
-master_fp32, num_workers.
+mlm_normalize, gamma {min, max}, ar_on_prompt, mask_mode, seed, save_steps, save_total_limit, logging_steps, attn,
+grad_ckpt, master_fp32, num_workers.
 
 What one example becomes.  prompt = chat template of instruction (+ "\n\n" + context) with add_generation_prompt and
 enable_thinking=False (as in train_sft.py), response = response + eos.  tokens = prompt_ids + response_ids, truncated to
@@ -19,6 +19,9 @@ max_len LOGICAL tokens (the prompt is kept whole; an example whose prompt alone 
 engine.cdlm.data.build_example turns the L tokens into the 2L physical rows [x0 clean | xt block-masked] (prompt tokens
 never masked, gamma ~ U(gamma.min, gamma.max] per block of `block` tokens, fresh draw every epoch), so the model forward
 sees sequences of up to 2*max_len rows: attention cost is 4x and activation memory 2x that of AR SFT at the same max_len.
+mask_mode (default "random") selects WHICH round(n*gamma) positions of a block are masked: "random" = a uniform subset
+(WeDLM), "suffix" = the last ones (a contiguous masked suffix with no observed right context, the layout the streaming
+decoder poses), "mixed" = 50/50 per example (engine/cdlm/data.py docstring, engine/cdlm/README.md "mask_mode").
 
 Loss.  mlm = 1/gamma self-normalised CE on the [MASK] rows, ar = next-token CE on the x0 rows (same forward),
 total = (mlm + ar_weight * ar) / (1 + ar_weight) as in WeDLM's trainer (engine/cdlm/loss.py: total_loss); both parts are
@@ -181,11 +184,13 @@ class TokenStreamItems:
 class CDLMDataset:
     """Tokenized examples -> dual-stream examples; the gamma/mask draw is deterministic in (seed, epoch, index)."""
 
-    def __init__(self, items, mask_id, block, gamma_min, gamma_max, seed, ar_on_prompt=False):
+    def __init__(self, items, mask_id, block, gamma_min, gamma_max, seed, ar_on_prompt=False, mask_mode="random"):
         import torch
-        from engine.cdlm import build_example
+        from engine.cdlm import MASK_MODES, build_example
+        if mask_mode not in MASK_MODES:
+            raise ValueError(f"mask_mode={mask_mode!r}, expected one of {MASK_MODES}")
         self.items, self.mask_id, self.block, self.seed = items, mask_id, block, seed
-        self.ar_on_prompt, self.epoch = ar_on_prompt, 0
+        self.ar_on_prompt, self.mask_mode, self.epoch = ar_on_prompt, mask_mode, 0
         lo, hi = float(gamma_min), float(gamma_max)
         assert 0.0 <= lo < hi <= 1.0, (lo, hi)
 
@@ -204,7 +209,7 @@ class CDLMDataset:
         tokens, prompt_len = self.items[i]
         rng = torch.Generator().manual_seed((self.seed * 1_000_003 + self.epoch) * 1_000_003 + i)
         return self.build_example(tokens, prompt_len, self.mask_id, block=self.block, gamma_sampler=self.gamma_sampler,
-                                  rng=rng, ar_on_prompt=self.ar_on_prompt)
+                                  rng=rng, ar_on_prompt=self.ar_on_prompt, mask_mode=self.mask_mode)
 
 
 def make_loader(ds, batch, epoch, seed, dist, num_workers):
@@ -362,7 +367,9 @@ def main():
     cfg = yaml.safe_load(open(a.config))
     import torch
     from transformers import AutoTokenizer, set_seed
-    from engine.cdlm import ar_loss, collate, mlm_loss, total_loss
+    from engine.cdlm import MASK_MODES, ar_loss, collate, mlm_loss, total_loss
+    if cfg.get("mask_mode", "random") not in MASK_MODES:        # fail before the model is loaded
+        raise SystemExit(f"config mask_mode={cfg.get('mask_mode')!r}, expected one of {MASK_MODES}")
 
     dist = Dist(torch)
     seed = int(cfg.get("seed", 0))
@@ -404,7 +411,8 @@ def main():
         items, n_dropped, n_truncated = tokenize_examples(load_jsonl(data_path), tok, max_len)
     assert items, f"no trainable examples in {data_path}"
     gamma = cfg.get("gamma") or {}
-    ds = CDLMDataset(items, mask_id, block, gamma.get("min", 0.0), gamma.get("max", 1.0), seed, cfg.get("ar_on_prompt", False))
+    ds = CDLMDataset(items, mask_id, block, gamma.get("min", 0.0), gamma.get("max", 1.0), seed, cfg.get("ar_on_prompt", False),
+                     mask_mode=cfg.get("mask_mode", "random"))
     batch, grad_accum, epochs = int(cfg["batch"]), int(cfg["grad_accum"]), float(cfg["epochs"])
     n_local = math.ceil(len(ds) / dist.world) if dist.enabled else len(ds)
     micro_per_epoch = math.ceil(n_local / batch)

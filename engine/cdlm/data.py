@@ -10,9 +10,24 @@ One example of L tokens (prompt_len prompt tokens followed by the response) beco
                    [ -100 on every xt row ]
 
 Per block k, gamma_k ~ U(0, 1] (independent per block, `uniform_gamma`; pass your own `gamma_sampler(nblk, rng)` for
-curricula or tests) and n_mask = round(n_maskable * gamma_k) positions are drawn without replacement among the block's
-response tokens — prompt tokens are never masked and never scored.  Observed-first reordering changes only the
-physical order; the RoPE position of every token is its original one (position_ids), shared with the x0 half.
+curricula or tests) and n_mask = round(n_maskable * gamma_k) positions are masked among the block's response tokens —
+prompt tokens are never masked and never scored.  WHICH n_mask positions is `mask_mode`:
+    "random" (default, WeDLM): drawn without replacement (uniform random subset of the block's response tokens);
+    "suffix": the LAST n_mask maskable positions of the block (a contiguous masked suffix; the first
+              n_maskable - n_mask response tokens of the block stay observed).  This is the situation the streaming
+              decoder (decoder.py) actually poses: a window after the committed frontier whose rows are masks with
+              observed context only on their left, at distance 1..W from the frontier.  With a random subset a mask
+              almost always has observed tokens on its right inside the block, which inference never provides, and
+              a mask at distance >= 2 from the last observed token is rare (docs/distill_design.md section 10.9 / 11.1:
+              the trained drafter is reliable only 1-2 positions past the frontier).  n_mask is the same round(n * gamma_k)
+              draw as in "random" mode (not a separate k ~ U{1..B}), so the 1/gamma_k weighting and the count statistics
+              are unchanged; only the choice of positions differs;
+    "mixed": per EXAMPLE one extra Bernoulli(1/2) draw from `rng` picks "random" or "suffix" for all of its blocks.
+The effective mode of an example ("random" or "suffix") is returned as `mask_mode`.  In "random" mode nothing is drawn
+beyond gamma and the subsets, so its rng stream — and every example — is byte-identical to what it was before mask_mode
+existed.  Observed-first reordering changes only the physical order; the RoPE position of every token is its original one
+(position_ids), shared with the x0 half.  In "suffix" mode the observed-first order of a block coincides with the original
+order (observed prefix, then the masks in ascending position), exactly the window layout of the decoder.
 The [MASK] row predicts its *own* position (no token shift), the x0 rows predict the next token (shift folded into
 ar_labels so both losses are plain row-wise cross-entropy, see loss.py).
 
@@ -28,7 +43,8 @@ import torch
 from .mask import batch_mask
 
 IGNORE = -100
-__all__ = ["IGNORE", "uniform_gamma", "build_example", "collate"]
+MASK_MODES = ("random", "suffix", "mixed")
+__all__ = ["IGNORE", "MASK_MODES", "uniform_gamma", "build_example", "collate"]
 
 
 def uniform_gamma(nblk, rng=None, eps=1e-8):
@@ -36,19 +52,26 @@ def uniform_gamma(nblk, rng=None, eps=1e-8):
     return torch.rand(nblk, generator=rng).clamp_min(eps)
 
 
-def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng=None, ar_on_prompt=False):
+def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng=None, ar_on_prompt=False,
+                  mask_mode="random"):
     """Build one dual-stream example (dict of 1-D CPU tensors over the 2L physical rows plus scalars).
 
     tokens: 1-D int sequence (prompt + response), prompt_len: number of leading prompt tokens, mask_id: [MASK] id,
     block: B, gamma_sampler(nblk, rng) -> float tensor [nblk] in (0, 1], rng: torch.Generator for reproducibility,
-    ar_on_prompt: also score next-token prediction of prompt tokens on the x0 rows (WeDLM does not).
+    ar_on_prompt: also score next-token prediction of prompt tokens on the x0 rows (WeDLM does not),
+    mask_mode: "random" (default) | "suffix" | "mixed" — which round(n * gamma_k) positions of a block are masked (module
+    docstring); labels, weights, position ids and the attention mask are built the same way in every mode.
     """
+    if mask_mode not in MASK_MODES:
+        raise ValueError(f"mask_mode={mask_mode!r}, expected one of {MASK_MODES}")
     tokens = torch.as_tensor(tokens, dtype=torch.long).flatten()
     L = tokens.numel()
     assert L > 0 and 0 <= prompt_len <= L, (L, prompt_len)
     nblk = math.ceil(L / block)
     gamma = (gamma_sampler or uniform_gamma)(nblk, rng).to(torch.float32)
     assert gamma.shape == (nblk,) and bool((gamma > 0).all()) and bool((gamma <= 1).all()), gamma
+    if mask_mode == "mixed":                                    # one extra draw per example, only in this mode
+        mask_mode = "suffix" if bool(torch.rand(1, generator=rng) < 0.5) else "random"
     positions = torch.arange(L)
 
     xt_ids, xt_pos, xt_lab, xt_w = [], [], [], []
@@ -59,7 +82,9 @@ def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng
         cand = (pos >= prompt_len).nonzero().flatten()           # maskable = response tokens of this block
         masked = torch.zeros(e - s, dtype=torch.bool)
         n_mask = int(round(cand.numel() * g))
-        if n_mask:
+        if n_mask and mask_mode == "suffix":
+            masked[cand[-n_mask:]] = True                        # the last n_mask response positions of the block
+        elif n_mask:
             masked[cand[torch.randperm(cand.numel(), generator=rng)[:n_mask]]] = True
         obs, msk = (~masked).nonzero().flatten(), masked.nonzero().flatten()   # each ascending -> observed first
         order = torch.cat([obs, msk])
@@ -81,7 +106,7 @@ def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng
         mlm_weights=torch.cat([torch.zeros(L), *xt_w]),
         ar_labels=ar_labels,
         is_xt=torch.arange(2 * L) >= L,
-        seq_len=L, prompt_len=prompt_len, block=block, gamma=gamma,
+        seq_len=L, prompt_len=prompt_len, block=block, gamma=gamma, mask_mode=mask_mode,
     )
 
 

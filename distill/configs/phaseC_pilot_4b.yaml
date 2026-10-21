@@ -22,6 +22,8 @@ ar_weight: 1.0                # total = (mlm + ar_weight*ar) / (1 + ar_weight), 
 mlm_normalize: wedlm          # 1/gamma self-normalised MLM loss
 gamma: {min: 0.0, max: 1.0}   # per-block mask ratio ~ U(min, max]
 ar_on_prompt: false
+mask_mode: random             # which round(n*gamma) positions of a block are masked: random (WeDLM) | suffix (contiguous
+                              # masked block suffix = the decoder's window layout) | mixed (50/50 per example); engine/cdlm/README.md
 seed: 0
 save_steps: 50
 save_total_limit: 2           # each checkpoint holds model + Adam states (≈ 24 GiB in bf16)

@@ -198,6 +198,44 @@ def test_ddp_cpu_gloo():
     assert len(os.listdir(os.path.join(out))) >= 4                                         # log, run.json, final, checkpoint
 
 
+def test_mask_mode_plumbing():
+    """mask_mode reaches build_example: the dataset builds suffix / random / mixed examples (same gamma draw per (seed,
+    epoch, index) in every mode), an unknown mode is rejected before the model loads, and a 1-step run with
+    mask_mode: suffix trains on masked rows."""
+    from distill.train_cdlm import CDLMDataset
+    items = [(torch.arange(10 + 7 * i), 3 + i) for i in range(6)]            # (tokens, prompt_len), several blocks each
+    mask_id, Bk = 1000, 8
+    dss = {m: CDLMDataset(items, mask_id, Bk, 0.0, 1.0, seed=5, mask_mode=m) for m in ("random", "suffix", "mixed")}
+    seen = set()
+    for i in range(len(items)):
+        ex = {m: ds[i] for m, ds in dss.items()}
+        assert ex["random"]["mask_mode"] == "random" and ex["suffix"]["mask_mode"] == "suffix"
+        assert ex["mixed"]["mask_mode"] in ("random", "suffix"); seen.add(ex["mixed"]["mask_mode"])
+        assert torch.equal(ex["random"]["gamma"], ex["suffix"]["gamma"])        # the gamma draw does not depend on the mode
+        L, pl = ex["suffix"]["seq_len"], ex["suffix"]["prompt_len"]
+        ids, pos = ex["suffix"]["input_ids"][L:], ex["suffix"]["position_ids"][L:]
+        assert torch.equal(pos, torch.arange(L))                                # suffix layout == original order
+        for blk in range((L + Bk - 1) // Bk):
+            s_, t_ = blk * Bk, min(L, (blk + 1) * Bk)
+            is_m = ids[s_:t_] == mask_id
+            n = int(round(max(0, t_ - max(s_, pl)) * float(ex["suffix"]["gamma"][blk])))
+            assert torch.equal(is_m, torch.arange(s_, t_) >= t_ - n) and (pos[s_:t_][is_m] >= pl).all()
+    assert seen == {"random", "suffix"}, seen
+    try:
+        CDLMDataset(items, mask_id, Bk, 0.0, 1.0, seed=0, mask_mode="prefix"); assert False
+    except ValueError as err:
+        assert "prefix" in str(err)
+    out = os.path.join(TMP, "run_mm")
+    cfg = write_cfg(os.path.join(TMP, "cfg_mm_bad.yaml"), MODEL_DIR, DATA, out, mask_mode="prefix")
+    p = run([cfg, "--max-steps", "1"], expect=1)
+    assert "mask_mode='prefix'" in p.stderr and not os.path.exists(out), p.stderr[-500:]
+    cfg = write_cfg(os.path.join(TMP, "cfg_mm.yaml"), MODEL_DIR, DATA, out, mask_mode="suffix")
+    run([cfg, "--max-steps", "1"])
+    log = read_log(out)
+    assert log and log[0]["n_masked"] > 0 and log[0]["loss_mlm"] == log[0]["loss_mlm"]
+    assert json.load(open(os.path.join(out, "run.json")))["config"]["mask_mode"] == "suffix"
+
+
 def main():
     tests = [v for k, v in globals().items() if k.startswith("test_")]
     passed = failed = 0
