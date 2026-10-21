@@ -434,3 +434,17 @@ drafting error. Code: the stage-2 diffusion model's AR rows score **68.9 %** on 
 81.7 %): raw-text CPT plus the prose-format code items both cost code ability; stage 2 on the CPT-continuation model
 will use the no-code set plus completion-format code. The speed target of the brief (500 tok/s) is far away: tokens/step is the lever (ceiling (W+1)/2 = 8.5
 with a perfect drafter) and the engine still lacks CUDA graphs with cache-length buckets.
+
+### 10.8 Engine: cache-length buckets + CUDA graphs (2026-10-21 02:00, GPU 7, stage-2 4B, verified τ=1.0, W=16, 20 prompts)
+
+| Decoder | accuracy | tokens/step | tok/s |
+|---|---|---|---|
+| HF AR greedy | 100 % | 1.00 | 57.1 |
+| own engine, plain | 95 % | 1.50 | 75.4 |
+| own engine, static shapes with cache buckets (256) | 90 %* | 1.46 | 75.8 |
+| **own engine, CUDA graphs per (window, cache bucket)** | 90 %* | 1.46 | **104.3** |
+
+\* one item (gsm8k_008) is the known bf16 tie; static and graph outputs are byte-identical. The graph path is
+1.38× the plain path and **1.83× HF AR greedy** on the same weights; its step is now GPU-bound (GEMMs 45 %, ~300
+small elementwise/RMSNorm kernels 25 %, attention 4.5 %), so the next engine gains are kernel fusion (RMSNorm+residual,
+RoPE) and a better drafter (tokens/step). Details and verbatim output: `engine/cdlm/README.md`.
