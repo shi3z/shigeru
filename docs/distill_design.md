@@ -410,8 +410,12 @@ code, so the cause is the data, not the number of steps. Ablation 2 (same recipe
 (vs 72.0 % with the code items, 81.7 % released). Confirmed: the teacher's code answers as generated (full programs
 written from a prose problem statement, verified by hidden tests) teach a style that hurts HumanEval's
 signature-plus-docstring completion. Fix for the next data round: generate the code category in completion format
-(prompt = function signature + docstring, response = body) and keep the sandbox verification; until then the
-no-code set is the better Phase B training set.
+(prompt = function signature + docstring, response = body) and keep the sandbox verification; Ablation 3 (no-code set + 296 completion-format code items,
+generated with `code_completion`): GSM8K-50 92 %, HumanEval **74.4 %** — better than prose-format code (72.0 %) but
+still below no code (79.3 %) and the released model (81.7 %). Conclusion for this round: any teacher code data in
+these quantities (~300 items, LoRA r 32) pulls the student's HumanEval down; the no-code set is the Phase B training set
+of record, and code distillation is an open item (candidates: far more code items, lower LoRA rank / fewer code steps,
+or rejection-sampling the student's own HumanEval-style outputs against the teacher).
 
 ### 10.7 Headline row R5 on the full GSM8K test set (1 319 items, stage-2 4B model, own engine, idle GPU 7, bf16)
 

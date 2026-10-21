@@ -1,0 +1,211 @@
+{
+  "engine": "hf-transformers-generate",
+  "model": "runs/phaseB_medium_4b_codecomp/merged",
+  "config": {
+    "model": "runs/phaseB_medium_4b_codecomp/merged",
+    "prompts": "/mnt/ssdraid/project/open-mercury/bench/prompts.json",
+    "ids": null,
+    "max_new_tokens": 256,
+    "repeat": 1,
+    "thinking": false,
+    "out": "results/phaseB_medium_4b_codecomp_256.json"
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "load_s": 2.3235208988189697,
+  "gpu_state": [
+    "78948 MiB, 0 %",
+    "80001 MiB, 0 %",
+    "80689 MiB, 0 %",
+    "80643 MiB, 0 %",
+    "48837 MiB, 100 %",
+    "19799 MiB, 0 %",
+    "48915 MiB, 100 %",
+    "8327 MiB, 54 %"
+  ],
+  "runs": [
+    {
+      "id": "en_explain",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 247,
+      "ttft_s": 0.020237766206264496,
+      "e2e_s": 4.659741851966828,
+      "tok_s_effective": 53.00722826431767,
+      "decode_tok_s": 53.02290836536093,
+      "peak_mem_gib": 7.593256950378418,
+      "answer": "A hash table maps keys to values using a hash function that converts the key into an index. When you insert a key-value pair, the hash function computes an index, and the value is stored at that index in an array. Lookup, insertion, and deletion are typically O(1) average case because you directly compute the index.\n\nPerformance degrades in two main ways:\n\n1. **Collisions**: Different keys produce the same index. Without handling collisions, you'd overwrite existing entries. Common solutions are chaining (linked lists at each index) and open addressing (probing for an empty slot). Chaining keeps operations O(1) amortized, but probing can degrade to O(n) in the worst case.\n\n2. **Load factor**: The ratio of entries to array size. As the load factor increases, collisions increase, and probing steps grow. A load factor near 1 is typical for performance; beyond that, the table resizes (doubles size, rehashes all entries), which is O(n) time but keeps average-case O(1).\n\nDegradation also happens when the hash function is poor (biased, uniformity issues) or when keys are large/variable-length, forcing inefficient hashing.",
+      "correct": null
+    },
+    {
+      "id": "en_code",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 37,
+      "effective_tokens": 256,
+      "ttft_s": 0.01822170102968812,
+      "e2e_s": 4.6725829229690135,
+      "tok_s_effective": 54.78768471749981,
+      "decode_tok_s": 54.78732479937377,
+      "peak_mem_gib": 7.5947699546813965,
+      "answer": "```python\ndef fibonacci(n):\n    \"\"\"\n    Return the n-th Fibonacci number using an iterative approach.\n\n    The Fibonacci sequence starts with 0 and 1, and each subsequent number\n    is the sum of the two preceding ones. So the sequence goes:\n    0, 1, 1, 2, 3, 5, 8, 13, ...\n\n    Parameters:\n        n (int): The index of the Fibonacci number to return (0-based).\n\n    Returns:\n        int: The n-th Fibonacci number.\n\n    Raises:\n        ValueError: If n is negative.\n\n    Examples:\n        >>> fibonacci(0)\n        0\n        >>> fibonacci(1)\n        1\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"n must be a non-negative integer\")\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n```\n\n**Usage examples:**\n\n```python\nprint(fibonacci(0))  # Output: 0\nprint(f",
+      "correct": null
+    },
+    {
+      "id": "en_reason",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 71,
+      "effective_tokens": 256,
+      "ttft_s": 0.02086855098605156,
+      "e2e_s": 4.717180558014661,
+      "tok_s_effective": 54.269705569155434,
+      "decode_tok_s": 54.29792561021522,
+      "peak_mem_gib": 7.5994415283203125,
+      "answer": "Let's go step-by-step.\n\n---\n\n**Step 1: Define the problem**\n\n- Train 1 (from A) leaves at 9:00, speed = 80 km/h.\n- Train 2 (from B) leaves at 9:30, speed = 100 km/h.\n- Distance between A and B = 300 km.\n\nWe want to find the time and location where they meet.\n\n---\n\n**Step 2: Set up variables**\n\nLet \\( t \\) be the time in hours after 9:00 when they meet.\n\n- Train 1 has been traveling for \\( t \\) hours.\n- Train 2 left 30 minutes (0.5 hours) later, so it has been traveling for \\( t - 0.5 \\) hours.\n\n---\n\n**Step 3: Write distance equations**\n\nDistance covered by Train 1:  \n\\( d_1 = 80t \\)\n\nDistance covered by Train 2:  \n\\( d_2 = 100(t - 0.5) \\)\n\nAt meeting time, total distance covered = 300 km:\n\n\\[\n80t + 100(t - 0.5) =",
+      "correct": null
+    },
+    {
+      "id": "en_story",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 214,
+      "ttft_s": 0.01893031783401966,
+      "e2e_s": 3.7991243470460176,
+      "tok_s_effective": 56.328769593023246,
+      "decode_tok_s": 56.34631406589492,
+      "peak_mem_gib": 7.58872652053833,
+      "answer": "The lighthouse stood at the edge of the world, its beam slicing through the mist that clung to the cliffs. Elias had tended it for thirty years, his days measured by the rhythm of the waves and the flicker of his lamp. One stormy evening, a letter arrived—no return address, just a wax seal stamped with a crest he didn’t recognize.\n\nHe read it by the fire, the ink smudged by rain. It was from a woman named Clara, who’d been lost at sea in a storm years ago. Her ship had vanished, her name never recovered. The letter said she’d found him in a dream, that she’d been calling out his name for years, and that she wanted him to know she was still there, waiting.\n\nElias sat in silence, the sea howling outside. He wrote back, no address, just a single line: *I see you now.* The next morning, the beam found her on the rocks, a figure standing at the water’s edge, her hand outstretched.",
+      "correct": null
+    },
+    {
+      "id": "en_summary",
+      "lang": "en",
+      "rep": 0,
+      "prompt_tokens": 27,
+      "effective_tokens": 244,
+      "ttft_s": 0.01919425092637539,
+      "e2e_s": 4.595915246289223,
+      "tok_s_effective": 53.090622199138124,
+      "decode_tok_s": 53.094781230100885,
+      "peak_mem_gib": 7.591748237609863,
+      "answer": "- **Social inequality and class tension**: A rigid feudal system with a tiny nobility and clergy, a growing middle class (bourgeoisie) seeking political power, and a starving peasantry created deep resentment and demands for reform.  \n- **Economic crisis**: Heavy taxation, poor harvests, and financial mismanagement (including costly wars and a corrupt court) led to widespread poverty and public distrust of the monarchy and clergy.  \n- **Enlightenment ideas**: Philosophers like Rousseau, Voltaire, and Montesquieu promoted liberty, equality, and popular sovereignty, challenging the divine right of kings and inspiring revolutionary rhetoric.  \n- **Immediate triggers**: The Estates-General of 1789, the storming of the Bastille (1789), and the Declaration of the Rights of Man and of the Citizen (1789) marked the collapse of absolutist authority and the rise of revolutionary government.  \n- **Political and military failures**: Louis XVI’s inability to reform, the king’s execution (1793), and the rise of radical factions (Jacobins) led to civil war, the Reign of Terror, and the eventual collapse of the revolutionary state.",
+      "correct": null
+    },
+    {
+      "id": "ja_explain",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 124,
+      "ttft_s": 0.020712818019092083,
+      "e2e_s": 2.3143387818709016,
+      "tok_s_effective": 53.57901832322013,
+      "decode_tok_s": 53.6268781128722,
+      "peak_mem_gib": 7.577051639556885,
+      "answer": "過学習とは、訓練データに過剰に適合し、新しいデータで性能が低下する現象です。特徴量の多さやモデルの複雑さが原因です。防ぐには、正規化（L1/L2）、ドロップアウト、データの分割（訓練/検証/テスト）、正則化項の調整、データ拡張、モデルの複雑さの制限（例：次数制限、層数制限）などがあります。-validation と test set の使い分けも重要です。",
+      "correct": null
+    },
+    {
+      "id": "ja_code",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 54,
+      "effective_tokens": 256,
+      "ttft_s": 0.019647221080958843,
+      "e2e_s": 4.735536939930171,
+      "tok_s_effective": 54.05933967939334,
+      "decode_tok_s": 54.072511276244605,
+      "peak_mem_gib": 7.597103595733643,
+      "answer": "# Python の重複除去と長さ順並べ替え関数\n\n以下は、文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す関数です。\n\n```python\ndef unique_sorted_by_length(strings):\n    \"\"\"\n    文字列のリストを受け取り、重複を除いて長さ順に並べ替えて返す。\n\n    Args:\n        strings (list of str): 入力リスト\n\n    Returns:\n        list of str: 重複を除いた長さ順リスト\n    \"\"\"\n    return sorted(set(strings), key=lambda s: len(s))\n```\n\n## 説明\n\n1. **set()**: 入力リストを集合に変換することで重複を除去します。集合は要素が一意になるため、`set(strings)` で重複を消せます。\n2. **sorted()**: 集合をリストに戻し、`key=lambda s: len(s)` で文字列の長さでソートします。\n3. **戻り値**: 長さ順に並べたリストを返します。\n\n## 注意点\n\n- `set()` は文字列の順序",
+      "correct": null
+    },
+    {
+      "id": "ja_reason",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 61,
+      "effective_tokens": 155,
+      "ttft_s": 0.020438537001609802,
+      "e2e_s": 2.9449283122085035,
+      "tok_s_effective": 52.632860147200034,
+      "decode_tok_s": 52.658758223596536,
+      "peak_mem_gib": 7.584194183349609,
+      "answer": "太郎は花子より3歳年上なので、太郎の年齢をT、花子の年齢をHとすると、T = H + 3 です。\n\n二人の年齢の和は29なので、\nT + H = 29\n\nT = H + 3 を代入すると、\n(H + 3) + H = 29\n2H + 3 = 29\n2H = 26\nH = 13\n\n花子の現在の年齢は13歳です。\n\n5年後には、花子の年齢は13 + 5 = 18歳になります。\n\n**答え：18歳**",
+      "correct": null
+    },
+    {
+      "id": "ja_story",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 40,
+      "effective_tokens": 107,
+      "ttft_s": 0.019709758926182985,
+      "e2e_s": 2.0047048493288457,
+      "tok_s_effective": 53.374440649366655,
+      "decode_tok_s": 53.40063585673532,
+      "peak_mem_gib": 7.574716567993164,
+      "answer": "灯台の下で夜明けの潮風を浴びながら、守り手は手紙を受け取った。封筒は誰かの手で届いた。開くと、かつて灯台の下で出会った少女の手紙だった。彼女は遠くの国へ旅に出たが、灯台の光が彼女の道を照らしたと書かれていた。守り手は微笑み、灯台の光にそっと手を添えた。",
+      "correct": null
+    },
+    {
+      "id": "ja_summary",
+      "lang": "ja",
+      "rep": 0,
+      "prompt_tokens": 35,
+      "effective_tokens": 256,
+      "ttft_s": 0.018471268005669117,
+      "e2e_s": 4.649476777296513,
+      "tok_s_effective": 55.05995884312253,
+      "decode_tok_s": 55.06363563774915,
+      "peak_mem_gib": 7.594494342803955,
+      "answer": "明治維新の主な要因を5つの箇条書きでまとめると以下の通りです。\n\n1. **外国列強の圧力と不平等条約**  \n   西洋列強による不平等条約（開国・貿易制限・領事裁判権など）が日本の経済・政治に深刻な影響を与え、国内の統一国家としての自立を迫った。\n\n2. **幕府の衰退と倒幕運動の台頭**  \n   天保・弘化の乱、大坂夏の陣などの内乱により幕府の権威が低下し、倒幕派が台頭。天保改革の失敗や幕府の無力さが政治的混乱を招いた。\n\n3. **士族の地位低下と新体制への期待**  \n   倒幕運動の中心に立つ士族が、幕府の衰退に伴い地位が失われ、新体制（明治政府）で再び政治・経済の中心に立つことを望んだ。\n\n4. **農村の衰退と都市化・産業化の波**  \n   農",
+      "correct": null
+    }
+  ],
+  "accuracy": null,
+  "summary": {
+    "ttft_s": {
+      "mean": 0.019643219001591206,
+      "min": 0.01822170102968812,
+      "max": 0.02086855098605156,
+      "n": 10
+    },
+    "e2e_s": {
+      "mean": 3.909353058692068,
+      "min": 2.0047048493288457,
+      "max": 4.735536939930171,
+      "n": 10
+    },
+    "tok_s_effective": {
+      "mean": 54.018962798543704,
+      "min": 52.632860147200034,
+      "max": 56.328769593023246,
+      "n": 10
+    },
+    "decode_tok_s": {
+      "mean": 54.03716731781435,
+      "min": 52.658758223596536,
+      "max": 56.34631406589492,
+      "n": 10
+    },
+    "effective_tokens": {
+      "mean": 211.5,
+      "min": 107,
+      "max": 256,
+      "n": 10
+    },
+    "peak_mem_gib": {
+      "mean": 7.589550352096557,
+      "min": 7.574716567993164,
+      "max": 7.5994415283203125,
+      "n": 10
+    }
+  }
+}
