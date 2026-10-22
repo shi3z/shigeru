@@ -536,7 +536,7 @@ After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch 
 |---|---|---|---|---|---|
 | random (default) | 89.5 % | 1.43 | 42.5 % | **66.9 %** (1.24 tok/step) | 85 % |
 | suffix | 89.2 % | 1.44 | 50.5 % | **77.3 %** (1.20 tok/step) | 75 % |
-| mixed | 88.9 % | 1.43 | 47.0 % | (running) | 75 % |
+| mixed | 88.9 % | 1.43 | 47.0 % | **74.7 %** (1.22 tok/step) | 75 % |
 
 Matching the training masks to the inference layout raises the draft acceptance rate (42 → 50 %) but not the tokens
 per step, and clearly helps the **unverified** parallel mode: +10.4 points on the full GSM8K (77.3 % vs 66.9 % at the same
