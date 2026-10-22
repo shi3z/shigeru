@@ -1,0 +1,387 @@
+{
+  "model": "runs/zeta_sft_snapshot-14000/final",
+  "engine": "fast_graph",
+  "args": {
+    "model": "runs/zeta_sft_snapshot-14000/final",
+    "prompts": "bench/prompts_gsm8k50.json",
+    "n": 20,
+    "tau": "3.0",
+    "window": 16,
+    "lam": 0.02,
+    "max_new_tokens": 384,
+    "ar": false,
+    "engine": "fast_graph",
+    "no_adjacent": false,
+    "max_fill": null,
+    "margin_tau": null,
+    "fill_mode": "all",
+    "verify": true,
+    "out": "results/zeta_tauinf_graph_3.0.json"
+  },
+  "gpu": {
+    "name": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+    "cuda_visible_devices": "0",
+    "torch": "2.9.1+cu128",
+    "total_mem_gib": 95.0
+  },
+  "graph_capture": {
+    "n_graphs": 10,
+    "seconds": 0.43,
+    "max_ctx": 540,
+    "cache_bucket": 256,
+    "graphs": [
+      [
+        1,
+        256
+      ],
+      [
+        1,
+        512
+      ],
+      [
+        1,
+        768
+      ],
+      [
+        4,
+        256
+      ],
+      [
+        4,
+        512
+      ],
+      [
+        4,
+        768
+      ],
+      [
+        8,
+        256
+      ],
+      [
+        8,
+        512
+      ],
+      [
+        8,
+        768
+      ],
+      [
+        16,
+        256
+      ],
+      [
+        16,
+        512
+      ],
+      [
+        16,
+        768
+      ],
+      [
+        32,
+        256
+      ],
+      [
+        32,
+        512
+      ],
+      [
+        32,
+        768
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_000",
+      "n_tokens": 100,
+      "seconds": 0.752,
+      "tok_s": 133.0,
+      "steps": 63,
+      "forwards": 64,
+      "correct": true,
+      "drafted": 283,
+      "accepted": 38,
+      "draft_acceptance_rate": 0.13427561837455831,
+      "text": "Let's go step by step.\n\n1. The total cost of the trip is $300.\n2. The school covers half the cost, so the school pays:  \n   $300 ÷ 2 = $150.\n3. John has $50, so the amount he is missing is:  \n   $300 - $150 (school) - $50 (John) = $100.\n\n#### 100"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_001",
+      "n_tokens": 257,
+      "seconds": 2.088,
+      "tok_s": 123.1,
+      "steps": 175,
+      "forwards": 177,
+      "correct": true,
+      "drafted": 795,
+      "accepted": 82,
+      "draft_acceptance_rate": 0.10314465408805032,
+      "text": "Let's go step by step.\n\n---\n\n**Step 1: Claire's badge rate**  \nClaire earns 1 badge per month.  \nIn one year (12 months), she earns:  \n\\( 1 \\times 12 = 12 \\) badges.\n\n---\n\n**Step 2: Amber's badge rate**  \nAmber takes twice as long to earn a badge as Claire.  \nClaire takes 1 month per badge, so Amber takes:  \n\\( 2 \\times 1 = 2 \\) months per badge.\n\nIn one year, Amber earns:  \n\\( \\frac{12}{2} = 6 \\) badges.\n\n---\n\n**Step 3: Wendy's badge rate**  \nWendy earns three times as many badges as Claire in the same time frame.  \nClaire earns 12 badges in a year, so Wendy earns:  \n\\( 3 \\times 12 = 36 \\) badges.\n\n---\n\n**Step 4: Difference between Wendy and Amber**  \nWendy earns 36 badges, Amber earns 6 badges.  \nDifference:  \n\\( 36 - 6 = 30 \\) badges.\n\n---\n\n**Final Answer:**  \n#### 30"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_002",
+      "n_tokens": 135,
+      "seconds": 0.933,
+      "tok_s": 144.7,
+      "steps": 80,
+      "forwards": 81,
+      "correct": true,
+      "drafted": 400,
+      "accepted": 56,
+      "draft_acceptance_rate": 0.14,
+      "text": "Let's go step by step.\n\n1. Grace's weight = 125 pounds.\n\n2. Alex's weight = 4 times Grace's weight minus 2 pounds.  \n   First, calculate 4 times Grace's weight:  \n   \\( 4 \\times 125 = 500 \\) pounds.  \n   Then subtract 2 pounds:  \n   \\( 500 - 2 = 498 \\) pounds.\n\n3. Combined weight = Grace's weight + Alex's weight:  \n   \\( 125 + 498 = 623 \\) pounds.\n\n#### 623"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_003",
+      "n_tokens": 135,
+      "seconds": 1.102,
+      "tok_s": 122.5,
+      "steps": 94,
+      "forwards": 95,
+      "correct": false,
+      "drafted": 269,
+      "accepted": 42,
+      "draft_acceptance_rate": 0.15613382899628253,
+      "text": "Let's go step by step.\n\n1. **Total weeks**: 8 weeks  \n2. **Hours per week on average**: 4 hours  \n   - So, 8 weeks × 4 hours/week = 32 hours  \n3. **Adjust for the extra hours**:\n   - Two weeks at 5 hours: 2 × 5 = 10 hours  \n   - One week at 6 hours: 6 hours  \n   - Total extra hours: 10 + 6 = 16 hours  \n4. **Total hours** = 32 + 16 = **48 hours**\n\n#### 48"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_004",
+      "n_tokens": 156,
+      "seconds": 1.167,
+      "tok_s": 133.6,
+      "steps": 98,
+      "forwards": 100,
+      "correct": true,
+      "drafted": 451,
+      "accepted": 58,
+      "draft_acceptance_rate": 0.1286031042128603,
+      "text": "Let's define the number of balls retrieved in the second set as **x**.\n\n- First set: **x + 4**\n- Second set: **x**\n- Third set: **x / 2**\n\nTotal balls:  \n(x + 4) + x + (x / 2) = 19\n\nCombine terms:  \nx + 4 + x + 0.5x = 19  \n2.5x + 4 = 19\n\nSubtract 4:  \n2.5x = 15\n\nDivide by 2.5:  \nx = 6\n\nNow find the first set:  \nx + 4 = 6 + 4 = 10\n\n#### 10"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_005",
+      "n_tokens": 110,
+      "seconds": 0.876,
+      "tok_s": 125.6,
+      "steps": 74,
+      "forwards": 76,
+      "correct": true,
+      "drafted": 320,
+      "accepted": 36,
+      "draft_acceptance_rate": 0.1125,
+      "text": "Let's go step by step.\n\n1. **Adam's trousers cost:** $30  \n2. **Mother gave him:** $6  \n3. **Father gave him twice as much as the mother:**  \n   Twice $6 = $12  \n4. **Total money from parents:** $6 + $12 = $18  \n5. **Money Adam had to contribute from his savings:**  \n   $30 (total cost) - $18 (from parents) = $12  \n\n#### 12"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_006",
+      "n_tokens": 206,
+      "seconds": 1.242,
+      "tok_s": 165.9,
+      "steps": 104,
+      "forwards": 105,
+      "correct": true,
+      "drafted": 604,
+      "accepted": 103,
+      "draft_acceptance_rate": 0.17052980132450332,
+      "text": "Let's go step by step.\n\n**First week:**  \nBoris produces 8,000 bars.\n\n**Second week:**  \nHe produces half as much as the first week:  \n\\( \\frac{8,000}{2} = 4,000 \\) bars.\n\n**Third week:**  \nHe produces three times as much as the first week:  \n\\( 3 \\times 8,000 = 24,000 \\) bars.\n\n**Total produced in first three weeks:**  \n\\( 8,000 + 4,000 + 24,000 = 36,000 \\) bars.\n\n**Total bars produced in a month:**  \n50,000 bars.\n\n**Bars produced in fourth week:**  \n\\( 50,000 - 36,000 = 14,000 \\) bars.\n\n#### 14000"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_007",
+      "n_tokens": 180,
+      "seconds": 1.309,
+      "tok_s": 137.5,
+      "steps": 110,
+      "forwards": 112,
+      "correct": true,
+      "drafted": 528,
+      "accepted": 70,
+      "draft_acceptance_rate": 0.13257575757575757,
+      "text": "Let's go step by step.\n\n1. **Number of sessions per week**: John went twice a week.  \n   So, 2 sessions per week.\n\n2. **Number of hours per session**: Each session was 2 hours.  \n   So, 2 hours/session.\n\n3. **Total hours per week**:  \n   2 sessions/week × 2 hours/session = 4 hours/week.\n\n4. **Total weeks**: John went for 6 weeks.  \n   So, 6 weeks.\n\n5. **Total hours over 6 weeks**:  \n   4 hours/week × 6 weeks = 24 hours.\n\n6. **Cost per hour**: $125/hour.\n\n7. **Total cost**:  \n   24 hours × $125/hour = $3,000.\n\n#### 3000"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_008",
+      "n_tokens": 285,
+      "seconds": 2.015,
+      "tok_s": 141.5,
+      "steps": 168,
+      "forwards": 169,
+      "correct": false,
+      "drafted": 909,
+      "accepted": 118,
+      "draft_acceptance_rate": 0.12981298129812982,
+      "text": "Let's go step by step.\n\n---\n\n**Step 1: Determine the number of boxes sold each day.**\n\n- **Saturday:**\n  - Gingerbread: 10 boxes\n  - Apple pie: 4 fewer than gingerbread → 10 - 4 = 6 boxes\n\n- **Sunday:**\n  - Gingerbread: 5 more than Saturday → 10 + 5 = 15 boxes\n  - Apple pie: 15 boxes\n\n---\n\n**Step 2: Calculate earnings from gingerbread.**\n\n- Gingerbread price: $6 per box\n- Saturday: 10 × 6 = $60\n- Sunday: 15 × 6 = $90\n- Total gingerbread: 60 + 90 = $150\n\n---\n\n**Step 3: Calculate earnings from apple pie.**\n\n- Apple pie price: $15 per box\n- Saturday: 6 × 15 = $90\n- Sunday: 15 × 15 = $225\n- Total apple pie: 90 + 225 = $315\n\n---\n\n**Step 4: Total earnings for two days.**\n\n- Total = gingerbread + apple pie = 150 + 315 = $465\n\n---\n\n#### 465"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_009",
+      "n_tokens": 75,
+      "seconds": 0.602,
+      "tok_s": 124.5,
+      "steps": 50,
+      "forwards": 52,
+      "correct": true,
+      "drafted": 220,
+      "accepted": 25,
+      "draft_acceptance_rate": 0.11363636363636363,
+      "text": "Let's go step by step.\n\n1. Greg found $20.\n2. He has 3 younger siblings, so including himself, there are 4 people.\n3. To split the money equally, divide $20 by 4.\n\n$$\n20 \\div 4 = 5\n$$\n\nEach of them gets $5.\n\n#### 5"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_010",
+      "n_tokens": 105,
+      "seconds": 0.764,
+      "tok_s": 137.4,
+      "steps": 65,
+      "forwards": 66,
+      "correct": true,
+      "drafted": 302,
+      "accepted": 41,
+      "draft_acceptance_rate": 0.1357615894039735,
+      "text": "Let's go step by step.\n\n1. **Blood in one whale:**  \n   Each whale has 40 gallons of blood.\n\n2. **Blood in one shark:**  \n   A shark has three times as much blood as a whale.  \n   So, shark blood = 3 × 40 = 120 gallons.\n\n3. **Blood in ten sharks:**  \n   Ten sharks = 10 × 120 = 1200 gallons.\n\n#### 1200"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_011",
+      "n_tokens": 138,
+      "seconds": 0.901,
+      "tok_s": 153.1,
+      "steps": 76,
+      "forwards": 78,
+      "correct": true,
+      "drafted": 369,
+      "accepted": 62,
+      "draft_acceptance_rate": 0.16802168021680217,
+      "text": "Let's go step by step.\n\n1. **Joey's initial points:** 214  \n2. **Joey scores 26 points:**  \n   \\( 214 + 26 = 240 \\)  \n3. **Marcy's initial points:** 225  \n4. **Marcy scores 10 points:**  \n   \\( 225 + 10 = 235 \\)  \n5. **Difference between Joey and Marcy:**  \n   \\( 240 - 235 = 5 \\)  \n\nJoey is now winning by **5 points**.\n\n#### 5"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_012",
+      "n_tokens": 188,
+      "seconds": 1.406,
+      "tok_s": 133.7,
+      "steps": 119,
+      "forwards": 120,
+      "correct": true,
+      "drafted": 638,
+      "accepted": 70,
+      "draft_acceptance_rate": 0.109717868338558,
+      "text": "Let's go step by step.\n\n1. **Total hours spent on jury duty:**  \n   Melissa spends 6 hours a day for 3 days.  \n   Total hours = 6 × 3 = 18 hours.\n\n2. **Total pay received:**  \n   She is paid $15 per day for 3 days.  \n   Total pay = 15 × 3 = $45.\n\n3. **Total parking expenses:**  \n   She pays $3 per day for 3 days.  \n   Total parking = 3 × 3 = $9.\n\n4. **Net pay after expenses:**  \n   Net pay = Total pay - Parking expenses = 45 - 9 = $36.\n\n5. **Pay per hour:**  \n   Net pay per hour = Net pay ÷ Total hours = 36 ÷ 18 = $2 per hour.\n\n#### 2"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_013",
+      "n_tokens": 95,
+      "seconds": 0.764,
+      "tok_s": 124.3,
+      "steps": 65,
+      "forwards": 66,
+      "correct": true,
+      "drafted": 358,
+      "accepted": 31,
+      "draft_acceptance_rate": 0.08659217877094973,
+      "text": "Let's go step by step.\n\n1. Ann is currently 9 years old.\n2. Her brother is twice her age, so his current age is:\n   \\[\n   2 \\times 9 = 18 \\text{ years old}\n   \\]\n3. In 3 years, her brother will be:\n   \\[\n   18 + 3 = 21 \\text{ years old}\n   \\]\n\n#### 21"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_014",
+      "n_tokens": 334,
+      "seconds": 2.313,
+      "tok_s": 144.4,
+      "steps": 192,
+      "forwards": 193,
+      "correct": false,
+      "drafted": 985,
+      "accepted": 143,
+      "draft_acceptance_rate": 0.14517766497461929,
+      "text": "Let's go step by step.\n\n1. **Days 1 and 2:** Mack saw a total of 50 birds.  \n   Average for these two days:  \n   $ \\frac{50}{2} = 25 $ birds per day.\n\n2. **Day 3:** Mack saw 0 birds.  \n   Average: $ 0 $ birds per day.\n\n3. **Days 4 and 5:** Mack saw 120 birds.  \n   Average for these two days:  \n   $ \\frac{120}{2} = 60 $ birds per day.\n\n4. **Day 6:** Mack saw 20 birds.  \n   Average: $ 20 $ birds per day.\n\n5. **Day 7:** Mack saw 90 birds.  \n   Average: $ 90 $ birds per day.\n\nNow, add up the averages for each day:  \n- Days 1–2: 25  \n- Day 3: 0  \n- Days 4–5: 60  \n- Day 6: 20  \n- Day 7: 90  \n\nTotal average:  \n$ 25 + 0 + 60 + 20 + 90 = 195 $ birds.\n\nSince there are 7 days, the average per day is:  \n$ \\frac{195}{7} \\approx 27.86 $.\n\nSo, the average number of birds Mack saw per day is approximately **27.86**.\n\n#### 27.86"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_015",
+      "n_tokens": 213,
+      "seconds": 1.544,
+      "tok_s": 137.9,
+      "steps": 131,
+      "forwards": 132,
+      "correct": true,
+      "drafted": 753,
+      "accepted": 83,
+      "draft_acceptance_rate": 0.1102257636122178,
+      "text": "Let's go step by step.\n\n1. **Calculate the total value of the quarters:**\n   - Kelly has 5 quarters.\n   - Each quarter is worth 25 cents.\n   - Total value of quarters = 5 × 25 = 125 cents.\n\n2. **Calculate the total value of the dimes:**\n   - Kelly has 2 dimes.\n   - Each dime is worth 10 cents.\n   - Total value of dimes = 2 × 10 = 20 cents.\n\n3. **Calculate the total amount of money Kelly has:**\n   - Total = 125 (quarters) + 20 (dimes) = 145 cents.\n\n4. **Calculate the cost of the can of pop:**\n   - The can of pop costs 55 cents.\n\n5. **Calculate the remaining amount:**\n   - Remaining = 145 (total) - 55 (cost) = 90 cents.\n\n#### 90"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_016",
+      "n_tokens": 67,
+      "seconds": 0.58,
+      "tok_s": 115.5,
+      "steps": 48,
+      "forwards": 50,
+      "correct": true,
+      "drafted": 216,
+      "accepted": 19,
+      "draft_acceptance_rate": 0.08796296296296297,
+      "text": "Let's go step by step.\n\n1. Violetta needs 5 crayons, and each costs $2.  \n   Total cost = 5 × $2 = $10.\n\n2. She has $20.  \n   Change = $20 - $10 = $10.\n\n#### 10"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_017",
+      "n_tokens": 162,
+      "seconds": 1.305,
+      "tok_s": 124.2,
+      "steps": 111,
+      "forwards": 112,
+      "correct": true,
+      "drafted": 591,
+      "accepted": 52,
+      "draft_acceptance_rate": 0.08798646362098139,
+      "text": "Let's go step by step.\n\n1. **Number of German Shepherds:** 3  \n   Each consumes 5 kg/day → Total German Shepherd consumption per day:  \n   \\( 3 \\times 5 = 15 \\) kg/day\n\n2. **Number of Bulldogs:** 2  \n   Each consumes 3 kg/day → Total Bulldog consumption per day:  \n   \\( 2 \\times 3 = 6 \\) kg/day\n\n3. **Total dog food consumption per day:**  \n   \\( 15 + 6 = 21 \\) kg/day\n\n4. **Total dog food consumption per week (7 days):**  \n   \\( 21 \\times 7 = 147 \\) kg\n\n#### 147"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_018",
+      "n_tokens": 196,
+      "seconds": 1.184,
+      "tok_s": 165.5,
+      "steps": 100,
+      "forwards": 101,
+      "correct": true,
+      "drafted": 562,
+      "accepted": 97,
+      "draft_acceptance_rate": 0.17259786476868327,
+      "text": "Let's go step by step.\n\n1. **Initial amount:**  \n   Julie starts with $500.\n\n2. **Spent on clothes:**  \n   She spends 20% of $500 on clothes.  \n   20% of 500 = 0.20 × 500 = 100.  \n   Remaining money after clothes: 500 - 100 = 400.\n\n3. **Spent on CDs:**  \n   She spends 25% of the remaining $400 on CDs.  \n   25% of 400 = 0.25 × 400 = 100.  \n   Remaining money after CDs: 400 - 100 = 300.\n\n4. **Final amount left:**  \n   Julie has $300 left.\n\n#### 300"
+    },
+    {
+      "config": "tau=3.0",
+      "id": "gsm8k_019",
+      "n_tokens": 142,
+      "seconds": 0.901,
+      "tok_s": 157.7,
+      "steps": 76,
+      "forwards": 77,
+      "correct": true,
+      "drafted": 413,
+      "accepted": 67,
+      "draft_acceptance_rate": 0.162227602905569,
+      "text": "Let's go step by step.\n\n1. **First child:** 6 feet tall.  \n   Convert to inches:  \n   \\( 6 \\times 12 = 72 \\) inches.\n\n2. **Second child:** Two inches taller than the first.  \n   \\( 72 + 2 = 74 \\) inches.\n\n3. **Third child:** Five inches shorter than the second.  \n   \\( 74 - 5 = 69 \\) inches.\n\n4. **Fourth child:** Three inches taller than the third.  \n   \\( 69 + 3 = 72 \\) inches.\n\n**Final answer:**  \n#### 72"
+    }
+  ],
+  "summary": {
+    "tau=3.0": {
+      "tok_s_mean": 137.3,
+      "tokens_per_step": 1.64,
+      "accuracy": 0.85,
+      "n": 20,
+      "draft_acceptance_rate": 0.13,
+      "accepted_per_step_mean": 0.647
+    }
+  }
+}
