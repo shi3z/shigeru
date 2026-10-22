@@ -529,13 +529,14 @@ After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch 
 
 ### 11.2 Training-mask distribution (`mask_mode`) — stage 2 of snapshot-6000 on zeta, 1 epoch each (2026-10-21 evening)
 
-| mask_mode | verified GSM8K 1 319 | tok/step | draft acceptance | unverified τ=0.4 (20) | τ=None (20) |
+| mask_mode | verified GSM8K 1 319 | tok/step | draft acceptance | **unverified τ=0.4, GSM8K 1 319** | τ=None (20) |
 |---|---|---|---|---|---|
-| random (default) | 89.5 % | 1.43 | 42.5 % | 60 % | 85 % |
-| suffix | 89.2 % | 1.44 | 50.5 % | 80 % | 75 % |
-| mixed | 88.9 % | 1.43 | 47.0 % | 65 % | 75 % |
+| random (default) | 89.5 % | 1.43 | 42.5 % | **66.9 %** (1.24 tok/step) | 85 % |
+| suffix | 89.2 % | 1.44 | 50.5 % | **77.3 %** (1.20 tok/step) | 75 % |
+| mixed | 88.9 % | 1.43 | 47.0 % | (running) | 75 % |
 
 Matching the training masks to the inference layout raises the draft acceptance rate (42 → 50 %) but not the tokens
-per step, and may help the unverified parallel mode (80 % vs 60 % on 20 prompts; full-set unverified runs queued on
-zeta). Verified quality is unchanged within noise. Conclusion so far: the drafter's reach beyond the frontier is not a
+per step, and clearly helps the **unverified** parallel mode: +10.4 points on the full GSM8K (77.3 % vs 66.9 % at the same
+~1.2 tokens/step). Verified quality is unchanged within noise. Suffix masking therefore becomes the stage-2 default
+for the pure-diffusion decoding path. Conclusion so far: the drafter's reach beyond the frontier is not a
 mask-distribution artefact; it is capacity/training-volume bound.
