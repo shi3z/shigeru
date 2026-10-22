@@ -565,3 +565,17 @@ nothing extra, and verification keeps the output AR-equivalent. zeta, stage-2 mo
 
 +18 % throughput at identical accuracy. The new decoding default for the graph engine is τ=∞ with verification; the
 accepted run length (0.72 tokens/step beyond the AR token) is now the honest measure of the drafter.
+
+### 11.4 Stage-2 recipe is the lever (2026-10-22 17:30): snapshot-18000, zeta, τ=∞ verified, full GSM8K
+
+| stage-2 recipe | GSM8K 1 319 | tokens/step | accepted/step | tok/s (zeta) |
+|---|---|---|---|---|
+| random masks, lr 1e-5, 1 epoch (cycle default) | 88.5 % | 1.71 | 0.72 | 143.8 |
+| suffix masks, ar_weight 0.3, lr 1e-5, 1 epoch | 88.6 % | 1.74 | 0.74 | 145.0 |
+| **suffix masks, lr 2e-5, 2 epochs** | **88.3 %** | **1.95** | **0.96** | **164.0** |
+
+The first clear movement of tokens/step since the pilot: a stronger stage 2 (2× LR, 2 epochs, suffix masks) raises the
+accepted run length by a third at unchanged accuracy, while 400 M extra CPT tokens had moved it by ~0. The drafter is
+limited by instruction-domain training, not by raw-text pre-training. Next: push the stage-2 recipe further (3–4 epochs,
+lr 3e-5, larger instruction set) on the final CPT checkpoint; the remaining CPT run continues but is no longer the
+critical path.
