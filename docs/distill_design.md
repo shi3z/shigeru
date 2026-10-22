@@ -572,7 +572,8 @@ accepted run length (0.72 tokens/step beyond the AR token) is now the honest mea
 |---|---|---|---|---|
 | random masks, lr 1e-5, 1 epoch (cycle default) | 88.5 % | 1.71 | 0.72 | 143.8 |
 | suffix masks, ar_weight 0.3, lr 1e-5, 1 epoch | 88.6 % | 1.74 | 0.74 | 145.0 |
-| **suffix masks, lr 2e-5, 2 epochs** | **88.3 %** | **1.95** | **0.96** | **164.0** |
+| suffix masks, lr 2e-5, 2 epochs | 88.3 % | 1.95 | 0.96 | 164.0 |
+| **suffix masks, lr 3e-5, 3 epochs** (snapshot-22000) | **88.8 %** | **2.15** | **1.16** | **182.9** |
 
 The first clear movement of tokens/step since the pilot: a stronger stage 2 (2× LR, 2 epochs, suffix masks) raises the
 accepted run length by a third at unchanged accuracy, while 400 M extra CPT tokens had moved it by ~0. The drafter is
