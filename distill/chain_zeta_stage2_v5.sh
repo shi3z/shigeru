@@ -2,7 +2,7 @@
 # While the 1B-token CPT runs on the A100s: for every new HF snapshot (every 2000 steps), copy it to zeta (RTX PRO 6000),
 # run stage 2 there (enlarged mix, phaseC_sft3-style config), evaluate (verified 20 + full GSM8K with CUDA graphs, AR-row
 # HumanEval), and copy the results back. One cycle ~3 h, matching the snapshot cadence. Log results/zeta_runs.log.
-cd "$(dirname "$0")/.."; LOG=results/zeta_runs.log; Z="ssh -o LogLevel=ERROR zeta-gpu"; last=""
+cd "$(dirname "$0")/.."; LOG=results/zeta_runs.log; Z="ssh -o LogLevel=ERROR zeta-gpu"; last="runs/phaseC_cpt3_4b/snapshot-14000"
 while true; do
   s=$(ls -d runs/phaseC_cpt3_4b/snapshot-* 2>/dev/null | sort -t- -k2 -n | tail -1)
   if [ -n "$s" ] && [ "$s" != "$last" ] && [ -f "$s/model.safetensors" ]; then
