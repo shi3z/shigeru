@@ -547,3 +547,17 @@ per step, and clearly helps the **unverified** parallel mode: +10.4 points on th
 ~1.2 tokens/step). Verified quality is unchanged within noise. Suffix masking therefore becomes the stage-2 default
 for the pure-diffusion decoding path. Conclusion so far: the drafter's reach beyond the frontier is not a
 mask-distribution artefact; it is capacity/training-volume bound.
+
+### 11.3 Draft everything: the threshold was the limit on the CUDA-graph engine (2026-10-22 06:45)
+
+On the static-shape/CUDA-graph engine every window row is computed anyway, so drafting all W masks per step costs
+nothing extra, and verification keeps the output AR-equivalent. zeta, stage-2 model of snapshot-14000, W=16:
+
+| τ | GSM8K | tokens/step | tok/s (zeta) |
+|---|---|---|---|
+| 1.0 (previous default) | 88.3 % (1 319) | 1.44 | 121.5 |
+| 3.0 | 85 % (20) | 1.64 | 137.3 |
+| **∞ (draft every mask)** | **88.3 % (1 319, identical)** | **1.71** | **143.8** |
+
++18 % throughput at identical accuracy. The new decoding default for the graph engine is τ=∞ with verification; the
+accepted run length (0.72 tokens/step beyond the AR token) is now the honest measure of the drafter.
