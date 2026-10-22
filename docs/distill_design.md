@@ -517,6 +517,8 @@ CPT-only snapshots evaluated beside the training on GPU 4 (20 GSM8K prompts, con
 | 2000 (170 M) | 65 % | 5 % | 1.28 |
 | 4000 (220 M) | 90 % | 30 % | 1.33 |
 | 6000 (270 M) | 80 % | 25 % | 1.34 |
+| 8000 (320 M) | 85 % | 15 % | 1.36 |
+| 10000 (370 M) | 80 % | 30 % | 1.38 |
 
 After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch from snapshot-4000 on), RTX PRO 6000:
 
@@ -526,6 +528,7 @@ After stage 2 on zeta (enlarged 11.2 k mix; 2 epochs for snapshot-2000, 1 epoch 
 | 2000 (170 M) | 90 % | 89.5 % | 1.44 | 121.2 | 70.1 % |
 | 4000 (220 M), 1 epoch | 85 % | 89.5 % | 1.42 | 119.6 | 69.5 % |
 | 6000 (270 M), 1 epoch | 90 % | 89.5 % | 1.43 | 120.3 | 68.9 % |
+| 8000 (320 M), 1 epoch | 85 % | 89.5 % | 1.44 | (contended) | 68.9 % |
 
 ### 11.2 Training-mask distribution (`mask_mode`) — stage 2 of snapshot-6000 on zeta, 1 epoch each (2026-10-21 evening)
 

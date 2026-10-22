@@ -1,0 +1,1158 @@
+{
+  "task": "humaneval",
+  "engine": "hf:runs/zeta_sft_snapshot-8000/final/../final_eval",
+  "model": "runs/zeta_sft_snapshot-8000/final/../final_eval",
+  "n": 164,
+  "pass@1": 0.6890243902439024,
+  "seconds": 675.9039778709412,
+  "results": [
+    {
+      "id": "HumanEval/0",
+      "pass": true,
+      "secs": 4.5,
+      "err": "",
+      "answer": "numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/1",
+      "pass": false,
+      "secs": 4.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpecuws_29.py\", line 49, in <module>\n    check(separate_paren_groups)\n  File \"/tmp/tmpecuws_29.py\", line 37, in check\n    assert candidate('(()()) ((())) () ((())()())') == [\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": ")( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n    result = []\n    current = []\n    for char in paren_string.replace(\" \", \"\"):\n        if char == \"(\":\n            current.append(char)\n        elif char == \")\":\n            if current:\n                current.pop()\n                if not current:\n                    result.append(\"\".join(current))\n                    current = []\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/2",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n    return number - int(number)\n```"
+    },
+    {
+      "id": "HumanEval/3",
+      "pass": true,
+      "secs": 3.7,
+      "err": "",
+      "answer": "ro balance. Your task is to detect if at any point the balance of account falls below zero, and\n    at that point function should return True. Otherwise it should return False.\n    >>> below_zero([1, 2, 3])\n    False\n    >>> below_zero([1, 2, -4, 5])\n    True\n    \"\"\"\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/4",
+      "pass": true,
+      "secs": 3.9,
+      "err": "",
+      "answer": " the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    if not numbers:\n        return 0.0\n    mean = sum(numbers) / len(numbers)\n    return sum(abs(x - mean) for x in numbers) / len(numbers)\n```"
+    },
+    {
+      "id": "HumanEval/5",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": ", delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n    result = [numbers[0]]\n    for num in numbers[1:]:\n        result.append(delimeter)\n        result.append(num)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/6",
+      "pass": false,
+      "secs": 4.6,
+      "err": "recent call last):\n  File \"/tmp/tmpx9i_0u0_.py\", line 41, in <module>\n    check(parse_nested_parens)\n  File \"/tmp/tmpx9i_0u0_.py\", line 36, in check\n    assert candidate('(()()) ((())) () ((())()())') == [2, 3, 1, 3]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": ") has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    result = []\n    current_depth = 0\n    max_depth = 0\n    for char in paren_string:\n        if char == '(':\n            current_depth += 1\n            max_depth = max(max_depth, current_depth)\n        elif char == ')':\n            current_depth -= 1\n    result.append(max_depth)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/7",
+      "pass": true,
+      "secs": 2.6,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"\n    return [s for s in strings if substring in s]\n```"
+    },
+    {
+      "id": "HumanEval/8",
+      "pass": false,
+      "secs": 3.2,
+      "err": "in check\n    assert candidate([1, 1, 1]) == (3, 1)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp0rq4vo85.py\", line 12, in sum_product\n    return (sum(numbers), 1 if not numbers else product(numbers))\n                                                ^^^^^^^\nNameError: name 'product' is not defined\n",
+      "answer": "product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    return (sum(numbers), 1 if not numbers else product(numbers))\n```"
+    },
+    {
+      "id": "HumanEval/9",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    current_max = -float('inf')\n    for num in numbers:\n        if num > current_max:\n            current_max = num\n        result.append(current_max)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/10",
+      "pass": false,
+      "secs": 4.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp6hnxfa2f.py\", line 39, in <module>\n    check(make_palindrome)\n  File \"/tmp/tmp6hnxfa2f.py\", line 34, in check\n    assert candidate('xyz') == 'xyzyx'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "everse of a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'catac'\n    \"\"\"\n    if not string:\n        return string\n    for i in range(len(string)):\n        if string[:i+1] == string[:i+1][::-1]:\n            return string + string[:i][::-1]\n    return string + string[::-1]\n```"
+    },
+    {
+      "id": "HumanEval/11",
+      "pass": true,
+      "secs": 2.8,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    result = \"\"\n    for i in range(len(a)):\n        result += str(int(a[i]) ^ int(b[i]))\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/12",
+      "pass": true,
+      "secs": 3.6,
+      "err": "",
+      "answer": "t one. Return the first one in case of multiple\n    strings of the same length. Return None in case the input list is empty.\n    >>> longest([])\n\n    >>> longest(['a', 'b', 'c'])\n    'a'\n    >>> longest(['a', 'bb', 'ccc'])\n    'ccc'\n    \"\"\"\n    if not strings:\n        return None\n    max_len = max(len(s) for s in strings)\n    for s in strings:\n        if len(s) == max_len:\n            return s\n```"
+    },
+    {
+      "id": "HumanEval/13",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b:\n        a, b = b, a % b\n    return a\n```"
+    },
+    {
+      "id": "HumanEval/14",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [string[:i] for i in range(1, len(string)+1)]\n```"
+    },
+    {
+      "id": "HumanEval/15",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n    return ' '.join(str(i) for i in range(n + 1))\n```"
+    },
+    {
+      "id": "HumanEval/16",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```python\ndef count_distinct_characters(string: str) -> int:\n    \"\"\" Given a string, find out how many distinct characters (regardless of case) does it consist of\n    >>> count_distinct_characters('xyzXYZ')\n    3\n    >>> count_distinct_characters('Jerry')\n    4\n    \"\"\"\n    return len(set(string.lower()))\n```"
+    },
+    {
+      "id": "HumanEval/17",
+      "pass": true,
+      "secs": 5.0,
+      "err": "",
+      "answer": "integers corresponding to how many beats does each\n    not last.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quater note, lasts one beat\n\n    >>> parse_music('o o| .| o| o| .| .| .| .| o o')\n    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]\n    \"\"\"\n    return [4 if note == 'o' else 2 if note == 'o|' else 1 for note in music_string.split()]\n```"
+    },
+    {
+      "id": "HumanEval/18",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": " given substring can be found in the original string. Count overlapping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    count = 0\n    start = 0\n    while True:\n        pos = string.find(substring, start)\n        if pos == -1:\n            break\n        count += 1\n        start = pos + 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/19",
+      "pass": true,
+      "secs": 4.9,
+      "err": "",
+      "answer": "ring with numbers sorted from smallest to largest\n    >>> sort_numbers('three one five')\n    'one three five'\n    \"\"\"\n    number_map = {\n        'zero': 0,\n        'one': 1,\n        'two': 2,\n        'three': 3,\n        'four': 4,\n        'five': 5,\n        'six': 6,\n        'seven': 7,\n        'eight': 8,\n        'nine': 9\n    }\n    return ' '.join(sorted(numbers.split(), key=number_map.get))\n```"
+    },
+    {
+      "id": "HumanEval/20",
+      "pass": true,
+      "secs": 6.7,
+      "err": "",
+      "answer": "n(numbers) < 2:\n        raise ValueError(\"List must have at least two elements\")\n\n    numbers.sort()\n    min_diff = float('inf')\n    closest_pair = (numbers[0], numbers[0])\n\n    for i in range(len(numbers) - 1):\n        diff = abs(numbers[i] - numbers[i + 1])\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i], numbers[i + 1])\n\n    return closest_pair\n```"
+    },
+    {
+      "id": "HumanEval/21",
+      "pass": true,
+      "secs": 4.0,
+      "err": "",
+      "answer": "st[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_val = min(numbers)\n    max_val = max(numbers)\n    return [(x - min_val) / (max_val - min_val) for x in numbers]\n```"
+    },
+    {
+      "id": "HumanEval/22",
+      "pass": true,
+      "secs": 2.6,
+      "err": "",
+      "answer": "```python\nfrom typing import List, Any\n\n\ndef filter_integers(values: List[Any]) -> List[int]:\n    \"\"\" Filter given list of any python values only for integers\n    >>> filter_integers(['a', 3.14, 5])\n    [5]\n    >>> filter_integers([1, 2, 3, 'abc', {}, []])\n    [1, 2, 3]\n    \"\"\"\n    return [x for x in values if isinstance(x, int)]\n```"
+    },
+    {
+      "id": "HumanEval/23",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef strlen(string: str) -> int:\n    \"\"\" Return length of given string\n    >>> strlen('')\n    0\n    >>> strlen('abc')\n    3\n    \"\"\"\n    return len(string)\n```"
+    },
+    {
+      "id": "HumanEval/24",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    for i in range(n - 1, 0, -1):\n        if n % i == 0:\n            return i\n    return 1\n```"
+    },
+    {
+      "id": "HumanEval/25",
+      "pass": true,
+      "secs": 4.6,
+      "err": "",
+      "answer": "ares in factorization.\n    Input number should be equal to the product of all factors\n    >>> factorize(8)\n    [2, 2, 2]\n    >>> factorize(25)\n    [5, 5]\n    >>> factorize(70)\n    [2, 5, 7]\n    \"\"\"\n    factors = []\n    i = 2\n    while i * i <= n:\n        while n % i == 0:\n            factors.append(i)\n            n //= i\n        i += 1\n    if n > 1:\n        factors.append(n)\n    return factors\n```"
+    },
+    {
+      "id": "HumanEval/26",
+      "pass": false,
+      "secs": 3.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2l03c0r1.py\", line 35, in <module>\n    check(remove_duplicates)\n  File \"/tmp/tmp2l03c0r1.py\", line 32, in check\n    assert candidate([1, 2, 3, 2, 4, 3, 5]) == [1, 4, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "numbers: List[int]) -> List[int]:\n    \"\"\" From a list of integers, remove all elements that occur more than once.\n    Keep order of elements left the same as in the input.\n    >>> remove_duplicates([1, 2, 3, 2, 4])\n    [1, 3, 4]\n    \"\"\"\n    seen = set()\n    result = []\n    for num in numbers:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/27",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef flip_case(string: str) -> str:\n    \"\"\" For a given string, flip lowercase characters to uppercase and uppercase to lowercase.\n    >>> flip_case('Hello')\n    'hELLO'\n    \"\"\"\n    return string.swapcase()\n```"
+    },
+    {
+      "id": "HumanEval/28",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef concatenate(strings: List[str]) -> str:\n    \"\"\" Concatenate list of strings into a single string\n    >>> concatenate([])\n    ''\n    >>> concatenate(['a', 'b', 'c'])\n    'abc'\n    \"\"\"\n    return ''.join(strings)\n```"
+    },
+    {
+      "id": "HumanEval/29",
+      "pass": true,
+      "secs": 2.5,
+      "err": "",
+      "answer": "```python\nfrom typing import List\n\n\ndef filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if s.startswith(prefix)]\n```"
+    },
+    {
+      "id": "HumanEval/30",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef get_positive(l: list):\n    \"\"\"Return only positive numbers in the list.\n    >>> get_positive([-1, 2, -4, 5, 6])\n    [2, 5, 6]\n    >>> get_positive([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])\n    [5, 3, 2, 3, 9, 123, 1]\n    \"\"\"\n    return [x for x in l if x > 0]\n```"
+    },
+    {
+      "id": "HumanEval/31",
+      "pass": true,
+      "secs": 4.5,
+      "err": "",
+      "answer": "ime(101)\n    True\n    >>> is_prime(11)\n    True\n    >>> is_prime(13441)\n    True\n    >>> is_prime(61)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(1)\n    False\n    \"\"\"\n    if n <= 1:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    for i in range(3, int(n**0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/32",
+      "pass": false,
+      "secs": 9.5,
+      "err": "ule>\n    check(find_zero)\n  File \"/tmp/tmpdi9uqcfz.py\", line 60, in check\n    solution = candidate(copy.deepcopy(coeffs))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpdi9uqcfz.py\", line 35, in find_zero\n    x -= fx / fpx\n         ~~~^~~~~\nZeroDivisionError: float division by zero\n",
+      "answer": "nd the index of the largest non-zero coefficient\n    largest_index = 0\n    for i, coeff in enumerate(xs):\n        if coeff != 0 and i > largest_index:\n            largest_index = i\n\n    # Use Newton-Raphson method to find the root\n    x = 0.0\n    for _ in range(100):\n        fx = poly(xs, x)\n        fpx = poly(xs, x) * 2  # derivative approximation\n        x -= fx / fpx\n\n    return round(x, 2)\n```"
+    },
+    {
+      "id": "HumanEval/33",
+      "pass": false,
+      "secs": 4.7,
+      "err": "File \"/tmp/tmp1lzxlkca.py\", line 33, in <module>\n    check(sort_third)\n  File \"/tmp/tmp1lzxlkca.py\", line 26, in check\n    assert tuple(candidate([5, 6, 3, 4, 8, 9, 2])) == tuple([2, 6, 3, 4, 8, 9, 5])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "at are not divisible by three, while its values at the indicies that are divisible by three are equal\n    to the values of the corresponding indicies of l, but sorted.\n    >>> sort_third([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_third([5, 6, 3, 4, 8, 9, 2])\n    [2, 6, 3, 4, 8, 9, 5]\n    \"\"\"\n    third = l[::3]\n    third.sort()\n    return [third[i % 3] if i % 3 == 0 else l[i] for i in range(len(l))]\n```"
+    },
+    {
+      "id": "HumanEval/34",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef unique(l: list):\n    \"\"\"Return sorted unique elements in a list\n    >>> unique([5, 3, 5, 2, 3, 3, 9, 0, 123])\n    [0, 2, 3, 5, 9, 123]\n    \"\"\"\n    return sorted(set(l))\n```"
+    },
+    {
+      "id": "HumanEval/35",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef max_element(l: list):\n    \"\"\"Return maximum element in the list.\n    >>> max_element([1, 2, 3])\n    3\n    >>> max_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])\n    123\n    \"\"\"\n    return max(l)\n```"
+    },
+    {
+      "id": "HumanEval/36",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef fizz_buzz(n: int):\n    \"\"\"Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.\n    >>> fizz_buzz(50)\n    0\n    >>> fizz_buzz(78)\n    2\n    >>> fizz_buzz(79)\n    3\n    \"\"\"\n    count = 0\n    for i in range(1, n):\n        if i % 11 == 0 or i % 13 == 0:\n            count += str(i).count('7')\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/37",
+      "pass": true,
+      "secs": 4.0,
+      "err": "",
+      "answer": "takes a list l and returns a list l' such that\n    l' is identical to l in the odd indicies, while its values at the even indicies are equal\n    to the values of the even indicies of l, but sorted.\n    >>> sort_even([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_even([5, 6, 3, 4])\n    [3, 6, 5, 4]\n    \"\"\"\n    even = sorted(l[::2])\n    return [even[i // 2] if i % 2 == 0 else l[i] for i in range(len(l))]\n```"
+    },
+    {
+      "id": "HumanEval/38",
+      "pass": false,
+      "secs": 3.3,
+      "err": "ck (most recent call last):\n  File \"/tmp/tmpu3ty3839.py\", line 31, in <module>\n    check(decode_cyclic)\n  File \"/tmp/tmpu3ty3839.py\", line 26, in check\n    encoded_str = encode_cyclic(str)\n                  ^^^^^^^^^^^^^\nNameError: name 'encode_cyclic' is not defined. Did you mean: 'decode_cyclic'?\n",
+      "answer": " encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[-1:] + group[:-1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n```"
+    },
+    {
+      "id": "HumanEval/39",
+      "pass": true,
+      "secs": 5.4,
+      "err": "",
+      "answer": " x < 2:\n            return False\n        for i in range(2, int(x**0.5) + 1):\n            if x % i == 0:\n                return False\n        return True\n\n    def fib():\n        a, b = 0, 1\n        while True:\n            yield a\n            a, b = b, a + b\n\n    count = 0\n    for num in fib():\n        if is_prime(num):\n            count += 1\n            if count == n:\n                return num\n```"
+    },
+    {
+      "id": "HumanEval/40",
+      "pass": true,
+      "secs": 5.4,
+      "err": "",
+      "answer": "_to_zero([1, 3, -2, 1])\n    True\n    >>> triples_sum_to_zero([1, 2, 3, 7])\n    False\n    >>> triples_sum_to_zero([2, 4, -5, 3, 9, 7])\n    True\n    >>> triples_sum_to_zero([1])\n    False\n    \"\"\"\n    for i in range(len(l)):\n        for j in range(i + 1, len(l)):\n            for k in range(j + 1, len(l)):\n                if l[i] + l[j] + l[k] == 0:\n                    return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/41",
+      "pass": true,
+      "secs": 3.9,
+      "err": "",
+      "answer": "far from\n    each other.  All cars move in the same speed.  Two cars are said to collide\n    when a car that's moving left to right hits a car that's moving right to left.\n    However, the cars are infinitely sturdy and strong; as a result, they continue moving\n    in their trajectory as if they did not collide.\n\n    This function outputs the number of such collisions.\n    \"\"\"\n    return n * n\n```"
+    },
+    {
+      "id": "HumanEval/42",
+      "pass": true,
+      "secs": 3.1,
+      "err": "",
+      "answer": "```python\ndef incr_list(l: list):\n    \"\"\"Return list with elements incremented by 1.\n    >>> incr_list([1, 2, 3])\n    [2, 3, 4]\n    >>> incr_list([5, 3, 5, 2, 3, 3, 9, 0, 123])\n    [6, 4, 6, 3, 4, 4, 10, 1, 124]\n    \"\"\"\n    return [x + 1 for x in l]\n```"
+    },
+    {
+      "id": "HumanEval/43",
+      "pass": true,
+      "secs": 1.1,
+      "err": "",
+      "answer": "```python\ndef pairs_sum_to_zero(l):\n    seen = set()\n    for num in l:\n        if -num in seen:\n            return True\n        seen.add(num)\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/44",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "ase of input number x to base.\n    return string representation after the conversion.\n    base numbers are less than 10.\n    >>> change_base(8, 3)\n    '22'\n    >>> change_base(8, 2)\n    '1000'\n    >>> change_base(7, 2)\n    '111'\n    \"\"\"\n    if x == 0:\n        return '0'\n    digits = []\n    while x > 0:\n        digits.append(str(x % base))\n        x //= base\n    return ''.join(reversed(digits))\n```"
+    },
+    {
+      "id": "HumanEval/45",
+      "pass": true,
+      "secs": 1.4,
+      "err": "",
+      "answer": "```python\ndef triangle_area(a, h):\n    \"\"\"Given length of a side and high return area for a triangle.\n    >>> triangle_area(5, 3)\n    7.5\n    \"\"\"\n    return a * h / 2\n```"
+    },
+    {
+      "id": "HumanEval/46",
+      "pass": true,
+      "secs": 7.0,
+      "err": "",
+      "answer": "ement of the fib4 number sequence.  Do not use recursion.\n    >>> fib4(5)\n    4\n    >>> fib4(6)\n    8\n    >>> fib4(7)\n    14\n    \"\"\"\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    # Initialize the first four values\n    a, b, c, d = 0, 0, 2, 0\n    for _ in range(4, n + 1):\n        a, b, c, d = b, c, d, a + b + c + d\n    return d\n```"
+    },
+    {
+      "id": "HumanEval/47",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef median(l: list):\n    \"\"\"Return median of elements in the list l.\n    >>> median([3, 1, 2, 4, 5])\n    3\n    >>> median([-10, 4, 6, 1000, 10, 20])\n    15.0\n    \"\"\"\n    l.sort()\n    n = len(l)\n    if n % 2 == 1:\n        return l[n // 2]\n    else:\n        return (l[n // 2 - 1] + l[n // 2]) / 2\n```"
+    },
+    {
+      "id": "HumanEval/48",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef is_palindrome(text: str):\n    \"\"\"\n    Checks if given string is a palindrome\n    >>> is_palindrome('')\n    True\n    >>> is_palindrome('aba')\n    True\n    >>> is_palindrome('aaaaa')\n    True\n    >>> is_palindrome('zbcd')\n    False\n    \"\"\"\n    return text == text[::-1]\n```"
+    },
+    {
+      "id": "HumanEval/49",
+      "pass": true,
+      "secs": 3.2,
+      "err": "",
+      "answer": "```python\ndef modp(n: int, p: int):\n    \"\"\"Return 2^n modulo p (be aware of numerics).\n    >>> modp(3, 5)\n    3\n    >>> modp(1101, 101)\n    2\n    >>> modp(0, 101)\n    1\n    >>> modp(3, 11)\n    8\n    >>> modp(100, 101)\n    1\n    \"\"\"\n    return pow(2, n, p)\n```"
+    },
+    {
+      "id": "HumanEval/50",
+      "pass": false,
+      "secs": 1.6,
+      "err": "aceback (most recent call last):\n  File \"/tmp/tmp0g2f9l8o.py\", line 28, in <module>\n    check(decode_shift)\n  File \"/tmp/tmp0g2f9l8o.py\", line 23, in check\n    encoded_str = encode_shift(str)\n                  ^^^^^^^^^^^^\nNameError: name 'encode_shift' is not defined. Did you mean: 'decode_shift'?\n",
+      "answer": "```python\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n```"
+    },
+    {
+      "id": "HumanEval/51",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n    return ''.join(char for char in text if char.lower() not in 'aeiou')\n```"
+    },
+    {
+      "id": "HumanEval/52",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef below_threshold(l: list, t: int):\n    \"\"\"Return True if all numbers in the list l are below threshold t.\n    >>> below_threshold([1, 2, 4, 10], 100)\n    True\n    >>> below_threshold([1, 20, 4, 10], 5)\n    False\n    \"\"\"\n    return all(x < t for x in l)\n```"
+    },
+    {
+      "id": "HumanEval/53",
+      "pass": true,
+      "secs": 1.5,
+      "err": "",
+      "answer": "```python\ndef add(x: int, y: int):\n    \"\"\"Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12\n    \"\"\"\n    return x + y\n```"
+    },
+    {
+      "id": "HumanEval/54",
+      "pass": false,
+      "secs": 3.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpsgz51pps.py\", line 38, in <module>\n    check(same_chars)\n  File \"/tmp/tmpsgz51pps.py\", line 28, in check\n    assert candidate('eabcdzzzz', 'dddzzzzzzzddeddabc') == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "e the same characters.\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddeddabc')\n    True\n    >>> same_chars('abcd', 'dddddddabc')\n    True\n    >>> same_chars('dddddddabc', 'abcd')\n    True\n    >>> same_chars('eabcd', 'dddddddabc')\n    False\n    >>> same_chars('abcd', 'dddddddabce')\n    False\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddddabc')\n    False\n    \"\"\"\n    return sorted(s0) == sorted(s1)\n```"
+    },
+    {
+      "id": "HumanEval/55",
+      "pass": true,
+      "secs": 2.4,
+      "err": "",
+      "answer": "```python\ndef fib(n: int):\n    \"\"\"Return n-th Fibonacci number.\n    >>> fib(10)\n    55\n    >>> fib(1)\n    1\n    >>> fib(8)\n    21\n    \"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fib(n - 1) + fib(n - 2)\n```"
+    },
+    {
+      "id": "HumanEval/56",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "sing bracket.\n\n    >>> correct_bracketing(\"<\")\n    False\n    >>> correct_bracketing(\"<>\")\n    True\n    >>> correct_bracketing(\"<<><>>\")\n    True\n    >>> correct_bracketing(\"><<>\")\n    False\n    \"\"\"\n    count = 0\n    for bracket in brackets:\n        if bracket == \"<\":\n            count += 1\n        else:\n            count -= 1\n        if count < 0:\n            return False\n    return count == 0\n```"
+    },
+    {
+      "id": "HumanEval/57",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef monotonic(l: list):\n    \"\"\"Return True is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    return all(l[i] <= l[i+1] for i in range(len(l)-1)) or all(l[i] >= l[i+1] for i in range(len(l)-1))\n```"
+    },
+    {
+      "id": "HumanEval/58",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    return sorted(set(l1) & set(l2))\n```"
+    },
+    {
+      "id": "HumanEval/59",
+      "pass": false,
+      "secs": 3.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwzy5r9_a.py\", line 34, in <module>\n    check(largest_prime_factor)\n  File \"/tmp/tmpwzy5r9_a.py\", line 27, in check\n    assert candidate(27) == 3\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor(13195)\n    29\n    >>> largest_prime_factor(2048)\n    2\n    \"\"\"\n    while n % 2 == 0:\n        n //= 2\n    i = 3\n    while i * i <= n:\n        while n % i == 0:\n            n //= i\n        i += 2\n    return n\n```"
+    },
+    {
+      "id": "HumanEval/60",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "```python\ndef sum_to_n(n: int):\n    \"\"\"sum_to_n is a function that sums numbers from 1 to n.\n    >>> sum_to_n(30)\n    465\n    >>> sum_to_n(100)\n    5050\n    >>> sum_to_n(5)\n    15\n    >>> sum_to_n(10)\n    55\n    >>> sum_to_n(1)\n    1\n    \"\"\"\n    return n * (n + 1) // 2\n```"
+    },
+    {
+      "id": "HumanEval/61",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "sing bracket.\n\n    >>> correct_bracketing(\"(\")\n    False\n    >>> correct_bracketing(\"()\")\n    True\n    >>> correct_bracketing(\"(()())\")\n    True\n    >>> correct_bracketing(\")(()\")\n    False\n    \"\"\"\n    count = 0\n    for bracket in brackets:\n        if bracket == \"(\":\n            count += 1\n        else:\n            count -= 1\n        if count < 0:\n            return False\n    return count == 0\n```"
+    },
+    {
+      "id": "HumanEval/62",
+      "pass": true,
+      "secs": 3.2,
+      "err": "",
+      "answer": "```python\ndef derivative(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 + ....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [i * xs[i] for i in range(1, len(xs))]\n```"
+    },
+    {
+      "id": "HumanEval/63",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef fibfib(n: int):\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    a, b, c = 0, 0, 1\n    for _ in range(3, n + 1):\n        a, b, c = b, c, a + b + c\n    return c\n```"
+    },
+    {
+      "id": "HumanEval/64",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpgtqn81ka.py\", line 28, in <module>\n    check(vowels_count)\n  File \"/tmp/tmpgtqn81ka.py\", line 16, in check\n    assert candidate(\"Alone\") == 3, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+      "answer": "```python\ndef vowels_count(s):\n    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}\n    count = 0\n    for i in range(len(s)):\n        if s[i] in vowels:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/65",
+      "pass": false,
+      "secs": 3.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpn3u353zl.py\", line 33, in <module>\n    check(circular_shift)\n  File \"/tmp/tmpn3u353zl.py\", line 25, in check\n    assert candidate(97, 8) == \"79\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "hift(x, shift):\n    \"\"\"Circular shift the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    >>> circular_shift(12, 1)\n    \"21\"\n    >>> circular_shift(12, 2)\n    \"12\"\n    \"\"\"\n    s = str(x)\n    n = len(s)\n    shift %= n\n    if shift == 0:\n        return s\n    return s[-shift:] + s[:-shift]\n```"
+    },
+    {
+      "id": "HumanEval/66",
+      "pass": true,
+      "secs": 0.7,
+      "err": "",
+      "answer": "```python\ndef digitSum(s):\n    return sum(ord(c) for c in s if c.isupper())\n```"
+    },
+    {
+      "id": "HumanEval/67",
+      "pass": true,
+      "secs": 6.7,
+      "err": "",
+      "answer": "\n    fruit_distribution(\"0 apples and 1 oranges\",3) -> 3 - 0 - 1 = 2\n    fruit_distribution(\"2 apples and 3 oranges\", 100) -> 100 - 2 - 3 = 95\n    fruit_distribution(\"100 apples and 1 oranges\",120) -> 120 - 100 - 1 = 19\n    \"\"\"\n    # Extract the numbers from the string\n    numbers = [int(x) for x in s.split() if x.isdigit()]\n    # Sum the numbers and subtract from n\n    return n - sum(numbers)\n```"
+    },
+    {
+      "id": "HumanEval/68",
+      "pass": true,
+      "secs": 10.1,
+      "err": "",
+      "answer": "10000\n        * 0 <= node.value\n    \"\"\"\n    min_even = None\n    min_index = -1\n    for i, val in enumerate(arr):\n        if val % 2 == 0:\n            if min_even is None or val < min_even:\n                min_even = val\n                min_index = i\n            elif val == min_even and i < min_index:\n                min_index = i\n    return [min_even, min_index] if min_even is not None else []\n```"
+    },
+    {
+      "id": "HumanEval/69",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\ndef search(lst):\n    freq = {}\n    for num in lst:\n        freq[num] = freq.get(num, 0) + 1\n    for num in sorted(freq.keys(), reverse=True):\n        if freq[num] >= num:\n            return num\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/70",
+      "pass": true,
+      "secs": 4.3,
+      "err": "",
+      "answer": "d so on.\n\n    Examples:\n    strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]\n    strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]\n    strange_sort_list([]) == []\n    '''\n    if not lst:\n        return []\n    result = []\n    while lst:\n        result.append(min(lst))\n        lst.remove(min(lst))\n        if lst:\n            result.append(max(lst))\n            lst.remove(max(lst))\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/71",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef triangle_area(a, b, c):\n    if a + b <= c or a + c <= b or b + c <= a:\n        return -1\n    s = (a + b + c) / 2\n    area = (s * (s - a) * (s - b) * (s - c)) ** 0.5\n    return round(area, 2)\n```"
+    },
+    {
+      "id": "HumanEval/72",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef will_it_fly(q, w):\n    return q == q[::-1] and sum(q) <= w\n```"
+    },
+    {
+      "id": "HumanEval/73",
+      "pass": true,
+      "secs": 5.0,
+      "err": "",
+      "answer": "e same backwards and forwards. In one change, you can change one element to any other element.\n\n    For example:\n    smallest_change([1,2,3,5,4,7,9,6]) == 4\n    smallest_change([1, 2, 3, 4, 3, 2, 2]) == 1\n    smallest_change([1, 2, 3, 2, 1]) == 0\n    \"\"\"\n    n = len(arr)\n    changes = 0\n    for i in range(n // 2):\n        if arr[i] != arr[n - 1 - i]:\n            changes += 1\n    return changes\n```"
+    },
+    {
+      "id": "HumanEval/74",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```python\ndef total_match(lst1, lst2):\n    total1 = sum(len(word) for word in lst1)\n    total2 = sum(len(word) for word in lst2)\n    if total1 < total2:\n        return lst1\n    elif total1 > total2:\n        return lst2\n    else:\n        return lst1\n```"
+    },
+    {
+      "id": "HumanEval/75",
+      "pass": false,
+      "secs": 5.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2jbdesd1.py\", line 43, in <module>\n    check(is_multiply_prime)\n  File \"/tmp/tmp2jbdesd1.py\", line 32, in check\n    assert candidate(8) == True\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "r i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    primes = [i for i in range(2, a) if is_prime(i)]\n    for i in range(len(primes)):\n        for j in range(i + 1, len(primes)):\n            for k in range(j + 1, len(primes)):\n                if primes[i] * primes[j] * primes[k] == a:\n                    return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/76",
+      "pass": true,
+      "secs": 4.9,
+      "err": "",
+      "answer": "mple_power(1, 4) => true\n    is_simple_power(2, 2) => true\n    is_simple_power(8, 2) => true\n    is_simple_power(3, 2) => false\n    is_simple_power(3, 1) => false\n    is_simple_power(5, 3) => false\n    \"\"\"\n    if n == 1:\n        return x == 1\n    if x < 1:\n        return False\n    power = 1\n    while power <= x:\n        if power == x:\n            return True\n        power *= n\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/77",
+      "pass": true,
+      "secs": 3.5,
+      "err": "",
+      "answer": "ite a function that takes an integer a and returns True \n    if this ingeger is a cube of some integer number.\n    Note: you may assume the input is always valid.\n    Examples:\n    iscube(1) ==> True\n    iscube(2) ==> False\n    iscube(-1) ==> True\n    iscube(64) ==> True\n    iscube(0) ==> True\n    iscube(180) ==> False\n    '''\n    if a < 0:\n        a = -a\n    return a == round(a ** (1/3)) ** 3\n```"
+    },
+    {
+      "id": "HumanEval/78",
+      "pass": true,
+      "secs": 8.8,
+      "err": "",
+      "answer": "nd symbols A,B,C,D,E,F are always uppercase.\n    Examples:\n    For num = \"AB\" the output should be 1.\n    For num = \"1077E\" the output should be 2.\n    For num = \"ABED1A33\" the output should be 4.\n    For num = \"123456789ABCDEF0\" the output should be 6.\n    For num = \"2020\" the output should be 2.\n    \"\"\"\n    primes = {'2', '3', '5', '7', 'B', 'D'}\n    return sum(1 for c in num if c in primes)\n```"
+    },
+    {
+      "id": "HumanEval/79",
+      "pass": true,
+      "secs": 4.2,
+      "err": "",
+      "answer": "ach character in the string will be '0' or '1'.\n\n    There will be an extra couple of characters 'db' at the beginning and at the end of the string.\n    The extra characters are there to help with the format.\n\n    Examples:\n    decimal_to_binary(15)   # returns \"db1111db\"\n    decimal_to_binary(32)   # returns \"db100000db\"\n    \"\"\"\n    binary_str = bin(decimal)[2:]\n    return f\"db{binary_str}db\"\n```"
+    },
+    {
+      "id": "HumanEval/80",
+      "pass": true,
+      "secs": 4.7,
+      "err": "",
+      "answer": "3 consecutive letters are distinct\n    For example:\n    is_happy(a) => False\n    is_happy(aa) => False\n    is_happy(abcd) => True\n    is_happy(aabb) => False\n    is_happy(adb) => True\n    is_happy(xyy) => False\n    \"\"\"\n    if len(s) < 3:\n        return False\n    for i in range(len(s) - 2):\n        if s[i] == s[i+1] or s[i] == s[i+2] or s[i+1] == s[i+2]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/81",
+      "pass": false,
+      "secs": 12.7,
+      "err": "  File \"/tmp/tmpkzjezb9d.py\", line 1\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": ":\n            letter_grades.append(\"C+\")\n        elif gpa > 1.7:\n            letter_grades.append(\"C\")\n        elif gpa > 1.3:\n            letter_grades.append(\"C-\")\n        elif gpa > 1.0:\n            letter_grades.append(\"D+\")\n        elif gpa > 0.7:\n            letter_grades.append(\"D\")\n        elif gpa > 0.0:\n            letter_grades.append(\"D-\")\n        else:\n            letter_grades.append"
+    },
+    {
+      "id": "HumanEval/82",
+      "pass": false,
+      "secs": 12.8,
+      "err": "  File \"/tmp/tmpmc5_dvsb.py\", line 1\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "d\":\n        return False\n    if string == \"ae\":\n        return False\n    if string == \"af\":\n        return False\n    if string == \"ag\":\n        return False\n    if string == \"ah\":\n        return False\n    if string == \"ai\":\n        return False\n    if string == \"aj\":\n        return False\n    if string == \"ak\":\n        return False\n    if string == \"al\":\n        return False\n    if string == \"am\":\n"
+    },
+    {
+      "id": "HumanEval/83",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpaw6ekamo.py\", line 28, in <module>\n    check(starts_one_ends)\n  File \"/tmp/tmpaw6ekamo.py\", line 18, in check\n    assert candidate(2) == 18\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef starts_one_ends(n):\n    \"\"\"\n    Given a positive integer n, return the count of the numbers of n-digit\n    positive integers that start or end with 1.\n    \"\"\"\n    if n == 1:\n        return 1\n    return 2 * 10 ** (n - 2)\n```"
+    },
+    {
+      "id": "HumanEval/84",
+      "pass": true,
+      "secs": 4.1,
+      "err": "",
+      "answer": "sum of digits will be 1 the output should be \"1\".\n        For N = 150, the sum of digits will be 6 the output should be \"110\".\n        For N = 147, the sum of digits will be 12 the output should be \"1100\".\n    \n    Variables:\n        @N integer\n             Constraints: 0 ≤ N ≤ 10000.\n    Output:\n         a string of binary number\n    \"\"\"\n    return bin(sum(int(digit) for digit in str(N)))[2:]\n```"
+    },
+    {
+      "id": "HumanEval/85",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef add(lst):\n    \"\"\"Given a non-empty list of integers lst. add the even elements that are at odd indices..\n\n\n    Examples:\n        add([4, 2, 6, 7]) ==> 2 \n    \"\"\"\n    return sum(x for i, x in enumerate(lst) if i % 2 == 1 and x % 2 == 0)\n```"
+    },
+    {
+      "id": "HumanEval/86",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef anti_shuffle(s):\n    words = s.split()\n    result = []\n    for word in words:\n        chars = sorted(word)\n        new_word = ''.join(chars)\n        result.append(new_word)\n    return ' '.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/87",
+      "pass": true,
+      "secs": 7.9,
+      "err": "",
+      "answer": "5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    result = []\n    for i, row in enumerate(lst):\n        for j, val in enumerate(row):\n            if val == x:\n                result.append((i, j))\n    result.sort(key=lambda t: (t[0], -t[1]))\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/88",
+      "pass": true,
+      "secs": 6.5,
+      "err": "",
+      "answer": "s:\n    * sort_array([]) => []\n    * sort_array([5]) => [5]\n    * sort_array([2, 4, 3, 0, 1, 5]) => [0, 1, 2, 3, 4, 5]\n    * sort_array([2, 4, 3, 0, 1, 5, 6]) => [6, 5, 4, 3, 2, 1, 0]\n    \"\"\"\n    if not array:\n        return array\n    if len(array) == 1:\n        return array\n    if (array[0] + array[-1]) % 2 == 0:\n        return sorted(array, reverse=True)\n    else:\n        return sorted(array)\n```"
+    },
+    {
+      "id": "HumanEval/89",
+      "pass": true,
+      "secs": 4.9,
+      "err": "",
+      "answer": "    encrypt('et') returns 'ix'\n    \"\"\"\n    result = \"\"\n    for char in s:\n        if char.isalpha():\n            shift = 2 * 2\n            if char.islower():\n                base = ord('a')\n            else:\n                base = ord('A')\n            new_char = chr((ord(char) - base + shift) % 26 + base)\n            result += new_char\n        else:\n            result += char\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/90",
+      "pass": false,
+      "secs": 1.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp1lrxxekq.py\", line 26, in <module>\n    check(next_smallest)\n  File \"/tmp/tmp1lrxxekq.py\", line 16, in check\n    assert candidate([1, 1]) == None\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef next_smallest(lst):\n    if len(lst) < 2:\n        return None\n    sorted_lst = sorted(lst)\n    return sorted_lst[1]\n```"
+    },
+    {
+      "id": "HumanEval/91",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpchgu0c6a.py\", line 38, in <module>\n    check(is_bored)\n  File \"/tmp/tmpchgu0c6a.py\", line 27, in check\n    assert candidate(\"Is the sky blue?\") == 0, \"Test 2\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 2\n",
+      "answer": "with the word \"I\".\n    Sentences are delimited by '.', '?' or '!'.\n   \n    For example:\n    >>> is_bored(\"Hello world\")\n    0\n    >>> is_bored(\"The sky is blue. The sun is shining. I love this weather\")\n    1\n    \"\"\"\n    count = 0\n    sentences = S.split('.')\n    for sentence in sentences:\n        if sentence.strip() and sentence.strip().startswith('I'):\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/92",
+      "pass": true,
+      "secs": 4.5,
+      "err": "",
+      "answer": "e other two, and all numbers are integers.\n    Returns false in any other cases.\n    \n    Examples\n    any_int(5, 2, 7) ➞ True\n    \n    any_int(3, 2, 2) ➞ False\n\n    any_int(3, -2, 1) ➞ True\n    \n    any_int(3.6, -2.2, 2) ➞ False\n  \n\n    \n    '''\n    if not (isinstance(x, int) and isinstance(y, int) and isinstance(z, int)):\n        return False\n    return x == y + z or y == x + z or z == x + y\n```"
+    },
+    {
+      "id": "HumanEval/93",
+      "pass": false,
+      "secs": 5.7,
+      "err": ", line 48, in <module>\n    check(encode)\n  File \"/tmp/tmpm6j2szf1.py\", line 38, in check\n    assert candidate('TEST') == 'tgst', \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+      "answer": "       if char.lower() in vowels:\n                new_char = vowels[char.lower()]\n                if char.isupper():\n                    new_char = new_char.upper()\n                else:\n                    new_char = new_char.lower()\n            else:\n                new_char = char.swapcase()\n        else:\n            new_char = char\n        result.append(new_char)\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/94",
+      "pass": true,
+      "secs": 10.7,
+      "err": "",
+      "answer": "0,8,1,2,1,7] the output should be 7\n    \"\"\"\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    max_prime = 0\n    for num in lst:\n        if is_prime(num) and num > max_prime:\n            max_prime = num\n\n    return sum(int(digit) for digit in str(max_prime))\n```"
+    },
+    {
+      "id": "HumanEval/95",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef check_dict_case(dict):\n    if not dict:\n        return False\n    keys = dict.keys()\n    if all(isinstance(k, str) and k.islower() for k in keys) or all(isinstance(k, str) and k.isupper() for k in keys):\n        return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/96",
+      "pass": true,
+      "secs": 5.6,
+      "err": "",
+      "answer": " => [2,3,5,7]\n    count_up_to(0) => []\n    count_up_to(20) => [2,3,5,7,11,13,17,19]\n    count_up_to(1) => []\n    count_up_to(18) => [2,3,5,7,11,13,17]\n    \"\"\"\n    if n <= 0:\n        return []\n    primes = []\n    for i in range(2, n):\n        if all(i % j != 0 for j in range(2, int(i**0.5)+1)):\n            primes.append(i)\n            if len(primes) == n:\n                break\n    return primes\n```"
+    },
+    {
+      "id": "HumanEval/97",
+      "pass": true,
+      "secs": 3.2,
+      "err": "",
+      "answer": "```python\ndef multiply(a, b):\n    \"\"\"Complete the function that takes two integers and returns \n    the product of their unit digits.\n    Assume the input is always valid.\n    Examples:\n    multiply(148, 412) should return 16.\n    multiply(19, 28) should return 72.\n    multiply(2020, 1851) should return 0.\n    multiply(14,-15) should return 20.\n    \"\"\"\n    return (a % 10) * (b % 10)\n```"
+    },
+    {
+      "id": "HumanEval/98",
+      "pass": true,
+      "secs": 3.0,
+      "err": "",
+      "answer": "```python\ndef count_upper(s):\n    \"\"\"\n    Given a string s, count the number of uppercase vowels in even indices.\n    \n    For example:\n    count_upper('aBCdEf') returns 1\n    count_upper('abcdefg') returns 0\n    count_upper('dBBE') returns 0\n    \"\"\"\n    count = 0\n    for i in range(0, len(s), 2):\n        if s[i].isupper() and s[i] in 'AEIOU':\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/99",
+      "pass": false,
+      "secs": 5.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpdtj32lmg.py\", line 44, in <module>\n    check(closest_integer)\n  File \"/tmp/tmpdtj32lmg.py\", line 36, in check\n    assert candidate(\"-15.5\") == -16, \"Test 3\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 3\n",
+      "answer": "    from two integers, the one you should return is the one that is the\n    farthest from zero. For example closest_integer(\"14.5\") should\n    return 15 and closest_integer(\"-14.5\") should return -15.\n    '''\n    num = float(value)\n    if num % 1 == 0:\n        return int(num)\n    else:\n        if num % 1 == 0.5:\n            return int(num + 0.5)\n        else:\n            return int(round(num))\n```"
+    },
+    {
+      "id": "HumanEval/100",
+      "pass": false,
+      "secs": 4.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpusykh4p5.py\", line 42, in <module>\n    check(make_a_pile)\n  File \"/tmp/tmpusykh4p5.py\", line 32, in check\n    assert candidate(4) == [4,6,8,10], \"Test 4\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 4\n",
+      "answer": "n.\n    Return the number of stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1).\n\n    Examples:\n    >>> make_a_pile(3)\n    [3, 5, 7]\n    \"\"\"\n    result = [n]\n    current = n\n    for _ in range(n - 1):\n        if n % 2 == 1:\n            current += 2\n        else:\n            current += 1\n        result.append(current)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/101",
+      "pass": true,
+      "secs": 0.5,
+      "err": "",
+      "answer": "```python\ndef words_string(s):\n    return s.replace(',', ' ').split()\n```"
+    },
+    {
+      "id": "HumanEval/102",
+      "pass": false,
+      "secs": 3.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmptfci16_l.py\", line 36, in <module>\n    check(choose_num)\n  File \"/tmp/tmptfci16_l.py\", line 23, in check\n    assert candidate(12, 15) == 14\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "ion takes two positive numbers x and y and returns the\n    biggest even integer number that is in the range [x, y] inclusive. If \n    there's no such number, then the function should return -1.\n\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    if x > y:\n        return -1\n    if x % 2 == 0:\n        return x\n    else:\n        return y - 1 if y % 2 == 0 else -1\n```"
+    },
+    {
+      "id": "HumanEval/103",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\ndef rounded_avg(n, m):\n    if n > m:\n        return -1\n    total = sum(range(n, m + 1))\n    avg = total / (m - n + 1)\n    rounded_avg = round(avg)\n    return bin(rounded_avg)\n```"
+    },
+    {
+      "id": "HumanEval/104",
+      "pass": false,
+      "secs": 3.5,
+      "err": "                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp5wawf370.py\", line 13, in <genexpr>\n    return sorted([num for num in x if all(d % 2 == 1 for d in str(num))])\n                                           ~~^~~\nTypeError: not all arguments converted during string formatting\n",
+      "answer": "ts(x):\n    \"\"\"Given a list of positive integers x. return a sorted list of all \n    elements that hasn't any even digit.\n\n    Note: Returned list should be sorted in increasing order.\n    \n    For example:\n    >>> unique_digits([15, 33, 1422, 1])\n    [1, 15, 33]\n    >>> unique_digits([152, 323, 1422, 10])\n    []\n    \"\"\"\n    return sorted([num for num in x if all(d % 2 == 1 for d in str(num))])\n```"
+    },
+    {
+      "id": "HumanEval/105",
+      "pass": false,
+      "secs": 8.0,
+      "err": "e \"/tmp/tmpedt9_1rc.py\", line 35, in check\n    assert candidate([2, 1, 1, 4, 5, 8, 2, 3]) == [\"Eight\", \"Five\", \"Four\", \"Three\", \"Two\", \"Two\", \"One\", \"One\"], \"Error\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Error\n",
+      "answer": "is empty, return an empty array:\n      arr = []\n      return []\n    \n      If the array has any strange number ignore it:\n      arr = [1, -1 , 55] \n            -> sort arr -> [-1, 1, 55]\n            -> reverse arr -> [55, 1, -1]\n      return = ['One']\n    \"\"\"\n    numbers = [str(x) for x in arr if 1 <= x <= 9]\n    numbers.sort()\n    numbers.reverse()\n    return [x.capitalize() for x in numbers]\n```"
+    },
+    {
+      "id": "HumanEval/106",
+      "pass": true,
+      "secs": 5.1,
+      "err": "",
+      "answer": " factorial of i is the multiplication of the numbers from 1 to i (1 * 2 * ... * i).\n    Example:\n    f(5) == [1, 2, 6, 24, 15]\n    \"\"\"\n    result = []\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            fact = 1\n            for j in range(1, i + 1):\n                fact *= j\n            result.append(fact)\n        else:\n            result.append(i * (i + 1) // 2)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/107",
+      "pass": true,
+      "secs": 7.1,
+      "err": "",
+      "answer": "them are even, and 6 of them are odd.\n\n    Note:\n        1. 1 <= n <= 10^3\n        2. returned tuple has the number of even and odd integer palindromes respectively.\n    \"\"\"\n    even = 0\n    odd = 0\n    for i in range(1, n + 1):\n        s = str(i)\n        if s == s[::-1]:\n            if int(s) % 2 == 0:\n                even += 1\n            else:\n                odd += 1\n    return (even, odd)\n```"
+    },
+    {
+      "id": "HumanEval/108",
+      "pass": false,
+      "secs": 5.2,
+      "err": "timeout",
+      "answer": ", 2, and 3.\n    >>> count_nums([]) == 0\n    >>> count_nums([-1, 11, -11]) == 1\n    >>> count_nums([1, 1, 2]) == 3\n    \"\"\"\n    count = 0\n    for num in arr:\n        if num < 0:\n            sign = -1\n        else:\n            sign = 1\n        total = 0\n        while num != 0:\n            total += num % 10 * sign\n            num //= 10\n        if total > 0:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/109",
+      "pass": false,
+      "secs": 1.5,
+      "err": "dule>\n    check(move_one_ball)\n  File \"/tmp/tmplkdstck5.py\", line 17, in check\n    assert candidate([3, 4, 5, 1, 2])==True, \"This prints if this assert fails 1 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 1 (good for debugging!)\n",
+      "answer": "```python\ndef move_one_ball(arr):\n    if not arr:\n        return True\n    sorted_arr = sorted(arr)\n    n = len(arr)\n    for i in range(n):\n        if arr[i] > sorted_arr[i]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/110",
+      "pass": false,
+      "secs": 6.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpajtof_em.py\", line 40, in <module>\n    check(exchange)\n  File \"/tmp/tmpajtof_em.py\", line 29, in check\n    assert candidate([1, 2, 3, 4], [1, 5, 3, 4]) == \"NO\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "return \"NO\".\n    For example:\n    exchange([1, 2, 3, 4], [1, 2, 3, 4]) => \"YES\"\n    exchange([1, 2, 3, 4], [1, 5, 3, 4]) => \"NO\"\n    It is assumed that the input lists will be non-empty.\n    \"\"\"\n    even_count = sum(1 for x in lst1 if x % 2 == 0)\n    odd_count = len(lst1) - even_count\n    if odd_count == 0:\n        return \"YES\"\n    if odd_count > len(lst2):\n        return \"NO\"\n    return \"YES\"\n```"
+    },
+    {
+      "id": "HumanEval/111",
+      "pass": true,
+      "secs": 5.4,
+      "err": "",
+      "answer": "   histogram('a b b a') == {'a': 2, 'b': 2}\n    histogram('a b c a b') == {'a': 2, 'b': 2}\n    histogram('b b b b a') == {'b': 4}\n    histogram('') == {}\n\n    \"\"\"\n    if not test:\n        return {}\n    counts = {}\n    for letter in test.split():\n        counts[letter] = counts.get(letter, 0) + 1\n    max_count = max(counts.values())\n    return {k: v for k, v in counts.items() if v == max_count}\n```"
+    },
+    {
+      "id": "HumanEval/112",
+      "pass": true,
+      "secs": 1.0,
+      "err": "",
+      "answer": "```python\ndef reverse_delete(s, c):\n    result = ''.join([ch for ch in s if ch not in c])\n    return (result, result == result[::-1])\n```"
+    },
+    {
+      "id": "HumanEval/113",
+      "pass": false,
+      "secs": 5.6,
+      "err": ">\n    check(odd_count)\n  File \"/tmp/tmpiz333o_e.py\", line 21, in check\n    assert candidate(['1234567']) == [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"], \"Test 1\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 1\n",
+      "answer": "   >>> odd_count(['1234567'])\n    [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"]\n    >>> odd_count(['3',\"11111111\"])\n    [\"the number of odd elements 1n the str1ng 1 of the 1nput.\",\n     \"the number of odd elements 8n the str8ng 8 of the 8nput.\"]\n    \"\"\"\n    return [f\"the number of odd elements {cnt}n the str{cnt}ng {cnt} of the {cnt}nput.\" for cnt in (s.count('1') for s in lst)]\n```"
+    },
+    {
+      "id": "HumanEval/114",
+      "pass": true,
+      "secs": 3.4,
+      "err": "",
+      "answer": "nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    min_sum = float('inf')\n    current_sum = 0\n    for num in nums:\n        current_sum = min(num, current_sum + num)\n        min_sum = min(min_sum, current_sum)\n    return min_sum\n```"
+    },
+    {
+      "id": "HumanEval/115",
+      "pass": true,
+      "secs": 9.0,
+      "err": "",
+      "answer": "rid : [[0,0,0], [0,0,0]]\n            bucket_capacity : 5\n        Output: 0\n\n    Constraints:\n        * all wells have the same length\n        * 1 <= grid.length <= 10^2\n        * 1 <= grid[:,1].length <= 10^2\n        * grid[i][j] -> 0 | 1\n        * 1 <= capacity <= 10\n    \"\"\"\n    total = 0\n    for row in grid:\n        fill = sum(row)\n        total += math.ceil(fill / capacity)\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/116",
+      "pass": true,
+      "secs": 4.7,
+      "err": "",
+      "answer": "ones in their binary representation in ascending order.\n    For similar number of ones, sort based on decimal value.\n\n    It must be implemented like this:\n    >>> sort_array([1, 5, 2, 3, 4]) == [1, 2, 3, 4, 5]\n    >>> sort_array([-2, -3, -4, -5, -6]) == [-6, -5, -4, -3, -2]\n    >>> sort_array([1, 0, 2, 3, 4]) [0, 1, 2, 3, 4]\n    \"\"\"\n    return sorted(arr, key=lambda x: (bin(x).count('1'), x))\n```"
+    },
+    {
+      "id": "HumanEval/117",
+      "pass": true,
+      "secs": 2.2,
+      "err": "",
+      "answer": "```python\ndef select_words(s, n):\n    vowels = {'a', 'e', 'i', 'o', 'u'}\n    words = s.split()\n    result = []\n    for word in words:\n        consonant_count = sum(1 for char in word if char.isalpha() and char.lower() not in vowels)\n        if consonant_count == n:\n            result.append(word)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/118",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmplff4k50x.py\", line 33, in <module>\n    check(get_closest_vowel)\n  File \"/tmp/tmplff4k50x.py\", line 16, in check\n    assert candidate(\"easy\") == \"\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef get_closest_vowel(word):\n    vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}\n    for i in range(len(word) - 2, -1, -1):\n        if word[i] in vowels:\n            return word[i]\n    return \"\"\n```"
+    },
+    {
+      "id": "HumanEval/119",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "s(lst):\n    def is_balanced(s):\n        count = 0\n        for c in s:\n            if c == '(':\n                count += 1\n            else:\n                count -= 1\n            if count < 0:\n                return False\n        return count == 0\n\n    if is_balanced(lst[0] + lst[1]):\n        return 'Yes'\n    elif is_balanced(lst[1] + lst[0]):\n        return 'Yes'\n    else:\n        return 'No'\n```"
+    },
+    {
+      "id": "HumanEval/120",
+      "pass": false,
+      "secs": 5.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmps118aw3j.py\", line 50, in <module>\n    check(maximum)\n  File \"/tmp/tmps118aw3j.py\", line 46, in check\n    assert candidate([1, 2, 3, -23, 243, -400, 0], 0) == []\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": ", 5]\n\n    Example 2:\n\n        Input: arr = [4, -4, 4], k = 2\n        Output: [4, 4]\n\n    Example 3:\n\n        Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1\n        Output: [2]\n\n    Note:\n        1. The length of the array will be in the range of [1, 1000].\n        2. The elements in the array will be in the range of [-1000, 1000].\n        3. 0 <= k <= len(arr)\n    \"\"\"\n    return sorted(arr)[-k:]\n```"
+    },
+    {
+      "id": "HumanEval/121",
+      "pass": true,
+      "secs": 3.3,
+      "err": "",
+      "answer": "```python\ndef solution(lst):\n    \"\"\"Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.\n    \n\n    Examples\n    solution([5, 8, 7, 1]) ==> 12\n    solution([3, 3, 3, 3, 3]) ==> 9\n    solution([30, 13, 24, 321]) ==>0\n    \"\"\"\n    return sum(x for i, x in enumerate(lst) if i % 2 == 0 and x % 2 == 1)\n```"
+    },
+    {
+      "id": "HumanEval/122",
+      "pass": true,
+      "secs": 3.9,
+      "err": "",
+      "answer": "\"\"\"\n    Given a non-empty array of integers arr and an integer k, return\n    the sum of the elements with at most two digits from the first k elements of arr.\n\n    Example:\n\n        Input: arr = [111,21,3,4000,5,6,7,8,9], k = 4\n        Output: 24 # sum of 21 + 3\n\n    Constraints:\n        1. 1 <= len(arr) <= 100\n        2. 1 <= k <= len(arr)\n    \"\"\"\n    return sum(x for x in arr[:k] if x < 100)\n```"
+    },
+    {
+      "id": "HumanEval/123",
+      "pass": false,
+      "secs": 7.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpdbd5i10k.py\", line 41, in <module>\n    check(get_odd_collatz)\n  File \"/tmp/tmpdbd5i10k.py\", line 32, in check\n    assert candidate(14) == [1, 5, 7, 11, 13, 17]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "llatz(1) is [1].\n        2. returned list sorted in increasing order.\n\n    For example:\n    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.\n    \"\"\"\n    odd_numbers = []\n    while n != 1:\n        if n % 2 == 1:\n            odd_numbers.append(n)\n        n = n // 2\n    odd_numbers.append(1)\n    return sorted(odd_numbers)\n```"
+    },
+    {
+      "id": "HumanEval/124",
+      "pass": false,
+      "secs": 12.0,
+      "err": "k(valid_date)\n  File \"/tmp/tmpdjvsm1r5.py\", line 78, in check\n    assert candidate('2003-04') == False\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpdjvsm1r5.py\", line 25, in valid_date\n    mm, dd, yyyy = date.split('-')\n    ^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 3, got 2)\n",
+      "answer": "\n        return False\n    mm = int(mm)\n    dd = int(dd)\n    yyyy = int(yyyy)\n    if mm < 1 or mm > 12:\n        return False\n    if dd < 1:\n        return False\n    if mm in [1, 3, 5, 7, 8, 10, 12]:\n        if dd > 31:\n            return False\n    elif mm in [4, 6, 9, 11]:\n        if dd > 30:\n            return False\n    elif mm == 2:\n        if dd > 29:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/125",
+      "pass": false,
+      "secs": 1.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpg_msj4u1.py\", line 24, in <module>\n    check(split_words)\n  File \"/tmp/tmpg_msj4u1.py\", line 19, in check\n    assert candidate(\"aaabb\") == 2\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef split_words(txt):\n    if ' ' in txt:\n        return txt.split()\n    elif ',' in txt:\n        return txt.split(',')\n    else:\n        return sum(1 for c in txt if c.islower() and ord(c) % 2 == 1)\n```"
+    },
+    {
+      "id": "HumanEval/126",
+      "pass": false,
+      "secs": 1.5,
+      "err": "    check(is_sorted)\n  File \"/tmp/tmplfgycbc1.py\", line 28, in check\n    assert candidate([1, 2, 2, 3, 3, 4]) == True, \"This prints if this assert fails 7 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 7 (good for debugging!)\n",
+      "answer": "```python\ndef is_sorted(lst):\n    for i in range(len(lst) - 1):\n        if lst[i] > lst[i + 1]:\n            return False\n        if lst[i] == lst[i + 1]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/127",
+      "pass": false,
+      "secs": 10.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp58qwg_rx.py\", line 62, in <module>\n    check(intersection)\n  File \"/tmp/tmp58qwg_rx.py\", line 50, in check\n    assert candidate((-1, 1), (0, 4)) == \"NO\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "ax(start1, start2)\n    end = min(end1, end2)\n\n    # If there is no intersection\n    if start > end:\n        return \"NO\"\n\n    # Calculate the length of the intersection\n    length = end - start + 1\n\n    # Check if the length is a prime number\n    if length < 2:\n        return \"NO\"\n    for i in range(2, int(length ** 0.5) + 1):\n        if length % i == 0:\n            return \"NO\"\n    return \"YES\"\n```"
+    },
+    {
+      "id": "HumanEval/128",
+      "pass": true,
+      "secs": 5.0,
+      "err": "",
+      "answer": "r.\n\n    Example:\n    >>> prod_signs([1, 2, 2, -4]) == -9\n    >>> prod_signs([0, 1]) == 0\n    >>> prod_signs([]) == None\n    \"\"\"\n    if not arr:\n        return None\n    product = 1\n    sum_magnitudes = 0\n    for num in arr:\n        if num == 0:\n            product = 0\n        else:\n            product *= 1 if num > 0 else -1\n        sum_magnitudes += abs(num)\n    return product * sum_magnitudes\n```"
+    },
+    {
+      "id": "HumanEval/129",
+      "pass": false,
+      "secs": 6.5,
+      "err": "ost recent call last):\n  File \"/tmp/tmpin9gzaov.py\", line 44, in <module>\n    check(minPath)\n  File \"/tmp/tmpin9gzaov.py\", line 28, in check\n    assert candidate([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 3) == [1, 2, 1]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "teps == k:\n            return path\n        for di, dj in [(0, 1), (1, 0), (0, -1), (-1, 0)]:\n            ni, nj = i + di, j + dj\n            if 0 <= ni < N and 0 <= nj < N and not visited[steps + 1][ni][nj]:\n                visited[steps + 1][ni][nj] = True\n                new_path = path + [grid[ni][nj]]\n                heappush(heap, (grid[ni][nj], ni, nj, steps + 1, new_path))\n    return []\n```"
+    },
+    {
+      "id": "HumanEval/130",
+      "pass": false,
+      "secs": 8.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpa_snh6rs.py\", line 51, in <module>\n    check(tri)\n  File \"/tmp/tmpa_snh6rs.py\", line 37, in check\n    assert candidate(3) == [1, 3, 2.0, 8.0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "n a list of the \n    first n + 1 numbers of the Tribonacci sequence.\n    Examples:\n    tri(3) = [1, 3, 2, 8]\n    \"\"\"\n    if n == 0:\n        return [1]\n    elif n == 1:\n        return [1, 3]\n    result = [1, 3]\n    for i in range(2, n + 1):\n        if i % 2 == 0:\n            result.append(1 + i // 2)\n        else:\n            result.append(result[-1] + result[-2] + result[-3])\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/131",
+      "pass": false,
+      "secs": 2.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmppk5mubry.py\", line 34, in <module>\n    check(digits)\n  File \"/tmp/tmppk5mubry.py\", line 23, in check\n    assert candidate(54) == 5\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef digits(n):\n    \"\"\"Given a positive integer n, return the product of the odd digits.\n    Return 0 if all digits are even.\n    For example:\n    digits(1)  == 1\n    digits(4)  == 0\n    digits(235) == 15\n    \"\"\"\n    product = 1\n    for digit in str(n):\n        if int(digit) % 2 == 0:\n            return 0\n        product *= int(digit)\n    return product\n```"
+    },
+    {
+      "id": "HumanEval/132",
+      "pass": false,
+      "secs": 5.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9hj2tvhi.py\", line 55, in <module>\n    check(is_nested)\n  File \"/tmp/tmp9hj2tvhi.py\", line 43, in check\n    assert candidate('[[]') == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "s_nested('[[]][[') ➞ True\n    '''\n    if not string:\n        return False\n    stack = []\n    nested = False\n    for char in string:\n        if char == '[':\n            stack.append(char)\n        elif char == ']':\n            if stack:\n                stack.pop()\n                if len(stack) > 0:\n                    nested = True\n            else:\n                return False\n    return nested\n```"
+    },
+    {
+      "id": "HumanEval/133",
+      "pass": true,
+      "secs": 0.7,
+      "err": "",
+      "answer": "```python\nimport math\n\ndef sum_squares(lst):\n    return sum(math.ceil(x) ** 2 for x in lst)\n```"
+    },
+    {
+      "id": "HumanEval/134",
+      "pass": false,
+      "secs": 1.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp5gtbamtu.py\", line 35, in <module>\n    check(check_if_last_char_is_a_letter)\n  File \"/tmp/tmp5gtbamtu.py\", line 19, in check\n    assert candidate(\"apple\") == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef check_if_last_char_is_a_letter(txt):\n    if not txt:\n        return False\n    last_char = txt[-1]\n    if not last_char.isalpha():\n        return False\n    words = txt.split()\n    if not words:\n        return False\n    last_word = words[-1]\n    return last_char == last_word[-1]\n```"
+    },
+    {
+      "id": "HumanEval/135",
+      "pass": false,
+      "secs": 3.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpfe8nx4r5.py\", line 32, in <module>\n    check(can_arrange)\n  File \"/tmp/tmpfe8nx4r5.py\", line 25, in check\n    assert candidate([4,8,5,7,3])==4\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "e largest index of an element which\n    is not greater than or equal to the element immediately preceding it. If\n    no such element exists then return -1. The given array will not contain\n    duplicate values.\n\n    Examples:\n    can_arrange([1,2,4,3,5]) = 3\n    can_arrange([1,2,3]) = -1\n    \"\"\"\n    for i in range(1, len(arr)):\n        if arr[i] < arr[i - 1]:\n            return i\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/136",
+      "pass": true,
+      "secs": 5.0,
+      "err": "",
+      "answer": "n them as None.\n\n    Examples:\n    largest_smallest_integers([2, 4, 1, 3, 5, 7]) == (None, 1)\n    largest_smallest_integers([]) == (None, None)\n    largest_smallest_integers([0]) == (None, None)\n    '''\n    negatives = [x for x in lst if x < 0]\n    positives = [x for x in lst if x > 0]\n    a = max(negatives) if negatives else None\n    b = min(positives) if positives else None\n    return (a, b)\n```"
+    },
+    {
+      "id": "HumanEval/137",
+      "pass": false,
+      "secs": 5.2,
+      "err": " File \"/tmp/tmpijavghga.py\", line 34, in check\n    assert candidate(1, \"2,3\") == \"2,3\"\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpijavghga.py\", line 15, in compare_one\n    b_float = float(b) if isinstance(b, str) else b\n              ^^^^^^^^\nValueError: could not convert string to float: '2,3'\n",
+      "answer": ". or ,\n\n    compare_one(1, 2.5) ➞ 2.5\n    compare_one(1, \"2,3\") ➞ \"2,3\"\n    compare_one(\"5,1\", \"6\") ➞ \"6\"\n    compare_one(\"1\", 1) ➞ None\n    \"\"\"\n    # Convert both to floats\n    a_float = float(a) if isinstance(a, str) else a\n    b_float = float(b) if isinstance(b, str) else b\n\n    if a_float > b_float:\n        return a\n    elif b_float > a_float:\n        return b\n    else:\n        return None\n```"
+    },
+    {
+      "id": "HumanEval/138",
+      "pass": true,
+      "secs": 2.3,
+      "err": "",
+      "answer": "```python\ndef is_equal_to_sum_even(n):\n    \"\"\"Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers\n    Example\n    is_equal_to_sum_even(4) == False\n    is_equal_to_sum_even(6) == False\n    is_equal_to_sum_even(8) == True\n    \"\"\"\n    return n >= 8 and n % 2 == 0\n```"
+    },
+    {
+      "id": "HumanEval/139",
+      "pass": false,
+      "secs": 3.1,
+      "err": "le>\n    check(special_factorial)\n  File \"/tmp/tmpkuyy65tp.py\", line 24, in check\n    assert candidate(4) == 288, \"Test 4\"\n           ^^^^^^^^^^^^\n  File \"/tmp/tmpkuyy65tp.py\", line 15, in special_factorial\n    result *= factorial(i)\n              ^^^^^^^^^\nNameError: name 'factorial' is not defined\n",
+      "answer": "(n):\n    \"\"\"The Brazilian factorial is defined as:\n    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!\n    where n > 0\n\n    For example:\n    >>> special_factorial(4)\n    288\n\n    The function will receive an integer as input and should return the special\n    factorial of this integer.\n    \"\"\"\n    result = 1\n    for i in range(1, n + 1):\n        result *= factorial(i)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/140",
+      "pass": false,
+      "secs": 2.7,
+      "err": "ert candidate(\"Yellow Yellow  Dirty  Fellow\") == \"Yellow_Yellow__Dirty__Fellow\", \"This prints if this assert fails 3 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 3 (good for debugging!)\n",
+      "answer": "har in text:\n        if char == \" \":\n            count += 1\n        else:\n            if count > 0:\n                if count > 2:\n                    result += \"-\"\n                else:\n                    result += \"_\"\n                count = 0\n            result += char\n    if count > 0:\n        if count > 2:\n            result += \"-\"\n        else:\n            result += \"_\"\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/141",
+      "pass": true,
+      "secs": 7.7,
+      "err": "",
+      "answer": "> 'No' (the name should start with a latin alphapet letter)\n    \"\"\"\n    if file_name.count('.') != 1:\n        return 'No'\n    name_part, ext_part = file_name.split('.')\n    if not name_part or not name_part[0].isalpha():\n        return 'No'\n    if ext_part not in ['txt', 'exe', 'dll']:\n        return 'No'\n    if sum(1 for c in name_part if c.isdigit()) > 3:\n        return 'No'\n    return 'Yes'\n```"
+    },
+    {
+      "id": "HumanEval/142",
+      "pass": false,
+      "secs": 5.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpvizsvocs.py\", line 43, in <module>\n    check(sum_squares)\n  File \"/tmp/tmpvizsvocs.py\", line 27, in check\n    assert candidate([1,2,3]) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "function shall then return the sum of all entries. \n    \n    Examples:\n    For lst = [1,2,3] the output should be 6\n    For lst = []  the output should be 0\n    For lst = [-1,-5,2,-1,-5]  the output should be -126\n    \"\"\"\n    total = 0\n    for i in range(len(lst)):\n        if i % 3 == 0:\n            total += lst[i] ** 2\n        elif i % 4 == 0:\n            total += lst[i] ** 3\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/143",
+      "pass": true,
+      "secs": 5.8,
+      "err": "",
+      "answer": "traints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    result = [word for word in words if is_prime(len(word))]\n    return ' '.join(result)\n```"
+    },
+    {
+      "id": "HumanEval/144",
+      "pass": true,
+      "secs": 6.0,
+      "err": "",
+      "answer": " = True\n    simplify(\"1/6\", \"2/1\") = False\n    simplify(\"7/10\", \"10/2\") = False\n    \"\"\"\n    # Parse the fractions\n    x_num, x_den = map(int, x.split('/'))\n    n_num, n_den = map(int, n.split('/'))\n    \n    # Multiply the numerators and denominators\n    total_num = x_num * n_num\n    total_den = x_den * n_den\n    \n    # Check if the result is a whole number\n    return total_num % total_den == 0\n```"
+    },
+    {
+      "id": "HumanEval/145",
+      "pass": false,
+      "secs": 3.9,
+      "err": "t recent call last):\n  File \"/tmp/tmpxkajqao6.py\", line 35, in <module>\n    check(order_by_points)\n  File \"/tmp/tmpxkajqao6.py\", line 23, in check\n    assert candidate([1, 11, -1, -11, -12]) == [-1, -11, 1, -12, 11]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "  Note: if there are several items with similar sum of their digits,\n    order them based on their index in original list.\n\n    For example:\n    >>> order_by_points([1, 11, -1, -11, -12]) == [-1, -11, 1, -12, 11]\n    >>> order_by_points([]) == []\n    \"\"\"\n    def sum_digits(n):\n        return sum(int(d) for d in str(abs(n)))\n\n    return sorted(nums, key=lambda x: (sum_digits(x), nums.index(x)))\n```"
+    },
+    {
+      "id": "HumanEval/146",
+      "pass": true,
+      "secs": 1.8,
+      "err": "",
+      "answer": "```python\ndef specialFilter(nums):\n    count = 0\n    for num in nums:\n        if num > 10:\n            s = str(num)\n            if int(s[0]) % 2 == 1 and int(s[-1]) % 2 == 1:\n                count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/147",
+      "pass": false,
+      "secs": 7.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpuduj5cxh.py\", line 36, in <module>\n    check(get_max_triples)\n  File \"/tmp/tmpuduj5cxh.py\", line 30, in check\n    assert candidate(5) == 1\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "nation: \n        a = [1, 3, 7, 13, 21]\n        The only valid triple is (1, 7, 13).\n    \"\"\"\n    a = [i * i - i + 1 for i in range(1, n + 1)]\n    counts = [0] * 3\n    for num in a:\n        counts[num % 3] += 1\n    total = 0\n    total += counts[0] * (counts[0] - 1) * (counts[0] - 2) // 6\n    total += counts[1] * counts[2]\n    total += counts[1] * (counts[1] - 1) // 2 * counts[2]\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/148",
+      "pass": true,
+      "secs": 3.0,
+      "err": "",
+      "answer": "n\ndef bf(planet1, planet2):\n    planets = [\"Mercury\", \"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\", \"Uranus\", \"Neptune\"]\n    if planet1 not in planets or planet2 not in planets:\n        return ()\n    index1 = planets.index(planet1)\n    index2 = planets.index(planet2)\n    if index1 < index2:\n        return tuple(planets[index1+1:index2])\n    else:\n        return tuple(planets[index2+1:index1])\n```"
+    },
+    {
+      "id": "HumanEval/149",
+      "pass": true,
+      "secs": 5.4,
+      "err": "",
+      "answer": "e length, sort the list alphabetically.\n    The function should return a list of strings in sorted order.\n    You may assume that all words will have the same length.\n    For example:\n    assert list_sort([\"aa\", \"a\", \"aaa\"]) => [\"aa\"]\n    assert list_sort([\"ab\", \"a\", \"aaa\", \"cd\"]) => [\"ab\", \"cd\"]\n    \"\"\"\n    return sorted([word for word in lst if len(word) % 2 == 0], key=lambda x: (len(x), x))\n```"
+    },
+    {
+      "id": "HumanEval/150",
+      "pass": true,
+      "secs": 3.4,
+      "err": "",
+      "answer": "```python\ndef x_or_y(n, x, y):\n    \"\"\"A simple program which should return the value of x if n is \n    a prime number and should return the value of y otherwise.\n\n    Examples:\n    for x_or_y(7, 34, 12) == 34\n    for x_or_y(15, 8, 5) == 5\n    \n    \"\"\"\n    if n < 2:\n        return y\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return y\n    return x\n```"
+    },
+    {
+      "id": "HumanEval/151",
+      "pass": false,
+      "secs": 0.9,
+      "err": "5, in <module>\n    check(double_the_difference)\n  File \"/tmp/tmpdxpdprea.py\", line 11, in check\n    assert candidate([5, 4]) == 25 , \"This prints if this assert fails 2 (good for debugging!)\"\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: This prints if this assert fails 2 (good for debugging!)\n",
+      "answer": "```python\ndef double_the_difference(lst):\n    return sum(x**2 for x in lst if x > 0 and x % 2 == 0)\n```"
+    },
+    {
+      "id": "HumanEval/152",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef compare(game, guess):\n    return [abs(g - s) for g, s in zip(game, guess)]\n```"
+    },
+    {
+      "id": "HumanEval/153",
+      "pass": false,
+      "secs": 2.9,
+      "err": "e \"/tmp/tmpe1v26sf6.py\", line 33, in <module>\n    check(Strongest_Extension)\n  File \"/tmp/tmpe1v26sf6.py\", line 23, in check\n    assert candidate('__HAHA', ['Tab', '123', '781345', '-_-']) == '__HAHA.123'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": " strongest_extension = \"\"\n    for ext in extensions:\n        cap = sum(1 for c in ext if c.isupper())\n        sm = sum(1 for c in ext if c.islower())\n        strength = cap - sm\n        if strength > max_strength or (strength == max_strength and ext < strongest_extension):\n            max_strength = strength\n            strongest_extension = ext\n    return f\"{class_name}.{strongest_extension}\"\n```"
+    },
+    {
+      "id": "HumanEval/154",
+      "pass": true,
+      "secs": 4.3,
+      "err": "",
+      "answer": "ern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    if len(b) > len(a):\n        return False\n    for i in range(len(b)):\n        rotated = b[i:] + b[:i]\n        if rotated in a:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/155",
+      "pass": true,
+      "secs": 3.1,
+      "err": "",
+      "answer": "thon\ndef even_odd_count(num):\n    \"\"\"Given an integer. return a tuple that has the number of even and odd digits respectively.\n\n     Example:\n        even_odd_count(-12) ==> (1, 1)\n        even_odd_count(123) ==> (1, 2)\n    \"\"\"\n    even = 0\n    odd = 0\n    for digit in str(abs(num)):\n        if int(digit) % 2 == 0:\n            even += 1\n        else:\n            odd += 1\n    return (even, odd)\n```"
+    },
+    {
+      "id": "HumanEval/156",
+      "pass": true,
+      "secs": 6.2,
+      "err": "",
+      "answer": "6) == 'cdxxvi'\n    \"\"\"\n    roman_numerals = [\n        (1000, 'm'), (900, 'cm'), (500, 'd'), (400, 'cd'),\n        (100, 'c'), (90, 'xc'), (50, 'l'), (40, 'xl'),\n        (10, 'x'), (9, 'ix'), (5, 'v'), (4, 'iv'),\n        (1, 'i')\n    ]\n    result = ''\n    for value, symbol in roman_numerals:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/157",
+      "pass": true,
+      "secs": 3.6,
+      "err": "",
+      "answer": "hree sides of a triangle. Return True if the three\n    sides form a right-angled triangle, False otherwise.\n    A right-angled triangle is a triangle in which one angle is right angle or \n    90 degree.\n    Example:\n    right_angle_triangle(3, 4, 5) == True\n    right_angle_triangle(1, 2, 3) == False\n    '''\n    sides = sorted([a, b, c])\n    return sides[0] ** 2 + sides[1] ** 2 == sides[2] ** 2\n```"
+    },
+    {
+      "id": "HumanEval/158",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef find_max(words):\n    max_unique = -1\n    result = \"\"\n    for word in words:\n        unique_chars = set(word)\n        unique_count = len(unique_chars)\n        if unique_count > max_unique:\n            max_unique = unique_count\n            result = word\n        elif unique_count == max_unique:\n            if word < result:\n                result = word\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/159",
+      "pass": true,
+      "secs": 8.0,
+      "err": "",
+      "answer": "d : integer\n        the number of carrots that you need to eat.\n    @remaining : integer\n        the number of remaining carrots thet exist in stock\n    \n    Constrain:\n    * 0 <= number <= 1000\n    * 0 <= need <= 1000\n    * 0 <= remaining <= 1000\n\n    Have fun :)\n    \"\"\"\n    if remaining >= need:\n        return [number + need, remaining - need]\n    else:\n        return [number + remaining, 0]\n```"
+    },
+    {
+      "id": "HumanEval/160",
+      "pass": true,
+      "secs": 6.1,
+      "err": "",
+      "answer": "   Note:\n        The length of operator list is equal to the length of operand list minus one.\n        Operand is a list of of non-negative integers.\n        Operator list has at least one operator, and operand list has at least two operands.\n\n    \"\"\"\n    expression = str(operand[0])\n    for op, num in zip(operator, operand[1:]):\n        expression += f\" {op} {num}\"\n    return eval(expression)\n```"
+    },
+    {
+      "id": "HumanEval/161",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef solve(s):\n    result = \"\"\n    has_letter = False\n    for char in s:\n        if char.isalpha():\n            has_letter = True\n            result += char.swapcase()\n        else:\n            result += char\n    if not has_letter:\n        return s[::-1]\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/162",
+      "pass": true,
+      "secs": 2.7,
+      "err": "",
+      "answer": "```python\nimport hashlib\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n\n    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'\n    \"\"\"\n    if not text:\n        return None\n    return hashlib.md5(text.encode()).hexdigest()\n```"
+    },
+    {
+      "id": "HumanEval/163",
+      "pass": false,
+      "secs": 3.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp14kwj2tk.py\", line 35, in <module>\n    check(generate_integers)\n  File \"/tmp/tmp14kwj2tk.py\", line 25, in check\n    assert candidate(2, 10) == [2, 4, 6, 8], \"Test 1\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Test 1\n",
+      "answer": "n two positive integers a and b, return the even digits between a\n    and b, in ascending order.\n\n    For example:\n    generate_integers(2, 8) => [2, 4, 6, 8]\n    generate_integers(8, 2) => [2, 4, 6, 8]\n    generate_integers(10, 14) => []\n    \"\"\"\n    if a > b:\n        a, b = b, a\n    result = []\n    for i in range(a, b + 1):\n        if i % 2 == 0:\n            result.append(i)\n    return result\n```"
+    }
+  ]
+}
