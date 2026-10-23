@@ -591,3 +591,15 @@ accepted run length by a third at unchanged accuracy, while 400 M extra CPT toke
 limited by instruction-domain training, not by raw-text pre-training. Next: push the stage-2 recipe further (3–4 epochs,
 lr 3e-5, larger instruction set) on the final CPT checkpoint; the remaining CPT run continues but is no longer the
 critical path.
+
+### 11.5 A100 headline with the best recipe (2026-10-23 23:10, GPU 7 idle, full GSM8K 1 319)
+
+Model: snapshot-28000 (670 M CPT tokens) + stage 2 (suffix masks, lr 3e-5, 3 epochs, 11 k mix), bf16, W=16.
+
+| Decoding on one A100 80 GB | GSM8K | tokens/step | tok/s |
+|---|---|---|---|
+| AR greedy (HF generate, same weights) | 88.2 % | 1.00 | 52.9 |
+| **Shigeru verified diffusion decoding, CUDA graphs, τ=∞** | **88.4 %** | **2.14** | **155.7** |
+
+**2.94× the AR throughput of the same weights on the same GPU at equal accuracy**, and 3.1× the released Qwen3-8B's
+50 tok/s while scoring 2 points higher on GSM8K (86.4 %). Earlier headline (stage 2 default recipe): 104 tok/s.
