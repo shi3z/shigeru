@@ -577,15 +577,16 @@ accepted run length (0.72 tokens/step beyond the AR token) is now the honest mea
 | suffix masks, lr 2e-5, 4 epochs (snapshot-22000) | 89.2 % | 2.06 | 1.07 | 170.2 (contended) |
 | suffix masks, lr 3e-5, 3 epochs (snapshot-28000, 670 M) | 88.5 % | 2.15 | 1.16 | 189.1 |
 | suffix masks, lr 3e-5, 2 epochs, **29 k-example mix** (snapshot-28000) | 89.1 % | 2.13 | 1.14 | 180.8 |
+| suffix masks, lr 3e-5, **5 epochs** (snapshot-28000) | 88.3 % | 2.26 | 1.27 | 193.6 |
 
 Four epochs at 2e-5 give the best accuracy (89.2 %) with slightly fewer tokens/step than 3 epochs at 3e-5; both beat
 the default by 20–27 % in speed at equal or better accuracy. The post-CPT stage 2 uses lr 3e-5 × 3 epochs with suffix
 masks (`distill/configs/phaseC_sft3_4b.yaml`). The same recipe on a later snapshot (28000, 100 M more CPT tokens)
 reproduces 2.15 tokens/step exactly (HumanEval 68.9 %), confirming that the speed is set by the stage-2 recipe and
 not by the CPT token count at this scale. A 2.6× larger stage-2 mix (29 k examples) at the same recipe gives the same
-speed (2.13 tokens/step) and +0.6 points GSM8K (HumanEval 68.3 %): stage-2 data volume is not the lever either; the
-remaining levers are the optimisation strength (LR/epochs, where 3e-5 × 3 was the best point tried) and the model's
-capacity to predict further ahead (a dedicated draft head).
+speed (2.13 tokens/step) and +0.6 points GSM8K (HumanEval 68.3 %): stage-2 data volume is not the lever either; more
+epochs still help a little (5 epochs: 2.26 tokens/step, +5 % over 3 epochs, accuracy unchanged), with diminishing
+returns; the remaining lever is the model's capacity to predict further ahead (a dedicated draft head).
 The first clear movement of tokens/step since the pilot: a stronger stage 2 (2× LR, 2 epochs, suffix masks) raises the
 accepted run length by a third at unchanged accuracy, while 400 M extra CPT tokens had moved it by ~0. The drafter is
 limited by instruction-domain training, not by raw-text pre-training. Next: push the stage-2 recipe further (3–4 epochs,
