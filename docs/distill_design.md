@@ -575,10 +575,13 @@ accepted run length (0.72 tokens/step beyond the AR token) is now the honest mea
 | suffix masks, lr 2e-5, 2 epochs | 88.3 % | 1.95 | 0.96 | 164.0 |
 | **suffix masks, lr 3e-5, 3 epochs** (snapshot-22000) | **88.8 %** | **2.15** | **1.16** | **182.9** |
 | suffix masks, lr 2e-5, 4 epochs (snapshot-22000) | 89.2 % | 2.06 | 1.07 | 170.2 (contended) |
+| suffix masks, lr 3e-5, 3 epochs (snapshot-28000, 670 M) | 88.5 % | 2.15 | 1.16 | 189.1 |
 
 Four epochs at 2e-5 give the best accuracy (89.2 %) with slightly fewer tokens/step than 3 epochs at 3e-5; both beat
 the default by 20–27 % in speed at equal or better accuracy. The post-CPT stage 2 uses lr 3e-5 × 3 epochs with suffix
-masks (`distill/configs/phaseC_sft3_4b.yaml`).
+masks (`distill/configs/phaseC_sft3_4b.yaml`). The same recipe on a later snapshot (28000, 100 M more CPT tokens)
+reproduces 2.15 tokens/step exactly (HumanEval 68.9 %), confirming that the speed is set by the stage-2 recipe and
+not by the CPT token count at this scale.
 The first clear movement of tokens/step since the pilot: a stronger stage 2 (2× LR, 2 epochs, suffix masks) raises the
 accepted run length by a third at unchanged accuracy, while 400 M extra CPT tokens had moved it by ~0. The drafter is
 limited by instruction-domain training, not by raw-text pre-training. Next: push the stage-2 recipe further (3–4 epochs,
