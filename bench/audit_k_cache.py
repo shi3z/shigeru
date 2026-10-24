@@ -85,10 +85,15 @@ def main():
             if ld is not None:
                 r["static_vs_plain_maxdiff"] = max(r["static_vs_plain_maxdiff"], float((la - ld).abs().max()))
                 r["static_vs_plain_argmax_agree"] += int((la.argmax(-1) == ld.argmax(-1)).sum())
+                r["static_rows"] = r.get("static_rows", 0) + K
+            else:
+                r["static_vs_plain_maxdiff"] = r["static_vs_plain_argmax_agree"] = "n/a (K*K rows exceed the largest static bucket)"
     for K, r in res.items():
         if r["rows"]:
-            for k in ("cache_vs_nocache_argmax_agree", "group_vs_probe_argmax_agree", "static_vs_plain_argmax_agree"):
+            for k in ("cache_vs_nocache_argmax_agree", "group_vs_probe_argmax_agree"):
                 r[k] = round(r[k] / r["rows"], 4)
+            if isinstance(r["static_vs_plain_argmax_agree"], int):
+                r["static_vs_plain_argmax_agree"] = round(r["static_vs_plain_argmax_agree"] / r["static_rows"], 4)
     print("=== audit", json.dumps(res), flush=True)
     save_json(a.out, {"model": a.model, "dtype": "bfloat16", "gpu": gpu_info(), "results": res})
 

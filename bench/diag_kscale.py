@@ -88,7 +88,7 @@ def main():
                                          key_mask=probe_key_mask(_s, Kp, device="cuda"))
 
                 # B: first forward
-                lg = fwd_std([], [s + i for i in range(K)], list(range(K)))
+                lg = fwd_std([mask_id] * K, [s + i for i in range(K)], list(range(K)))
                 lgf = lg.float(); lgf[:, mask_id] = float("-inf")
                 probs = torch.softmax(lgf, -1)
                 conf, pred = probs.max(-1)
