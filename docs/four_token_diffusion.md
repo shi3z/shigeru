@@ -139,6 +139,19 @@ the price of a 16-row forward relative to a 1-row AR step; on the A100 the engin
 with the static/graph probe path (§9).  The random-mask checkpoint's weaker first forward (.97/.75/.48/.38, §5.2
 diag_k4_sftrandom) gives it a worse fixed point (70 %): the first-forward reach still matters.
 
+### 8.1 Held-out confirmation (dev items 50–199, never used for any selection; 150 prompts; same checkpoint)
+
+| decoding | GSM8K (150) | tokens / forward | paired vs AR (bootstrap 95 % CI of the difference) |
+|---|---|---|---|
+| AR greedy (HF) | **90.0 %** | 1.00 | – |
+| K=4 refineN, adopt one, ≤ 8 rounds | 84.7 % | 1.13 | −5.3 pts [−10.0, −1.3]; both right 125, only K4 2, only AR 10, neither 13 |
+| K=4 refineN, adopt always, ≤ 6 rounds | 84.7 % | 1.17 | −5.3 pts [−10.7, −0.7]; both 123, only K4 4, only AR 12, neither 11 |
+
+The 96 % / 92 % of the 50 exploration items were optimistic (selection over ~20 settings on 50 prompts, and those 50
+are easier: AR 96 % there vs 90 % here).  The honest estimate for the best pure-diffusion K = 4 setting on this
+checkpoint is **about 5 points below AR** (85 % vs 90 %) at 1.13–1.17 tokens per forward, with no AR verification.
+Phase E1's 80 % is met; Phase E2's 85 % is at the edge; the 2 tokens/forward target is not met.
+
 ## 7, 9–11. Training for K = 4, speed, VRAM, failures, next
 *pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
 training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*

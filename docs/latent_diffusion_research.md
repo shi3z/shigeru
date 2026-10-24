@@ -74,6 +74,32 @@ denoiser the prefix's **next-token logits / LM-head features** rather than hidde
 from the 4B's own layers.  Verdict so far: **continuous latent generation is not ahead of masked diffusion on this
 model; the running stage-2 trainings were correctly left alone.**
 
+### 3.2 Pilot 2 (runs/ldm_pilot_k16_z0tok: z0-prediction + token CE λ = 0.5, 12 000 steps, 1 h 25)
+
+Training: flow MSE → 1.0 (EMA), token CE 106 → 7, one-step ẑ0 accuracy 0.9 at random t.  Evaluation
+(results/pure/ldm_pilot_k16_z0tok_eval.json): oracle 100 %; noisy oracle t = 0.6 → 91.4 % (pilot 1: 99.8 %), t = 0.3 →
+42.6 % (77.2 %); **generated from noise, 16 steps: 0.6 % position accuracy, multiset F1 7.4 %** (pilot 1: 2.0 % / 18.8 %);
+code / en / ja ≤ 0.5 %.  Worse than pilot 1 on every row: the token loss sharpened the one-step decode near the data
+but did not make the condition informative.
+
+### 3.3 Verdict (Phase H, measured)
+
+* H1, H2 hold (trivially and near the data); **H4 fails twice**: with ~250 k and ~380 k training latents, two
+  parameterisations and two losses, the prefix-conditioned denoiser does not learn the continuation — not even the
+  next token (distance-1 accuracy ≤ 2.4 % against the AR path's 97 %).  The generated blocks are fluent-looking
+  frequent tokens unrelated to the reference (duplicate rate ≈ 12–15 %, like masked diffusion's far positions).
+* Interpretation: a 120 M denoiser reading raw 2560-d hidden states through cross-attention has to re-learn what the
+  4B's LM head already computes; the regression targets at high noise are dominated by the noise; and the data
+  (11 k conversations) is tiny for learning a conditional generator from scratch.  None of these are fixed by more
+  steps alone (pilot 2 had 2× the steps and did worse).
+* Against the brief's own gates: H3 ("Prefix だけから意味のある未来 16 トークン") is not met, so H4–H8 (85 % GSM8K,
+  4-step distillation, VRAM targets) are not attempted.  Masked diffusion with the K = 4 leave-one-out refinement
+  (docs/four_token_diffusion.md: 85 % held-out dev, AR 90 %) remains the best pure-diffusion path on this model.
+* If this line is resumed, the design changes with a chance are (not measured): (i) condition on the 4B's next-token
+  **logit / LM-head features** at the cut (and at the K−1 following positions through the mask rows) instead of raw
+  hidden states, (ii) initialise the denoiser from the 4B's last layers, (iii) train on ≥ 10 M latents from the CPT
+  corpus, (iv) hybrid: use the masked-diffusion first forward as the latent initialisation and the continuous
+  denoiser only as a refiner.
 
 ## 4–12. Phases H2–H8, ablations, GSM8K/HumanEval, VRAM, failures, next
-*pending on §3*
+Not pursued: §3.3.  Failed experiments: §3.1–3.2.  Next research questions: §3.3 last bullet.
