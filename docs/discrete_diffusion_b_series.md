@@ -240,7 +240,20 @@ best S = 8 model.  Still running: no-time ×3 (GPU 4), no-time on e5 (GPU 6), **
 positions the sampler reveals late) with clean tokens, i.e. matching the inference mask distribution without any
 corruption (GPU 7) — and a LoRA rank-256 capacity ablation (zeta).
 
-### 10.10 Running
+### 10.10 Training length and base (no-time recipe)
+
+| run | base | steps | dev S = 16 / 8 / 4 | held-out S = 16 / 8 |
+|---|---|---|---|---|
+| no-time (B5) | sft3 | 2 000 | 82 / 66 / 28 % | – |
+| no-time ×3 | sft3 | 6 000 | 70 / 34 / 18 % | 71.3 / 43.3 % |
+| **no-time** | **e5** | 2 000 | 80 / **68 / 36 %** | (running) |
+| B1 (with time) | e5 | 2 000 | 84 / 64 / 28 % | 76.0 / 63.3 % |
+
+Third confirmation that 6 000 steps over-train (−12 / −32 at S = 16 / 8 on dev; 71 / 43 held-out); the useful budget on
+this data is ≤ 2 000 steps (≈ 1.4 passes).  On the e5 base the no-time recipe gives the best S = 8 / S = 4 dev numbers
+so far (68 / 36 %).  A 1 000-step point (GPU 4) and the rank-256 run (zeta) complete the capacity/length picture.
+
+### 10.11 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
