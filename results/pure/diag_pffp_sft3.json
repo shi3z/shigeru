@@ -1,0 +1,609 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "refs": "results/pure/dev_refs_sft3.json",
+  "genre_files": [
+    "data/distill/phaseA_medium_test.jsonl",
+    "data/distill/phaseA_medium_val.jsonl",
+    "data/distill/phaseA_codecomp_test.jsonl"
+  ],
+  "n_items": {
+    "gsm8k": 50,
+    "code": 57,
+    "en": 37,
+    "ja": 28
+  },
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "forwards": 3908,
+  "seconds": 163.8,
+  "summary": {
+    "gsm8k": {
+      "4": {
+        "blocks": 300,
+        "position_acc": 0.7108,
+        "position_acc_by_distance": [
+          0.95,
+          0.76,
+          0.643,
+          0.49
+        ],
+        "multiset_f1": 0.7367,
+        "optimal_assignment_acc": 0.7367,
+        "block_exact": 0.3367,
+        "duplicate_rate": 0.0767,
+        "count_error_per_token": 0.5267,
+        "topk_recall": {
+          "1": 0.7367,
+          "5": 0.9192,
+          "10": 0.9558,
+          "20": 0.9733
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.7175,
+          "2K": 0.8617
+        }
+      },
+      "8": {
+        "blocks": 300,
+        "position_acc": 0.5138,
+        "position_acc_by_distance": [
+          0.973,
+          0.797,
+          0.647,
+          0.537,
+          0.407,
+          0.293,
+          0.26,
+          0.197
+        ],
+        "multiset_f1": 0.6142,
+        "optimal_assignment_acc": 0.6142,
+        "block_exact": 0.0333,
+        "duplicate_rate": 0.265,
+        "count_error_per_token": 0.7717,
+        "topk_recall": {
+          "1": 0.6142,
+          "5": 0.8725,
+          "10": 0.9263,
+          "20": 0.9587
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.61,
+          "2K": 0.765
+        }
+      },
+      "16": {
+        "blocks": 294,
+        "position_acc": 0.354,
+        "position_acc_by_distance": [
+          0.973,
+          0.789,
+          0.69,
+          0.565,
+          0.439,
+          0.323,
+          0.265,
+          0.238,
+          0.269,
+          0.177,
+          0.201,
+          0.214,
+          0.15,
+          0.126,
+          0.129,
+          0.116
+        ],
+        "multiset_f1": 0.5051,
+        "optimal_assignment_acc": 0.5051,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.49,
+        "count_error_per_token": 0.9898,
+        "topk_recall": {
+          "1": 0.5051,
+          "5": 0.7934,
+          "10": 0.8697,
+          "20": 0.929
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.5132,
+          "2K": 0.6571
+        }
+      },
+      "32": {
+        "blocks": 238,
+        "position_acc": 0.2423,
+        "position_acc_by_distance": [
+          0.983,
+          0.845,
+          0.693,
+          0.634,
+          0.471,
+          0.387,
+          0.319,
+          0.261,
+          0.269,
+          0.189,
+          0.218,
+          0.197,
+          0.164,
+          0.139,
+          0.168,
+          0.122,
+          0.084,
+          0.097,
+          0.101,
+          0.122,
+          0.126,
+          0.092,
+          0.143,
+          0.139,
+          0.092,
+          0.08,
+          0.097,
+          0.088,
+          0.101,
+          0.092,
+          0.13,
+          0.109
+        ],
+        "multiset_f1": 0.3909,
+        "optimal_assignment_acc": 0.3909,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.7021,
+        "count_error_per_token": 1.2182,
+        "topk_recall": {
+          "1": 0.3909,
+          "5": 0.7088,
+          "10": 0.8145,
+          "20": 0.894
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.4185,
+          "2K": 0.5414
+        }
+      }
+    },
+    "code": {
+      "4": {
+        "blocks": 342,
+        "position_acc": 0.739,
+        "position_acc_by_distance": [
+          0.939,
+          0.766,
+          0.661,
+          0.591
+        ],
+        "multiset_f1": 0.7858,
+        "optimal_assignment_acc": 0.7858,
+        "block_exact": 0.538,
+        "duplicate_rate": 0.0753,
+        "count_error_per_token": 0.4284,
+        "topk_recall": {
+          "1": 0.7858,
+          "5": 0.8911,
+          "10": 0.924,
+          "20": 0.9554
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.7873,
+          "2K": 0.8443
+        }
+      },
+      "8": {
+        "blocks": 338,
+        "position_acc": 0.5385,
+        "position_acc_by_distance": [
+          0.932,
+          0.751,
+          0.607,
+          0.503,
+          0.441,
+          0.399,
+          0.34,
+          0.334
+        ],
+        "multiset_f1": 0.6305,
+        "optimal_assignment_acc": 0.6305,
+        "block_exact": 0.1243,
+        "duplicate_rate": 0.2474,
+        "count_error_per_token": 0.7389,
+        "topk_recall": {
+          "1": 0.6305,
+          "5": 0.8184,
+          "10": 0.8743,
+          "20": 0.9149
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.6346,
+          "2K": 0.7393
+        }
+      },
+      "16": {
+        "blocks": 308,
+        "position_acc": 0.3565,
+        "position_acc_by_distance": [
+          0.919,
+          0.682,
+          0.61,
+          0.516,
+          0.442,
+          0.38,
+          0.331,
+          0.295,
+          0.227,
+          0.244,
+          0.208,
+          0.188,
+          0.205,
+          0.162,
+          0.153,
+          0.143
+        ],
+        "multiset_f1": 0.4838,
+        "optimal_assignment_acc": 0.4838,
+        "block_exact": 0.0032,
+        "duplicate_rate": 0.4738,
+        "count_error_per_token": 1.0325,
+        "topk_recall": {
+          "1": 0.4838,
+          "5": 0.7279,
+          "10": 0.8028,
+          "20": 0.8636
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.497,
+          "2K": 0.6185
+        }
+      },
+      "32": {
+        "blocks": 236,
+        "position_acc": 0.2115,
+        "position_acc_by_distance": [
+          0.911,
+          0.669,
+          0.589,
+          0.475,
+          0.407,
+          0.369,
+          0.267,
+          0.301,
+          0.199,
+          0.225,
+          0.178,
+          0.191,
+          0.191,
+          0.123,
+          0.161,
+          0.14,
+          0.127,
+          0.127,
+          0.127,
+          0.106,
+          0.114,
+          0.055,
+          0.106,
+          0.093,
+          0.097,
+          0.068,
+          0.047,
+          0.059,
+          0.051,
+          0.076,
+          0.051,
+          0.068
+        ],
+        "multiset_f1": 0.3444,
+        "optimal_assignment_acc": 0.3444,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.6898,
+        "count_error_per_token": 1.3112,
+        "topk_recall": {
+          "1": 0.3444,
+          "5": 0.6032,
+          "10": 0.7005,
+          "20": 0.7855
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.3688,
+          "2K": 0.4758
+        }
+      }
+    },
+    "en": {
+      "4": {
+        "blocks": 222,
+        "position_acc": 0.4178,
+        "position_acc_by_distance": [
+          0.712,
+          0.428,
+          0.306,
+          0.225
+        ],
+        "multiset_f1": 0.4572,
+        "optimal_assignment_acc": 0.4572,
+        "block_exact": 0.1036,
+        "duplicate_rate": 0.1622,
+        "count_error_per_token": 1.0856,
+        "topk_recall": {
+          "1": 0.4572,
+          "5": 0.6757,
+          "10": 0.7455,
+          "20": 0.8029
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.4685,
+          "2K": 0.5755
+        }
+      },
+      "8": {
+        "blocks": 222,
+        "position_acc": 0.2596,
+        "position_acc_by_distance": [
+          0.676,
+          0.392,
+          0.324,
+          0.243,
+          0.153,
+          0.113,
+          0.086,
+          0.09
+        ],
+        "multiset_f1": 0.3457,
+        "optimal_assignment_acc": 0.3457,
+        "block_exact": 0.009,
+        "duplicate_rate": 0.3992,
+        "count_error_per_token": 1.3086,
+        "topk_recall": {
+          "1": 0.3457,
+          "5": 0.5557,
+          "10": 0.6419,
+          "20": 0.71
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.3587,
+          "2K": 0.4505
+        }
+      },
+      "16": {
+        "blocks": 222,
+        "position_acc": 0.1639,
+        "position_acc_by_distance": [
+          0.644,
+          0.392,
+          0.297,
+          0.23,
+          0.162,
+          0.153,
+          0.104,
+          0.077,
+          0.077,
+          0.086,
+          0.081,
+          0.068,
+          0.104,
+          0.045,
+          0.05,
+          0.054
+        ],
+        "multiset_f1": 0.2663,
+        "optimal_assignment_acc": 0.2663,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.6208,
+        "count_error_per_token": 1.4673,
+        "topk_recall": {
+          "1": 0.2663,
+          "5": 0.4688,
+          "10": 0.5594,
+          "20": 0.638
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.2869,
+          "2K": 0.3629
+        }
+      },
+      "32": {
+        "blocks": 214,
+        "position_acc": 0.1028,
+        "position_acc_by_distance": [
+          0.645,
+          0.402,
+          0.304,
+          0.22,
+          0.14,
+          0.112,
+          0.093,
+          0.098,
+          0.061,
+          0.061,
+          0.07,
+          0.065,
+          0.056,
+          0.047,
+          0.042,
+          0.084,
+          0.037,
+          0.033,
+          0.033,
+          0.084,
+          0.028,
+          0.056,
+          0.051,
+          0.051,
+          0.061,
+          0.061,
+          0.028,
+          0.061,
+          0.065,
+          0.056,
+          0.042,
+          0.042
+        ],
+        "multiset_f1": 0.1941,
+        "optimal_assignment_acc": 0.1941,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.7945,
+        "count_error_per_token": 1.6119,
+        "topk_recall": {
+          "1": 0.1941,
+          "5": 0.3918,
+          "10": 0.4864,
+          "20": 0.5772
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.2244,
+          "2K": 0.2902
+        }
+      }
+    },
+    "ja": {
+      "4": {
+        "blocks": 168,
+        "position_acc": 0.3839,
+        "position_acc_by_distance": [
+          0.78,
+          0.399,
+          0.256,
+          0.101
+        ],
+        "multiset_f1": 0.4345,
+        "optimal_assignment_acc": 0.4345,
+        "block_exact": 0.0655,
+        "duplicate_rate": 0.2262,
+        "count_error_per_token": 1.131,
+        "topk_recall": {
+          "1": 0.4345,
+          "5": 0.6488,
+          "10": 0.7217,
+          "20": 0.7738
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.4509,
+          "2K": 0.5565
+        }
+      },
+      "8": {
+        "blocks": 168,
+        "position_acc": 0.1875,
+        "position_acc_by_distance": [
+          0.643,
+          0.298,
+          0.173,
+          0.095,
+          0.101,
+          0.054,
+          0.071,
+          0.065
+        ],
+        "multiset_f1": 0.2619,
+        "optimal_assignment_acc": 0.2619,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.4777,
+        "count_error_per_token": 1.4762,
+        "topk_recall": {
+          "1": 0.2619,
+          "5": 0.465,
+          "10": 0.564,
+          "20": 0.6525
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.2842,
+          "2K": 0.3571
+        }
+      },
+      "16": {
+        "blocks": 168,
+        "position_acc": 0.1239,
+        "position_acc_by_distance": [
+          0.679,
+          0.298,
+          0.226,
+          0.131,
+          0.089,
+          0.077,
+          0.048,
+          0.083,
+          0.065,
+          0.06,
+          0.071,
+          0.03,
+          0.018,
+          0.036,
+          0.024,
+          0.048
+        ],
+        "multiset_f1": 0.1942,
+        "optimal_assignment_acc": 0.1942,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.6879,
+        "count_error_per_token": 1.6116,
+        "topk_recall": {
+          "1": 0.1942,
+          "5": 0.3765,
+          "10": 0.4792,
+          "20": 0.5729
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.2188,
+          "2K": 0.2794
+        }
+      },
+      "32": {
+        "blocks": 168,
+        "position_acc": 0.0748,
+        "position_acc_by_distance": [
+          0.631,
+          0.25,
+          0.185,
+          0.161,
+          0.089,
+          0.065,
+          0.06,
+          0.071,
+          0.036,
+          0.03,
+          0.065,
+          0.024,
+          0.054,
+          0.036,
+          0.03,
+          0.06,
+          0.054,
+          0.042,
+          0.054,
+          0.024,
+          0.018,
+          0.024,
+          0.006,
+          0.054,
+          0.042,
+          0.036,
+          0.006,
+          0.042,
+          0.018,
+          0.048,
+          0.054,
+          0.03
+        ],
+        "multiset_f1": 0.1486,
+        "optimal_assignment_acc": 0.1486,
+        "block_exact": 0.0,
+        "duplicate_rate": 0.8151,
+        "count_error_per_token": 1.7028,
+        "topk_recall": {
+          "1": 0.1486,
+          "5": 0.3136,
+          "10": 0.4066,
+          "20": 0.5082
+        },
+        "fixed_candidates_recall": {
+          "1K": 0.1745,
+          "2K": 0.2327
+        }
+      }
+    }
+  }
+}

@@ -7,6 +7,10 @@ for final rows; strategy and hyper-parameter choices use `bench/prompts_gsm8k_de
 questions not present in any training file, `bench/make_gsm8k_dev.py`, seed 0; 6 773 of 7 473 train questions
 qualified).
 
+Follow-up phases: **Phase D** (self-correcting block denoiser + on-policy denoising training) is §6–7 below;
+**Phase E** (K = 4 blocks, two forwards) is in docs/four_token_diffusion.md; **Phase F** (position-free future
+prediction, diagnostic only — gate not passed) is in docs/future_token_set_research.md.
+
 ## 1. Audit (Phase A) — what the repository actually does
 
 ### 1.1 Starting numbers (verified in results/, all GSM8K test 1 319, one A100 80 GB, bf16, batch 1, 384 new tokens)
