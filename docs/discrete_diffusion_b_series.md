@@ -173,7 +173,19 @@ The high-noise emphasis moves accuracy from the many-step to the few-step regime
 total is not a gain.  A real step-distillation signal needs the teacher's *intermediate* decisions (which positions to
 reveal at which step), not only its final block — *not implemented*.
 
-### 10.4 Running
+### 10.4 B5 — time conditioning ablation (GPU 4, sft3 base, same 2 000 × 8 blocks)
+
+| | with time embedding (B1-sft3) | **without** (`--no-time`) |
+|---|---|---|
+| masked acc 10 / 50 / 100 % (train-log buckets at the end) | .83 / .67 / .34 | .75 / .65 / .33 |
+| free generation S = 16 / 8 / 4 | 76 / 62 / 14 % | **82 / 66 / 28 %** |
+
+The mask-ratio embedding (option A, added to the block rows) does not help and the no-time model generates better at
+every step count.  The ratio is already visible to the network (it sees how many [MASK] rows it attends), so the extra
+input only adds a train/inference mismatch (training buckets vs the sampler's continuous schedule).  Time conditioning is
+dropped from the recipe; the cosine-schedule ablation (running) is the other B5 arm.
+
+### 10.5 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
