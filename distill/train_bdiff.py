@@ -38,6 +38,7 @@ def main():
     ap.add_argument("--r-replace", type=float, default=0.25)
     ap.add_argument("--states", default=None, help="on-policy states JSONL (gen_onpolicy); used for a fraction --p-state of the blocks")
     ap.add_argument("--p-state", type=float, default=0.0)
+    ap.add_argument("--states-gold", action="store_true", help="use only the MASK PATTERN of the recorded states (visible tokens = clean tokens): on-policy masking without corruption")
     ap.add_argument("--lambda-vis", type=float, default=1.0)
     ap.add_argument("--lambda-id", type=float, default=0.1)
     ap.add_argument("--no-time", action="store_true")
@@ -138,6 +139,8 @@ def main():
             elif use_state:
                 toks, s0, st = states[prng.randrange(len(states))]
                 prefix, x0, state = toks[:s0], toks[s0:s0 + a.K], st
+                if a.states_gold:
+                    state = [-1 if v == -1 else x0[i] for i, v in enumerate(st)]
             else:
                 t, P = items[prng.randrange(len(items))]
                 c = prng.randint(P, t.numel() - a.K)
