@@ -183,7 +183,9 @@ reveal at which step), not only its final block — *not implemented*.
 The mask-ratio embedding (option A, added to the block rows) does not help and the no-time model generates better at
 every step count.  The ratio is already visible to the network (it sees how many [MASK] rows it attends), so the extra
 input only adds a train/inference mismatch (training buckets vs the sampler's continuous schedule).  Time conditioning is
-dropped from the recipe; the cosine-schedule ablation (running) is the other B5 arm.
+dropped from the recipe.  The other B5 arm — **cosine mask schedule** for training *and* sampling (γ = 1 − cos(πt/2):
+few masks early, many late) — gives 58 / 18 / 6 % at S = 16 / 8 / 4 vs 76 / 62 / 14 % for linear: fewer high-mask-rate
+training examples and a sampler that reveals little in its first steps both hurt.  Linear stays.
 
 ### 10.5 Running
 
