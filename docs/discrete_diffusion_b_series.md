@@ -187,7 +187,20 @@ dropped from the recipe.  The other B5 arm — **cosine mask schedule** for trai
 few masks early, many late) — gives 58 / 18 / 6 % at S = 16 / 8 / 4 vs 76 / 62 / 14 % for linear: fewer high-mask-rate
 training examples and a sampler that reveals little in its first steps both hurt.  Linear stays.
 
-### 10.5 Running
+### 10.5 B1 ×3 steps (zeta, e5 base, 6 000 × 8 blocks = 48 k blocks, 88 min)
+
+| | B1 (2 000 steps) | B1 ×3 (6 000 steps) |
+|---|---|---|
+| dev 50, S = 16 / 8 / 4 | 84 / 64 / 28 % | 74 / 56 / 26 % |
+| held-out 150, S = 16 / 8 | 76.0 / 63.3 % | **68.0 / 52.0 %** |
+| masked acc at γ ≥ 0.95 (train log) | 0.33 | 0.17 |
+
+Three times the steps on the same 11 227 conversations is *worse* (−8 / −11 held-out): the LoRA over-fits the small
+stage-2 mix (≈ 4 passes), and the all-mask regime degrades first.  More passes are not the lever; more diverse text is —
+the next run (zeta) mixes raw FineWeb blocks from the 1 B-token CPT stream (data/cpt/fineweb_1b.bin) 50/50 with the
+conversations, no time conditioning.
+
+### 10.6 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1

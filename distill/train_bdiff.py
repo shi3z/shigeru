@@ -56,6 +56,8 @@ def main():
     ap.add_argument("--t-min", type=float, default=0.0, help="sample t in [t_min, 1] (step-distillation emphasis on high noise)")
     ap.add_argument("--blocks", default=None, help="JSONL of {prefix_ids, x0} rows (e.g. teacher samples from gen_bstates --mode samples) used instead of --data cuts")
     ap.add_argument("--p-blocks", type=float, default=1.0, help="fraction of steps drawn from --blocks when both --blocks and --data are given")
+    ap.add_argument("--data-tokens", default=None, help="pre-tokenized uint32 stream (distill/pretokenize.py) for raw-text blocks: prefix = a window of up to --max-len tokens, block = the next K")
+    ap.add_argument("--p-tokens", type=float, default=0.5, help="fraction of samples drawn from --data-tokens when --data is also given")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(a.seed); random.seed(a.seed)
@@ -96,6 +98,11 @@ def main():
             if s0 + a.K <= len(r["tokens"]) and s0 >= r["prompt_len"] and len(st) >= a.K:
                 states.append((r["tokens"], s0, st[: a.K]))
     blocks = [(r["prefix_ids"], r["x0"]) for r in load_jsonl(a.blocks)] if a.blocks else []
+    tok_stream = None
+    if a.data_tokens:
+        import numpy as np
+        tok_stream = np.memmap(a.data_tokens, dtype=np.uint32, mode="r")
+        print(f"[train_bdiff] token stream {len(tok_stream) / 1e6:.0f} M tokens", flush=True)
     print(f"[train_bdiff] {len(items)} items, {len(states)} on-policy states, {len(blocks)} teacher blocks, trainable {n_train / 1e6:.1f} M, K={a.K}, time={not a.no_time}", flush=True)
     # fixed blocks for the overfit gate
     fixed = None
@@ -123,6 +130,11 @@ def main():
             elif blocks and (not items or float(torch.rand(1, generator=rng)) < a.p_blocks):
                 prefix, x0 = blocks[prng.randrange(len(blocks))]
                 prefix, x0, state = list(prefix), list(x0)[: a.K], None
+            elif tok_stream is not None and (not items or float(torch.rand(1, generator=rng)) < a.p_tokens):
+                plen = prng.randint(64, a.max_len - a.K)
+                s0 = prng.randrange(0, len(tok_stream) - plen - a.K)
+                seg = tok_stream[s0: s0 + plen + a.K].astype("int64").tolist()
+                prefix, x0, state = seg[:plen], seg[plen:], None
             elif use_state:
                 toks, s0, st = states[prng.randrange(len(states))]
                 prefix, x0, state = toks[:s0], toks[s0:s0 + a.K], st
