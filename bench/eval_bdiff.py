@@ -81,8 +81,11 @@ def main():
     if a.states:
         for line in open(a.states):
             r = json.loads(line)
-            b = int(list(r["states"].keys())[0]); B = int(r["block"]); s0 = b * B
-            states[r["id"]].append((s0, r["states"][str(b)][:K], r["tokens"]))
+            if "start" in r:                                  # B-sampler states (gen_bstates --mode states)
+                states[r["id"]].append((int(r["start"]), r["state"][:K], r["tokens"]))
+            else:                                             # A-series states (gen_onpolicy)
+                b = int(list(r["states"].keys())[0]); B = int(r["block"]); s0 = b * B
+                states[r["id"]].append((s0, r["states"][str(b)][:K], r["tokens"]))
     for p in (prompts if not a.skip_tf else []):
         resp = refs[p["id"]]["response_ids"]
         full = p["ids"] + resp
