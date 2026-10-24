@@ -181,10 +181,28 @@ class TokenStreamItems:
         return torch.from_numpy(np.array(self.arr[j * self.max_len:(j + 1) * self.max_len], dtype=np.int64)), 0
 
 
-class CDLMDataset:
-    """Tokenized examples -> dual-stream examples; the gamma/mask draw is deterministic in (seed, epoch, index)."""
+def load_state_items(path, max_len):
+    """On-policy states (distill/gen_onpolicy.py): JSONL rows {tokens, prompt_len, block, states: {block_index: [B ints]}}
+    -> list of (tokens LongTensor, prompt_len, states dict).  Rows longer than max_len are truncated (states beyond the cut
+    dropped)."""
+    import torch
+    out = []
+    for r in load_jsonl(path):
+        ids = r["tokens"][:max_len]
+        B = int(r["block"])
+        nblk = -(-len(ids) // B)
+        states = {int(b): v for b, v in r["states"].items() if int(b) < nblk and (int(b) + 1) * B <= len(ids)}
+        out.append((torch.tensor(ids, dtype=torch.long), int(r["prompt_len"]), states))
+    return out
 
-    def __init__(self, items, mask_id, block, gamma_min, gamma_max, seed, ar_on_prompt=False, mask_mode="random"):
+
+class CDLMDataset:
+    """Tokenized examples -> dual-stream examples; the gamma/mask draw is deterministic in (seed, epoch, index).
+    Items may carry a third element, an on-policy `states` dict (load_state_items); with probability `states_mix` the
+    example is built from it (engine/cdlm/data.py `states`), else from the usual gamma masking (gold-mask mixture)."""
+
+    def __init__(self, items, mask_id, block, gamma_min, gamma_max, seed, ar_on_prompt=False, mask_mode="random",
+                 states_mix=1.0):
         import torch
         from engine.cdlm import MASK_MODES, build_example
         if mask_mode not in MASK_MODES:
@@ -197,6 +215,7 @@ class CDLMDataset:
         def gamma_sampler(nblk, rng):           # U(lo, hi], clamped away from 0 like data.uniform_gamma
             return (lo + (hi - lo) * torch.rand(nblk, generator=rng)).clamp_min(1e-8)
         self.gamma_sampler, self.build_example = gamma_sampler, build_example
+        self.states_mix = float(states_mix)
 
     def set_epoch(self, epoch):
         self.epoch = epoch
@@ -206,10 +225,14 @@ class CDLMDataset:
 
     def __getitem__(self, i):
         import torch
-        tokens, prompt_len = self.items[i]
+        item = self.items[i]
+        tokens, prompt_len = item[0], item[1]
+        states = item[2] if len(item) > 2 else None
         rng = torch.Generator().manual_seed((self.seed * 1_000_003 + self.epoch) * 1_000_003 + i)
+        if states and self.states_mix < 1.0 and bool(torch.rand(1, generator=rng) >= self.states_mix):
+            states = None
         return self.build_example(tokens, prompt_len, self.mask_id, block=self.block, gamma_sampler=self.gamma_sampler,
-                                  rng=rng, ar_on_prompt=self.ar_on_prompt, mask_mode=self.mask_mode)
+                                  rng=rng, ar_on_prompt=self.ar_on_prompt, mask_mode=self.mask_mode, states=states or None)
 
 
 def make_loader(ds, batch, epoch, seed, dist, num_workers):
@@ -409,10 +432,15 @@ def main():
     else:
         data_path = cfg["data_train"] if os.path.isabs(cfg["data_train"]) else os.path.join(ROOT, cfg["data_train"])
         items, n_dropped, n_truncated = tokenize_examples(load_jsonl(data_path), tok, max_len)
+    if cfg.get("data_states"):   # on-policy denoising states (distill/gen_onpolicy.py), appended to / replacing data_train
+        sp = cfg["data_states"] if os.path.isabs(cfg["data_states"]) else os.path.join(ROOT, cfg["data_states"])
+        st_items = load_state_items(sp, max_len)
+        items = (list(items) if cfg.get("data_train") or cfg.get("data_tokens") or cfg.get("data_text") else []) + st_items
+        data_path = f"{data_path if cfg.get('data_train') else ''}+{sp}"
     assert items, f"no trainable examples in {data_path}"
     gamma = cfg.get("gamma") or {}
     ds = CDLMDataset(items, mask_id, block, gamma.get("min", 0.0), gamma.get("max", 1.0), seed, cfg.get("ar_on_prompt", False),
-                     mask_mode=cfg.get("mask_mode", "random"))
+                     mask_mode=cfg.get("mask_mode", "random"), states_mix=float(cfg.get("states_mix", 1.0)))
     batch, grad_accum, epochs = int(cfg["batch"]), int(cfg["grad_accum"]), float(cfg["epochs"])
     n_local = math.ceil(len(ds) / dist.world) if dist.enabled else len(ds)
     micro_per_epoch = math.ceil(n_local / batch)

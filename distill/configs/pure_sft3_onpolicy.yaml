@@ -1,0 +1,21 @@
+# Phase C stage 2 on the 1B-token CPT model (runs/phaseC_cpt3_4b/final) with the enlarged mix (data/distill/phaseA_stage2c_train.jsonl):
+# Pure-diffusion stage 2 "D": random masks + ON-POLICY denoising states (distill/gen_onpolicy.py from runs/pure_sft3_random/final),
+# docs/pure_diffusion_research.md section 7.  Same base, data mix, lr and (approximately) optimizer steps as pure_sft3_random.
+# teacher no-code 1431 + completion-format code 296 + glaive-ja 4000 (2000 tool calls) + UltraChat 4000 + SWE-smith resolved 1500.
+# max_len 2048 (-> 4096 rows) for the long tool/SWE contexts: batch 1 x accum 16, single GPU. ~11.2k examples x 2 epochs ~= 1400 steps.
+model: runs/phaseC_cpt3_4b/final
+data_train: data/distill/phaseA_stage2c_train.jsonl
+out_dir: runs/pure_sft3_onpolicy
+block: 32
+max_len: 2048
+batch: 1
+grad_accum: 16
+lr: 3e-5
+warmup_ratio: 0.03
+epochs: 2                 # 11 227 gold items + ~6 000 on-policy state rows x 2 epochs ~= the 2 097 optimizer steps of the 3-epoch baselines
+save_steps: 1000
+save_total_limit: 1
+seed: 0
+mask_mode: random        # pure-diffusion ablation (docs/pure_diffusion_research.md section 5): the phaseC_sft3_4b recipe with random masks instead of suffix
+data_states: data/distill/pure_states_random.jsonl   # rows {tokens, prompt_len, block, states:{b:[B ints, -1 = MASK]}}
+states_mix: 1.0            # every state row uses its state (the gold-mask mixture comes from the data_train rows)

@@ -53,7 +53,7 @@ def uniform_gamma(nblk, rng=None, eps=1e-8):
 
 
 def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng=None, ar_on_prompt=False,
-                  mask_mode="random"):
+                  mask_mode="random", states=None):
     """Build one dual-stream example (dict of 1-D CPU tensors over the 2L physical rows plus scalars).
 
     tokens: 1-D int sequence (prompt + response), prompt_len: number of leading prompt tokens, mask_id: [MASK] id,
@@ -61,6 +61,14 @@ def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng
     ar_on_prompt: also score next-token prediction of prompt tokens on the x0 rows (WeDLM does not),
     mask_mode: "random" (default) | "suffix" | "mixed" — which round(n * gamma_k) positions of a block are masked (module
     docstring); labels, weights, position ids and the attention mask are built the same way in every mode.
+    states: optional {block_index: list of B ints} — ON-POLICY denoising states (distill/gen_onpolicy.py, docs/
+    pure_diffusion_research.md section 7): for such a block the xt rows are NOT drawn from gamma; entry -1 marks a
+    [MASK] row and any other entry is the token the decoder had PLACED there (the model's own prediction, possibly
+    wrong), which is used as the observed input of that row instead of the clean token.  Labels stay the clean tokens
+    on the mask rows (a mask whose context holds wrong tokens must still predict the truth — the correction signal of
+    the re-masking decoder), the placed rows are not scored (their logits are the AR head), the x0 stream is clean as
+    always, and the weight is 1/gamma_eff with gamma_eff = n_mask / n_maskable.  Prompt positions and blocks without
+    a state are handled exactly as without `states`.  `n_corrupt` (placed tokens != clean) is returned.
     """
     if mask_mode not in MASK_MODES:
         raise ValueError(f"mask_mode={mask_mode!r}, expected one of {MASK_MODES}")
@@ -75,20 +83,33 @@ def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng
     positions = torch.arange(L)
 
     xt_ids, xt_pos, xt_lab, xt_w = [], [], [], []
+    n_corrupt = 0
     for b in range(nblk):
         s, e = b * block, min(L, (b + 1) * block)
         ids, pos = tokens[s:e], positions[s:e]
         g = float(gamma[b])
         cand = (pos >= prompt_len).nonzero().flatten()           # maskable = response tokens of this block
         masked = torch.zeros(e - s, dtype=torch.bool)
-        n_mask = int(round(cand.numel() * g))
-        if n_mask and mask_mode == "suffix":
-            masked[cand[-n_mask:]] = True                        # the last n_mask response positions of the block
-        elif n_mask:
-            masked[cand[torch.randperm(cand.numel(), generator=rng)[:n_mask]]] = True
+        placed = None
+        st = states.get(b) if states else None
+        if st is not None:                                       # on-policy state: masks and placed tokens as recorded
+            st = torch.as_tensor(st, dtype=torch.long).flatten()
+            assert st.numel() == e - s, (st.numel(), e - s)
+            masked = st == -1
+            assert bool((pos[masked] >= prompt_len).all()), "a state masks a prompt position"
+            placed = torch.where(masked | (pos < prompt_len), ids, st)   # prompt rows always clean
+            n_corrupt += int(((placed != ids) & ~masked).sum())
+            n_mask = int(masked.sum())
+            g = max(n_mask / max(1, cand.numel()), 1e-8)
+        else:
+            n_mask = int(round(cand.numel() * g))
+            if n_mask and mask_mode == "suffix":
+                masked[cand[-n_mask:]] = True                    # the last n_mask response positions of the block
+            elif n_mask:
+                masked[cand[torch.randperm(cand.numel(), generator=rng)[:n_mask]]] = True
         obs, msk = (~masked).nonzero().flatten(), masked.nonzero().flatten()   # each ascending -> observed first
         order = torch.cat([obs, msk])
-        row_ids = ids[order].clone()
+        row_ids = (placed if placed is not None else ids)[order].clone()
         row_ids[obs.numel():] = mask_id
         lab = torch.full((e - s,), IGNORE, dtype=torch.long)
         lab[obs.numel():] = ids[msk]
@@ -106,7 +127,8 @@ def build_example(tokens, prompt_len, mask_id, block=32, gamma_sampler=None, rng
         mlm_weights=torch.cat([torch.zeros(L), *xt_w]),
         ar_labels=ar_labels,
         is_xt=torch.arange(2 * L) >= L,
-        seq_len=L, prompt_len=prompt_len, block=block, gamma=gamma, mask_mode=mask_mode,
+        seq_len=L, prompt_len=prompt_len, block=block, gamma=gamma, mask_mode=mask_mode, n_corrupt=n_corrupt,
+        n_state_blocks=(len([b for b in states if b < nblk]) if states else 0),
     )
 
 
