@@ -626,9 +626,15 @@ Reading:
 - **3.17× AR throughput on the same GPU** (156.0 vs 49.2 in the same process; 2.97× against the 52.5 of the HF path).
   Identical to the snapshot-28000 model of §11.5 (155.7 tok/s, 2.14 tok/step): the last 330 M CPT tokens changed nothing
   measurable in speed, confirming §11.1/§11.4 (CPT volume is not the lever, the stage-2 recipe is).
-- τ=1.0 and τ=∞ give the *same* 87.6 % (1 156/1 319) with the same wrong items: verified decoding is AR-equivalent, the
-  threshold only changes speed (+22 %). The 1.3-point gap to the HF path (88.9 %) is the bf16 tie/ordering difference
-  between the two attention/GEMM implementations, larger here than the 0.2 points of §11.5; it is the engine, not the model.
+- τ=1.0 and τ=∞ give the *same* 87.6 %: identical wrong-item sets (163/163, checked per id) and 1 316/1 319 identical
+  output strings. The threshold only changes speed (+22 %).
+- Verified decoding vs the engine's own AR path (same process, same weights): 147 vs 163 wrong items, 36 items differ in
+  correctness (16 net), and only 702/1 319 output strings are byte-identical. So "AR-equivalent" holds in the sense of
+  the verification rule (every accepted token is the AR row's argmax at that step), but the per-step numerics of the
+  windowed batched forward (cache buckets, W=16 rows) differ from the single-row AR forward enough to flip near-tie
+  argmaxes, after which the continuations diverge. Cost: −1.3 points on GSM8K here (−0.2 in §11.5 for snapshot-28000),
+  i.e. a run-to-run-sized effect, not a systematic degradation; still, it is an engine numerics gap worth closing
+  (fp32 accumulation in the verify logits is the first thing to try).
 - HumanEval 68.3 % is in the band of all diffusion checkpoints (68–71 %); the code-data finding of §10.6 stands.
 - The 5-epoch variant (zeta, §11.4: 2.26 tok/step at 88.3 %) is being trained on this same final CPT checkpoint
   (`distill/zeta_final_e5.sh`); results go to §11.7.
