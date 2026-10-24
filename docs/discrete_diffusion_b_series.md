@@ -310,8 +310,9 @@ A-series K = 4: 84.7 % at 1.17 tokens/forward).  The 80 % target at S = 8 is 11 
 
 The first run completed but its weights could not be saved (root filesystem full: safetensors "No space left on
 device"); the repeat (after freeing 23 GB of an ablation's optimizer checkpoint) gives dev S = 16 / 8 / 4 = **68 / 50 / 18 %**
-— worse than the LoRA runs (80 / 68 / 36 %), with a loss spike late in training.  Full fine-tuning at this learning rate
-and budget is not the capacity lever either (held-out evaluation in results/pure/bdiff_e5_full_heldout.json when done).
+— worse than the LoRA runs (80 / 68 / 36 %), with a loss spike late in training.  Held-out (items 50–199) S = 16 / 8 = **67.3 / 50.7 %** vs
+76.0 / 66.0 % for the LoRA with the same data and steps.  Full fine-tuning at this learning rate and budget is not the
+capacity lever either (results/pure/bdiff_e5_full_heldout.json; 76 min, 75.5 GB peak).
 
 ### 10.17 Running
 
