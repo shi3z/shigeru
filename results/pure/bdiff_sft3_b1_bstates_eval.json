@@ -1,0 +1,96 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "adapter": "runs/bdiff_sft3_b1/adapter",
+  "K": 16,
+  "n": 50,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 118.5,
+  "B1": {
+    "0.1": {
+      "masked_acc": 0.9371,
+      "block_exact": 0.8844
+    },
+    "0.25": {
+      "masked_acc": 0.9226,
+      "block_exact": 0.7415
+    },
+    "0.5": {
+      "masked_acc": 0.8138,
+      "block_exact": 0.3401
+    },
+    "0.75": {
+      "masked_acc": 0.6369,
+      "block_exact": 0.0578
+    },
+    "0.9": {
+      "masked_acc": 0.4825,
+      "block_exact": 0.0068
+    },
+    "1.0": {
+      "masked_acc": 0.3065,
+      "block_exact": 0.0,
+      "acc_by_position": [
+        0.881,
+        0.711,
+        0.602,
+        0.463,
+        0.333,
+        0.293,
+        0.238,
+        0.224,
+        0.235,
+        0.139,
+        0.156,
+        0.207,
+        0.126,
+        0.109,
+        0.109,
+        0.078
+      ]
+    }
+  },
+  "B3": {
+    "A_random": {
+      "blocks": 294,
+      "errors_before_per_block": 4.0,
+      "errors_after_per_block": 9.276,
+      "wrong_to_correct": 367,
+      "correct_to_wrong": 1918,
+      "wrong_to_wrong": 688,
+      "correct_to_correct": 1610,
+      "block_exact_after": 0.0102,
+      "correction_success_rate": 0.3121,
+      "error_introduction_rate": 0.5437
+    },
+    "B_partial": {
+      "blocks": 294,
+      "errors_before_per_block": 8.0,
+      "errors_after_per_block": 1.643,
+      "wrong_to_correct": 1911,
+      "correct_to_wrong": 42,
+      "wrong_to_wrong": 441,
+      "correct_to_correct": 2310,
+      "block_exact_after": 0.2381,
+      "correction_success_rate": 0.8125,
+      "error_introduction_rate": 0.0179
+    },
+    "C_onpolicy": {
+      "blocks": 294,
+      "errors_before_per_block": 11.248,
+      "errors_after_per_block": 9.514,
+      "wrong_to_correct": 623,
+      "correct_to_wrong": 113,
+      "wrong_to_wrong": 1798,
+      "correct_to_correct": 1284,
+      "block_exact_after": 0.0306,
+      "correction_success_rate": 0.1884,
+      "error_introduction_rate": 0.0809
+    }
+  },
+  "B4": {}
+}

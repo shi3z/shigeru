@@ -205,7 +205,38 @@ conversations, no time conditioning.
 dev S = 16 / 8 / 4: 80 / 50 / 20 % (B1-sft3 2 000 steps: 76 / 62 / 14 %).  Same picture as on e5: more passes over the
 11 k conversations buy a little at S = 16 and lose at S = 8.
 
-### 10.7 Running
+### 10.7 B7 — data diversity: 50 % raw FineWeb blocks from the CPT token stream (zeta, e5, no time, 4 000 × 8)
+
+dev S = 16 / 8 / 4: 86 / 50 / 14 %; **held-out 75.3 / 54.7 %** (B1: 76.0 / 63.3).  No gain at S = 16, −9 at S = 8, and
+10 of 50 dev outputs end prematurely (raw-text blocks teach a different end-of-answer behaviour; outputs 200+ tokens).
+More diverse *text* is not the lever either, at least not mixed in at this ratio.
+
+### 10.8 B3 — self-correction with the B-sampler's OWN intermediate states (GPU 7, sft3 base, from the B1 adapter,
+λ_vis 0.3, 30 % of blocks are recorded states, 1 500 × 8)
+
+States: 10 820 recorded (7 298 with ≥ 1 wrong placed token) from 2 739 training conversations × 2 cuts, 16-step sampler.
+dev S = 16 / 8 / 4: 76 / 50 / 18 % (B1-sft3: 76 / 62 / 14).  Generation did **not** collapse this time (the states are
+the sampler's own and the corruption weight is low), but it did not improve either, and S = 8 lost 12 points.  One-step
+correction on the B-sampler's own states (teacher-forced, 294 blocks): see results/pure/bdiff_sft3_b3_eval.json vs
+bdiff_sft3_b1_bstates_eval.json (B1: 11.2 → 9.5 errors, 19 % success).
+
+### 10.9 Where the B-series stands (held-out items 50–199, AR 90 %)
+
+| run | base | recipe | S = 16 | S = 8 |
+|---|---|---|---|---|
+| B1 | e5 | mask-only, time, 2 k steps | **76.0 %** | **63.3 %** |
+| B1 ×3 | e5 | same, 6 k steps | 68.0 | 52.0 |
+| B7 | e5 | no time, +50 % FineWeb, 4 k | 75.3 | 54.7 |
+| B1-sft3 / no-time / cosine / ×3 (dev 50 only) | sft3 | | 76 / 82 / 58 / 80 | 62 / 66 / 18 / 50 |
+| B3 (dev 50) | sft3 | own states, from B1 | 76 | 50 |
+| B6 (dev 50) | e5 | distilled from B1 | 80 | 58 |
+
+The S = 8 target (80 % held-out) is 17 points away and none of the recipe variants moved it; the first B1 run is still the
+best S = 8 model.  Still running: no-time ×3 (GPU 4), no-time on e5 (GPU 6), **B8** — on-policy *mask patterns* (which
+positions the sampler reveals late) with clean tokens, i.e. matching the inference mask distribution without any
+corruption (GPU 7) — and a LoRA rank-256 capacity ablation (zeta).
+
+### 10.10 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
