@@ -1,0 +1,8 @@
+#!/bin/bash
+# GPU 7: B8 — on-policy MASK PATTERNS (from the B1 sampler's recorded states) with clean visible tokens, no time, sft3 base.
+cd "$(dirname "$0")/.."
+M=runs/phaseC_sft3_4b/final; D=data/distill/phaseA_stage2c_train.jsonl; R=results/pure/dev_refs_sft3.json; L=results/pure/b_chain.log; E="CUDA_VISIBLE_DEVICES=7 PYTHONPATH=."
+env $E .venv-train/bin/python distill/train_bdiff.py --model $M --data $D --states data/distill/bstates_sft3_b1.jsonl --states-gold --p-state 0.5 --no-time --out runs/bdiff_sft3_b8_patterns --steps 2000 --accum 8 --lr 2e-4 --save-every 500 > results/pure/train_bdiff_sft3_b8.log 2>&1; echo "=== $(date +%T) [gpu7] train b8_patterns rc=$? $(tail -n 2 results/pure/train_bdiff_sft3_b8.log | head -n1 | cut -c1-300)" >> $L
+env $E .venv-train/bin/python bench/eval_bdiff.py --model $M --adapter runs/bdiff_sft3_b8_patterns/adapter --no-time --refs $R --n 50 --steps 16,8,4 --skip-tf --out results/pure/bdiff_sft3_b8_eval.json > results/pure/bdiff_sft3_b8_eval.log 2>&1; echo "=== $(date +%T) [gpu7] eval b8_patterns dev $(grep -E '^=== bdiff_gen' results/pure/bdiff_sft3_b8_eval.log | cut -c1-600 | sed ':a;N;$!ba;s/\n/ /g')" >> $L
+env $E .venv-train/bin/python bench/eval_bdiff.py --model $M --adapter runs/bdiff_sft3_b8_patterns/adapter --no-time --refs $R --skip 50 --n 150 --steps 16,8 --skip-tf --out results/pure/bdiff_sft3_b8_heldout.json > results/pure/bdiff_sft3_b8_heldout.log 2>&1; echo "=== $(date +%T) [gpu7] b8_patterns held-out 50-199 $(grep -E '^=== bdiff_gen' results/pure/bdiff_sft3_b8_heldout.log | cut -c1-500 | sed ':a;N;$!ba;s/\n/ /g')" >> $L
+echo "=== $(date +%T) [gpu7] b8 chain done" >> $L
