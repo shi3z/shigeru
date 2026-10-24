@@ -77,8 +77,8 @@ def main():
     del hf
     torch.cuda.empty_cache()
     static, use_graph = a.engine != "plain", a.engine == "graph"
-    if a.decoder == "k4":
-        assert a.engine == "plain", "k4 decoder: probe forwards need the plain path (custom key mask)"
+    if a.decoder == "k4" and static:
+        assert max(blocks) * max(blocks) <= BUCKETS[-1], "k4 static/graph path: K*K rows must fit the largest bucket"
     merge = not a.no_merge_commit
     blocks = [int(x) for x in a.block.split(",")]
     steps_list = [None] if a.steps == "adaptive" else [int(x) for x in a.steps.split(",")]
@@ -92,7 +92,7 @@ def main():
         if a.decoder == "k4":
             return k4_generate(model, tok, ids, a.max_new_tokens, block=K, strategy=a.k4_strategy, adopt=a.adopt,
                                max_rounds=a.max_rounds, anchor_leftmost=a.anchor_leftmost, mask_id=mask_id, stop_ids=stop_ids,
-                               trace=trace)
+                               trace=trace, static=static, use_graph=use_graph)
         if a.decoder == "block":
             return block_generate(model, tok, ids, a.max_new_tokens, block=K, steps=S, schedule=a.schedule, order=a.order,
                                   tau=a.tau, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost, remask=remask,

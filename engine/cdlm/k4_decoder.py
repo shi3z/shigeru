@@ -39,7 +39,7 @@ import torch
 
 from .decoder import entropy_from_logits
 
-__all__ = ["STRATEGIES", "ADOPT", "k4_denoise_block", "k4_generate", "probe_key_mask", "probe_rows"]
+__all__ = ["STRATEGIES", "ADOPT", "k4_denoise_block", "k4_generate", "probe_key_mask", "probe_rows", "probe_win_mask"]
 
 STRATEGIES = ("s1", "conf2", "refine", "refineN", "conf2refine", "seq")
 ADOPT = ("always", "conf", "nonadjacent", "one")
@@ -56,6 +56,16 @@ def probe_rows(tokens, cur, mask_id):
         ids.append(mask_id); pos.append(cur + i)
         rows.append(len(ids) - 1)
     return ids, pos, rows
+
+
+def probe_win_mask(K, device=None):
+    """bool [K*K, K*K]: the window-internal part of probe_key_mask (group-causal), for FastQwen3.run_masked."""
+    T = K * K
+    m = torch.zeros(T, T, dtype=torch.bool, device=device)
+    for i in range(K):
+        for r in range(K):
+            m[i * K + r, i * K: i * K + r + 1] = True
+    return m
 
 
 def probe_key_mask(cache_len, K, device=None):
@@ -197,9 +207,11 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
 
 @torch.no_grad()
 def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refine", adopt="always", max_rounds=3,
-                anchor_leftmost=True, mask_id=None, stop_ids=None, prefill_chunk=512, trace=False):
-    """Generate with the small-block decoder on a FastQwen3 (plain forward path; the probe forward needs a custom key
-    mask, which the static/graph path does not take yet).  Returns (ids, stats)."""
+                anchor_leftmost=True, mask_id=None, stop_ids=None, prefill_chunk=512, trace=False, static=False,
+                use_graph=False):
+    """Generate with the small-block decoder on a FastQwen3.  static/use_graph select the bucketed / CUDA-graph path for
+    both the standard forwards (model.run) and the probe forwards (model.run_masked; K*K rows must fit the largest
+    bucket: K <= 5 with buckets up to 32; the merged first forward has 2K rows).  Returns (ids, stats)."""
     if mask_id is None:
         mask_id = model.cfg.mask_id
     if stop_ids is None:
@@ -209,6 +221,10 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
     prompt = torch.as_tensor(prompt_ids, dtype=torch.long, device=dev).flatten()
     prompt_len = int(prompt.numel())
     assert prompt_len + max_new_tokens + block * block <= model.kv.max_len
+    if static or use_graph:
+        from .fast_model import BUCKETS
+        assert block * block <= BUCKETS[-1] and 2 * block <= BUCKETS[-1], f"static path: K={block} probe needs K*K <= {BUCKETS[-1]} rows"
+    win = probe_win_mask(block, device=dev)
     _, cache_len = model.prefill(prompt, 0, chunk=prefill_chunk)
     n_prefill = -(-prompt_len // prefill_chunk)
     cur = prompt_len
@@ -223,11 +239,14 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
         prefix_rows = (pending, list(range(cur - len(pending), cur))) if pending is not None else None
 
         def fwd_std(ids, pos, rows, _state=state, _cur=cur):
-            lg = model.forward(torch.tensor(ids, device=dev), torch.tensor(pos, device=dev), _state["cl"], write=True, rows=rows)
+            lg = model.run(torch.tensor(ids), torch.tensor(pos), _state["cl"], rows, static=static, use_graph=use_graph)
             _state["cl"] = _cur
             return lg
 
         def fwd_probe(ids, pos, Kp, rows, _cur=cur):
+            if static or use_graph:
+                wm = win if Kp == block else probe_win_mask(Kp, device=dev)
+                return model.run_masked(torch.tensor(ids), torch.tensor(pos), _cur, wm, rows, static=static, use_graph=use_graph)
             km = probe_key_mask(_cur, Kp, device=dev)
             return model.forward(torch.tensor(ids, device=dev), torch.tensor(pos, device=dev), _cur, write=False, rows=rows,
                                  key_mask=km)
@@ -252,8 +271,8 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
         if len(out) >= max_new_tokens:
             finish = finish or "length"
         if finish is not None:
-            model.forward(torch.tensor(committed, device=dev), torch.tensor(list(range(cur - keep, cur)), device=dev),
-                          cur - keep, write=True, rows=[])
+            model.run(torch.tensor(committed), torch.tensor(list(range(cur - keep, cur))), cur - keep, [], static=static,
+                      use_graph=use_graph)
             decode_forwards += 1
         else:
             pending = committed

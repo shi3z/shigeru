@@ -372,6 +372,61 @@ class FastQwen3(nn.Module):
         return done
 
     @torch.no_grad()
+    def run_masked(self, tokens, pos_ids, cache_len, win_mask, rows, static=False, use_graph=False):
+        """`run` with an explicit window-internal attention mask: win_mask [T, T] bool (row i may attend window row j);
+        every row also attends the whole committed prefix (slots < cache_len).  Used by the K-group leave-one-out probe
+        of engine/cdlm/k4_decoder.py.  The window K/V are written at slots cache_len.. like `run` (they are garbage for
+        a probe and are overwritten by the next natural-order re-encoding, which never attends them: the decoders
+        re-encode a block before anything attends it as committed context).  Static/graph path: the (Wb, Cb) graphs
+        are the same as `run`'s — the mask is a buffer the graph reads — so no extra capture is needed."""
+        T = int(tokens.numel())
+        dev = self.device
+        win_mask = torch.as_tensor(win_mask, dtype=torch.bool)
+        assert win_mask.shape == (T, T), (win_mask.shape, T)
+        if not static and not use_graph:
+            if tokens.device != dev or pos_ids.device != dev:
+                tp = torch.stack([tokens, pos_ids]).to(dev, non_blocking=False)
+                tokens, pos_ids = tp[0], tp[1]
+            km = torch.zeros(T, cache_len + T, dtype=torch.bool, device=dev)
+            km[:, :cache_len] = True
+            km[:, cache_len:] = win_mask.to(dev)
+            return self.forward(tokens, pos_ids, cache_len, write=True, rows=rows, key_mask=km)
+        Wb = bucket_for(T)
+        assert cache_len + Wb <= self.kv.max_len, (cache_len, Wb, self.kv.max_len)
+        Cb = cache_bucket_for(cache_len + Wb, self.kv.max_len, self.cache_bucket)
+        if self.static is None:
+            self._alloc_static()
+        st = self.static
+        rows = list(rows) if rows is not None else list(range(T))
+        assert len(rows) <= Wb
+        Wmax = BUCKETS[-1]
+        tl, pl = tokens.tolist(), pos_ids.tolist()
+        host = [tl + [0] * (Wmax - T), pl + [pl[-1]] * (Wmax - T), list(range(cache_len, cache_len + Wmax)),
+                rows + [rows[0] if rows else 0] * (Wmax - len(rows))]
+        if st["event"] is not None:
+            st["event"].synchronize()
+            st["stage"].copy_(torch.tensor(host, dtype=torch.long))
+            st["idx"].copy_(st["stage"], non_blocking=True)
+            st["event"].record()
+        else:
+            st["idx"].copy_(torch.tensor(host, dtype=torch.long))
+        km = st["key_mask"][:Wb, :Cb]
+        km.zero_()
+        km[:, :cache_len] = True
+        km[:T, cache_len:cache_len + T] = win_mask.to(dev)
+        if Wb > T:                                      # padded rows attend themselves only (no empty softmax row)
+            idx = torch.arange(T, Wb, device=dev)
+            km[idx, cache_len + idx] = True
+        if use_graph and dev.type == "cuda":
+            if (Wb, Cb) not in self.graphs:
+                self._capture(Wb, Cb)
+            g, out = self.graphs[(Wb, Cb)]
+            g.replay()
+        else:
+            out = self.forward_static(*self._static_args(Wb, Cb))
+        return out[:len(rows)]
+
+    @torch.no_grad()
     def run(self, tokens, pos_ids, cache_len, rows, static=False, use_graph=False):
         """The decoder's step.  tokens/pos_ids: [T] long on any device (CPU tensors are cheapest: the static path
         stages them through pinned memory, the plain path moves them in one copy).  static=False: exact forward()

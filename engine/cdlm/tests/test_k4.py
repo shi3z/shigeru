@@ -105,6 +105,28 @@ def test_adopt_rules():
                     assert all(abs(x - y) > 1 for x in ch for y in ch if x != y), tr
 
 
+def test_static_path_matches_plain():
+    """run_masked on the static path == the plain probe forward; whole k4 generations agree between paths."""
+    from engine.cdlm.k4_decoder import probe_win_mask
+    hf, fast, mask_id = pair(5)
+    g = torch.Generator().manual_seed(17)
+    prompt = random_prompts(g, k=1)[0]
+    P = len(prompt)
+    fast.prefill(torch.tensor(list(prompt)), 0)
+    ids, pos, rows = probe_rows([1, 2, 3, 4], P, mask_id)
+    a = fast.forward(torch.tensor(ids), torch.tensor(pos), P, write=False, rows=rows, key_mask=probe_key_mask(P, 4))
+    b = fast.run_masked(torch.tensor(ids), torch.tensor(pos), P, probe_win_mask(4), rows, static=True)
+    assert torch.allclose(a, b, atol=1e-4), (a - b).abs().max()
+    for strat in ("refineN", "conf2refine"):
+        fast.kv.zero_()
+        x, _ = k4_generate(fast, None, prompt, 16, block=4, strategy=strat, adopt="one", max_rounds=4, mask_id=mask_id, stop_ids=[])
+        fast.kv.zero_()
+        y, st = k4_generate(fast, None, prompt, 16, block=4, strategy=strat, adopt="one", max_rounds=4, mask_id=mask_id, stop_ids=[],
+                            static=True)
+        fast.kv.zero_()
+        assert x == y, (strat, x, y)
+
+
 def test_cache_valid_after_generation():
     for strat in ("refine", "conf2", "refineN"):
         hf, fast, mask_id = pair(1)
