@@ -220,7 +220,7 @@ targets improve the adaptive sampler (+6 points) but not this decoder.
 ## 11. VRAM, failures, next
 
 Inference VRAM of the K = 4 graph engine: 9.4 GB (4B bf16 weights 8.1 GB + static KV/probe buffers, batch 1, 4 096
-positions) on the A100; the HF AR path uses 10.8 GB.  Failures recorded in this document and its companions: K ≥ 5
+positions) on the A100 (nvidia-smi during the test run); the HF-model B-series sampler on the same GPU used 10.8–11.9 GB.  Failures recorded in this document and its companions: K ≥ 5
 Jacobi non-convergence (k_scaling_failure_analysis.md), dependency-aware adoption limited to ~1.1 tokens/forward
 (dependency_aware_refinement.md), on-policy training collapse (§7 above), position-free future prediction gate
 (future_token_set_research.md), continuous latent diffusion (latent_diffusion_research.md), block-bidirectional
