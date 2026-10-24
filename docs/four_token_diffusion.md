@@ -152,7 +152,31 @@ are easier: AR 96 % there vs 90 % here).  The honest estimate for the best pure-
 checkpoint is **about 5 points below AR** (85 % vs 90 %) at 1.13–1.17 tokens per forward, with no AR verification.
 Phase E1's 80 % is met; Phase E2's 85 % is at the edge; the 2 tokens/forward target is not met.
 
-## 7, 9–11. Training for K = 4, speed, VRAM, failures, next
+## 9. Speed on an otherwise idle GPU (zeta RTX PRO 6000 Blackwell 96 GB, bf16, batch 1, 384-token budget, dev items 0–49)
+
+Model runs/zeta_sft_final_e5/final (same 1 B CPT, 5-epoch stage 2; its AR is 92 % on these 50 items).  Graph engine =
+engine/cdlm/fast_model.py with CUDA graphs for both the standard forward and the K-group probe (`run_masked`).
+
+| decoding | GSM8K dev 50 | tokens / forward | **tok/s** | time split (50 prompts) |
+|---|---|---|---|---|
+| AR greedy, HF generate | 92 % | 1.00 | 79.2 | – |
+| AR via the graph engine (τ=None streaming) | 88 %* | 0.99 | 84.4 | – |
+| **K=4 refineN, Jacobi, ≤ 3 rounds, graph** | **90 %** | 1.35 | **104.6** | first 28.0 s / probe 54.3 s / prefill 0.9 s |
+| K=4 refineN, Jacobi, ≤ 6 rounds, graph | **94 %** | 1.23 | **95.6** | first 27.4 / probe 61.0 |
+| K=4 refineN, one change per round, ≤ 8, plain engine | 90 % | 1.24 | 81.5 | first 32.7 / probe 71.5 |
+
+\* the streaming decoder's τ=None differs from HF greedy on 3/50 prompts (bf16 numerics, see distill_design.md §11.6).
+(files results/pure/speed_zeta_*.json; the one_r8 graph run shared the GPU with a stale process for part of its run and
+is omitted.)
+
+Reading: with CUDA graphs a 16-row probe forward costs about the same as a 1-row AR step (launch-bound), so the
+refinement's 1.2–1.35 tokens per forward turn into **1.2–1.3× the HF AR throughput at the same accuracy** (90–94 % vs
+92 % on these prompts) — pure diffusion, no AR verification.  The probe forwards are ~2/3 of the decode time; the
+remaining lever on the engine side is fusing the K-group probe into fewer, wider launches and the per-step host work.
+Not measured here: tok/s on the A100 (all three were busy with trainings; the plain-engine A100 numbers in §5 were taken
+on a shared GPU).
+
+## 7, 10–11. Training for K = 4, VRAM, failures, next
 *pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
 training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*
 

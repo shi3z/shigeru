@@ -48,5 +48,22 @@ grows 5× from K = 3 to K = 8.  K = 6 does not hold high accuracy under this upd
 of the matrix answers is whether the extra rounds are needed because the first forward is poorer (B, C, D) or because
 Jacobi adoption fights itself (E).
 
-## 4–13. Results (continued)
-*filled as the runs complete (D → E → G → B/C/10 → audit → held-out)*
+## 4. Experiment D — split initialisation (refineN, Jacobi, ≤ 3 rounds; initialisation forwards counted)
+
+| K | initialisation | GSM8K dev 50 | tokens / forward | corrections / 100 tok | blocks converged / cycle / budget |
+|---|---|---|---|---|---|
+| 6 | all 6 masked (A) | 54 % | 1.57 | 108 | 419 / 27 / 791 |
+| 6 | 3 + 3 (B) | 48 % | 1.36 | 71 | 595 / 15 / … |
+| **6** | **2 + 2 + 2 (C)** | **80 %** | 1.19 | 41 | 871 / 14 / … |
+| 8 | all 8 masked (A) | 18 % | 1.98 | 147 | 118 / 1 / 840 |
+| 8 | 4 + 4 (B) | 30 % | 1.65 | 100 | 269 / 6 / … |
+| 8 | 2 + 2 + 2 + 2 (C) | 42 % | 1.27 | 51 | 563 / 6 / … |
+
+Reading: initialising in pairs (each pair conditioned on the previous ones) raises K = 6 from 54 to 80 % and halves
+the corrections, at the price of the initialisation forwards (1.57 → 1.19 tokens/forward — the same cost regime as
+K = 4).  3 + 3 does not help (48 %): a group of 3 from scratch already contains the distance-3 error that Jacobi then
+has to clean up.  For K = 8 the pairwise init doubles the accuracy (18 → 42 %) but stays far from usable: the probe
+rounds, not the initialisation alone, limit K = 8.
+
+## 5–13. Results (continued)
+*filled as the runs complete (E → G → B/C/10 → audit → held-out)*
