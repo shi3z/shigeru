@@ -65,5 +65,21 @@ K = 4).  3 + 3 does not help (48 %): a group of 3 from scratch already contains 
 has to clean up.  For K = 8 the pairwise init doubles the accuracy (18 → 42 %) but stays far from usable: the probe
 rounds, not the initialisation alone, limit K = 8.
 
-## 5–13. Results (continued)
-*filled as the runs complete (E → G → B/C/10 → audit → held-out)*
+## 10. Attention / KV-cache audit (`bench/audit_k_cache.py`, 8 prefixes, bf16, GPU 7 shared)
+
+| K | probe rows | cache vs no-cache: max |Δlogit| | argmax agreement | each group alone vs the K-group probe: max |Δ| | agreement | static/graph path vs plain |
+|---|---|---|---|---|---|---|
+| 4 | 16 | 0.38 | 100 % (32/32) | 0.44 | 100 % | 0.0 (identical), 100 % |
+| 6 | 36 | 0.50 | 100 % (48/48) | 0.47 | 100 % | n/a (36 rows exceed the 32-row static bucket) |
+| 8 | 64 | 0.77 | 100 % (64/64) | 0.44 | 100 % | n/a |
+
+The probe computed through the cache equals a from-scratch forward of [prefix | probe rows] under the equivalent dense
+mask up to bf16 accumulation noise (the max logit difference grows with the number of rows, 0.4 → 0.8 on logits of
+magnitude ~20, never flipping an argmax here), and every group of the K-group probe equals the same position probed
+alone in a standard observed-first forward (the group-independence test at K = 6 and 8, i.e. no leakage between
+groups).  Position ids, RoPE and the K/V written by the merged commit are the same code path for every K (tests
+engine/cdlm/tests/test_k4.py run K = 3…8 on CPU).  **No K-dependent implementation defect was found**; the collapse
+is algorithmic.
+
+## 5–9, 11–13. Results (continued)
+*filled as the runs complete (E → G → B/C/10 (rerun after a bug in the diagnostic's first forward) → held-out)*

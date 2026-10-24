@@ -1,0 +1,42 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "dtype": "bfloat16",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "results": {
+    "4": {
+      "n": 8,
+      "cache_vs_nocache_maxdiff": 0.375,
+      "cache_vs_nocache_argmax_agree": 1.0,
+      "group_vs_probe_maxdiff": 0.4375,
+      "group_vs_probe_argmax_agree": 1.0,
+      "static_vs_plain_maxdiff": 0.0,
+      "static_vs_plain_argmax_agree": 1.0,
+      "rows": 32
+    },
+    "6": {
+      "n": 8,
+      "cache_vs_nocache_maxdiff": 0.5,
+      "cache_vs_nocache_argmax_agree": 1.0,
+      "group_vs_probe_maxdiff": 0.46875,
+      "group_vs_probe_argmax_agree": 1.0,
+      "static_vs_plain_maxdiff": 0.0,
+      "static_vs_plain_argmax_agree": 0.0,
+      "rows": 48
+    },
+    "8": {
+      "n": 8,
+      "cache_vs_nocache_maxdiff": 0.765625,
+      "cache_vs_nocache_argmax_agree": 1.0,
+      "group_vs_probe_maxdiff": 0.4375,
+      "group_vs_probe_argmax_agree": 1.0,
+      "static_vs_plain_maxdiff": 0.0,
+      "static_vs_plain_argmax_agree": 0.0,
+      "rows": 64
+    }
+  }
+}
