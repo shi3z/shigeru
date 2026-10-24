@@ -248,6 +248,11 @@ corruption (GPU 7) — and a LoRA rank-256 capacity ablation (zeta).
 | no-time ×3 | sft3 | 6 000 | 70 / 34 / 18 % | 71.3 / 43.3 % |
 | **no-time** | **e5** | 2 000 | 80 / **68 / 36 %** | 76.0 / 66.0 % |
 | no-time, LoRA r = 256 (α 512, lr 1e-4) | e5 | 2 000 | 74 / 66 / 22 % | 76.7 / 58.7 % |
+| no-time | e5 | 1 000 | 80 / 64 / 20 % | 68.0 / 54.7 % (23 / 150 hit the length budget: under-trained) |
+
+Learning curve on the e5 base (held-out S = 8): 1 000 steps 54.7 % → **2 000 steps 66.0 %** → 6 000 steps 52.0 %.  The
+budget is a sharp optimum at ≈ 1.4 passes over the 11 k conversations; B8's held-out confirmation (56.0 / 45.3 %)
+closes that line.
 | B1 (with time) | e5 | 2 000 | 84 / 64 / 28 % | 76.0 / 63.3 % |
 
 Third confirmation that 6 000 steps over-train (−12 / −32 at S = 16 / 8 on dev; 71 / 43 held-out); the useful budget on

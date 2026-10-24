@@ -59,6 +59,8 @@ def main():
     ap.add_argument("--p-blocks", type=float, default=1.0, help="fraction of steps drawn from --blocks when both --blocks and --data are given")
     ap.add_argument("--data-tokens", default=None, help="pre-tokenized uint32 stream (distill/pretokenize.py) for raw-text blocks: prefix = a window of up to --max-len tokens, block = the next K")
     ap.add_argument("--p-tokens", type=float, default=0.5, help="fraction of samples drawn from --data-tokens when --data is also given")
+    ap.add_argument("--full", action="store_true", help="full fine-tune (no LoRA): fp32 master weights, bf16 autocast, AdamW; saves {out}/final")
+    ap.add_argument("--grad-ckpt", action="store_true", help="gradient checkpointing (full fine-tune)")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(a.seed); random.seed(a.seed)
@@ -66,16 +68,23 @@ def main():
     prng = random.Random(a.seed)
     dev = torch.device("cuda")
     tok = AutoTokenizer.from_pretrained(a.model)
-    lm = AutoModelForCausalLM.from_pretrained(a.model, dtype=torch.bfloat16, attn_implementation="sdpa").to(dev)
+    lm = AutoModelForCausalLM.from_pretrained(a.model, dtype=torch.float32 if a.full else torch.bfloat16, attn_implementation="sdpa").to(dev)
     mask_id = getattr(lm.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
-    from peft import LoraConfig, get_peft_model
-    lcfg = LoraConfig(r=a.lora_r, lora_alpha=a.lora_alpha, lora_dropout=0.0, bias="none",
-                      target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"])
-    if a.init_adapter:
-        from peft import PeftModel
-        lm = PeftModel.from_pretrained(lm, a.init_adapter, is_trainable=True)
+    if a.full:
+        for p_ in lm.parameters():
+            p_.requires_grad_(True)
+        if a.grad_ckpt:
+            lm.gradient_checkpointing_enable()
+            lm.config.use_cache = False
     else:
-        lm = get_peft_model(lm, lcfg)
+        from peft import LoraConfig, get_peft_model
+        lcfg = LoraConfig(r=a.lora_r, lora_alpha=a.lora_alpha, lora_dropout=0.0, bias="none",
+                          target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"])
+        if a.init_adapter:
+            from peft import PeftModel
+            lm = PeftModel.from_pretrained(lm, a.init_adapter, is_trainable=True)
+        else:
+            lm = get_peft_model(lm, lcfg)
     model = BDiffModel(lm, mask_id, time_cond=not a.no_time).to(dev)
     if model.time is not None:
         model.time.float()
@@ -177,10 +186,20 @@ def main():
             log.write(json.dumps(rec) + "\n"); log.flush(); print(json.dumps(rec), flush=True)
             acc_bins = [[0, 0] for _ in BINS]
         if step % a.save_every == 0 or step == a.steps:
-            lm.save_pretrained(os.path.join(a.out, "adapter"))
+            if a.full:
+                if step == a.steps:
+                    lm.to(torch.bfloat16).save_pretrained(os.path.join(a.out, "final"), safe_serialization=True)
+                    tok.save_pretrained(os.path.join(a.out, "final"))
+                    try:
+                        from distill.fix_config import fix as _fix_cfg
+                        _fix_cfg(os.path.join(a.out, "final"))
+                    except Exception as e:
+                        print("fix_config skipped:", e)
+            else:
+                lm.save_pretrained(os.path.join(a.out, "adapter"))
             if model.time is not None:
                 torch.save(model.time.state_dict(), os.path.join(a.out, "time_embed.pt"))
-    if a.merge:
+    if a.merge and not a.full:
         merged = lm.merge_and_unload()
         merged.save_pretrained(os.path.join(a.out, "final"), safe_serialization=True)
         tok.save_pretrained(os.path.join(a.out, "final"))
