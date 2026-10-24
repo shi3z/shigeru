@@ -92,5 +92,36 @@ true block-bidirectional reverse-diffusion sampler on this model produces correc
 is where B2 (correction) and the remask sampler have to deliver.  The tokens/forward column counts the prefix pass per
 block (1 of 17 calls at S = 16); the network call here is an HF forward of 16 rows on a 16-row-free prefix cache.
 
-## 6, 9–11. Stage B2 (self-correction), 16→8→4 steps, gates 2/4, GPUs
-*B2 training and its B3/B4 evaluation (incl. the remask sampler) are running on zeta; recorded when done.*
+## 6. Stage B2 — self-correction training with random replacement + A-series states (zeta, 2 000 × 8 blocks, 31 min)
+
+Config: as B1 plus 30 % of blocks with 25 % of the visible tokens replaced by random tokens (λ_vis = 1.0, λ_id = 0.1)
+and 20 % of blocks drawn from the A-series decoder's recorded states (distill/gen_onpolicy.py, K = 32 states cut to 16).
+
+| | B1 (mask only) | B2 (+ corruption) |
+|---|---|---|
+| teacher-forced masked acc 10 / 50 / 100 % | 94.6 / 82.1 / 31.1 % | 91.7 / 80.2 / 31.2 % |
+| B3-A random replacement, errors before → after | 4.0 → 8.5 (introduces 47 %) | **4.0 → 3.26** (success 87 %, introduces 23 %) |
+| B3-B 50 % masked | 8.0 → **1.65** | 8.0 → 2.54 |
+| **free generation K = 16, S = 16 / 8 / 4** | **84 / 64 / 28 %** | **40 / 18 / 2 %** (mean length 207–362 tokens, 10–44 of 50 hit the budget) |
+
+B2 did what it was trained for on the diagnostic (it now repairs replaced tokens instead of destroying their
+neighbours) and **collapsed in free generation**: the sampler never changes visible tokens, so the collapse comes from
+the masked-position predictions becoming worse in the *clean-context* regime the sampler actually visits (the identity
+term was weak and 30 % of training blocks taught "visible context may be wrong"), and from degenerate long outputs
+(repetition until the budget).  Gate 2 is passed only in the narrow sense (fewer errors after one step on corrupted
+inputs); the brief's own condition — it must not come at the expense of generation — fails.  **Decision (brief
+"B2 の結果を確認してから優先順位を決める"): random-replacement self-correction is deprioritised; B4 (remasking) and B6
+(step distillation) now build on the B1 adapter; B3 is re-planned with the B-sampler's OWN intermediate states (not the
+A-series decoder's, not random tokens), a lower λ_vis (0.3) and initialisation from B1.**
+
+## 9. Parallel plan (GPU assignment, 2026-10-24 13:30 UTC)
+
+| GPU | experiment | base | status |
+|---|---|---|---|
+| tsuginosuke GPU 4 (A100) | B1 control on the A-series base (runs/phaseC_sft3_4b) → B5 ablations: no time conditioning; cosine schedule | sft3 | queued behind the E3 held-out runs |
+| tsuginosuke GPU 6 (A100) | B1 ×3 steps (6 000 × 8 blocks) — does more mask-only training lift S = 8? | sft3 | queued behind the on-policy checkpoint evaluation |
+| tsuginosuke GPU 7 (A100) | B3: B-sampler on-policy states from the B1-sft3 adapter → training from B1 (λ_vis 0.3, 30 % states) | sft3 | queued behind the random/mixed evaluations and the GPU 4 B1 control |
+| zeta (RTX PRO 6000) | B4 remask budgets 1/2/4 at S = 16/8, cosine sampling schedule, random/left orders; B1 held-out (items 50–199); B6 distillation (B1 teacher S = 16 → student from B1, t ≥ 0.5) | e5 | running |
+
+## 10–11. 16→8→4 steps, gates 4, VRAM
+*pending the runs above*
