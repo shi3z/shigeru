@@ -200,7 +200,12 @@ stage-2 mix (≈ 4 passes), and the all-mask regime degrades first.  More passes
 the next run (zeta) mixes raw FineWeb blocks from the 1 B-token CPT stream (data/cpt/fineweb_1b.bin) 50/50 with the
 conversations, no time conditioning.
 
-### 10.6 Running
+### 10.6 B1 ×3 on the sft3 base (GPU 6, 6 000 × 8 blocks, 2 h 19)
+
+dev S = 16 / 8 / 4: 80 / 50 / 20 % (B1-sft3 2 000 steps: 76 / 62 / 14 %).  Same picture as on e5: more passes over the
+11 k conversations buy a little at S = 16 and lose at S = 8.
+
+### 10.7 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1

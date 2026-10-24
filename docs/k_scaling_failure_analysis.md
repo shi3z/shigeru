@@ -81,6 +81,44 @@ groups).  Position ids, RoPE and the K/V written by the merged commit are the sa
 engine/cdlm/tests/test_k4.py run K = 3…8 on CPU).  **No K-dependent implementation defect was found**; the collapse
 is algorithmic.
 
+## 4b. Experiment B — first-forward quality by K (teacher-forced, results/pure/diag_kscale_sft3.json)
+
+| K | blocks | first-forward acc by position | token acc | block exact | tokens correct per block (mode / ≥ K−1) | longest error run ≥ 3 | duplicate rate | mean error position | oracle conditional (true neighbours) |
+|---|---|---|---|---|---|---|---|---|---|
+| 3 | 3 016 | .97 .83 .70 | 83.4 % | 65.1 % | 3 / 86.6 % | 1.5 % | 5.6 % | 1.6 | .96 .96 .98 |
+| 4 | 2 255 | .97 .84 .71 .58 | 77.3 % | 48.1 % | 4 / 72.3 % | 9.3 % | 9.0 % | 2.3 | .96 .96 .96 .98 |
+| 5 | 1 795 | .97 .83 .70 .58 .48 | 71.1 % | 34.1 % | 5 / 56.1 % | 19.7 % | 13.9 % | 3.0 | .96 .96 .96 .96 .97 |
+| 6 | 1 497 | .97 .83 .70 .57 .46 .39 | 65.3 % | 23.0 % | 6 / 41.3 % | 31.9 % | 18.1 % | 3.7 | .95 .96 .96 .96 .96 .98 |
+| 7 | 1 277 | .97 .83 .67 .58 .47 .37 .34 | 60.5 % | 15.1 % | 4 / 29.1 % | 42.8 % | 22.7 % | 4.3 | .91 .96 .95 .97 .96 .97 .97 |
+| 8 | 1 117 | .97 .83 .69 .58 .47 .36 .33 .29 | 56.5 % | 9.4 % | 4 / 20.1 % | 53.3 % | 25.4 % | 5.0 | .92 .95 .95 .96 .95 .97 .96 .97 |
+
+Calibration is stable across K (max-prob ≥ 0.99 → 99.9 % correct at every K; ≥ 0.9 → 94–96 %; < 0.5 → 27–39 %).
+Reading: the per-position curve is the *same* at every K (the model's reach does not depend on the block size); what
+changes is how many far positions a block contains.  At K = 8 the first forward leaves 3.5 errors per block, half the
+blocks contain a run of ≥ 3 consecutive errors, and a quarter of the predictions duplicate another position's token.
+The oracle conditional is ≥ 92 % at every position of every K — the restorer is not the limit (question 3: yes).
+
+## 4c. Experiment C — oracle seed injection (teacher-forced, refineN ≤ 6 rounds; free positions scored only)
+
+Free-position accuracy / block exact match, Jacobi adoption (the "one change" rule gives the same numbers ± 1):
+
+| K | seeds n → | 0 | 1 | 2 | 3 | 4 | 6 |
+|---|---|---|---|---|---|---|---|
+| 6 | left | 86 / 71 % | 89 / 77 | 92 / 83 | 94 / 89 | 95 / 93 | – |
+| 6 | even / random | 86 / 71 % | 89–90 / 77–78 | 91–93 / 82–84 | 94–95 / 88 | 95 / 92 | – |
+| 6 | **wrong-first** | 86 / 71 % | **93 / 83** | **95 / 88** | 96 / 91 | 97 / 95 | – |
+| 8 | left | 81 / 57 % | 84 / 65 | 87 / 72 | 90 / 79 | 91 / 83 | 95 / 93 |
+| 8 | even / random | 81 / 57 % | 84–85 / 65–66 | 86–88 / 69–71 | 90–91 / 76–79 | 93–94 / 83–84 | 95–96 / 91–92 |
+| 8 | **wrong-first** | 81 / 57 % | **88 / 71** | **91 / 77** | 94 / 84 | 96 / 89 | 97 / 95 |
+
+Rounds to settle fall with the seeds (K = 8: 4.6 → 2.6 with two wrong-first seeds; budget-exhausted blocks 39 % → 8 %).
+Reading: fixing the **one or two positions the first forward got wrong** lifts K = 8 block exact match from 57 to
+71–77 % and K = 6 from 71 to 83–88 %; fixing arbitrary positions helps less (random two seeds: 69–71 %).  So the
+refinement fails to repair a *specific minority* of first-forward errors, and once those are right the rest converges
+fast.  This is the "initial candidate quality" cause (brief §4 expectation): it is real but secondary to the update
+rule — with the true neighbours fixed the rule converges, and with the sequential rule the same starting state already
+reaches 90 % (§5).  Oracle seeds are diagnostic only.
+
 ## 5. Experiment E — update policies (K = 6 and K = 8; GPU 7 shared, tok/s not comparable)
 
 | K | rule (rounds) | GSM8K dev 50 | tokens / forward | corrections / 100 tok | converged / cycle / budget |
@@ -174,6 +212,5 @@ AR HF 54.6 tok/s; K = 4 Jacobi ≤ 3 graph 99.6 tok/s @ 88 %; K = 6 (plain, zeta
 | 7 | 34 % | – | – | – | 0.5 % | – | – |
 | 8 | 18 % | 56.5 % | 54 % / 83 % | 10.9 / 1.9 % | 0.1 % | – | 123.3 (plain, zeta, 32 %) |
 
-Experiments B/C (first-forward distributions, calibration, oracle seed injection) are still running (results/pure/
-diag_kscale_sft3.json when done; the first attempt crashed on an empty-tensor bug and the rerun shares GPU 7).
+Experiments B and C: §4b–4c (results/pure/diag_kscale_sft3.json).
 

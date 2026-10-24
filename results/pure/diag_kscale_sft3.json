@@ -1,0 +1,1701 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "refs": "results/pure/dev_refs_sft3.json",
+  "n": 50,
+  "K": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "inject_K": [
+    6,
+    8
+  ],
+  "inject_n": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    8
+  ],
+  "max_rounds": 6,
+  "seed": 0,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 20724.8,
+  "B": {
+    "3": {
+      "blocks": 3016,
+      "first_acc_by_position": [
+        0.9741,
+        0.8259,
+        0.7013
+      ],
+      "first_token_acc": 0.8338,
+      "first_block_exact": 0.6505,
+      "n_correct_dist": {
+        "0": 45,
+        "1": 360,
+        "2": 649,
+        "3": 1962
+      },
+      "mean_error_position": 1.627,
+      "max_error_run_dist": {
+        "0": 1962,
+        "1": 664,
+        "2": 345,
+        "3": 45
+      },
+      "calibration": {
+        "0.00": [
+          0.3904,
+          1642
+        ],
+        "0.50": [
+          0.7178,
+          1205
+        ],
+        "0.70": [
+          0.8491,
+          570
+        ],
+        "0.80": [
+          0.935,
+          662
+        ],
+        "0.90": [
+          0.9604,
+          505
+        ],
+        "0.95": [
+          0.9862,
+          939
+        ],
+        "0.99": [
+          0.9997,
+          3525
+        ]
+      },
+      "duplicate_rate": 0.0557,
+      "oracle_conditional_acc_by_position": [
+        0.9576,
+        0.9612,
+        0.9775
+      ],
+      "oracle_conditional_acc": 0.9654
+    },
+    "4": {
+      "blocks": 2255,
+      "first_acc_by_position": [
+        0.9685,
+        0.8395,
+        0.7078,
+        0.5769
+      ],
+      "first_token_acc": 0.7732,
+      "first_block_exact": 0.4812,
+      "n_correct_dist": {
+        "0": 26,
+        "1": 200,
+        "2": 398,
+        "3": 546,
+        "4": 1085
+      },
+      "mean_error_position": 2.341,
+      "max_error_run_dist": {
+        "0": 1085,
+        "1": 612,
+        "2": 349,
+        "3": 183,
+        "4": 26
+      },
+      "calibration": {
+        "0.00": [
+          0.3632,
+          2274
+        ],
+        "0.50": [
+          0.6984,
+          1336
+        ],
+        "0.70": [
+          0.8338,
+          650
+        ],
+        "0.80": [
+          0.9126,
+          629
+        ],
+        "0.90": [
+          0.9653,
+          490
+        ],
+        "0.95": [
+          0.9823,
+          792
+        ],
+        "0.99": [
+          0.9996,
+          2849
+        ]
+      },
+      "duplicate_rate": 0.0901,
+      "oracle_conditional_acc_by_position": [
+        0.9583,
+        0.9623,
+        0.9588,
+        0.9765
+      ],
+      "oracle_conditional_acc": 0.964
+    },
+    "5": {
+      "blocks": 1795,
+      "first_acc_by_position": [
+        0.9744,
+        0.8251,
+        0.6981,
+        0.5777,
+        0.4819
+      ],
+      "first_token_acc": 0.7114,
+      "first_block_exact": 0.3409,
+      "n_correct_dist": {
+        "0": 16,
+        "1": 147,
+        "2": 277,
+        "3": 348,
+        "4": 395,
+        "5": 612
+      },
+      "mean_error_position": 3.02,
+      "max_error_run_dist": {
+        "0": 612,
+        "1": 492,
+        "2": 338,
+        "3": 206,
+        "4": 131,
+        "5": 16
+      },
+      "calibration": {
+        "0.00": [
+          0.335,
+          2931
+        ],
+        "0.50": [
+          0.6672,
+          1322
+        ],
+        "0.70": [
+          0.8191,
+          586
+        ],
+        "0.80": [
+          0.9039,
+          614
+        ],
+        "0.90": [
+          0.9644,
+          477
+        ],
+        "0.95": [
+          0.9764,
+          720
+        ],
+        "0.99": [
+          0.9991,
+          2325
+        ]
+      },
+      "duplicate_rate": 0.1386,
+      "oracle_conditional_acc_by_position": [
+        0.9621,
+        0.9627,
+        0.9588,
+        0.9627,
+        0.9705
+      ],
+      "oracle_conditional_acc": 0.9633
+    },
+    "6": {
+      "blocks": 1497,
+      "first_acc_by_position": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "first_token_acc": 0.653,
+      "first_block_exact": 0.2298,
+      "n_correct_dist": {
+        "0": 16,
+        "1": 123,
+        "2": 195,
+        "3": 262,
+        "4": 283,
+        "5": 274,
+        "6": 344
+      },
+      "mean_error_position": 3.71,
+      "max_error_run_dist": {
+        "0": 344,
+        "1": 369,
+        "2": 307,
+        "3": 210,
+        "4": 142,
+        "5": 109,
+        "6": 16
+      },
+      "calibration": {
+        "0.00": [
+          0.3166,
+          3538
+        ],
+        "0.50": [
+          0.6308,
+          1346
+        ],
+        "0.70": [
+          0.8056,
+          571
+        ],
+        "0.80": [
+          0.9066,
+          589
+        ],
+        "0.90": [
+          0.9401,
+          384
+        ],
+        "0.95": [
+          0.9832,
+          656
+        ],
+        "0.99": [
+          0.9989,
+          1898
+        ]
+      },
+      "duplicate_rate": 0.1807,
+      "oracle_conditional_acc_by_position": [
+        0.9499,
+        0.9552,
+        0.9606,
+        0.9613,
+        0.9586,
+        0.9766
+      ],
+      "oracle_conditional_acc": 0.9604
+    },
+    "7": {
+      "blocks": 1277,
+      "first_acc_by_position": [
+        0.9695,
+        0.8254,
+        0.6742,
+        0.5818,
+        0.4699,
+        0.3743,
+        0.343
+      ],
+      "first_token_acc": 0.6054,
+      "first_block_exact": 0.1511,
+      "n_correct_dist": {
+        "0": 11,
+        "1": 75,
+        "2": 180,
+        "3": 209,
+        "4": 225,
+        "5": 205,
+        "6": 179,
+        "7": 193
+      },
+      "mean_error_position": 4.336,
+      "max_error_run_dist": {
+        "0": 193,
+        "1": 273,
+        "2": 264,
+        "3": 225,
+        "4": 134,
+        "5": 109,
+        "6": 68,
+        "7": 11
+      },
+      "calibration": {
+        "0.00": [
+          0.298,
+          4010
+        ],
+        "0.50": [
+          0.6205,
+          1328
+        ],
+        "0.70": [
+          0.7789,
+          493
+        ],
+        "0.80": [
+          0.882,
+          551
+        ],
+        "0.90": [
+          0.9503,
+          362
+        ],
+        "0.95": [
+          0.9749,
+          557
+        ],
+        "0.99": [
+          0.9988,
+          1638
+        ]
+      },
+      "duplicate_rate": 0.2269,
+      "oracle_conditional_acc_by_position": [
+        0.9115,
+        0.9616,
+        0.9538,
+        0.9671,
+        0.964,
+        0.9655,
+        0.971
+      ],
+      "oracle_conditional_acc": 0.9564
+    },
+    "8": {
+      "blocks": 1117,
+      "first_acc_by_position": [
+        0.9731,
+        0.8335,
+        0.6876,
+        0.5837,
+        0.4664,
+        0.359,
+        0.3303,
+        0.2883
+      ],
+      "first_token_acc": 0.5652,
+      "first_block_exact": 0.094,
+      "n_correct_dist": {
+        "0": 10,
+        "1": 75,
+        "2": 121,
+        "3": 165,
+        "4": 195,
+        "5": 177,
+        "6": 149,
+        "7": 120,
+        "8": 105
+      },
+      "mean_error_position": 4.991,
+      "max_error_run_dist": {
+        "0": 105,
+        "1": 214,
+        "2": 202,
+        "3": 180,
+        "4": 142,
+        "5": 100,
+        "6": 96,
+        "7": 68,
+        "8": 10
+      },
+      "calibration": {
+        "0.00": [
+          0.2735,
+          4398
+        ],
+        "0.50": [
+          0.6218,
+          1277
+        ],
+        "0.70": [
+          0.7731,
+          542
+        ],
+        "0.80": [
+          0.8716,
+          436
+        ],
+        "0.90": [
+          0.9505,
+          323
+        ],
+        "0.95": [
+          0.9771,
+          481
+        ],
+        "0.99": [
+          0.9993,
+          1479
+        ]
+      },
+      "duplicate_rate": 0.2537,
+      "oracle_conditional_acc_by_position": [
+        0.9221,
+        0.9526,
+        0.9543,
+        0.9633,
+        0.9534,
+        0.9651,
+        0.9579,
+        0.9705
+      ],
+      "oracle_conditional_acc": 0.9549
+    }
+  },
+  "C": {
+    "6": {
+      "even": {
+        "0": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8594,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7101,
+            "rounds_per_block": 3.508,
+            "outcomes": {
+              "converged": 1165,
+              "budget": 253,
+              "cycle": 79
+            },
+            "corrections_per_block": 6.582
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8611,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7188,
+            "rounds_per_block": 3.456,
+            "outcomes": {
+              "converged": 1179,
+              "budget": 305,
+              "cycle": 13
+            },
+            "corrections_per_block": 2.669
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8911,
+            "first_free_acc": 0.711,
+            "block_exact": 0.7662,
+            "rounds_per_block": 2.882,
+            "outcomes": {
+              "converged": 1261,
+              "budget": 136,
+              "cycle": 100
+            },
+            "corrections_per_block": 4.387
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8991,
+            "first_free_acc": 0.711,
+            "block_exact": 0.7936,
+            "rounds_per_block": 2.862,
+            "outcomes": {
+              "converged": 1290,
+              "budget": 192,
+              "cycle": 15
+            },
+            "corrections_per_block": 2.0
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9078,
+            "first_free_acc": 0.7629,
+            "block_exact": 0.821,
+            "rounds_per_block": 2.274,
+            "outcomes": {
+              "converged": 1355,
+              "budget": 63,
+              "cycle": 79
+            },
+            "corrections_per_block": 2.457
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9113,
+            "first_free_acc": 0.7629,
+            "block_exact": 0.8383,
+            "rounds_per_block": 2.247,
+            "outcomes": {
+              "converged": 1395,
+              "budget": 80,
+              "cycle": 22
+            },
+            "corrections_per_block": 1.315
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9408,
+            "first_free_acc": 0.7722,
+            "block_exact": 0.8798,
+            "rounds_per_block": 1.834,
+            "outcomes": {
+              "converged": 1447,
+              "cycle": 46,
+              "budget": 4
+            },
+            "corrections_per_block": 1.148
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9401,
+            "first_free_acc": 0.7722,
+            "block_exact": 0.8838,
+            "rounds_per_block": 1.797,
+            "outcomes": {
+              "converged": 1468,
+              "cycle": 19,
+              "budget": 10
+            },
+            "corrections_per_block": 0.816
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9522,
+            "first_free_acc": 0.9309,
+            "block_exact": 0.9172,
+            "rounds_per_block": 1.091,
+            "outcomes": {
+              "converged": 1493,
+              "cycle": 4
+            },
+            "corrections_per_block": 0.098
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9526,
+            "first_free_acc": 0.9309,
+            "block_exact": 0.9185,
+            "rounds_per_block": 1.09,
+            "outcomes": {
+              "converged": 1495,
+              "cycle": 2
+            },
+            "corrections_per_block": 0.092
+          }
+        }
+      },
+      "left": {
+        "0": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8594,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7101,
+            "rounds_per_block": 3.508,
+            "outcomes": {
+              "converged": 1165,
+              "budget": 253,
+              "cycle": 79
+            },
+            "corrections_per_block": 6.582
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8611,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7188,
+            "rounds_per_block": 3.456,
+            "outcomes": {
+              "converged": 1179,
+              "budget": 305,
+              "cycle": 13
+            },
+            "corrections_per_block": 2.669
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8911,
+            "first_free_acc": 0.711,
+            "block_exact": 0.7662,
+            "rounds_per_block": 2.882,
+            "outcomes": {
+              "converged": 1261,
+              "budget": 136,
+              "cycle": 100
+            },
+            "corrections_per_block": 4.387
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8991,
+            "first_free_acc": 0.711,
+            "block_exact": 0.7936,
+            "rounds_per_block": 2.862,
+            "outcomes": {
+              "converged": 1290,
+              "budget": 192,
+              "cycle": 15
+            },
+            "corrections_per_block": 2.0
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9182,
+            "first_free_acc": 0.7752,
+            "block_exact": 0.8343,
+            "rounds_per_block": 2.165,
+            "outcomes": {
+              "converged": 1353,
+              "cycle": 85,
+              "budget": 59
+            },
+            "corrections_per_block": 2.199
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9222,
+            "first_free_acc": 0.7752,
+            "block_exact": 0.8637,
+            "rounds_per_block": 2.168,
+            "outcomes": {
+              "converged": 1407,
+              "budget": 69,
+              "cycle": 21
+            },
+            "corrections_per_block": 1.228
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9381,
+            "first_free_acc": 0.8332,
+            "block_exact": 0.8898,
+            "rounds_per_block": 1.626,
+            "outcomes": {
+              "converged": 1423,
+              "cycle": 64,
+              "budget": 10
+            },
+            "corrections_per_block": 1.007
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9377,
+            "first_free_acc": 0.8332,
+            "block_exact": 0.9011,
+            "rounds_per_block": 1.642,
+            "outcomes": {
+              "converged": 1455,
+              "budget": 22,
+              "cycle": 20
+            },
+            "corrections_per_block": 0.67
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9522,
+            "first_free_acc": 0.8978,
+            "block_exact": 0.9312,
+            "rounds_per_block": 1.242,
+            "outcomes": {
+              "converged": 1458,
+              "cycle": 38,
+              "budget": 1
+            },
+            "corrections_per_block": 0.315
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9512,
+            "first_free_acc": 0.8978,
+            "block_exact": 0.9359,
+            "rounds_per_block": 1.232,
+            "outcomes": {
+              "converged": 1476,
+              "cycle": 20,
+              "budget": 1
+            },
+            "corrections_per_block": 0.246
+          }
+        }
+      },
+      "random": {
+        "0": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8594,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7101,
+            "rounds_per_block": 3.508,
+            "outcomes": {
+              "converged": 1165,
+              "budget": 253,
+              "cycle": 79
+            },
+            "corrections_per_block": 6.582
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8611,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7188,
+            "rounds_per_block": 3.456,
+            "outcomes": {
+              "converged": 1179,
+              "budget": 305,
+              "cycle": 13
+            },
+            "corrections_per_block": 2.669
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8951,
+            "first_free_acc": 0.6993,
+            "block_exact": 0.7802,
+            "rounds_per_block": 2.849,
+            "outcomes": {
+              "converged": 1307,
+              "budget": 89,
+              "cycle": 101
+            },
+            "corrections_per_block": 3.921
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8942,
+            "first_free_acc": 0.6993,
+            "block_exact": 0.7902,
+            "rounds_per_block": 2.887,
+            "outcomes": {
+              "converged": 1327,
+              "budget": 148,
+              "cycle": 22
+            },
+            "corrections_per_block": 2.001
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.93,
+            "first_free_acc": 0.7612,
+            "block_exact": 0.8444,
+            "rounds_per_block": 2.145,
+            "outcomes": {
+              "converged": 1398,
+              "cycle": 61,
+              "budget": 38
+            },
+            "corrections_per_block": 1.986
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.925,
+            "first_free_acc": 0.7612,
+            "block_exact": 0.8524,
+            "rounds_per_block": 2.189,
+            "outcomes": {
+              "converged": 1428,
+              "cycle": 18,
+              "budget": 51
+            },
+            "corrections_per_block": 1.235
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9463,
+            "first_free_acc": 0.8221,
+            "block_exact": 0.8831,
+            "rounds_per_block": 1.588,
+            "outcomes": {
+              "converged": 1452,
+              "cycle": 39,
+              "budget": 6
+            },
+            "corrections_per_block": 0.798
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9472,
+            "first_free_acc": 0.8221,
+            "block_exact": 0.8918,
+            "rounds_per_block": 1.586,
+            "outcomes": {
+              "converged": 1469,
+              "cycle": 20,
+              "budget": 8
+            },
+            "corrections_per_block": 0.605
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9492,
+            "first_free_acc": 0.8848,
+            "block_exact": 0.9205,
+            "rounds_per_block": 1.222,
+            "outcomes": {
+              "converged": 1478,
+              "cycle": 18,
+              "budget": 1
+            },
+            "corrections_per_block": 0.255
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9496,
+            "first_free_acc": 0.8848,
+            "block_exact": 0.9225,
+            "rounds_per_block": 1.219,
+            "outcomes": {
+              "converged": 1482,
+              "cycle": 15
+            },
+            "corrections_per_block": 0.229
+          }
+        }
+      },
+      "wrongfirst": {
+        "0": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.8594,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7101,
+            "rounds_per_block": 3.508,
+            "outcomes": {
+              "converged": 1165,
+              "budget": 253,
+              "cycle": 79
+            },
+            "corrections_per_block": 6.582
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.8611,
+            "first_free_acc": 0.653,
+            "block_exact": 0.7188,
+            "rounds_per_block": 3.456,
+            "outcomes": {
+              "converged": 1179,
+              "budget": 305,
+              "cycle": 13
+            },
+            "corrections_per_block": 2.669
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9297,
+            "first_free_acc": 0.8016,
+            "block_exact": 0.835,
+            "rounds_per_block": 2.355,
+            "outcomes": {
+              "converged": 1370,
+              "cycle": 59,
+              "budget": 68
+            },
+            "corrections_per_block": 2.737
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9284,
+            "first_free_acc": 0.8016,
+            "block_exact": 0.8417,
+            "rounds_per_block": 2.367,
+            "outcomes": {
+              "converged": 1384,
+              "budget": 94,
+              "cycle": 19
+            },
+            "corrections_per_block": 1.443
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9502,
+            "first_free_acc": 0.8788,
+            "block_exact": 0.8784,
+            "rounds_per_block": 1.697,
+            "outcomes": {
+              "converged": 1438,
+              "cycle": 46,
+              "budget": 13
+            },
+            "corrections_per_block": 1.14
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9519,
+            "first_free_acc": 0.8788,
+            "block_exact": 0.8871,
+            "rounds_per_block": 1.692,
+            "outcomes": {
+              "converged": 1454,
+              "cycle": 20,
+              "budget": 23
+            },
+            "corrections_per_block": 0.721
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9581,
+            "first_free_acc": 0.9125,
+            "block_exact": 0.9118,
+            "rounds_per_block": 1.341,
+            "outcomes": {
+              "converged": 1472,
+              "cycle": 23,
+              "budget": 2
+            },
+            "corrections_per_block": 0.449
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9599,
+            "first_free_acc": 0.9125,
+            "block_exact": 0.9165,
+            "rounds_per_block": 1.339,
+            "outcomes": {
+              "converged": 1479,
+              "cycle": 16,
+              "budget": 2
+            },
+            "corrections_per_block": 0.351
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1497,
+            "free_acc": 0.9676,
+            "first_free_acc": 0.9422,
+            "block_exact": 0.9452,
+            "rounds_per_block": 1.111,
+            "outcomes": {
+              "converged": 1488,
+              "cycle": 8,
+              "budget": 1
+            },
+            "corrections_per_block": 0.128
+          },
+          "one": {
+            "blocks": 1497,
+            "free_acc": 0.9683,
+            "first_free_acc": 0.9422,
+            "block_exact": 0.9466,
+            "rounds_per_block": 1.106,
+            "outcomes": {
+              "converged": 1490,
+              "cycle": 7
+            },
+            "corrections_per_block": 0.11
+          }
+        }
+      }
+    },
+    "8": {
+      "even": {
+        "0": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8064,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5739,
+            "rounds_per_block": 4.644,
+            "outcomes": {
+              "budget": 438,
+              "converged": 641,
+              "cycle": 38
+            },
+            "corrections_per_block": 13.167
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.7811,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5291,
+            "rounds_per_block": 4.637,
+            "outcomes": {
+              "budget": 530,
+              "converged": 581,
+              "cycle": 6
+            },
+            "corrections_per_block": 4.116
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8432,
+            "first_free_acc": 0.6039,
+            "block_exact": 0.6526,
+            "rounds_per_block": 4.098,
+            "outcomes": {
+              "converged": 776,
+              "budget": 279,
+              "cycle": 62
+            },
+            "corrections_per_block": 9.624
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8314,
+            "first_free_acc": 0.6039,
+            "block_exact": 0.6338,
+            "rounds_per_block": 4.091,
+            "outcomes": {
+              "converged": 732,
+              "budget": 377,
+              "cycle": 8
+            },
+            "corrections_per_block": 3.436
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.863,
+            "first_free_acc": 0.65,
+            "block_exact": 0.6938,
+            "rounds_per_block": 3.571,
+            "outcomes": {
+              "converged": 882,
+              "budget": 178,
+              "cycle": 57
+            },
+            "corrections_per_block": 6.845
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8605,
+            "first_free_acc": 0.65,
+            "block_exact": 0.7108,
+            "rounds_per_block": 3.539,
+            "outcomes": {
+              "converged": 873,
+              "budget": 239,
+              "cycle": 5
+            },
+            "corrections_per_block": 2.757
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9121,
+            "first_free_acc": 0.7126,
+            "block_exact": 0.7887,
+            "rounds_per_block": 2.679,
+            "outcomes": {
+              "converged": 1005,
+              "cycle": 54,
+              "budget": 58
+            },
+            "corrections_per_block": 3.412
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9135,
+            "first_free_acc": 0.7126,
+            "block_exact": 0.8039,
+            "rounds_per_block": 2.765,
+            "outcomes": {
+              "converged": 1027,
+              "budget": 71,
+              "cycle": 19
+            },
+            "corrections_per_block": 1.845
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9333,
+            "first_free_acc": 0.6956,
+            "block_exact": 0.8281,
+            "rounds_per_block": 2.278,
+            "outcomes": {
+              "converged": 1069,
+              "cycle": 40,
+              "budget": 8
+            },
+            "corrections_per_block": 2.049
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9351,
+            "first_free_acc": 0.6956,
+            "block_exact": 0.838,
+            "rounds_per_block": 2.383,
+            "outcomes": {
+              "converged": 1083,
+              "cycle": 8,
+              "budget": 26
+            },
+            "corrections_per_block": 1.414
+          }
+        },
+        "6": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9566,
+            "first_free_acc": 0.9311,
+            "block_exact": 0.9185,
+            "rounds_per_block": 1.089,
+            "outcomes": {
+              "converged": 1115,
+              "cycle": 2
+            },
+            "corrections_per_block": 0.093
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.957,
+            "first_free_acc": 0.9311,
+            "block_exact": 0.9194,
+            "rounds_per_block": 1.088,
+            "outcomes": {
+              "converged": 1116,
+              "cycle": 1
+            },
+            "corrections_per_block": 0.089
+          }
+        }
+      },
+      "left": {
+        "0": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8064,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5739,
+            "rounds_per_block": 4.644,
+            "outcomes": {
+              "budget": 438,
+              "converged": 641,
+              "cycle": 38
+            },
+            "corrections_per_block": 13.167
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.7811,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5291,
+            "rounds_per_block": 4.637,
+            "outcomes": {
+              "budget": 530,
+              "converged": 581,
+              "cycle": 6
+            },
+            "corrections_per_block": 4.116
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8432,
+            "first_free_acc": 0.6039,
+            "block_exact": 0.6526,
+            "rounds_per_block": 4.098,
+            "outcomes": {
+              "converged": 776,
+              "budget": 279,
+              "cycle": 62
+            },
+            "corrections_per_block": 9.624
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8314,
+            "first_free_acc": 0.6039,
+            "block_exact": 0.6338,
+            "rounds_per_block": 4.091,
+            "outcomes": {
+              "converged": 732,
+              "budget": 377,
+              "cycle": 8
+            },
+            "corrections_per_block": 3.436
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8674,
+            "first_free_acc": 0.6595,
+            "block_exact": 0.7153,
+            "rounds_per_block": 3.454,
+            "outcomes": {
+              "converged": 893,
+              "budget": 160,
+              "cycle": 64
+            },
+            "corrections_per_block": 6.511
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8724,
+            "first_free_acc": 0.6595,
+            "block_exact": 0.7261,
+            "rounds_per_block": 3.45,
+            "outcomes": {
+              "converged": 881,
+              "budget": 224,
+              "cycle": 12
+            },
+            "corrections_per_block": 2.662
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8985,
+            "first_free_acc": 0.7166,
+            "block_exact": 0.786,
+            "rounds_per_block": 2.769,
+            "outcomes": {
+              "converged": 986,
+              "budget": 79,
+              "cycle": 52
+            },
+            "corrections_per_block": 3.874
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9022,
+            "first_free_acc": 0.7166,
+            "block_exact": 0.795,
+            "rounds_per_block": 2.816,
+            "outcomes": {
+              "converged": 986,
+              "cycle": 12,
+              "budget": 119
+            },
+            "corrections_per_block": 1.934
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9136,
+            "first_free_acc": 0.7733,
+            "block_exact": 0.829,
+            "rounds_per_block": 2.138,
+            "outcomes": {
+              "converged": 1028,
+              "budget": 32,
+              "cycle": 57
+            },
+            "corrections_per_block": 2.111
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9165,
+            "first_free_acc": 0.7733,
+            "block_exact": 0.8487,
+            "rounds_per_block": 2.149,
+            "outcomes": {
+              "converged": 1059,
+              "budget": 43,
+              "cycle": 15
+            },
+            "corrections_per_block": 1.201
+          }
+        },
+        "6": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.953,
+            "first_free_acc": 0.9029,
+            "block_exact": 0.932,
+            "rounds_per_block": 1.243,
+            "outcomes": {
+              "converged": 1093,
+              "cycle": 23,
+              "budget": 1
+            },
+            "corrections_per_block": 0.299
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9552,
+            "first_free_acc": 0.9029,
+            "block_exact": 0.9382,
+            "rounds_per_block": 1.233,
+            "outcomes": {
+              "converged": 1100,
+              "cycle": 16,
+              "budget": 1
+            },
+            "corrections_per_block": 0.248
+          }
+        }
+      },
+      "random": {
+        "0": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8064,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5739,
+            "rounds_per_block": 4.644,
+            "outcomes": {
+              "budget": 438,
+              "converged": 641,
+              "cycle": 38
+            },
+            "corrections_per_block": 13.167
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.7811,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5291,
+            "rounds_per_block": 4.637,
+            "outcomes": {
+              "budget": 530,
+              "converged": 581,
+              "cycle": 6
+            },
+            "corrections_per_block": 4.116
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8479,
+            "first_free_acc": 0.6156,
+            "block_exact": 0.6553,
+            "rounds_per_block": 4.095,
+            "outcomes": {
+              "budget": 268,
+              "converged": 799,
+              "cycle": 50
+            },
+            "corrections_per_block": 9.242
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8317,
+            "first_free_acc": 0.6156,
+            "block_exact": 0.6303,
+            "rounds_per_block": 4.115,
+            "outcomes": {
+              "budget": 354,
+              "converged": 750,
+              "cycle": 13
+            },
+            "corrections_per_block": 3.443
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8794,
+            "first_free_acc": 0.6613,
+            "block_exact": 0.7144,
+            "rounds_per_block": 3.357,
+            "outcomes": {
+              "converged": 926,
+              "budget": 120,
+              "cycle": 71
+            },
+            "corrections_per_block": 5.714
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8712,
+            "first_free_acc": 0.6613,
+            "block_exact": 0.7171,
+            "rounds_per_block": 3.485,
+            "outcomes": {
+              "converged": 907,
+              "budget": 199,
+              "cycle": 11
+            },
+            "corrections_per_block": 2.673
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9024,
+            "first_free_acc": 0.7316,
+            "block_exact": 0.7565,
+            "rounds_per_block": 2.635,
+            "outcomes": {
+              "converged": 999,
+              "cycle": 71,
+              "budget": 47
+            },
+            "corrections_per_block": 3.182
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9001,
+            "first_free_acc": 0.7316,
+            "block_exact": 0.7654,
+            "rounds_per_block": 2.697,
+            "outcomes": {
+              "converged": 1019,
+              "budget": 79,
+              "cycle": 19
+            },
+            "corrections_per_block": 1.784
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9351,
+            "first_free_acc": 0.7751,
+            "block_exact": 0.838,
+            "rounds_per_block": 2.031,
+            "outcomes": {
+              "converged": 1045,
+              "cycle": 59,
+              "budget": 13
+            },
+            "corrections_per_block": 1.688
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.934,
+            "first_free_acc": 0.7751,
+            "block_exact": 0.8487,
+            "rounds_per_block": 2.085,
+            "outcomes": {
+              "converged": 1069,
+              "budget": 26,
+              "cycle": 22
+            },
+            "corrections_per_block": 1.128
+          }
+        },
+        "6": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9467,
+            "first_free_acc": 0.8944,
+            "block_exact": 0.9069,
+            "rounds_per_block": 1.181,
+            "outcomes": {
+              "converged": 1108,
+              "cycle": 9
+            },
+            "corrections_per_block": 0.199
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9476,
+            "first_free_acc": 0.8944,
+            "block_exact": 0.9087,
+            "rounds_per_block": 1.176,
+            "outcomes": {
+              "converged": 1110,
+              "cycle": 7
+            },
+            "corrections_per_block": 0.183
+          }
+        }
+      },
+      "wrongfirst": {
+        "0": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8064,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5739,
+            "rounds_per_block": 4.644,
+            "outcomes": {
+              "budget": 438,
+              "converged": 641,
+              "cycle": 38
+            },
+            "corrections_per_block": 13.167
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.7811,
+            "first_free_acc": 0.5652,
+            "block_exact": 0.5291,
+            "rounds_per_block": 4.637,
+            "outcomes": {
+              "budget": 530,
+              "converged": 581,
+              "cycle": 6
+            },
+            "corrections_per_block": 4.116
+          }
+        },
+        "1": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.8798,
+            "first_free_acc": 0.7061,
+            "block_exact": 0.7081,
+            "rounds_per_block": 3.561,
+            "outcomes": {
+              "budget": 204,
+              "converged": 880,
+              "cycle": 33
+            },
+            "corrections_per_block": 7.055
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.8733,
+            "first_free_acc": 0.7061,
+            "block_exact": 0.6965,
+            "rounds_per_block": 3.531,
+            "outcomes": {
+              "budget": 253,
+              "converged": 855,
+              "cycle": 9
+            },
+            "corrections_per_block": 2.765
+          }
+        },
+        "2": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9079,
+            "first_free_acc": 0.798,
+            "block_exact": 0.7663,
+            "rounds_per_block": 2.573,
+            "outcomes": {
+              "budget": 91,
+              "converged": 980,
+              "cycle": 46
+            },
+            "corrections_per_block": 3.707
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9081,
+            "first_free_acc": 0.798,
+            "block_exact": 0.7744,
+            "rounds_per_block": 2.596,
+            "outcomes": {
+              "budget": 126,
+              "converged": 978,
+              "cycle": 13
+            },
+            "corrections_per_block": 1.721
+          }
+        },
+        "3": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9402,
+            "first_free_acc": 0.8469,
+            "block_exact": 0.8353,
+            "rounds_per_block": 1.995,
+            "outcomes": {
+              "budget": 36,
+              "converged": 1039,
+              "cycle": 42
+            },
+            "corrections_per_block": 1.885
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9415,
+            "first_free_acc": 0.8469,
+            "block_exact": 0.8442,
+            "rounds_per_block": 2.021,
+            "outcomes": {
+              "budget": 52,
+              "converged": 1048,
+              "cycle": 17
+            },
+            "corrections_per_block": 1.083
+          }
+        },
+        "4": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9599,
+            "first_free_acc": 0.8872,
+            "block_exact": 0.8872,
+            "rounds_per_block": 1.594,
+            "outcomes": {
+              "cycle": 32,
+              "converged": 1077,
+              "budget": 8
+            },
+            "corrections_per_block": 0.956
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9593,
+            "first_free_acc": 0.8872,
+            "block_exact": 0.8944,
+            "rounds_per_block": 1.592,
+            "outcomes": {
+              "cycle": 16,
+              "converged": 1088,
+              "budget": 13
+            },
+            "corrections_per_block": 0.618
+          }
+        },
+        "6": {
+          "always": {
+            "blocks": 1117,
+            "free_acc": 0.9709,
+            "first_free_acc": 0.9432,
+            "block_exact": 0.9481,
+            "rounds_per_block": 1.121,
+            "outcomes": {
+              "converged": 1106,
+              "cycle": 11
+            },
+            "corrections_per_block": 0.135
+          },
+          "one": {
+            "blocks": 1117,
+            "free_acc": 0.9722,
+            "first_free_acc": 0.9432,
+            "block_exact": 0.9499,
+            "rounds_per_block": 1.119,
+            "outcomes": {
+              "converged": 1107,
+              "cycle": 10
+            },
+            "corrections_per_block": 0.128
+          }
+        }
+      }
+    }
+  }
+}
