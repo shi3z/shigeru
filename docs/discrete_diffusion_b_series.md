@@ -270,7 +270,20 @@ uniform sample of recorded states — *not retried*.
 
 ### 10.12 Capacity (LoRA rank 256 vs 64, zeta, e5, no time): no gain (held-out 76.7 / 58.7 vs B1's 76.0 / 63.3).
 
-### 10.13 Running
+### 10.13 Block size K = 8 (GPU 6, e5, no time, 2 000 × 8)
+
+| K = 8 blocks | S = 8 (1 token / call) | S = 4 (2 / call) | S = 2 (4 / call) |
+|---|---|---|---|
+| dev 50 | 78 % (0.88 tok/forward) | 48 % (1.58) | 12 % (2.66) |
+
+At equal tokens per network call the 16-token block is better than the 8-token block (K = 16 S = 8: 68 % at 1.70 vs
+K = 8 S = 4: 48 % at 1.58): the bidirectional model benefits from the wider block even though its far positions are
+weaker.  K = 16 stays the block size.
+
+### 10.14 Learning rate (GPU 7, e5, no time): lr 1e-4 → dev 78 / 66 / 32 % (lr 2e-4: 80 / 68 / 36 %); held-out running.
+Batch 16 (zeta): trained, evaluating.  Full fine-tune (GPU 4, fp32 master, lr 1e-5): training.
+
+### 10.15 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
