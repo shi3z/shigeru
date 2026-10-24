@@ -131,7 +131,7 @@ def main():
                 one_step(mid, max(sum(t == mask_id for t in mid) / K, 1e-3), "C_onpolicy")
         print(f"B1/B3 {p['id']} {time.time() - t0:.0f}s", flush=True)
     outB1 = {str(r): dict(masked_acc=round(c["masked_ok"] / max(1, c["masked"]), 4), block_exact=round(c["exact"] / max(1, c["blocks"]), 4),
-                          **({"acc_by_position": [round(x / c["blocks"], 3) for x in c["pos_ok"]]} if r == 1.0 else {})) for r, c in b1.items()}
+                          **({"acc_by_position": [round(x / max(1, c["blocks"]), 3) for x in c["pos_ok"]]} if r == 1.0 else {})) for r, c in b1.items()}
     outB3 = {n: dict(blocks=c["blocks"], errors_before_per_block=round(c["err_before"] / max(1, c["blocks"]), 3), errors_after_per_block=round(c["err_after"] / max(1, c["blocks"]), 3),
                      wrong_to_correct=c["wc"], correct_to_wrong=c["cw"], wrong_to_wrong=c["ww"], correct_to_correct=c["cc"], block_exact_after=round(c["exact"] / max(1, c["blocks"]), 4),
                      correction_success_rate=round(c["wc"] / max(1, c["wc"] + c["ww"] + (c["err_before"] - c["wc"] - c["ww"])), 4),
