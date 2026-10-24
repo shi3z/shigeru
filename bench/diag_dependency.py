@@ -95,7 +95,7 @@ def main():
                 return torch.softmax(lg, -1)
 
             # model's own placement = first all-mask forward
-            lg = fwd_std([], [s + i for i in range(K)], list(range(K))).float(); lg[:, mask_id] = float("-inf")
+            lg = fwd_std([mask_id] * K, [s + i for i in range(K)], list(range(K))).float(); lg[:, mask_id] = float("-inf")
             t = lg.argmax(-1).tolist()
             n_fwd += 1
             base = probe_probs(t); n_fwd += 1
