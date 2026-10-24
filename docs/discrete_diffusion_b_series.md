@@ -280,8 +280,18 @@ At equal tokens per network call the 16-token block is better than the 8-token b
 K = 8 S = 4: 48 % at 1.58): the bidirectional model benefits from the wider block even though its far positions are
 weaker.  K = 16 stays the block size.
 
-### 10.14 Learning rate (GPU 7, e5, no time): lr 1e-4 → dev 78 / 66 / 32 % (lr 2e-4: 80 / 68 / 36 %); held-out running.
-Batch 16 (zeta): trained, evaluating.  Full fine-tune (GPU 4, fp32 master, lr 1e-5): training.
+K = 8 held-out: S = 8 70.7 % (0.88 tok/call), S = 4 40.7 % (1.58).
+
+### 10.14 Optimiser ablations (e5, no time, 2 000 steps) — held-out items 50–199
+
+| | lr 2e-4, batch 8 (reference) | lr 1e-4, batch 8 | lr 2e-4, batch 16 |
+|---|---|---|---|
+| dev S = 16 / 8 / 4 | 80 / 68 / 36 % | 78 / 66 / 32 % | (JSON) |
+| **held-out S = 16 / 8** | 76.0 / **66.0 %** | **82.0** / 60.7 % | 72.7 / 54.7 % |
+
+Lower lr buys S = 16 (82 %, the best held-out K = 16 number of the series) and costs S = 8; doubling the batch (2.8
+passes) over-trains like the longer runs.  The S = 8 frontier stays at 66 % held-out; the full fine-tune (GPU 4, fp32
+master, lr 1e-5, gradient checkpointing, 80 GB) is the last capacity lever in this round.
 
 ### 10.15 Running
 
