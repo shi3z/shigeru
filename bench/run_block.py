@@ -19,6 +19,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from bench.common import load_prompts, gpu_info, save_json, score
 from engine.cdlm.fast_model import FastQwen3, BUCKETS, bucket_for
 from engine.cdlm.block_decoder import block_generate
+from engine.cdlm.sc_decoder import sc_generate
 
 
 def parse_remask(s):
@@ -40,7 +41,14 @@ def main():
     ap.add_argument("--tau", type=float, default=None)
     ap.add_argument("--min-fill", type=int, default=1)
     ap.add_argument("--anchor-leftmost", action="store_true", help="always fill the leftmost mask of the block as well")
-    ap.add_argument("--remask", default="none")
+    ap.add_argument("--remask", default="none", help="block decoder: lowconf:f:until | tau:c:until ; sc decoder: none|all|lowconf:t|entropy:h|random:p|scheduled:f0|drop:d")
+    ap.add_argument("--decoder", default="block", choices=["block", "sc"], help="sc = self-correcting (engine/cdlm/sc_decoder.py)")
+    ap.add_argument("--confirm-k", type=int, default=1, help="sc: identical re-predictions needed to confirm a placed token")
+    ap.add_argument("--max-steps", type=int, default=None, help="sc: step budget per block (default K+1 adaptive, S+2 fixed)")
+    ap.add_argument("--max-remask-frac", type=float, default=0.5, help="sc: cap on re-evaluated slots per step as a fraction of K")
+    ap.add_argument("--min-reeval-steps", type=int, default=0)
+    ap.add_argument("--stop", default="confirmed", choices=["confirmed", "conf", "stable"])
+    ap.add_argument("--stop-tau", type=float, default=0.99)
     ap.add_argument("--engine", default="plain", choices=["plain", "static", "graph"])
     ap.add_argument("--no-merge-commit", action="store_true")
     ap.add_argument("--max-new-tokens", type=int, default=384)
@@ -67,15 +75,27 @@ def main():
     merge = not a.no_merge_commit
     blocks = [int(x) for x in a.block.split(",")]
     steps_list = [None] if a.steps == "adaptive" else [int(x) for x in a.steps.split(",")]
-    remask = parse_remask(a.remask)
+    remask = parse_remask(a.remask) if a.decoder == "block" else a.remask
     if static:
         need = max(blocks) * (2 if merge else 1)
         assert need <= BUCKETS[-1], f"static path: block {max(blocks)} (x2 with merge_commit) exceeds the largest bucket {BUCKETS[-1]}"
     # warm-up (kernel selection; graphs captured lazily on first use per bucket pair, excluded by a second warm-up)
     wu = tok("warm up", return_tensors="pt")["input_ids"][0].tolist()
+    def decode(ids, K, S, gen, trace):
+        if a.decoder == "block":
+            return block_generate(model, tok, ids, a.max_new_tokens, block=K, steps=S, schedule=a.schedule, order=a.order,
+                                  tau=a.tau, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost, remask=remask,
+                                  mask_id=mask_id, stop_ids=stop_ids, greedy=not a.sample, generator=gen, static=static,
+                                  use_graph=use_graph, merge_commit=merge, trace=trace)
+        return sc_generate(model, tok, ids, a.max_new_tokens, block=K, mask_id=mask_id, stop_ids=stop_ids, static=static,
+                           use_graph=use_graph, merge_commit=merge, trace=trace, steps=S, schedule=a.schedule, order=a.order,
+                           tau=a.tau if a.tau is not None else 0.99, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost,
+                           remask=remask, confirm_k=a.confirm_k, max_steps=a.max_steps, max_remask_frac=a.max_remask_frac,
+                           min_reeval_steps=a.min_reeval_steps, stop=a.stop, stop_tau=a.stop_tau, greedy=not a.sample,
+                           generator=gen)
+
     for _ in range(2):
-        block_generate(model, tok, wu, 48, block=blocks[0], steps=steps_list[0] or None, tau=a.tau if steps_list[0] is None else None,
-                       mask_id=mask_id, stop_ids=stop_ids, static=static, use_graph=use_graph, merge_commit=merge)
+        decode(wu, blocks[0], steps_list[0], torch.Generator().manual_seed(0), False)
     ar_ref = None
     if a.ar_ref:
         d = json.load(open(a.ar_ref))
@@ -84,18 +104,16 @@ def main():
     runs = []
     configs = [(K, S) for K in blocks for S in steps_list]
     for K, S in configs:
-        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "")
+        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "") + (f",sc:{a.remask}:k{a.confirm_k}" if a.decoder == "sc" else "")
         gen = torch.Generator().manual_seed(a.seed)
         for p in prompts:
             torch.cuda.synchronize(); t0 = time.time()
-            new, st = block_generate(model, tok, p["ids"], a.max_new_tokens, block=K, steps=S, schedule=a.schedule,
-                                     order=a.order, tau=a.tau, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost, remask=remask, mask_id=mask_id,
-                                     stop_ids=stop_ids, greedy=not a.sample, generator=gen, static=static,
-                                     use_graph=use_graph, merge_commit=merge, trace=a.trace)
+            new, st = decode(p["ids"], K, S, gen, a.trace)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),
                  "steps": st["steps"], "forwards": st["forwards"], "blocks": st["blocks"], "remasked": st["remasked"],
+                 "corrections": st.get("corrections"), "confirmed": st.get("confirmed_by_agree"), "accepted_tentative": st.get("accepted_tentative"),
                  "finish": st["finish_reason"], "correct": score(p, text) if "answer" in p else None, "text": text}
             if a.trace:
                 r["trace"] = st["trace"]
@@ -104,7 +122,7 @@ def main():
                   f"remask {st['remasked']} correct={r['correct']}", flush=True)
     summary = {}
     for K, S in configs:
-        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "")
+        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "") + (f",sc:{a.remask}:k{a.confirm_k}" if a.decoder == "sc" else "")
         rs = [r for r in runs if r["config"] == name]
         tot_tok = sum(r["n_tokens"] for r in rs)
         summary[name] = {"accuracy": sum(bool(r["correct"]) for r in rs) / len(rs), "n": len(rs),
@@ -114,13 +132,15 @@ def main():
                          "tokens_per_forward": round(tot_tok / max(1, sum(r["forwards"] for r in rs)), 3),
                          "remask_rate": round(sum(r["remasked"] for r in rs) / max(1, tot_tok), 4),
                          "mean_tokens": round(tot_tok / len(rs), 1),
-                         "finish_length": sum(r["finish"] == "length" for r in rs)}
+                         "finish_length": sum(r["finish"] == "length" for r in rs),
+                         "corrections_per_100tok": round(100 * sum(r["corrections"] or 0 for r in rs) / max(1, tot_tok), 2),
+                         "accepted_tentative_per_100tok": round(100 * sum(r["accepted_tentative"] or 0 for r in rs) / max(1, tot_tok), 2)}
         if ar_ref:
             summary[name]["ar_ref_accuracy"] = sum(bool(ar_ref.get(r["id"])) for r in rs) / len(rs)
     print("=== block", json.dumps(summary), flush=True)
     for p in prompts:
         p.pop("ids", None)
-    save_json(a.out, {"model": a.model, "decoder": "engine/cdlm/block_decoder.py", "args": vars(a), "gpu": gpu_info(),
+    save_json(a.out, {"model": a.model, "decoder": "engine/cdlm/block_decoder.py" if a.decoder == "block" else "engine/cdlm/sc_decoder.py", "args": vars(a), "gpu": gpu_info(),
                       "torch": torch.__version__, "dtype": "bfloat16", "batch_size": 1, "max_new_tokens": a.max_new_tokens,
                       "warmup": "2 generations of 48 tokens", "runs": runs, "summary": summary})
 
