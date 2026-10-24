@@ -121,7 +121,7 @@ A-series decoder's, not random tokens), a lower λ_vis (0.3) and initialisation 
 | tsuginosuke GPU 4 (A100) | B1 control on the A-series base (runs/phaseC_sft3_4b) → B5 ablations: no time conditioning; cosine schedule | sft3 | queued behind the E3 held-out runs |
 | tsuginosuke GPU 6 (A100) | B1 ×3 steps (6 000 × 8 blocks) — does more mask-only training lift S = 8? | sft3 | queued behind the on-policy checkpoint evaluation |
 | tsuginosuke GPU 7 (A100) | B3: B-sampler on-policy states from the B1-sft3 adapter → training from B1 (λ_vis 0.3, 30 % states) | sft3 | queued behind the random/mixed evaluations and the GPU 4 B1 control |
-| zeta (RTX PRO 6000) | B4 remask budgets 1/2/4 at S = 16/8, cosine sampling schedule, random/left orders; B1 held-out (items 50–199); B6 distillation (B1 teacher S = 16 → student from B1, t ≥ 0.5) | e5 | running |
+| zeta (RTX PRO 6000) | B4 remask budgets 1/2/4 at S = 16/8, cosine sampling schedule, random/left orders; B1 held-out (items 50–199); B6 distillation (B1 teacher S = 16 → student from B1, t ≥ 0.5) | e5 | done (§10) |
 
 ## 10. Results of the parallel round (first batch)
 
@@ -314,22 +314,102 @@ device"); the repeat (after freeing 23 GB of an ablation's optimizer checkpoint)
 76.0 / 66.0 % for the LoRA with the same data and steps.  Full fine-tuning at this learning rate and budget is not the
 capacity lever either (results/pure/bdiff_e5_full_heldout.json; 76 min, 75.5 GB peak).
 
-### 10.17 Running
+### 10.17 Second batch (finished)
 
-GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
-B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
-held-out (items 50–199).  The A-series training ablations finished in parallel: random-mask stage 2 gives K = 4
-refineN 80 / 82 % (3 / 6 rounds) vs 88 / 92 % for the suffix checkpoint, K = 8 colouring 78 % (82), K = 6 2+2+2 74 % (80)
-— random masks help the adaptive sampler and recovery (pure_diffusion_research.md) but not the leave-one-out
-decoders.  **The on-policy-state stage 2 (config D of pure_diffusion_research.md) collapsed exactly like B2**: mask
-recovery is fine (random γ = 0.5: 84 %) but free generation degenerates (K = 4 refineN 10–20 %, anchored adaptive
-6–10 %, 4-gram repetition 0.67, 41 of 50 outputs hit the length budget).  Two independent implementations (A-series
-dual-stream, B-series block-bidirectional) of "train with the decoder's own wrong tokens as observed context" both
-destroy generation while improving teacher-forced correction — the mechanism is the same: the model learns that
+GPU 4: B5 ablations (no time conditioning; cosine training schedule), no-time ×3, e5 no-time 1 000 steps, full
+fine-tune.  GPU 6: B1 ×3 steps, e5 no-time, e5 K = 8.  GPU 7: B3 with the B-sampler's own intermediate states
+(λ_vis 0.3), B8 mask patterns, e5 lr 1e-4.  zeta: the B4 sweep, B1 held-out, B6 distillation, B1 ×3, B7 mixed data,
+r = 256, accumulation 16, and the GSM8K-test rows.  The A-series training ablations finished in parallel: random-mask
+stage 2 gives K = 4 refineN 80 / 82 % (3 / 6 rounds) vs 88 / 92 % for the suffix checkpoint, K = 8 colouring 78 % (82),
+K = 6 2+2+2 74 % (80) — random masks help the adaptive sampler and recovery (pure_diffusion_research.md) but not the
+leave-one-out decoders.  **The on-policy-state stage 2 (config D of pure_diffusion_research.md) collapsed exactly like
+B2**: mask recovery is fine (random γ = 0.5: 84 %) but free generation degenerates (K = 4 refineN 10–20 %, anchored
+adaptive 6–10 %, 4-gram repetition 0.67, 41 of 50 outputs hit the length budget).  Two independent implementations
+(A-series dual-stream, B-series block-bidirectional) of "train with the decoder's own wrong tokens as observed context"
+both destroy generation while improving teacher-forced correction — the mechanism is the same: the model learns that
 observed context is unreliable and stops committing, which in a sampler that never revisits tokens shows up as
 repetition.  Self-correction training has to be re-designed (e.g. only mask-side targets, a separate "trust" signal, or
 much smaller corruption rates with the identity term weighted up) before it is tried again.
 
-## 11. 16→8→4 steps, Gate 4, VRAM
-*pending: held-out numbers, B3, B1×3; VRAM of the LoRA model at inference = 4B bf16 (8.1 GB) + prefix cache; Gate 4 (speed
-vs AR and K = 4) needs the graph engine for the bidirectional block, not yet implemented.*
+## 11. Summary of the round: 16→8→4 steps, Gate 4, VRAM, GPU time
+
+### 11.1 Every B-series training run (K = 16 block-bidirectional, LoRA r 64 unless stated; dev = items 0–49, held-out = items 50–199; accuracy at S = 16 / 8 / 4 steps per block, confidence order, greedy)
+
+| run | base | what changed vs B1 | GPU | train time | peak VRAM | dev 16 / 8 / 4 | held-out 16 / 8 |
+|---|---|---|---|---|---|---|---|
+| B1 (§5) | e5 | – (time emb., linear, 2 000 × 8) | zeta | 29 min | 16.9 GB | 84 / 64 / 28 | 76.0 / 63.3 |
+| B1 ×3 steps | e5 | 6 000 steps | zeta | 88 min | 16.9 GB | 74 / 56 / 26 | 68.0 / 52.0 |
+| B2 self-correction (§6) | e5 | random replacement + A-states | zeta | 31 min | 23.5 GB | collapsed (repetition) | – |
+| B6 step distillation | e5 | B1 S = 16 samples as targets, from B1 | zeta | 22 min | 16.8 GB | 80 / 58 / 34 | – |
+| B7 mixed data | e5 | gold + self samples, 4 000 steps | zeta | 64 min | 16.8 GB | 86 / 50 / 14 | 75.3 / 54.7 |
+| r = 256 | e5 | LoRA rank 256 | zeta | 33 min | 23.8 GB | 74 / 66 / 22 | 76.7 / 58.7 |
+| accumulation 16 | e5 | effective batch ×2 | zeta | 58 min | 16.9 GB | 82 / 70 / 44 | 72.7 / 54.7 |
+| B1 control | sft3 | A-series base | GPU 4 | 48 min | 17.2 GB | 76 / 62 / 14 | – |
+| B5 no time | sft3 | time embedding removed | GPU 4 | 45 min | 17.2 GB | 82 / 66 / 28 | – |
+| B5 cosine | sft3 | cosine mask schedule | GPU 4 | 47 min | 17.2 GB | 58 / 18 / 6 | – |
+| no time ×3 | sft3 | 6 000 steps | GPU 4 | 136 min | 17.2 GB | 70 / 34 / 18 | 71.3 / 43.3 |
+| B1 ×3 | sft3 | 6 000 steps | GPU 6 | 139 min | 17.2 GB | 80 / 50 / 20 | – |
+| B3 on-policy states | sft3 | B-sampler states, λ_vis 0.3, from B1 | GPU 7 | 46 min (+66 min states) | 17.2 GB | 76 / 50 / 18 | – |
+| B8 mask patterns | sft3 | sampler's own mask patterns as corruption | GPU 7 | 44 min | 17.1 GB | 60 / 46 / 18 | 56.0 / 45.3 |
+| **e5 + no time** | e5 | time embedding removed | GPU 6 | 44 min | 17.2 GB | 80 / 68 / 36 | **76.0 / 66.0** |
+| e5 + no time, 1 000 steps | e5 | half the steps | GPU 4 | 23 min | 17.1 GB | 80 / 64 / 20 | 68.0 / 54.7 |
+| **e5 + no time, lr 1e-4** | e5 | half the learning rate | GPU 7 | 49 min | 17.2 GB | 78 / 66 / 32 | **82.0 / 60.7** |
+| e5 + no time, K = 8 | e5 | block 8 (S = 8 / 4 / 2) | GPU 6 | 45 min | 17.1 GB | 78 / 48 / 12 | 70.7 / 40.7 |
+| e5 + no time, full fine-tune | e5 | all weights, lr 1e-5, fp32 master | GPU 4 | 76 min | 75.5 GB | 68 / 50 / 18 | 67.3 / 50.7 |
+
+Reading the table: the only changes that moved the held-out numbers were removing the time embedding (+0–3 points) and
+halving the learning rate (S = 16: 76 → 82).  More steps (×3), more data (mixed, 1 000 vs 2 000), more capacity (rank 256,
+full fine-tune), a larger batch, a smaller block, step distillation, and every form of on-policy training (B2, B3, B8)
+were neutral or negative.  **The S = 8 ceiling of this recipe is 60–66 % held-out; the K = 16 S = 8 ≥ 80 % and S = 4 ≥ 85 %
+targets of the brief were not reached by any run.**
+
+### 11.2 Sampler side (held-out 50–199, best two adapters; §10.15)
+
+| sampler | e5 + no time | e5 + no time, lr 1e-4 |
+|---|---|---|
+| S = 16 confidence | 76.0 | 82.0 |
+| S = 12 confidence | 70.7 | 73.3 |
+| S = 8 confidence | 66.0 | 60.7 |
+| S = 8 left-to-right | 66.7 | **69.3** |
+| S = 6 confidence | 51.3 | 46.7 |
+
+Remask budgets (1/2/4 re-masked tokens per step) and the cosine sampling schedule did not help on dev (§10.x); random
+order collapses (14 %).  Left-to-right order at S = 8 is the best S = 8 point (69.3 %) — the block-bidirectional model
+is used most reliably when it is unmasked like a 2-tokens-per-step AR model.
+
+### 11.3 GSM8K test (1 319 problems; settings fixed on held-out, never tuned on test)
+
+| decoding (no AR verification) | adapter | test | tokens / forward | tok/s (GPU) |
+|---|---|---|---|---|
+| K = 16, S = 16, confidence | e5 + no time | 77.3 % (1 020 / 1 319) | 0.90 | 57.1 (zeta) |
+| K = 16, S = 16, confidence | e5 + no time, lr 1e-4 | **78.6 %** (1 037 / 1 319) | 0.90 | 39.5 (A100) |
+| K = 16, S = 8, confidence | e5 + no time | 63.4 % | 1.71 | 106.5 (zeta) |
+| K = 16, S = 8, left-to-right | e5 + no time, lr 1e-4 | **72.9 %** (961 / 1 319) | 1.70 | 77.6 (A100) |
+| A-series K = 4 leave-one-out, Jacobi ≤ 6, graph engine (four_token_diffusion.md §10) | – | 84.2 % | 1.18 | 89.9 (A100) |
+| AR greedy (HF) | – | 88.9 % | 1.00 | 52.5 (A100) |
+
+### 11.4 Gate 4 (speed), VRAM
+
+The B-series sampler runs on the HF model with a 4-D mask (no CUDA graphs, no static buffers), so its tok/s is not a
+fair speed comparison with the graph-engine A-series decoder; tokens per forward is the architecture-level number.  At
+S = 8 the B-series emits 1.7 tokens per forward (vs 1.18 for K = 4 refinement and 1.0 for AR) but at 60–69 % held-out and
+63.4 % (confidence) / 72.9 % (left-to-right) on test, 11 points below the K = 4 decoder; at S = 16 it is below one token per forward (0.90) and below AR accuracy.  **Gate 4 fails: there is no
+(S, order) point where the block-bidirectional model is both faster per forward than the A-series K = 4 decoder and
+within 5 points of it in accuracy.**  Inference VRAM: 4B bf16 + LoRA 11.9 GB (A100, 384-token budget, batch 1; the
+merged full fine-tune 10.8 GB); training 17.2 GB for LoRA r 64 at 1 024 tokens (23.8 GB for r 256, 23.5 GB with the
+B2 replacement forward, 75.5 GB for the full fine-tune with fp32 master weights and gradient checkpointing).
+
+### 11.5 GPU time of the round
+
+Training: 20 runs, 19.1 GPU-hours (tsuginosuke A100s: 13.6 h including the first full fine-tune whose save failed on
+the full disk; zeta: 5.5 h).  Evaluation and diagnostics (dev, held-out, sampler sweeps, B3 tests, state and sample
+generation, five GSM8K-test runs): about 17 GPU-hours.  All runs on GPUs 4/6/7 and
+zeta only; the DeepSeek teacher (GPUs 0–3) and GPU 5 were not touched.
+
+### 11.6 Decision
+
+The B-series stays a negative result at the targets set by the brief.  What transfers: time conditioning is harmful
+for a model that can see the mask pattern, lower learning rates help the bidirectional LoRA, left-to-right unmasking
+is the safest S = 8 order, and every on-policy / self-correction recipe tried so far (B2, B3, B8, A-series config D)
+degrades free generation.  The A-series K = 4 leave-one-out decoder remains the accuracy/speed frontier of this model
+(84.2 % test at 1.7× HF-AR throughput, no AR verification).

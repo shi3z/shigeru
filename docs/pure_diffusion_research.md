@@ -242,5 +242,5 @@ for the shared failure mechanism with the B-series B2.
 | A-series: K = 4 leave-one-out refinement, Jacobi ≤ 3 (same checkpoint, engine) | 79.5 % | 1.32 | 99.2 (A100) | four_token_diffusion.md §10 |
 | B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 1e-4) | 78.6 % | 0.91 | 39.5 (A100, HF path) | discrete_diffusion_b_series.md §11.3 |
 | B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 2e-4) | 77.3 % | 0.91 | 57.1 (zeta, HF path) | discrete_diffusion_b_series.md §11.3 |
-| B-series: K = 16, S = 8, left-to-right (lr 1e-4 adapter) | (running) | 1.70 | | |
+| B-series: K = 16, S = 8, left-to-right (e5 + no-time LoRA, lr 1e-4) | 72.9 % | 1.72 | 77.6 (A100, HF path) | discrete_diffusion_b_series.md §11.3 |
 | reference: AR greedy (HF) | 88.9 % | 1.00 | 52.5 | distill_design.md §11.6 |
