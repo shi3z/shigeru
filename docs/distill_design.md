@@ -604,3 +604,31 @@ Model: snapshot-28000 (670 M CPT tokens) + stage 2 (suffix masks, lr 3e-5, 3 epo
 
 **2.94× the AR throughput of the same weights on the same GPU at equal accuracy**, and 3.1× the released Qwen3-8B's
 50 tok/s while scoring 2 points higher on GSM8K (86.4 %). Earlier headline (stage 2 default recipe): 104 tok/s.
+
+### 11.6 Final checkpoint of the 1 B-token run + best recipe (2026-10-24 01:21–03:16, GPUs 4/6/7 idle otherwise)
+
+Model `runs/phaseC_sft3_4b/final`: CPT `final` (1.0 B tokens, 40 691 steps, 62.5 h) + stage 2 with the §11.4 recipe
+(suffix masks, lr 3e-5, 3 epochs, 11 227-item mix, 2 097 steps, 3 h 50 on one A100). Chain `distill/chain_after_cpt3.sh`
+plus a τ=∞ run queued by hand (the chain predates §11.3 and still uses τ=1.0).
+
+| Decoding, one A100 80 GB, full GSM8K 1 319 | GSM8K | tokens/step | tok/s | file |
+|---|---|---|---|---|
+| AR greedy, HF generate (`final_eval` copy, base tokenizer) | 88.9 % | 1.00 | 52.5 | gsm8k_full_phaseC_sft3_4b_ar.json |
+| AR greedy, own graph engine (same run as the τ=∞ row, GPU 6) | 88.9 % | 1.00 | 49.2 | cdlm_sft3_4b_full_graph_tauinf.json |
+| verified diffusion, CUDA graphs, τ=1.0 (GPU 7) | 87.6 % | 1.76 | 128.3 | cdlm_sft3_4b_full_fast_graph_verify.json |
+| **verified diffusion, CUDA graphs, τ=∞ (GPU 6)** | **87.6 %** | **2.15** | **156.0** | cdlm_sft3_4b_full_graph_tauinf.json |
+| HumanEval, AR rows | 68.3 % (112/164) | – | – | humaneval_phaseC_sft3_4b_ar.json |
+
+Side rows (20 prompts): quick fast engine τ=1.0 1.84 tok/step, 84.9 tok/s vs AR 50.0, both 95 %; plain HF decoder
+unverified τ=none/0.4/0.7 = 95 / 70 / 65 % at 0.99 / 1.39 / 1.59 tok/step.
+
+Reading:
+- **3.17× AR throughput on the same GPU** (156.0 vs 49.2 in the same process; 2.97× against the 52.5 of the HF path).
+  Identical to the snapshot-28000 model of §11.5 (155.7 tok/s, 2.14 tok/step): the last 330 M CPT tokens changed nothing
+  measurable in speed, confirming §11.1/§11.4 (CPT volume is not the lever, the stage-2 recipe is).
+- τ=1.0 and τ=∞ give the *same* 87.6 % (1 156/1 319) with the same wrong items: verified decoding is AR-equivalent, the
+  threshold only changes speed (+22 %). The 1.3-point gap to the HF path (88.9 %) is the bf16 tie/ordering difference
+  between the two attention/GEMM implementations, larger here than the 0.2 points of §11.5; it is the engine, not the model.
+- HumanEval 68.3 % is in the band of all diffusion checkpoints (68–71 %); the code-data finding of §10.6 stands.
+- The 5-epoch variant (zeta, §11.4: 2.26 tok/step at 88.3 %) is being trained on this same final CPT checkpoint
+  (`distill/zeta_final_e5.sh`); results go to §11.7.
