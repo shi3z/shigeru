@@ -46,7 +46,10 @@ def main():
     ap.add_argument("--remask", default="none", help="block decoder: lowconf:f:until | tau:c:until ; sc decoder: none|all|lowconf:t|entropy:h|random:p|scheduled:f0|drop:d")
     ap.add_argument("--decoder", default="block", choices=["block", "sc", "k4"], help="sc = self-correcting (engine/cdlm/sc_decoder.py); k4 = small-block leave-one-out refinement (engine/cdlm/k4_decoder.py)")
     ap.add_argument("--k4-strategy", default="refine", help="k4: s1|conf2|refine|refineN|conf2refine|seq")
-    ap.add_argument("--adopt", default="always", choices=["always", "conf", "nonadjacent", "one", "two", "oddeven", "damped"])
+    ap.add_argument("--adopt", default="always", help="always|conf|nonadjacent|one|two|oddeven|damped|top<M>|wmis<d>|color<d>")
+    ap.add_argument("--stop-rule", default="nochange", choices=["nochange", "two_quiet", "conf_stable"])
+    ap.add_argument("--max-changes", type=int, default=None, help="k4: trust region — cap on adopted changes per round")
+    ap.add_argument("--fallback-k", type=int, default=None, help="k4: adaptive block size — redo a non-converged block as blocks of this size")
     ap.add_argument("--init", default=None, help="k4: split initialisation group sizes, e.g. 3+3 or 2+2+2 (default: one all-mask forward)")
     ap.add_argument("--eos-policy", default="current", choices=["current", "suppress_first", "verify"])
     ap.add_argument("--timing", action="store_true", help="k4: per-phase wall-clock with device syncs")
@@ -96,7 +99,8 @@ def main():
             return k4_generate(model, tok, ids, a.max_new_tokens, block=K, strategy=a.k4_strategy, adopt=a.adopt,
                                max_rounds=a.max_rounds, anchor_leftmost=a.anchor_leftmost, mask_id=mask_id, stop_ids=stop_ids,
                                trace=trace, static=static, use_graph=use_graph,
-                               init=[int(x) for x in a.init.split("+")] if a.init else None, eos_policy=a.eos_policy, timing=a.timing)
+                               init=[int(x) for x in a.init.split("+")] if a.init else None, eos_policy=a.eos_policy, timing=a.timing,
+                               stop_rule=a.stop_rule, stop_tau=a.stop_tau, max_changes=a.max_changes, fallback_k=a.fallback_k)
         if a.decoder == "block":
             return block_generate(model, tok, ids, a.max_new_tokens, block=K, steps=S, schedule=a.schedule, order=a.order,
                                   tau=a.tau, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost, remask=remask,
@@ -118,7 +122,7 @@ def main():
         ar_ref = {r["id"]: r.get("correct") for r in rows}
     def cfg_name(K, S):
         if a.decoder == "k4":
-            return f"K={K},k4:{a.k4_strategy}" + (f":{a.adopt}" if a.k4_strategy.startswith("refine") else "") + (f":r{a.max_rounds}" if a.k4_strategy == "refineN" else "") + (f":init{a.init}" if a.init else "") + (f":eos_{a.eos_policy}" if a.eos_policy != "current" else "")
+            return f"K={K},k4:{a.k4_strategy}" + (f":{a.adopt}" if a.k4_strategy.startswith("refine") else "") + (f":r{a.max_rounds}" if a.k4_strategy == "refineN" else "") + (f":init{a.init}" if a.init else "") + (f":eos_{a.eos_policy}" if a.eos_policy != "current" else "") + (f":stop_{a.stop_rule}" if a.stop_rule != "nochange" else "") + (f":maxch{a.max_changes}" if a.max_changes else "") + (f":fb{a.fallback_k}" if a.fallback_k else "")
         return f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "") + (f",sc:{a.remask}:k{a.confirm_k}" if a.decoder == "sc" else "")
 
     def rep4(ids):
@@ -143,7 +147,8 @@ def main():
                  "steps": st["steps"], "forwards": st["forwards"], "blocks": st["blocks"], "remasked": st["remasked"],
                  "corrections": st.get("corrections"), "confirmed": st.get("confirmed_by_agree"), "accepted_tentative": st.get("accepted_tentative"),
                  "finish": st["finish_reason"], "rep4": rep4(new), "has_answer": ("####" in text),
-                 "outcomes": st.get("outcomes"), "rounds_per_block": st.get("rounds_per_block"), "timing_s": st.get("timing_s"), "correct": score(p, text) if "answer" in p else None, "text": text}
+                 "outcomes": st.get("outcomes"), "rounds_per_block": st.get("rounds_per_block"), "timing_s": st.get("timing_s"),
+                 "fallbacks": st.get("fallbacks"), "big_blocks": st.get("big_blocks"), "correct": score(p, text) if "answer" in p else None, "text": text}
             if a.trace:
                 r["trace"] = st["trace"]
             runs.append(r)
@@ -166,6 +171,8 @@ def main():
                          "rep4_mean": round(sum(r["rep4"] for r in rs) / len(rs), 4),
                          "outcomes": {k: sum((r.get("outcomes") or {}).get(k, 0) for r in rs) for k in ("converged", "cycle", "budget", "none")} if a.decoder == "k4" else None,
                          "rounds_per_block": round(sum((r.get("rounds_per_block") or 0) * r["blocks"] for r in rs) / max(1, sum(r["blocks"] for r in rs)), 3) if a.decoder == "k4" else None,
+                         "fallbacks": sum(r.get("fallbacks") or 0 for r in rs) if a.decoder == "k4" else None,
+                         "big_blocks": sum(r.get("big_blocks") or 0 for r in rs) if a.decoder == "k4" else None,
                          "timing_s_total": {k: round(sum((r.get("timing_s") or {}).get(k, 0.0) for r in rs), 2) for k in ("prefill", "first", "probe", "other")} if a.timing else None,
                          "premature_eos": sum(1 for r in rs if r["finish"] == "stop" and not r["has_answer"]),
                          "accepted_tentative_per_100tok": round(100 * sum(r["accepted_tentative"] or 0 for r in rs) / max(1, tot_tok), 2)}

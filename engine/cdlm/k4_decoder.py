@@ -29,6 +29,11 @@ Adoption rule of a probe round (`adopt`; the K-scaling brief's update policies E
   "nonadjacent" of the changed positions keep a set with no two adjacent (highest probe confidence first)
   "one"         a single change per round (the most confident), Gauss-Seidel style
   "two"         at most two changes per round (the two most confident)
+  "top<M>"      at most M changes per round (the M most confident), Adaptive Top-M of the E3 brief
+  "wmis<d>"     weighted independent set: among the changed positions, the subset with no two within distance d that
+                maximises the summed gain (probe conf - current conf), found by brute force (K <= 8)
+  "color<d>"    graph colouring of the distance-d path graph (d + 1 colours = position mod (d + 1)); each round adopts
+                the changes of one colour class, rotating (d = 1 is odd/even without the extra re-probe)
   "oddeven"     adopt the changes at even positions, re-probe, adopt the changes at odd positions (2 forwards / round)
   "damped"      the probe distribution is averaged with the previous probe distribution of the same position
                 (probability level, never token ids); the argmax of the mixture is adopted if it differs
@@ -54,7 +59,35 @@ __all__ = ["STRATEGIES", "ADOPT", "EOS_POLICIES", "k4_denoise_block", "k4_genera
 
 STRATEGIES = ("s1", "conf2", "refine", "refineN", "conf2refine", "seq")
 ADOPT = ("always", "conf", "nonadjacent", "one", "two", "oddeven", "damped")
+ADOPT_PREFIXES = ("top", "wmis", "color")        # parametric rules: top<M>, wmis<d> (weighted independent set on the
+                                                   # distance-d graph), color<d> (rotate colour classes of the distance-d graph)
 EOS_POLICIES = ("current", "suppress_first", "verify")
+STOP_RULES = ("nochange", "two_quiet", "conf_stable")
+
+
+def parse_adopt(adopt):
+    """-> (kind, param).  Fixed names map to themselves; 'top3' -> ('top', 3); 'wmis2' -> ('wmis', 2); 'color1' -> ('color', 1)."""
+    if adopt in ADOPT:
+        return adopt, None
+    for pre in ADOPT_PREFIXES:
+        if adopt.startswith(pre) and adopt[len(pre):].isdigit():
+            return pre, int(adopt[len(pre):])
+    raise ValueError(f"adopt={adopt!r}, expected one of {ADOPT} or top<M>/wmis<d>/color<d>")
+
+
+def weighted_independent_set(cands, gains, d):
+    """Brute force over subsets of the changed positions (K <= 8 -> <= 256 subsets): the subset with no two positions
+    within distance d that maximises the summed gain.  Returns the sorted positions."""
+    best, best_gain = [], -1.0
+    n = len(cands)
+    for mask in range(1, 1 << n):
+        sub = [cands[k] for k in range(n) if mask >> k & 1]
+        if any(abs(a - b) <= d for ai, a in enumerate(sub) for b in sub[ai + 1:]):
+            continue
+        gsum = sum(gains[c] for c in sub)
+        if gsum > best_gain:
+            best, best_gain = sub, gsum
+    return sorted(best)
 
 
 def probe_rows(tokens, cur, mask_id):
@@ -110,7 +143,7 @@ def _predict(logits, mask_id, suppress=None, return_probs=False):
 @torch.no_grad()
 def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", adopt="always", max_rounds=3,
                      anchor_leftmost=True, prefix_rows=None, trace=False, fixed=None, init=None, stop_ids=None,
-                     eos_policy="current"):
+                     eos_policy="current", stop_rule="nochange", stop_tau=0.99, max_changes=None):
     """Denoise one block of K positions cur..cur+K-1 (module docstring).
     fwd_std(ids, pos, rows) -> logits [len(rows), V]  (standard causal window forward, may write the cache)
     fwd_probe(ids, pos, K, rows) -> logits             (key mask probe_key_mask(cur, K); must not expose its K/V)
@@ -119,10 +152,11 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
     changes (list of (round, pos, old, new)), trace."""
     if strategy not in STRATEGIES:
         raise ValueError(f"strategy={strategy!r}, expected one of {STRATEGIES}")
-    if adopt not in ADOPT:
-        raise ValueError(f"adopt={adopt!r}, expected one of {ADOPT}")
+    adopt_kind, adopt_param = parse_adopt(adopt)
     if eos_policy not in EOS_POLICIES:
         raise ValueError(f"eos_policy={eos_policy!r}")
+    if stop_rule not in STOP_RULES:
+        raise ValueError(f"stop_rule={stop_rule!r}, expected one of {STOP_RULES}")
     fixed = dict(fixed or {})
     stop_ids = set(stop_ids or [])
     tr, changes = [], []
@@ -195,18 +229,38 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
     cycle_period = 0
     eos_verified = 0
     seen = {}
+    last_probe = {"conf": None, "n_cand": 0}
+    quiet = 0
+
+    colour_turn = [0]
 
     def adopt_changes(cand, new, nconf, rnd):
         nonlocal corrections
         cand = [i for i in cand if i not in fixed]
-        if adopt in ("one", "two") and cand:
-            cand = sorted(sorted(cand, key=lambda i: -nconf[i])[: (1 if adopt == "one" else 2)])
-        elif adopt == "nonadjacent" and cand:
+        if adopt_kind in ("one", "two", "top") and cand:
+            m = 1 if adopt_kind == "one" else 2 if adopt_kind == "two" else adopt_param
+            cand = sorted(sorted(cand, key=lambda i: -nconf[i])[:m])
+        elif adopt_kind == "nonadjacent" and cand:
             keep = []
             for i in sorted(cand, key=lambda i: -nconf[i]):
                 if all(abs(i - j) > 1 for j in keep):
                     keep.append(i)
             cand = sorted(keep)
+        elif adopt_kind == "wmis" and cand:
+            cand = weighted_independent_set(cand, {i: max(nconf[i] - conf[i], 1e-6) for i in cand}, adopt_param)
+        elif adopt_kind == "color" and cand:
+            ncol = adopt_param + 1
+            for _ in range(ncol):                       # the next colour class that has a candidate
+                col = colour_turn[0] % ncol
+                colour_turn[0] += 1
+                sel = [i for i in cand if i % ncol == col]
+                if sel:
+                    cand = sel
+                    break
+            else:
+                cand = []
+        if max_changes is not None and len(cand) > max_changes:
+            cand = sorted(sorted(cand, key=lambda i: -nconf[i])[:max_changes])
         changed = []
         for i in cand:
             changed.append((i, tokens[i], new[i]))
@@ -233,25 +287,35 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
             new, nconf = mixed_new, mixed_conf
         else:
             new, nconf, _ = _predict(lg, mask_id)
-        cand = [i for i in range(K) if new[i] != tokens[i] and (adopt != "conf" or nconf[i] > conf[i])]
+        cand = [i for i in range(K) if new[i] != tokens[i] and (adopt_kind != "conf" or nconf[i] > conf[i])]
         if parity is not None:
             cand = [i for i in cand if i % 2 == parity]
         changed = adopt_changes(cand, new, nconf, rnd)
+        last_probe["conf"] = list(nconf)
+        last_probe["n_cand"] = len(cand)
         if trace:
             tr.append(dict(kind="probe", pred=list(new), conf=[round(c, 4) for c in nconf], changed=changed, parity=parity))
         return changed
 
     def refine_loop(budget):
-        nonlocal rounds, outcome, cycle_period
+        nonlocal rounds, outcome, cycle_period, quiet
         seen[tuple(tokens)] = rounds
         for _ in range(budget):
             rounds += 1
-            if adopt == "oddeven":
+            if adopt_kind == "oddeven":
                 ch = refine_round(rounds, 0) + refine_round(rounds, 1)
             else:
                 ch = refine_round(rounds)
             if not ch:
-                outcome = "converged"
+                quiet += 1
+                if stop_rule != "two_quiet" or quiet >= 2:
+                    outcome = "converged"
+                    return
+                continue
+            quiet = 0
+            if stop_rule == "conf_stable" and last_probe["conf"] is not None and len(ch) <= 1 and \
+                    all(last_probe["conf"][i] >= stop_tau for i in range(K) if i not in fixed):
+                outcome = "converged"                       # one small change but every position is confident
                 return
             key = tuple(tokens)
             if key in seen:
@@ -313,11 +377,13 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
 @torch.no_grad()
 def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refine", adopt="always", max_rounds=3,
                 anchor_leftmost=True, mask_id=None, stop_ids=None, prefill_chunk=512, trace=False, static=False,
-                use_graph=False, init=None, eos_policy="current", timing=False):
+                use_graph=False, init=None, eos_policy="current", timing=False, stop_rule="nochange", stop_tau=0.99,
+                max_changes=None, fallback_k=None):
     """Generate with the small-block decoder on a FastQwen3.  static/use_graph select the bucketed / CUDA-graph path for
     both the standard forwards (model.run) and the probe forwards (model.run_masked; K*K rows must fit the largest
     bucket).  timing=True records wall-clock per phase (prefill / first forward / probes / other) with device syncs.
-    Returns (ids, stats)."""
+    fallback_k: adaptive block size — a block of `block` whose refinement does not converge (outcome budget / cycle) is
+    discarded and regenerated as blocks of fallback_k (the wasted forwards stay in the count).  Returns (ids, stats)."""
     if mask_id is None:
         mask_id = model.cfg.mask_id
     if stop_ids is None:
@@ -345,12 +411,14 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
     out = []
     decode_forwards = corrections = probes = 0
     outcomes = dict(converged=0, cycle=0, budget=0, none=0)
-    rounds_total = 0
+    rounds_total = fallbacks = big_blocks = 0
+    small_remaining = 0
     blocks = []
     finish = "length" if max_new_tokens == 0 else None
     pending = None
+    next_k = block
     while finish is None:
-        K = min(block, max_new_tokens - len(out))
+        K = min(next_k, max_new_tokens - len(out))
         state = {"cl": cur if pending is None else cur - len(pending), "n": 0}
         prefix_rows = (pending, list(range(cur - len(pending), cur))) if pending is not None else None
 
@@ -376,13 +444,31 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
 
         toks, info = k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy=strategy, adopt=adopt,
                                       max_rounds=max_rounds, anchor_leftmost=anchor_leftmost, prefix_rows=prefix_rows,
-                                      trace=trace, init=init, stop_ids=stop_ids, eos_policy=eos_policy)
+                                      trace=trace, init=init, stop_ids=stop_ids, eos_policy=eos_policy, stop_rule=stop_rule,
+                                      stop_tau=stop_tau, max_changes=max_changes)
         pending = None
         decode_forwards += info["forwards"]
         corrections += info["corrections"]
         probes += info["probes"]
-        outcomes[info["outcome"]] += 1
         rounds_total += info["rounds"]
+        if fallback_k is not None and K > fallback_k and info["outcome"] in ("budget", "cycle"):
+            # adaptive block size: the big block did not settle -> redo it as small blocks (its forwards are already counted;
+            # its first forward also re-encoded the previous block, so the cache prefix is valid at cur)
+            fallbacks += 1
+            if trace:
+                blocks.append(dict(start=cur, tokens=toks, first=info["first"], outcome=info["outcome"], rounds=info["rounds"],
+                                   changes=info["changes"], trace=info["trace"], discarded=True))
+            small_remaining = max(1, K // fallback_k)
+            next_k = fallback_k
+            continue
+        if fallback_k is not None:
+            if K > fallback_k:
+                big_blocks += 1
+            else:
+                small_remaining -= 1
+                if small_remaining <= 0:
+                    next_k = block
+        outcomes[info["outcome"]] += 1
         if trace:
             blocks.append(dict(start=cur, tokens=toks, first=info["first"], outcome=info["outcome"], rounds=info["rounds"],
                                changes=info["changes"], trace=info["trace"]))
@@ -409,9 +495,9 @@ def k4_generate(model, tok, prompt_ids, max_new_tokens, block=4, strategy="refin
                  tokens_per_step=(len(out) / decode_forwards if decode_forwards else 0.0),
                  tokens_per_forward=(len(out) / decode_forwards if decode_forwards else 0.0), blocks=n_blocks,
                  corrections=corrections, probes=probes, remasked=probes * block, finish_reason=finish, block_size=block,
-                 strategy=strategy, adopt=adopt, init=init, eos_policy=eos_policy, outcomes=outcomes,
+                 strategy=strategy, adopt=adopt, init=init, eos_policy=eos_policy, outcomes=outcomes, stop_rule=stop_rule,
                  rounds_per_block=(rounds_total / n_blocks if n_blocks else 0.0), prompt_len=prompt_len, cache_len=cur,
-                 verify=False)
+                 fallbacks=fallbacks, big_blocks=big_blocks, verify=False)
     if timing:
         stats["timing_s"] = {k: round(v, 4) for k, v in tim.items()}
     if trace:

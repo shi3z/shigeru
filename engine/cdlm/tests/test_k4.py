@@ -170,6 +170,48 @@ def test_k_scaling_features():
     assert len(out) == 12 and set(st["outcomes"]) == {"converged", "cycle", "budget", "none"} and "timing_s" in st, st
 
 
+def test_e3_rules():
+    """top<M>, wmis<d>, color<d>, stop rules, max_changes, fallback_k run and obey their constraints."""
+    from engine.cdlm.k4_decoder import k4_denoise_block, parse_adopt, weighted_independent_set
+    assert parse_adopt("top3") == ("top", 3) and parse_adopt("wmis2") == ("wmis", 2) and parse_adopt("color1") == ("color", 1)
+    assert weighted_independent_set([0, 1, 2, 5], {0: 1.0, 1: 2.0, 2: 1.0, 5: 1.0}, 1) == [1, 5]
+    assert weighted_independent_set([0, 1, 2], {0: 1.0, 1: 0.5, 2: 1.0}, 1) == [0, 2]
+    hf, fast, mask_id = pair(7)
+    g = torch.Generator().manual_seed(23)
+    prompt = random_prompts(g, k=1)[0]
+    P = len(prompt)
+    fast.prefill(torch.tensor(list(prompt)), 0)
+
+    def fwd_std(ids, pos, rows):
+        return fast.forward(torch.tensor(ids), torch.tensor(pos), P, write=False, rows=rows)
+
+    def fwd_probe(ids, pos, K, rows):
+        return fast.forward(torch.tensor(ids), torch.tensor(pos), P, write=False, rows=rows, key_mask=probe_key_mask(P, K))
+
+    for adopt, check in (("top3", lambda ch: len(ch) <= 3), ("top1", lambda ch: len(ch) <= 1),
+                         ("wmis1", lambda ch: all(abs(a[0] - b[0]) > 1 for a in ch for b in ch if a is not b)),
+                         ("wmis2", lambda ch: all(abs(a[0] - b[0]) > 2 for a in ch for b in ch if a is not b)),
+                         ("color1", lambda ch: len({c[0] % 2 for c in ch}) <= 1),
+                         ("color2", lambda ch: len({c[0] % 3 for c in ch}) <= 1)):
+        toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 8, mask_id, strategy="refineN", adopt=adopt, max_rounds=5, trace=True)
+        assert len(toks) == 8
+        for tr in info["trace"]:
+            if tr["kind"] == "probe":
+                assert check(tr["changed"]), (adopt, tr["changed"])
+    toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 8, mask_id, strategy="refineN", adopt="always", max_rounds=5, max_changes=2, trace=True)
+    assert all(len(tr["changed"]) <= 2 for tr in info["trace"] if tr["kind"] == "probe")
+    for rule in ("two_quiet", "conf_stable"):
+        toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 6, mask_id, strategy="refineN", max_rounds=6, stop_rule=rule, stop_tau=0.5)
+        assert len(toks) == 6 and info["outcome"] in ("converged", "cycle", "budget")
+    # adaptive block size: fallback from 8 to 4 keeps the output length and counts fallbacks
+    out, st = k4_generate(fast, None, prompt, 16, block=8, strategy="refineN", adopt="always", max_rounds=1, mask_id=mask_id, stop_ids=[],
+                          fallback_k=4, trace=True)
+    assert len(out) == 16 and st["fallbacks"] + st["big_blocks"] >= 2 and st["blocks"] == 2, st
+    if st["fallbacks"]:
+        assert any(b.get("discarded") for b in st["trace"])
+        assert sum(1 for b in st["trace"] if not b.get("discarded") and len(b["tokens"]) == 4) >= 2
+
+
 def test_cache_valid_after_generation():
     for strat in ("refine", "conf2", "refineN"):
         hf, fast, mask_id = pair(1)
