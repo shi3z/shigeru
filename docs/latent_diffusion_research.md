@@ -41,8 +41,39 @@ runs on zeta (RTX PRO 6000, free) in parallel.  Everything below is measured unl
   and a zero-condition control; position accuracy by distance, multiset F1, duplicate rate, block exact match — the
   same numbers as masked diffusion (position acc 35 %, multiset F1 50 % at K = 16 for the final checkpoint).
 
-## 3. Results
-*running*
+## 3. Results — pilot 1 (zeta, runs/ldm_pilot_k16: v-prediction, 6 000 steps × 32 latents, 120 M denoiser, 53 min)
+
+Training: flow MSE 1.52 → 0.69 (EMA), one-step ẑ0 decode accuracy 0.6 → 0.83 at random t.  Evaluation
+(`bench/eval_ldm.py`, results/pure/ldm_pilot_k16_eval.json, 50 GSM8K dev own-AR references + code/EN/JA held-out):
+
+| genre, K = 16 | oracle z0 → decode | noisy oracle t = 0.6 → 6 Euler steps | noisy oracle t = 0.3 → 11 steps | **generated from noise, 16 steps** | 8 / 4 / 2 steps | zero condition, 16 steps |
+|---|---|---|---|---|---|---|
+| gsm8k | 100 % | 99.8 % (block exact 96 %) | 77.2 % (exact 4 %) | **2.0 % position, 18.8 % multiset F1** | 1.9 / 1.5 / 1.1 % | 0.6 % (F1 4 %) |
+| code | 100 % | 99.4 % | 55.9 % | 0.7 % (F1 7.4 %) | 0.4 / 0.4 / 0.1 % | 0.1 % |
+| en | 100 % | 99.9 % | 59.4 % | 0.8 % (F1 8.1 %) | 0.4 / 0.6 / 0.2 % | 0.3 % |
+| ja | 100 % | 99.8 % | 48.8 % | 0.2 % (F1 2.9 %) | 0.3 / 0.2 / 0.0 % | 0.1 % |
+
+Reading:
+* H1 (codec) and H2 (denoising near the data) hold trivially: the projection is exactly invertible and latents
+  corrupted at t = 0.6 are recovered 99.8 %; from t = 0.3 (mostly noise) 49–77 %.
+* **H4 fails in this pilot**: generated from pure noise, position accuracy is 2 % on GSM8K (masked diffusion: 35 %;
+  AR distance-1: 97 %) and even distance 1 is 2.4 %.  The condition is used a little (multiset F1 18.8 % vs 4.1 % with
+  the condition zeroed: the denoiser learned the prefix's vocabulary, not its continuation) but the generated latents
+  land on tokens unrelated to the reference.  The noisy-oracle rows show why this is not a decoding bug: the model can
+  only "snap" a latent that is already near the right codebook row; from noise it has to *decide* the content from the
+  condition, and 6 000 steps of velocity regression did not learn that.
+* Compared with masked diffusion on the same protocol (position 35 %, multiset F1 50 % at K = 16), pilot 1 is far
+  worse; compared with its own cost (one 4B forward per 16 tokens + 16 cheap denoiser steps) it would be attractive
+  only if H4 held.
+
+Pilot 2 (running on zeta, runs/ldm_pilot_k16_z0tok): z0-prediction instead of velocity (better behaved at high noise),
+token cross-entropy on ẑ0 (λ = 0.5, the brief's reconstruction loss), 12 000 steps.  If distance-1 accuracy does not
+rise to the AR level (~0.97), the conditioning pathway itself is the problem (cross-attention to raw hidden states
+has to learn in a few thousand steps what the LM head already computes), and the next design would feed the
+denoiser the prefix's **next-token logits / LM-head features** rather than hidden states, or initialise the denoiser
+from the 4B's own layers.  Verdict so far: **continuous latent generation is not ahead of masked diffusion on this
+model; the running stage-2 trainings were correctly left alone.**
+
 
 ## 4–12. Phases H2–H8, ablations, GSM8K/HumanEval, VRAM, failures, next
 *pending on §3*

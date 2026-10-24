@@ -56,8 +56,66 @@ training layout, `seq` == AR, cache validity after generation, no dependence on 
   natural-order re-encoding before anything attends them as committed context (test_cache_valid_after_generation).
 * Mask-to-mask attention within a block: absent in training and in the probe; carries no token information.
 
-## 5. Results on existing checkpoints
-*running*
+## 5. Results on the final checkpoint (runs/phaseC_sft3_4b/final), dev items 0–49, no AR verification
 
-## 6–11. Self-correction, training, speed, VRAM, failures, next
-*pending*
+### 5.1 Free generation (`bench/run_block.py --decoder k4`, GPU 7 shared with a training job: tok/s are not comparable)
+
+AR greedy on the same 50 prompts: 96 %.  "forwards" counts every model launch including the merged commit.
+
+| K | strategy | GSM8K dev | tokens / forward | corrections / 100 tok | repetition (4-gram) | premature EOS |
+|---|---|---|---|---|---|---|
+| 4 | s1 (all 4 in one forward) | 20 % | 3.83 | – | 0.25 | 13 / 50 |
+| 4 | conf2 (2 + 2) | 58 % | 1.94 | – | 0.08 | 3 |
+| 4 | refine (place 4, one leave-one-out probe) | 52 % | 1.94 | 34 | 0.07 | 12 |
+| **4** | **refineN (probe rounds until stable, ≤ 3)** | **88 %** | **1.33** | 54 | 0.09 | 4 |
+| 4 | conf2 + 1 probe | 70 % | 1.30 | 15 | 0.07 | 2 |
+| 2 | s1 | 76 % | 1.95 | – | 0.09 | 1 |
+| 2 | refine | 88 % | 0.99 | 10 | 0.11 | 1 |
+| 8 | conf2 (4 + 4) | 18 % | 3.79 | – | 0.23 | 5 |
+| 8 | refine | 2 % | 3.83 | 36 | 0.31 | 17 |
+| 8 | refineN (≤ 3) | 18 % | 1.98 | 147 (oscillates) | 0.05 | 7 |
+| 16 | conf2 (8 + 8) | 0 % | 7.66 | – | 0.83 | 3 |
+| 16 | refineN (≤ 3) | 4 % | 5.19 | 90 | 0.41 | 10 |
+
+(files results/pure/k4_sft3_K*_*.json)
+
+### 5.2 Teacher-forced diagnostic (`bench/diag_k4.py`, 2 255 blocks of 4 from the model's own answers, 50 prompts)
+
+| strategy | forwards / block | first-forward acc by distance 1/2/3/4 | final acc by distance | token acc | block exact (first → final) | correction success | regression |
+|---|---|---|---|---|---|---|---|
+| probe ceiling (true neighbours) | – | – | .958 .962 .959 .977 | 96.4 % | – | – | – |
+| s1 | 1.0 | .969 .840 .708 .577 | same | 77.3 % | 48.1 % | – | – |
+| conf2 | 2.0 | same | .969 .893 .841 .714 | 85.4 % | 48.1 → 67.9 % | 44.6 % | 2.6 % |
+| refine (1 probe) | 2.0 | same | .950 .934 .827 .710 | 85.5 % | 48.1 → 64.2 % | 53.6 % | 5.1 % |
+| **refineN (≤ 3 probes)** | 2.84 | same | **.955 .924 .888 .878** | **91.1 %** | 48.1 → **82.3 %** | **72.0 %** | 3.3 % |
+| conf2 + 1 probe | 3.0 | same | .949 .934 .870 .836 | 89.7 % | 48.1 → 77.6 % | 66.1 % | 3.4 % |
+| seq (AR, ceiling) | 4.0 | same | .969 .951 .940 .922 | 94.5 % | 48.1 → 90.4 % | 80.2 % | 1.3 % |
+
+## 6. What the second forward does (answers to the brief's three questions, measured)
+
+1. **Does restricting to 4 tokens recover non-AR accuracy?**  Partly by itself (one forward: 77 % of tokens, 48 % of
+   blocks exact, 20 % GSM8K) and substantially with refinement: 88 % GSM8K dev vs 96 % AR, at 1.33 tokens per forward.
+   This is the first pure-diffusion setting on this checkpoint above the Phase 1 bar (80 %) and above Phase D's 85 %
+   dev target; it is below the Phase E1 speed target (≈ 2 tokens/forward) because the fixed point needs ~1.8 probe
+   rounds per block on average.
+2. **Does the second denoising fix first-step errors?**  Yes, when the other tokens are right: the leave-one-out probe
+   with TRUE neighbours is 96–98 % accurate at every distance (ceiling row), i.e. the model's conditional given both-side
+   context is as good as its AR conditional.  With the model's own first-step neighbours, one probe round fixes 54 % of
+   the wrong tokens and breaks 5 % of the right ones; iterating to a fixed point fixes 72 % and breaks 3 %.  The gain is
+   concentrated at distance 3–4 (.71 → .89, .58 → .88).  In free generation a single round is harmful (52 % vs 58 %
+   for conf2) because simultaneous changes at neighbouring positions were each conditioned on the other's old token;
+   the fixed-point iteration removes those inconsistencies.  Adoption rules that forbid adjacent simultaneous changes
+   (`--adopt nonadjacent` / `one`) are being measured (§8).
+3. **2 tokens/forward without AR verification?**  Not yet at ≥ 85 %: conf2 and refine give 1.94 tokens/forward at
+   58 / 52 % dev accuracy; refineN gives 88 % at 1.33.  The teacher-forced numbers (85.5 % token accuracy at exactly
+   2 forwards) say the gap is error propagation across blocks in free generation, not the per-block conditional.
+
+Why it stops at K = 4: K = 8 and K = 16 oscillate (147 and 90 corrections per 100 tokens) because the first-forward
+accuracy at distance ≥ 5 is below 50 % (pure_diffusion_research.md §2.1) — more than half the neighbours a probe
+conditions on are wrong, so the fixed point is not the reference text.  The leave-one-out probe costs K² rows
+(64 / 256 for K = 8 / 16), which is also where the plain-forward engine stops being launch-bound.
+
+## 7–11. Training for K = 4, speed, VRAM, failures, next
+*pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
+training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*
+
