@@ -84,6 +84,27 @@ def test_seq_equals_ar_and_strategies_run():
                     assert len(b["first"]) == 4 and b["trace"][0]["kind"] == "all_mask"
 
 
+def test_adopt_rules():
+    from engine.cdlm.k4_decoder import ADOPT
+    hf, fast, mask_id = pair(3)
+    g = torch.Generator().manual_seed(13)
+    prompt = random_prompts(g, k=1)[0]
+    for adopt in ADOPT:
+        out, st = k4_generate(fast, None, prompt, 16, block=4, strategy="refineN", adopt=adopt, max_rounds=4, mask_id=mask_id,
+                              stop_ids=[], trace=True)
+        fast.kv.zero_()
+        assert len(out) == 16, (adopt, st)
+        for b in st["trace"]:
+            for tr in b["trace"]:
+                if tr["kind"] != "probe":
+                    continue
+                ch = [c[0] for c in tr["changed"]]
+                if adopt == "one":
+                    assert len(ch) <= 1, tr
+                if adopt == "nonadjacent":
+                    assert all(abs(x - y) > 1 for x in ch for y in ch if x != y), tr
+
+
 def test_cache_valid_after_generation():
     for strat in ("refine", "conf2", "refineN"):
         hf, fast, mask_id = pair(1)

@@ -45,7 +45,7 @@ def main():
     ap.add_argument("--remask", default="none", help="block decoder: lowconf:f:until | tau:c:until ; sc decoder: none|all|lowconf:t|entropy:h|random:p|scheduled:f0|drop:d")
     ap.add_argument("--decoder", default="block", choices=["block", "sc", "k4"], help="sc = self-correcting (engine/cdlm/sc_decoder.py); k4 = small-block leave-one-out refinement (engine/cdlm/k4_decoder.py)")
     ap.add_argument("--k4-strategy", default="refine", help="k4: s1|conf2|refine|refineN|conf2refine|seq")
-    ap.add_argument("--adopt", default="always", choices=["always", "conf"])
+    ap.add_argument("--adopt", default="always", choices=["always", "conf", "nonadjacent", "one"])
     ap.add_argument("--max-rounds", type=int, default=3)
     ap.add_argument("--confirm-k", type=int, default=1, help="sc: identical re-predictions needed to confirm a placed token")
     ap.add_argument("--max-steps", type=int, default=None, help="sc: step budget per block (default K+1 adaptive, S+2 fixed)")

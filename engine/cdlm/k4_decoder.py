@@ -23,7 +23,10 @@ Strategies (`strategy`; S = forwards per block, the merged commit included in th
   "s1"          S=1  predict [M M M M] once, place all K                             (brief A)
   "conf2"       S=2  place the ceil(K/2) most confident (anchor: the leftmost always), then the rest   (brief B)
   "refine"      S=2  place all K, then one leave-one-out probe; a position whose probe argmax differs is replaced when
-                     `adopt` allows ("always" | "conf": only if the probe confidence exceeds the placed confidence)   (brief C)
+                     `adopt` allows: "always"; "conf" (only if the probe confidence exceeds the placed confidence);
+                     "nonadjacent" (of the changed positions keep a set with no two adjacent, highest probe confidence
+                     first — adjacent simultaneous changes were conditioned on each other's OLD token); "one" (only the
+                     single most confident change per round, Gauss-Seidel style)                                   (brief C)
   "refineN"     S<=1+max_rounds  probe rounds until no position changes (adaptive, brief E) or max_rounds (brief D)
   "conf2refine" S=3  conf2 followed by one probe round
   "seq"         S=K  leftmost one per forward (the AR conditional at every step; the diagnostic ceiling, not a design)
@@ -39,7 +42,7 @@ from .decoder import entropy_from_logits
 __all__ = ["STRATEGIES", "ADOPT", "k4_denoise_block", "k4_generate", "probe_key_mask", "probe_rows"]
 
 STRATEGIES = ("s1", "conf2", "refine", "refineN", "conf2refine", "seq")
-ADOPT = ("always", "conf")
+ADOPT = ("always", "conf", "nonadjacent", "one")
 
 
 def probe_rows(tokens, cur, mask_id):
@@ -127,12 +130,22 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
         nonlocal corrections
         lg = probe(tokens)
         new, nconf, _ = _predict(lg, mask_id)
+        cand = [i for i in range(K) if new[i] != tokens[i] and (adopt != "conf" or nconf[i] > conf[i])]
+        if adopt == "one" and cand:
+            cand = [max(cand, key=lambda i: nconf[i])]
+        elif adopt == "nonadjacent" and cand:
+            keep = []
+            for i in sorted(cand, key=lambda i: -nconf[i]):
+                if all(abs(i - j) > 1 for j in keep):
+                    keep.append(i)
+            cand = sorted(keep)
         changed = []
+        for i in cand:
+            changed.append((i, tokens[i], new[i]))
+            tokens[i] = new[i]
         for i in range(K):
-            if new[i] != tokens[i] and (adopt == "always" or nconf[i] > conf[i]):
-                changed.append((i, tokens[i], new[i]))
-                tokens[i] = new[i]
-            conf[i] = nconf[i] if (new[i] == tokens[i]) else conf[i]
+            if new[i] == tokens[i]:
+                conf[i] = nconf[i]
         corrections += len(changed)
         if trace:
             tr.append(dict(kind="probe", pred=list(new), conf=[round(c, 4) for c in nconf], changed=changed))
