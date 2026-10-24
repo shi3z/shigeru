@@ -127,6 +127,49 @@ def test_static_path_matches_plain():
         assert x == y, (strat, x, y)
 
 
+def test_k_scaling_features():
+    """fixed seeds are observed and never changed; split init counts its forwards; oddeven/damped run; eos policies run;
+    cycle/converged/budget outcomes are reported; K = 3, 5, 6, 7 work on the plain path."""
+    from engine.cdlm.k4_decoder import k4_denoise_block
+    hf, fast, mask_id = pair(6)
+    g = torch.Generator().manual_seed(19)
+    prompt = random_prompts(g, k=1)[0]
+    P = len(prompt)
+    fast.prefill(torch.tensor(list(prompt)), 0)
+
+    def fwd_std(ids, pos, rows):
+        return fast.forward(torch.tensor(ids), torch.tensor(pos), P, write=False, rows=rows)
+
+    def fwd_probe(ids, pos, K, rows):
+        return fast.forward(torch.tensor(ids), torch.tensor(pos), P, write=False, rows=rows, key_mask=probe_key_mask(P, K))
+
+    for K in (3, 5, 6, 7, 8):
+        toks, info = k4_denoise_block(fwd_std, fwd_probe, P, K, mask_id, strategy="refineN", max_rounds=4, fixed={1: 7, K - 1: 9})
+        assert toks[1] == 7 and toks[K - 1] == 9 and len(toks) == K and info["outcome"] in ("converged", "cycle", "budget")
+        assert all(c[1] not in (1, K - 1) for c in info["changes"])
+        assert info["first"][1] == 7 and info["first"][K - 1] == 9
+    toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 6, mask_id, strategy="refineN", max_rounds=0, init=[3, 3])
+    assert info["forwards"] == 2 and info["rounds"] == 0 and len(toks) == 6, info
+    toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 8, mask_id, strategy="s1", init=[2, 2, 2, 2])
+    assert info["forwards"] == 4, info
+    for adopt in ("oddeven", "damped"):
+        toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 6, mask_id, strategy="refineN", adopt=adopt, max_rounds=3)
+        assert len(toks) == 6 and info["rounds"] <= 3
+        if adopt == "oddeven" and info["rounds"]:
+            assert info["probes"] >= 2 * (info["rounds"] - 1) + 1
+    for pol in ("suppress_first", "verify"):
+        toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 4, mask_id, strategy="refineN", max_rounds=3, stop_ids={toks[0]}, eos_policy=pol)
+        assert len(toks) == 4
+    # suppress_first really suppresses: the first forward never predicts the suppressed id
+    stop = {int(x) for x in range(0, 90, 2)}
+    toks, info = k4_denoise_block(fwd_std, fwd_probe, P, 4, mask_id, strategy="s1", stop_ids=stop, eos_policy="suppress_first")
+    assert all(t not in stop for t in info["first"]), info["first"]
+    # generation with timing and init
+    out, st = k4_generate(fast, None, prompt, 12, block=4, strategy="refineN", adopt="one", max_rounds=5, mask_id=mask_id, stop_ids=[],
+                          init=[2, 2], eos_policy="verify", timing=True)
+    assert len(out) == 12 and set(st["outcomes"]) == {"converged", "cycle", "budget", "none"} and "timing_s" in st, st
+
+
 def test_cache_valid_after_generation():
     for strat in ("refine", "conf2", "refineN"):
         hf, fast, mask_id = pair(1)
