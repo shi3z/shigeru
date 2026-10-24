@@ -81,5 +81,99 @@ groups).  Position ids, RoPE and the K/V written by the merged commit are the sa
 engine/cdlm/tests/test_k4.py run K = 3…8 on CPU).  **No K-dependent implementation defect was found**; the collapse
 is algorithmic.
 
-## 5–9, 11–13. Results (continued)
-*filled as the runs complete (E → G → B/C/10 (rerun after a bug in the diagnostic's first forward) → held-out)*
+## 5. Experiment E — update policies (K = 6 and K = 8; GPU 7 shared, tok/s not comparable)
+
+| K | rule (rounds) | GSM8K dev 50 | tokens / forward | corrections / 100 tok | converged / cycle / budget |
+|---|---|---|---|---|---|
+| 6 | Jacobi (3) | 54 % | 1.57 | 108 | 419 / 27 / 791 |
+| 6 | nonadjacent (3) | 58 % | 1.62 | 60 | 537 / 2 / … |
+| 6 | confidence-gated (3) | 50 % | 1.70 | 59 | 909 / 1 / 377 |
+| 6 | one change (3) / two (3) | 52 % / 56 % | 1.60 / 1.62 | 38 / 63 | 528 / 0 / 816 |
+| 6 | damped (3) | 48 % | 1.61 | 81 | – |
+| 6 | **odd-even (3 rounds = 6 probes)** | **78 %** | 1.03 | 76 | – |
+| 6 | Jacobi (6) | 62 % | 1.19 | 139 | 996 / 87 / 282 |
+| 6 | **one change (12)** | **94 %** | 1.11 | 56 | 1 220 / … |
+| 8 | Jacobi (3) | 18 % | 1.98 | 147 | 118 / 1 / 840 |
+| 8 | nonadjacent / confidence / one / two / damped (3) | 28 / 28 / 18 / 32 / 28 % | 2.0–2.2 | 30–91 | – |
+| 8 | **odd-even (3 = 6 probes)** | **78 %** | 1.20 | 114 | 402 / 14 / 579 |
+| 8 | Jacobi (6) | 48 % | 1.28 | 200 | 468 / 46 / 467 |
+| 8 | one change (12) | 90 % | 0.97 | 79 | 713 / 47 / 205 |
+| 8 | two (6) | 78 % | 1.33 | 97 | 530 / 16 / 480 |
+
+(The Phase E3 matrix on an idle A100 adds top-M, independent-set and colouring rules at K = 8:
+docs/dependency_aware_refinement.md §5.)
+
+## 6. Experiment G — EOS policy (K = 8, Jacobi, 3 rounds; K = 6 in results/pure/kscale_K6_eos_*.json)
+
+| policy | GSM8K | tokens / forward | premature EOS | max-length |
+|---|---|---|---|---|
+| current (a stop id in the final block cuts it) | 18 % | 1.98 | – | 3 |
+| suppress EOS in the first forward only | 16 % | 1.97 | – | 3 |
+| verify: one more probe must leave the EOS position unchanged | 24 % | 1.97 | – | – |
+
+Early EOS is a *consequence* of broken blocks, not a cause: suppressing it does not help and the Jacobi failure mode
+(unconverged blocks) dominates; at K = 8 the output length (151–190 tokens) is similar to K = 4 (170).
+
+## 7. Teacher-forced refinement statistics (bench/diag_k4.py at K = 6 / 8; blocks of the model's own answers)
+
+| K | strategy | forwards / block | first-forward acc by position | final acc by position | token acc | block exact | success | regression |
+|---|---|---|---|---|---|---|---|---|
+| 6 | oracle conditional (true neighbours) | – | – | .95 .96 .96 .96 .96 .98 | 96.0 % | – | – | – |
+| 6 | first forward only | 1 | .97 .83 .70 .57 .46 .39 | same | 65.3 % | 23.0 % | – | – |
+| 6 | refineN Jacobi ≤ 3 | 3.41 | | .94 .90 .86 .83 .73 .67 | 82.1 % | 56.8 % | 60.8 % | 6.6 % |
+| 6 | sequential (AR ceiling) | 6 | | .97 .95 .94 .92 .90 .88 | 92.6 % | 85.8 % | 81.9 % | 1.7 % |
+| 8 | oracle conditional | – | – | .92 .95 .95 .96 .95 .97 .96 .97 | 95.5 % | – | – | – |
+| 8 | first forward only | 1 | .97 .83 .69 .58 .47 .36 .33 .29 | same | 56.5 % | 9.4 % | – | – |
+| 8 | refineN Jacobi ≤ 3 | 3.74 | | .93 .89 .85 .82 .73 .65 .56 .47 | 73.7 % | 34.2 % | 53.6 % | 10.9 % |
+| 8 | sequential (AR ceiling) | 8 | | .97 .96 .94 .93 .90 .88 .88 .85 | 91.4 % | 82.0 % | 82.7 % | 1.9 % |
+
+Brief §16 question 3: **yes** — with correct neighbours every position of a K = 8 block is recovered at 92–97 %
+(no worse than K = 4's 96–98 %).  The conditional restorer is not the bottleneck; reaching a correct configuration is.
+The first forward of K = 8 has 3.5 wrong tokens per block (block exact 9 %) and Jacobi fixes 54 % of them while
+breaking 11 % of the right ones; the same model with one change per round fixes 83 % and breaks 2 %.
+
+## 8. Oscillation summary (free generation, all K)
+
+Cycles (a block state seen before) are 0.1–1.6 % of blocks for Jacobi at every K; the dominant non-convergence is
+budget exhaustion (§3), and among sequential rules cycles rise to 4–8 % at 12 rounds (e.g. K = 8 one ≤ 12: 47 of 965
+blocks).  Per-change direction counts (§7) show that Jacobi's extra changes are mostly wrong→wrong churn.
+
+## 9. Held-out confirmation (dev items 50–199; AR 90.0 %)
+
+| setting | dev 0–49 | held-out | tokens / forward |
+|---|---|---|---|
+| K = 6, 2+2+2 init + Jacobi ≤ 3 | 80 % | **58.7 %** | 1.18 |
+| K = 8, colouring ≤ 6 / top-2 ≤ 6 / wmis1 ≤ 12 (E3) | 82 / 78 / 88 % | 58.7 / 68.0 / 81.3 % | 1.31 / 1.31 / 1.06 |
+| K = 4 Jacobi ≤ 6 (reference) | 92 % | 84.7 % | 1.17 |
+
+## 11. Measured cost (idle A100, docs/dependency_aware_refinement.md §2; zeta: four_token_diffusion.md §9)
+
+AR HF 54.6 tok/s; K = 4 Jacobi ≤ 3 graph 99.6 tok/s @ 88 %; K = 6 (plain, zeta) 103.6 tok/s @ 60 %; K = 8 Jacobi ≤ 3
+(plain, zeta) 123.3 @ 32 %; K = 8 one ≤ 12 (plain, A100) 40.9 @ 90 %.  Probe rows K² = 16 / 36 / 64; the probe is
+~2/3 of decode time at every K.  VRAM: 4B weights + cache ≈ 9 GB for all K (plain engine).
+
+## 12. Conclusion on the cause of the K = 8 failure (measured, in order of weight)
+
+1. **Update rule** (dominant): Jacobi adoption of all changes at once churns strongly co-dependent neighbours
+   (E3 §3: 58 % wrong→wrong when co-changed with a JSD ≥ 0.3 neighbour) and needs more rounds than any fixed budget
+   gives; replacing it by sequential / colouring / independent-set adoption turns 18 % into 68–90 % at the same model.
+2. **Initial prediction** (second): the first forward is right on 56 % of K = 8 tokens (9 % blocks exact) vs 77 % at
+   K = 4 (48 %); pairwise initialisation (2+2+2+2) doubles K = 8 to 42 % under Jacobi but is itself nearly sequential.
+3. **Model capability**: not the cause — the oracle conditional is 92–97 % at every K = 8 position.
+4. **EOS**: a symptom, not a cause.
+5. **Implementation bug**: none found (§10).
+
+## 13. Summary table (dev 0–49, Jacobi ≤ 3 unless noted; "initial" = first-forward token accuracy, teacher-forced)
+
+| K | GSM8K | initial | correction success (Jacobi / sequential) | regression (Jacobi / seq) | cycle rate | early EOS | tok/s (idle) |
+|---|---|---|---|---|---|---|---|
+| 3 | 94 % | – | – | – | 1.7 % | 1 | – |
+| 4 | 88 % | 77.3 % | 72 % / 80 % | 3.3 / 1.3 % | 1.5 % | 4 | 99.6 (graph) |
+| 5 | 62 % | – | – | – | 0.8 % | – | – |
+| 6 | 54 % | 65.3 % | 61 % / 82 % | 6.6 / 1.7 % | 2.2 % | – | 103.6 (plain, zeta, 60 %) |
+| 7 | 34 % | – | – | – | 0.5 % | – | – |
+| 8 | 18 % | 56.5 % | 54 % / 83 % | 10.9 / 1.9 % | 0.1 % | – | 123.3 (plain, zeta, 32 %) |
+
+Experiments B/C (first-forward distributions, calibration, oracle seed injection) are still running (results/pure/
+diag_kscale_sft3.json when done; the first attempt crashed on an empty-tensor bug and the rerun shares GPU 7).
+

@@ -1,0 +1,125 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "refs": "results/pure/dev_refs_sft3.json",
+  "n": 50,
+  "K": 8,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 93.5,
+  "summary": {
+    "by_distance": {
+      "1": {
+        "n": 4200,
+        "top1_change_rate": 0.4538,
+        "jsd_mean": 0.3755,
+        "jsd_std": 0.438,
+        "kl_mean": 4.4076,
+        "conf_delta_mean": 0.1337
+      },
+      "2": {
+        "n": 3600,
+        "top1_change_rate": 0.1903,
+        "jsd_mean": 0.1104,
+        "jsd_std": 0.2179,
+        "kl_mean": 0.6268,
+        "conf_delta_mean": 0.1069
+      },
+      "3": {
+        "n": 3000,
+        "top1_change_rate": 0.134,
+        "jsd_mean": 0.0608,
+        "jsd_std": 0.1542,
+        "kl_mean": 0.2703,
+        "conf_delta_mean": 0.0661
+      },
+      "4": {
+        "n": 2400,
+        "top1_change_rate": 0.0988,
+        "jsd_mean": 0.0421,
+        "jsd_std": 0.1207,
+        "kl_mean": 0.1843,
+        "conf_delta_mean": 0.0525
+      },
+      "5": {
+        "n": 1800,
+        "top1_change_rate": 0.0967,
+        "jsd_mean": 0.0327,
+        "jsd_std": 0.1041,
+        "kl_mean": 0.132,
+        "conf_delta_mean": 0.0418
+      },
+      "6": {
+        "n": 1200,
+        "top1_change_rate": 0.1017,
+        "jsd_mean": 0.0322,
+        "jsd_std": 0.0962,
+        "kl_mean": 0.1247,
+        "conf_delta_mean": 0.0426
+      },
+      "7": {
+        "n": 600,
+        "top1_change_rate": 0.155,
+        "jsd_mean": 0.0417,
+        "jsd_std": 0.1106,
+        "kl_mean": 0.1515,
+        "conf_delta_mean": 0.0518
+      }
+    },
+    "by_direction": {
+      "left": {
+        "n": 8400,
+        "jsd_mean": 0.2719,
+        "top1_change_rate": 0.3686
+      },
+      "right": {
+        "n": 8400,
+        "jsd_mean": 0.0115,
+        "top1_change_rate": 0.0623
+      }
+    },
+    "jsd_histogram": {
+      "0.0": 12988,
+      "0.1": 786,
+      "0.2": 433,
+      "0.3": 293,
+      "0.4": 236,
+      "0.5": 202,
+      "0.6": 175,
+      "0.7": 182,
+      "0.8": 205,
+      "0.9": 1300
+    },
+    "jacobi_changes_by_max_codependency": {
+      "jsd<0.1": {
+        "n": 879,
+        "to_right": 0.57,
+        "to_wrong": 0.256,
+        "wrong_to_wrong": 0.1741
+      },
+      "jsd>=0.3": {
+        "n": 1987,
+        "to_right": 0.1993,
+        "to_wrong": 0.2204,
+        "wrong_to_wrong": 0.5803
+      },
+      "jsd<0.3": {
+        "n": 234,
+        "to_right": 0.359,
+        "to_wrong": 0.2479,
+        "wrong_to_wrong": 0.3932
+      },
+      "solo": {
+        "n": 80,
+        "to_right": 0.825,
+        "to_wrong": 0.0375,
+        "wrong_to_wrong": 0.1375
+      }
+    },
+    "forwards": 4169,
+    "probe_forwards_per_block_for_dependency": 9
+  }
+}

@@ -7,6 +7,11 @@ docs/distill_design.md (the model).  Everything here is **measured** unless mark
 Dev data: `bench/prompts_gsm8k_dev.json` items 0–49 (GSM8K train, never in any training file) for all exploration;
 items 50–199 are held back for confirmation; GSM8K test (1 319) is used once, at the end, for the final rows.
 
+Follow-ups: **docs/k_scaling_failure_analysis.md** (why K = 5…8 fail: non-convergence of Jacobi adoption, not model
+capability or a bug; held-out numbers), **docs/dependency_aware_refinement.md** (Phase E3: dependency measurement,
+adoption rules, early stopping, adaptive K; the frontier stays K = 4), **docs/discrete_diffusion_b_series.md** (the
+block-bidirectional B-series: K = 16 at 84 % after 30 min of LoRA).
+
 ## 1. The problem in one table (from pure_diffusion_research.md, final checkpoint runs/phaseC_sft3_4b/final)
 
 | decoding, dev 50 | GSM8K | tokens/forward |

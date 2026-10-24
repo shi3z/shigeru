@@ -1,0 +1,135 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "refs": "results/pure/dev_refs_sft3.json",
+  "n": 50,
+  "block": 6,
+  "adopt": "always",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 1122.2,
+  "probe_ceiling": {
+    "acc_by_distance": [
+      0.9499,
+      0.9552,
+      0.9606,
+      0.9613,
+      0.9586,
+      0.9766
+    ],
+    "n": 1497
+  },
+  "summary": {
+    "s1": {
+      "blocks": 1497,
+      "forwards_per_block": 1.0,
+      "tokens_per_forward": 6.0,
+      "first_acc_by_distance": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "final_acc_by_distance": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "final_token_acc": 0.653,
+      "first_block_exact": 0.2298,
+      "block_exact": 0.2298,
+      "correction_success_rate": 0.0,
+      "correction_regression_rate": 0.0,
+      "corrections_per_block": 0.0
+    },
+    "refine": {
+      "blocks": 1497,
+      "forwards_per_block": 2.0,
+      "tokens_per_forward": 3.0,
+      "first_acc_by_distance": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "final_acc_by_distance": [
+        0.9359,
+        0.9205,
+        0.8203,
+        0.682,
+        0.5504,
+        0.4649
+      ],
+      "final_token_acc": 0.729,
+      "first_block_exact": 0.2298,
+      "block_exact": 0.3393,
+      "correction_success_rate": 0.4094,
+      "correction_regression_rate": 0.1011,
+      "corrections_per_block": 2.019
+    },
+    "refineN": {
+      "blocks": 1497,
+      "forwards_per_block": 3.414,
+      "tokens_per_forward": 1.757,
+      "first_acc_by_distance": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "final_acc_by_distance": [
+        0.9392,
+        0.8965,
+        0.857,
+        0.8303,
+        0.7321,
+        0.6707
+      ],
+      "final_token_acc": 0.821,
+      "first_block_exact": 0.2298,
+      "block_exact": 0.5678,
+      "correction_success_rate": 0.6083,
+      "correction_regression_rate": 0.066,
+      "corrections_per_block": 4.704
+    },
+    "seq": {
+      "blocks": 1497,
+      "forwards_per_block": 6.0,
+      "tokens_per_forward": 1.0,
+      "first_acc_by_distance": [
+        0.9699,
+        0.827,
+        0.6974,
+        0.5745,
+        0.4569,
+        0.3921
+      ],
+      "final_acc_by_distance": [
+        0.9699,
+        0.9526,
+        0.9392,
+        0.9178,
+        0.8951,
+        0.8811
+      ],
+      "final_token_acc": 0.926,
+      "first_block_exact": 0.2298,
+      "block_exact": 0.8577,
+      "correction_success_rate": 0.8194,
+      "correction_regression_rate": 0.0174,
+      "corrections_per_block": 0.0
+    }
+  }
+}

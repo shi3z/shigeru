@@ -1,0 +1,93 @@
+{
+  "model": "runs/phaseC_sft3_4b/final",
+  "refs": "results/pure/dev_refs_sft3.json",
+  "n": 50,
+  "K": 4,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 65.5,
+  "summary": {
+    "by_distance": {
+      "1": {
+        "n": 1800,
+        "top1_change_rate": 0.4056,
+        "jsd_mean": 0.345,
+        "jsd_std": 0.4516,
+        "kl_mean": 4.7475,
+        "conf_delta_mean": 0.1069
+      },
+      "2": {
+        "n": 1200,
+        "top1_change_rate": 0.1183,
+        "jsd_mean": 0.0824,
+        "jsd_std": 0.2071,
+        "kl_mean": 0.4625,
+        "conf_delta_mean": 0.0806
+      },
+      "3": {
+        "n": 600,
+        "top1_change_rate": 0.08,
+        "jsd_mean": 0.0437,
+        "jsd_std": 0.161,
+        "kl_mean": 0.2141,
+        "conf_delta_mean": 0.0438
+      }
+    },
+    "by_direction": {
+      "left": {
+        "n": 1800,
+        "jsd_mean": 0.3997,
+        "top1_change_rate": 0.4383
+      },
+      "right": {
+        "n": 1800,
+        "jsd_mean": 0.0148,
+        "top1_change_rate": 0.0728
+      }
+    },
+    "jsd_histogram": {
+      "0.0": 2676,
+      "0.1": 103,
+      "0.2": 52,
+      "0.3": 29,
+      "0.4": 28,
+      "0.5": 27,
+      "0.6": 20,
+      "0.7": 44,
+      "0.8": 40,
+      "0.9": 581
+    },
+    "jacobi_changes_by_max_codependency": {
+      "jsd<0.1": {
+        "n": 186,
+        "to_right": 0.629,
+        "to_wrong": 0.2258,
+        "wrong_to_wrong": 0.1452
+      },
+      "jsd>=0.3": {
+        "n": 265,
+        "to_right": 0.2453,
+        "to_wrong": 0.3019,
+        "wrong_to_wrong": 0.4528
+      },
+      "jsd<0.3": {
+        "n": 28,
+        "to_right": 0.5357,
+        "to_wrong": 0.2143,
+        "wrong_to_wrong": 0.25
+      },
+      "solo": {
+        "n": 181,
+        "to_right": 0.7735,
+        "to_wrong": 0.105,
+        "wrong_to_wrong": 0.1215
+      }
+    },
+    "forwards": 2702,
+    "probe_forwards_per_block_for_dependency": 5
+  }
+}

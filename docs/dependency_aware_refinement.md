@@ -31,13 +31,38 @@ The K = 4 numbers reproduce the earlier shared-GPU runs exactly (same tokens, sa
 graph-engine K=4 decoder is 1.8× the HF AR throughput at −8 points (dev 50) / 1.26× the graph-engine AR.
 
 
-## 3. Dependency measurement (`bench/diag_dependency.py`)
+## 3. Dependency measurement (`bench/diag_dependency.py`) — results (K = 8: 294 blocks, 4 169 forwards; K = 4: 2 255 blocks)
 
-Method: teacher-forced blocks (model's own answers), the model's own first-forward placement t; base probe P_i; for
-each j, t_j := the probe's alternative token and re-probe -> P_i^(j); JSD / KL / top-1 change / |Δconf| of every i,
-aggregated by |i − j| and by side.  Cost 1 + K probe forwards per block (diagnostic only).  Jacobi refineN changes are
-tagged with the maximum JSD-dependency to the positions changed in the same round and scored right/wrong.
-*running*
+Dependency of position i on a change at position j (the probe's alternative token substituted at j), K = 8:
+
+| distance \|i−j\| | JSD mean (± sd) | top-1 of i changes | \|Δ conf\| | KL |
+|---|---|---|---|---|
+| 1 | **0.376 ± 0.44** | **45.4 %** | 0.134 | 4.41 |
+| 2 | 0.110 ± 0.22 | 19.0 % | 0.107 | 0.63 |
+| 3 | 0.061 ± 0.15 | 13.4 % | 0.066 | 0.27 |
+| 4 | 0.042 ± 0.12 | 9.9 % | 0.053 | 0.18 |
+| 5–7 | 0.032–0.042 | 9.7–15.5 % | 0.04–0.05 | 0.12–0.15 |
+
+By side (K = 8): a change to the **left** of i moves P_i by JSD 0.272 (top-1 changes 36.9 %); a change to its **right**
+by 0.012 (6.2 %).  The JSD distribution is bimodal: 77 % of (i, j) pairs are below 0.1 and 8 % above 0.9 (a token that
+flips its neighbour outright).  K = 4 shows the same curve (0.345 / 0.082 / 0.044 at distance 1 / 2 / 3).
+
+Jacobi changes tagged by the maximum JSD-dependency to the other positions changed in the same round (K = 8, 3 rounds):
+
+| co-dependency of a simultaneous change | n | → correct | → wrong (was right) | wrong → other wrong |
+|---|---|---|---|---|
+| none (the only change of the round) | 80 | **82.5 %** | 3.8 % | 13.8 % |
+| max JSD < 0.1 | 879 | 57.0 % | 25.6 % | 17.4 % |
+| 0.1 ≤ max JSD < 0.3 | 234 | 35.9 % | 24.8 % | 39.3 % |
+| **max JSD ≥ 0.3** | **1 987** | **19.9 %** | 22.0 % | **58.0 %** |
+
+Answers (brief §12): (1) yes — simultaneous changes between strongly co-dependent positions are mostly churn
+(58 % wrong→wrong, 20 % correct) while isolated or weakly dependent changes are 57–83 % correct; (2) no — distance
+explains most of it but not all: the dependency is **directional** (left context matters 20× more than right context
+for this suffix-trained checkpoint), and 10–15 % of far pairs still flip the top-1, so a distance-only graph misses
+long-range edges (numbers, brackets) and over-penalises right-side neighbours.  Measuring JSD at inference costs
+K extra probe forwards per round and is not worth it (§12); the distance graph is a cheap proxy that captures the
+dominant d = 1 term, which is why colouring / odd-even / top-2 recover most of the gain.
 
 ## 4. Update policies (`--adopt`)
 
@@ -71,7 +96,10 @@ Selection cost: all rules are O(K) on the host except `wmis` (2^|changes| subset
 | `wmis1` ≤ 12 | 88 % | 1.11 | 52.9 | 133 | 840 / 85 / 121 |
 | `one` ≤ 12 | 90 % | 0.97 | 40.9 | 79 | 713 / 47 / 205 |
 
-(wmis2 / color2 ≤ 6: see results/pure/e3_K8_wmis2_r6.json, e3_K8_color2_r6.json.)
+| `wmis2` / `color2` (distance 2) ≤ 6 | 62 % / 64 % | 1.32 / 1.28 | 64.3 / 54.5 | – | – |
+
+Distance-2 graphs are worse than distance-1 (62–64 vs 70–82 %): forbidding more simultaneous changes than the
+dependency structure requires slows convergence without reducing conflicts (the d ≥ 2 dependency is small, §3).
 
 Reading (measured): every rule that forbids *adjacent* simultaneous changes beats Jacobi by 20–34 points at the same
 forward budget (odd/even 78 %, colouring 82 %, top-2 78 %, independent set 70 %), and the gain is not from changing
@@ -111,7 +139,44 @@ Stable wrong answers: 8 % of dev problems converge to a wrong fixed point (the 9
 The fallback recovers accuracy (94 %) but the discarded K = 8 attempts make it slower than fixed K = 4 (0.91 vs 1.33
 tokens/forward).  Adaptive K does not beat fixed K = 4 on this checkpoint (brief question 7: no).
 
-## 3 (results), 9–15. Dependency measurement, CUDA graphs for K = 8, held-out, HumanEval, VRAM, failures, next
-*dependency diagnostic re-running (its first run hit the same empty-tensor bug as diag_kscale); K = 8 on the graph
-engine needs a 64-row static bucket (not implemented: the K-group probe has K² = 64 rows); held-out confirmation of the
-best K = 8 rule (`color1`, `wmis1`) queued after the training evaluations.*
+## 9. Held-out confirmation (dev items 50–199, 150 prompts, never used for selection; AR on these items 90.0 %)
+
+| K = 8 rule | dev 0–49 | **held-out 50–199** | tokens / forward |
+|---|---|---|---|
+| colouring `color1` ≤ 6 | 82 % | **58.7 %** | 1.31 |
+| top-2 ≤ 6 | 78 % | **68.0 %** | 1.31 |
+| independent set `wmis1` ≤ 12 | 88 % | **81.3 %** | 1.06 |
+| (reference) K = 4 Jacobi ≤ 6 | 92 % | 84.7 % | 1.17 |
+
+The 50-item exploration numbers of the K = 8 rules were inflated by 10–23 points (the 50 items are easier: AR 96 vs
+90 %, and ~25 settings were compared on them).  On held-out data the only K = 8 rule near the K = 4 decoder is the
+weighted independent set with 12 rounds (81.3 % at 1.06 tokens/forward, i.e. no speed gain over K = 4's 84.7 % at 1.17).
+
+## 10–13. CUDA graphs for K = 8, GSM8K test, HumanEval, VRAM
+
+Not run: the K-group probe at K = 8 has 64 rows and the static engine's largest bucket is 32 (adding a 64-row bucket is
+straightforward but was not justified by §9); no K = 8 rule earned a GSM8K-test or HumanEval evaluation; VRAM of the
+plain-engine K = 8 decoder is the 4B's weights + a 4 096-slot cache (≈ 9 GB bf16, as for K = 4).
+
+## 14. Failed experiments
+
+* Early-stopping rules (§7): none better than stopping at the first quiet round.
+* Adaptive K = 8 → 4 fallback (§8): recovers accuracy but discards too much work (0.91 tokens/forward).
+* Distance-2 dependency graphs (§5): worse than distance-1.
+* Trust region (max 2 changes) ≡ top-2.
+* Every K = 8 rule at 6 rounds lost 10–23 points on held-out data relative to the 50 exploration items.
+
+## 15. Conclusions and next steps
+
+Measured answers to the brief's questions: (1) simultaneous updates between dependent positions do amplify errors
+(58 % churn vs 20 % correct); (2) dependency is mostly distance-1 and strongly left-sided, with a long-range tail;
+(3) dependency-aware adoption improves K = 8 by 20–34 points at equal forwards (colouring / top-2 / wmis vs Jacobi);
+(4) its selection cost is negligible when the graph is distance-based and prohibitive when measured (K extra probes);
+(5) 2 simultaneous changes at K = 8 keep 68 % held-out — not 85 %; (6) K = 4 early stopping gains nothing; (7)
+adaptive K does not beat fixed K = 4.  **The accuracy–speed frontier of this checkpoint is still K = 4 Jacobi with CUDA
+graphs (84.7 % held-out at 1.17–1.33 tokens/forward, 1.8× HF-AR tok/s on the A100).**  To move the frontier the
+*first forward* must get better at distance 3–8 (k_scaling §3): that is a training question (the B-series block-
+bidirectional model, docs/discrete_diffusion_b_series.md, reaches 84 % at K = 16 after 30 min of LoRA and is the line
+being pursued), not an adoption-rule question.  Engine-side, the remaining lever for K = 4 is fusing the 16-row probe
+and the first forward into one launch per round (the probe is 2/3 of decode time, four_token_diffusion.md §9).
+
