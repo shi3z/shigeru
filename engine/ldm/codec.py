@@ -20,7 +20,7 @@ class EmbedCodec(nn.Module):
         E = embed_weight.detach().float()
         V, D = E.shape
         g = torch.Generator().manual_seed(seed)
-        P = torch.linalg.qr(torch.randn(D, d_lat, generator=g))[0]           # D x d orthonormal columns
+        P = torch.linalg.qr(torch.randn(D, d_lat, generator=g))[0].to(E.device)   # D x d orthonormal columns
         C = E @ P
         mu, sd = C.mean(0, keepdim=True), C.std(0, keepdim=True).clamp_min(1e-6)
         self.register_buffer("P", P)
