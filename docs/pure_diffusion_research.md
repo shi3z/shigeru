@@ -220,3 +220,18 @@ batch size 1, max_new_tokens, warm-up*
 
 ## 8. Ablations · 9. Failed experiments · 10. Open questions
 *pending*
+
+## 8. Training ablations of stage 2 — results (2026-10-24, dev 50 unless noted; identical recipe except the mask/data change)
+
+| stage-2 variant (runs/) | AR dev | recovery random γ=0.5 | anchored adaptive τ=0.99 | K=4 refineN ≤3 / ≤6 (four_token_diffusion.md) | K=8 colouring ≤6 |
+|---|---|---|---|---|---|
+| suffix masks (phaseC_sft3_4b, reference) | 96 % | 59.3 % | 80 % @ 1.28 | 88 / 92 % | 82 % |
+| random masks (pure_sft3_random) | – | 85.5 % | 82 % @ 1.36 | 80 / 82 % | 78 % |
+| mixed masks (pure_sft3_mixed) | – | (results/pure/diag_recovery_pure_mixed.json) | – | (eval_pure_mixed_*.json) | – |
+| self-generated responses, random masks (pure_sft3_self_random, H1) | 94 % | 87.2 % | **86 % @ 1.49** | 82 / 86 % | – |
+| + on-policy states (pure_sft3_onpolicy, config D) | – | 83.8 % | **6 %** (collapse) | 10 / 20 % | – |
+
+H1 (self-generated low-entropy responses) is the one training change that improved the pure-diffusion adaptive sampler
+(+6 points and +16 % tokens/step) — but not the K = 4 leave-one-out decoder, whose first-forward quality it did not
+change.  Config D (on-policy states as observed context) destroyed generation; see discrete_diffusion_b_series.md §10.4
+for the shared failure mechanism with the B-series B2.

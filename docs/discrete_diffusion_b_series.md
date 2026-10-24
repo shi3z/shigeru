@@ -146,7 +146,16 @@ the 3-epoch one; the e5 checkpoint will be copied to tsuginosuke so that the rem
 | monotonic unmasking, confidence order (baseline) | 84 % | 64 % |
 | + remask budget 1 / step | 84 % | 62 % |
 | + remask budget 2 / step | 82 % | 60 % |
-| (budget 4, cosine schedule, random / left orders, held-out: running) | | |
+| + remask budget 4 / step | – | 50 % |
+| cosine sampling schedule (few reveals first) | 82 % (1.03 tok/fwd) | 50 % (1.92) |
+| random unmasking order | 14 % | 10 % |
+| **left-to-right unmasking order** | **84 %** | (see JSON) |
+
+**Held-out (dev items 50–199, 150 prompts, AR 90.0 %): B1 S = 16 → 76.0 %, S = 8 → 63.3 %** (dev-50: 84 / 64).  The
+50-item number was 8 points optimistic at S = 16 and exact at S = 8.  Against the A-series on the same held-out items
+(K = 4 refineN 84.7 % at 1.17 tokens/forward): the B-series is behind at S = 16 (76 %, 0.9 tokens/forward) and offers a
+different trade-off at S = 8 (63 % at 1.7 tokens/forward).  Confidence order and left-to-right order tie at S = 16; random
+order collapses (14 %), i.e. the order matters as much as in the A-series (pure_diffusion_research.md §2.2).
 
 Re-masking visible tokens whose x0-prediction disagrees does not help a mask-only model: its visible-position
 predictions were trained only by the weak identity term, so the disagreement signal is noise (consistent with B3-A).
@@ -169,8 +178,16 @@ reveal at which step), not only its final block — *not implemented*.
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
 held-out (items 50–199).  The A-series training ablations finished in parallel: random-mask stage 2 gives K = 4
-refineN 80 / 82 % (3 / 6 rounds) vs 88 / 92 % for the suffix checkpoint — random masks help the adaptive sampler and
-recovery (pure_diffusion_research.md) but not the K = 4 leave-one-out decoder.
+refineN 80 / 82 % (3 / 6 rounds) vs 88 / 92 % for the suffix checkpoint, K = 8 colouring 78 % (82), K = 6 2+2+2 74 % (80)
+— random masks help the adaptive sampler and recovery (pure_diffusion_research.md) but not the leave-one-out
+decoders.  **The on-policy-state stage 2 (config D of pure_diffusion_research.md) collapsed exactly like B2**: mask
+recovery is fine (random γ = 0.5: 84 %) but free generation degenerates (K = 4 refineN 10–20 %, anchored adaptive
+6–10 %, 4-gram repetition 0.67, 41 of 50 outputs hit the length budget).  Two independent implementations (A-series
+dual-stream, B-series block-bidirectional) of "train with the decoder's own wrong tokens as observed context" both
+destroy generation while improving teacher-forced correction — the mechanism is the same: the model learns that
+observed context is unreliable and stops committing, which in a sampler that never revisits tokens shows up as
+repetition.  Self-correction training has to be re-designed (e.g. only mask-side targets, a separate "trust" signal, or
+much smaller corruption rates with the identity term weighted up) before it is tried again.
 
 ## 11. 16→8→4 steps, Gate 4, VRAM
 *pending: held-out numbers, B3, B1×3; VRAM of the LoRA model at inference = 4B bf16 (8.1 GB) + prefix cache; Gate 4 (speed
