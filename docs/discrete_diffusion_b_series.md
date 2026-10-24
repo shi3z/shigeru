@@ -123,5 +123,55 @@ A-series decoder's, not random tokens), a lower λ_vis (0.3) and initialisation 
 | tsuginosuke GPU 7 (A100) | B3: B-sampler on-policy states from the B1-sft3 adapter → training from B1 (λ_vis 0.3, 30 % states) | sft3 | queued behind the random/mixed evaluations and the GPU 4 B1 control |
 | zeta (RTX PRO 6000) | B4 remask budgets 1/2/4 at S = 16/8, cosine sampling schedule, random/left orders; B1 held-out (items 50–199); B6 distillation (B1 teacher S = 16 → student from B1, t ≥ 0.5) | e5 | running |
 
-## 10–11. 16→8→4 steps, gates 4, VRAM
-*pending the runs above*
+## 10. Results of the parallel round (first batch)
+
+### 10.1 Base-checkpoint control (GPU 4, A100): B1 recipe on the A-series base runs/phaseC_sft3_4b/final
+
+| | B1 on zeta base (e5, 5-epoch stage 2) | B1 on sft3 base (3-epoch, the A-series checkpoint) |
+|---|---|---|
+| masked acc 10 / 50 / 100 % | 94.6 / 82.1 / 31.1 % | 93.7 / 81.4 / 30.7 % |
+| B3-B 50 % masked, errors 8.0 → | 1.65 | 1.64 |
+| B3-A random replacement, 4.0 → | 8.5 | 9.3 |
+| **free generation S = 16 / 8 / 4** | **84 / 64 / 28 %** | **76 / 62 / 14 %** |
+| tok/s (HF + merged LoRA, no graphs) | 57 / 107 / 188 (zeta) | 40 / 74 / 135 (A100) |
+
+Same recipe, same data, same steps: the e5 base is 8 points better at S = 16 and 14 at S = 4.  The 5-epoch stage 2
+(docs/distill_design.md §11.4, trained for its drafter) gives a better starting point for block-bidirectional LoRA than
+the 3-epoch one; the e5 checkpoint will be copied to tsuginosuke so that the remaining B-series runs share one base.
+
+### 10.2 B4 — remasking and sampling variants on the B1 adapter (zeta, dev 50)
+
+| sampler | S = 16 | S = 8 |
+|---|---|---|
+| monotonic unmasking, confidence order (baseline) | 84 % | 64 % |
+| + remask budget 1 / step | 84 % | 62 % |
+| + remask budget 2 / step | 82 % | 60 % |
+| (budget 4, cosine schedule, random / left orders, held-out: running) | | |
+
+Re-masking visible tokens whose x0-prediction disagrees does not help a mask-only model: its visible-position
+predictions were trained only by the weak identity term, so the disagreement signal is noise (consistent with B3-A).
+Remasking can only pay off together with a self-correction objective that does not break generation (B2 broke it).
+
+### 10.3 B6 — step distillation (zeta): B1 teacher samples at S = 16 (5 410 blocks) → student from the B1 adapter, t ≥ 0.5
+
+| S | B1 | B6 student |
+|---|---|---|
+| 16 | 84 % | 80 % |
+| 8 | 64 % | 58 % |
+| 4 | 28 % | **34 %** |
+
+The high-noise emphasis moves accuracy from the many-step to the few-step regime (+6 at S = 4, −4/−6 at S = 16/8); the
+total is not a gain.  A real step-distillation signal needs the teacher's *intermediate* decisions (which positions to
+reveal at which step), not only its final block — *not implemented*.
+
+### 10.4 Running
+
+GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
+B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
+held-out (items 50–199).  The A-series training ablations finished in parallel: random-mask stage 2 gives K = 4
+refineN 80 / 82 % (3 / 6 rounds) vs 88 / 92 % for the suffix checkpoint — random masks help the adaptive sampler and
+recovery (pure_diffusion_research.md) but not the K = 4 leave-one-out decoder.
+
+## 11. 16→8→4 steps, Gate 4, VRAM
+*pending: held-out numbers, B3, B1×3; VRAM of the LoRA model at inference = 4B bf16 (8.1 GB) + prefix cache; Gate 4 (speed
+vs AR and K = 4) needs the graph engine for the bidirectional block, not yet implemented.*
