@@ -236,7 +236,7 @@ revisits visible tokens (the remask variant would have to be re-tested on B3: *n
 | B6 (dev 50) | e5 | distilled from B1 | 80 | 58 |
 
 The S = 8 target (80 % held-out) is 17 points away and none of the recipe variants moved it; the first B1 run is still the
-best S = 8 model.  Still running: no-time ×3 (GPU 4), no-time on e5 (GPU 6), **B8** — on-policy *mask patterns* (which
+best S = 8 model.  Then running (results in §10.10–§10.16): no-time ×3 (GPU 4), no-time on e5 (GPU 6), **B8** — on-policy *mask patterns* (which
 positions the sampler reveals late) with clean tokens, i.e. matching the inference mask distribution without any
 corruption (GPU 7) — and a LoRA rank-256 capacity ablation (zeta).
 
