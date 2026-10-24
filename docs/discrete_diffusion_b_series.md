@@ -305,8 +305,13 @@ bidirectional conditioning) matches or beats confidence order at S = 8 (+8.6 poi
 cost.  **Best held-out K = 16, S = 8 so far: 69.3 % at 1.70 tokens per network call** (AR on the same items 90.0 %;
 A-series K = 4: 84.7 % at 1.17 tokens/forward).  The 80 % target at S = 8 is 11 points away.
 
-### 10.16 Full fine-tune (GPU 4): the 2 000-step fp32-master run completed but its weights could not be saved — the root
-filesystem filled up (safetensors "No space left on device"); the run is being repeated after freeing disk.
+### 10.16 Full fine-tune (GPU 4, e5, no time, fp32 master + bf16 autocast, gradient checkpointing, lr 1e-5, 2 000 × 8;
+80.7 GB peak, 2.4 s/step)
+
+The first run completed but its weights could not be saved (root filesystem full: safetensors "No space left on
+device"); the repeat (after freeing 23 GB of an ablation's optimizer checkpoint) gives dev S = 16 / 8 / 4 = **68 / 50 / 18 %**
+— worse than the LoRA runs (80 / 68 / 36 %), with a loss spike late in training.  Full fine-tuning at this learning rate
+and budget is not the capacity lever either (held-out evaluation in results/pure/bdiff_e5_full_heldout.json when done).
 
 ### 10.17 Running
 
