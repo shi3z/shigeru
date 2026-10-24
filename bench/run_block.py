@@ -46,7 +46,7 @@ def main():
     ap.add_argument("--remask", default="none", help="block decoder: lowconf:f:until | tau:c:until ; sc decoder: none|all|lowconf:t|entropy:h|random:p|scheduled:f0|drop:d")
     ap.add_argument("--decoder", default="block", choices=["block", "sc", "k4"], help="sc = self-correcting (engine/cdlm/sc_decoder.py); k4 = small-block leave-one-out refinement (engine/cdlm/k4_decoder.py)")
     ap.add_argument("--k4-strategy", default="refine", help="k4: s1|conf2|refine|refineN|conf2refine|seq")
-    ap.add_argument("--adopt", default="always", choices=["always", "conf", "nonadjacent", "one", "oddeven", "damped"])
+    ap.add_argument("--adopt", default="always", choices=["always", "conf", "nonadjacent", "one", "two", "oddeven", "damped"])
     ap.add_argument("--init", default=None, help="k4: split initialisation group sizes, e.g. 3+3 or 2+2+2 (default: one all-mask forward)")
     ap.add_argument("--eos-policy", default="current", choices=["current", "suppress_first", "verify"])
     ap.add_argument("--timing", action="store_true", help="k4: per-phase wall-clock with device syncs")

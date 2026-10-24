@@ -28,6 +28,7 @@ Adoption rule of a probe round (`adopt`; the K-scaling brief's update policies E
   "conf"        confidence-gated: replaced only if the probe's max prob exceeds the position's current confidence
   "nonadjacent" of the changed positions keep a set with no two adjacent (highest probe confidence first)
   "one"         a single change per round (the most confident), Gauss-Seidel style
+  "two"         at most two changes per round (the two most confident)
   "oddeven"     adopt the changes at even positions, re-probe, adopt the changes at odd positions (2 forwards / round)
   "damped"      the probe distribution is averaged with the previous probe distribution of the same position
                 (probability level, never token ids); the argmax of the mixture is adopted if it differs
@@ -52,7 +53,7 @@ __all__ = ["STRATEGIES", "ADOPT", "EOS_POLICIES", "k4_denoise_block", "k4_genera
            "probe_win_mask"]
 
 STRATEGIES = ("s1", "conf2", "refine", "refineN", "conf2refine", "seq")
-ADOPT = ("always", "conf", "nonadjacent", "one", "oddeven", "damped")
+ADOPT = ("always", "conf", "nonadjacent", "one", "two", "oddeven", "damped")
 EOS_POLICIES = ("current", "suppress_first", "verify")
 
 
@@ -198,8 +199,8 @@ def k4_denoise_block(fwd_std, fwd_probe, cur, K, mask_id, strategy="refine", ado
     def adopt_changes(cand, new, nconf, rnd):
         nonlocal corrections
         cand = [i for i in cand if i not in fixed]
-        if adopt == "one" and cand:
-            cand = [max(cand, key=lambda i: nconf[i])]
+        if adopt in ("one", "two") and cand:
+            cand = sorted(sorted(cand, key=lambda i: -nconf[i])[: (1 if adopt == "one" else 2)])
         elif adopt == "nonadjacent" and cand:
             keep = []
             for i in sorted(cand, key=lambda i: -nconf[i]):
