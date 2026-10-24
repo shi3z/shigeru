@@ -293,7 +293,22 @@ Lower lr buys S = 16 (82 %, the best held-out K = 16 number of the series) and c
 passes) over-trains like the longer runs.  The S = 8 frontier stays at 66 % held-out; the full fine-tune (GPU 4, fp32
 master, lr 1e-5, gradient checkpointing, 80 GB) is the last capacity lever in this round.
 
-### 10.15 Running
+### 10.15 Sampler points on the two best adapters (held-out items 50–199, K = 16)
+
+| adapter | S = 16 | S = 12 | S = 8 confidence | **S = 8 left-to-right** | S = 6 |
+|---|---|---|---|---|---|
+| e5 no-time lr 2e-4 | 76.0 % | 70.7 % (1.18 tok/call) | 66.0 % (1.70) | 66.7 % | 51.3 % (2.20) |
+| e5 no-time lr 1e-4 | 82.0 % | 73.3 % | 60.7 % | **69.3 %** | 46.7 % |
+
+Left-to-right unmasking (the sampler reveals the K/S leftmost masks each step, i.e. a block-local sequential order with
+bidirectional conditioning) matches or beats confidence order at S = 8 (+8.6 points for the lr 1e-4 adapter) at the same
+cost.  **Best held-out K = 16, S = 8 so far: 69.3 % at 1.70 tokens per network call** (AR on the same items 90.0 %;
+A-series K = 4: 84.7 % at 1.17 tokens/forward).  The 80 % target at S = 8 is 11 points away.
+
+### 10.16 Full fine-tune (GPU 4): the 2 000-step fp32-master run completed but its weights could not be saved — the root
+filesystem filled up (safetensors "No space left on device"); the run is being repeated after freeing disk.
+
+### 10.17 Running
 
 GPU 4: B5 ablations (no time conditioning; cosine training schedule).  GPU 6: B1 ×3 steps.  GPU 7: B3 with the
 B-sampler's own intermediate states (λ_vis 0.3, from the B1 adapter).  zeta: the rest of the B4 sweep and the B1
