@@ -80,13 +80,13 @@ def main():
     del hf
     torch.cuda.empty_cache()
     static, use_graph = a.engine != "plain", a.engine == "graph"
-    if a.decoder == "k4" and static:
-        assert max(blocks) * max(blocks) <= BUCKETS[-1], "k4 static/graph path: K*K rows must fit the largest bucket"
     merge = not a.no_merge_commit
     blocks = [int(x) for x in a.block.split(",")]
     steps_list = [None] if a.steps == "adaptive" else [int(x) for x in a.steps.split(",")]
     remask = parse_remask(a.remask) if a.decoder == "block" else a.remask
-    if static:
+    if a.decoder == "k4" and static:
+        assert max(blocks) * max(blocks) <= BUCKETS[-1], "k4 static/graph path: K*K rows must fit the largest bucket"
+    if static and a.decoder != "k4":
         need = max(blocks) * (2 if merge else 1)
         assert need <= BUCKETS[-1], f"static path: block {max(blocks)} (x2 with merge_commit) exceeds the largest bucket {BUCKETS[-1]}"
     # warm-up (kernel selection; graphs captured lazily on first use per bucket pair, excluded by a second warm-up)
