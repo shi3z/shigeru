@@ -39,6 +39,10 @@ def main():
     ap.add_argument("--refs", required=True)
     ap.add_argument("--states", default=None)
     ap.add_argument("--n", type=int, default=50)
+    ap.add_argument("--skip", type=int, default=0, help="skip the first prompts (held-out = --skip 50 --n 150)")
+    ap.add_argument("--remask-budget", type=int, default=2)
+    ap.add_argument("--schedule", default="linear")
+    ap.add_argument("--skip-tf", action="store_true", help="skip the teacher-forced B1/B3 part")
     ap.add_argument("--K", type=int, default=16)
     ap.add_argument("--steps", default="16,8,4")
     ap.add_argument("--orders", default="confidence")
@@ -63,7 +67,7 @@ def main():
         model.time.to(dev)
     K = a.K
     stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
-    prompts = load_prompts(a.prompts)[: a.n]
+    prompts = load_prompts(a.prompts)[a.skip: a.skip + a.n]
     for p in prompts:
         ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
         p["ids"] = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
@@ -79,7 +83,7 @@ def main():
             r = json.loads(line)
             b = int(list(r["states"].keys())[0]); B = int(r["block"]); s0 = b * B
             states[r["id"]].append((s0, r["states"][str(b)][:K], r["tokens"]))
-    for p in prompts:
+    for p in (prompts if not a.skip_tf else []):
         resp = refs[p["id"]]["response_ids"]
         full = p["ids"] + resp
         P0 = len(p["ids"])
@@ -138,7 +142,7 @@ def main():
         steps_list = [int(x) for x in a.steps.split(",")]
         for order in a.orders.split(","):
             for S in steps_list:
-                name = f"S{S}_{order}" + ("_remask" if a.remask else "")
+                name = f"S{S}_{order}" + (f"_remask{a.remask_budget}" if a.remask else "") + (f"_{a.schedule}" if a.schedule != "linear" else "")
                 rows = []
                 for p in prompts:
                     ids = list(p["ids"])
@@ -149,8 +153,8 @@ def main():
                     while finish is None:
                         Kb = min(K, a.max_new_tokens - len(out))
                         cache = model.prefix_cache(torch.tensor([ids + out], device=dev)); forwards += 1
-                        toks, info = sample_block(model, cache, len(ids) + len(out), Kb, S, mask_id, order=order, remask=a.remask,
-                                                  generator=torch.Generator().manual_seed(a.seed))
+                        toks, info = sample_block(model, cache, len(ids) + len(out), Kb, S, mask_id, schedule=a.schedule, order=order,
+                                                  remask=a.remask, remask_budget=a.remask_budget, generator=torch.Generator().manual_seed(a.seed))
                         forwards += info["forwards"]
                         keep = Kb
                         for j in range(Kb):
@@ -170,8 +174,9 @@ def main():
                                  premature_eos=sum(1 for r in rows if r["finish"] == "stop" and not r["has_answer"]), finish_length=sum(r["finish"] == "length" for r in rows),
                                  rows=rows)
                 print("=== bdiff_gen", name, json.dumps({k: v for k, v in gen[name].items() if k != "rows"}), flush=True)
-    print("=== bdiff_B1", json.dumps(outB1), flush=True)
-    print("=== bdiff_B3", json.dumps(outB3), flush=True)
+    if not a.skip_tf:
+        print("=== bdiff_B1", json.dumps(outB1), flush=True)
+        print("=== bdiff_B3", json.dumps(outB3), flush=True)
     save_json(a.out, {"model": a.model, "adapter": a.adapter, "K": K, "n": len(prompts), "gpu": gpu_info(), "seconds": round(time.time() - t0, 1),
                       "B1": outB1, "B3": outB3, "B4": gen})
 

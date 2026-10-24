@@ -52,6 +52,10 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--merge", action="store_true")
+    ap.add_argument("--init-adapter", default=None, help="continue from an existing LoRA adapter dir (+ time_embed.pt next to it)")
+    ap.add_argument("--t-min", type=float, default=0.0, help="sample t in [t_min, 1] (step-distillation emphasis on high noise)")
+    ap.add_argument("--blocks", default=None, help="JSONL of {prefix_ids, x0} rows (e.g. teacher samples from gen_bstates --mode samples) used instead of --data cuts")
+    ap.add_argument("--p-blocks", type=float, default=1.0, help="fraction of steps drawn from --blocks when both --blocks and --data are given")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(a.seed); random.seed(a.seed)
@@ -64,10 +68,17 @@ def main():
     from peft import LoraConfig, get_peft_model
     lcfg = LoraConfig(r=a.lora_r, lora_alpha=a.lora_alpha, lora_dropout=0.0, bias="none",
                       target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"])
-    lm = get_peft_model(lm, lcfg)
+    if a.init_adapter:
+        from peft import PeftModel
+        lm = PeftModel.from_pretrained(lm, a.init_adapter, is_trainable=True)
+    else:
+        lm = get_peft_model(lm, lcfg)
     model = BDiffModel(lm, mask_id, time_cond=not a.no_time).to(dev)
     if model.time is not None:
         model.time.float()
+        te = os.path.join(os.path.dirname(a.init_adapter.rstrip("/")), "time_embed.pt") if a.init_adapter else None
+        if te and os.path.exists(te):
+            model.time.load_state_dict(torch.load(te, map_location="cpu")); model.time.to(dev)
     params = [p for p in lm.parameters() if p.requires_grad] + (list(model.time.parameters()) if model.time is not None else [])
     n_train = sum(p.numel() for p in params)
     rows = load_jsonl(a.data)
@@ -78,11 +89,14 @@ def main():
     states = []
     if a.states and a.p_state > 0:
         for r in load_jsonl(a.states):
-            b = int(list(r["states"].keys())[0]); st = r["states"][str(b)]; B = int(r["block"])
-            s0 = b * B
-            if s0 + a.K <= len(r["tokens"]) and s0 >= r["prompt_len"]:
+            if "start" in r:                       # B-sampler states (gen_bstates): explicit start + state
+                s0, st = int(r["start"]), r["state"]
+            else:                                   # A-series states (gen_onpolicy): block index x block size
+                b = int(list(r["states"].keys())[0]); st = r["states"][str(b)]; B = int(r["block"]); s0 = b * B
+            if s0 + a.K <= len(r["tokens"]) and s0 >= r["prompt_len"] and len(st) >= a.K:
                 states.append((r["tokens"], s0, st[: a.K]))
-    print(f"[train_bdiff] {len(items)} items, {len(states)} on-policy states, trainable {n_train / 1e6:.1f} M, K={a.K}, time={not a.no_time}", flush=True)
+    blocks = [(r["prefix_ids"], r["x0"]) for r in load_jsonl(a.blocks)] if a.blocks else []
+    print(f"[train_bdiff] {len(items)} items, {len(states)} on-policy states, {len(blocks)} teacher blocks, trainable {n_train / 1e6:.1f} M, K={a.K}, time={not a.no_time}", flush=True)
     # fixed blocks for the overfit gate
     fixed = None
     if a.overfit:
@@ -106,6 +120,9 @@ def main():
             if fixed is not None:
                 prefix, x0 = fixed[prng.randrange(len(fixed))]
                 state = None
+            elif blocks and (not items or float(torch.rand(1, generator=rng)) < a.p_blocks):
+                prefix, x0 = blocks[prng.randrange(len(blocks))]
+                prefix, x0, state = list(prefix), list(x0)[: a.K], None
             elif use_state:
                 toks, s0, st = states[prng.randrange(len(states))]
                 prefix, x0, state = toks[:s0], toks[s0:s0 + a.K], st
@@ -113,7 +130,7 @@ def main():
                 t, P = items[prng.randrange(len(items))]
                 c = prng.randint(P, t.numel() - a.K)
                 prefix, x0, state = t[:c].tolist(), t[c:c + a.K].tolist(), None
-            tt = float(torch.rand(1, generator=rng)) if a.schedule != "uniform" else float(torch.rand(1, generator=rng))
+            tt = a.t_min + (1.0 - a.t_min) * float(torch.rand(1, generator=rng))
             tt = max(tt, 1e-3)
             xt, is_mask, is_cor, g = corrupt_block(x0, tt, mask_id, rng, schedule=a.schedule, p_replace=a.p_replace,
                                                   r_replace=a.r_replace, vocab=151643, state=state)
