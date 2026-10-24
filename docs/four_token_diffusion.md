@@ -115,7 +115,31 @@ accuracy at distance ≥ 5 is below 50 % (pure_diffusion_research.md §2.1) — 
 conditions on are wrong, so the fixed point is not the reference text.  The leave-one-out probe costs K² rows
 (64 / 256 for K = 8 / 16), which is also where the plain-forward engine stops being launch-bound.
 
-## 7–11. Training for K = 4, speed, VRAM, failures, next
+
+## 8. Ablations on the refinement (dev items 0–49, final checkpoint; AR 96 %)
+
+| K | rounds ≤ | adoption rule | GSM8K dev | tokens / forward | corrections / 100 tok |
+|---|---|---|---|---|---|
+| 4 | 3 | always | 88 % | 1.33 | 54 |
+| 4 | 6 | always | 92 % | 1.18 | 65 |
+| 4 | 6 | nonadjacent | 90 % | 1.22 | 40 |
+| 4 | 6 | conf (adopt only if the probe is more confident) | 86 % | 1.35 | 33 |
+| **4** | **8** | **one (a single change per round)** | **96 %** | **1.17** | 35 |
+| 8 | 3 | always | 18 % | 1.98 | 147 |
+| 8 | 8 | nonadjacent | 72 % | 1.16 | 128 |
+| 8 | 12 | one | 90 % | 0.94 | 82 |
+| 8 | – | conf2 + 1 probe (nonadjacent) | 36 % | 2.53 | 24 |
+| 4 (random-mask ckpt phaseC_sft_4b) | 3 | always | 70 % | 1.14 | 95 |
+
+Reading: adopting **one** change per round (Gauss–Seidel) reaches the AR accuracy (96 % = AR on the same prompts) at
+K = 4 and 90 % at K = 8 — the probe's conditional is reliable, simultaneous changes were the problem.  The cost is
+rounds: ~2.4 probe forwards per 4-token block (1.17 tokens per forward).  Whether that is faster than AR depends on
+the price of a 16-row forward relative to a 1-row AR step; on the A100 the engine is launch-bound up to ~32 rows
+(distill_design.md §10.8), so *estimated* ≈ 1.17 × (forwards/s of the graph engine) — to be measured on an idle GPU
+with the static/graph probe path (§9).  The random-mask checkpoint's weaker first forward (.97/.75/.48/.38, §5.2
+diag_k4_sftrandom) gives it a worse fixed point (70 %): the first-forward reach still matters.
+
+## 7, 9–11. Training for K = 4, speed, VRAM, failures, next
 *pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
 training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*
 

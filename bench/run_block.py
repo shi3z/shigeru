@@ -35,6 +35,7 @@ def main():
     ap.add_argument("--model", required=True)
     ap.add_argument("--prompts", default="bench/prompts_gsm8k_dev.json")
     ap.add_argument("--n", type=int, default=100)
+    ap.add_argument("--skip", type=int, default=0, help="skip the first prompts (items 50-199 of the dev set are the held-back confirmation split)")
     ap.add_argument("--block", default="32")
     ap.add_argument("--steps", default="8", help="comma list of ints, or 'adaptive' (then --tau)")
     ap.add_argument("--schedule", default="linear")
@@ -67,7 +68,7 @@ def main():
     hf = AutoModelForCausalLM.from_pretrained(a.model, dtype=torch.bfloat16, attn_implementation="sdpa").cuda().eval()
     mask_id = getattr(hf.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
     stop_ids = [tok.eos_token_id] + ([tok.convert_tokens_to_ids("<|im_end|>")] if "<|im_end|>" in tok.get_vocab() else [])
-    prompts = load_prompts(a.prompts)[: a.n]
+    prompts = load_prompts(a.prompts)[a.skip: a.skip + a.n]
     for p in prompts:
         ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True,
                                       enable_thinking=False, return_tensors="pt")
