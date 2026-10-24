@@ -235,3 +235,12 @@ H1 (self-generated low-entropy responses) is the one training change that improv
 (+6 points and +16 % tokens/step) — but not the K = 4 leave-one-out decoder, whose first-forward quality it did not
 change.  Config D (on-policy states as observed context) destroyed generation; see discrete_diffusion_b_series.md §10.4
 for the shared failure mechanism with the B-series B2.
+
+## 9. Final numbers on GSM8K test (1 319; settings fixed on dev/held-out)
+
+| method (no AR verification) | GSM8K test | tokens / forward | tok/s | where |
+|---|---|---|---|---|
+| **A-series: K = 4 leave-one-out refinement, Jacobi ≤ 6, CUDA graphs** (sft3 checkpoint) | **84.2 %** | 1.18 | 89.9 (A100) | four_token_diffusion.md §10 |
+| B-series: block-bidirectional K = 16, S = 8, confidence order (e5 + no-time LoRA, lr 2e-4) | 63.4 % | 1.71 | 106.5 (zeta) | discrete_diffusion_b_series.md |
+| B-series: K = 16, S = 16 / S = 8 left-to-right (lr 1e-4 adapter) | (running) | 0.90 / 1.70 | | |
+| reference: AR greedy (HF) | 88.9 % | 1.00 | 52.5 | distill_design.md §11.6 |

@@ -181,7 +181,22 @@ remaining lever on the engine side is fusing the K-group probe into fewer, wider
 Not measured here: tok/s on the A100 (all three were busy with trainings; the plain-engine A100 numbers in §5 were taken
 on a shared GPU).
 
-## 7, 10–11. Training for K = 4, VRAM, failures, next
+## 10. Final GSM8K test (1 319 problems, setting fixed beforehand on dev/held-out, never tuned on test)
+
+| decoding (no AR verification), A100 80 GB, bf16, batch 1, 384-token budget | GSM8K test | tokens / forward | tok/s | rounds / block | blocks converged / cycle / budget |
+|---|---|---|---|---|---|
+| **K = 4 leave-one-out refinement, Jacobi ≤ 6 rounds, CUDA-graph engine** (runs/phaseC_sft3_4b/final) | **84.2 %** (1 111 / 1 319) | 1.18 | **89.9** (88.0 total) | 2.32 | 55 249 / 3 667 / 2 303 |
+| AR greedy, HF generate, same checkpoint (distill_design.md §11.6) | 88.9 % | 1.00 | 52.5 | – | – |
+| AR via the graph engine (τ=None), same checkpoint (§2 of dependency_aware_refinement.md, dev 50) | – | 0.99 | 72.2 | – | – |
+| AR-verified speculative decoding (the A-series headline that the pure-diffusion briefs excluded) | 87.6 % | 2.15 | 156.0 | – | – |
+
+Pure diffusion decoding of the 4B — no AR logits read, no draft model — reaches **84.2 % on the full GSM8K test at 1.7×
+the HF-AR throughput** (89.9 vs 52.5 tok/s on the same GPU class), 4.7 points below AR.  50 of 1 319 outputs hit the
+384-token budget (vs 68 premature stops); 6 % of blocks ended in a detected cycle and 4 % in the 6-round budget.
+Timing split over the whole run: probe forwards 1 887 s, first forwards 773 s, prefill 29 s.  (results/pure/
+final_test_k4_refineN_r6_graph.json; GPU 6 while GPU 7 ran another job — not strictly idle.)
+
+## 7, 11. Training for K = 4, VRAM, failures, next
 *pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
 training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*
 
