@@ -217,8 +217,12 @@ More diverse *text* is not the lever either, at least not mixed in at this ratio
 States: 10 820 recorded (7 298 with ≥ 1 wrong placed token) from 2 739 training conversations × 2 cuts, 16-step sampler.
 dev S = 16 / 8 / 4: 76 / 50 / 18 % (B1-sft3: 76 / 62 / 14).  Generation did **not** collapse this time (the states are
 the sampler's own and the corruption weight is low), but it did not improve either, and S = 8 lost 12 points.  One-step
-correction on the B-sampler's own states (teacher-forced, 294 blocks): see results/pure/bdiff_sft3_b3_eval.json vs
-bdiff_sft3_b1_bstates_eval.json (B1: 11.2 → 9.5 errors, 19 % success).
+correction on the B-sampler's own states (teacher-forced, 294 blocks): B3 10.8 → 8.5 errors per block (success 22.5 %,
+introduction 2.6 %) vs B1 11.2 → 9.5 (18.8 %, 8.1 %); random replacement 4.0 → 6.2 (B1 9.3); 50 % masked 8.0 → 1.52 (B1 1.64).
+So the gentler self-correction recipe (own states, λ_vis 0.3, from B1) improves every teacher-forced correction metric
+without collapsing generation — and still does not improve generation.  Gate 2 in the brief's sense (fewer errors after
+one step on the model's own states) passes narrowly; the gain does not transfer to the sampler because the sampler never
+revisits visible tokens (the remask variant would have to be re-tested on B3: *not run*).
 
 ### 10.9 Where the B-series stands (held-out items 50–199, AR 90 %)
 
