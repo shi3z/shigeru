@@ -83,6 +83,16 @@ def test_orders_schedules_remask_run_and_count():
     # adaptive schedule
     out, st = block_generate(fast, None, prompt, 16, block=8, steps=None, tau=0.5, mask_id=mask_id, stop_ids=[])
     assert len(out) == 16 and all(1 <= s <= 8 for s in st["steps_per_block"]), st
+    # anchor_leftmost: every step fills the leftmost mask; with tau=1.1 (nothing passes) it is exactly left-to-right
+    ref, _ = block_generate(fast, None, prompt, 16, block=8, steps=8, order="leftmost", mask_id=mask_id, stop_ids=[])
+    out, st = block_generate(fast, None, prompt, 16, block=8, steps=None, tau=1.1, min_fill=0, anchor_leftmost=True,
+                             mask_id=mask_id, stop_ids=[])
+    assert out == ref and st["steps"] == 16, (out, ref, st["steps"])
+    out, st = block_generate(fast, None, prompt, 16, block=8, steps=None, tau=0.3, anchor_leftmost=True, mask_id=mask_id,
+                             stop_ids=[], trace=True)
+    for tr in st["trace"]:
+        first_mask = min(range(8), key=lambda i: i) if False else None
+    assert len(out) == 16, st
 
 
 def test_stop_and_budget():

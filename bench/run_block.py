@@ -39,6 +39,7 @@ def main():
     ap.add_argument("--order", default="confidence")
     ap.add_argument("--tau", type=float, default=None)
     ap.add_argument("--min-fill", type=int, default=1)
+    ap.add_argument("--anchor-leftmost", action="store_true", help="always fill the leftmost mask of the block as well")
     ap.add_argument("--remask", default="none")
     ap.add_argument("--engine", default="plain", choices=["plain", "static", "graph"])
     ap.add_argument("--no-merge-commit", action="store_true")
@@ -83,12 +84,12 @@ def main():
     runs = []
     configs = [(K, S) for K in blocks for S in steps_list]
     for K, S in configs:
-        name = f"K={K},S={'adaptive' if S is None else S}"
+        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "")
         gen = torch.Generator().manual_seed(a.seed)
         for p in prompts:
             torch.cuda.synchronize(); t0 = time.time()
             new, st = block_generate(model, tok, p["ids"], a.max_new_tokens, block=K, steps=S, schedule=a.schedule,
-                                     order=a.order, tau=a.tau, min_fill=a.min_fill, remask=remask, mask_id=mask_id,
+                                     order=a.order, tau=a.tau, min_fill=a.min_fill, anchor_leftmost=a.anchor_leftmost, remask=remask, mask_id=mask_id,
                                      stop_ids=stop_ids, greedy=not a.sample, generator=gen, static=static,
                                      use_graph=use_graph, merge_commit=merge, trace=a.trace)
             torch.cuda.synchronize(); dt = time.time() - t0
@@ -103,7 +104,7 @@ def main():
                   f"remask {st['remasked']} correct={r['correct']}", flush=True)
     summary = {}
     for K, S in configs:
-        name = f"K={K},S={'adaptive' if S is None else S}"
+        name = f"K={K},S={'adaptive' if S is None else S}" + (",anchor" if a.anchor_leftmost else "")
         rs = [r for r in runs if r["config"] == name]
         tot_tok = sum(r["n_tokens"] for r in rs)
         summary[name] = {"accuracy": sum(bool(r["correct"]) for r in rs) / len(rs), "n": len(rs),

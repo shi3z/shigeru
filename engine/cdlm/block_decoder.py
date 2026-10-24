@@ -45,6 +45,11 @@ Schedule (`steps`, `schedule`): how many of the remaining masks to fill at denoi
   steps=S, schedule="cosine"  : MaskGIT cosine — few tokens first, many at the end
   steps=S, schedule="geometric": many first, few at the end (the reverse of cosine)
   steps=None, tau=t           : adaptive — every mask whose confidence >= tau, at least one (`min_fill`) per step
+  anchor_leftmost=True        : the LEFTMOST mask is always filled too (any schedule).  Its row attends the prefix and
+                                every filled token on its left, i.e. it is the exact AR conditional of that position
+                                (diagnostic 2.1: 97-99 % correct), so every step commits >= 1 AR-quality token and
+                                the confident far positions come on top.  Without it the mandatory fill of a step is
+                                the most confident mask, which may sit far from any observed token.
   n_t is always clipped to the remaining masks; every step fills >= 1 so a block of K takes <= K steps.
 Remasking (`remask`, applied in step 4 after the fills of this step; a slot filled THIS step is never remasked)
   None                        : never (tokens are final once filled)
@@ -120,7 +125,7 @@ def _rank(conf, ent, margin, order, generator, n_masks, device):
 
 @torch.no_grad()
 def block_generate(model, tok, prompt_ids, max_new_tokens, block=32, steps=8, schedule="linear", order="confidence",
-                   tau=None, min_fill=1, remask=None, mask_id=None, stop_ids=None, greedy=True, temperature=1.0,
+                   tau=None, min_fill=1, anchor_leftmost=False, remask=None, mask_id=None, stop_ids=None, greedy=True, temperature=1.0,
                    generator=None, static=False, use_graph=False, merge_commit=True, prefill_chunk=512, trace=False):
     """Decode one sequence with blockwise masked diffusion (module docstring).  model: FastQwen3; tok only defaults
     stop_ids to [eos].  steps=None switches to the adaptive schedule (tau required).  static/use_graph: the bucketed /
@@ -207,6 +212,8 @@ def block_generate(model, tok, prompt_ids, max_new_tokens, block=32, steps=8, sc
                 sel = [k for k in rank.tolist() if bool(ok[k])]
                 if len(sel) < min_fill:
                     sel = rank[:min(min_fill, len(mask_idx))].tolist()
+            if anchor_leftmost and 0 not in sel:          # mask row 0 = the leftmost mask of the block
+                sel = [0] + sel
             toks_l, conf_l = toks.tolist(), conf.tolist()
             filled_now = []
             for k in sel:

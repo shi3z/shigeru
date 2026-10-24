@@ -69,11 +69,96 @@ Note the unverified rows run at 1.2–1.6 tokens/step — barely parallel — an
 
 ## 2. Diagnostics on the existing checkpoint (Phase A/B, dev set, no retraining)
 
-### 2.1 Teacher-forced mask recovery (`bench/diag_mask_recovery.py`)
-*running — results go here*
+### 2.1 Teacher-forced mask recovery (`bench/diag_mask_recovery.py`, final checkpoint runs/phaseC_sft3_4b/final)
 
-### 2.2 Pure block diffusion decoder (`engine/cdlm/block_decoder.py`, `bench/run_block.py`)
-*implemented; CPU tests `engine/cdlm/tests/test_block.py`; sweeps go here*
+100 dev prompts, the model's own greedy AR answers as references (AR dev accuracy 95 %), blocks of 32, one forward per
+(block, layout, γ) in observed-first order on the clean prefix; 6 060 forwards, 144 s on GPU 7.  Token accuracy = argmax
+of the mask row equals the reference token.  results/pure/diag_recovery_sft3.json.
+
+| layout : γ | token acc | block exact | acc by distance to the nearest observed token on the left: 1 / 2 / 3 / 4 / 5 / 6 / 7 / ≥8 |
+|---|---|---|---|
+| random : 0.10 | 90.3 % | 75.7 % | .91 .77 .50 – – – – – |
+| random : 0.25 | 80.1 % | 26.2 % | .83 .71 .62 .41 .50 – – – |
+| random : 0.50 | 59.3 % | 5.4 % | .67 .59 .47 .39 .26 .26 .36 .00 |
+| random : 0.75 | 40.8 % | 2.8 % | .54 .49 .41 .33 .27 .25 .21 .14 |
+| suffix : 0.10 | 84.9 % | 70.0 % | .98 .85 .70 – – – – – |
+| suffix : 0.25 | 59.7 % | 21.3 % | .97 .86 .73 .61 .51 .37 .36 .27 |
+| suffix : 0.50 | 38.1 % | 5.6 % | .97 .78 .67 .56 .47 .37 .31 .20 |
+| suffix : 0.75 | 29.4 % | 3.3 % | .99 .85 .68 .57 .43 .37 .33 .15 |
+| any : 1.00 (block from scratch) | 24.6 % | 2.8 % | .97 .84 .73 .61 .49 .35 .31 .13 |
+
+Calibration (random, γ=0.5; suffix in brackets): max-prob ≥ 0.99 → 99.7 % (100 %) correct, n = 913 of 4 282 masked
+tokens (734 of 6 347); ≥ 0.95 → 97.6 % (97.1 %); ≥ 0.90 → 92.2 % (95.0 %); ≥ 0.80 → 85.3 % (87.1 %); < 0.5 → 33.9 % (20.4 %).
+
+Reading (measured):
+1. **Reach, not noise, is the limit.**  The token right after an observed token is recovered at 97–99 % (the AR
+   conditional, as it should be — the model is the AR model on that row).  Accuracy falls almost linearly with the
+   distance to the last observed token: 84 % at 2, 73 % at 3, 61 % at 4, 49 % at 5, ~13 % at ≥ 8.  A block of 32
+   predicted from scratch gets 25 % of its tokens right and essentially never the whole block (2.8 %).  Therefore any
+   schedule that fills many tokens per step (S ≪ K) must lose accuracy on this checkpoint; one-step or two-step
+   denoising of a 32-block is out of reach without retraining.
+2. **Right context barely helps this suffix-trained checkpoint.**  At equal γ the random layout beats suffix on
+   token accuracy only because its masks are closer to observed tokens; at the same left distance the suffix layout is
+   as good or better (distance 1: .97–.99 vs .54–.91).  Splitting by "has an observed token on the right": γ=0.10
+   90 % vs 97 % (right context *hurts*), γ=0.25 80 vs 82, γ=0.50 60 vs 56, γ=0.75 42 vs 31 (helps only when the left
+   context is far).  Expected: stage 2 of this checkpoint never showed it a right-side observed token (§1.2).  The
+   same diagnostic on the random-mode checkpoint runs/phaseC_sft_4b/final and on runs/zeta_best_28000/final is queued.
+3. **Confidence is well calibrated**, so confidence-adaptive filling is sound: at γ=0.5 about 21 % of the masked tokens
+   carry ≥ 0.99 and are 99.7 % correct, 36 % carry ≥ 0.95 at 97.6 %.  This predicts that an adaptive sampler
+   (fill every mask with confidence ≥ τ, τ≈0.95) can commit ~2–4 tokens per step at near-AR accuracy *(estimated from
+   the table; measured in §2.2)*, while fixed schedules with ≥ 8 tokens per step cannot.
+4. The remaining question for training (§5) is how far the reach can be pushed: the CPT saw random masks (reach is a
+   property the 1 B tokens did not buy — the reach curve is the same shape as in distill_design.md §10.9/11.1), so the
+   lever is a loss that targets distant positions and block consistency, not more tokens of the same objective.
+
+### 2.2 Pure block diffusion decoder on the final checkpoint (`bench/run_block.py`, 50 dev prompts, GPU 4, bf16, plain engine)
+
+All rows: runs/phaseC_sft3_4b/final, K = block size, S = denoising steps per block (fixed linear schedule unless noted),
+greedy argmax, 384-token budget, no AR logits read.  AR greedy on the same 50 prompts: **95 %** (HF, 52.5 tok/s).
+tok/s are wall-clock with the un-fused plain forward (no CUDA graphs); they are upper-bounded by the step count.
+
+| K | S | fill order | GSM8K dev (50) | tokens/step | tok/s | file (results/pure/) |
+|---|---|---|---|---|---|---|
+| 32 | 32 | **leftmost** (1/step, = AR conditional) | **94 %** | 0.92 | 41.5 | block_sft3_dev_K32_S32_leftmost.json |
+| 32 | 32 | confidence (1/step, any position) | 40 % | 0.91 | 41.9 | block_sft3_dev_K32_conf_linear.json |
+| 32 | 16 | confidence | 32 % | 1.86 | 83.4 | same |
+| 32 | 16 | entropy / margin / random | 28 / 18 / 4 % | 1.85 / 1.90 / 1.99 | 86 / 86 / 90 | block_sft3_dev_K32_S16_*.json |
+| 32 | 16 | confidence, cosine / geometric schedule | 22 / 26 % | 1.88 / 1.89 | 86 / 86 | block_sft3_dev_K32_S16_conf_*.json |
+| 32 | 8 | confidence | 10 % | 3.86 | 171 | block_sft3_dev_K32_conf_linear.json |
+| 32 | 4 / 2 / 1 | confidence | 0 / 0 / 0 % | 7.95 / 16 / 32 | 344 / 688 / 1287 | same |
+| 8 | 8 | confidence (1/step) | 72 % | 0.98 | 41.7 | block_sft3_dev_K8_16_conf_linear.json |
+| 8 | 4 / 2 / 1 | confidence | 40 / 12 / 0 % | 1.96 / 3.95 / 8.0 | 83 / 161 / 327 | same |
+| 32 | adaptive, conf ≥ 0.90 / 0.95 / 0.99 (fallback: most confident mask) | confidence | 48 / 46 / 44 % | 1.12 / 1.06 / 0.98 | 52 / 50 / 46 | block_sft3_dev_K32_adaptive_tau*.json |
+
+Reading (measured):
+1. The decoder is correct: left-to-right one token per step reproduces the AR accuracy (94 vs 95 %, the 1-point gap is
+   bf16 numerics of the different forward shapes, cf. distill_design.md §11.6).
+2. **Order alone costs 54 points at equal speed** (94 → 40 % at one token per step).  Filling the most confident
+   position first — typically a formatting token far ahead ("\n\n", "**", "---") — fixes anchors that the suffix-trained
+   model then cannot write towards (it never learned to use right context, §2.1); the typical failures are duplicated
+   fragments across adjacent masks ("attatt", "jumps jumps", "= =") and dropped tokens ("-attie").  Random order (4 %)
+   is the floor; confidence > entropy > margin for choosing positions; cosine/geometric schedules do not help.
+3. Any genuine parallelism collapses: 2 tokens/step → 32–40 %, 4 → 10–12 %, 8 → 0 %.  Smaller blocks help at equal
+   tokens/step (K=8, S=8: 72 % vs K=32, S=32: 40 %) because the far positions are simply absent.
+4. The adaptive threshold does not rescue it on this checkpoint: ≥ 0.99 confidence is 99.7 % *correct* (§2.1) but
+   those tokens are the far formatting tokens whose early commitment breaks the text, and the mandatory fill of a step
+   was the most confident mask rather than the leftmost one — fixed by `anchor_leftmost` (§3), measured next.
+5. Conclusion for Phase B: on the existing suffix-trained checkpoint no sampler reaches the brief's Phase 1 (80 %)
+   with more than ~1 token per step; the limiting factor is the model, not the sampler (§2.1: reach and right context).
+   Phase C therefore starts immediately (stage-2 re-training with random / mixed masks on the final CPT, §5), while the
+   anchored adaptive sampler and the random-mask checkpoint runs/phaseC_sft_4b/final are measured on GPU 4.
+
+Recovery diagnostic on other checkpoints (same protocol as §2.1, 100 dev prompts):
+
+| checkpoint (stage-2 mask mode) | random γ=.25 | random γ=.5 | random γ=.1 block exact | suffix γ=.25 | suffix γ=.5 |
+|---|---|---|---|---|---|
+| phaseC_sft3_4b (suffix, 1 B CPT) | 80.1 % | 59.3 % | 75.7 % | 59.7 % | 38.1 % |
+| zeta_best_28000 (suffix, 670 M CPT) | 81.6 % | 62.8 % | 76.8 % | 60.3 % | 37.5 % |
+| **phaseC_sft_4b (random, 60 M CPT)** | **89.3 %** | **76.3 %** | **91.4 %** | 43.1 % | 27.3 % |
+
+The random-mask checkpoint recovers scattered masks far better (+9 / +17 points) and contiguous suffixes worse (−17):
+right-context use is learned or lost in stage 2, independent of CPT volume.  This is the training lever for the block
+sampler (§5).
 
 ## 3. Implemented solution
 
