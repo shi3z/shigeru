@@ -218,16 +218,13 @@ per committed block (merged into the next block's first forward).  No AR logits 
 *tables are added as runs complete; every JSON under results/pure/ records model, prompts, GPU, dtype, torch, seed,
 batch size 1, max_new_tokens, warm-up*
 
-## 8. Ablations · 9. Failed experiments · 10. Open questions
-*pending*
-
 ## 8. Training ablations of stage 2 — results (2026-10-24, dev 50 unless noted; identical recipe except the mask/data change)
 
 | stage-2 variant (runs/) | AR dev | recovery random γ=0.5 | anchored adaptive τ=0.99 | K=4 refineN ≤3 / ≤6 (four_token_diffusion.md) | K=8 colouring ≤6 |
 |---|---|---|---|---|---|
 | suffix masks (phaseC_sft3_4b, reference) | 96 % | 59.3 % | 80 % @ 1.28 | 88 / 92 % | 82 % |
 | random masks (pure_sft3_random) | – | 85.5 % | 82 % @ 1.36 | 80 / 82 % | 78 % |
-| mixed masks (pure_sft3_mixed) | – | (results/pure/diag_recovery_pure_mixed.json) | – | (eval_pure_mixed_*.json) | – |
+| mixed masks (pure_sft3_mixed) | – | 83.7 % | 84 % @ 1.33 | 82 / 82 % | 78 % |
 | self-generated responses, random masks (pure_sft3_self_random, H1) | 94 % | 87.2 % | **86 % @ 1.49** | 82 / 86 % | – |
 | + on-policy states (pure_sft3_onpolicy, config D) | – | 83.8 % | **6 %** (collapse) | 10 / 20 % | – |
 
@@ -242,5 +239,8 @@ for the shared failure mechanism with the B-series B2.
 |---|---|---|---|---|
 | **A-series: K = 4 leave-one-out refinement, Jacobi ≤ 6, CUDA graphs** (sft3 checkpoint) | **84.2 %** | 1.18 | 89.9 (A100) | four_token_diffusion.md §10 |
 | B-series: block-bidirectional K = 16, S = 8, confidence order (e5 + no-time LoRA, lr 2e-4) | 63.4 % | 1.71 | 106.5 (zeta) | discrete_diffusion_b_series.md |
-| B-series: K = 16, S = 16 / S = 8 left-to-right (lr 1e-4 adapter) | (running) | 0.90 / 1.70 | | |
+| A-series: K = 4 leave-one-out refinement, Jacobi ≤ 3 (same checkpoint, engine) | 79.5 % | 1.32 | 99.2 (A100) | four_token_diffusion.md §10 |
+| B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 1e-4) | 78.6 % | 0.91 | 39.5 (A100, HF path) | discrete_diffusion_b_series.md §11.3 |
+| B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 2e-4) | (running on zeta) | 0.90 | | |
+| B-series: K = 16, S = 8, left-to-right (lr 1e-4 adapter) | (running) | 1.70 | | |
 | reference: AR greedy (HF) | 88.9 % | 1.00 | 52.5 | distill_design.md §11.6 |

@@ -186,6 +186,7 @@ on a shared GPU).
 | decoding (no AR verification), A100 80 GB, bf16, batch 1, 384-token budget | GSM8K test | tokens / forward | tok/s | rounds / block | blocks converged / cycle / budget |
 |---|---|---|---|---|---|
 | **K = 4 leave-one-out refinement, Jacobi ≤ 6 rounds, CUDA-graph engine** (runs/phaseC_sft3_4b/final) | **84.2 %** (1 111 / 1 319) | 1.18 | **89.9** (88.0 total) | 2.32 | 55 249 / 3 667 / 2 303 |
+| K = 4 leave-one-out refinement, Jacobi ≤ 3 rounds, CUDA-graph engine (same checkpoint) | 79.5 % (1 049 / 1 319) | 1.32 | 99.2 (98.0 total) | 1.97 | 46 221 / 1 042 / 14 182 |
 | AR greedy, HF generate, same checkpoint (distill_design.md §11.6) | 88.9 % | 1.00 | 52.5 | – | – |
 | AR via the graph engine (τ=None), same checkpoint (§2 of dependency_aware_refinement.md, dev 50) | – | 0.99 | 72.2 | – | – |
 | AR-verified speculative decoding (the A-series headline that the pure-diffusion briefs excluded) | 87.6 % | 2.15 | 156.0 | – | – |
@@ -194,9 +195,37 @@ Pure diffusion decoding of the 4B — no AR logits read, no draft model — reac
 the HF-AR throughput** (89.9 vs 52.5 tok/s on the same GPU class), 4.7 points below AR.  50 of 1 319 outputs hit the
 384-token budget (vs 68 premature stops); 6 % of blocks ended in a detected cycle and 4 % in the 6-round budget.
 Timing split over the whole run: probe forwards 1 887 s, first forwards 773 s, prefill 29 s.  (results/pure/
-final_test_k4_refineN_r6_graph.json; GPU 6 while GPU 7 ran another job — not strictly idle.)
+final_test_k4_refineN_r6_graph.json; GPU 6 while GPU 7 ran another job — not strictly idle.)  Capping the Jacobi
+rounds at 3 trades 4.7 points for 10 % more throughput (79.5 % at 99.2 tok/s, 1.32 tokens/forward): 23 % of blocks then
+end on the round budget instead of 4 %, so the 6-round setting chosen on dev is the right one for accuracy.
 
-## 7, 11. Training for K = 4, VRAM, failures, next
-*pending: K = 4-specialised stage 2 (brief §5) is justified by §6 only if the on-policy / random-mask checkpoints now
-training do not already lift the distance-3/4 first-forward accuracy; evaluated next on the same 50 dev items.*
+## 7. Training for K = 4 (brief §5) — measured on the stage-2 ablation checkpoints, dev items 0–49
+
+The brief's K = 4-specialised stage 2 was justified by §6 only if a different mask recipe lifts the distance-3/4
+first-forward accuracy.  None of the four stage-2 variants trained for pure_diffusion_research.md §8 does:
+
+| stage-2 checkpoint | first-forward accuracy by distance 1 / 2 / 3 / 4 | K = 4 refineN ≤ 3 / ≤ 6 |
+|---|---|---|
+| suffix masks (phaseC_sft3_4b, used everywhere above) | .97 / .84 / .71 / .58 | 88 / 92 % |
+| random masks (pure_sft3_random) | .98 / .83 / .65 / .52 | 80 / 82 % |
+| mixed suffix + random (pure_sft3_mixed) | .97 / .84 / .69 / .55 | 82 / 82 % |
+| self-generated responses, random masks (pure_sft3_self_random) | .98 / .84 / .68 / .57 | 82 / 86 % |
+| on-policy states as context (pure_sft3_onpolicy, config D) | .88 / .76 / .54 / .45 | 10 / 20 % (collapse) |
+
+The distance-3/4 conditionals are a property of the data and the causal-within-block layout, not of the mask recipe;
+the suffix checkpoint stays the best K = 4 model, and a K = 4-specialised stage 2 (every block exactly one group of 4
+with all leave-one-out rows, which the training layout already contains) was therefore not run.  Self-generated
+targets improve the adaptive sampler (+6 points) but not this decoder.
+
+## 11. VRAM, failures, next
+
+Inference VRAM of the K = 4 graph engine: 9.4 GB (4B bf16 weights 8.1 GB + static KV/probe buffers, batch 1, 4 096
+positions) on the A100; the HF AR path uses 10.8 GB.  Failures recorded in this document and its companions: K ≥ 5
+Jacobi non-convergence (k_scaling_failure_analysis.md), dependency-aware adoption limited to ~1.1 tokens/forward
+(dependency_aware_refinement.md), on-policy training collapse (§7 above), position-free future prediction gate
+(future_token_set_research.md), continuous latent diffusion (latent_diffusion_research.md), block-bidirectional
+B-series below the K = 4 decoder at every step count (discrete_diffusion_b_series.md §11).  Next: nothing in the
+pure-diffusion line is left that the measurements suggest would beat 84.2 % / 89.9 tok/s without AR verification; the
+remaining lever is batching several problems per forward in the graph engine, which is an engineering rather than a
+research item.
 
