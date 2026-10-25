@@ -37,3 +37,29 @@ k = 4 → 16 pairs):
 | B/C joint re-ranking, symmetric | ½[log p(a) + log p(b \| a) + log p(b) + log p(a \| b)] | 2k | research ceiling |
 | oracle | the reference pair when it is among the k × k candidates | – | ceiling of any re-ranker |
 | D/E pairwise compatibility score / dependency-aware pair selection without extra forwards | learned head on hidden states (§3) | 0 | only if Gate 1 passes |
+
+### 2.1 Teacher-forced pair diagnostic (dev 0–49, left-to-right S = 8, 2 368 two-token steps, lr1e-4 adapter)
+
+Protocol: at every step that places two tokens (i, i+1) the step's marginals are re-ranked post hoc under each rule
+and the chosen pair is scored against the reference pair (reference = the base model's own greedy answer).  Extra
+forwards are counted per step (results/pure/diag_pairwise_lr1e4_left.json; 40 256 forwards, 15 min on an A100).
+
+| | k = 2 (4 pairs) | k = 4 (16 pairs) |
+|---|---|---|
+| reference pair among the candidates (ceiling of any re-ranker) | 54.9 % | 59.0 % |
+| steps where independent is wrong but a candidate pair is right ("fixable") | 7.2 % | 11.3 % |
+| **independent argmax — pair exact / token acc** | **47.8 % / 54.2 %** | 47.8 / 54.2 |
+| product of marginals (control; must equal independent) | 47.7 % (differs from argmax in 3 % of steps by bf16 ties) | 47.6 % |
+| joint, chain rule forward (k extra forwards) | 50.9 % / 54.2 % (W→C 98, C→W 24) | 51.9 % / 54.8 % (126 / 29) |
+| joint, symmetric (2k extra forwards) | 51.4 % / 54.7 % (99 / 13) | 52.6 % / 55.3 % (128 / 14) |
+| oracle (reference pair if among candidates) | 54.9 % | 59.0 % |
+
+Dependency between the two positions (k = 2): placing a1 vs a2 at i changes the argmax at j in **67 %** of the steps
+(JSD between the two conditionals 0.64 bits) — the dependency is strong.  j's accuracy is 51.4 % from the marginal
+and **75.2 % when the reference token is placed at i** (one extra forward).  Yet re-ranking recovers little, because
+the problem is not choosing among j's marginal candidates: the reference token for j is in j's top-2 only 60 % of
+the time when i is unknown, so in 45 % of the steps no candidate pair is right (k = 2), and the chain-rule joint
+fixes about half of the 7 % that are fixable.  **Gate 1 (joint re-ranking beats independent argmax): passed only
+marginally — +3.1 to +4.8 points of pair exact match with 2–8 extra forwards per step, against a re-ranking ceiling
+of +7.2 / +11.3.**  The large conditional gain (51 → 75 % for j given the right i) is exactly what S = 16 already
+buys with one forward per token.

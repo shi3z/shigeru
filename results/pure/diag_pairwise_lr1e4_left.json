@@ -1,0 +1,97 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 8,
+  "unmask": "left",
+  "n": 50,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "forwards": 40256,
+  "seconds": 913.6,
+  "summary": {
+    "steps": 2368,
+    "independent": {
+      "pair_exact": 0.4776,
+      "token_acc": 0.5422,
+      "ref_in_top2_i": 0.6144,
+      "ref_in_top2_j": 0.5988
+    },
+    "dependency": {
+      "j_top1_change_rate_a1_vs_a2": 0.6727,
+      "jsd_mean": 0.6418,
+      "jsd_by_distance": {
+        "1": 0.6418
+      },
+      "top1_change_by_distance": {
+        "1": 0.6727
+      },
+      "j_acc_independent": 0.5139,
+      "j_acc_given_reference_i": 0.7521
+    },
+    "rerank": {
+      "2": {
+        "ref_pair_in_candidates": 0.5494,
+        "fixable_steps": 0.0718,
+        "oracle_pair_exact": 0.5494,
+        "indep_check": {
+          "pair_exact": 0.4768,
+          "token_acc": 0.5422,
+          "W2C": 10,
+          "C2W": 12,
+          "changed": 0.0296,
+          "extra_forwards_per_step": 0
+        },
+        "joint_fwd": {
+          "pair_exact": 0.5089,
+          "token_acc": 0.5422,
+          "W2C": 98,
+          "C2W": 24,
+          "changed": 0.1909,
+          "extra_forwards_per_step": 2
+        },
+        "joint_both": {
+          "pair_exact": 0.5139,
+          "token_acc": 0.5465,
+          "W2C": 99,
+          "C2W": 13,
+          "changed": 0.1782,
+          "extra_forwards_per_step": 4
+        }
+      },
+      "4": {
+        "ref_pair_in_candidates": 0.5904,
+        "fixable_steps": 0.1128,
+        "oracle_pair_exact": 0.5904,
+        "indep_check": {
+          "pair_exact": 0.4759,
+          "token_acc": 0.5418,
+          "W2C": 2,
+          "C2W": 6,
+          "changed": 0.0135,
+          "extra_forwards_per_step": 0
+        },
+        "joint_fwd": {
+          "pair_exact": 0.5186,
+          "token_acc": 0.5477,
+          "W2C": 126,
+          "C2W": 29,
+          "changed": 0.2188,
+          "extra_forwards_per_step": 4
+        },
+        "joint_both": {
+          "pair_exact": 0.5258,
+          "token_acc": 0.5532,
+          "W2C": 128,
+          "C2W": 14,
+          "changed": 0.2002,
+          "extra_forwards_per_step": 8
+        }
+      }
+    }
+  }
+}
