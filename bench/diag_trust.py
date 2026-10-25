@@ -173,7 +173,10 @@ def main():
         lrm = TrustLR.fit(Fm[torch.tensor([k for k, r in enumerate(rows_mask) if r[0] in half])], ym[torch.tensor([k for k, r in enumerate(rows_mask) if r[0] in half])].float())
         tem = torch.tensor([k for k, r in enumerate(rows_mask) if r[0] not in half])
         pm = lrm(Fm[tem])
-        res["masked_lr_heldout_half"] = dict(auroc=round(auroc(1 - pm, (~ym[tem]).float()), 4), brier=round(brier(pm, ym[tem].float()), 4))
+        res["masked_lr_heldout_half"] = dict(auroc=round(auroc(1 - pm, (~ym[tem]).float()), 4), brier=round(brier(pm, ym[tem].float()), 4),
+                                             weights=dict(zip(FEATURES, [round(w, 3) for w in lrm.w.tolist()])))
+        lrm.save(f"results/pure/trust_lr_{tag}_{rule}_masked_half.json", extra=dict(fit="prompts first half, masked positions", rule=rule))
+        TrustLR.fit(Fm, ym.float()).save(f"results/pure/trust_lr_{tag}_{rule}_masked.json", extra=dict(fit="all prompts, masked positions", rule=rule))
         result[rule] = res
         print("=== trust", rule, json.dumps({k: v for k, v in res.items() if k in ("block_exact", "final_token_error", "final_wrong_detectable", "trust_lr_heldout_half")}), flush=True)
         print("=== trust-visible", rule, json.dumps({k: v.get("auroc") for k, v in res["visible"].items() if isinstance(v, dict)}), flush=True)

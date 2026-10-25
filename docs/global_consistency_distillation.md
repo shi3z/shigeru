@@ -72,7 +72,7 @@ the independent argmax (18 % of states); "easy" = the rest.
 | B-series student before distillation (baseline) | 2.9 % | 100 % | 76 % | **70.0 %** | 8 |
 | pilot: 400 steps, 8 000 states, no hard up-weighting | (not measured) | – | 76 % | – | 8 |
 | **A: pair-KL (CE on a*, KL to p_T(·\|a*) at j), hard ×4** | **47.6 %** | 97.2 % | **82 %** | **81.3 %** (+28 / −11 items vs baseline, McNemar p = 0.0095) | 8 |
-| B: A + look-ahead transition KL on the other masked positions | 49.5 % | 98.3 % | __B50__ | __B150__ | 8 |
+| B: A + look-ahead transition KL on the other masked positions | 49.5 % | 98.3 % | 80 % | 79.3 % (+10 items vs baseline) | 8 |
 | reference: B8 joint teacher (2 extra forwards per step) | 100 % | 100 % | 84 % | 89.3 % | 22 |
 | reference: S = 16 left-to-right, same adapter | – | – | 92 % | 90.0 % | 16 |
 
