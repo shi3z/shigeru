@@ -124,3 +124,38 @@ agreement with the reference *falls* with each step (34 → 20 %): committing fo
 rest of the block away from the reference faster than the added context pulls it back.  The budget S is, for this
 model, the number of times the block is re-read with more committed context — and nothing in the intermediate state
 (§2.4) substitutes for those re-reads.
+
+## 3. B9-B — joint consistency of the block (brief §3)
+
+What the per-token cross-entropy training buys and what it does not, measured on the same 296 teacher-forced blocks
+(S = 16 left-to-right unless stated):
+
+| quantity | independent argmax block (first forward, all 16 masked) | block after 16 monotonic steps |
+|---|---|---|
+| position-wise accuracy vs FINAL / vs REF | 34.2 % / 34.4 % | 100 % / 63 % |
+| block exact match vs REF | 0 % | 38.5 % (S = 8: 20.9 %, S = 4: 4.7 %) |
+| adjacent duplicate tokens per block | **6.85** | 0.11 (free generation 0.82) |
+| 4-gram repetition inside the block | 0.113 | 0.002 (free 0.035) |
+| log p(FINAL token) per masked position | −2.59 | −0.11 (last step) |
+
+- **Pairwise consistency.**  The all-mask marginals are individually sensible (the reference token is in the top-8
+  of 75 % of the positions) but jointly incoherent: 6.85 of 15 adjacent pairs repeat a token ("by by by", "1111111"),
+  the signature of independent sampling from positionally-smeared marginals.  The pairwise diagnostic
+  (pairwise_joint_diffusion.md §2) quantified the coupling: placing one token changes the neighbour's argmax 67 % of
+  the time; the chain-rule joint of a pair removes the incoherence and recovers S = 16 quality — with extra forwards.
+- **Long-range dependency.**  §2.3: coupling decays with distance (JSD 0.15–0.17 bits at distance 1–2, 0.05 at ≥ 8)
+  — the block is a chain of local dependencies, not a set of independent slots and not a globally rigid object.
+- **Contradictory predictions.**  Confidence order places the two most confident positions, which are adjacent in
+  35–45 % of the steps and then often the *same* token; left-to-right with the pair's second token conditioned on an
+  unknown first token is 74.6 % right vs 94.5 % for the first (pairwise §2.3).
+- **Can the 16-step result be explained by the step-4 / step-8 marginals?**  Log-probability of the final block under
+  the marginals of step s (masked positions): −2.59 (s = 1), −2.22 (4), −1.81 (8), −1.13 (12), −0.11 (16) nats per
+  token; top-1 agreement 34 / 41 / 52 / 70 / 100 %.  At step 8 the marginals put the final token first at half the
+  remaining positions and somewhere in the top-8 at 86 %: the block is "half explained" at half the budget, and the
+  other half is not latent in the state (§2.4) — it is created by the later forwards.
+- **Joint probability.**  No estimate of the block's joint distribution is available from the model without
+  sequential conditioning (the product of marginals is *not* it — §2's duplicates are exactly what the product of
+  marginals produces).  All statements above are about marginals and about the chain-rule joint of pairs.
+
+**Gate 1 verdict (global information in the intermediate state):** present as a candidate set, absent as a
+decision; no hidden-state probe extracts more than the LM head.
