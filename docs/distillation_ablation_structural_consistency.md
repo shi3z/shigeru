@@ -95,3 +95,21 @@ what makes the targets informative is that they come from a trajectory in which 
 chain-rule teacher, i.e. they are high-quality pseudo-labels *in the state distribution the sampler actually visits*.
 Whether the same budget of ordinary training (arm F) does nothing is the remaining check (pending), and arm B scaled
 to all 65 k states is running (zeta).
+
+### 3.1 The same analysis for student A (GSM8K-only teacher states) — the general S = 8 code failure
+
+| student A | pass | test_fail | runtime_error | timeout | incomplete | SyntaxError | IndentationError |
+|---|---|---|---|---|---|---|---|
+| S = 8 | 17 (10.4 %) | 23 | 8 | 2 | 8 | **80** | **26** |
+| S = 16 | 90 (54.9 %) | 54 | 14 | 1 | 2 | 3 | 0 |
+
+Here the 106 syntax failures are **spread over every denoising step (11–25 per step) and every position in the
+block**, not concentrated: the error tokens are "other" (69), newline (29), bracket (11), quote (5).  Typical first
+errors: `mean = sum(numbers) len(numbers)` (a dropped `/`), `if not == string:` (a dropped operand),
+`result = []\n()\n    i = 0` (a stray `()` line), `delimeter: int) List[int]:` (a dropped `->`) — single missing or
+duplicated tokens at the seam between the two tokens a step places, each plausible alone and wrong together: the
+pairwise incoherence of pairwise_joint_diffusion.md, which in prose costs a paraphrase and in Python costs the program.
+S = 8 and S = 16 outputs agree on the first 32 tokens in 89 % of the problems and diverge on average at token 105 — the
+first block is fine for A (unlike E), the body is where the pairs break.  Both students' failures are therefore the
+same mechanism at different places: **independent placement of a dependent pair**; E's MBPP states merely moved the
+most frequent break to the first pair of the answer.
