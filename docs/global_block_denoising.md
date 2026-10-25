@@ -109,3 +109,18 @@ evaluated on prompts 25–49 (16 840 masked-position rows; results/pure/probe_hi
 beyond what the LM head already outputs (the probe only overfits).  Whatever decides the final token later is
 produced by *later forwards with more context*, not stored in the current state.  Gate 1 is therefore passed only in
 the weak sense: the candidate set is known early (top-8 recall 75–86 %), the choice among candidates is not.
+
+### 2.5 Step budget and the drift from the reference (teacher-forced, left-to-right; Hamming to REF of the final block)
+
+| S | forwards / block | final Hamming to REF (of 16) | positions never matching REF | masked top-1 recall of REF at the first / last step |
+|---|---|---|---|---|
+| 16 | 16 | 5.9 | 42 % | 34 % / 46 % |
+| 8 | 8 | 7.3 | 52 % | 34 % / 34 % |
+| 4 | 4 | 9.4 | 63 % | 34 % / 20 % |
+
+The first forward is the same in all three (34 % of masked positions already carry the reference token as argmax);
+what differs is how many tokens are committed per forward from that flat start.  At S = 4 the still-masked positions'
+agreement with the reference *falls* with each step (34 → 20 %): committing four jointly-incoherent tokens drags the
+rest of the block away from the reference faster than the added context pulls it back.  The budget S is, for this
+model, the number of times the block is re-read with more committed context — and nothing in the intermediate state
+(§2.4) substitutes for those re-reads.

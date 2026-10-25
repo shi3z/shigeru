@@ -1,0 +1,450 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "mode": "free",
+  "unmask": "left",
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "blocks": 561,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 159.2,
+  "per_step": {
+    "1": {
+      "blocks": 561,
+      "masked_positions": 16.0,
+      "hamming_to_final_all16": 9.938,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.3789,
+      "masked_topk_recall_final": 0.7668,
+      "masked_entropy": 2.723,
+      "masked_conf": 0.3565,
+      "logp_final_per_masked_token": -2.456
+    },
+    "2": {
+      "blocks": 561,
+      "masked_positions": 14.0,
+      "hamming_to_final_all16": 8.143,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.4184,
+      "masked_topk_recall_final": 0.8018,
+      "masked_entropy": 2.535,
+      "masked_conf": 0.3897,
+      "logp_final_per_masked_token": -2.269,
+      "jsd_vs_prev_step_masked": 0.1388,
+      "top1_change_vs_prev_masked": 0.4116,
+      "topk_jaccard_vs_prev": 0.6203,
+      "hidden_rel_displacement_masked": 0.2505
+    },
+    "3": {
+      "blocks": 561,
+      "masked_positions": 12.0,
+      "hamming_to_final_all16": 6.549,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.4542,
+      "masked_topk_recall_final": 0.8308,
+      "masked_entropy": 2.367,
+      "masked_conf": 0.4267,
+      "logp_final_per_masked_token": -2.082,
+      "jsd_vs_prev_step_masked": 0.1458,
+      "top1_change_vs_prev_masked": 0.4014,
+      "topk_jaccard_vs_prev": 0.6188,
+      "hidden_rel_displacement_masked": 0.2658
+    },
+    "4": {
+      "blocks": 561,
+      "masked_positions": 10.0,
+      "hamming_to_final_all16": 4.995,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.5005,
+      "masked_topk_recall_final": 0.8595,
+      "masked_entropy": 2.198,
+      "masked_conf": 0.4627,
+      "logp_final_per_masked_token": -1.88,
+      "jsd_vs_prev_step_masked": 0.1554,
+      "top1_change_vs_prev_masked": 0.4016,
+      "topk_jaccard_vs_prev": 0.6105,
+      "hidden_rel_displacement_masked": 0.2772
+    },
+    "5": {
+      "blocks": 561,
+      "masked_positions": 8.0,
+      "hamming_to_final_all16": 3.346,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.5818,
+      "masked_topk_recall_final": 0.8973,
+      "masked_entropy": 1.94,
+      "masked_conf": 0.5243,
+      "logp_final_per_masked_token": -1.581,
+      "jsd_vs_prev_step_masked": 0.1938,
+      "top1_change_vs_prev_masked": 0.4461,
+      "topk_jaccard_vs_prev": 0.5631,
+      "hidden_rel_displacement_masked": 0.3303
+    },
+    "6": {
+      "blocks": 561,
+      "masked_positions": 6.0,
+      "hamming_to_final_all16": 1.988,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.6687,
+      "masked_topk_recall_final": 0.9275,
+      "masked_entropy": 1.705,
+      "masked_conf": 0.5756,
+      "logp_final_per_masked_token": -1.298,
+      "jsd_vs_prev_step_masked": 0.2001,
+      "top1_change_vs_prev_masked": 0.4121,
+      "topk_jaccard_vs_prev": 0.55,
+      "hidden_rel_displacement_masked": 0.3629
+    },
+    "7": {
+      "blocks": 561,
+      "masked_positions": 4.0,
+      "hamming_to_final_all16": 0.79,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 0.8026,
+      "masked_topk_recall_final": 0.9706,
+      "masked_entropy": 1.283,
+      "masked_conf": 0.6766,
+      "logp_final_per_masked_token": -0.839,
+      "jsd_vs_prev_step_masked": 0.2506,
+      "top1_change_vs_prev_masked": 0.4176,
+      "topk_jaccard_vs_prev": 0.5013,
+      "hidden_rel_displacement_masked": 0.4364
+    },
+    "8": {
+      "blocks": 561,
+      "masked_positions": 2.0,
+      "hamming_to_final_all16": 0.0,
+      "hamming_to_final_placed_only": 0.0,
+      "masked_top1_recall_final": 1.0,
+      "masked_topk_recall_final": 1.0,
+      "masked_entropy": 0.764,
+      "masked_conf": 0.7979,
+      "logp_final_per_masked_token": -0.31,
+      "jsd_vs_prev_step_masked": 0.2858,
+      "top1_change_vs_prev_masked": 0.3948,
+      "topk_jaccard_vs_prev": 0.4328,
+      "hidden_rel_displacement_masked": 0.5622
+    }
+  },
+  "topk": 8,
+  "jsd_by_distance_to_last_placed": {
+    "1": {
+      "n": 3927,
+      "jsd": 0.3071,
+      "top1_change": 0.3596
+    },
+    "2": {
+      "n": 3927,
+      "jsd": 0.2618,
+      "top1_change": 0.4153
+    },
+    "3": {
+      "n": 3366,
+      "jsd": 0.2124,
+      "top1_change": 0.4343
+    },
+    "4": {
+      "n": 3366,
+      "jsd": 0.1829,
+      "top1_change": 0.4507
+    },
+    "5": {
+      "n": 2805,
+      "jsd": 0.153,
+      "top1_change": 0.4453
+    },
+    "6": {
+      "n": 2805,
+      "jsd": 0.1352,
+      "top1_change": 0.4389
+    },
+    "7": {
+      "n": 2244,
+      "jsd": 0.1182,
+      "top1_change": 0.434
+    },
+    "8": {
+      "n": 8976,
+      "jsd": 0.0814,
+      "top1_change": 0.3878
+    }
+  },
+  "stabilisation_step_final": {
+    "mean": 4.372,
+    "hist": {
+      "1": 2199,
+      "2": 829,
+      "3": 837,
+      "4": 859,
+      "5": 942,
+      "6": 883,
+      "7": 853,
+      "8": 708,
+      "9": 866
+    },
+    "frac_by_step": [
+      0.245,
+      0.3373,
+      0.4306,
+      0.5263,
+      0.6312,
+      0.7296,
+      0.8246,
+      0.9035
+    ]
+  },
+  "first_forward_vs_final": {
+    "block_exact": 0.0018,
+    "position_acc": 0.3789,
+    "rep4_first": 0.1368,
+    "rep4_final": 0.0138,
+    "adjacent_duplicates_per_block_first": 7.326,
+    "adjacent_duplicates_per_block_final": 0.836
+  },
+  "generation": {
+    "accuracy": 0.76,
+    "n": 50
+  },
+  "samples": [
+    {
+      "id": "gsm8k_dev_0000",
+      "final": "Let's go step by step.\n\n---\n\n****First  Round:**\n\n-",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": "Let's go by by by by---\n\n.1111111"
+        },
+        {
+          "step": 2,
+          "guess": "Let's go step by by.\n\n---\n\n****.11 H H H"
+        },
+        {
+          "step": 3,
+          "guess": "Let's go step by step.\n\n****Step :: H H H"
+        },
+        {
+          "step": 4,
+          "guess": "Let's go step by step.\n\n---\n\n**Step :: H H H"
+        },
+        {
+          "step": 5,
+          "guess": "Let's go step by step.\n\n---\n\n**** 1: H H H"
+        },
+        {
+          "step": 6,
+          "guess": "Let's go step by step.\n\n---\n\n****First 1::**\n\n"
+        },
+        {
+          "step": 7,
+          "guess": "Let's go step by step.\n\n---\n\n****First  Round:**\n\n-"
+        },
+        {
+          "step": 8,
+          "guess": "Let's go step by step.\n\n---\n\n****First  Round:**\n\n-"
+        }
+      ]
+    },
+    {
+      "id": "gsm8k_dev_0000",
+      "final": " Hattie jumps: 180\n- Lorelei jumps: \\(",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": " Hattie: 10 jumps.\n---lei jumps \\ \\"
+        },
+        {
+          "step": 2,
+          "guess": " Hattie jumps  80 jumps.\n--leilei \\( \\"
+        },
+        {
+          "step": 3,
+          "guess": " Hattie jumps: 80.\n--leileilei jumps \\"
+        },
+        {
+          "step": 4,
+          "guess": " Hattie jumps: 180\n--leilei jumps \\("
+        },
+        {
+          "step": 5,
+          "guess": " Hattie jumps: 180\n-- Lorelei jumps \\("
+        },
+        {
+          "step": 6,
+          "guess": " Hattie jumps: 180\n- Lorelei jumps jumps \\("
+        },
+        {
+          "step": 7,
+          "guess": " Hattie jumps: 180\n- Lorelei jumps \\( \\("
+        },
+        {
+          "step": 8,
+          "guess": " Hattie jumps: 180\n- Lorelei jumps: \\("
+        }
+      ]
+    },
+    {
+      "id": "gsm8k_dev_0000",
+      "final": " \\frac{3}{4} \\times 180 = 1",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": " \\frac{4}{ \\ \\8888 = \\ \\ \\ \\"
+        },
+        {
+          "step": 2,
+          "guess": " \\frac{3}{}{ \\times880 = = 10"
+        },
+        {
+          "step": 3,
+          "guess": " \\frac{3}{4} \\times 80 = =  "
+        },
+        {
+          "step": 4,
+          "guess": " \\frac{3}{4} \\times 80 = 11"
+        },
+        {
+          "step": 5,
+          "guess": " \\frac{3}{4} \\times 180 = 1"
+        },
+        {
+          "step": 6,
+          "guess": " \\frac{3}{4} \\times 180 = 1"
+        },
+        {
+          "step": 7,
+          "guess": " \\frac{3}{4} \\times 180 = 1"
+        },
+        {
+          "step": 8,
+          "guess": " \\frac{3}{4} \\times 180 = 1"
+        }
+      ]
+    },
+    {
+      "id": "gsm8k_dev_0000",
+      "final": "35 \\) jumps---\n\n****Second Round:**\n\n- Hattie",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": "35 \\)---\n\n************  ******"
+        },
+        {
+          "step": 2,
+          "guess": "35 \\)---\n\n********::    **"
+        },
+        {
+          "step": 3,
+          "guess": "35 \\) jumps---\n\n********::  80"
+        },
+        {
+          "step": 4,
+          "guess": "35 \\) jumps---\n\n****** Round Round:**\n\n- Hatt"
+        },
+        {
+          "step": 5,
+          "guess": "35 \\) jumps---\n\n****Second Round Round:**\n\n- Hatt"
+        },
+        {
+          "step": 6,
+          "guess": "35 \\) jumps---\n\n****Second Round:**\n\n- Hattie"
+        },
+        {
+          "step": 7,
+          "guess": "35 \\) jumps---\n\n****Second Round:**\n\n- Hattie"
+        },
+        {
+          "step": 8,
+          "guess": "35 \\) jumps---\n\n****Second Round:**\n\n- Hattie"
+        }
+      ]
+    },
+    {
+      "id": "gsm8k_dev_0000",
+      "final": " jumps: \\( \\frac{2}{3} \\times 180",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": " jumps: \\( \\frac33 \\ \\ \\ \\ \\ \\ \\( \\( "
+        },
+        {
+          "step": 2,
+          "guess": " jumps: \\( \\frac{3} \\ \\ \\ \\ \\ \\ \\times"
+        },
+        {
+          "step": 3,
+          "guess": " jumps: \\( \\frac{23}{}times11000"
+        },
+        {
+          "step": 4,
+          "guess": " jumps: \\( \\frac{2}{3} \\ 100 ="
+        },
+        {
+          "step": 5,
+          "guess": " jumps: \\( \\frac{2}{3} \\times 80 ="
+        },
+        {
+          "step": 6,
+          "guess": " jumps: \\( \\frac{2}{3} \\times 180"
+        },
+        {
+          "step": 7,
+          "guess": " jumps: \\( \\frac{2}{3} \\times 180"
+        },
+        {
+          "step": 8,
+          "guess": " jumps: \\( \\frac{2}{3} \\times 180"
+        }
+      ]
+    },
+    {
+      "id": "gsm8k_dev_0000",
+      "final": " = 120 \\) jumps\n- Lorelei jumps: 1",
+      "ref": null,
+      "steps": [
+        {
+          "step": 1,
+          "guess": " = 120)) jumps--leilei jumps  0"
+        },
+        {
+          "step": 2,
+          "guess": " = 120))\n--leilei jumps  0"
+        },
+        {
+          "step": 3,
+          "guess": " = 120 \\) jumps--leilei jumps  0"
+        },
+        {
+          "step": 4,
+          "guess": " = 120 \\) jumps\n-leilei jumps 00"
+        },
+        {
+          "step": 5,
+          "guess": " = 120 \\) jumps\n- Loreleilei  0"
+        },
+        {
+          "step": 6,
+          "guess": " = 120 \\) jumps\n- Lorelei jumps: 0"
+        },
+        {
+          "step": 7,
+          "guess": " = 120 \\) jumps\n- Lorelei jumps:  "
+        },
+        {
+          "step": 8,
+          "guess": " = 120 \\) jumps\n- Lorelei jumps: 1"
+        }
+      ]
+    }
+  ]
+}
