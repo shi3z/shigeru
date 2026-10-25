@@ -215,7 +215,7 @@ and IndentationError rate from the classifier of §3), dev2 S = 8.  Results in �
 | **arm B + function-format code states** | 12 k + 24.7 k | **19.5 %** (32 / 164) | 47.0 % (−6 items) | 76.0 % (−11 items vs arm B) |
 | reference: B8 joint teacher at S = 8 (22 forwards) | – | 23.2 % | – | 89.3 % |
 
-Syntax classification of the B + code student's S = 8 programs: __BCSYN__
+Syntax classification of the B + code student's S = 8 programs (164): pass 32, test_fail 24, runtime_error 16, incomplete 10, SyntaxError 73, **IndentationError 9** (baseline 40, student A 26, student E 133); syntactically valid programs 44 % (baseline 39 %, E 19 %); the remaining SyntaxErrors are again spread over all steps (pair-seam drops), not concentrated.
 
 Reading: the same recipe that lifted GSM8K lifts code once the states are in the evaluation's format — HumanEval S = 8
 8.5 → 19.5 %, i.e. 84 % of the way to the sequential teacher's 23.2 % — with no Python-specific rule or loss; the
@@ -265,7 +265,7 @@ noise process; the matching data recipe is now known).
 | arm B + function-format code states, S = 8 / 16 | 8 / 16 | 76.0 | – | **19.5** / 47.0 | (MBPP-derived prompts in training) |
 
 Syntax validity / IndentationError rate at S = 8 (HumanEval, 164): baseline 39 / 24 %, student A 35 / 16 %, student E
-19 / 81 %; at S = 16 all three are ≥ 97 % syntactically valid with 0–1 IndentationErrors.
+19 / 81 %, arm B + code 44 / 5 %; at S = 16 all three are ≥ 97 % syntactically valid with 0–1 IndentationErrors.
 
 ## 8. Speed and memory
 
