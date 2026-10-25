@@ -43,7 +43,9 @@ def main():
     ap.add_argument("--K", type=int, default=16)
     ap.add_argument("--steps", type=int, default=8)
     ap.add_argument("--unmask", default="left")
-    ap.add_argument("--ks", default="2,4")
+    ap.add_argument("--ks", default="1,2,4,8,16,32", help="candidate sizes for the containment / oracle analysis")
+    ap.add_argument("--rerank-ks", default="2,4", help="candidate sizes for the chain-rule re-ranking (k extra forwards each)")
+    ap.add_argument("--save-candidates", default=None, help="jsonl of per-step top-32 candidates and log-probs of the two positions")
     ap.add_argument("--max-blocks", type=int, default=6)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
@@ -57,6 +59,8 @@ def main():
     model = BDiffModel(lm, mask_id, time_cond=not a.no_time).to(dev).eval()
     K, S = a.K, a.steps
     ks = [int(x) for x in a.ks.split(",")]
+    rks = [int(x) for x in a.rerank_ks.split(",")]
+    cand_f = open(a.save_candidates, "w") if a.save_candidates else None
     prompts = load_prompts(a.prompts)[a.skip: a.skip + a.n]
     for p in prompts:
         ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
@@ -65,7 +69,11 @@ def main():
     t0 = time.time()
     C = collections.Counter()
     jsds = []; jsd_by_dist = collections.defaultdict(list); top1_by_dist = collections.defaultdict(list)
-    per_k = {k: collections.Counter() for k in ks}
+    per_k = {k: collections.Counter() for k in sorted(set(ks) | set(rks))}
+    recall = {k: [0, 0] for k in per_k}                       # individual-token top-k recall (both positions pooled)
+    by_cpl = collections.defaultdict(lambda: [0, 0, 0, 0])     # distance from the correct left context -> [n, indep tok ok, ref in top2, ref in top8]
+    by_dist = collections.defaultdict(lambda: [0, 0, 0])      # |i-j| -> [n, indep pair ok, ref pair in top2x2]
+    by_step_idx = collections.defaultdict(lambda: [0, 0, 0])  # step -> [n, indep pair ok, pair in top2x2]
     n_fwd = 0
     for p in prompts:
         resp = refs[p["id"]]["response_ids"]
@@ -97,12 +105,33 @@ def main():
                 C["indep_pair_ok"] += int(ind_i == gi and ind_j == gj)
                 C["indep_tok_ok"] += int(ind_i == gi) + int(ind_j == gj)
                 C["ref_i_in_top2"] += int(gi in probs[i].topk(2).indices.tolist()); C["ref_j_in_top2"] += int(gj in probs[j].topk(2).indices.tolist())
-                for k in ks:
-                    ci = probs[i].topk(k).indices.tolist(); cj = probs[j].topk(k).indices.tolist()
+                top32_i = probs[i].topk(32); top32_j = probs[j].topk(32)
+                if cand_f is not None:
+                    cand_f.write(json.dumps(dict(id=p["id"], start=s0, step=row["step"], i=i, j=j, gold=[gi, gj], tokens=row["tokens"],
+                                                 cand_i=top32_i.indices.tolist(), lp_i=[round(v, 4) for v in top32_i.values.clamp_min(1e-12).log().tolist()],
+                                                 cand_j=top32_j.indices.tolist(), lp_j=[round(v, 4) for v in top32_j.values.clamp_min(1e-12).log().tolist()])) + "\n")
+                # correct-left-context distance: length of the block's correct visible prefix (positions 0.. all visible and == reference)
+                cpl = 0
+                while cpl < K and row["tokens"][cpl] != mask_id and row["tokens"][cpl] == gold[cpl]:
+                    cpl += 1
+                for q, gq, indq in ((i, gi, ind_i), (j, gj, ind_j)):
+                    b = by_cpl[min(q - cpl, 8) if q >= cpl else -1]
+                    b[0] += 1; b[1] += int(indq == gq); b[2] += int(gq in top32_i.indices[:2].tolist() if q == i else gq in top32_j.indices[:2].tolist())
+                    b[3] += int(gq in top32_i.indices[:8].tolist() if q == i else gq in top32_j.indices[:8].tolist())
+                in2 = gi in top32_i.indices[:2].tolist() and gj in top32_j.indices[:2].tolist()
+                bd = by_dist[abs(i - j)]; bd[0] += 1; bd[1] += int(ind_i == gi and ind_j == gj); bd[2] += int(in2)
+                bs = by_step_idx[row["step"]]; bs[0] += 1; bs[1] += int(ind_i == gi and ind_j == gj); bs[2] += int(in2)
+                for k in per_k:
+                    ci = top32_i.indices[:k].tolist() if k <= 32 else probs[i].topk(k).indices.tolist()
+                    cj = top32_j.indices[:k].tolist() if k <= 32 else probs[j].topk(k).indices.tolist()
                     in_set = gi in ci and gj in cj
                     pk = per_k[k]
                     pk["steps"] += 1; pk["ref_pair_in_candidates"] += int(in_set)
                     pk["fixable"] += int(in_set and not (ind_i == gi and ind_j == gj))
+                    recall[k][0] += 2; recall[k][1] += int(gi in ci) + int(gj in cj)
+                    pk["oracle_pair_ok"] += int(in_set or (ind_i == gi and ind_j == gj))
+                    if k not in rks:
+                        continue
                     ti, tj, extra, inf = rerank_pair(model, cache, s0, x, probs, i, j, mask_id, k=k, rule="joint_both")
                     n_fwd += extra
                     for rule, mat in (("joint_fwd", inf["fwd"]), ("joint_both", inf["score"]), ("indep_check", inf["indep"])):
@@ -115,8 +144,6 @@ def main():
                         if ok and not ind_ok: pk[f"{rule}_W2C"] += 1
                         if ind_ok and not ok: pk[f"{rule}_C2W"] += 1
                         pk[f"{rule}_changed"] += int((ri, rj) != (ind_i, ind_j))
-                    # oracle: reference pair if in candidates else independent
-                    pk["oracle_pair_ok"] += int(in_set or (ind_i == gi and ind_j == gj))
                     if k == 2:
                         # dependency of j on the choice at i
                         pj_a1 = inf["cond_j"][0].exp(); pj_a2 = inf["cond_j"][1].exp()   # only over the 2 candidates -> use full dists instead
@@ -141,15 +168,21 @@ def main():
                                jsd_by_distance={str(d): round(sum(v) / len(v), 4) for d, v in sorted(jsd_by_dist.items())},
                                top1_change_by_distance={str(d): round(sum(v) / len(v), 4) for d, v in sorted(top1_by_dist.items())},
                                j_acc_independent=round(C["j_ok_indep"] / n, 4), j_acc_given_reference_i=round(C["j_ok_given_ref_i"] / n, 4)),
-               rerank={})
-    for k in ks:
+               rerank={},
+               topk=dict(), by_correct_left_context_distance={str(d): dict(n=v[0], indep_token_acc=round(v[1] / v[0], 4), ref_in_top2=round(v[2] / v[0], 4), ref_in_top8=round(v[3] / v[0], 4)) for d, v in sorted(by_cpl.items())},
+               by_pair_distance={str(d): dict(n=v[0], indep_pair_exact=round(v[1] / v[0], 4), ref_pair_in_top2x2=round(v[2] / v[0], 4)) for d, v in sorted(by_dist.items())},
+               by_step={str(d): dict(n=v[0], indep_pair_exact=round(v[1] / v[0], 4), ref_pair_in_top2x2=round(v[2] / v[0], 4)) for d, v in sorted(by_step_idx.items())})
+    for k in sorted(per_k):
         pk = per_k[k]; m = max(1, pk["steps"])
-        out["rerank"][str(k)] = dict(ref_pair_in_candidates=round(pk["ref_pair_in_candidates"] / m, 4), fixable_steps=round(pk["fixable"] / m, 4),
-                                    oracle_pair_exact=round(pk["oracle_pair_ok"] / m, 4),
-                                    **{rule: dict(pair_exact=round(pk[f"{rule}_pair_ok"] / m, 4), token_acc=round(pk[f"{rule}_tok_ok"] / (2 * m), 4),
-                                                  W2C=pk[f"{rule}_W2C"], C2W=pk[f"{rule}_C2W"], changed=round(pk[f"{rule}_changed"] / m, 4),
-                                                  extra_forwards_per_step=(k if rule == "joint_fwd" else 2 * k if rule == "joint_both" else 0))
-                                       for rule in ("indep_check", "joint_fwd", "joint_both")})
+        out["topk"][str(k)] = dict(token_recall=round(recall[k][1] / max(1, recall[k][0]), 4), ref_pair_in_candidates=round(pk["ref_pair_in_candidates"] / m, 4),
+                                   fixable_steps=round(pk["fixable"] / m, 4), oracle_pair_exact=round(pk["oracle_pair_ok"] / m, 4))
+        if k in rks:
+            out["rerank"][str(k)] = {rule: dict(pair_exact=round(pk[f"{rule}_pair_ok"] / m, 4), token_acc=round(pk[f"{rule}_tok_ok"] / (2 * m), 4),
+                                                W2C=pk[f"{rule}_W2C"], C2W=pk[f"{rule}_C2W"], changed=round(pk[f"{rule}_changed"] / m, 4),
+                                                extra_forwards_per_step=(k if rule == "joint_fwd" else 2 * k if rule == "joint_both" else 0))
+                                     for rule in ("indep_check", "joint_fwd", "joint_both")}
+    if cand_f is not None:
+        cand_f.close()
     print("=== pairwise", json.dumps(out), flush=True)
     save_json(a.out, dict(model=a.model, adapter=a.adapter, K=K, steps=S, unmask=a.unmask, n=len(prompts), gpu=gpu_info(), forwards=n_fwd, seconds=round(time.time() - t0, 1), summary=out))
 
