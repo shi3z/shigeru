@@ -81,7 +81,7 @@ jointly 1 272 times and is responsible for none of the 133 errors.
 | A  baseline | 2.9 % | 70.0 % | 90.0 % |
 | **B  masked CE only, same states, teacher-trajectory targets** | **51.4 %** | **83.3 %** | **90.0 %** |
 | C  teacher-label CE (student D) | 48.6 % | 82.0 % | – |
-| D  conditional KL only | 43.8 % | 75.3 % | __DKL16__ |
+| D  conditional KL only | 43.8 % | 75.3 % | 81.3 % (−13 items: the KL alone damages S = 16) |
 | E  CE + KL (student A) | 47.6 % | 81.3 % | 87.3 % |
 | F  ordinary data, same budget | __F8h__ | __F8__ | __F16__ |
 
