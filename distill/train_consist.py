@@ -66,6 +66,7 @@ def main():
     ap.add_argument("--lambda-kl", type=float, default=1.0)
     ap.add_argument("--lambda-mask", type=float, default=1.0)
     ap.add_argument("--kl-topk", type=int, default=0, help="0 = full-vocabulary KL; else KL over the teacher's top-k plus the rest mass")
+    ap.add_argument("--exclude-eos", action="store_true", help="drop training states whose teacher pair contains an end-of-text token (premature-EOS artefact of student A)")
     ap.add_argument("--j-ce", action="store_true", help="ablation: replace the KL at j by a hard CE to the teacher's b* (label only, no distribution)")
     ap.add_argument("--lookahead", type=float, default=0.0, help="weight of the transition term: KL(teacher at the NEXT state (a*, b* placed) || student now) on the other masked positions")
     ap.add_argument("--max-rows", type=int, default=None)
@@ -198,6 +199,14 @@ def main():
     log = open(os.path.join(a.out, "log.jsonl"), "a")
     ev0 = evaluate(held); print("step 0 held-out", json.dumps(ev0), flush=True); log.write(json.dumps(dict(step=0, heldout=ev0)) + "\n")
     student.train(); t0 = time.time(); step = 0; run = dict(l_i=0.0, l_kl=0.0, l_mask=0.0, pair=0.0, n=0)
+    if a.exclude_eos:
+        stop = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
+        def pair_of(r):
+            k = r["cand"].shape[1]; js = r["lp"][0][:, None] + r["lp"][1][None, :] + r["delta"]; b = int(js.argmax()); ai, bj = divmod(b, k)
+            return int(r["cand"][0][ai]), int(r["cand"][1][bj])
+        before = len(train)
+        train = [r for r in train if not (set(pair_of(r)) & stop)]
+        print(f"exclude-eos: {before} -> {len(train)} training states", flush=True)
     hard_idx = [n for n, r in enumerate(train) if is_hard(r)]
     print(f"hard states (independent != teacher pair): {len(hard_idx)} / {len(train)} = {len(hard_idx) / max(1, len(train)):.3f}", flush=True)
     weights = torch.ones(len(train)); weights[hard_idx] = a.hard_weight
