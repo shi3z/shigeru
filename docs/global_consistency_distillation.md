@@ -119,7 +119,7 @@ is nothing to resolve and the extra LoRA costs 2–3 points.  A deployment there
 |---|---|---|---|---|---|
 | B-series S = 8 (undistilled adapter; trust_aware_diffusion.md §7) | 72.9 % | – | 1.72 | 77.6 | 4 / 100 |
 | **student A (conditional distillation, 12 k states, 25 min)** | **77.1 %** (1 017 / 1 319) | **+169 / −113 items, McNemar p = 0.001** | 1.71 | 75.5 | 35 / 54 |
-| student A' (A with EOS pairs excluded) | 77.3 % (1 019 / 1 319) | +162 / −104 vs baseline, p < 0.001 | 1.71 | 68.3 | 18 / 48 |
+| student A' (A with EOS pairs excluded) | 77.3 % (1 019 / 1 319) | +165 / −107 vs baseline, p = 0.0005 | 1.71 | 68.3 | 18 / 48 |
 | student E (GSM8K + MBPP states, 3 000 steps) | **78.4 %** (1 034 / 1 319) | +185 / −112 vs baseline, p < 0.0001; +135 / −118 vs A, p = 0.31 | 1.71 | 73.6 | 4 / 61 |
 | reference: B8 joint teacher (22 forwards per block) | 80.7 % (1 065 / 1 319) | | 0.67 | 29.8 | 2 / 83 |
 | reference: S = 16 left-to-right, undistilled | 84.8 % | | 0.90 | 56 (zeta) | 0 / 67 |
