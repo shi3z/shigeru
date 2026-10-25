@@ -96,3 +96,18 @@ same student, HumanEval, variant B and the full-data run follow in §5.2.
 The S = 16 cost of student A is small and within noise (−4 of 150), and its HumanEval at S = 16 is higher
 (54.9 vs 50.6 %); at S = 8 code stays near 10 % with GSM8K-only teacher states — the code cascade (pairwise §2.3) is not
 touched by a student that has only seen arithmetic states, hence variant E with MBPP teacher data.
+
+### 5.3 Quality per forward (dev2, 150 items, left-to-right; student A vs the undistilled adapter)
+
+| S (forwards per 16-token block) | tokens / forward | baseline | student A | Δ items |
+|---|---|---|---|---|
+| 4 | 3.1 | 27.3 % | **46.0 %** | +28 |
+| 8 | 1.71 | 70.0 % | **81.3 %** | +17 |
+| 12 | 1.18 | **85.3 %** | 83.3 % | −3 |
+| 16 | 0.90 | **90.0 %** | 87.3 % | −4 |
+| reference: chain-rule joint at S = 8 (22 forwards) | 0.67 | 89.3 % | – | |
+
+The student is specialised to the states it was trained on — two tokens committed per forward — and helps most where
+the independence assumption costs most (S = 4: +19 points, S = 8: +11); at one token per forward or close to it there
+is nothing to resolve and the extra LoRA costs 2–3 points.  A deployment therefore switches adapters with the budget
+(or trains one student on mixed S), which is a configuration question, not a research one.
