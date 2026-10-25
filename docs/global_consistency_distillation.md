@@ -214,3 +214,12 @@ without targeting it); (iii) for code, the sequential teacher at S = 8 is itself
 pair, is the limit — K = 8 with S = 4 (same forwards per token) should be measured before any K = 32 work; (iv) the
 EOS artefact (35 early endings) is removable by excluding end-of-answer pairs from the distillation set.  None of this
 needs a new backbone; all of it stays within "one LoRA, eight forwards, no sequential conditioning at inference".
+
+## 11. Phase B10.5 ablation — correction to the attribution (summary; full record in distillation_ablation_structural_consistency.md)
+
+With data, steps, rank, lr and sampling held fixed, plain masked cross-entropy on the same teacher-trajectory states
+(no pair terms at all) reaches dev2 S = 8 **83.3 %** and keeps S = 16 at 90.0 %; CE + KL (student A) 81.3 / 87.3,
+KL alone 75.3 / 81.3, labels-only CE 82.0, same-budget ordinary data 74.7 / 82.0.  The gain of this phase is the
+**on-policy teacher-trajectory data**, not the conditional-distribution objective; §3 of this document should be read
+with that correction.  The code collapse of student E is a format/dialect shift from MBPP states plus the first-pair
+format decision, not an indentation failure (ablation doc §3–§4).

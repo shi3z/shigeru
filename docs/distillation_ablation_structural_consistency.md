@@ -231,3 +231,63 @@ training improves the parallel *left-to-right* decoder, not the model's ability 
 jointly; a global sampler needs its own on-policy states in the training set (the same recipe, different sampler), which
 is the natural next experiment and was not run here (brief §6 forbids repeating the B9 samplers without a matching
 noise process; the matching data recipe is now known).
+
+## 7. GSM8K · HumanEval · MBPP (brief §7)
+
+| decoder, K = 16, left-to-right, no AR verification | forwards / block | GSM8K dev2 | GSM8K test | HumanEval | MBPP (sanitized) |
+|---|---|---|---|---|---|
+| undistilled adapter, S = 16 | 16 | 90.0 | 84.8 | 50.6 | __MB16__ |
+| undistilled adapter, S = 8 | 8 | 70.0 | 72.9 | 8.5 | __MB8__ |
+| B8 joint teacher, S = 8 | 22 | 89.3 | 80.7 | 23.2 | – |
+| B10 student A (CE + KL), S = 8 | 8 | 81.3 | 77.1 | 10.4 | __MA8__ |
+| B10 student A, S = 16 | 16 | 87.3 | – | 54.9 | __MA16__ |
+| B10 student A' (EOS pairs excluded), S = 8 | 8 | 82.7 | 77.3 | – | – |
+| B10 student E (GSM8K + MBPP states), S = 8 | 8 | 80.0 | 78.4 | 0.0 | (trained on MBPP) |
+| **ablation arm B (masked CE only, 12 k states), S = 8** | 8 | **83.3** | __BTEST__ | – | – |
+| arm B, S = 16 | 16 | 90.0 | – | – | – |
+| arm B + function-format code states, S = 8 / 16 | 8 / 16 | __BC8__ | – | __BCH8__ / __BCH16__ | (MBPP-derived prompts in training) |
+
+Syntax validity / IndentationError rate at S = 8 (HumanEval, 164): baseline 39 / 24 %, student A 35 / 16 %, student E
+19 / 81 %; at S = 16 all three are ≥ 97 % syntactically valid with 0–1 IndentationErrors.
+
+## 8. Speed and memory
+
+Unchanged from B10 (global_consistency_distillation.md §8): every student is a LoRA merged into the same weights, so
+tokens/forward (1.71 at S = 8), tok/s (68–78 on an A100 HF path, 105 on zeta), latency (2.4–2.7 s per GSM8K problem)
+and peak VRAM (7.9 GB inference; 20.7–21 GB training with the frozen teacher resident) are those of the baseline
+sampler.  Training of each ablation arm: 25 min (12 k states, one A100 or zeta); teacher-state generation 9 s per prompt.
+This phase: 10 LoRA runs ≈ 4.5 GPU-hours, diagnostics and evaluations ≈ 9 GPU-hours.
+
+## 9. Failure causes (recorded)
+
+1. **The B10 "conditional distribution distillation" was mis-attributed.**  Its gain comes from training on the
+   student's own S = 8 states with joint-resolved pseudo-labels; the KL to the teacher's conditional is the weakest
+   ingredient and costs accuracy at S = 16.  The honest name of the technique is *on-policy pseudo-label SFT with a
+   sequential joint teacher*.
+2. More of the same data (65 k states) does not help and starts to hurt S = 16 (86.0 %); the states that matter are
+   the ones the student does not yet produce correctly, not more of the ones it does.
+3. Student E's code collapse: MBPP-format teacher states taught a different code dialect (colon accuracy 96 → 17 %
+   teacher-forced, independent of S) and made the first pair of the answer mix two formats.
+4. The ordinary-data arm (F) over-trains the adapter (S = 16 −12 items) — continuing a converged LoRA on its own data
+   is not a neutral control; the on-policy states are what make the extra updates useful.
+5. The monotonic-sampler gains do not transfer to a non-monotonic sampler (§6).
+6. dev2 (150 items) overstated every S = 8 gain by 3–9 points relative to the test set (teacher 89.3 → 80.7, A 81.3 →
+   77.1, E 80.0 → 78.4, A' 82.7 → 77.3): decisions were made on dev2, the quoted numbers are test.
+
+## 10. Go / No-Go and the next architecture
+
+| gate | verdict |
+|---|---|
+| 1 cause of the B10 gain | **identified**: teacher data (on-policy states + joint-resolved labels), not the pair/KL objective; same-budget ordinary data gives a third of the gain and hurts S = 16 |
+| 2 cause of the syntax collapse | **identified**: independent placement of a dependent pair — concentrated on the first pair of the answer for E (format mixing from MBPP states), distributed over seams for A and the baseline; not an indentation deficit |
+| 3 training improves syntax validity and free generation | __G3__ |
+| 4 non-autoregressive capability | **no**: gains are specific to the monotonic left-to-right sampler |
+
+Next structure, from the measurements: keep the backbone and the one-LoRA, eight-forward budget; change *what states
+the student is trained on*, because that is the only lever that moved anything: (i) on-policy states of the sampler
+that will be used at inference — including a non-monotonic one if global refinement is the goal — with the chain-rule
+teacher resolving each step's placements; (ii) the all-mask first forward as a first-class training state (the format
+decision of the whole answer is made there; it is where E broke and where B9 measured 6.8 incoherent adjacent tokens
+per block), with the teacher resolving the first 2–4 tokens sequentially; (iii) code states only in the evaluation's
+prompt format and dialect; (iv) stop at ~10 k states per new state type — more of the same state does not help.  A
+new loss is not indicated by any measurement in this phase; a Python-specific masking rule even less.
