@@ -79,9 +79,20 @@ some of the first-forward degeneracy survives to the output when no reference pr
 
 ### 2.3 Where the movement comes from (JSD at still-masked positions by distance to the position placed last)
 
-See results/pure/traj_s16_left_tf.json → `jsd_by_distance_to_last_placed` (filled when the re-run with the distance
-breakdown finishes; the pairwise diagnostic of pairwise_joint_diffusion.md §2.3 gives the same quantity for the
-conditional on one placed token: JSD 0.64 bits at distance 1, 0.37 at 2, 0.26 at 3, 0.16 at 4, ≤ 0.1 beyond 6).
+S = 16 left-to-right, teacher-forced; for every still-masked position, JSD between its distribution before and after
+the previous step's placement, by distance to the placed position (results/pure/traj_s16_left_tf.json):
+
+| distance | 1 | 2 | 3 | 4 | 5 | 6 | 7 | ≥ 8 |
+|---|---|---|---|---|---|---|---|---|
+| JSD (bits) | 0.152 | 0.171 | 0.147 | 0.119 | 0.100 | 0.086 | 0.072 | 0.049 |
+| argmax changed | 19 % | 27 % | 33 % | 33 % | 34 % | 34 % | 31 % | 30 % |
+
+The influence of one placed token on the rest of the block is strongest over the next 2–3 positions and decays
+slowly (still 0.05 bits eight or more positions away); the far positions change their argmax as often as the near
+ones because their distributions are flat (entropy 2–2.5 nats), not because they are informed.  The pairwise
+diagnostic (pairwise_joint_diffusion.md §2.3) gives the same picture for the conditional on a single candidate
+token: 0.64 bits at distance 1, 0.37 at 2, 0.26 at 3, 0.16 at 4, ≤ 0.1 beyond 6.  So the block is coupled mostly
+locally, and a global step that moves all positions at once mainly redistributes the flat tails of the far positions.
 
 ### 2.4 Is the final block predictable from the intermediate hidden states? (bench/probe_hidden.py)
 

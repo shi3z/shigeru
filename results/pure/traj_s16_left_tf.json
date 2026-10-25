@@ -13,7 +13,7 @@
     "torch": "2.6.0+cu124",
     "total_mem_gib": 79.2
   },
-  "seconds": 168.5,
+  "seconds": 168.7,
   "per_step": {
     "1": {
       "blocks": 296,
@@ -301,6 +301,48 @@
     }
   },
   "topk": 8,
+  "jsd_by_distance_to_last_placed": {
+    "1": {
+      "n": 4440,
+      "jsd": 0.1524,
+      "top1_change": 0.191
+    },
+    "2": {
+      "n": 4144,
+      "jsd": 0.1712,
+      "top1_change": 0.2705
+    },
+    "3": {
+      "n": 3848,
+      "jsd": 0.1473,
+      "top1_change": 0.3264
+    },
+    "4": {
+      "n": 3552,
+      "jsd": 0.119,
+      "top1_change": 0.3285
+    },
+    "5": {
+      "n": 3256,
+      "jsd": 0.1001,
+      "top1_change": 0.3385
+    },
+    "6": {
+      "n": 2960,
+      "jsd": 0.0864,
+      "top1_change": 0.3382
+    },
+    "7": {
+      "n": 2664,
+      "jsd": 0.0718,
+      "top1_change": 0.3138
+    },
+    "8": {
+      "n": 10656,
+      "jsd": 0.0491,
+      "top1_change": 0.3034
+    }
+  },
   "stabilisation_step_final": {
     "mean": 8.234,
     "hist": {
