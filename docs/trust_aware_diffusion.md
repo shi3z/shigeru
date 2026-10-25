@@ -272,7 +272,7 @@ produce identical blocks, §3).
 | AR greedy, HF generate (e5 base) | __AR__ | 68.9 % | 1.00 | 52.5 (A100, same-size model) | – | 8.1 GB weights + cache |
 | A-series K = 4 leave-one-out, Jacobi ≤ 6, CUDA-graph engine (sft3; AR of that checkpoint 88.9 / 68.3 %) | 84.2 % | **40.2 %** | 1.18 | 89.9 (A100) | – | 9.4 GB |
 | B-series S = 16, confidence order | 78.6 % | 29.9 % | 0.91 | 39.5 (A100) / 57 (zeta) | – | 7.8 GB |
-| **B-series S = 16, left-to-right** (new baseline point, dev2 90.0 %) | __S16L__ | **50.6 %** | 0.90 | __S16LT__ (zeta) | | 7.8 GB |
+| **B-series S = 16, left-to-right** (new baseline point, dev2 90.0 %) | **84.8 %** (1 118 / 1 319) | **50.6 %** | 0.91 | 56.2 (zeta) | 3.39 s | 7.8 GB |
 | B-series S = 8, confidence | 63.4 % | 7.9 % | 1.71 | 106.5 (zeta) | – | 7.8 GB |
 | B-series S = 8, left-to-right (existing best S = 8) | **72.9 %** | 8.5 % | 1.72 | 77.6 (A100) | 2.4 s | 7.8 GB |
 | **new: S = 8, left-to-right + stability re-mask (budget 2)** | **71.5 %** (943 / 1 319; vs the row above +101 / −119 items, p = 0.25) | 8.5 % | 1.72 | 73.4 (A100) | 2.51 s | 7.9 GB |
@@ -282,11 +282,12 @@ test set: 72.9 → 71.5 % (−1.4, within noise, direction negative).  Under the
 16-token block, no extra forwards, no AR verification — **no re-masking or token-selection rule improves the
 B-series S = 8 decoder; the K = 16 / 8-step ≥ 80 % target is not reached (71.5–72.9 %)**, and S = 8 is useless for
 code (8 %).  The 16-step target ("keep the existing accuracy") is exceeded by a change the brief did not ask for but
-the sweep exposed: left-to-right unmasking at S = 16 (__S16L__ test vs 78.6 % confidence order; HumanEval 50.6 vs
+the sweep exposed: left-to-right unmasking at S = 16 (**84.8 %** test vs 78.6 % confidence order; HumanEval 50.6 vs
 29.9 %).  Gate 4 (quality/speed trade-off vs the A-series): at S = 8 the B-series is 1.46× the tokens per forward of
-K = 4 but 12 points behind on GSM8K and 32 points behind on HumanEval; at S = 16 left-to-right it is behind on
-GSM8K and tokens per forward but ahead on HumanEval (50.6 vs 40.2 %) — the two pure-diffusion decoders are not on one
-frontier, and neither reaches AR on code (68.9 %).
+K = 4 but 12 points behind on GSM8K and 32 points behind on HumanEval; at S = 16 left-to-right it **matches the K = 4 decoder on GSM8K
+(84.8 vs 84.2 %) and beats it on HumanEval (50.6 vs 40.2 %)** at 0.91 vs 1.18 tokens per forward — on the HF path it
+is slower in wall-clock (56 tok/s on zeta vs 89.9 on an A100 for the graph engine), so Gate 4 is a trade: equal or
+better quality for fewer tokens per forward.  Neither pure-diffusion decoder reaches AR on code (68.9 %).
 
 GPU time of this phase: about 9 GPU-hours (tsuginosuke A100s 5.4 h of recorded runs + the two test runs and the
 superseded pre-fix sweeps; zeta 1.0 h + the S = 16 test), all on GPUs 4/6/7 and zeta.

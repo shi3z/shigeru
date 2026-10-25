@@ -385,6 +385,8 @@ is used most reliably when it is unmasked like a 2-tokens-per-step AR model.
 | K = 16, S = 16, confidence | e5 + no time, lr 1e-4 | **78.6 %** (1 037 / 1 319) | 0.90 | 39.5 (A100) |
 | K = 16, S = 8, confidence | e5 + no time | 63.4 % | 1.71 | 106.5 (zeta) |
 | K = 16, S = 8, left-to-right | e5 + no time, lr 1e-4 | **72.9 %** (961 / 1 319) | 1.70 | 77.6 (A100) |
+| K = 16, S = 16, left-to-right (Phase B7, §12) | e5 + no time, lr 1e-4 | **84.8 %** (1 118 / 1 319) | 0.91 | 56.2 (zeta) |
+| K = 16, S = 8, left-to-right + stability re-mask (Phase B7) | e5 + no time, lr 1e-4 | 71.5 % | 1.72 | 73.4 (A100) |
 | A-series K = 4 leave-one-out, Jacobi ≤ 6, graph engine (four_token_diffusion.md §10) | – | 84.2 % | 1.18 | 89.9 (A100) |
 | AR greedy (HF) | – | 88.9 % | 1.00 | 52.5 (A100) |
 
@@ -425,5 +427,5 @@ forwards per block, fifteen re-masking / selection rules were evaluated on 150 f
 GSM8K test (72.9 → 71.5 %); all others were neutral or harmful.  (iii) An oracle that re-masks exactly the wrong
 tokens repairs only 30 % of them (block exact +2.4 points) — the refill, not detection, is the limit, so no trust
 head was trained.  Side result worth adopting: **left-to-right unmasking** — S = 16 dev2 90.0 % (confidence 82.0),
-GSM8K test __S16L__ (vs 78.6 %), HumanEval 50.6 % (vs 29.9 %; A-series K = 4 40.2 %, AR 68.9 %).  S = 8 remains at
+GSM8K test **84.8 %** (vs 78.6 %; the A-series K = 4 decoder: 84.2 %), HumanEval 50.6 % (vs 29.9 %; A-series K = 4 40.2 %, AR 68.9 %).  S = 8 remains at
 72.9 % test and 8 % HumanEval; the K = 16 / 8-step ≥ 80 % target stands unmet.

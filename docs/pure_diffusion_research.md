@@ -243,4 +243,6 @@ for the shared failure mechanism with the B-series B2.
 | B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 1e-4) | 78.6 % | 0.91 | 39.5 (A100, HF path) | discrete_diffusion_b_series.md §11.3 |
 | B-series: K = 16, S = 16, confidence (e5 + no-time LoRA, lr 2e-4) | 77.3 % | 0.91 | 57.1 (zeta, HF path) | discrete_diffusion_b_series.md §11.3 |
 | B-series: K = 16, S = 8, left-to-right (e5 + no-time LoRA, lr 1e-4) | 72.9 % | 1.72 | 77.6 (A100, HF path) | discrete_diffusion_b_series.md §11.3 |
+| B-series: K = 16, S = 16, left-to-right (same adapter; Phase B7) | **84.8 %** (HumanEval 50.6 %) | 0.91 | 56.2 (zeta, HF path) | trust_aware_diffusion.md §7 |
+| B-series: K = 16, S = 8, left-to-right + stability re-mask (Phase B7) | 71.5 % | 1.72 | 73.4 (A100, HF path) | trust_aware_diffusion.md §7 |
 | reference: AR greedy (HF) | 88.9 % | 1.00 | 52.5 | distill_design.md §11.6 |
