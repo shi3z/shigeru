@@ -1,0 +1,578 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_notime/adapter",
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "7",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "seconds": 363.0,
+  "results": {
+    "confidence": {
+      "blocks": 296,
+      "block_exact": 0.1824,
+      "final_token_error": 0.4696,
+      "forwards": 2368,
+      "wrong_rate_by_step": {
+        "2": 0.1757,
+        "3": 0.239,
+        "4": 0.2889,
+        "5": 0.3298,
+        "6": 0.3699,
+        "7": 0.4051,
+        "8": 0.4404
+      },
+      "final_wrong_detectable": {
+        "total": 2224,
+        "ever_disagree": 0.067,
+        "ever_p_tok<0.5": 0.0719,
+        "ever_changed": 0.6803
+      },
+      "visible": {
+        "conf": {
+          "auroc": 0.4891,
+          "auprc": 0.3545,
+          "brier": 0.3448,
+          "ece": 0.3228
+        },
+        "margin": {
+          "auroc": 0.4871,
+          "auprc": 0.3526,
+          "brier": 0.3524,
+          "ece": 0.3344
+        },
+        "entropy": {
+          "auroc": 0.4913,
+          "auprc": 0.357
+        },
+        "p_tok": {
+          "auroc": 0.4862,
+          "auprc": 0.3455,
+          "brier": 0.3667,
+          "ece": 0.3538
+        },
+        "agree": {
+          "auroc": 0.4872,
+          "auprc": 0.3478
+        },
+        "stable": {
+          "auroc": 0.4935,
+          "auprc": 0.3533
+        },
+        "age": {
+          "auroc": 0.4171,
+          "auprc": 0.3065
+        },
+        "conf_at": {
+          "auroc": 0.7109,
+          "auprc": 0.61,
+          "brier": 0.2548,
+          "ece": 0.2286
+        },
+        "dconf": {
+          "auroc": 0.3198,
+          "auprc": 0.2779
+        },
+        "changes": {
+          "auroc": 0.6662,
+          "auprc": 0.5229
+        },
+        "nb_changed": {
+          "auroc": 0.5244,
+          "auprc": 0.3932
+        },
+        "base_rate_wrong": 0.3644,
+        "n": 16576
+      },
+      "masked": {
+        "conf": {
+          "auroc": 0.7642,
+          "auprc": 0.8602,
+          "brier": 0.2158,
+          "ece": 0.1596
+        },
+        "margin": {
+          "auroc": 0.7451,
+          "auprc": 0.8315,
+          "brier": 0.2099,
+          "ece": 0.1419
+        },
+        "entropy": {
+          "auroc": 0.7641,
+          "auprc": 0.857
+        },
+        "p_tok": {
+          "auroc": 0.7642,
+          "auprc": 0.8602,
+          "brier": 0.2158,
+          "ece": 0.1596
+        },
+        "agree": {
+          "auroc": 0.5,
+          "auprc": 0.6811
+        },
+        "stable": {
+          "auroc": 0.5478,
+          "auprc": 0.7155
+        },
+        "age": {
+          "auroc": 0.5,
+          "auprc": 0.6811
+        },
+        "conf_at": {
+          "auroc": 0.7642,
+          "auprc": 0.8602,
+          "brier": 0.2158,
+          "ece": 0.1596
+        },
+        "dconf": {
+          "auroc": 0.5,
+          "auprc": 0.6811
+        },
+        "changes": {
+          "auroc": 0.5103,
+          "auprc": 0.6871
+        },
+        "nb_changed": {
+          "auroc": 0.454,
+          "auprc": 0.6321
+        },
+        "base_rate_wrong": 0.675,
+        "n": 21312
+      },
+      "visible_oracle_subset": {
+        "conf": {
+          "auroc": 0.4735,
+          "auprc": 0.411,
+          "brier": 0.4001,
+          "ece": 0.3784
+        },
+        "margin": {
+          "auroc": 0.4741,
+          "auprc": 0.4069,
+          "brier": 0.4056,
+          "ece": 0.3844
+        },
+        "entropy": {
+          "auroc": 0.4722,
+          "auprc": 0.4163
+        },
+        "p_tok": {
+          "auroc": 0.4695,
+          "auprc": 0.4012,
+          "brier": 0.4236,
+          "ece": 0.4144
+        },
+        "agree": {
+          "auroc": 0.4794,
+          "auprc": 0.4413
+        },
+        "stable": {
+          "auroc": 0.4942,
+          "auprc": 0.4657
+        },
+        "age": {
+          "auroc": 0.4426,
+          "auprc": 0.3778
+        },
+        "conf_at": {
+          "auroc": 0.6551,
+          "auprc": 0.6267,
+          "brier": 0.3024,
+          "ece": 0.272
+        },
+        "dconf": {
+          "auroc": 0.3624,
+          "auprc": 0.3473
+        },
+        "changes": {
+          "auroc": 0.6217,
+          "auprc": 0.5202
+        },
+        "nb_changed": {
+          "auroc": 0.5107,
+          "auprc": 0.4359
+        },
+        "oracle_loo_agree": {
+          "auroc": 0.582,
+          "auprc": 0.6076
+        },
+        "oracle_loo_conf": {
+          "auroc": 0.6515,
+          "auprc": 0.6031,
+          "brier": 0.327,
+          "ece": 0.3051
+        },
+        "base_rate_wrong": 0.4281,
+        "n": 2240
+      },
+      "visible_by_step": {
+        "2": {
+          "n": 592,
+          "wrong": 0.1757,
+          "auroc_p_tok": 0.4238,
+          "auroc_agree": 0.4495
+        },
+        "3": {
+          "n": 1184,
+          "wrong": 0.239,
+          "auroc_p_tok": 0.4852,
+          "auroc_agree": 0.4933
+        },
+        "4": {
+          "n": 1776,
+          "wrong": 0.2889,
+          "auroc_p_tok": 0.4642,
+          "auroc_agree": 0.4868
+        },
+        "5": {
+          "n": 2368,
+          "wrong": 0.3298,
+          "auroc_p_tok": 0.4681,
+          "auroc_agree": 0.4866
+        },
+        "6": {
+          "n": 2960,
+          "wrong": 0.3699,
+          "auroc_p_tok": 0.4898,
+          "auroc_agree": 0.4896
+        },
+        "7": {
+          "n": 3552,
+          "wrong": 0.4051,
+          "auroc_p_tok": 0.4923,
+          "auroc_agree": 0.4874
+        },
+        "8": {
+          "n": 4144,
+          "wrong": 0.4404,
+          "auroc_p_tok": 0.5012,
+          "auroc_agree": 0.4873
+        }
+      },
+      "trust_lr_heldout_half": {
+        "n_train": 8176,
+        "n_test": 8400,
+        "auroc": 0.7814,
+        "auprc": 0.6481,
+        "brier": 0.1813,
+        "ece": 0.0404,
+        "weights": {
+          "conf": 0.027,
+          "margin": 0.008,
+          "entropy": 0.013,
+          "p_tok": -0.027,
+          "agree": 0.066,
+          "stable": -0.021,
+          "age": 0.198,
+          "conf_at": 0.512,
+          "dconf": 0.358,
+          "changes": -0.576,
+          "nb_changed": 0.045
+        }
+      },
+      "masked_lr_heldout_half": {
+        "auroc": 0.7849,
+        "brier": 0.1693,
+        "weights": {
+          "conf": 0.217,
+          "margin": 0.044,
+          "entropy": -0.424,
+          "p_tok": 0.217,
+          "agree": 0.0,
+          "stable": 0.105,
+          "age": 0.0,
+          "conf_at": 0.217,
+          "dconf": 0.0,
+          "changes": -0.32,
+          "nb_changed": -0.116
+        }
+      }
+    },
+    "left": {
+      "blocks": 296,
+      "block_exact": 0.1757,
+      "final_token_error": 0.4704,
+      "forwards": 2368,
+      "wrong_rate_by_step": {
+        "2": 0.174,
+        "3": 0.2365,
+        "4": 0.2877,
+        "5": 0.329,
+        "6": 0.3686,
+        "7": 0.406,
+        "8": 0.4406
+      },
+      "final_wrong_detectable": {
+        "total": 2228,
+        "ever_disagree": 0.0884,
+        "ever_p_tok<0.5": 0.0947,
+        "ever_changed": 0.7069
+      },
+      "visible": {
+        "conf": {
+          "auroc": 0.493,
+          "auprc": 0.3543,
+          "brier": 0.3433,
+          "ece": 0.321
+        },
+        "margin": {
+          "auroc": 0.4909,
+          "auprc": 0.3514,
+          "brier": 0.3524,
+          "ece": 0.3324
+        },
+        "entropy": {
+          "auroc": 0.4949,
+          "auprc": 0.3556
+        },
+        "p_tok": {
+          "auroc": 0.4913,
+          "auprc": 0.3502,
+          "brier": 0.3663,
+          "ece": 0.353
+        },
+        "agree": {
+          "auroc": 0.4883,
+          "auprc": 0.3371
+        },
+        "stable": {
+          "auroc": 0.4949,
+          "auprc": 0.3446
+        },
+        "age": {
+          "auroc": 0.416,
+          "auprc": 0.3071
+        },
+        "conf_at": {
+          "auroc": 0.7136,
+          "auprc": 0.6311,
+          "brier": 0.2374,
+          "ece": 0.1973
+        },
+        "dconf": {
+          "auroc": 0.3145,
+          "auprc": 0.2773
+        },
+        "changes": {
+          "auroc": 0.681,
+          "auprc": 0.535
+        },
+        "nb_changed": {
+          "auroc": 0.5583,
+          "auprc": 0.4047
+        },
+        "base_rate_wrong": 0.3639,
+        "n": 16576
+      },
+      "masked": {
+        "conf": {
+          "auroc": 0.7645,
+          "auprc": 0.8597,
+          "brier": 0.2125,
+          "ece": 0.1523
+        },
+        "margin": {
+          "auroc": 0.7437,
+          "auprc": 0.8294,
+          "brier": 0.2097,
+          "ece": 0.1412
+        },
+        "entropy": {
+          "auroc": 0.7661,
+          "auprc": 0.8581
+        },
+        "p_tok": {
+          "auroc": 0.7645,
+          "auprc": 0.8597,
+          "brier": 0.2125,
+          "ece": 0.1523
+        },
+        "agree": {
+          "auroc": 0.5,
+          "auprc": 0.6773
+        },
+        "stable": {
+          "auroc": 0.5481,
+          "auprc": 0.7167
+        },
+        "age": {
+          "auroc": 0.5,
+          "auprc": 0.6773
+        },
+        "conf_at": {
+          "auroc": 0.7645,
+          "auprc": 0.8597,
+          "brier": 0.2125,
+          "ece": 0.1523
+        },
+        "dconf": {
+          "auroc": 0.5,
+          "auprc": 0.6773
+        },
+        "changes": {
+          "auroc": 0.509,
+          "auprc": 0.6877
+        },
+        "nb_changed": {
+          "auroc": 0.4591,
+          "auprc": 0.6323
+        },
+        "base_rate_wrong": 0.6761,
+        "n": 21312
+      },
+      "visible_oracle_subset": {
+        "conf": {
+          "auroc": 0.461,
+          "auprc": 0.3791,
+          "brier": 0.3943,
+          "ece": 0.3725
+        },
+        "margin": {
+          "auroc": 0.4615,
+          "auprc": 0.3783,
+          "brier": 0.4035,
+          "ece": 0.3838
+        },
+        "entropy": {
+          "auroc": 0.4606,
+          "auprc": 0.3781
+        },
+        "p_tok": {
+          "auroc": 0.463,
+          "auprc": 0.3892,
+          "brier": 0.4152,
+          "ece": 0.4051
+        },
+        "agree": {
+          "auroc": 0.4796,
+          "auprc": 0.4303
+        },
+        "stable": {
+          "auroc": 0.4931,
+          "auprc": 0.4392
+        },
+        "age": {
+          "auroc": 0.4323,
+          "auprc": 0.3642
+        },
+        "conf_at": {
+          "auroc": 0.6853,
+          "auprc": 0.6689,
+          "brier": 0.265,
+          "ece": 0.2337
+        },
+        "dconf": {
+          "auroc": 0.3302,
+          "auprc": 0.3288
+        },
+        "changes": {
+          "auroc": 0.6353,
+          "auprc": 0.5316
+        },
+        "nb_changed": {
+          "auroc": 0.5472,
+          "auprc": 0.4635
+        },
+        "oracle_loo_agree": {
+          "auroc": 0.6108,
+          "auprc": 0.5978
+        },
+        "oracle_loo_conf": {
+          "auroc": 0.6738,
+          "auprc": 0.6196,
+          "brier": 0.2992,
+          "ece": 0.2792
+        },
+        "base_rate_wrong": 0.417,
+        "n": 2240
+      },
+      "visible_by_step": {
+        "2": {
+          "n": 592,
+          "wrong": 0.174,
+          "auroc_p_tok": 0.4298,
+          "auroc_agree": 0.4374
+        },
+        "3": {
+          "n": 1184,
+          "wrong": 0.2365,
+          "auroc_p_tok": 0.4907,
+          "auroc_agree": 0.4891
+        },
+        "4": {
+          "n": 1776,
+          "wrong": 0.2877,
+          "auroc_p_tok": 0.476,
+          "auroc_agree": 0.5008
+        },
+        "5": {
+          "n": 2368,
+          "wrong": 0.329,
+          "auroc_p_tok": 0.4794,
+          "auroc_agree": 0.4903
+        },
+        "6": {
+          "n": 2960,
+          "wrong": 0.3686,
+          "auroc_p_tok": 0.4886,
+          "auroc_agree": 0.4797
+        },
+        "7": {
+          "n": 3552,
+          "wrong": 0.406,
+          "auroc_p_tok": 0.5066,
+          "auroc_agree": 0.4914
+        },
+        "8": {
+          "n": 4144,
+          "wrong": 0.4406,
+          "auroc_p_tok": 0.509,
+          "auroc_agree": 0.4913
+        }
+      },
+      "trust_lr_heldout_half": {
+        "n_train": 8176,
+        "n_test": 8400,
+        "auroc": 0.7978,
+        "auprc": 0.6631,
+        "brier": 0.1693,
+        "ece": 0.0598,
+        "weights": {
+          "conf": 0.035,
+          "margin": -0.044,
+          "entropy": 0.055,
+          "p_tok": 0.012,
+          "agree": 0.059,
+          "stable": 0.009,
+          "age": 0.264,
+          "conf_at": 0.529,
+          "dconf": 0.356,
+          "changes": -0.587,
+          "nb_changed": 0.058
+        }
+      },
+      "masked_lr_heldout_half": {
+        "auroc": 0.7939,
+        "brier": 0.1692,
+        "weights": {
+          "conf": 0.213,
+          "margin": 0.035,
+          "entropy": -0.406,
+          "p_tok": 0.213,
+          "agree": 0.0,
+          "stable": 0.121,
+          "age": 0.0,
+          "conf_at": 0.213,
+          "dconf": 0.0,
+          "changes": -0.282,
+          "nb_changed": -0.119
+        }
+      }
+    }
+  }
+}
