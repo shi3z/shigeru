@@ -36,6 +36,7 @@ import torch
 
 from .corrupt import gamma
 from .trust import step_features, FEATURES
+from .pairwise import rerank_pair
 
 __all__ = ["sample_block_fixed", "UNMASK", "REMASK"]
 
@@ -77,7 +78,7 @@ def _select_unmask(masked_idx, conf, x_vis, n, rule, K, tau, score=None):
 @torch.no_grad()
 def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", unmask="confidence", remask="none",
                        remask_budget=2, remask_start=2, tau_unmask=0.9, tau_remask=0.5, trust=None, trust_mask=None,
-                       trace=False, early_stop=True, feature_log=None, gold=None):
+                       trace=False, early_stop=True, feature_log=None, gold=None, pair="none", pair_k=2):
     """Returns (tokens list[int], info).  feature_log (list) receives per-step dicts with the feature matrix, the
     current tokens, predictions and (if gold is given) correctness labels — used by the trust diagnostic."""
     dev = model.device
@@ -119,6 +120,12 @@ def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", un
         score = trust_mask(feat).to(dev) if unmask == "trust" else None
         sel = _select_unmask(masked_idx, conf, x_vis, n_unmask, unmask, K, tau_unmask, score) if not last else masked_idx
         changed = torch.zeros(K, dtype=torch.bool, device=dev)
+        pair_info = None
+        if pair != "none" and not last and len(sel) == 2:
+            i, j = sorted(sel.tolist())
+            ti, tj, extra, pair_info = rerank_pair(model, cache, P, x, probs, i, j, mask_id, k=pair_k, rule=pair)
+            forwards += extra
+            pred = pred.clone(); pred[i] = ti; pred[j] = tj
         if len(sel):
             x[sel] = pred[sel]
             state["placed_step"][sel] = s
@@ -163,7 +170,8 @@ def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", un
         nb[:-1] |= changed[1:]
         state["nb_changed"] = nb
         state["prev_pred"] = pred
-        per_step.append(dict(step=s, fixed=int((x != mask_id).sum()), masked=int((x == mask_id).sum()), unmasked=len(sel), remasked=len(remasked)))
+        per_step.append(dict(step=s, fixed=int((x != mask_id).sum()), masked=int((x == mask_id).sum()), unmasked=len(sel), remasked=len(remasked),
+                             pair=None if pair_info is None else dict(cand_i=pair_info["cand_i"], cand_j=pair_info["cand_j"], indep=pair_info["indep"].tolist(), score=pair_info["score"].tolist())))
         if trace:
             tr.append(dict(step=s, tokens=x.tolist(), pred=pred.tolist(), conf=[round(c, 3) for c in conf.tolist()], remasked=remasked))
     assert int((x == mask_id).sum()) == 0

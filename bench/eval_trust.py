@@ -45,6 +45,8 @@ def main():
     ap.add_argument("--trust", default=None, help="TrustLR weights json for remask=trust")
     ap.add_argument("--trust-mask", default=None, help="TrustLR weights json (masked positions) for unmask=trust")
     ap.add_argument("--schedule", default="linear")
+    ap.add_argument("--pair", default="none", help="pair re-ranking of the two tokens placed per step: none|joint_fwd|joint_both (extra forwards counted)")
+    ap.add_argument("--pair-k", type=int, default=2)
     ap.add_argument("--skip-tf", action="store_true")
     ap.add_argument("--skip-gen", action="store_true")
     ap.add_argument("--max-blocks", type=int, default=6)
@@ -69,12 +71,12 @@ def main():
         p["ids"] = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
     refs = json.load(open(a.refs))["refs"] if a.refs else {}
     t0 = time.time()
-    kw = dict(schedule=a.schedule, remask_budget=a.remask_budget, remask_start=a.remask_start, tau_unmask=a.tau_unmask, tau_remask=a.tau_remask, trust=trust, trust_mask=trust_mask)
+    kw = dict(schedule=a.schedule, remask_budget=a.remask_budget, remask_start=a.remask_start, tau_unmask=a.tau_unmask, tau_remask=a.tau_remask, trust=trust, trust_mask=trust_mask, pair=a.pair, pair_k=a.pair_k)
     out_tf, out_gen = {}, {}
     torch.cuda.reset_peak_memory_stats()
     for u in a.unmask.split(","):
         for r in a.remask.split(","):
-            name = f"S{S}_u-{u}_r-{r}" + (f"_b{a.remask_budget}" if r != "none" else "") + (f"_t{a.tau_remask}" if r in ("lowprob", "trust") else "") + (f"_tu{a.tau_unmask}" if u == "adaptive" else "")
+            name = f"S{S}_u-{u}_r-{r}" + (f"_p-{a.pair}{a.pair_k}" if a.pair != "none" else "") + (f"_b{a.remask_budget}" if r != "none" else "") + (f"_t{a.tau_remask}" if r in ("lowprob", "trust") else "") + (f"_tu{a.tau_unmask}" if u == "adaptive" else "")
             # ---------------- teacher-forced
             if not a.skip_tf and refs:
                 c = dict(blocks=0, exact=0, tok_err=0, toks=0, remasked=0, wc=0, cw=0, ww=0, cc=0, forwards=0)
