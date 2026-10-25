@@ -67,6 +67,10 @@ def main():
     ap.add_argument("--lambda-mask", type=float, default=1.0)
     ap.add_argument("--kl-topk", type=int, default=0, help="0 = full-vocabulary KL; else KL over the teacher's top-k plus the rest mass")
     ap.add_argument("--exclude-eos", action="store_true", help="drop training states whose teacher pair contains an end-of-text token (premature-EOS artefact of student A)")
+    ap.add_argument("--loss-mode", default="full", choices=["full", "mask_only", "label_ce", "kl_only"],
+                    help="ablation (B10.5 §2): full = CE(a*) + KL(j) + mask CE (student A); mask_only = standard masked CE on ALL masked positions incl. i, j "
+                         "with the teacher-trajectory final tokens as targets (pseudo-label SFT, no pair terms); label_ce = CE(a*) + CE(b*) + mask CE (student D); "
+                         "kl_only = KL(j) + mask CE, no CE at i")
     ap.add_argument("--j-ce", action="store_true", help="ablation: replace the KL at j by a hard CE to the teacher's b* (label only, no distribution)")
     ap.add_argument("--lookahead", type=float, default=0.0, help="weight of the transition term: KL(teacher at the NEXT state (a*, b* placed) || student now) on the other masked positions")
     ap.add_argument("--max-rows", type=int, default=None)
@@ -148,8 +152,12 @@ def main():
             lg = block_forward(student, prefix, x)
         lg = lg.float(); lg[:, mask_id] = -1e4
         logp = torch.log_softmax(lg, -1)
-        l_i = -logp[i, a_star]
-        if a.j_ce:
+        if a.loss_mode == "mask_only":
+            allm = [q for q in range(len(x)) if x[q] == mask_id and final[q] != mask_id]
+            l_all = -torch.stack([logp[q, final[q]] for q in allm]).mean() if allm else lg.new_zeros(())
+            return lg.new_zeros(()), lg.new_zeros(()), a.lambda_mask * l_all, *stats_of(lg, i, j, a_star, b_star, r)
+        l_i = -logp[i, a_star] if a.loss_mode != "kl_only" else lg.new_zeros(())
+        if a.j_ce or a.loss_mode == "label_ce":
             l_kl = -logp[j, b_star]
         elif a.kl_topk:
             tk = p_t.topk(a.kl_topk).indices
