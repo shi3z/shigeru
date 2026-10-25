@@ -194,3 +194,27 @@ HumanEval blocks.  This is a *distribution shift of the training states*, not a 
 be visible with any training recipe on those states — and it is what the function-format code states of §5 are
 designed to avoid.  Indentation tokens themselves are unaffected (90–91 %): the "IndentationError" label in §3 was
 never about indentation.
+
+## 5. Structural consistency training (brief §5) — the one minimal experiment
+
+Chosen from §2–§4: not a Python rule and not a new loss, but the recipe the ablation identified (arm B: masked CE on
+the student's own S = 8 states with joint-resolved targets) applied to the states that are missing — code in the
+*evaluation's prompt format*.  Teacher states are generated on 427 MBPP problems rendered as function-completion
+prompts (header + docstring + two doctest lines inside a ```python fence; bench/prompts_mbpp_fnformat.json; HumanEval
+itself is never used), with the chain-rule joint teacher following its own choices (distill/gen_pairs.py), and arm B
+is trained on 12 k GSM8K + these code states for 1 500 steps.  Measured: HumanEval S = 8 / S = 16 (syntax validity
+and IndentationError rate from the classifier of §3), dev2 S = 8.  Results in §5.1 (running: GPU 7).
+
+### 5.1 Results
+
+__S5RESULTS__
+
+## 6. Monotonic unmasking vs global refinement (brief §6)
+
+Every number above is left-to-right monotonic unmasking (K/S tokens committed per forward, never revisited).  To test
+whether the new training also gives the model a capability a *global* sampler can use, the arm-B student is run with
+the non-monotonic confidence re-masking sampler of B9 (any token may return to [MASK]; visible tokens are kept, masks
+are filled; exactly S forwards) and compared with the same sampler on the undistilled adapter (B9 §4: 32 / 62 / 74 %
+at S = 4 / 8 / 16 on dev-50 vs 32 / 76 / 92 % monotonic).  The simple Jacobi and soft-token samplers are not repeated.
+
+__S6RESULTS__
