@@ -217,4 +217,17 @@ the non-monotonic confidence re-masking sampler of B9 (any token may return to [
 are filled; exactly S forwards) and compared with the same sampler on the undistilled adapter (B9 §4: 32 / 62 / 74 %
 at S = 4 / 8 / 16 on dev-50 vs 32 / 76 / 92 % monotonic).  The simple Jacobi and soft-token samplers are not repeated.
 
-__S6RESULTS__
+| dev-50, GSM8K | S = 4 | S = 8 | S = 16 |
+|---|---|---|---|
+| monotonic left-to-right, undistilled (B9 §4) | 32 % | 76 % | 92 % |
+| **monotonic, arm-B student** | **56 %** | **82 %** | 92 % |
+| non-monotonic confidence re-masking, undistilled (B9 §4) | 32 % | 62 % | 74 % |
+| non-monotonic confidence re-masking, arm-B student | 28 % | 62 % | 62 % |
+
+The capability the student acquired is specific to the states it was trained on: monotonic left-to-right S = 8
+(and, by transfer, S = 4: 32 → 56 %).  Under a sampler that revisits tokens and places them in confidence order it
+gives nothing at S = 4/8 and loses 12 points at S = 16.  **Gate 4 (non-autoregressive capability): not met** — the
+training improves the parallel *left-to-right* decoder, not the model's ability to update several arbitrary positions
+jointly; a global sampler needs its own on-policy states in the training set (the same recipe, different sampler), which
+is the natural next experiment and was not run here (brief §6 forbids repeating the B9 samplers without a matching
+noise process; the matching data recipe is now known).
