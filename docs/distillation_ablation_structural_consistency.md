@@ -73,3 +73,25 @@ Token-category rates of the generated code (S = 8 vs 16) are the same within 1 p
 placed together at S = 8 are dominated by other+other (7 191), indent+other (1 837), newline+indent (1 272),
 other+newline (1 128) — the newline→indent pair, the one that would break indentation inside the body, is placed
 jointly 1 272 times and is responsible for none of the 133 errors.
+
+### 2.1 Results (dev2, 150 fresh items; held-out hard-state pair agreement on 7 unseen training prompts)
+
+| arm | hard-state pair agreement with the teacher | dev2 S = 8 | dev2 S = 16 |
+|---|---|---|---|
+| A  baseline | 2.9 % | 70.0 % | 90.0 % |
+| **B  masked CE only, same states, teacher-trajectory targets** | **51.4 %** | **83.3 %** | **90.0 %** |
+| C  teacher-label CE (student D) | 48.6 % | 82.0 % | – |
+| D  conditional KL only | 43.8 % | 75.3 % | __DKL16__ |
+| E  CE + KL (student A) | 47.6 % | 81.3 % | 87.3 % |
+| F  ordinary data, same budget | __F8h__ | __F8__ | __F16__ |
+
+**Gate 1 answered: the gain is the teacher data, not the pair objective.**  The plain masked cross-entropy on the
+same 12 000 on-policy S = 8 states — targets = the block the teacher-followed trajectory ended with — matches or beats
+every pair-term variant (83.3 vs 81.3–82.0 %), reproduces the teacher's hard pairs *better* (51 vs 44–49 %), and does
+**not** lose anything at S = 16 (90.0 vs 87.3 % for the KL student).  The KL to the teacher's conditional is the
+weakest single ingredient (75.3 %); the "conditional distribution distillation" of B10 is therefore not a success of
+distribution matching but of **training on the student's own denoising states with joint-resolved pseudo-labels** —
+what makes the targets informative is that they come from a trajectory in which every pair was resolved by the
+chain-rule teacher, i.e. they are high-quality pseudo-labels *in the state distribution the sampler actually visits*.
+Whether the same budget of ordinary training (arm F) does nothing is the remaining check (pending), and arm B scaled
+to all 65 k states is running (zeta).
