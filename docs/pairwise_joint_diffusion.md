@@ -83,3 +83,17 @@ plausible but not together), and those are what break arithmetic.  The cost is t
 step make 22 forwards per block — more than S = 16 itself (Gate 3 fails for the chain-rule rule).  The practical
 question for §3 is therefore whether the dependency term log p(b | a) − log p(b) can be predicted from the step's own
 hidden states without the extra forward.
+
+## 3. Decision on the Compatibility Head and Trajectory Distillation (brief §3–§5)
+
+Gate 1 (candidates contain the reference pair): 55 % at k = 2, 59 % at k = 4 (§2.1; k up to 32 in §2.3).  Gate 2
+(joint beats independent): yes — marginally on pair exact match (+3–5), decisively on GSM8K (70.0 → 89.3 % dev2).
+Gate 3 (compute): the chain-rule joint needs 2 extra forwards per step (22 per block, 0.67 tokens/forward), which
+is *more* than S = 16 — the only zero-forward route would be a learned compatibility head approximating
+log p(b | a) − log p(b) from the step's hidden states; its data collector was written (distill/gen_pairs.py, collects
+on the sampler's own trajectories with the model's own conditional as target) but **the head was not trained**: the
+Phase B9 brief received at this point redirects the research away from token-selection fixes ("Pairwise Head …を既定の
+解決策にしてはならない") toward denoising the whole future block, so Gates 3–4 and trajectory distillation are left
+unexplored here.  The recorded facts carry over: the two tokens of a step are strongly dependent (67 % argmax change),
+and conditioning fixes most of the S = 8 loss — a global method has to achieve the same coupling for all 16 positions
+without sequential conditioning.

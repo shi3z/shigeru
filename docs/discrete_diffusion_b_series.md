@@ -429,3 +429,12 @@ tokens repairs only 30 % of them (block exact +2.4 points) — the refill, not d
 head was trained.  Side result worth adopting: **left-to-right unmasking** — S = 16 dev2 90.0 % (confidence 82.0),
 GSM8K test **84.8 %** (vs 78.6 %; the A-series K = 4 decoder: 84.2 %), HumanEval 50.6 % (vs 29.9 %; A-series K = 4 40.2 %, AR 68.9 %).  S = 8 remains at
 72.9 % test and 8 % HumanEval; the K = 16 / 8-step ≥ 80 % target stands unmet.
+
+## 13. Phase B8 — pairwise joint denoising (summary; full record in pairwise_joint_diffusion.md)
+
+The two tokens an S = 8 step places are strongly dependent (placing a1 vs a2 at i changes the argmax at j in 67 % of
+steps; j's accuracy 51 → 75 % given the right i).  Re-ranking within top-k marginal candidates has a low ceiling on
+pair exact match (reference pair among top-2×2 candidates 55 %, top-4×4 59 %), but choosing the pair by the model's
+own chain-rule joint recovers essentially the whole S = 8 → 16 gap in free generation: **dev2 70.0 → 89.3 %**
+(S = 16: 90.0 %) — at 2 extra forwards per step (22 per block), i.e. no compute advantage.  The zero-forward
+compatibility head was not trained; the Phase B9 brief redirected the work to global block denoising.

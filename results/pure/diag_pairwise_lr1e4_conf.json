@@ -1,0 +1,125 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 8,
+  "unmask": "confidence",
+  "n": 50,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "forwards": 40256,
+  "seconds": 900.9,
+  "summary": {
+    "steps": 2368,
+    "independent": {
+      "pair_exact": 0.4595,
+      "token_acc": 0.5443,
+      "ref_in_top2_i": 0.652,
+      "ref_in_top2_j": 0.5798
+    },
+    "dependency": {
+      "j_top1_change_rate_a1_vs_a2": 0.5194,
+      "jsd_mean": 0.4769,
+      "jsd_by_distance": {
+        "1": 0.6378,
+        "2": 0.3704,
+        "3": 0.2573,
+        "4": 0.1577,
+        "5": 0.1942,
+        "6": 0.0901,
+        "7": 0.1192,
+        "8": 0.1632,
+        "9": 0.1147,
+        "10": 0.1069,
+        "11": 0.017,
+        "12": 0.0581,
+        "13": 0.0003,
+        "14": 0.0,
+        "15": 0.2452
+      },
+      "top1_change_by_distance": {
+        "1": 0.6632,
+        "2": 0.4388,
+        "3": 0.3257,
+        "4": 0.2213,
+        "5": 0.2697,
+        "6": 0.14,
+        "7": 0.1892,
+        "8": 0.1429,
+        "9": 0.1818,
+        "10": 0.1765,
+        "11": 0.0714,
+        "12": 0.125,
+        "13": 0.0,
+        "14": 0.0,
+        "15": 0.5
+      },
+      "j_acc_independent": 0.5008,
+      "j_acc_given_reference_i": 0.6554
+    },
+    "rerank": {
+      "2": {
+        "ref_pair_in_candidates": 0.5346,
+        "fixable_steps": 0.0752,
+        "oracle_pair_exact": 0.5346,
+        "indep_check": {
+          "pair_exact": 0.4573,
+          "token_acc": 0.5433,
+          "W2C": 2,
+          "C2W": 7,
+          "changed": 0.0169,
+          "extra_forwards_per_step": 0
+        },
+        "joint_fwd": {
+          "pair_exact": 0.4827,
+          "token_acc": 0.5465,
+          "W2C": 68,
+          "C2W": 13,
+          "changed": 0.1313,
+          "extra_forwards_per_step": 2
+        },
+        "joint_both": {
+          "pair_exact": 0.4827,
+          "token_acc": 0.5477,
+          "W2C": 61,
+          "C2W": 6,
+          "changed": 0.1119,
+          "extra_forwards_per_step": 4
+        }
+      },
+      "4": {
+        "ref_pair_in_candidates": 0.584,
+        "fixable_steps": 0.1246,
+        "oracle_pair_exact": 0.584,
+        "indep_check": {
+          "pair_exact": 0.4586,
+          "token_acc": 0.5441,
+          "W2C": 1,
+          "C2W": 3,
+          "changed": 0.0076,
+          "extra_forwards_per_step": 0
+        },
+        "joint_fwd": {
+          "pair_exact": 0.4911,
+          "token_acc": 0.5528,
+          "W2C": 89,
+          "C2W": 14,
+          "changed": 0.1482,
+          "extra_forwards_per_step": 4
+        },
+        "joint_both": {
+          "pair_exact": 0.4899,
+          "token_acc": 0.5515,
+          "W2C": 79,
+          "C2W": 7,
+          "changed": 0.1254,
+          "extra_forwards_per_step": 8
+        }
+      }
+    }
+  }
+}
