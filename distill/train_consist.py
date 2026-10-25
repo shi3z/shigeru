@@ -154,9 +154,9 @@ def main():
         logp = torch.log_softmax(lg, -1)
         if a.loss_mode == "mask_only":
             allm = [q for q in range(len(x)) if x[q] == mask_id and final[q] != mask_id]
-            l_all = -torch.stack([logp[q, final[q]] for q in allm]).mean() if allm else lg.new_zeros(())
-            return lg.new_zeros(()), lg.new_zeros(()), a.lambda_mask * l_all, *stats_of(lg, i, j, a_star, b_star, r)
-        l_i = -logp[i, a_star] if a.loss_mode != "kl_only" else lg.new_zeros(())
+            l_all = -torch.stack([logp[q, final[q]] for q in allm]).mean() if allm else (lg.sum() * 0.0)
+            return (lg.sum() * 0.0), (lg.sum() * 0.0), a.lambda_mask * l_all, *stats_of(lg, i, j, a_star, b_star, r)
+        l_i = -logp[i, a_star] if a.loss_mode != "kl_only" else (lg.sum() * 0.0)
         if a.j_ce or a.loss_mode == "label_ce":
             l_kl = -logp[j, b_star]
         elif a.kl_topk:
@@ -167,7 +167,7 @@ def main():
         else:
             l_kl = (p_t * (p_t.clamp_min(1e-12).log() - logp[j])).sum()
         others = [q for q in range(len(x)) if x[q] == mask_id and q not in (i, j) and final[q] != mask_id]
-        l_mask = -torch.stack([logp[q, final[q]] for q in others]).mean() if others else lg.new_zeros(())
+        l_mask = -torch.stack([logp[q, final[q]] for q in others]).mean() if others else (lg.sum() * 0.0)
         if p_next is not None and others:
             oq = torch.tensor(others, device=dev)
             l_look = (p_next[oq] * (p_next[oq].clamp_min(1e-12).log() - logp[oq])).sum(-1).mean()
