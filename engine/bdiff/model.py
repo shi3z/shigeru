@@ -60,17 +60,22 @@ class BDiffModel(nn.Module):
         return cache
 
     @torch.no_grad()
-    def denoise(self, cache, P, block_ids, g):
+    def denoise(self, cache, P, block_ids, g, return_hidden=False):
         """One reverse step's network call: block_ids [1, K] (masks and visible tokens), g mask ratio -> logits [K, V].
-        The prefix cache is reused and cropped back to P afterwards (block K/V are never kept)."""
+        The prefix cache is reused and cropped back to P afterwards (block K/V are never kept).
+        return_hidden=True also returns the final-layer hidden states of the block rows [K, hidden] (after the final
+        norm, i.e. the input of the LM head) — used by the pairwise compatibility head."""
         K = block_ids.shape[1]
         emb = self.lm.get_input_embeddings()(block_ids)
         if self.time is not None:
             emb = emb + self.time(torch.tensor([g], device=emb.device)).to(emb.dtype)[:, None]
         mask = block_mask(P, K, device=emb.device)[None, None]
         pos = torch.arange(P, P + K, device=emb.device)[None]
-        out = self.lm(inputs_embeds=emb, attention_mask=mask, position_ids=pos, past_key_values=cache, use_cache=True)
+        out = self.lm(inputs_embeds=emb, attention_mask=mask, position_ids=pos, past_key_values=cache, use_cache=True,
+                      output_hidden_states=return_hidden)
         extra = cache.get_seq_length() - P
         if extra > 0:
             cache.crop(-extra)
+        if return_hidden:
+            return out.logits[0], out.hidden_states[-1][0]
         return out.logits[0]

@@ -63,3 +63,23 @@ fixes about half of the 7 % that are fixable.  **Gate 1 (joint re-ranking beats 
 marginally — +3.1 to +4.8 points of pair exact match with 2–8 extra forwards per step, against a re-ranking ceiling
 of +7.2 / +11.3.**  The large conditional gain (51 → 75 % for j given the right i) is exactly what S = 16 already
 buys with one forward per token.
+
+### 2.2 Free generation with the chain-rule joint (research ceiling; extra forwards counted)
+
+| S = 8, left-to-right, lr1e-4 adapter | dev-50 | **dev2 (150)** | forwards / 16-token block | tokens / forward | tok/s (A100, HF path) |
+|---|---|---|---|---|---|
+| independent argmax (existing) | 76 | **70.0** | 8 (+1 prefix) | 1.71 | 72 |
+| joint, chain rule forward, k = 2 | 84 | **89.3** | 22 | 0.67 | 29.5 |
+| joint, symmetric, k = 2 | 82 | – | 36 | 0.42 | 18 |
+| joint, chain rule forward, k = 4 | 86 | – | 36 | 0.41 | 18 |
+| reference: S = 16 left-to-right (one token per forward) | – | 90.0 | 16 | 0.90 | 56 (zeta) |
+| reference: AR greedy | – | 92.0 | 1 per token | 1.00 | 52 |
+
+**The hypothesis holds in its ceiling form: deciding the two tokens of a step jointly under the model's own
+conditional recovers essentially the whole S = 8 → S = 16 gap (70.0 → 89.3 % on 150 fresh items; S = 16 = 90.0 %).**
+The teacher-forced pair-exact gain (§2.1, +3–5 points) understates this because exact match against one reference
+wording penalises paraphrases; what the joint choice removes are the *incoherent* pairs (two tokens that are each
+plausible but not together), and those are what break arithmetic.  The cost is the problem: 2 extra forwards per
+step make 22 forwards per block — more than S = 16 itself (Gate 3 fails for the chain-rule rule).  The practical
+question for §3 is therefore whether the dependency term log p(b | a) − log p(b) can be predicted from the step's own
+hidden states without the extra forward.
