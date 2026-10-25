@@ -413,3 +413,17 @@ for a model that can see the mask pattern, lower learning rates help the bidirec
 is the safest S = 8 order, and every on-policy / self-correction recipe tried so far (B2, B3, B8, A-series config D)
 degrades free generation.  The A-series K = 4 leave-one-out decoder remains the accuracy/speed frontier of this model
 (84.2 % test at 1.7× HF-AR throughput, no AR verification).
+
+## 12. Phase B7 — trust-aware decoding (summary; full record in trust_aware_diffusion.md)
+
+Hypothesis tested: the S = 8 gap is a *trust* problem (which placed tokens to re-mask), not a denoising-capacity
+problem.  Answer: **no.**  (i) Every signal from the current forward at a visible position is uninformative
+(AUROC ≈ 0.5) because the mask-only adapters copy visible tokens; the usable trust is historical (confidence at
+placement, prediction changes before placement; logistic score AUROC 0.77–0.80).  (ii) Under a fixed budget of 8
+forwards per block, fifteen re-masking / selection rules were evaluated on 150 fresh held-out items
+(bench/prompts_gsm8k_dev2.json): one (left-to-right + stability re-mask) gained +6.7 points there and lost 1.4 on the
+GSM8K test (72.9 → 71.5 %); all others were neutral or harmful.  (iii) An oracle that re-masks exactly the wrong
+tokens repairs only 30 % of them (block exact +2.4 points) — the refill, not detection, is the limit, so no trust
+head was trained.  Side result worth adopting: **left-to-right unmasking** — S = 16 dev2 90.0 % (confidence 82.0),
+GSM8K test __S16L__ (vs 78.6 %), HumanEval 50.6 % (vs 29.9 %; A-series K = 4 40.2 %, AR 68.9 %).  S = 8 remains at
+72.9 % test and 8 % HumanEval; the K = 16 / 8-step ≥ 80 % target stands unmet.

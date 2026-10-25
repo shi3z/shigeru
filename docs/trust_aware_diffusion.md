@@ -257,3 +257,63 @@ life, and otherwise is the plain left-to-right 2-tokens-per-forward schedule.  I
 current S = 8 decoders on the fresh set; it does not reach the 80 % target there (76.7 %) and HumanEval shows it does
 nothing for code (8.5 % with and without re-masking, §7).  The re-masking rules that touch more tokens (trust, disagree
 at every step) lose more than they gain because the refill fails 70–85 % of the time (§3.1–3.2).
+
+## 7. Final comparison (GSM8K test 1 319, HumanEval 164; settings fixed on dev2 before the test run)
+
+Same checkpoint family (e5 base; lr1e-4 no-time LoRA for every B-series row; A-series rows use their own sft3
+checkpoint as in four_token_diffusion.md), batch 1, bf16, 384-token GSM8K budget / 512-token HumanEval budget.
+B-series rows run on the HF model with the 4-D mask (no CUDA graphs) — tok/s is what that path gives on an A100
+(zeta RTX PRO 6000 numbers in parentheses); tokens per forward is the architecture-level number.  The S = 8
+left-to-right baseline row is the B-series round's final test run (same adapter; the two samplers were shown to
+produce identical blocks, §3).
+
+| decoding (no AR verification, no draft) | GSM8K test | HumanEval pass@1 | tokens / forward | tok/s | latency / problem | peak VRAM |
+|---|---|---|---|---|---|---|
+| AR greedy, HF generate (e5 base) | __AR__ | 68.9 % | 1.00 | 52.5 (A100, same-size model) | – | 8.1 GB weights + cache |
+| A-series K = 4 leave-one-out, Jacobi ≤ 6, CUDA-graph engine (sft3; AR of that checkpoint 88.9 / 68.3 %) | 84.2 % | **40.2 %** | 1.18 | 89.9 (A100) | – | 9.4 GB |
+| B-series S = 16, confidence order | 78.6 % | 29.9 % | 0.91 | 39.5 (A100) / 57 (zeta) | – | 7.8 GB |
+| **B-series S = 16, left-to-right** (new baseline point, dev2 90.0 %) | __S16L__ | **50.6 %** | 0.90 | __S16LT__ (zeta) | | 7.8 GB |
+| B-series S = 8, confidence | 63.4 % | 7.9 % | 1.71 | 106.5 (zeta) | – | 7.8 GB |
+| B-series S = 8, left-to-right (existing best S = 8) | **72.9 %** | 8.5 % | 1.72 | 77.6 (A100) | 2.4 s | 7.8 GB |
+| **new: S = 8, left-to-right + stability re-mask (budget 2)** | **71.5 %** (943 / 1 319; vs the row above +101 / −119 items, p = 0.25) | 8.5 % | 1.72 | 73.4 (A100) | 2.51 s | 7.9 GB |
+
+**Outcome.**  The dev2 gain of the one surviving rule (+6.7 points on 150 items, p = 0.11) did not survive the
+test set: 72.9 → 71.5 % (−1.4, within noise, direction negative).  Under the brief's constraint — eight forwards per
+16-token block, no extra forwards, no AR verification — **no re-masking or token-selection rule improves the
+B-series S = 8 decoder; the K = 16 / 8-step ≥ 80 % target is not reached (71.5–72.9 %)**, and S = 8 is useless for
+code (8 %).  The 16-step target ("keep the existing accuracy") is exceeded by a change the brief did not ask for but
+the sweep exposed: left-to-right unmasking at S = 16 (__S16L__ test vs 78.6 % confidence order; HumanEval 50.6 vs
+29.9 %).  Gate 4 (quality/speed trade-off vs the A-series): at S = 8 the B-series is 1.46× the tokens per forward of
+K = 4 but 12 points behind on GSM8K and 32 points behind on HumanEval; at S = 16 left-to-right it is behind on
+GSM8K and tokens per forward but ahead on HumanEval (50.6 vs 40.2 %) — the two pure-diffusion decoders are not on one
+frontier, and neither reaches AR on code (68.9 %).
+
+GPU time of this phase: about 9 GPU-hours (tsuginosuke A100s 5.4 h of recorded runs + the two test runs and the
+superseded pre-fix sweeps; zeta 1.0 h + the S = 16 test), all on GPUs 4/6/7 and zeta.
+
+## 8. Failed approaches (recorded so they are not repeated)
+
+1. Re-masking by the model's current opinion of a visible token (disagree, lowprob, stability, dependency) — the
+   signal does not exist for mask-only-trained adapters (AUROC ≈ 0.5); disagree is significantly harmful with
+   confidence order (p = 0.008 on dev2).
+2. Re-masking by the historical trust score (AUROC 0.79) — harmful (dev2 66.7 / 61.3 %): detection is good enough
+   to re-mask mostly wrong tokens, but 85 % come back wrong and the extra churn breaks the left-to-right structure.
+3. Oracle re-masking — ceiling of 30 % repair, +2.4 block exact; not worth a trust head.
+4. Unmasking by trust score, non-adjacent / dependency-aware / adaptive top-M selection — neutral to harmful; the
+   A-series adjacency problem is not the B-series problem.
+5. Cosine unmasking schedule at S = 8 — faster (1.93 tok/fwd through early block completion) but less accurate (68.0).
+6. The stability rule — the only dev2 positive (+6.7), −1.4 on test; budget 1/2/4 indistinguishable.
+7. Methodological: a 50-item set moves ±8 points from bf16 argmax tie-breaking alone; two "winners" on it (lowprob
+   88 %, dependency 84 %) were exactly at baseline on 150 fresh items.
+
+## 9. Research decision
+
+The question of the brief — "is the S = 8 problem the choice of what to trust rather than denoising capacity?" — is
+answered **no** by three independent measurements: (i) a perfect trust oracle repairs 30 % of what it re-masks and
+lifts block exact by 2.4 points, while eight more ordinary forwards lift it by 17.6; (ii) the best learned detector,
+used for re-masking, makes generation worse; (iii) the one rule that helped on held-out data did not help on test.
+What *is* confirmed is cheap and should be adopted: **left-to-right unmasking** for the block-bidirectional model
+(S = 16: 90.0 % dev2, 50.6 % HumanEval vs 29.9 % for confidence order; S = 8: 72.9 vs 63.4 % test).  Further S = 8
+work on this adapter family should target the refill (e.g. training the model to predict re-masked positions given
+partially wrong neighbours *without* the collapse seen in B2/B3/B8), not the detector; and any claim at S = 8 has to
+be made on ≥ 150 fresh items and confirmed on the test set.
