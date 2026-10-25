@@ -83,7 +83,7 @@ jointly 1 272 times and is responsible for none of the 133 errors.
 | C  teacher-label CE (student D) | 48.6 % | 82.0 % | – |
 | D  conditional KL only | 43.8 % | 75.3 % | 81.3 % (−13 items: the KL alone damages S = 16) |
 | E  CE + KL (student A) | 47.6 % | 81.3 % | 87.3 % |
-| F  ordinary data, same budget | __F8h__ | __F8__ | __F16__ |
+| F  ordinary data, same budget (continuation of the lr1e-4 adapter, mask-only loss) | – | 74.7 % | 82.0 % (−12 items) |
 | B-large: arm B on all 65 k states, 2 000 steps (zeta) | 37.9 % | 80.7 % | __BL16__ |
 
 **Gate 1 answered: the gain is the teacher data, not the pair objective.**  The plain masked cross-entropy on the
@@ -94,8 +94,12 @@ weakest single ingredient (75.3 %); the "conditional distribution distillation" 
 distribution matching but of **training on the student's own denoising states with joint-resolved pseudo-labels** —
 what makes the targets informative is that they come from a trajectory in which every pair was resolved by the
 chain-rule teacher, i.e. they are high-quality pseudo-labels *in the state distribution the sampler actually visits*.
-Whether the same budget of ordinary training (arm F) does nothing is the remaining check (pending), and arm B scaled
-to all 65 k states is running (zeta).
+The same budget of ordinary training (arm F) gives +4.7 at S = 8 but costs 12 items at S = 16 — continuing the
+mask-only adapter on gold data at lr 1e-4 after its own schedule simply over-trains it; arm B on the same number of
+updates improves S = 8 by 13.3 and leaves S = 16 unchanged.  Scaling arm B to all 65 k states (2 000 steps) gives
+80.7 % at S = 8 — again no gain from more data (cf. students C and E in B10): the usable information is in the first
+~10 k on-policy states; what is missing is not quantity but states the student does not yet produce (first-forward
+and code-format states, §3–§5).
 
 ### 3.1 The same analysis for student A (GSM8K-only teacher states) — the general S = 8 code failure
 
