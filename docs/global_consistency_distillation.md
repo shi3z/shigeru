@@ -120,11 +120,13 @@ is nothing to resolve and the extra LoRA costs 2–3 points.  A deployment there
 | B-series S = 8 (undistilled adapter; trust_aware_diffusion.md §7) | 72.9 % | – | 1.72 | 77.6 | 4 / 100 |
 | **student A (conditional distillation, 12 k states, 25 min)** | **77.1 %** (1 017 / 1 319) | **+169 / −113 items, McNemar p = 0.001** | 1.71 | 75.5 | 35 / 54 |
 | student E (GSM8K + MBPP states, 3 000 steps) | **78.4 %** (1 034 / 1 319) | +185 / −112 vs baseline, p < 0.0001; +135 / −118 vs A, p = 0.31 | 1.71 | 73.6 | 4 / 61 |
-| reference: B8 joint teacher (22 forwards per block) | __TTEST__ | | 0.67 | ~30 | |
+| reference: B8 joint teacher (22 forwards per block) | 80.7 % (1 065 / 1 319) | | 0.67 | 29.8 | 2 / 83 |
 | reference: S = 16 left-to-right, undistilled | 84.8 % | | 0.90 | 56 (zeta) | 0 / 67 |
 
 The test gain is +4.2 points (significant), smaller than the +11.3 on dev2 — the 150-item set was on the favourable
-side — and below the 80 % short-term target on the test set.  The student ends 35 answers early (premature EOS) where
+side for everything: the teacher itself is 89.3 % on dev2 but **80.7 % on test** — so the students recover about half
+(A) to two thirds (E, 78.4 %) of the teacher's test-set gain over the baseline (72.9 → 80.7), and the teacher does not
+reach the S = 16 result (84.8 %) on test either.  Below the 80 % short-term target on the test set.  The student ends 35 answers early (premature EOS) where
 the baseline ended 4: the distilled pair decisions include end-of-answer pairs the teacher chose on its own
 trajectories; this is a visible failure mode to address in the next student (e.g. excluding EOS pairs from the
 distillation set), not a tuning knob turned on the test set.
@@ -161,7 +163,7 @@ objective is the obvious next addition).
 | A-series K = 4 graph engine (sft3) | ~13.6 | 84.2 % | 40.2 % | 89.9 | 9.4 GB | – |
 | B-series S = 16 left | 16 | 84.8 % | 50.6 % | 39.5 (A100) / 56 (zeta) | 7.8 GB | 0.8 |
 | B-series S = 8 left | 8 | 72.9 % | 8.5 % | 77.6 | 7.8 GB | 0.8 |
-| B8 joint teacher, S = 8 | 22 | __TTEST__ | 23.2 % | ~30 | 7.9 GB | – |
+| B8 joint teacher, S = 8 | 22 | 80.7 % | 23.2 % | 29.8 | 7.9 GB | – |
 | **B10 student A, S = 8** | **8** | **77.1 %** | 10.4 % | 75.5 | 7.9 GB | 0.8 + 0.4 |
 | B10 student A, S = 16 | 16 | – (dev2 87.3) | 54.9 % | 36.9 | 7.9 GB | |
 | B10 student E (GSM8K + MBPP), S = 8 | 8 | 78.4 % | 0.0 % | 73.6 | 7.9 GB | 0.8 + 1.3 |
