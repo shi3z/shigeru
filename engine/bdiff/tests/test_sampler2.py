@@ -21,7 +21,8 @@ def test_fixed_forwards_all_rules():
     for u in UNMASK:
         for r in REMASK:
             cache = model.prefix_cache(prefix)
-            toks, info = sample_block_fixed(model, cache, P, K, S, mask_id, unmask=u, remask=r, trust=trust, tau_remask=0.6, early_stop=False)
+            gold = torch.randint(0, 90, (K,)).tolist() if r == "oracle" else None
+            toks, info = sample_block_fixed(model, cache, P, K, S, mask_id, unmask=u, remask=r, trust=trust, trust_mask=trust, tau_remask=0.6, early_stop=False, gold=gold)
             assert len(toks) == K and mask_id not in toks, (u, r)
             assert info["forwards"] == S, (u, r, info["forwards"])
             assert len(info["per_step"]) == S and info["per_step"][-1]["masked"] == 0

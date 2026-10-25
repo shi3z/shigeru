@@ -13,6 +13,8 @@ Unmasking rule (which masked positions receive their prediction at this step; n 
                block's first position) — the A-series dependency diagnostic found the dependency is distance-1 and
                left-sided; falls back to plain confidence order when too few positions are eligible
   adaptive     every masked position with conf >= tau_unmask, at least the schedule's n (and all at the last step)
+  trust        highest logistic trust score of the masked position's features first (trust_mask weights, fitted on
+               teacher-forced trajectories on masked positions)
 
 Re-masking rule (which VISIBLE positions are set back to [MASK] after the unmasking of this step, at most `budget`
 per step, never at the last step, and never a position placed in the same step):
@@ -25,6 +27,8 @@ per step, never at the last step, and never a position placed in the same step):
                step — i.e. the context the token was placed in has changed since
   trust        a logistic trust score P(correct | features) (engine/bdiff/trust.py, weights fitted on teacher-forced
                trajectories) below tau_remask, least trusted first
+  oracle       RESEARCH ONLY (teacher-forced): exactly the visible tokens that differ from `gold`, lowest conf_at first —
+               the ceiling any trust detector could reach under the same budget
 A re-masked position is predicted again at the next forward; the schedule's mask count is computed over all masks, so
 re-masked positions are unmasked again as the schedule drives the mask count down (by the last step at the latest).
 """
@@ -35,15 +39,17 @@ from .trust import step_features, FEATURES
 
 __all__ = ["sample_block_fixed", "UNMASK", "REMASK"]
 
-UNMASK = ("confidence", "left", "nonadjacent", "dependency", "adaptive")
-REMASK = ("none", "disagree", "lowprob", "stability", "dependency", "trust")
+UNMASK = ("confidence", "left", "nonadjacent", "dependency", "adaptive", "trust")
+REMASK = ("none", "disagree", "lowprob", "stability", "dependency", "trust", "oracle")
 
 
-def _select_unmask(masked_idx, conf, x_vis, n, rule, K, tau):
+def _select_unmask(masked_idx, conf, x_vis, n, rule, K, tau, score=None):
     if n <= 0 or len(masked_idx) == 0:
         return masked_idx[:0]
     if rule == "left":
         return masked_idx[:n]
+    if rule == "trust":
+        return masked_idx[score[masked_idx].argsort(descending=True)[:n]]
     order = masked_idx[conf[masked_idx].argsort(descending=True)]
     if rule == "confidence":
         return order[:n]
@@ -70,8 +76,8 @@ def _select_unmask(masked_idx, conf, x_vis, n, rule, K, tau):
 
 @torch.no_grad()
 def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", unmask="confidence", remask="none",
-                       remask_budget=2, remask_start=2, tau_unmask=0.9, tau_remask=0.5, trust=None, trace=False,
-                       early_stop=True, feature_log=None, gold=None):
+                       remask_budget=2, remask_start=2, tau_unmask=0.9, tau_remask=0.5, trust=None, trust_mask=None,
+                       trace=False, early_stop=True, feature_log=None, gold=None):
     """Returns (tokens list[int], info).  feature_log (list) receives per-step dicts with the feature matrix, the
     current tokens, predictions and (if gold is given) correctness labels — used by the trust diagnostic."""
     dev = model.device
@@ -110,7 +116,8 @@ def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", un
         n_unmask = max(0, n_mask - target_masks)
         masked_idx = is_mask.nonzero().flatten()
         x_vis = ~is_mask
-        sel = _select_unmask(masked_idx, conf, x_vis, n_unmask, unmask, K, tau_unmask) if not last else masked_idx
+        score = trust_mask(feat).to(dev) if unmask == "trust" else None
+        sel = _select_unmask(masked_idx, conf, x_vis, n_unmask, unmask, K, tau_unmask, score) if not last else masked_idx
         changed = torch.zeros(K, dtype=torch.bool, device=dev)
         if len(sel):
             x[sel] = pred[sel]
@@ -136,6 +143,9 @@ def sample_block_fixed(model, cache, P, K, steps, mask_id, schedule="linear", un
                 elif remask == "trust":
                     t = trust(feat[cand]).to(dev)
                     keep = t < tau_remask; sc = t
+                elif remask == "oracle":
+                    assert gold is not None, "oracle remask needs the reference tokens (teacher-forced diagnostic only)"
+                    keep = x[cand] != torch.tensor(gold, device=dev)[cand]; sc = state["conf_at"][cand]
                 else:
                     raise ValueError(remask)
                 c = cand[keep]; score = sc[keep]

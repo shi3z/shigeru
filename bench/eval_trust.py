@@ -43,6 +43,7 @@ def main():
     ap.add_argument("--tau-unmask", type=float, default=0.9)
     ap.add_argument("--tau-remask", type=float, default=0.5)
     ap.add_argument("--trust", default=None, help="TrustLR weights json for remask=trust")
+    ap.add_argument("--trust-mask", default=None, help="TrustLR weights json (masked positions) for unmask=trust")
     ap.add_argument("--schedule", default="linear")
     ap.add_argument("--skip-tf", action="store_true")
     ap.add_argument("--skip-gen", action="store_true")
@@ -60,6 +61,7 @@ def main():
     model = BDiffModel(lm, mask_id, time_cond=not a.no_time).to(dev).eval()
     K, S = a.K, a.steps
     trust = TrustLR.load(a.trust) if a.trust else None
+    trust_mask = TrustLR.load(a.trust_mask) if a.trust_mask else None
     stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
     prompts = load_prompts(a.prompts)[a.skip: a.skip + a.n]
     for p in prompts:
@@ -67,7 +69,7 @@ def main():
         p["ids"] = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
     refs = json.load(open(a.refs))["refs"] if a.refs else {}
     t0 = time.time()
-    kw = dict(schedule=a.schedule, remask_budget=a.remask_budget, remask_start=a.remask_start, tau_unmask=a.tau_unmask, tau_remask=a.tau_remask, trust=trust)
+    kw = dict(schedule=a.schedule, remask_budget=a.remask_budget, remask_start=a.remask_start, tau_unmask=a.tau_unmask, tau_remask=a.tau_remask, trust=trust, trust_mask=trust_mask)
     out_tf, out_gen = {}, {}
     torch.cuda.reset_peak_memory_stats()
     for u in a.unmask.split(","):
@@ -86,7 +88,7 @@ def main():
                     for s0 in list(range(P0, P0 + len(resp) - K + 1, K))[: a.max_blocks]:
                         gold = full[s0:s0 + K]
                         cache = model.prefix_cache(torch.tensor([full[:s0]], device=dev))
-                        toks, info = sample_block_fixed(model, cache, s0, K, S, mask_id, unmask=u, remask=r, trace=True, early_stop=False, **kw)
+                        toks, info = sample_block_fixed(model, cache, s0, K, S, mask_id, unmask=u, remask=r, trace=True, early_stop=False, gold=gold if r == "oracle" else None, **kw)
                         c["blocks"] += 1; c["forwards"] += info["forwards"]
                         c["exact"] += int(toks == gold); c["toks"] += K; c["tok_err"] += sum(toks[i] != gold[i] for i in range(K))
                         # token before each re-mask (from the trace: tokens at the previous step) vs final
@@ -112,7 +114,7 @@ def main():
                                     per_step=[dict(step=s, fixed=round(v[0] / nb, 2), masked=round(v[1] / nb, 2), remasked=round(v[2] / nb, 2)) for s, v in sorted(steps_acc.items())])
                 print("=== b7_tf", name, json.dumps({k: v for k, v in out_tf[name].items() if k != "per_step"}), flush=True)
             # ---------------- free generation
-            if not a.skip_gen:
+            if not a.skip_gen and r != "oracle":
                 rows = []
                 steps_acc = collections.defaultdict(lambda: [0, 0, 0]); nblocks = 0; nrem = 0
                 for p in prompts:
