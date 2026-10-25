@@ -127,3 +127,81 @@ side — and below the 80 % short-term target on the test set.  The student ends
 the baseline ended 4: the distilled pair decisions include end-of-answer pairs the teacher chose on its own
 trajectories; this is a visible failure mode to address in the next student (e.g. excluding EOS pairs from the
 distillation set), not a tuning knob turned on the test set.
+
+## 6. Global refinement results (B10-D, methods C–F of the brief)
+
+Methods C (8-step global synchronous refinement) and D (8-step distribution refinement) were measured without
+training in Phase B9 (global_block_denoising.md §4): both collapse (GSM8K 0 %, repetition 0.87–0.94) and were not
+re-tried with the distilled student — the student changes what one forward predicts, not the fact that the frozen
+backbone has never seen soft inputs or fully visible self-generated blocks.  Method E (8-step distilled denoiser) is
+the student above (dev2 81.3 %, test 77.1 %); method F (4-step distilled) is student A at S = 4: dev2 46.0 % vs
+27.3 % undistilled (+19 points, still unusable).  Tokens once committed stay fixed in all of these (monotonic
+unmasking); the "all positions jointly updated" family remains open for a model trained with its own forward process.
+
+## 7. Denoising dynamics of the student (B10-E)
+
+Teacher-forced on 7 held-out training prompts (states the teacher trajectory visited): on the 18 % of states where the
+undistilled model's independent pair contradicts the teacher's joint pair, the student's single forward produces the
+teacher's pair in 41–50 % of cases (A 47.6, B 49.5, C 48.3, D 48.6, E 40.7 %) and the teacher's second token in
+48–57 %; on the other 82 % it keeps the pair at 92–98 %.  In free generation this moves the whole trajectory: at
+S = 8 the premature-EOS count rises (35 vs 4 on test) while length-budget hits fall (54 vs 100) — the student commits
+to endings earlier, both correctly and incorrectly.  The question of the brief — "can the student resolve
+multi-position contradictions without a sequential forward?" — is answered *for pairs, partly* (half of the
+contradictions) and *not at all beyond pairs*: the distilled signal is pairwise by construction, and the block-level
+coherence metrics (adjacent duplicates of the first forward, 6.8 per block) are unchanged because the first forward of
+a block is still an all-mask forward (the student is trained on states with ≥ 2 committed tokens; a first-forward
+objective is the obvious next addition).
+
+## 8. GSM8K · HumanEval · speed · memory (B10 rows added to the series table; same adapter family, A100 HF path)
+
+| decoder (no AR verification, no draft) | forwards / 16 tokens | GSM8K test | HumanEval | tok/s | peak VRAM | train GPU-h |
+|---|---|---|---|---|---|---|
+| AR greedy (e5 base) | 16 | 88.2 % | 68.9 % | 52.5 | 8.1 GB + cache | – |
+| A-series K = 4 graph engine (sft3) | ~13.6 | 84.2 % | 40.2 % | 89.9 | 9.4 GB | – |
+| B-series S = 16 left | 16 | 84.8 % | 50.6 % | 39.5 (A100) / 56 (zeta) | 7.8 GB | 0.8 |
+| B-series S = 8 left | 8 | 72.9 % | 8.5 % | 77.6 | 7.8 GB | 0.8 |
+| B8 joint teacher, S = 8 | 22 | __TTEST__ | 23.2 % | ~30 | 7.9 GB | – |
+| **B10 student A, S = 8** | **8** | **77.1 %** | 10.4 % | 75.5 | 7.9 GB | 0.8 + 0.4 |
+| B10 student A, S = 16 | 16 | – (dev2 87.3) | 54.9 % | 36.9 | 7.9 GB | |
+| B10 student E (GSM8K + MBPP), S = 8 | 8 | __ETEST__ | __EH8__ | | | 0.8 + 1.3 |
+
+Latency per GSM8K problem at S = 8: 2.46 s (student) vs 2.4–2.6 s (baseline) — the student adds no inference cost
+(same LoRA count after merging).  Teacher-data generation: 89 min (GSM8K, 65 k states, 343 k forwards) + 25 min (MBPP)
+on zeta; training 25 min (A, D), 40 min (B), 60 min (C), 80 min (E) on one A100 each (peak 20.7–21 GB with the frozen
+teacher resident).  Whole phase ≈ 9 GPU-hours including evaluations.
+
+## 9. Failed hypotheses and limits (recorded)
+
+1. **More teacher data does not help**: 12 k → 65 k states, 1 000 → 2 000 steps: hard-state pair accuracy stays at
+   ~48 % and dev2 S = 8 moves 81.3 → 77.3 (noise band 77–82 across A/B/C/D).  The remaining half of the hard states
+   is not learnable from the state alone by this LoRA — the information the teacher uses (one committed token) is
+   genuinely absent from the student's input.
+2. **The distribution does not matter, the label does**: KL to the teacher conditional (A) and hard CE to the
+   teacher's token (D) give the same result; a per-position KL to a conditional does not build a joint (as the brief
+   warned), it moves the marginal to the conditional's mode.
+3. **Look-ahead transition KL** (student predicts the teacher's next-state distributions for all masked positions):
+   no gain (79.3 vs 81.3 on dev2).
+4. **Budget specialisation**: the S = 8-trained student loses 2–4 items at S = 12/16.
+5. **Code**: the teacher itself reaches only 23.2 % HumanEval at S = 8 (vs 50.6 % at S = 16): resolving the pair does
+   not undo the code cascade; the student with GSM8K states only: 10.4 %; with MBPP states: __EH8__.
+6. The dev2 → test shrinkage (+11.3 → +4.2) is a reminder that 150 items select favourably even when the choice is
+   principled; the test number is the one to quote.
+
+## 10. Go / No-Go and next model structure
+
+| gate | verdict |
+|---|---|
+| 1 teacher gap shrinks with conditional distillation | **yes** — hard-state pair agreement 3 → 48 %, KL 0.27 → 0.12 on held-out states |
+| 2 global consistency: joint prediction more coherent than independent argmax | **partly** — for the pair placed per step; block-level first-forward incoherence untouched |
+| 3 free generation improves | **yes** — GSM8K S = 8: dev2 70.0 → 81.3, test 72.9 → 77.1 (p = 0.001); HumanEval S = 8 no (10 %) |
+| 4 compute efficiency | **yes** — same 8 forwards, same latency, +4.2 test points; 25 min of training |
+
+Short-term target (S = 8, GSM8K ≥ 80 %, HumanEval ≥ 30 %): reached on dev2 for GSM8K, **not on the test set
+(77.1 %)** and not on code.  What the measurements say to build next: (i) extend the distilled decision from the pair
+to the *first forward* of a block (the all-mask step), whose independent argmax carries 6.8 duplicates per block — a
+teacher that resolves the first 2–4 positions sequentially and a student trained to emit them jointly; (ii) make the
+student's training states cover S = 4 (4-token steps) so the 4-forward budget inherits the gain (+19 points already
+without targeting it); (iii) for code, the sequential teacher at S = 8 is itself only 23 %: the block size, not the
+pair, is the limit — K = 8 with S = 4 (same forwards per token) should be measured before any K = 32 work; (iv) the
+EOS artefact (35 early endings) is removable by excluding end-of-answer pairs from the distillation set.  None of this
+needs a new backbone; all of it stays within "one LoRA, eight forwards, no sequential conditioning at inference".

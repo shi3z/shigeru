@@ -450,3 +450,13 @@ Jacobi: collapse to repetition; soft-token inputs: 4–6 % token accuracy; non-m
 vs 76 % for left-to-right monotonic at S = 8).  Conclusion: the frozen mask-only denoiser does one thing — predict
 masks from committed context — and a parallel sampler has to be *taught* to resolve dependencies in one forward
 (Phase B10).
+
+## 15. Phase B10 — global consistency distillation (summary; full record in global_consistency_distillation.md)
+
+The B8 chain-rule joint (2 extra forwards per S = 8 step; dev2 89.3 %) was used as a teacher: a new LoRA on the merged
+B-series model is trained so that one forward emits, for the two positions a step places, the token the joint picks
+and the *conditional* distribution the teacher reaches only after committing the first.  Result at 8 forwards per
+block, no sequential conditioning at inference: hard-state pair agreement 3 → 48 %, GSM8K dev2 70.0 → 81.3 %
+(p = 0.01), **GSM8K test 72.9 → 77.1 % (p = 0.001)**, same latency; S = 4 27 → 46 % on dev2.  Label-only CE works as
+well as the KL; 5× data, more steps and a look-ahead term do not help; the student costs 2–4 items at S = 12/16; code
+stays near 10 % at S = 8 (the teacher itself is 23 %).  First S = 8 improvement of the B-series on the test set.
