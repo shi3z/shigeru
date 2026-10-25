@@ -29,6 +29,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--adapter", default=None)
+    ap.add_argument("--adapter2", default=None, help="second LoRA merged on top of the first (e.g. the B10 student)")
     ap.add_argument("--no-time", action="store_true")
     ap.add_argument("--prompts", default="bench/prompts_gsm8k_dev.json")
     ap.add_argument("--refs", default=None, help="reference answers for the teacher-forced part (omit with --skip-tf)")
@@ -60,6 +61,9 @@ def main():
     if a.adapter:
         from peft import PeftModel
         lm = PeftModel.from_pretrained(lm, a.adapter).eval().merge_and_unload()
+    if a.adapter2:
+        from peft import PeftModel
+        lm = PeftModel.from_pretrained(lm, a.adapter2).eval().merge_and_unload()
     model = BDiffModel(lm, mask_id, time_cond=not a.no_time).to(dev).eval()
     K, S = a.K, a.steps
     trust = TrustLR.load(a.trust) if a.trust else None

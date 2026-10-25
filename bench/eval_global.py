@@ -36,6 +36,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--adapter", default=None)
+    ap.add_argument("--adapter2", default=None, help="second LoRA merged on top of the first (e.g. the B10 student)")
     ap.add_argument("--prompts", default="bench/prompts_gsm8k_dev.json")
     ap.add_argument("--refs", default=None)
     ap.add_argument("--n", type=int, default=50)
@@ -59,6 +60,9 @@ def main():
     if a.adapter:
         from peft import PeftModel
         lm = PeftModel.from_pretrained(lm, a.adapter).eval().merge_and_unload()
+    if a.adapter2:
+        from peft import PeftModel
+        lm = PeftModel.from_pretrained(lm, a.adapter2).eval().merge_and_unload()
     model = BDiffModel(lm, mask_id, time_cond=False).to(dev).eval()
     K = a.K
     stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())

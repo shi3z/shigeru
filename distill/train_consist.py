@@ -22,7 +22,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from distill.gpu_guard import check_env
 check_env()
 import torch
-import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from engine.bdiff.masks import train_mask
 
@@ -118,7 +117,7 @@ def main():
         x2 = list(x); x2[i] = a_star
         with torch.no_grad():
             lg = block_forward(teacher, prefix, x2).float()
-            lg[:, mask_id] = float("-inf")
+            lg[:, mask_id] = -1e4                       # finite: the KL below multiplies p_t by log-probs
             p_t = torch.softmax(lg[j], -1)
         return a_star, b_star, p_t
 
@@ -137,7 +136,7 @@ def main():
         a_star, b_star, p_t = teacher_targets(prefix, x, i, j, r["cand"], r["lp"], r["delta"])
         with torch.autocast("cuda", dtype=torch.bfloat16):
             lg = block_forward(student, prefix, x)
-        lg = lg.float(); lg[:, mask_id] = float("-inf")
+        lg = lg.float(); lg[:, mask_id] = -1e4
         logp = torch.log_softmax(lg, -1)
         l_i = -logp[i, a_star]
         if a.kl_topk:
