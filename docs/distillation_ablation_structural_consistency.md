@@ -84,7 +84,7 @@ jointly 1 272 times and is responsible for none of the 133 errors.
 | D  conditional KL only | 43.8 % | 75.3 % | 81.3 % (−13 items: the KL alone damages S = 16) |
 | E  CE + KL (student A) | 47.6 % | 81.3 % | 87.3 % |
 | F  ordinary data, same budget (continuation of the lr1e-4 adapter, mask-only loss) | – | 74.7 % | 82.0 % (−12 items) |
-| B-large: arm B on all 65 k states, 2 000 steps (zeta) | 37.9 % | 80.7 % | __BL16__ |
+| B-large: arm B on all 65 k states, 2 000 steps (zeta) | 37.9 % | 80.7 % | 86.0 % (−6 items; HumanEval S = 8 8.5 % = baseline) |
 
 **Gate 1 answered: the gain is the teacher data, not the pair objective.**  The plain masked cross-entropy on the
 same 12 000 on-policy S = 8 states — targets = the block the teacher-followed trajectory ended with — matches or beats
