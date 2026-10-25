@@ -159,3 +159,52 @@ What the per-token cross-entropy training buys and what it does not, measured on
 
 **Gate 1 verdict (global information in the intermediate state):** present as a candidate set, absent as a
 decision; no hidden-state probe extracts more than the LM head.
+
+## 4. B9-C — global refinement without training (bench/eval_global.py, engine/bdiff/global_sampler.py)
+
+All samplers spend exactly S forwards per 16-token block (plus the prefix pass), never read a reference, never call
+the AR path.  dev items 0–49: teacher-forced (296 reference blocks: final token accuracy, block exact match,
+per-step W→C / C→W of the current argmax block) and free generation (GSM8K accuracy, repetition).  lr1e-4 adapter.
+
+| sampler | what moves per step | S = 4: TF token acc / GSM8K | S = 8 | S = 16 |
+|---|---|---|---|---|
+| C1 monotonic unmasking, left-to-right (baseline) | K/S positions placed, never revisited | 41.3 % / **32 %** | 54.2 % / **76 %** | 63.3 % / **92 %** |
+| C2 full-block synchronous refinement (Jacobi on the all-visible block) | 6–9 of 16 tokens rewritten every step | 9.7 % / 0 % | 7.1 % / 0 % | – |
+| C2r non-monotonic confidence re-masking (any token can return to [MASK]; visible tokens kept, masks filled) | 2–7 changes / step, 0.6–1.9 W→C vs 0.3–0.8 C→W per step | 42.9 % / 32 % | 52.5 % / 62 % | 58.3 % / 74 % |
+| C3 distribution-level (soft token embeddings for unplaced positions) | all 16 distributions updated | __SOFT4__ | __SOFT8__ | __SOFT16__ |
+| C4 annealed soft (T 1 → 0.2, α 0 → 1) | all 16 | 6.0 % / 0 % | 4.2 % / 0 % | 4.0 % / 0 % |
+| C4 annealed soft, mild (T 1 → 0.5, α 0 → 0.5) | all 16 | 6.0 % / 0 % | 4.2 % / 0 % | 4.0 % / 0 % |
+| cosine mask schedule for C2r | – | 36.2 % / 2 % | 11.1 % / 2 % | 6.7 % / 10 % |
+
+Per-step dynamics (teacher-forced, S = 8):
+- **C2 sync**: step 1 = the independent-argmax block (34 % token accuracy); the forward on the fully visible
+  self-generated block then rewrites 9.0 tokens (step 2), 7.8, 7.4, … 6.0 per step and accuracy *falls* 34 → 16 → 11 →
+  7 %; W→C 0.95 vs C→W 3.95 at step 2; free generation degenerates into repetition (4-gram repetition 0.87, every
+  output hits the length budget).  This is not self-copying: the model trained on mask-only corruption does not
+  treat an all-visible block as given; it keeps re-predicting it from a context that is itself wrong, and the
+  predictions drift to the degenerate attractor the first forward already showed ("by by by").  Full-block
+  synchronous refinement needs a model trained for it.
+- **C2r non-monotonic re-masking** behaves like a confidence-order monotonic sampler with small revisiting: W→C exceeds
+  C→W at every step (net +1.0, +0.7, +0.5, +0.3, … per step) but the total is below left-to-right monotonic
+  (S = 8: 52.5 vs 54.2 % token accuracy, 62 vs 76 % GSM8K) because confidence order itself is the worse order
+  (§2, trust_aware_diffusion.md).  With the original "re-forward the all-visible block at the last step" variant it
+  collapsed like C2 (token accuracy 42 → 11 % at the last step: 13 of 16 tokens rewritten) — the same lesson.
+- **C3 / C4 soft inputs**: the model has never seen a probability-weighted embedding mixture; accuracy drops from the
+  34 % of the first (all-mask) forward to 4–6 % and generation is pure repetition at every temperature / mixing
+  schedule tried.  Recorded as "fails without training", not as a disproof (brief §5).
+
+**Gate 2 (global correction without training): failed.**  No sampler that updates several positions at once beats
+monotonic left-to-right unmasking at any budget; the two that do not collapse (C2r) are at best confidence-order
+monotonic sampling in disguise.  The frozen mask-only denoiser supports exactly one operation reliably: predicting
+masked positions from a context of committed tokens it has not produced itself under full visibility.
+
+## 5. B9-D — denoising dynamics: is the block converging or being filled left to right?
+
+Answered by §2.1/§2.5 and the table above.  Under monotonic left-to-right unmasking the quantities move smoothly
+(masked entropy 2.5 → 0.2 nats, masked top-1 recall of the final token 34 → 100 %, hidden-state relative displacement
+0.22 → 0.62 per step at the still-masked positions), but the *information* arrives with the committed left context:
+agreement with the reference at the still-masked positions stays flat (34–46 %) until the position itself is reached,
+and the first-forward argmax block is a degenerate, repetitive object (6.8 duplicates / 16).  So the honest answer is
+"holes are filled left to right, and each filled hole sharpens its right neighbours by 0.1–0.17 bits" — not "the whole
+sentence converges".  Correction rate is 0 by construction in C1; in C2r, W→C ≈ 1.5–2× C→W but the total gain is eaten
+by the worse order; in C2 and C3/C4, C→W dominates and the block diverges.
