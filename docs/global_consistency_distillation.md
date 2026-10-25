@@ -91,7 +91,7 @@ same student, HumanEval, variant B and the full-data run follow in §5.2.
 | student B (A + look-ahead) | 79.3 % | – | – | – |
 | student D (hard CE labels instead of KL; held-out hard-pair 48.6 %) | 82.0 % | – | – | – |
 | student C (all 65 k GSM8K states, 2 000 steps; hard-pair 48.3 %) | 77.3 % | 87.3 % | – | – |
-| student E (65 k GSM8K + 11 k MBPP states, 3 000 steps) | __E150__ | __E16__ | __EH8__ | __EH16__ |
+| student E (65 k GSM8K + 11 k MBPP states, 3 000 steps; hard-pair 40.7 %) | 80.0 % (0 premature EOS) | 88.7 % | **0.0 %** (132 / 164 IndentationError) | __EH16__ |
 
 The S = 16 cost of student A is small and within noise (−4 of 150), and its HumanEval at S = 16 is higher
 (54.9 vs 50.6 %); at S = 8 code stays near 10 % with GSM8K-only teacher states — the code cascade (pairwise §2.3) is not
@@ -183,7 +183,12 @@ teacher resident).  Whole phase ≈ 9 GPU-hours including evaluations.
    no gain (79.3 vs 81.3 on dev2).
 4. **Budget specialisation**: the S = 8-trained student loses 2–4 items at S = 12/16.
 5. **Code**: the teacher itself reaches only 23.2 % HumanEval at S = 8 (vs 50.6 % at S = 16): resolving the pair does
-   not undo the code cascade; the student with GSM8K states only: 10.4 %; with MBPP states: __EH8__.
+   not undo the code cascade; the student with GSM8K states only: 10.4 %; **with MBPP states: 0.0 %** — the code it
+   writes is logically close but 132 of 164 programs fail with `IndentationError: unexpected indent` (the function
+   header re-emitted with extra indentation, bodies mis-indented): the distilled pair decisions on code states made
+   the student commit to indentation/newline pairs that are wrong in the HumanEval prompt format (MBPP prompts have
+   no code header; HumanEval's do).  Code at S = 8 needs its own teacher states in the evaluation's prompt format
+   and, more fundamentally, a longer sequential context than a pair gives.
 6. The dev2 → test shrinkage (+11.3 → +4.2) is a reminder that 150 items select favourably even when the choice is
    principled; the test number is the one to quote.
 

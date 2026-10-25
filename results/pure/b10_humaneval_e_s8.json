@@ -1,0 +1,1164 @@
+{
+  "task": "humaneval",
+  "engine": "bdiff:runs/bdiff_e5_lr1e4/adapter+runs/consist_e/adapter:8:left",
+  "model": "/mnt/ssdraid/project/open-mercury/bench/../runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter+runs/consist_e/adapter",
+  "stats": {
+    "forwards": 17478,
+    "tokens": 29807,
+    "remasked": 0
+  },
+  "n": 164,
+  "pass@1": 0.0,
+  "seconds": 423.2836112976074,
+  "results": [
+    {
+      "id": "HumanEval/0",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpbmn9qt03.py\", line 13\n    has_close_elements(numbers: List[float], threshold: float) -> bool:\nIndentationError: unexpected indent\n",
+      "answer": "ers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for sorted_numbers in sorted(numbers):\n        for i in range(1, len(sorted_numbers)):\n            if sorted_numbers[i] - sorted_numbers[i - 1] < threshold:\n                return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/1",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmp6vvx5lqb.py\", line 12\n    def's function_paren_groups(paren_string: str) -> List[str]:\n       ^\nSyntaxError: unterminated string literal (detected at line 12)\n",
+      "answer": "())', '(()())']\n    \"\"\"\n    result = []\n    start = 0\n    n = len(paren_string)\n    i = 0\n    while i < n:\n        if paren_string[i] == '(':\n            start = i\n            while i < n:\n                if paren_string[i] == ')':\n                    result = result + [_string[startstart + i + 1]]\n                                       break\n                i += 1\n        i += 1\n    return result"
+    },
+    {
+      "id": "HumanEval/2",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpy958sbhv.py\", line 10\n    return number - int(int(number))\n                                    ^\nIndentationError: unindent does not match any outer indentation level\n",
+      "answer": "def truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n return number - int(int(number))"
+    },
+    {
+      "id": "HumanEval/3",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmp1daf6_fw.py\", line 14\n    below_zero(operations: List[int]) -> bool:\nIndentationError: unexpected indent\n",
+      "answer": "o balance. Your task is to detect if at any point the balance of account fallls below zero, and\n    at that point function should return True. Otherwise it should return False.\n    >>> below_zero([1, 2, 3])\n    False\n    >>> below_zero([1, 2, -4, 5])\n    True\n    \"\"\"\n    balance = 0\n    for op in operations:\n        balance += op\n        if balance < 0:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/4",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpfntgzlux.py\", line 14\n    mean_absolute_deviation(numbers: List[float]) -> float:\nIndentationError: unexpected indent\n",
+      "answer": "olute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    if not numbers:\n        raise ValueError(\"numbers must not be empty\")\n    n = len(numbers)\n    mean = sum(numbers) / n\n    return sum((abs - mean) for numbers in numbers) / n\n```"
+    },
+    {
+      "id": "HumanEval/5",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpf1qdmavs.py\", line 12\n    intersperse(numbers: List[int], delimeter: int) -> List[int]:\nIndentationError: unexpected indent\n",
+      "answer": "umbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    result []\n    for i in range(len(numbers)):\n        if i != 0:\n            result.append(delimeter)\n        result.append(numbers[i])\n    return result\n"
+    },
+    {
+      "id": "HumanEval/6",
+      "pass": false,
+      "secs": 2.2,
+      "err": "  File \"/tmp/tmpcup6jr13.py\", line 12\n    def's function_nested_parens(paren_string: str) -> List[int]:\n       ^\nSyntaxError: unterminated string literal (detected at line 12)\n",
+      "answer": "  E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()')    [2, 3, 1, 3]\n    \"\"\"\n    result = []\n    stack = []\n0\n for ch in paren_string:\n        if ch == '(':\n            stack.append(1)\n        elif ch == ')':\n            stack.pop()\n        else stack.append(0)\n    result = [max for _ in stack_string.split    return result"
+    },
+    {
+      "id": "HumanEval/7",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpc7_ejof5.py\", line 12\n    filter_by_substring(strings: List[str], substring: str) -> List[str]:\n                               ^\nSyntaxError: invalid syntax\n",
+      "answer": "defpython\nfilter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring\n    >>> filter_by_substring([], 'a')\n    []\n    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')\n    ['abc', 'bacd', 'array']\n    \"\"\"       return [s for s in strings if substring in s]"
+    },
+    {
+      "id": "HumanEval/8",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpoocqfjfj.py\", line 13\n    sum_product(numbers: List[int]) -> Tuple[int, int]:\nIndentationError: unexpected indent\n",
+      "answer": "Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n    if sum(numbersnumbers) == 0:\n        return (0, 1)\n    return sum(numbers), product(numbers)\n```"
+    },
+    {
+      "id": "HumanEval/9",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpe7io7hop.py\", line 11\n    rolling_max(numbers: List[int]) -> List[int]:\n                       ^\nSyntaxError: invalid syntax\n",
+      "answer": "(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    current = -\n    for num in numbers:\n        if num > current:\n            current = num\n        result.append(current)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/10",
+      "pass": false,
+      "secs": 3.4,
+      "err": "  File \"/tmp/tmp26aoq947.py\", line 2\n    is_palindrome(string: str) -> bool:\nIndentationError: unexpected indent\n",
+      "answer": "f a string prefix that comes before the palindromic suffix.\n    >>> make_palindrome('')\n    ''\n    >>> make_palindrome('cat')\n    'catac'\n    >>> make_palindrome('cata')\n    'catac'\n    \"\"\"\n    if not == string    return return string    n n = len(string)\n    for i in range(n - 1, 0, -1):\n        if string_palindrome(string[i:i + + 1]):\n            return string + string[::i]\n    return string\n```"
+    },
+    {
+      "id": "HumanEval/11",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpl9v_xgls.py\", line 11\n    string_xor(a: str, b: str) -> str:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    result ''.join()\n    for i in range(len(a)):\n        if a[i] == b0:\n            result += '1'\n        else:\n            result += '0'\n    return result"
+    },
+    {
+      "id": "HumanEval/12",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpz196pnq5.py\", line 15\n    longest(strings: List[str]) -> Optional[str]:\nIndentationError: unexpected indent\n",
+      "answer": "s: List[str]) -> Optional[str]:\n    \"\"\" Out of list of strings, return the longest one. Return the first one in case of multiple\n    strings of the same length. Return None in case the input list is empty.\n    >>> longest([])\n\n    >>> longest(['a', 'b', 'c'])\n    'a'\n    >>> longest(['a', 'bb', 'ccc'])\n    'ccc'\n    \"\"\"\n    if not strings:\n        return None\n\n    return max(strings, key=len(len))"
+    },
+    {
+      "id": "HumanEval/13",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmptt841hpi.py\", line 11\n    greatest_common_divisor(a: int, b: int) -> int:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    while b:\n        a, b = b, a % b\n    return a\n"
+    },
+    {
+      "id": "HumanEval/14",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmpitp5wgta.py\", line 10\n    all_prefixes(string: str) -> List[str]:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    return [(string[:) for i in range(1, len(string) + 1)]"
+    },
+    {
+      "id": "HumanEval/15",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpjlk5rzk6.py\", line 8\n    return \"join(mapstr, range(n0, n + 1)))\n           ^\nSyntaxError: unterminated string literal (detected at line 8)\n",
+      "answer": "def string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n    return \"join(mapstr, range(n0, n + 1)))"
+    },
+    {
+      "id": "HumanEval/16",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpl8enkq1p.py\", line 11\n    count_distinct_characters(string: str) -> int:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n count_distinct_characters(string: str) -> int:\n    \"\"\" Given a string, find out how many distinct characters (regardless of case) does it consist of\n    >>> count_distinct_characters('xyzXYZ')\n    3\n    >>> count_distinct_characters('Jerry')\n    4\n    \"\"\"\n    return len(set(string.lower()))"
+    },
+    {
+      "id": "HumanEval/17",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmpc8_t7xvh.py\", line 17\n    def's function_music(m_string: str) -> List[int]:\n       ^\nSyntaxError: unterminated string literal (detected at line 17)\n",
+      "answer": "    '.|' - quater note, lasts one beat\n\n    >>> parse_music('o o| .| o| o| .| .| .| .| o o')\n    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]\n    \"\"\"\n    return = []\n0\n while i < len(music_string):\n        if = 'o':\n            result.append(4)\n        elif music_string[i] == 'o|':\n            result.append(2)\n        elif music_string[i] == '.|':\n            result.append(1)\n        i += 1\n    return result"
+    },
+    {
+      "id": "HumanEval/18",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmphyo_llvv.py\", line 13\n    how_many_times(string: str, substring: str) -> int:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    return len(string(string, substring))"
+    },
+    {
+      "id": "HumanEval/19",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmps4kf7eoo.py\", line 12\n    sort_numbers(numbers: str) -> str:\nIndentationError: unexpected indent\n",
+      "answer": "\"\"\"\n    return 'join(sorted(sorted_numbersals()))    def = {'    '': 0,    'one': 1,    'two': 2,    'three': 3,    'four': 4,    'five': 5,    'six': 6,    'seven': 7,    'eight': 8,    'nine': 9}       return = numbers    for = number in numbers.split():\n        if = number:\n            raise ValueError(f\"Invalid number: {number}\")\n    return = '(sorted_numbers_numbers)    return = 'join(sorted)"
+    },
+    {
+      "id": "HumanEval/20",
+      "pass": false,
+      "secs": 3.2,
+      "err": "  File \"/tmp/tmpr50yicmu.py\", line 13\n    find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\nIndentationError: unexpected indent\n",
+      "answer": "    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    numbers = sorted(numbers)\n    n = len(numbers)\n    min = float0\n    for = 1 in n - 1:\n        diff = numbers[i] - numbers[i - 1]\n        if diff < min:\n            min = diff\n            return ([i - 1], numbers[i])\n    return min,```"
+    },
+    {
+      "id": "HumanEval/21",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmplxlo1umh.py\", line 11\n    rescale_to_unit(numbers: List[float]) -> List[float]:\nIndentationError: unexpected indent\n",
+      "answer": "ansform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    if not(numbers) or len(numbers) < 2:\n        raise ValueError(\"    list list must have at least two elements\")\n\n    min = min(numbers)\n    max = max(numbers)\n\n    return [(x / (max - min) for x in numbers]"
+    },
+    {
+      "id": "HumanEval/22",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpg56ldu7f.py\", line 12\n    filter_integers(values: List[Any]) -> List[int]:\n                          ^\nSyntaxError: invalid syntax\n",
+      "answer": "defpython\nfilter_integers(values: List[Any]) -> List[int]:\n    \"\"\" Filter given list of any python values only for integers\n    >>> filter_integers(['a', 3.14, 5])\n    [5]\n    >>> filter_integers([1, 2, 3, 'abc', {}, []])\n    [1, 2, 3]\n    \"\"\"\n    return [v for v in values if isinstance(v, int)]```"
+    },
+    {
+      "id": "HumanEval/23",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpvzirx66n.py\", line 11\n    strlen(string: str) -> int:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n strlen(string: str) -> int:\n    \"\"\" Return length of given string\n    >>> strlen('')\n    0\n    >>> strlen('abc')\n    3\n    \"\"\"\n    return len(string)"
+    },
+    {
+      "id": "HumanEval/24",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpw49dty4v.py\", line 9\n    largest_divisor(n: int) -> int:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    if n <=  :\n        return 1\n    for = n2, 1, -1:\n        if n % i == 0:\n            return i\n    return 1\n"
+    },
+    {
+      "id": "HumanEval/25",
+      "pass": false,
+      "secs": 2.2,
+      "err": "  File \"/tmp/tmpw5wcppgw.py\", line 16\n    result.append i)\n                   ^\nSyntaxError: unmatched ')'\n",
+      "answer": " it appeares in factorization.\n    Input number should be equal to the product of all factors\n    >>> factorize(8)\n    [2, 2, 2]\n    >>> factorize(25)\n    [5, 5]\n    >>> factorize(70)\n    [2, 5, 7]\n    \"\"\"\n    result = []\n    i = 2\n    while i * i <= n:\n        while n % i == 0:\n            result.append i)\n            n //= i\n        i += 1\n    if n > 1:\n        result.append(n)\n    return result"
+    },
+    {
+      "id": "HumanEval/26",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmp6s1l66z2.py\", line 11\n    remove_duplicates(numbers: List[int]) -> List[int]:\nIndentationError: unexpected indent\n",
+      "answer": "ers: List[int]) -> List[int]:\n    \"\"\" From a list of integers, remove all elements that occur more than once.\n    Keep order of elements left the same as in the input.\n    >>> remove_duplicates([1, 2, 3, 2, 4])\n    [1, 3, 4]\n    \"\"\"\n    return = list()\n    seen = set()\n    for num in numbers:\n        if num not seen:\n            seen.append(num)\n            result.append num)\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/27",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpj7gbn0i6.py\", line 9\n    flip_case(string: str) -> str:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n flip_case(string: str) -> str:\n    \"\"\" For a given string, flip lowercase characters to uppercase and uppercase to lowercase.\n    >>> flip_case('Hello')\n    'hELLO'\n    \"\"\"\n    return string.swapcase()"
+    },
+    {
+      "id": "HumanEval/28",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpm10qf8zt.py\", line 12\n    concatenate(strings: List[str]) -> str:\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n concatenate(strings: List[str]) -> str:\n    \"\"\" Concatenate list of strings into a single string\n    >>> concatenate([])\n    ''\n    >>> concatenate(['a', 'b', 'c'])\n    'abc'\n    \"\"\"\n    return ''.join(strings)"
+    },
+    {
+      "id": "HumanEval/29",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmp98bapqos.py\", line 12\n    filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n                            ^\nSyntaxError: invalid syntax\n",
+      "answer": "defpython\nfilter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [(string for prefix in strings if if string.startswith(prefix))\n```"
+    },
+    {
+      "id": "HumanEval/30",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpmty4ybqf.py\", line 11\n    get_positive(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n get_positive(l: list):\n    \"\"\"Return only positive numbers in the list.\n    >>> get_positive([-1, 2, -4, 5, 6])\n    [2, 5, 6]\n    >>> get_positive([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])\n    [5, 3, 2, 3, 9, 123, 1]\n    \"\"\"\n    return [(x for x in l if x > 0]\n```"
+    },
+    {
+      "id": "HumanEval/31",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpvd60xin6.py\", line 21\n    is_prime(n):\nIndentationError: unexpected indent\n",
+      "answer": "e if a given number is prime, and false otherwise.\n    >>> is_prime(6)\n    False\n    >>> is_prime(101)\n    True\n    >>> is_prime(11)\n    True\n    >>> is_prime(13441)\n    True\n    >>> is_prime(61)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(1)\n    False\n    \"\"\"\n    if n < 2:\n        return False\n    for n in 2(2, int**0.5) +        if n % 2 == 0:\n            return False\n    return n\n\n "
+    },
+    {
+      "id": "HumanEval/32",
+      "pass": false,
+      "secs": 7.0,
+      "err": "  File \"/tmp/tmp90ytolr3.py\", line 28\n    return sum([coeff * math.pow(x, i) for i, coeff in enumerate(xs)])])\n                                                                       ^\nSyntaxError: unmatched ')'\n",
+      "answer": "poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n   "
+    },
+    {
+      "id": "HumanEval/33",
+      "pass": false,
+      "secs": 2.7,
+      "err": "  File \"/tmp/tmp1z6rc20b.py\", line 13\n    sort_third(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "ivisible by three are equal\n    to the values of the corresponding indicies of l, but sorted.\n    >>> sort_third([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_third([5, 6, 3, 4, 8, 9, 2])\n    [2, 6, 3, 4, 8, 9, 5]\n    \"\"\"\n    n = len(l)\n    result = [0 for _ in range(n)]\n    for = 0 to n - 1:\n        if i % 3 == 0:\n            result[i] = l[i]\n        else:\n            result[i] = l[i]\n    return = result"
+    },
+    {
+      "id": "HumanEval/34",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmp2hjjlovk.py\", line 9\n    unique(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n unique(l: list):\n    \"\"\"Return sorted unique elements in a list\n    >>> unique([5, 3, 5, 2, 3, 3, 9, 0, 123])\n    [0, 2, 3, 5, 9, 123]\n    \"\"\"\n    return sorted(set(set(l)))\n```"
+    },
+    {
+      "id": "HumanEval/35",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmp9khf6tf9.py\", line 11\n    max_element(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n max_element(l: list):\n    \"\"\"Return maximum element in the list.\n    >>> max_element([1, 2, 3])\n    3\n    >>> max_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])\n    123\n    \"\"\"\n    return max(l)"
+    },
+    {
+      "id": "HumanEval/36",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmp3nhezm8x.py\", line 12\n    def's function_buzz(n: int):\n       ^\nSyntaxError: unterminated string literal (detected at line 12)\n",
+      "answer": "def's function_buzz(n: int):\n    \"\"\"Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.\n    >>> fizz_buzz(50)\n    0\n    >>> fizz_buzz(78)\n    2\n    >>> fizz_buzz(79)\n    3\n    \"\"\"\n    count = 0\n    for i in range(1, n):\n        if i % 11 == 0 or i % 13 == 0:\n            count = count + str7.count.count(str    return count"
+    },
+    {
+      "id": "HumanEval/37",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpibn94qtx.py\", line 13\n    sort_even(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "d returns a list l' such that\n    l' is identical to l in the odd indicies, while its values at the even indicies are equal\n    to the values of the even indicies of l, but sorted.\n    >>> sort_even([1, 2, 3])\n    [1, 2, 3]\n    >>> sort_even([5, 6, 3, 4])\n    [3, 6, 5, 4]\n    \"\"\"\n    even = sorted()\n    for i, v in enumerate(l):\n        if i % 2 == 0:\n            even.append(v)\n    return even\n```"
+    },
+    {
+      "id": "HumanEval/38",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpfvses20l.py\", line 5\n    split string to groups. Each of length 3.\n          ^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "nput string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)"
+    },
+    {
+      "id": "HumanEval/39",
+      "pass": false,
+      "secs": 2.7,
+      "err": "  File \"/tmp/tmpxjugwyde.py\", line 18\n    prime_fib(n: int):\nIndentationError: unexpected indent\n",
+      "answer": "prime_fib(4)\n    13\n    >>> prime_fib(5)\n    89\n    \"\"\"\n    # = Fibonacci Fibonacci numbers\n    fibs = [0]  * n\n    for = 1 to n -       1[i] = fib[i - 1] + fib[i - 2]\n    # = Generate Fibonacci numbers until we find one first prime prime\n    fib = 0\n    while = 0:\n        fib += fib1\n        if fib > 1:\n            if fib %  == 0:\n                continue\n            return fib\n    return fib\n```"
+    },
+    {
+      "id": "HumanEval/40",
+      "pass": false,
+      "secs": 3.8,
+      "err": "  File \"/tmp/tmppcuampst.py\", line 21\n    triples_sum_to_zero(l: list):\nIndentationError: unexpected indent\n",
+      "answer": " in sorted(l):\n        for = 1 to n - 2:\n            for j = i + 1 to n - 1:\n                k = n - 1\n                while k > j:\n                    if sorted[i] + sorted[j] + sorted[k] == 0:\n                        return True\n                    elif sorted[i] + sorted[j] + sorted[k] < 0:\n                        k -= 1\n                    else:\n                        j += 1\n    return False\n"
+    },
+    {
+      "id": "HumanEval/41",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpx6_qcy4q.py\", line 16\n    car_race_collision(n: int):\nIndentationError: unexpected indent\n",
+      "answer": "far from\n    each other.  All cars move in the same speed.  Two cars are said to collide\n    when a car that's moving left to right hits a car that's moving right to left.\n    However, the cars are infinitely sturdy and strong; as a result, they continue moving\n    in their trajectory as if they did not collide.\n\n    This function outputs the number of such collisions.\n    \"\"\"\n    return n * 2\n```"
+    },
+    {
+      "id": "HumanEval/42",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpzksmgz66.py\", line 11\n    incr_list(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n incr_list(l: list):\n    \"\"\"Return list with elements incremented by 1.\n    >>> incr_list([1, 2, 3])\n    [2, 3, 4]\n    >>> incr_list([5, 3, 5, 2, 3, 3, 9, 0, 123])\n    [6, 4, 6, 3, 4, 4, 10, 1, 124]\n    \"\"\"\n    return [x + 1 for x in l]"
+    },
+    {
+      "id": "HumanEval/43",
+      "pass": false,
+      "secs": 2.7,
+      "err": "  File \"/tmp/tmpma334kqd.py\", line 20\n    pairs_sum_to_zero(l):\nIndentationError: unexpected indent\n",
+      "answer": "pairs_sum_to_zero([1, 3, 5, 0])\n    False\n    >>> pairs_sum_to_zero([1, 3, -2, 1])\n    False\n    >>> pairs_sum_to_zero([1, 2, 3, 7])\n    False\n    >>> pairs_sum_to_zero([2, 4, -5, 3, 5, 7])\n    True\n    >>> pairs_sum_to_zero([1])\n    False\n    \"\"\"\n    n len(l)\n    for i in range(n - 1):\n        for j in range(i + 1, n):\n            if l[i] + l[j] == 0:\n                return True\n    return False\n"
+    },
+    {
+      "id": "HumanEval/44",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpftx2yx1u.py\", line 15\n    change_base(x: int, base: int):\nIndentationError: unexpected indent\n",
+      "answer": "e numerical base of input number x to base.\n    return string representation after the conversion.\n    base numbers are less than 10.\n    >>> change_base(8, 3)\n    '22'\n    >>> change_base(8, 2)\n    '1000'\n    >>> change_base(7, 2)\n    '111'\n    \"\"\"\n    if = 0:\n        return '0'\n    result = []\n    while x > 0:\n        remainder.append(str % base))\n        x //= 1\n    return ''.join(result[::-1])"
+    },
+    {
+      "id": "HumanEval/45",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpve3hmsiu.py\", line 9\n    triangle_area(a, h):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n triangle_area(a, h):\n    \"\"\"Given length of a side and high return area for a triangle.\n    >>> triangle_area(5, 3)\n    7.5\n    \"\"\"\n    return 0.5 * a * h\n"
+    },
+    {
+      "id": "HumanEval/46",
+      "pass": false,
+      "secs": 4.2,
+      "err": "  File \"/tmp/tmpgwc7t7nd.py\", line 18\n    def's fib4(n: int):\n       ^\nSyntaxError: unterminated string literal (detected at line 18)\n",
+      "answer": "\n    >>> fib4(5)\n    4\n    >>> fib4(6)\n    8\n    >>> fib4(7)\n    14\n \"\"\"\n    if n == 0 or 1 == n:\n        return 0\n    if n == 2:\n        return 2\n    if = 3:\n        return 0\n\n    # Initialize bottom-up array\n    dp = [0] * (n + 1)\n\n    dp[0] = 0\n    dp[1] = 0\n    dp[2] = 2\n    dp[3] = 0\n\n    for i in range(4, n + 1):\n        dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3] + dp[i - 4]\n\n    return dp[n]"
+    },
+    {
+      "id": "HumanEval/47",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp617q06yc.py\", line 11\n    median(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n median(l: list):\n    \"\"\"Return median of elements in the list l.\n    >>> median([3, 1, 2, 4, 5])\n    3\n    >>> median([-10, 4, 6, 1000, 10, 20])\n    15.0\n    \"\"\"\n    n = len(l)\n    l = sorted(l)\n    if n % 2 == 1:\n        return l[n // 2]\n    else n % 2 == 0:\n        return (l[n // 2 - 1] + l[n // 2]) / 2\n   "
+    },
+    {
+      "id": "HumanEval/48",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp2_j7yefu.py\", line 16\n    is_palindrome(text: str):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n is_palindrome(text: str):\n    \"\"\"\n    Checks if given string is a palindrome\n    >>> is_palindrome('')\n    True\n    >>> is_palindrome('aba')\n    True\n    >>> is_palindrome('aaaaa')\n    True\n    >>> is_palindrome('zbcd')\n    False\n \"\"\"\n    return text == text[::-1]"
+    },
+    {
+      "id": "HumanEval/49",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmptx2j061u.py\", line 17\n    modp(n: int, p: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n modp(n: int, p: int):\n    \"\"\"Return 2^n modulo p (be aware of numerics).\n    >>> modp(3, 5)\n    3\n    >>> modp(1101, 101)\n    2\n    >>> modp(0, 101)\n    1\n    >>> modp(3, 11)\n    8\n    >>> modp(100, 101)\n    1\n    \"\"\"\n    return pow(2, n, p)\n```"
+    },
+    {
+      "id": "HumanEval/50",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpkcvvq32s.py\", line 4\n    encode_shift(s: str):\nIndentationError: unexpected indent\n",
+      "answer": "hift(s: str):\n    \"\"\"\n    returns encoded string by shifting every character by 5 in the alphabet.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) + 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n\n\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])"
+    },
+    {
+      "id": "HumanEval/51",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp5ips99ph.py\", line 20\n    remove_vowels(text):\nIndentationError: unexpected indent\n",
+      "answer": "\"\n remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n    return ''.join(c for c in text if c not 'aeaeiou')"
+    },
+    {
+      "id": "HumanEval/52",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpqm3jg5_7.py\", line 11\n    below_threshold(l: list, t: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n below_threshold(l: list, t: int):\n    \"\"\"Return True if all numbers in the list l are below threshold t.\n    >>> below_threshold([1, 2, 4, 10], 100)\n    True\n    >>> below_threshold([1, 20, 4, 10], 5)\n    False\n    \"\"\"\n    return all(num < t for num in l)"
+    },
+    {
+      "id": "HumanEval/53",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpt2qqxfi4.py\", line 11\n    add(x: int, y: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n add(x: int, y: int):\n    \"\"\"Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12\n    \"\"\"\n    return x + y\n```"
+    },
+    {
+      "id": "HumanEval/54",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmp5hxqyj05.py\", line 20\n    same_chars(s0: str, s1: str):\nIndentationError: unexpected indent\n",
+      "answer": "e characters.\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddeddabcabc')\n    True\n    >>> same_chars('abcd', 'dddddddabc')\n    True\n    >>> same_chars('dddddddabc', 'abcd')\n    True\n    >>> same_chars('eabcd', 'dddddddabc')\n    False\n    >>> same_chars('abcd', 'dddddddabce')\n    False\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddddabc')\n    False\n    \"\"\"\n    return sorted(set(s0)) == sorted(set(s1))"
+    },
+    {
+      "id": "HumanEval/55",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpakyzukm2.py\", line 13\n    fib(n: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n fib(n: int):\n    \"\"\"Return n-th Fibonacci number.\n    >>> fib(10)\n    55\n    >>> fib(1)\n    1\n    >>> fib(8)\n    21\n    \"\"\"\n    if n <=  :\n        return \n    a,  b = 0, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n"
+    },
+    {
+      "id": "HumanEval/56",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpi70nx6d9.py\", line 17\n    correct_bracketing(brackets: str):\nIndentationError: unexpected indent\n",
+      "answer": "ing(\"<\")\n    False\n    >>> correct_bracketing(\"<>\")\n    True\n    >>> correct_bracketing(\"<<><>>\")\n    True\n    >>> correct_bracketing(\"><<>\")\n    False\n    \"\"\"\n    stack = []\n    for bracket in brackets:\n        if bracket == \"<\":\n            stack.append(br)\n        else:\n            if stack:\n []:\n                stack.pop()\n            else:\n                return False\n    return not stack\n```"
+    },
+    {
+      "id": "HumanEval/57",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmparzjy03u.py\", line 13\n    monotonic(l: list):\nIndentationError: unexpected indent\n",
+      "answer": "e is list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    if not l:\n        return True\n    n = len(l)\n    for i in range(1, n):\n        if l[i] > l[i - 1]:\n            return False\n        if l[i] < l[i - 1]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/58",
+      "pass": false,
+      "secs": 1.9,
+      "err": "mp/tmpv_axjtub.py\", line 26, in <module>\n    check(common)\n  File \"/tmp/tmpv_axjtub.py\", line 19, in check\n    assert candidate([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]) == [1, 5, 653]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n\n    \"\"\"\n    return set(l1) & set(l2)"
+    },
+    {
+      "id": "HumanEval/59",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpkp6s73ic.py\", line 11\n    largest_prime_factor(n: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor(13195)\n    29\n    >>> largest_prime_factor(2048)\n    2\n    \"\"\"\n    while = 2\n i = 2\n    i * i <= n:\n        if n % i == 0:\n            n //= i\n        else i += 1\n    return n\n```"
+    },
+    {
+      "id": "HumanEval/60",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpua9nl50k.py\", line 17\n    sum_to_n(n: int):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n sum_to_n(n: int):\n    \"\"\"sum_to_n is a function that sums numbers from 1 to n.\n    >>> sum_to_n(30)\n    465\n    >>> sum_to_n(100)\n    5050\n    >>> sum_to_n(5)\n    15\n    >>> sum_to_n(10)\n    55\n    >>> sum_to_n(1)\n    1\n    \"\"\"\n    return n * (n + 1) // 2\n```"
+    },
+    {
+      "id": "HumanEval/61",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmp5242yh8a.py\", line 17\n    correct_bracketing(brackets: str):\nIndentationError: unexpected indent\n",
+      "answer": "ing(\"(\")\n    False\n    >>> correct_bracketing(\"()\")\n    True\n    >>> correct_bracketing(\"(()())\")\n    True\n    >>> correct_bracketing(\")(()\")\n    False\n    \"\"\"\n    stack = []\n    for bracket in brackets:\n        if bracket == \"(\":\n            stack.append(br)\n        else:\n            if stack:\n []:\n                stack.pop()\n            else:\n                return False\n    return not stack\n```"
+    },
+    {
+      "id": "HumanEval/62",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmp9btsp5ar.py\", line 13\n    derivative(xs: list):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n derivative(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 + .....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    return [1 * * x for x, _ in zip(xs, xs[1:])"
+    },
+    {
+      "id": "HumanEval/63",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmpmbsh21h4.py\", line 29\n    \"\"\"\n    ^\nSyntaxError: unterminated triple-quoted string literal (detected at line 58)\n",
+      "answer": "ciently compute the n-th element of the fibfib number sequence.\n    >>> fibfib(1)\n    0\n    >>> fibfib(5)\n    4\n    >>> fibfib(8)\n    24\n    \"\"\"\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return [0 for _ in range(n + 1)]\n        for i in range(2, n + 1):\n            result[i] = result[i - 1] + result[i - 2] + result[i - 3]\n        return result[n]"
+    },
+    {
+      "id": "HumanEval/64",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmpp8x75afv.py\", line 19\n    vowels_count(s):\nIndentationError: unexpected indent\n",
+      "answer": " the number of vowels in the string.\n    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a\n    vowel, but only when it is at the end of the given word.\n\n    Example:\n    >>> vowels_count(\"abcde\")\n    2\n    >>> vowels_count(\"ACEDY\")\n    3\n \"\"\"\n    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}\n    count = 0\n    for s in s:\n        if s in vowels:\n            count += 1\n    return count\n"
+    },
+    {
+      "id": "HumanEval/65",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpv7igav30.py\", line 12\n    circular_shift(x, shift):\nIndentationError: unexpected indent\n",
+      "answer": "\n circular_shift(x, shift):\n    \"\"\" = str the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    >>> circular_shift(12, 1)\n    \"21\"\n    >>> circular_shift(12, 2)\n    \"12\"\n    \"\"\"\n    s = str(x)\n    n = len(s)\n    if shift > n:\n        return s[::-1]\n    shift %= shift\n    return s[-:] + s[:-:]"
+    },
+    {
+      "id": "HumanEval/66",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpmq2hu7qw.py\", line 16\n    digitSum(s):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n digitSum(s):\n    \"\"\" sum of the upper characters only'\n    ASCII codes.\n\n    Examples:\n        digitSum(\"\") => 0\n        digitSum(\"abAB\") => 131\n        digitSum(\"abcCd\") => 67\n        digitSum(\"helloE\") => 69\n        digitSum(\"woArBld\") => 131\n        digitSum(\"aAaaaX\") => 153\n    \"\"\"\n    return sum(ord(c) for c in s if c.isupper())"
+    },
+    {
+      "id": "HumanEval/67",
+      "pass": false,
+      "secs": 4.0,
+      "err": "  File \"/tmp/tmpsl0gp8nq.py\", line 16\n    fruit_distribution(s,):\nIndentationError: unexpected indent\n",
+      "answer": "s\",3) -> 3 - 0 - 1 = 2\n    fruit_distribution(\"2 apples and 3 oranges\", 100) -> 100 - 2 - 3 = 95\n    fruit_distribution(\"100 apples and 1 oranges\",120) -> 120 - 100 - 1 = 19\n    \"\"\"\n    total = n\n    apples = 0\n    oranges = 0\n\n    for word in s.split():\n        if word == \"app\":\n            apples += 1\n        elif word == \"or\":\n\":\n            oranges += 1\n\n    return total - apples - oranges\n```"
+    },
+    {
+      "id": "HumanEval/68",
+      "pass": false,
+      "secs": 5.6,
+      "err": "  File \"/tmp/tmp7wt3gysj.py\", line 37\n    pluck(arr):\nIndentationError: unexpected indent\n",
+      "answer": " 1 <= nodes.length <= 10000\n        * 0 <= node.value\n    \"\"\"\n    n = len(arr)\n    if = 0:\n        return []\n\n    result = None\n index = -1\n\n    for i in range(n):\n        if arr[i] % 2 == 0:\n            if, result == None:\n                result = arr[i]\n                index = i\n            elif result > arr[i]:\n                result = arr[i]\n                index = i\n\n    return result, index\n"
+    },
+    {
+      "id": "HumanEval/69",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmpnp3b_nvk.py\", line 14\n    search(lst):\nIndentationError: unexpected indent\n",
+      "answer": " times it appears in the list.\n    If no such a value exist, return -1.\n    Examples:\n        search([4, 1, 2, 2, 3, 1]) == 2\n        search([1, 2, 2, 3, 3, 3, 4, 4, 4]) == 3\n        search([5, 5, 4, 4, 4]) == -1\n    '''\n    freq = {}\n()\n    for num in lst:\n        freq[numnum] = freq.get(num, 0) + 1\n\n    for = sorted(lst, reverse=True)\n        if freq >= num:\n            return num\n    return -1\n"
+    },
+    {
+      "id": "HumanEval/70",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp15hepqj4.py\", line 14\n    strange_sort_list(lst):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n strange_sort_list(lst):\n       if list is    return return []\n    lst = sorted(lst)\n    result = []\n    n = len(lst)\n    for = 0 to n // 2:\n        result.append lst[i])\n        result.append lst[n -  - i + 1])\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/71",
+      "pass": false,
+      "secs": 3.2,
+      "err": "  File \"/tmp/tmpbgqb3d3b.py\", line 14\n    triangle_area(a, b, c):\nIndentationError: unexpected indent\n",
+      "answer": "wo sides is greater \n    than the third side.\n    Example:\n    triangle_area(3, 4, 5) == 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n    if sorted([a, b, c])[ == 0:\n        return -1\n    sides = sorted([a, b, c])\n    if, sides + sides[1] <= sides[2]:\n        return -1\n    # Her Heron's formula\n    s = (a + b + c) / 2\n    area = (s * (s - a) * (s - b) * (s - c)) ** 0.5\n    return round(area, 2)\n"
+    },
+    {
+      "id": "HumanEval/72",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpccw8opx7.py\", line 21\n    will_it_fly(q, w):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n will_it_fly(q, w):\n    if Check_bal(q)        and return True\n    return False\n\ndef Check_bal(q):\n    return len(q) ==   and q == q[::-1]"
+    },
+    {
+      "id": "HumanEval/73",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpzse5awig.py\", line 14\n    smallest_change(arr):\nIndentationError: unexpected indent\n",
+      "answer": "s and forwards. In one change, you can change one element to any other element.\n\n    For example:\n    smallest_change([1,2,3,5,4,7,9,6]) == 4\n    smallest_change([1, 2, 3, 4, 3, 2, 2]) == 1\n    smallest_change([1, 2, 3, 2, 1]) == 0\n    \"\"\"\n    n = len(arr)\n    count = 0\n    for i in range(n, 1, -1):\n        if arr[i] != arr[n - 1]:\n            count += 1\n            return count\n    return count0\n"
+    },
+    {
+      "id": "HumanEval/74",
+      "pass": false,
+      "secs": 3.5,
+      "err": "  File \"/tmp/tmpa70hej41.py\", line 17\n    total_match(lst1, lst2):\nIndentationError: unexpected indent\n",
+      "answer": "in'], ['hi', 'hi', 'admin', 'project']) ➞ ['hi', 'admin']\n    total_match(['hi', 'admin'], ['hI', 'hi', 'hi']) ➞ ['hI', 'hi', 'hi']\n    total_match(['4'], ['1', '2', '3', '4', '5']) ➞ ['4']\n    '''\n    total1 = sum(len(s) for s in lst1)\n    total2 = sum(len(s) for s in lst2)\n\n    if total1 < total2:\n        return lst1\n    elif total1 > total2:\n        return lst2\n    else:\n        return lst1\n```"
+    },
+    {
+      "id": "HumanEval/75",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmprmsegc7j.py\", line 11\n    is_multiply_prime(a):\nIndentationError: unexpected indent\n",
+      "answer": "umber is the multiplication of 3 prime numbers\n    and false otherwise.\n    Knowing that (a) is less then 100. \n    Example:\n    is_multiply_prime(30) == True\n    30 = 2 * 3 * 5\n    \"\"\"\n    if a < 2 or a > 100:\n        return False\n\n    count = 0\n    n = a2\n    while n <= a:\n        if n % a == 0:\n            count += 1\n            n += 1\n        else:\n            n += 1\n\n    return count == 3\n```"
+    },
+    {
+      "id": "HumanEval/76",
+      "pass": false,
+      "secs": 6.9,
+      "err": "  File \"/tmp/tmpr05gnlwy.py\", line 15\n    is_simple_power(x, n):\nIndentationError: unexpected indent\n",
+      "answer": " 1 or 2 == 1\n    if n == 10:\n        return x == 1 or 2 == 1\n    if n == 11:\n        return x == 1 or 2 == 1\n    if n == 12:\n        return x == 1 or 2 == 1\n    if n == 13:\n        return x == 1 or 2 == 1\n    if n == 14:\n        return x == 1 or 2 == 1\n    if n == 15:\n        return x == 1 or 2 == 1\n    if n == 16:\n        return x == 1 or 2 == 1\n    if n == 17:\n        return x == 1 or 2 == 1\n   "
+    },
+    {
+      "id": "HumanEval/77",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpnoakqk3e.py\", line 16\n    iscube(a):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n iscube(a):\n    '''\n    Write a function that takes an integer a and returns True \n    if this ingeger is a cube of some integer number.\n    Note: you may assume the input is always valid.\n    Examples:\n    iscube(1) ==> True\n    iscube(2) ==> False\n    iscube(-1) ==> True\n    iscube(64) ==> True\n    iscube(0) ==> True\n    iscube(180) ==> False\n    '''\n    return abs(a) ==  round ** 3\n"
+    },
+    {
+      "id": "HumanEval/78",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpjwinrbeq.py\", line 21\n    hex_key(num):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n hex_key(num):\n    \"\"\" = \"AB\" the output should be 1.\n    num = \"1077E\" the output should be 2.\n    num = \"ABED1A33\" the output should be 4.\n    num = \"123456789ABCDEF0\" the output should be 6.\n    num = \"2020\" the output should be 2.\n    \"\"\"\n    primes = {'2', '3', '5', '7', 'B', 'D'}\n    return sum(1 for ch in num if ch in primes)\n```"
+    },
+    {
+      "id": "HumanEval/79",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpgqz4b5mr.py\", line 34\n    return \"db{} + \"db\".\n                      ^\nSyntaxError: unterminated string literal (detected at line 34)\n",
+      "answer": "of the string.\n    The extra characters are there to help with the format.\n\n    Examples:\n    decimal_to_binary(15)   # returns \"db1111db\"\n    decimal_to_binary(32)   # returns \"db100000db\"\n    \"\"\"\n    if decimal < 0:\n        return \"db00000db\"\n    result = \"\"\n    while decimal > 0:\n        remainder = decimal % 2\n        result = str + str(remainder)\n        decimal //= 2\n    return \"db{} + \"db\"."
+    },
+    {
+      "id": "HumanEval/80",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpclj70czv.py\", line 15\n    is_happy(s):\nIndentationError: unexpected indent\n",
+      "answer": " 3 and every 3 consecutive letters are distinct\n    For example:\n    is_happy(a) => False\n    is_happy(aa) => False\n    is_happy(abcd) => True\n    is_happy(aabb) => False\n    is_happy(adb) => True\n    is_happy(xyy) => False\n    \"\"\"\n    if len(s) < 3:\n        return False\n    for i in range(len, len - 2, -1):\n        if s[i] == s[i + 1] or s[i] == s[i + 2]:\n            return False\n    return True\n"
+    },
+    {
+      "id": "HumanEval/81",
+      "pass": false,
+      "secs": 6.7,
+      "err": "  File \"/tmp/tmp_l7mz3te.py\", line 28\n    numerical_letter_grade(grades):\nIndentationError: unexpected indent\n",
+      "answer": "t.append(\"B-\")\n        elif g > 2.0:\n            result.append(\"C+\")\n        elif g > 1.7:\n            result.append(\"C\")\n        elif g > 1.3:\n            result.append(\"C-\")\n        elif g > 1.0:\n            result.append(\"D+\")\n        elif g > 0.7:\n            result.append(\"D\")\n        elif g > 0.0:\n            result.append(\"D-\")\n        else:\n            result.append(\"E\")\n    return result\n"
+    },
+    {
+      "id": "HumanEval/82",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpcnubou24.py\", line 12\n    prime_length(string):\nIndentationError: unexpected indent\n",
+      "answer": "lse otherwise\n    Examples\n    prime_length('Hello') == True\n    prime_length('abcdcba') == True\n    prime_length('kittens') == True\n    prime_length('orange') == False\n    \"\"\"\n    if len(string) < 2:\n        return False\n    if len(string) % 2 ==  :\n        return False\n    for i in range(3, int(string) ** 0.5 + 1, 2):\n        if len(string) % i ==  :\n            return False\n    return True\n\n```"
+    },
+    {
+      "id": "HumanEval/83",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmp_g9n6f29.py\", line 8\n    starts_one_ends(n):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n starts_one_ends(n):\n    \"\"\"\n    Given a positive integer n, return the count of the numbers of n-digit\n    positive integers that start or end with 1.\n    \"\"\"\n    if n < 1:\n        return 0\n\n    total = 0\n\n    for length in range(1, n + 1):\n        if = 1:\n            total += 1\n\n        else length == 1:\n            total += 1\n\n        else:\n            total += 1\n\n    return total\n"
+    },
+    {
+      "id": "HumanEval/84",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmp0kc8xumd.py\", line 17\n    solve(N):\nIndentationError: unexpected indent\n",
+      "answer": "be \"1\".\n        For N = 150, the sum of digits will be 6 the output should be \"110\".\n        For N = 147, the sum of digits will be 12 the output should be \"1100\".\n    \n    Variables:\n        @N integer\n             Constraints: 0 ≤ N ≤ 10000.\n    Output:\n         a string of binary number\n    \"\"\"\n    total sum = 0\n    for digit in str(N):\n        total += int(digit)\n    return bin(total)[ 2:]\n```"
+    },
+    {
+      "id": "HumanEval/85",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpzu1m6mtn.py\", line 10\n    add(lst):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n add(lst):\n    \"\"\"Given a non-empty list of integers lst. add the even elements that are at odd indices..\n\n\n    Examples:\n        add([4, 2, 6, 7]) ==> 2 \n    \"\"\"\n    return sum(x for i, x in enumerate(lst) if i % 2 == 1 and x % 2 == 0)\n```"
+    },
+    {
+      "id": "HumanEval/86",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp_n4w1788.py\", line 16\n    anti_shuffle(s):\nIndentationError: unexpected indent\n",
+      "answer": "e replaced by a new word where all the characters arranged in\n    ascending order based on ascii value.\n    Note: You should keep the order of words and blank spaces in the sentence.\n\n    For example:\n    anti_shuffle('Hi') returns 'Hi'\n    anti_shuffle('hello') returns 'ehllo'\n    anti_shuffle('Hello World!!!') returns 'Hello !!!Wdlor'\n    \"\"\"\n    return 'join('sorted(word) for word in s.split())"
+    },
+    {
+      "id": "HumanEval/87",
+      "pass": false,
+      "secs": 4.1,
+      "err": "  File \"/tmp/tmpuytcewss.py\", line 23\n    get_row(lst, x):\nIndentationError: unexpected indent\n",
+      "answer": "\n    Examples:\n    get_row([\n      [1,2,3,4,5,6],\n      [1,2,3,4,1,6],\n      [1,2,3,4,5,1]\n    ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]\n    get_row([], 1) == []\n    get_row([[],, [1], [1, 2, 3]], 3) == [(2, 2)]\n    \"\"\"\n    result = []\n    for row, col in enumerate(lst):\n        for col, range(len(col))):\n            if col == x:\n                result.append((row, col))\n    return result\n"
+    },
+    {
+      "id": "HumanEval/88",
+      "pass": false,
+      "secs": 3.4,
+      "err": "  File \"/tmp/tmponmn408v.py\", line 18\n    sort_array(array):\nIndentationError: unexpected indent\n",
+      "answer": "ples:\n    * sort_array([]) => []\n    * sort_array([5]) => [5]\n    * sort_array([2, 4, 3, 0, 1, 5]) => [0, 1, 2, 3, 4, 5]\n    * sort_array([2, 4, 3, 0, 1, 5, 6]) => [6, 5, 4, 3, 2, 1, 0]\n    \"\"\"\n    if not array:\n        return []\n    n = len(array)\n    first = array[0]\n    last = array[-1]\n    if ( + last) % 2 == 1:\n        return sorted(array)\n    else:\n        return sorted(array, reverse=True)\n"
+    },
+    {
+      "id": "HumanEval/89",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpvs1aykss.py\", line 33\n    ))\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": " encrypt('hi') returns 'lm'\n    encrypt('asdfghjkl') returns 'ewhjklnop'\n    encrypt('gf') returns 'kj'\n    encrypt('et') returns 'ix'\n    \"\"\"\n    result = []\n    for ch in s:\n        if ch.isalpha():\n            shift = 2\n            if ch.islower():\n                shifted = = ord[ch] - 92 + 2\n            shifted = = ord[ch] - 65 + 2\n            result.append(chr(chr))\n))\n    return ''.(result)\n"
+    },
+    {
+      "id": "HumanEval/90",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpzhe2w3kd.py\", line 14\n    next_smallest(lst):\nIndentationError: unexpected indent\n",
+      "answer": " a function next_smallest() that returns the 2nd smallest element of the list.\n    Return None if there is no such element.\n    \n    next_smallest([1, 2, 3, 4, 5]) == 2\n    next_smallest([5, 1, 4, 3, 2]) == 2\n    next_smallest([]) == None\n    next_smallest([1, 1]) == None\n    \"\"\"\n    if not(lst):\n        return None\n\n    lst = sorted(lst)\n    if len(lst) < 2:\n        return None\n\n    return lst[1]"
+    },
+    {
+      "id": "HumanEval/91",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmp7228zz1b.py\", line 15\n    is_bored(S):\nIndentationError: unexpected indent\n",
+      "answer": "ven a string of words, and your task is to count the number\n    of boredoms. A boredom is a sentence that starts with the word \"I\".\n    Sentences are delimited by '.', '?' or '!'.\n   \n    For example:\n    >>> is_bored(\"Hello world\")\n    0\n    >>> is_bored(\"The sky is blue. The sun is shining. I love this weather\")\n    1\n    \"\"\"\n    return sum(1 for sentence in S.split() if sentence.startswith \"I\")"
+    },
+    {
+      "id": "HumanEval/92",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpobsh5b08.py\", line 21\n    any_int(x, y, z):\nIndentationError: unexpected indent\n",
+      "answer": "other two, and all numbers are integers.\n    Returns false in any other cases.\n    \n    Examples\n    any_int(5, 2, 7) ➞ True\n    \n    any_int(3, 2, 2) ➞ False\n\n    any_int(3, -2, 1) ➞ True\n    \n    any_int(3.6, -2.2, 2) ➞ False\n  \n\n    \n    '''\n    if not isinstance(x, int) or not isinstance(y, int) or not isinstance(z, int):\n        return False\n\n    return x == y + z or y == x + z or z == x + y\n"
+    },
+    {
+      "id": "HumanEval/93",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpbjddd7o9.py\", line 17\n    encode(message):\nIndentationError: unexpected indent\n",
+      "answer": "e only letters. \n    \n    Examples:\n    >>> encode('test')\n    'TGST'\n    >>> encode('This is a message')\n    'tHKS KS C MGSSCGG'\n    \"\"\"\n    result = []\n    for ch in message:\n        if ch.isalpha():\n            if ch.islower():\n                result.append ch.upper()\n            else:\n                result.append ch.lower()\n        else:\n            result.append ch\n    return \"\".join(result)"
+    },
+    {
+      "id": "HumanEval/94",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmpkojpl4mb.py\", line 15\n    def'skasdkd(lst):\n       ^\nSyntaxError: unterminated string literal (detected at line 15)\n",
+      "answer": "  if n == 2:\n            return True\n        if n % 2 == 0:\n            return False\n        for i in 3, n, 2:\n            if i * n <= i:\n                return False\n            if n % i ==  :\n                return False\n        return True\n\n    max_prime = 0\n    for n in lst:\n        if is(n) and            n > max_prime:\n            max_prime = n\n\n    return sum(map(map(int str(max_prime)))```"
+    },
+    {
+      "id": "HumanEval/95",
+      "pass": false,
+      "secs": 3.5,
+      "err": "  File \"/tmp/tmp631ntj8a.py\", line 15\n    check_dict_case(dict):\nIndentationError: unexpected indent\n",
+      "answer": " return False.\n    check_dict_case({\"Name\":\"John\", \"Age\":\"36\", \"City\":\"Houston\"}) should return False.\n    check_dict_case({\"STATE\":\"NC\", \"ZIP\":\"12345\" }) should return True.\n    \"\"\"\n    if not dict:\n        return False\n\n    keys = dict.keys()\n    if not(keys and str(keys == keys(keys) return False\n\n    if not(keys and str(keys) == keys):\n return False\n\n    return True(keys and str(keys) == keys)"
+    },
+    {
+      "id": "HumanEval/96",
+      "pass": false,
+      "secs": 3.4,
+      "err": "  File \"/tmp/tmpx4y_mxb8.py\", line 14\n    count_up_to(n):\nIndentationError: unexpected indent\n",
+      "answer": "]\n    count_up_to(20) => [2,3,5,7,11,13,17,19]\n    count_up_to(1) => []\n    count_up_to(18) => [2,3,5,7,11,13,17]\n    \"\"\"\n    if n <=  1:\n        return []\n    result = []\n    for i in range(2, n + 1):\n        if i % 2 == 0:\n            continue\n        for j in range(3, int ** 0.5) + 1):\n            if j % i == 0:\n                break\n        else:\n            result.append i)\n    return result\n"
+    },
+    {
+      "id": "HumanEval/97",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmph01h6v4k.py\", line 13\n    multiply(a, b):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n multiply(a, b):\n    \"\"\"Complete the function that takes two integers and returns \n    the product of their unit digits.\n    Assume the input is always valid.\n    Examples:\n    multiply(148, 412) should return 16.\n    multiply(19, 28) should return 72.\n    multiply(2020, 1851) should return 0.\n    multiply(14,-15) should return 20.\n    \"\"\"\n    return abs(a % 10) * abs(b % 10)"
+    },
+    {
+      "id": "HumanEval/98",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpjfw9z6qv.py\", line 12\n    count_upper(s):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n count_upper(s):\n    \"\"\"\n    Given a string s, count the number of uppercase vowels in even indices.\n    \n    For example:\n    count_upper('aBCdEf') returns 1\n    count_upper('abcdefg') returns 0\n    count_upper('dBBE') returns 0\n    \"\"\"\n    return sum(1 for i, c in enumerate(s) if i % 2 == 0 and c in {'AEIO'})"
+    },
+    {
+      "id": "HumanEval/99",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpwpzqweh7.py\", line 21\n    closest_integer(value):\nIndentationError: unexpected indent\n",
+      "answer": "    >>> closest_integer(\"10\")\n    10\n    >>> closest_integer(\"15.3\")\n    15\n\n    Note:\n    Rounding away from zero means that if the given number is equidistant\n    from two integers, the one you should return is the one that is the\n    farthest from zero. For example closest_integer(\"14.5\") should\n    return 15 and closest_integer(\"-14.5\") should return -15.\n    '''\n    return int(int(value))\n```"
+    },
+    {
+      "id": "HumanEval/100",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmp_3ltquuj.py\", line 17\n    make_a_pile(n):\nIndentationError: unexpected indent\n",
+      "answer": "n.\n    Return the number of stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1).\n\n    Examples:\n    >>> make_a_pile(3)\n    [3, 5, 7]\n    \"\"\"\n    levels = []\n    current = = n\n    for _ in range(n):\n        levels.append(current)\n        if current % 2 == 0:\n            current += 1\n        else:\n            current += 2\n    return levels\n"
+    },
+    {
+      "id": "HumanEval/101",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmptk3cx_lp.py\", line 12\n    words_string(s):\nIndentationError: unexpected indent\n",
+      "answer": "ing(s):\n    \"\"\"\n    You will be given a string of words separated by commas or spaces. Your task is\n    to split the string into words and return an array of the words.\n    \n    For example:\n    words_string(\"Hi, my name is John\") == [\"Hi\", \"my\", \"name\", \"is\", \"John\"]\n    words_string(\"One, two, three, four, five, six\") == [\"One\", \"two\", \"three\", \"four\", \"five\", \"six\"]\n    \"\"\"\n    return s.split()"
+    },
+    {
+      "id": "HumanEval/102",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmp0c50eui7.py\", line 12\n    choose_num(x, y):\nIndentationError: unexpected indent\n",
+      "answer": "number that is in the range [x, y] inclusive. If \n    there's no such number, then the function should return -1.\n\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    if x > y:\n        return -1\n\n    start = x\n    end = y\n\n    if start % 2 == 0:\n        return start\n\n    if end % 2 == 0:\n        return end\n\n    # No's even even number in the range\n    return -1\n```"
+    },
+    {
+      "id": "HumanEval/103",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpb_2c4skm.py\", line 14\n    rounded_avg(n, m):\n                     ^\nSyntaxError: invalid syntax\n",
+      "answer": "Round the answer to the nearest integer and convert that to binary.\n    If n is greater than m, return -1.\n    Example:\n    rounded_avg(1, 5) => \"0b11\"\n    rounded_avg(7, 5) => -1\n    rounded_avg(10, 20) => \"0b1111\"\n    rounded_avg(20, 33) => \"0b11010\"\n    \"\"\"\n    if n > m:\n        return -1\n\n    total = sum(n for m in range(n, m + 1))\n    average = total / (m - n + 1)\n\n    return bin(average)\n```"
+    },
+    {
+      "id": "HumanEval/104",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpkmx9xmgr.py\", line 15\n    unique_digits(x):\nIndentationError: unexpected indent\n",
+      "answer": "ist of positive integers x. return a sorted list of all \n    elements that hasn't any even digit.\n\n    Note: Returned list should be sorted in increasing order.\n    \n    For example:\n    >>> unique_digits([15, 33, 1422, 1])\n    [1, 15, 33]\n    >>> unique_digits([152, 323, 1422, 10])\n    []\n    \"\"\"\n    result [num for num in x if all(int(d) % 2 != 0 for d in str(num))]\n    return sorted(result)\n```"
+    },
+    {
+      "id": "HumanEval/105",
+      "pass": false,
+      "secs": 5.0,
+      "err": "  File \"/tmp/tmpm84hrqvi.py\", line 25\n    by_length(arr):\nIndentationError: unexpected indent\n",
+      "answer": "     If the array has any strange number ignore it:\n      arr = [1, -1 , 55] \n            -> sort arr -> [-1, 1, 55]\n            -> reverse arr -> [55, 1, -1]\n      return = ['One']\n    \"\"\"\n    result = []\n    for = in(arr):\n        if isinstance(num, int) and 1 <= num <= 9:\n            result.append(numOne\",Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\"]\n    return list(result)```"
+    },
+    {
+      "id": "HumanEval/106",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmpxnx1cqtc.py\", line 2\n    f(n):\nIndentationError: unexpected indent\n",
+      "answer": "om 1 to i (1 * 2 * ... * i).\n    Example:\n    f(5) == [1, 2, 6, 24, 15]\n    \"\"\"\n    result = []\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            result.append(factor1(i))\n        else:\n            result.append(sum1(i))\n    return result\n\ndef factorial1(n):\n    result  = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result\n\ndef sum1(n):\n    return n * (n + 1) // 2\n"
+    },
+    {
+      "id": "HumanEval/107",
+      "pass": false,
+      "secs": 4.0,
+      "err": "  File \"/tmp/tmpmrsj30jw.py\", line 26\n    even_odd_palindrome(n):\nIndentationError: unexpected indent\n",
+      "answer": "m are even, and 6 of them are odd.\n\n    Note:\n        1. 1 <= n <= 10^3\n        2. returned tuple has the number of even and odd integer palindromes respectively.\n    \"\"\"\n    count_even = 0\n    count_odd = 0\n\n    for i in range(1, n + 1):\n        if = i(i)            if count_even % 2 == 0:\n            count_even += 1\n        else:\n            count_odd += 1\n\n    return (count_even, count_odd)\n```"
+    },
+    {
+      "id": "HumanEval/108",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmp4dfxk1yo.py\", line 13\n    count_nums(arr):\nIndentationError: unexpected indent\n",
+      "answer": "ich takes an array of integers and returns\n    the number of elements which has a sum of digits > 0.\n    If a number is negative, then its first signed digit will be negative:\n    e.g. -123 has signed digits -1, 2, and 3.\n    >>> count_nums([]) == 0\n    >>> count_nums([-1, 11, -11]) == 1\n    >>> count_nums([1, 1, 2]) == 3\n    \"\"\"\n    return sum(1 for num in arr if sum(sum(map(int, str(abs))) > 0))"
+    },
+    {
+      "id": "HumanEval/109",
+      "pass": false,
+      "secs": 4.9,
+      "err": "  File \"/tmp/tmpdtp9lkgm.py\", line 30\n    move_one_ball(arr):\nIndentationError: unexpected indent\n",
+      "answer": "for the given array.\n    move_one_ball([3, 5, 4, 1, 2])==>False\n    Explanation:It is not possible to get non-decreasing order for the given\n                array by performing any number of right shift operations.\n                \n \"\"\"\n    n = len(arr)\n    if n == 0:\n        return True\n\n    sorted = sorted(arr)\n\n    for = 1 to n -        if = sorted[i]:\n            return False\n\n    return True\n"
+    },
+    {
+      "id": "HumanEval/110",
+      "pass": false,
+      "secs": 4.3,
+      "err": "  File \"/tmp/tmpoi6xhlyw.py\", line 15\n    odd_count lst1.count(lambda for num in lst1 if num % 2 != 0)\n              ^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "ill be non-empty.\n    \"\"\"\n    #1. Count the of odd numbers in lst1\n    odd_count lst1.count(lambda for num in lst1 if num % 2 != 0)\n\n    #2. Count the number of even numbers in lst2\n    even_count = lst2.count(lambda num in lst2 if num % 2 == 0)\n\n    #3. Check if there number of even numbers in lst2 is at least the number of odd numbers in lst1\n    return \" even_count >= odd_count\" \"YES\" else \"NO\""
+    },
+    {
+      "id": "HumanEval/111",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmppcwn1054.py\", line 16\n    histogram(test):\nIndentationError: unexpected indent\n",
+      "answer": "': 2, 'b': 2}\n    histogram('b b b b a') == {'b': 4}\n    histogram('') == {}\n\n    \"\"\"\n    if not == '':\n        return {}\n    counts = {}\n    for letter in test.split():\n        counts[letter] = counts.getletter, 0) + 1\n    max_count = max(counts.values())\n    result = []\n()\n    for letter, count in counts.items():\n        if count == max_count:\n            result.append(letter)\n    return result\n"
+    },
+    {
+      "id": "HumanEval/112",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpaw5h0lxs.py\", line 14\n    reverse_delete(s, c):\nIndentationError: unexpected indent\n",
+      "answer": "he result string and True/False for the check.\n    Example\n    For s = \"abcde\", c = \"ae\", the result should be ('bcd',False)\n    For s = \"abcdef\", c = \"b\"  the result should be ('acdef',False)\n    For s = \"abcdedcba\", c = \"ab\", the result should be ('cdedc',True)\n    \"\"\"\n    result ''.join()\n    for ch in s:\n        if ch not in c:\n            result += ch\n    return (, result == result[::-1])\n```"
+    },
+    {
+      "id": "HumanEval/113",
+      "pass": false,
+      "secs": 7.2,
+      "err": "  File \"/tmp/tmpy83n28tz.py\", line 15\n    odd_count(lst):\nIndentationError: unexpected indent\n",
+      "answer": "nput.\"]\n    \"\"\"\n    result = []\n    for s in lst:\n        count = (int for c in s if c(c) 1 2 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 9 1 3 5 7 "
+    },
+    {
+      "id": "HumanEval/114",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmp7w8f6w76.py\", line 11\n    minSubArraySum(nums):\nIndentationError: unexpected indent\n",
+      "answer": "array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    n = len(nums)\n    current_sum = 0\n    min_sum = float('inf')\n\n    for i in range(n):\n        current_sum += nums[i]\n\n        if current_sum < min_sum:\n            min_sum = current_sum\n\n        if nums_sum < nums[i]:\n            current_sum = nums[i]\n\n    return min_sum\n```"
+    },
+    {
+      "id": "HumanEval/115",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmphgir80xv.py\", line 38\n    max_fill(grid, capacity):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n max_fill(grid, capacity):\n    import math\n    \"\"\"\n = sum of all1s in the grid\n    total = sum(sum for row in grid)\n    return mathtotal // capacity\n    \"\"\"\n"
+    },
+    {
+      "id": "HumanEval/116",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmp66tgv4bc.py\", line 14\n    sort_array(arr):\nIndentationError: unexpected indent\n",
+      "answer": "ber of ones, sort based on decimal value.\n\n    It must be implemented like this:\n    >>> sort_array([1, 5, 2, 3, 4]) == [1, 2, 3, 4, 5]\n    >>> sort_array([-2, -3, -4, -5, -6]) == [-6, -5, -4, -3, -2]\n    >>> sort_array([1, 0, 2, 3, 4]) [0, 1, 2, 3, 4]\n    \"\"\"\n    return sorted(arr, key=lambda(lambda x: ((x & 0xFFFFFFFF)).bit(0), default=lambda x: x(x & 0xFFFFFFFF)).bit(0), default=lambda x: x)))\n"
+    },
+    {
+      "id": "HumanEval/117",
+      "pass": false,
+      "secs": 3.6,
+      "err": "  File \"/tmp/tmp32e919k7.py\", line 16\n    select_words(s, n):\nIndentationError: unexpected indent\n",
+      "answer": "s(\"simple white space\", 2) ==> []\n    select_words(\"Hello world\", 4) ==> [\"world\"]\n    select_words(\"Uncle sam\", 3) ==> [\"Uncle\"]\n    \"\"\"\n    vowels = setaeiouoeiou    result = []\n    words = s.split()\n\n    for word in words:\n        count = 0\n        for c in word:\n            if c not vowels:\n                count += 1\n        if count == n:\n            result.append(word)\n\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/118",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpnawhqi_h.py\", line 18\n    get_closest_vowel(word):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n get_closest_vowel(word):\n    vowels = \"aeaeiouoe\"\n    n i in len(word) - 2, -1, 1:\n        if word[i] in vowels:\n            return word[i]\n    return \"\"\n```"
+    },
+    {
+      "id": "HumanEval/119",
+      "pass": false,
+      "secs": 6.4,
+      "err": "  File \"/tmp/tmpipgfmonn.py\", line 17\n    def's match_parens(lst):\n       ^\nSyntaxError: unterminated string literal (detected at line 17)\n",
+      "answer": "ce -= 1\n        if balance < 0:\n            return False\n\n    return True\n\n    Check 4: check t + s is balanced\n    balance = 0\n    for c in t + s:\n        if c == '('':\n            balance += 1\n        else c == ')':\n            balance -= 1\n        if balance < 0:\n            return False\n\n    return True\n\n    return 0\n\n    match_parens(['()(', ')']) == 'Yes'\n    match_parens([')', ')']) == 'No'"
+    },
+    {
+      "id": "HumanEval/120",
+      "pass": false,
+      "secs": 3.3,
+      "err": "  File \"/tmp/tmpwgn92in5.py\", line 28\n    maximum(arr, k):\nIndentationError: unexpected indent\n",
+      "answer": ", -3, 5]\n\n    Example 2:\n\n        Input: arr = [4, -4, 4], k = 2\n        Output: [4, 4]\n\n    Example 3:\n\n        Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1\n        Output: [2]\n\n    Note:\n        1. The length of the array will be in the range of [1, 1000].\n        2. The elements in the array will be in the range of [-1000, 1000].\n        3. 0 <= k <= len(arr)\n    \"\"\"\n    return sorted(arr)[-k:]"
+    },
+    {
+      "id": "HumanEval/121",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpdn6nbb87.py\", line 12\n    solution(lst):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n solution(lst):\n    \"\"\"Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.\n    \n\n    Examples\n    solution([5, 8, 7, 1]) ==> 12\n    solution([3, 3, 3, 3, 3]) ==> 9\n    solution([30, 13, 24, 321]) ==>0\n    \"\"\"\n    return sum(x for i, x in enumerate(lst) if i % 2 == 0 and x % 2 == 1)\n```"
+    },
+    {
+      "id": "HumanEval/122",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpos18f9e0.py\", line 17\n    add_elements(arr, k):\nIndentationError: unexpected indent\n",
+      "answer": "non-empty array of integers arr and an integer k, return\n    the sum of the elements with at most two digits from the first k elements of arr.\n\n    Example:\n\n        Input: arr = [111,21,3,4000,5,6,7,8,9], k = 4\n        Output: 24 # sum of 21 + 3\n\n    Constraints:\n        1. 1 <= len(arr) <= 100\n        2. 1 <= k <= len(arr)\n    \"\"\"\n    return sum(int for num in arr[:k] if num >= 10 and num <= 99)"
+    },
+    {
+      "id": "HumanEval/123",
+      "pass": false,
+      "secs": 4.0,
+      "err": "  File \"/tmp/tmpbds24v80.py\", line 20\n    get_odd_collatz(n):\nIndentationError: unexpected indent\n",
+      "answer": ": \n        1. Collatz(1) is [1].\n        2. returned list sorted in increasing order.\n\n    For example:\n    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.\n    \"\"\"\n    result = []\n    while n != 1:\n        if n % 2 == 1:\n            result.append(n)\n        n = 3 // 2 * 2 + 1\n    result.append(1)\n    return sorted(result)"
+    },
+    {
+      "id": "HumanEval/124",
+      "pass": false,
+      "secs": 7.3,
+      "err": "  File \"/tmp/tmphqaut1l2.py\", line 23\n    valid_date(date):\nIndentationError: unexpected indent\n",
+      "answer": ":\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return False\n    if not not isinstance:\n        return"
+    },
+    {
+      "id": "HumanEval/125",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpuviygms4.py\", line 13\n    split_words(txt):\nIndentationError: unexpected indent\n",
+      "answer": "... ord('z') = 25\n    Examples\n    split_words(\"Hello world!\") ➞ [\"Hello\", \"world!\"]\n    split_words(\"Hello,world!\") ➞ [\"Hello\", \"world!\"]\n    split_words(\"abcdef\") == 3 \n    '''\n    if = '():\n        return []\n()\n    if not == ',''):\n        return []\n.split()\n())\n    result = 0\n    for ch in txt:\n        if ch.islower() and            if ch in 'abc':\n            result += 1\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/126",
+      "pass": false,
+      "secs": 4.0,
+      "err": "  File \"/tmp/tmp213910ei.py\", line 19\n    is_sorted(lst):\nIndentationError: unexpected indent\n",
+      "answer": "sorted([1, 2, 3, 4, 5]) ➞ True\n    is_sorted([1, 3, 2, 4, 5]) ➞ False\n    is_sorted([1, 2, 3, 4, 5, 6]) ➞ True\n    is_sorted([1, 2, 3, 4, 5, 6, 7]) ➞ True\n    is_sorted([1, 3, 2, 4, 5, 6, 7]) ➞ False\n    is_sorted([1, 2, 2, 3, 3, 4]) ➞ True\n    is_sorted([1, 2, 2, 2, 3, 4]) ➞ False\n    '''\n    for len in 1(len(lst) - 1):\n        if lst[i] >= lst[i + 1]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "HumanEval/127",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmpj_ep2j0a.py\", line 23\n    intersection(interval1, interval2):\nIndentationError: unexpected indent\n",
+      "answer": "f the intersection\n    end_end = min(end1, end2)\n\n    # Check if there intervals intersect\n    if start_start > end_end:\n        return \"NO\"\n\n    # Find the length of the intersection\n    length = end_end - start_start +     # Check if the length is a prime number\n    if length <= 1:\n        return \"NO\"\n\n    if i * 2 <= length:\n        if length % i == 0:\n            return \"NO\"\n\n    return \"YES\"\n"
+    },
+    {
+      "id": "HumanEval/128",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpe2jv5vmy.py\", line 15\n    prod_signs(arr):\n                   ^\nSyntaxError: invalid syntax\n",
+      "answer": " return None for empty arr.\n\n    Example:\n    >>> prod_signs([1, 2, 2, -4]) == -9\n    >>> prod_signs([0, 1]) == 0\n    >>> prod_signs([]) == None\n    \"\"\"\n    if not == arr:\n        return None\n\n    total = 0\n    sign_product 1 1 for num in arr:\n        if num == 0:\n            return None\n\n        total = total + absnum\n\n        sign_product *= sign(num)\n\n    return total * sign_product\n\n\n```python"
+    },
+    {
+      "id": "HumanEval/129",
+      "pass": false,
+      "secs": 7.3,
+      "err": "  File \"/tmp/tmpid94nusz.py\", line 1\n    Here's the complete function:\n        ^\nSyntaxError: unterminated string literal (detected at line 1)\n",
+      "answer": "= 1\n        Output: [1]\n    \"\"\"\n    N = len(grid)\n    M = len(grid[0])\n    from heapq import he\n\n    # Priority a queue of tuples (path, current, row)\n    heap = []\n\n    # Initialize all cells\n    for r in range(N):\n        for c in range(M):\n            heap.append (grid, r, c))\n\n    # Directions the four can move\n    dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]\n\n    # Run the algorithm\n    for _ in"
+    },
+    {
+      "id": "HumanEval/130",
+      "pass": false,
+      "secs": 5.1,
+      "err": "  File \"/tmp/tmp4kks876t.py\", line 19\n    def's tri tri(n):\n       ^\nSyntaxError: unterminated string literal (detected at line 19)\n",
+      "answer": "= [1, 3, 2, 8]\n    \"\"\"\n    if = 0:\n        return [3]\n    elif n == 1:\n        return [1, 3]\n    elif = 2:\n        return [1, 3, 2]\n    else:\n        result = [1]  # for n(0)\n        for i in range(1, n + 1):\n            if i % 2 == 0:\n                result.append(1 + i // 2)\n            else:\n                result.append(resultresult[i - 1] + result[i - 2] + result[i + 1])\n        return result"
+    },
+    {
+      "id": "HumanEval/131",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmps_afdzo9.py\", line 11\n    digits(n):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n digits(n):\n    \"\"\"Given a positive integer n, return the product of the odd digits.\n    Return 0 if all digits are even.\n    For example:\n    digits(1)  == 1\n    digits(4)  == 0\n    digits(235) == 15\n    \"\"\"\n    result = 1\n    for digit in str(n):\n        if = int1:\n            result = result * int(int(d))\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/132",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpnels8033.py\", line 16\n    is_nested(string):\nIndentationError: unexpected indent\n",
+      "answer": "nested('[][]') ➞ False\n    is_nested('[]') ➞ False\n    is_nested('[[][]]') ➞ True\n    is_nested('[[]][[') ➞ True\n    '''\n    if not string(string):\n        return False\n\n    stack = []\n    for = (string):\n        if = '['':\n            stack.append()\n        elif ch == ']']:\n            if stack:\n False\n            stack.pop()\n        else:\n            return False\n\n    return len(stack) 0 0 True\n"
+    },
+    {
+      "id": "HumanEval/133",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmp8o68t7fq.py\", line 17\n    sum_squares(lst):\nIndentationError: unexpected indent\n",
+      "answer": "uared numbers in the given list,\n    round each element in the list to the upper int(Ceiling) first.\n    Examples:\n    For lst = [1,2,3] the output should be 14\n    For lst = [1,4,9] the output should be 98\n    For lst = [1,3,5,7] the output should be 84\n    For lst = [1.4,4.2,0] the output should be 29\n    For lst = [-2.4,1,1] the output should be 6\n    \n    \"\"\"\n    return sum(mapround,, lst)) **"
+    },
+    {
+      "id": "HumanEval/134",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmp4pf2asnv.py\", line 2\n    if Create a function that returns True if the last character\n                                      ^^^^^^^^^^^\nSyntaxError: expected 'else' after 'if' expression\n",
+      "answer": "  a part of a word, and False otherwise.\n    Note: \"word\" is a group of characters separated by space.\n\n    Examples:\n    check_if_last_char_is_a_letter(\"apple pie\") ➞ False\n    check_if_last_char_is_a_letter(\"apple pi e\") ➞ True\n    check_if_last_char_is_a_letter(\"apple pi e \") ➞ False\n    check_if_last_char_is_a_letter(\"\")\") ➞ False \n    '''\n    return bool not txt and txt(txt[-1]. isalpha() and"
+    },
+    {
+      "id": "HumanEval/135",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmptipgqdle.py\", line 13\n    can_arrange(arr):\nIndentationError: unexpected indent\n",
+      "answer": "rgest index of an element which\n    is not greater than or equal to the element immediately preceding it. If\n    no such element exists then return -1. The given array will not contain\n    duplicate values.\n\n    Examples:\n    can_arrange([1,2,4,3,5]) = 3\n    can_arrange([1,2,3]) = -1\n \"\"\"\n    n = len(arr)\n    for i in range(1, n):\n        if arr[i] < arr[i - 1]:\n            return i\n    return -1\n"
+    },
+    {
+      "id": "HumanEval/136",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmp3hkiomoi.py\", line 15\n    largest_smallest_integers(lst):\nIndentationError: unexpected indent\n",
+      "answer": ")\n    largest_smallest_integers([]) == (None, None)\n    largest_smallest_integers([0]) == (None, None)\n    '''\n    negatives = []\n()\n    positives = []\n       for num in lst:\n        if num < 0:\n            negatives.append.append(num)\n        elif num > 0:\n            positives.append(num)\n       a_neg = max(n) if b_neg else None\n    a_pos = min(posit) if a_pos else None\n    return (a_neg, a_pos)"
+    },
+    {
+      "id": "HumanEval/137",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmppqchkijd.py\", line 15\n    compare_one(a, b):\nIndentationError: unexpected indent\n",
+      "answer": "ne(1, 2.5) ➞ 2.5\n    compare_one(1, \"2,3\") ➞ \"2,3\"\n    compare_one(\"5,1\", \"6\") ➞ \"6\"\n    compare_one(\"1\", 1) ➞ None\n    \"\"\"\n    if isinstance(a, str) and isinstance(b, str):\n        return a(a) b)        return isinstance(a, str) or isinstance(b, str)\n        if isinstance(a, str):\n            a = float(a)\n        if isinstance(b, str):\n            b = float(b)\n        return a if a > b else b\n   "
+    },
+    {
+      "id": "HumanEval/138",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpcl8wnfbr.py\", line 10\n    is_equal_to_sum_even(n):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n is_equal_to_sum_even(n):\n    \"\"\"Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers\n    Example\n    is_equal_to_sum_even(4) == False\n    is_equal_to_sum_even(6) == False\n    is_equal_to_sum_even(8) == True\n    \"\"\"\n    return n >= 8 and n % 2 == 0\n```"
+    },
+    {
+      "id": "HumanEval/139",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpbdxp1gmx.py\", line 15\n    special_factorial(n):\nIndentationError: unexpected indent\n",
+      "answer": "cial_factorial(n):\n    \"\"\"The Brazilian factorial is defined as:\n    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!\n    where n >  \n\n    For example:\n    >>> special_factorial(4)\n    288\n\n    The function will receive an integer as input and should return the special\n    factorial of this integer.\n    \"\"\"\n    result 1  for i in range(1, n + 1):\n        result *= result\n return result\n```"
+    },
+    {
+      "id": "HumanEval/140",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpcs8n2k6a.py\", line 14\n    fix_spaces(text):\nIndentationError: unexpected indent\n",
+      "answer": "(\"Example 1\") == \"Example_1\"\n    fix_spaces(\" Example 2\") == \"_Example_2\"\n    fix_spaces(\" Example   3\") == \"_Example-3\"\n    \"\"\"\n    result = []\n    i = 0\n    n = len(text)\n    while i < n:\n        if = ' ':\n            count.append('1')\n            i += 1\n        else:\n            result.append(text[i])\n            i += 1\n    if len[-1] == 1:\n        result.append('-')\n    return ''.join(result)\n"
+    },
+    {
+      "id": "HumanEval/141",
+      "pass": false,
+      "secs": 4.4,
+      "err": "  File \"/tmp/tmp5c09ju6_.py\", line 17\n    file_name_check(file_name):\nIndentationError: unexpected indent\n",
+      "answer": "  if not isinstance_name, str):\n        return 'No'\n    if '.'(file_name) != 1:\n        return 'No'\n    parts, ext = file_name.split('.')\n    if not(parts and or not.isdigit(parts):\n        return 'No'\n    if len(parts) > 3:\n        return 'No'\n    if not parts.isalpha() or        not parts.isalpha():\n        return 'No'\n    if ext not in {'txt', 'exe', 'dll'}:\n        return 'No'\n    return 'Yes'"
+    },
+    {
+      "id": "HumanEval/142",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmph0dy54zk.py\", line 16\n    sum_squares(lst):\nIndentationError: unexpected indent\n",
+      "answer": ". The function will not \n    change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries. \n    \n    Examples:\n    For lst = [1,2,3] the output should be 6\n    For lst = []  the output should be 0\n    For lst = [-1,-5,2,-1,-5]  the output should be -126\n    \"\"\"\n    return sum(x ** i for i, x in enumerate(lst) for i in range(1, 5))"
+    },
+    {
+      "id": "HumanEval/143",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmpaa2omn2n.py\", line 45\n    if len(word) in 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31,           3.append(word)\n                                                                       ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "    Output: \"is\"\n\n    Example 2:\n        Input: sentence = \"lets go for swimming\"\n        Output: \"go for\"\n\n    Constraints:\n        * 1 <= len(sentence) <= 100\n        * sentence contains only letters\n    \"\"\"\n    words is sentence(sentence).    result = []\n    for word in words:\n        if len(word) in 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31,           3.append(word)\n    return \"join(resultresult)"
+    },
+    {
+      "id": "HumanEval/144",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpszrkjvnk.py\", line 15\n    simplify(x, n):\nIndentationError: unexpected indent\n",
+      "answer": "\n    <numerator>/<denominator> where both numerator and denominator are positive whole numbers.\n\n    You can assume that x, and n are valid fractions, and do not have zero as denominator.\n\n    simplify(\"1/5\", \"5/1\") = True\n    simplify(\"1/6\", \"2/1\") = False\n    simplify(\"7/10\", \"10/2\") = False\n    \"\"\"\n    numerator, denominator = x(x). n(n)\n    return ( * denominator) % ( * * denominator) ==  \n```"
+    },
+    {
+      "id": "HumanEval/145",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpv4q8qv2a.py\", line 14\n    order_by_points(nums):\nIndentationError: unexpected indent\n",
+      "answer": "of integers\n    in ascending order according to the sum of their digits.\n    Note: if there are several items with similar sum of their digits,\n    order them based their index in original list.\n\n    For example:\n    >>> order_by_points([1, 11, -1, -11, -12]) == [-1, -11, 1, -12, 11]\n    >>> order_by_points([]) == []\n    \"\"\"\n    return sorted(sorted(nums), key=lambda x: sum(map(int, str(str(x)))))"
+    },
+    {
+      "id": "HumanEval/146",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmp36whtpeu.py\", line 11\n    specialFilter(nums):\nIndentationError: unexpected indent\n",
+      "answer": "st and last digits of a number are odd (1, 3, 5, 7, 9).\n    For example:\n    specialFilter([15, -73, 14, -15]) => 1 \n    specialFilter([33, -2, -3, 45, 21, 109]) => 2\n    \"\"\"\n    count 0\n    for num in nums:\n        if num <= 10:\n            continue\n        s = str(num)\n        if s[0] in {'1', '3', '5', '7', '9'} and s[-1] in {'1', '3', '5', '7', '9'}:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "HumanEval/147",
+      "pass": false,
+      "secs": 3.7,
+      "err": "  File \"/tmp/tmpwwvu_xvy.py\", line 16\n    def's function_max_triples(n):\n       ^\nSyntaxError: unterminated string literal (detected at line 16)\n",
+      "answer": "ut: n = 5\n        Output: 1\n        Explanation: \n        a = [1, 3, 7, 13, 21]\n        The only valid triple is (1, 7, 13).\n    \"\"\"\n    a = [i * i - i + 1 for i in range(1, n + 1)]\n\n    count = 0\n    for i in range(n1):\n n - 1):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                if (a[i] + a[j] + a[k]) % 3 == 0:\n                    count += 1\n\n    return count"
+    },
+    {
+      "id": "HumanEval/148",
+      "pass": false,
+      "secs": 4.5,
+      "err": "  File \"/tmp/tmps7cmzhur.py\", line 18\n    def's function planet1, planet2):\n       ^\nSyntaxError: unterminated string literal (detected at line 18)\n",
+      "answer": "arth\", \"Mars\", \"Jupiter\", \"Saturn\")\n    '''\n    planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Sat Saturn', 'Uranus', 'Neptune']\n    if planet1 not planets or planet2 not planets:\n        return ()\n\n    index = planets.index(planet1)\n    index2 = planets.index(planet2)\n\n    if index < index2:\n        return planets[index + 1 :index2]\n    else:\n        return planets[index2 + 1 :index]"
+    },
+    {
+      "id": "HumanEval/149",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmpg26gbbw4.py\", line 18\n    sorted_list_sum(lst):\nIndentationError: unexpected indent\n",
+      "answer": "   If two words have the same length, sort the list alphabetically.\n    The function should return a list of strings in sorted order.\n    You may assume that all words will have the same length.\n    For example:\n    assert list_sort([\"aa\", \"a\", \"aaa\"]) => [\"aa\"]\n    assert list_sort([\"ab\", \"a\", \"aaa\", \"cd\"]) => [\"ab\", \"cd\"]\n    \"\"\"\n    return sorted([, lst, key=lambda word: (len(word), word(word))"
+    },
+    {
+      "id": "HumanEval/150",
+      "pass": false,
+      "secs": 2.2,
+      "err": "  File \"/tmp/tmpfev3c72j.py\", line 12\n    x_or_y(n, x, y):\nIndentationError: unexpected indent\n",
+      "answer": "A simple program which should return the value of x if n is \n    a prime number and should return the value of y otherwise.\n\n    Examples:\n    for x_or_y(7, 34, 12) == 34\n    for x_or_y(15, 8, 5) == 5\n    \n    \"\"\"\n    return x if is_prime(n) else y\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in 2(2, int + 1):\n        if n % i ==  :\n            return False\n    return True\n\n\n```"
+    },
+    {
+      "id": "HumanEval/151",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmpr4k2hrso.py\", line 15\n    double_the_difference(lst):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n double_the_difference(lst):\n       total a 0\n    for num in lst:\n        if isinstance(num, int) and if num >= 0 and            if num % 2 == 1:\n                total += num * num\n    return total\n```"
+    },
+    {
+      "id": "HumanEval/152",
+      "pass": false,
+      "secs": 3.6,
+      "err": "  File \"/tmp/tmpt6lm4tjy.py\", line 18\n    compare(game, guess):\nIndentationError: unexpected indent\n",
+      "answer": "eturn an array of the same length denoting how far off each guess was. If they have guessed correctly,\n    the value is 0, and if not, the value is the absolute difference between the guess and the score.\n       example:\n\n    compare([1,2,3,4,5,1],[1,2,3,4,2,-2]) -> [0,0,0,0,3,3]\n    compare([0,5,0,0,0,4],[4,1,1,0,0,-2]) -> [4,4,1,0,0,6]\n    \"\"\"\n    return [abs(g - s) for s, g in zip(game, guess)]"
+    },
+    {
+      "id": "HumanEval/153",
+      "pass": false,
+      "secs": 5.4,
+      "err": "  File \"/tmp/tmpawd1s79k.py\", line 52\n    return f_name}.{}.{strong_extension}\"\n                 ^\nSyntaxError: unmatched '}'\n",
+      "answer": "c.isupper())\n        sm = sum(1 for c in extension if c.islower())\n        strength = cap - sm\n\n        if strength > strongest_strength:\n            strongest_strength = strength\n            strongest_extension = extension\n\n        elif strength == strongest_strength:\n            if extension in extensions:\n                strongest_extension = extension\n\n    return f_name}.{}.{strong_extension}\""
+    },
+    {
+      "id": "HumanEval/154",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmpac8nnk2p.py\", line 13\n    cycpattern_check(a, b):\nIndentationError: unexpected indent\n",
+      "answer": "> False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n\n    \"\"\"\n    n = len(b)\n    m = len(a)\n    for =  in range(n):\n        rotated = b[i:] + b[:i]\n        if rotated in a:\n            return True\n    return False\n```"
+    },
+    {
+      "id": "HumanEval/155",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmp82ijiprs.py\", line 10\n    even_odd_count(num):\nIndentationError: unexpected indent\n",
+      "answer": "defpython\n even_odd_count(num):\n    \"\"\"Given an integer. return a tuple that has the number of even and odd digits respectively.\n\n     Example:\n        even_odd_count(-12) ==> (1, 1)\n        even_odd_count(123) ==> (1, 2)\n    \"\"\"\n    return sum(sum(1 for d in str(num) if d.isdigit  and  int % 2 == 0), sum(sum(1 for d in str(num) if d.isdigit() and int % 2 != 0))"
+    },
+    {
+      "id": "HumanEval/156",
+      "pass": false,
+      "secs": 3.9,
+      "err": "  File \"/tmp/tmpy56_94un.py\", line 14\n    int_to_mini_roman(number):\nIndentationError: unexpected indent\n",
+      "answer": "nt_to_mini_roman(426) == 'cdxxvi'\n    \"\"\"\n    roman_numer = [\n    (1000, 'M'),\n (900, 'CM'),\n (500, 'D'),\n (400, 'CD'),\n (100, 'C'),\n (90, 'XC'),\n (50, 'L'),\n (40, 'XL'),\n (10, 'X'),\n (90, 'IX'),\n (5,, 'V'),\n (4, 'IV'),\n (1, 'I'),\n    ]\n    result = ''\n    for value, symbol in roman_numer:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n```"
+    },
+    {
+      "id": "HumanEval/157",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpkpoff_2l.py\", line 13\n    right_angle_triangle(a, b, c):\nIndentationError: unexpected indent\n",
+      "answer": "e(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return True if the three\n    sides form a right-angled triangle, False otherwise.\n    A right-angled triangle is a triangle in which one angle is right angle or \n    90 degree.\n    Example:\n    right_angle_triangle(3, 4, 5) == True\n    right_angle_triangle(1, 2, 3) == False\n    '''\n    return sorted([a, b, c]) == [1, 2, 3]"
+    },
+    {
+      "id": "HumanEval/158",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpew_u6sb4.py\", line 13\n    find_max(words):\nIndentationError: unexpected indent\n",
+      "answer": " with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\" ,\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    return max(sorted(words), key=lambda word: ((set(word), word)))"
+    },
+    {
+      "id": "HumanEval/159",
+      "pass": false,
+      "secs": 4.7,
+      "err": "  File \"/tmp/tmpwpav8h81.py\", line 30\n    total = = number\n            ^\nSyntaxError: invalid syntax\n",
+      "answer": "ning : integer\n        the number of remaining carrots that exist exist in stock\n    \n    Constrain:\n    * 0 <= number <= 1000\n    * 0 <= need <= 1000\n    * 0 <= remaining <= 1000\n\n    Have fun :)\n    \"\"\"\n    total = = number\n    if remaining <= need:\n        total += remaining\n        remaining = 0\n    else:\n        total += need\n        remaining = remaining - need\n\n    return [total, remaining]"
+    },
+    {
+      "id": "HumanEval/160",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmp6o4qadyy.py\", line 28\n    do_algebra(operator, operand):\nIndentationError: unexpected indent\n",
+      "answer": "   Example:\n    operator['+', '*', '-']\n    array = [2, 3, 4, 5]\n    result = 2 + 3 * 4 - 5\n    => result = 9\n\n    Note:\n        The length of operator list is equal to the length of operand list minus one.\n        Operand is a list of non-negative integers.\n        Operator list has at least one operator, and operand list has at least two operands.\n\n    \"\"\"\n    return eval(operator.join operand))"
+    },
+    {
+      "id": "HumanEval/161",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmp4whpnzkk.py\", line 14\n    solve(s):\nIndentationError: unexpected indent\n",
+      "answer": " return the resulted string.\n    Examples\n    solve(\"1234\") = \"4321\"\n    solve(\"ab\") = \"AB\"\n    solve(\"#a@C\") = \"#A@c\"\n    \"\"\"\n    result = []\n    has s:\n any(c.isalpha() for c in s):\n        result = listjoin(s)\n    else:\n        result = list(s)\n    for i in range(len(result)):\n        c = result[i]\n        if c.isalpha():\n            result = result.swapcase()\n        return ''.join(result)\n   "
+    },
+    {
+      "id": "HumanEval/162",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpbb8fsdos.py\", line 20\n    return hashlib.md5(text.encode('utf-8')).).hexdigest()\n                                             ^\nSyntaxError: unmatched ')'\n",
+      "answer": "defpython\nstring_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n\n    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'\n    \"\"\"\n    if not == '':\n    return None\n\n    return hashlib.md5(text.encode('utf-8')).).hexdigest()"
+    },
+    {
+      "id": "HumanEval/163",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpw3xdmd1h.py\", line 13\n    generate_integers(a, b):\nIndentationError: unexpected indent\n",
+      "answer": "rate_integers(a, b):\n    \"\"\"\n    Given two positive integers a and b, return the even digits between a\n    and b, in ascending order.\n\n    For example:\n    generate_integers(2, 8) => [2, 4, 6, 8]\n    generate_integers(8, 2) => [2, 4, 6, 8]\n    generate_integers(10, 14) => []\n    \"\"\"\n    result = []\n    for i in range(a, b + 1):\n        if i % 2 ==  :\n            result.append(i)\n    return result\n"
+    }
+  ]
+}
