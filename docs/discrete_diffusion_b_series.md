@@ -438,3 +438,15 @@ pair exact match (reference pair among top-2×2 candidates 55 %, top-4×4 59 %),
 own chain-rule joint recovers essentially the whole S = 8 → 16 gap in free generation: **dev2 70.0 → 89.3 %**
 (S = 16: 90.0 %) — at 2 extra forwards per step (22 per block), i.e. no compute advantage.  The zero-forward
 compatibility head was not trained; the Phase B9 brief redirected the work to global block denoising.
+
+## 14. Phase B9 — global block denoising (summary; full record in global_block_denoising.md)
+
+Trajectory analysis of the K = 16 sampler: the final token is in the top-8 of 75 % of still-masked positions already
+at the first forward (86 % at step 8) but top-1 only at 34 % (52 %); the independent-argmax block of the first forward
+has 6.8 adjacent duplicate tokens per 16 — individually plausible, jointly degenerate marginals; coupling between
+positions decays with distance (JSD 0.15–0.17 bits at distance 1–2, 0.05 at ≥ 8); a hidden-state probe does not pick
+the eventual token better than the LM head.  Global refinement without training fails in every form (full-block
+Jacobi: collapse to repetition; soft-token inputs: 4–6 % token accuracy; non-monotonic confidence re-masking: 62 %
+vs 76 % for left-to-right monotonic at S = 8).  Conclusion: the frozen mask-only denoiser does one thing — predict
+masks from committed context — and a parallel sampler has to be *taught* to resolve dependencies in one forward
+(Phase B10).

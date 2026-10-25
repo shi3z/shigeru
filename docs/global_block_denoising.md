@@ -169,9 +169,9 @@ per-step W→C / C→W of the current argmax block) and free generation (GSM8K a
 | sampler | what moves per step | S = 4: TF token acc / GSM8K | S = 8 | S = 16 |
 |---|---|---|---|---|
 | C1 monotonic unmasking, left-to-right (baseline) | K/S positions placed, never revisited | 41.3 % / **32 %** | 54.2 % / **76 %** | 63.3 % / **92 %** |
-| C2 full-block synchronous refinement (Jacobi on the all-visible block) | 6–9 of 16 tokens rewritten every step | 9.7 % / 0 % | 7.1 % / 0 % | – |
+| C2 full-block synchronous refinement (Jacobi on the all-visible block) | 6–9 of 16 tokens rewritten every step | 9.7 % / 0 % | 7.1 % / 0 % | 7.0 % / 0 % |
 | C2r non-monotonic confidence re-masking (any token can return to [MASK]; visible tokens kept, masks filled) | 2–7 changes / step, 0.6–1.9 W→C vs 0.3–0.8 C→W per step | 42.9 % / 32 % | 52.5 % / 62 % | 58.3 % / 74 % |
-| C3 distribution-level (soft token embeddings for unplaced positions) | all 16 distributions updated | __SOFT4__ | __SOFT8__ | __SOFT16__ |
+| C3 distribution-level (soft token embeddings for unplaced positions) | all 16 distributions updated | 5.9 % / 0 % | 4.5 % / 0 % | 5.2 % / 0 % |
 | C4 annealed soft (T 1 → 0.2, α 0 → 1) | all 16 | 6.0 % / 0 % | 4.2 % / 0 % | 4.0 % / 0 % |
 | C4 annealed soft, mild (T 1 → 0.5, α 0 → 0.5) | all 16 | 6.0 % / 0 % | 4.2 % / 0 % | 4.0 % / 0 % |
 | cosine mask schedule for C2r | – | 36.2 % / 2 % | 11.1 % / 2 % | 6.7 % / 10 % |
@@ -208,3 +208,51 @@ and the first-forward argmax block is a degenerate, repetitive object (6.8 dupli
 "holes are filled left to right, and each filled hole sharpens its right neighbours by 0.1–0.17 bits" — not "the whole
 sentence converges".  Correction rate is 0 by construction in C1; in C2r, W→C ≈ 1.5–2× C→W but the total gain is eaten
 by the worse order; in C2 and C3/C4, C→W dominates and the block diverges.
+
+## 6. Evaluation (brief §8)
+
+No global-refinement sampler reached the stage of a held-out or test evaluation: every variant without training is
+below the monotonic baseline on dev-50 (§4), so the comparison table of the brief reduces to the existing rows
+(AR 88.2 % / 68.9 %, A-series K = 4 84.2 % / 40.2 %, B-series S = 16 left 84.8 % / 50.6 %, S = 8 left 72.9 % / 8.5 %
+GSM8K test / HumanEval; trust_aware_diffusion.md §7).  The trained successor of this line — the distilled parallel
+student of Phase B10, which reaches 81.3 % at S = 8 on dev2 — is evaluated in global_consistency_distillation.md.
+
+## 7. Compute
+
+Diagnostics of this phase: trajectory runs 5 × 3–5 min, probe 2 min, global-sampler sweep 79 min + variants 3 × 15
+min, all on single A100s (peak 7.9 GB inference, 404 MB of saved hidden states): about 3 GPU-hours.  No training.
+
+## 8. Failed hypotheses (recorded so they are not repeated)
+
+1. Full-block synchronous (Jacobi) refinement of the all-visible block with the mask-only denoiser: rewrites 6–9 of 16
+   tokens per step, accuracy decays 34 → 7 %, output is repetition (0.87).  The model is not "self-copying" — it does
+   not trust a fully visible self-generated block and has no attractor other than the degenerate one.
+2. Soft-token (probability-weighted embedding) inputs, with or without temperature/mixing annealing: 4–6 % token
+   accuracy, GSM8K 0 % — out of the training distribution; a soft state needs its own noise process and objective
+   (brief §4 of B10), which was not attempted here.
+3. Non-monotonic confidence re-masking (any token may return to [MASK]): converges and nets W→C > C→W per step, but
+   lands below left-to-right monotonic unmasking (62 vs 76 % at S = 8) because confidence order is the worse order.
+4. A forward on a fully visible block as the *last* step of any sampler: rewrites 13 of 16 tokens (first version of
+   C2r) — the last forward must still see masks.
+5. Hidden-state probe for the eventual token: no gain over the LM head (§2.4).
+
+## 9. Go / No-Go
+
+| gate | verdict | evidence |
+|---|---|---|
+| 1 global information in the intermediate state | weak yes | the final token is in the top-8 of 75 % of masked positions at step 1 and 86 % at step 8; top-1 only 34 / 52 %; no probe does better than the LM head |
+| 2 global correction without training | **no** | §4: every multi-position update is below monotonic left-to-right; sync and soft collapse |
+| 3 training feasibility | deferred to B10 | the frozen denoiser supports one operation (predict masks from committed context); teaching it to resolve dependencies in one forward is B10's object, and its first result is positive (S = 8 dev2 70.0 → 81.3 %) |
+| 4 compute efficiency | not reached here | – |
+
+## 10. Next architecture (proposal, from the measurements)
+
+The measurements point away from "refine all 16 positions of a committed block" with the current model and toward
+making each parallel forward *resolve more of the dependency it currently leaves open*: (i) distil the resolved
+conditionals of the chain-rule teacher into the one-forward student (B10 Stage 2, positive), extending from the two
+placed positions to the whole block via the next-state transition term; (ii) only after that, re-introduce
+revisiting (C2r-style re-masking) on a student whose predictions at visible positions are trained to be meaningful,
+with a noise process that includes wrong visible tokens at low rates and identity targets weighted up — the B2
+collapse came from high corruption rates and visible-correction losses on a model that was never asked to keep its
+own outputs; (iii) a soft-state denoiser is a separate research line requiring its own forward process (Gaussian or
+Dirichlet noise on token distributions) and should not be bolted onto the mask-only model.
