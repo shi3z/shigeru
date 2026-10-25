@@ -97,3 +97,47 @@ Phase B9 brief received at this point redirects the research away from token-sel
 unexplored here.  The recorded facts carry over: the two tokens of a step are strongly dependent (67 % argmax change),
 and conditioning fixes most of the S = 8 loss — a global method has to achieve the same coupling for all 16 positions
 without sequential conditioning.
+
+### 2.3 Top-k oracle diagnostic, k = 1 … 32 (brief v2 §2; S = 8 left-to-right, teacher-forced, 2 368 two-token steps on GSM8K dev 0–49, 3 528 on HumanEval 0–63)
+
+Candidates = the step's own top-k at each of the two positions (results/pure/b8_candidates_*.jsonl keep the top-32 and
+their log-probs for every step); "pair in candidates" = both reference tokens present = the ceiling of any re-ranker.
+
+| k | GSM8K: token recall | GSM8K: reference pair among k×k | GSM8K: oracle pair exact | HumanEval: token recall | HumanEval: pair among k×k |
+|---|---|---|---|---|---|
+| 1 (independent argmax) | 54.3 % | 47.8 % | 47.8 % | 92.8 % | 91.4 % |
+| 2 | 60.7 % | 55.0 % | 55.0 % | 94.0 % | 92.8 % |
+| 4 | 65.2 % | 58.9 % | 58.9 % | 94.8 % | 93.7 % |
+| 8 | 69.9 % | 63.0 % | 63.0 % | 95.5 % | 94.4 % |
+| 16 | 74.6 % | 66.9 % | 66.9 % | 96.3 % | 95.2 % |
+| 32 | 79.5 % | 71.7 % | 71.7 % | 96.9 % | 95.6 % |
+| chain-rule joint, k = 2 / 4 (2 / 4 extra forwards) | – | – | 50.6 / 51.6 % | – | 92.3 % (k = 2) |
+
+By distance of the position from the block's correct left context (GSM8K; d = 0: the position right after the longest
+correct visible prefix, d = 1: the second token of the pair, d ≥ 2: beyond the first divergence):
+
+| d | n | independent token accuracy | reference in top-2 | in top-8 |
+|---|---|---|---|---|
+| 0 | 1 195 | **94.5 %** | 99.3 % | 100 % |
+| 1 | 1 358 | **74.6 %** | 82.6 % | 89.4 % |
+| 2 | 228 | 23.3 % | 36.0 % | 58.8 % |
+| 3–7 | ~1 000 | 20–23 % | 27–30 % | 39–50 % |
+| ≥ 8 | 934 | 16.5 % | 21.1 % | 34.7 % |
+
+By step: independent pair exact 75 % at step 1, 61 / 55 / 49 / 43 / 35 / 33 / 30 % at steps 2–8; the pair-in-top-2×2
+rate follows (88 → 32 %).  HumanEval (teacher-forced code blocks are near-deterministic): the same shape, d = 0 99.5 %,
+d = 1 97.2 %, d ≥ 2 13–41 %.
+
+**Reading (Gate 1 of brief v2).**  The reference pair is in the top-2×2 set only 55 % of the time and even top-32×32
+reaches 72 % — but that number is dominated by positions *after the first divergence from the reference wording*
+(d ≥ 2: 16–23 % accuracy, 35–59 % in top-8), where the reference token is simply not what the model's own context
+calls for.  Where the context is still the reference's, the first token of the pair is 94.5 % right and the second
+74.6 % right with 82.6 % in its top-2: at the point of placement the problem is neither candidate generation (99 /
+83 % containment) nor dramatically combination selection (≤ 8 points available at d = 1).  **The block-level loss
+comes from the cascade**: once one token of the pair deviates, every later position is conditioned on a diverged
+block and the exact-match metric is lost — which is why teacher-forced code blocks look near-perfect (91 % pair
+exact) while free generation of code at S = 8 passes 8.5 % of HumanEval, and why the chain-rule joint is worth +3
+points teacher-forced but +19 points of GSM8K accuracy in free generation (§2.2): it prevents the incoherent pair
+that starts the cascade.  Confidence order instead of left-to-right: pair exact 46.0 %, pair-in-top-2×2 53.5 %, the
+dependency between the two chosen positions decays with their distance (JSD 0.64 bits at distance 1, 0.37 at 2,
+0.26 at 3, 0.16 at 4, ≤ 0.1 beyond 6).

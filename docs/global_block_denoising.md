@@ -64,3 +64,37 @@ shrink with distance (§2.3) — the block is globally coupled.  At step 8 the s
 half the positions have their final argmax, the other half is decided only in the last steps by the growing left
 context.  The entropy at masked positions falls smoothly (2.5 → 1.8 at step 8 → 0.2), i.e. the process is not a
 sudden commitment but a gradual sharpening — which is what a distribution-level sampler would try to exploit.
+
+### 2.2 S = 8 (same blocks) and free generation
+
+S = 8 left-to-right, teacher-forced (results/pure/traj_s8_left_tf.json): first forward identical (34–38 % position
+accuracy, 6.8 adjacent duplicates); masked top-1 recall of FINAL 0.38 → 0.58 (step 5) → 0.80 (step 7); the per-step
+JSD at masked positions is larger (0.15–0.30 vs 0.09–0.16) and 40–47 % of masked argmaxes change every step —
+placing two tokens per step moves the rest of the block more than placing one.  Hamming to REF ends at 7.3 (vs 5.9
+at S = 16); 52 % of positions never match the reference.  Free generation S = 16 left (574 blocks, GSM8K dev-50
+92 %): the same curves within 1–2 points (masked top-1 recall of FINAL 0.38 / 0.53 / 0.72 / 1.0 at steps 1 / 8 /
+12 / 16; stabilisation mean 8.3 steps, 51 % by step 8) — the teacher-forced trajectories are representative of
+deployment.  The final blocks of free generation contain 0.8 adjacent duplicates per block (vs 0.1 teacher-forced) —
+some of the first-forward degeneracy survives to the output when no reference prefix anchors the block.
+
+### 2.3 Where the movement comes from (JSD at still-masked positions by distance to the position placed last)
+
+See results/pure/traj_s16_left_tf.json → `jsd_by_distance_to_last_placed` (filled when the re-run with the distance
+breakdown finishes; the pairwise diagnostic of pairwise_joint_diffusion.md §2.3 gives the same quantity for the
+conditional on one placed token: JSD 0.64 bits at distance 1, 0.37 at 2, 0.26 at 3, 0.16 at 4, ≤ 0.1 beyond 6).
+
+### 2.4 Is the final block predictable from the intermediate hidden states? (bench/probe_hidden.py)
+
+A bilinear probe (rank 256; score = (W h)·E[c] + β·log p(c)) was trained to pick the FINAL token among the step's
+top-8 candidates from the final-layer hidden state of the masked position, on the blocks of prompts 0–24, and
+evaluated on prompts 25–49 (16 840 masked-position rows; results/pure/probe_hidden_s16.json).
+
+| | LM head (sampler's own ranking) | probe on hidden state |
+|---|---|---|
+| top-1 among the top-8 candidates, given the final token is among them (test) | **57.9 %** | 56.0 % (train 72.8 %) |
+| recall of the final token, step 1 / 4 / 8 (test) | 33.6 / 42.1 / 51.8 % | 33.0 / 39.6 / 50.9 % |
+
+**No**: the hidden state of a masked position carries no linearly readable information about the eventual token
+beyond what the LM head already outputs (the probe only overfits).  Whatever decides the final token later is
+produced by *later forwards with more context*, not stored in the current state.  Gate 1 is therefore passed only in
+the weak sense: the candidate set is known early (top-8 recall 75–86 %), the choice among candidates is not.
