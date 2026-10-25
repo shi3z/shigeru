@@ -119,7 +119,7 @@ is nothing to resolve and the extra LoRA costs 2–3 points.  A deployment there
 |---|---|---|---|---|---|
 | B-series S = 8 (undistilled adapter; trust_aware_diffusion.md §7) | 72.9 % | – | 1.72 | 77.6 | 4 / 100 |
 | **student A (conditional distillation, 12 k states, 25 min)** | **77.1 %** (1 017 / 1 319) | **+169 / −113 items, McNemar p = 0.001** | 1.71 | 75.5 | 35 / 54 |
-| student E (GSM8K + MBPP states, 3 000 steps) | __ETEST__ | | | | |
+| student E (GSM8K + MBPP states, 3 000 steps) | **78.4 %** (1 034 / 1 319) | +166 / −93 vs baseline, p < 0.001; +74 / −57 vs A, p = 0.16 | 1.71 | 73.6 | 4 / 61 |
 | reference: B8 joint teacher (22 forwards per block) | __TTEST__ | | 0.67 | ~30 | |
 | reference: S = 16 left-to-right, undistilled | 84.8 % | | 0.90 | 56 (zeta) | 0 / 67 |
 
@@ -164,7 +164,7 @@ objective is the obvious next addition).
 | B8 joint teacher, S = 8 | 22 | __TTEST__ | 23.2 % | ~30 | 7.9 GB | – |
 | **B10 student A, S = 8** | **8** | **77.1 %** | 10.4 % | 75.5 | 7.9 GB | 0.8 + 0.4 |
 | B10 student A, S = 16 | 16 | – (dev2 87.3) | 54.9 % | 36.9 | 7.9 GB | |
-| B10 student E (GSM8K + MBPP), S = 8 | 8 | __ETEST__ | __EH8__ | | | 0.8 + 1.3 |
+| B10 student E (GSM8K + MBPP), S = 8 | 8 | 78.4 % | 0.0 % | 73.6 | 7.9 GB | 0.8 + 1.3 |
 
 Latency per GSM8K problem at S = 8: 2.46 s (student) vs 2.4–2.6 s (baseline) — the student adds no inference cost
 (same LoRA count after merging).  Teacher-data generation: 89 min (GSM8K, 65 k states, 343 k forwards) + 25 min (MBPP)
