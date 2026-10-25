@@ -171,3 +171,22 @@ target a 2–5 point seam penalty that is not where the programs are lost; the l
 pair-seam error rate (8–13 %) that the ablation of §2 has already shown how to lower — masked CE on the student's own
 S = 8 states with joint-resolved targets (arm B) — and from the first-forward format decision (E).  The minimal
 training to run is therefore arm B with *code states in the evaluation's prompt format* added, not a Python rule.
+
+### 4.1 What the MBPP states did to student E (teacher-forced HumanEval, same blocks as §4)
+
+| token accuracy, HumanEval reference blocks | baseline S = 8 | **student E S = 8** | baseline S = 16 | **student E S = 16** |
+|---|---|---|---|---|
+| all "other" tokens | 92.9 % | 81.0 % | 95.1 % | 81.0 % |
+| colon | 96.4 % | **17.9 %** | 96.4 % | **16.7 %** |
+| bracket | 89.9 % | 74.7 % | 94.5 % | 77.1 % |
+| newline | 92.9 % | 82.2 % | 94.2 % | 75.2 % |
+| indent | 91.9 % | 90.4 % | 94.9 % | 90.8 % |
+| pair crossing a boundary / plain | 90.0 / 92.3 % | 77.1 / 80.0 % | – | – |
+
+Student E lost code prediction *in general*, at S = 16 as much as at S = 8 — the colon (the end of a `def` line or a
+block opener) falls from 96 to 17 %: the MBPP teacher states (headers without type hints, two-space indentation in the
+MBPP references, no code fence) taught a different code dialect, and the student now predicts that dialect inside
+HumanEval blocks.  This is a *distribution shift of the training states*, not a parallel-decoding effect — it would
+be visible with any training recipe on those states — and it is what the function-format code states of §5 are
+designed to avoid.  Indentation tokens themselves are unaffected (90–91 %): the "IndentationError" label in §3 was
+never about indentation.
