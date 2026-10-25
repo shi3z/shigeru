@@ -59,3 +59,25 @@ time embedding (the B-series found it harmful), one forward per denoising step, 
 the existing left-to-right rule; no pairwise re-evaluation at inference, no AR path.  Teacher and student share the
 GPU during training (2 × 8.1 GB weights + LoRA state; peak 20.7 GB).  Full fine-tuning and a new global denoiser are
 deliberately not started (brief §4, §12).
+
+## 5. Distillation results (Stage 2)
+
+### 5.1 Pilot and the first two variants (12 000 teacher states from 286 GSM8K-train prompts, 1 000 steps × 8, lr 1e-4, LoRA r 64 on top of the merged B-series model; ~25 min on one A100, peak 20.7 GB)
+
+Held-out = states of 7 prompts never seen in training.  "hard" = states where the teacher's joint pair differs from
+the independent argmax (18 % of states); "easy" = the rest.
+
+| run | hard-state pair accuracy (student's one forward = teacher's pair) | easy-state pair accuracy | GSM8K dev-50, S = 8 | **GSM8K dev2 (150), S = 8** | forwards / block |
+|---|---|---|---|---|---|
+| B-series student before distillation (baseline) | 2.9 % | 100 % | 76 % | **70.0 %** | 8 |
+| pilot: 400 steps, 8 000 states, no hard up-weighting | (not measured) | – | 76 % | – | 8 |
+| **A: pair-KL (CE on a*, KL to p_T(·\|a*) at j), hard ×4** | **47.6 %** | 97.2 % | **82 %** | **81.3 %** (+28 / −11 items vs baseline, McNemar p = 0.0095) | 8 |
+| B: A + look-ahead transition KL on the other masked positions | 49.5 % | 98.3 % | __B50__ | __B150__ | 8 |
+| reference: B8 joint teacher (2 extra forwards per step) | 100 % | 100 % | 84 % | 89.3 % | 22 |
+| reference: S = 16 left-to-right, same adapter | – | – | 92 % | 90.0 % | 16 |
+
+**Gate 1 (teacher gap shrinks): yes** — the student reproduces the teacher's resolved pair in half of the states
+where it previously never did, without any extra forward, after 25 minutes of LoRA training on 12 k states.
+**Gate 3 (free generation): yes on dev2** — S = 8 GSM8K 70.0 → 81.3 % on 150 fresh items (p = 0.01), the first
+S = 8 result above the brief's 80 % short-term target; the teacher's 89.3 % marks how much is left.  S = 16 with the
+same student, HumanEval, variant B and the full-data run follow in §5.2.

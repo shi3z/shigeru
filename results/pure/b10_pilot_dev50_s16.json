@@ -1,0 +1,709 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 16,
+  "n": 50,
+  "skip": 0,
+  "prompts": "bench/prompts_gsm8k_dev.json",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "peak_mem_gib": 7.83,
+  "seconds": 237.2,
+  "args": {
+    "model": "runs/zeta_sft_final_e5/final",
+    "adapter": "runs/bdiff_e5_lr1e4/adapter",
+    "adapter2": "runs/consist_pilot/adapter",
+    "no_time": true,
+    "prompts": "bench/prompts_gsm8k_dev.json",
+    "refs": null,
+    "n": 50,
+    "skip": 0,
+    "K": 16,
+    "steps": 16,
+    "unmask": "left",
+    "remask": "none",
+    "remask_budget": 2,
+    "remask_start": 2,
+    "tau_unmask": 0.9,
+    "tau_remask": 0.5,
+    "trust": null,
+    "trust_mask": null,
+    "schedule": "linear",
+    "pair": "none",
+    "pair_k": 2,
+    "skip_tf": true,
+    "skip_gen": false,
+    "max_blocks": 6,
+    "max_new_tokens": 384,
+    "out": "results/pure/b10_pilot_dev50_s16.json"
+  },
+  "TF": {},
+  "GEN": {
+    "S16_u-left_r-none": {
+      "accuracy": 0.88,
+      "n": 50,
+      "tok_s_mean": 33.6,
+      "tokens_per_forward": 0.901,
+      "mean_tokens": 159.2,
+      "latency_s_mean": 4.74,
+      "premature_eos": 0,
+      "finish_length": 1,
+      "remasked_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 1.0,
+          "masked": 15.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 3.0,
+          "masked": 13.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 5.0,
+          "masked": 11.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 7.0,
+          "masked": 9.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 9,
+          "fixed": 9.0,
+          "masked": 7.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 10,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 11,
+          "fixed": 11.0,
+          "masked": 5.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 12,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 13,
+          "fixed": 13.0,
+          "masked": 3.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 14,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 15,
+          "fixed": 15.0,
+          "masked": 1.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 16,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ],
+      "rows": [
+        {
+          "id": "gsm8k_dev_0000",
+          "n_tokens": 251,
+          "seconds": 7.43,
+          "tok_s": 33.8,
+          "forwards": 272,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: First round jumps.**\n\n- Hattie: 180 jumps  \n- Lorelei: \\( \\frac{3}{4} \\) times Hattie’s jumps  \n  \\( \\frac{3}{4} \\times 180 = 135 \\) jumps\n\n**Step 2: Second round jumps.**\n\n- Hattie: \\( \\frac{2}{3} \\) times her first round jumps  \n  \\( \\frac{2}{3} \\times 180 = 120 \\) jumps  \n- Lorelei: 50 more than Hattie  \n  \\( 120 + 50 = 170 \\) jumps\n\n**Step 3: Total jumps.**\n\n- Hattie total: \\( 180 + 120 = 300 \\) jumps  \n- Lorelei total: \\( 135 + 170 = 305 \\) jumps  \n- Total: \\( 300 + 305 = 605 \\) jumps\n\n**Final answer:**  \n#### 605"
+        },
+        {
+          "id": "gsm8k_dev_0001",
+          "n_tokens": 190,
+          "seconds": 5.04,
+          "tok_s": 37.7,
+          "forwards": 204,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n**Step 1: Daily water from bottles**  \nEach bottle is 1.5 quarts, and he drinks 2 bottles:  \n\\( 1.5 \\times 2 = 3 \\) quarts per day.\n\n**Step 2: Convert bottles to ounces**  \n1 quart = 32 ounces, so:  \n\\( 3 \\times 32 = 96 \\) ounces from bottles.\n\n**Step 3: Add additional ounces**  \nHe also drinks 20 ounces daily:  \n\\( 96 + 20 = 116 \\) ounces per day.\n\n**Step 4: Weekly total**  \nThere are 7 days in a week:  \n\\( 116 \\times 7 = 812 \\) ounces per week.\n\n**Step 5: Final answer**  \n#### 812"
+        },
+        {
+          "id": "gsm8k_dev_0002",
+          "n_tokens": 87,
+          "seconds": 2.51,
+          "tok_s": 34.6,
+          "forwards": 102,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Mark currently reads for 2 hours each day.  \n2. There are 7 days in a week.  \n3. His current weekly reading time is:  \n   \\( 2 \\times 7 = 14 \\) hours.  \n4. He wants to increase this by 4 hours:  \n   \\( 14 + 4 = 18 \\) hours.  \n\n#### 18"
+        },
+        {
+          "id": "gsm8k_dev_0003",
+          "n_tokens": 194,
+          "seconds": 5.6,
+          "tok_s": 34.7,
+          "forwards": 221,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let’s break it down step by step.\n\n**Step 1: Find the number of hours in a typical Earth day.**  \nA typical Earth day has 24 hours.\n\n**Step 2: Find the time traveled.**  \nThe problem says the spacecraft traveled \"eight hours less than twice the number of hours in a typical Earth day.\"  \nSo:  \nTwice the number of hours = \\( 2 \\times 24 = 48 \\) hours  \nMinus 8 hours = \\( 48 - 8 = 40 \\) hours.\n\n**Step 3: Find the average speed.**  \nAverage speed = distance ÷ time  \nDistance = 4,000 parsecs  \nTime = 40 hours  \nAverage speed = \\( \\frac{4000}{40} = 100 \\) parsecs per hour.\n\n**Final answer:**  \n#### 100"
+        },
+        {
+          "id": "gsm8k_dev_0004",
+          "n_tokens": 126,
+          "seconds": 3.4,
+          "tok_s": 37.0,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. Neil had 7 games at first.\n2. Henry gave Neil 6 games.\n3. After receiving the games, Neil has \\( 7 + 6 = 13 \\) games.\n4. Henry now has 4 times more games than Neil. That means Henry has \\( 4 \\times 13 = 52 \\) games.\n5. To find Henry's original number of games, we add the 6 games he gave away: \\( 52 + 6 = 58 \\).\n\n**Final answer:**  \n#### 58"
+        },
+        {
+          "id": "gsm8k_dev_0005",
+          "n_tokens": 95,
+          "seconds": 2.55,
+          "tok_s": 37.2,
+          "forwards": 102,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Babysitting income**:  \n   \\( 4 \\times 30 = 120 \\) dollars.\n\n2. **Washing cars income**:  \n   \\( 5 \\times 12 = 60 \\) dollars.\n\n3. **Total raised**:  \n   \\( 120 + 60 = 180 \\) dollars.\n\n#### 180"
+        },
+        {
+          "id": "gsm8k_dev_0006",
+          "n_tokens": 218,
+          "seconds": 5.99,
+          "tok_s": 36.4,
+          "forwards": 238,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Five years ago**:  \n   There were 500 old books.\n\n2. **Two years ago**:  \n   The librarian bought 300 books.  \n   Total books then = 500 + 300 = 800.\n\n3. **Last year**:  \n   The librarian bought 100 more books than she had bought the previous year.  \n   The previous year was two years ago, so she bought 300 last year.  \n   Wait — no, \"the previous year\" means the year before last year, which is the year two years ago.  \n   So, last year she bought 300 + 100 = 400 books.\n\n4. **This year**:  \n   The librarian donated 200 old books.  \n   Total books now = 800 + 400 − 200 = 1000.\n\n**Final answer:**  \n#### 1000"
+        },
+        {
+          "id": "gsm8k_dev_0007",
+          "n_tokens": 158,
+          "seconds": 4.71,
+          "tok_s": 33.5,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Class B has 20 people.**  \n   Given:  \n   Class B = 20 people.\n\n2. **Class A is twice as big as Class B.**  \n   So, Class A = 2 × Class B = 2 × 20 = 40 people.\n\n3. **Class A is a third the size of Class C.**  \n   That means:  \n   Class A = (1/3) × Class C.\n\n4. **Find Class C.**  \n   Multiply both sides by 3:  \n   Class C = 3 × Class A = 3 × 40 = 120 people.\n\n**Final answer:**  \n#### 120"
+        },
+        {
+          "id": "gsm8k_dev_0008",
+          "n_tokens": 182,
+          "seconds": 5.11,
+          "tok_s": 35.6,
+          "forwards": 204,
+          "correct": false,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Age of the lioness**: 12 years old.\n\n2. **Age of the hyena**: The lioness is twice the age of the hyena, so the hyena is \\( \\frac{12}{2} = 6 \\) years old.\n\n3. **Age of the babies now**: Half the age of their mothers.\n   - Lioness baby: \\( \\frac{12}{2} = 6 \\) years old.\n   - Hyena baby: \\( \\frac{6}{2} = 3 \\) years old.\n\n4. **Sum of the babies now**: \\( 6 + 3 = 9 \\) years old.\n\n5. **Age in five years**: \\( 9 + 5 = 14 \\) years old.\n\n**Final answer**:  \n#### 14"
+        },
+        {
+          "id": "gsm8k_dev_0009",
+          "n_tokens": 164,
+          "seconds": 4.9,
+          "tok_s": 33.5,
+          "forwards": 187,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n**Step 1: Daily insulin pills**  \nHolly takes 2 insulin pills per day.\n\n**Step 2: Daily blood pressure pills**  \nShe takes 3 blood pressure pills per day.\n\n**Step 3: Daily anticonvulsants**  \nTwice as many anticonvulsants as blood pressure pills:  \n\\( 2 \\times 3 = 6 \\) anticonvulsants per day.\n\n**Step 4: Total daily pills**  \n\\( 2 + 3 + 6 = 11 \\) pills per day.\n\n**Step 5: Weekly pills**  \n\\( 11 \\times 7 = 77 \\) pills per week.\n\n**Final answer:**  \n#### 77"
+        },
+        {
+          "id": "gsm8k_dev_0010",
+          "n_tokens": 253,
+          "seconds": 10.77,
+          "tok_s": 23.5,
+          "forwards": 272,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Upper torso spots**:  \n   Given: 30 spots.\n\n2. **Back and hindquarters spots**:  \n   One-third of the spots are located there.  \n   So, the number of spots there is \\( \\frac{1}{3} \\) of the total spots.\n\n3. **Side spots**:  \n   The remaining spots are on her sides.\n\n4. **Total spots**:  \n   Let \\( T \\) be the total number of spots.  \n   Upper torso spots = \\( \\frac{1}{2}T \\).  \n   So,  \n   \\[\n   \\frac{1}{2}T = 30\n   \\]  \n   Multiply both sides by 2:  \n   \\[\n   T = 60\n   \\]\n\n5. **Back and hindquarters spots**:  \n   \\frac{1}{3} \\) of 60 is 20.\n\n6. **Side spots**:  \n   Total spots − upper torso spots − back and hindquarters spots:  \n   \\[\n   60 - 30 - 20 = 10\n   \\]\n\n**Final answer**:  \n#### 10"
+        },
+        {
+          "id": "gsm8k_dev_0011",
+          "n_tokens": 69,
+          "seconds": 3.41,
+          "tok_s": 20.2,
+          "forwards": 85,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Nadia walked 18 kilometers.  \n2. This distance was twice as far as Hannah walked, so Hannah walked \\( \\frac{18}{2} = 9 \\) kilometers.  \n3. Total distance: \\( 18 + 9 = 27 \\) kilometers.  \n\n#### 27"
+        },
+        {
+          "id": "gsm8k_dev_0012",
+          "n_tokens": 74,
+          "seconds": 3.82,
+          "tok_s": 19.4,
+          "forwards": 85,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Total bags needed: 10  \n2. Jeremy buys 3 bags.  \n3. Stacy buys 4 bags.  \n4. Bags bought so far: \\( 3 + 4 = 7 \\) bags.  \n5. Emily needs to buy: \\( 10 - 7 = 3 \\) bags.\n\n#### 3"
+        },
+        {
+          "id": "gsm8k_dev_0013",
+          "n_tokens": 56,
+          "seconds": 2.95,
+          "tok_s": 19.0,
+          "forwards": 68,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Red bowling balls: 30  \n2. Green bowling balls: 6 more than red → 30 + 6 = 36  \n3. Total bowling balls: 30 + 36 = 66  \n\n#### 66"
+        },
+        {
+          "id": "gsm8k_dev_0014",
+          "n_tokens": 76,
+          "seconds": 3.59,
+          "tok_s": 21.1,
+          "forwards": 85,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Find 30% of $250:  \n   \\( 0.30 \\times 250 = 75 \\) dollars.\n\n2. Add that amount to the original price:  \n   \\( 250 + 75 = 325 \\) dollars.\n\n**Final answer:**  \n#### 325"
+        },
+        {
+          "id": "gsm8k_dev_0015",
+          "n_tokens": 117,
+          "seconds": 6.15,
+          "tok_s": 19.0,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. Initial toy cars: 14  \n2. Bought 28 cars: \\( 14 + 28 = 42 \\) cars  \n3. Birthday cars: \\( 42 + 12 = 54 \\) cars  \n4. Gave to sister: \\( 54 - 8 = 46 \\) cars  \n5. Gave to Vinnie: \\( 46 - 3 = 43 \\) cars  \n\n**Final answer:**  \n#### 43"
+        },
+        {
+          "id": "gsm8k_dev_0016",
+          "n_tokens": 131,
+          "seconds": 4.73,
+          "tok_s": 27.7,
+          "forwards": 153,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. Base coat: 2 minutes  \n2. First color coat: 3 minutes  \n3. Second color coat: 3 minutes  \n4. Top coat: 5 minutes  \n\nNow add them together:  \n2 + 3 = 5 (base coat and first color coat)  \n5 + 3 = 8 (base coat, first color coat, and second color coat)  \n8 + 5 = 13 (base coat, both color coats, and top coat)\n\nSo, Jane spends 13 minutes waiting for her nail polish to dry.\n\n#### 13"
+        },
+        {
+          "id": "gsm8k_dev_0017",
+          "n_tokens": 228,
+          "seconds": 6.53,
+          "tok_s": 34.9,
+          "forwards": 255,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n**Step 1: Daily earnings from popcorn**  \nPopcorn earnings per day = $50.\n\n**Step 2: Daily earnings from cotton candy**  \nCotton candy earnings = three times as much as popcorn:  \n\\( 3 \\times 50 = 150 \\) dollars per day.\n\n**Step 3: Total daily earnings**  \nTotal daily earnings = popcorn + cotton candy:  \n\\( 50 + 150 = 200 \\) dollars per day.\n\n**Step 4: Earnings over 5 days**  \n\\( 200 \\times 5 = 1000 \\) dollars.\n\n**Step 5: Subtract expenses**  \nRent = $30, ingredients = $75.  \nTotal expenses = \\( 30 + 75 = 105 \\) dollars.\n\n**Step 6: Final earnings**  \n\\( 1000 - 105 = 895 \\) dollars.\n\n**Final answer:**  \n#### 895"
+        },
+        {
+          "id": "gsm8k_dev_0018",
+          "n_tokens": 215,
+          "seconds": 6.04,
+          "tok_s": 35.6,
+          "forwards": 238,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Calculate revenue from dolls.**  \nDolls sold: 3  \nPrice per doll: $5  \nRevenue = \\( 3 \\times 5 = 15 \\) dollars\n\n**Step 2: Calculate revenue from clocks.**  \nClocks sold: 2  \nPrice per clock: $15  \nRevenue = \\( 2 \\times 15 = 30 \\) dollars\n\n**Step 3: Calculate revenue from glasses.**  \nGlasses sold: 5  \nPrice per glass: $4  \nRevenue = \\( 5 \\times 4 = 20 \\) dollars\n\n**Step 4: Total revenue.**  \nTotal revenue = \\( 15 + 30 + 20 = 65 \\) dollars\n\n**Step 5: Subtract cost.**  \nCost = $40  \nProfit = \\( 65 - 40 = 25 \\) dollars\n\n**Final answer:**  \n#### 25"
+        },
+        {
+          "id": "gsm8k_dev_0019",
+          "n_tokens": 127,
+          "seconds": 3.33,
+          "tok_s": 38.1,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Bob's total payment**: $6000  \n2. **Alice paid nine times the price Bob paid**:  \n   Alice's total payment = \\( 9 \\times 6000 = 54000 \\) dollars.\n\n3. **Number of acorns Alice purchased**: 3600  \n4. **Cost per acorn for Alice**:  \n   Cost per acorn = \\( \\frac{54000}{3600} = 15 \\) dollars.\n\n**Final answer**:  \n#### 15"
+        },
+        {
+          "id": "gsm8k_dev_0020",
+          "n_tokens": 156,
+          "seconds": 4.3,
+          "tok_s": 36.2,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Noah's burgers**  \nNoah ate 8 burgers.\n\n**Step 2: Jacob's pies**  \nJacob eats three fewer pies than Noah eats burgers:  \nJacob's pies = 8 − 3 = 5 pies.\n\n**Step 3: Mason's hotdogs**  \nMason eats 3 times as many hotdogs as the number of pies consumed by Jacob:  \nMason's hotdogs = 3 × 5 = 15 hot dogs.\n\n**Step 4: Total weight of Mason's hotdogs**  \nEach hot dog weighs 2 ounces:  \nTotal weight = 15 × 2 = 30 ounces.\n\n**Final answer:**  \n#### 30"
+        },
+        {
+          "id": "gsm8k_dev_0021",
+          "n_tokens": 206,
+          "seconds": 6.07,
+          "tok_s": 33.9,
+          "forwards": 221,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Time period so far:** 6 months ago.\n2. **Monthly return:** $10 per month.\n3. **Money returned so far:** \\( 10 \\times 6 = 60 \\) dollars.\n4. She currently returns half of the money she borrowed.  \n   That means the total money she borrowed is \\( 60 \\times 2 = 120 \\) dollars.\n5. **Money still owed now:** \\( 120 - 60 = 60 \\) dollars.\n6. **Future returns:** For the next 4 months, she will return $10 per month.  \n   So, money returned in the next 4 months: \\( 10 \\times 4 = 40 \\) dollars.\n7. **Money still owed 4 months from now:** \\( 60 - 40 = 20 \\) dollars.\n\n#### 20"
+        },
+        {
+          "id": "gsm8k_dev_0022",
+          "n_tokens": 172,
+          "seconds": 4.86,
+          "tok_s": 35.4,
+          "forwards": 187,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n**Step 1: First period (5 days)**  \nShe makes 2 bracelets each day:  \n\\( 5 \\times 2 = 10 \\) bracelets.\n\n**Step 2: Giving away 3 bracelets**  \n\\( 10 - 3 = 7 \\) bracelets left.\n\n**Step 3: Second period (4 days)**  \nShe makes 3 bracelets each day:  \n\\( 4 \\times 3 = 12 \\) bracelets.\n\n**Step 4: Adding to previous amount**  \n\\( 7 + 12 = 19 \\) bracelets.\n\n**Step 5: Giving away 6 bracelets**  \n\\( 19 - 6 = 13 \\) bracelets left.\n\n**Final answer:**  \n#### 13"
+        },
+        {
+          "id": "gsm8k_dev_0023",
+          "n_tokens": 129,
+          "seconds": 3.81,
+          "tok_s": 33.9,
+          "forwards": 153,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. Total balloons = 672.\n2. They were divided into equal groups.  \n   This means the number of balloons is divisible by 4 (green, blue, yellow, red).\n\n3. Number of balloons of each color = \\( \\frac{672}{4} = 168 \\).\n\n4. Anya took half of the yellow ones home.  \n   Half of 168 = \\( \\frac{168}{2} = 84 \\).\n\n5. Therefore, Anya took 84 balloons home.\n\n#### 84"
+        },
+        {
+          "id": "gsm8k_dev_0024",
+          "n_tokens": 154,
+          "seconds": 4.28,
+          "tok_s": 36.0,
+          "forwards": 170,
+          "correct": false,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. Total cars = 516  \n2. Blue cars = \\( \\frac{1}{3} \\) of total cars  \n   \\( \\frac{1}{3} \\times 516 = 172 \\) blue cars  \n3. Red cars = \\( \\frac{1}{2} \\) of total cars  \n   \\( \\frac{1}{2} \\times 516 = 258 \\) red cars  \n4. Black cars = total cars − blue cars − red cars  \n   \\( 516 - 172 - 258 = 96 \\) black cars  \n\n**Final answer:**  \n#### 96"
+        },
+        {
+          "id": "gsm8k_dev_0025",
+          "n_tokens": 170,
+          "seconds": 4.78,
+          "tok_s": 35.5,
+          "forwards": 187,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. The sum of the three numbers is 500.\n2. The first number is 200.\n3. Let the third number be \\( x \\).\n4. The second number is twice the value of the third number, so it is \\( 2x \\).\n\nNow, write the equation for the sum:\n\n\\[\n200 + 2x + x = 500\n\\]\n\nSimplify:\n\n\\[\n200 + 3x = 500\n\\]\n\nSubtract 200 from both sides:\n\n\\[\n3x = 300\n\\]\n\nDivide by 3:\n\n\\[\nx = 100\n\\]\n\nSo, the third number is 100.\n\n#### 100"
+        },
+        {
+          "id": "gsm8k_dev_0026",
+          "n_tokens": 137,
+          "seconds": 3.79,
+          "tok_s": 36.1,
+          "forwards": 153,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **First course**: $15  \n2. **Second course**: $5 more than the first course → \\( 15 + 5 = 20 \\) dollars  \n3. **Dessert**: 25% of the price of the second course → \\( 20 \\times 0.25 = 5 \\) dollars  \n4. **Total spent**: \\( 15 + 20 + 5 = 40 \\) dollars  \n5. **Money left**: \\( 60 - 40 = 20 \\) dollars  \n\n#### 20"
+        },
+        {
+          "id": "gsm8k_dev_0027",
+          "n_tokens": 147,
+          "seconds": 4.29,
+          "tok_s": 34.3,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Find the original total cost.**\n\n- Spiral notebooks: \\( 4 \\times 15 = 60 \\) dollars\n- Personal planners: \\( 8 \\times 10 = 80 \\) dollars\n\nTotal before discount: \\( 60 + 80 = 140 \\) dollars\n\n**Step 2: Apply the 20% discount.**\n\nA 20% discount means you pay 80% of the original total.\n\n\\( 140 \\times 0.8 = 112 \\) dollars\n\n**Step 3: Final answer.**\n\n#### 112"
+        },
+        {
+          "id": "gsm8k_dev_0028",
+          "n_tokens": 177,
+          "seconds": 5.18,
+          "tok_s": 34.2,
+          "forwards": 204,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Brooke's balloons**:  \n   Brooke currently has 12 balloons.  \n   He adds 8 more:  \n   \\( 12 + 8 = 20 \\) balloons.\n\n2. **Tracy's balloons before popping**:  \n   Tracy currently has 6 balloons.  \n   She adds 24 more:  \n   \\( 6 + 24 = 30 \\) balloons.\n\n3. **Tracy pops half of her balloons**:  \n   Half of 30 is \\( \\frac{30}{2} = 15 \\) balloons.\n\n4. **Total balloons**:  \n   Brooke's 20 + Tracy's remaining 15:  \n   \\( 20 + 15 = 35 \\) balloons.\n\n#### 35"
+        },
+        {
+          "id": "gsm8k_dev_0029",
+          "n_tokens": 289,
+          "seconds": 8.02,
+          "tok_s": 36.0,
+          "forwards": 323,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Find the price of an orange.**\n\nWe know:\n- The price of a pear = $90\n- The total cost of an orange and a pear = $120\n\nSo, the price of an orange is:\n\\[\n120 - 90 = 30\n\\]\n**Step 2: Find the price of a banana.**\n\nThe problem says the difference between the price of an orange and the price of a pear equals the price of a banana. That means:\n\\[\n90 - 30 = 60\n\\]\nSo, the price of a banana is $60.\n\n**Step 3: Find the total price of buying 200 bananas and twice as many oranges as bananas.**\n\n- Number of bananas = 200\n- Number of oranges = \\( 2 \\times 200 = 400 \\)\n\nCost of bananas:  \n\\[\n200 \\times 60 = 12000\n\\]\n\nCost of oranges:  \n\\[\n400 \\times 30 = 12000\n\\]\n\nTotal cost:  \n\\[\n12000 + 12000 = 24000\n\\]\n\n**Final answer:**  \n#### 24000"
+        },
+        {
+          "id": "gsm8k_dev_0030",
+          "n_tokens": 121,
+          "seconds": 3.41,
+          "tok_s": 35.5,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Total mangoes harvested: 560  \n2. He sold half of it at the market:  \n   Half of 560 = \\( \\frac{560}{2} = 280 \\) mangoes sold.  \n3. Remaining mangoes:  \n   \\( 560 - 280 = 280 \\) mangoes.  \n4. Distributed evenly among 8 neighbors:  \n   Mangoes per neighbor = \\( \\frac{280}{8} = 35 \\).  \n\n#### 35"
+        },
+        {
+          "id": "gsm8k_dev_0031",
+          "n_tokens": 127,
+          "seconds": 3.44,
+          "tok_s": 36.9,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. Alvin is 30 years old.\n2. Simon is 5 years away from being \\( \\frac{1}{2} \\) the age of Alvin.\n\nFirst, find \\( \\frac{1}{2} \\) of Alvin’s age:\n\n\\[\n\\frac{1}{2} \\times 30 = 15\n\\]\n\nSo, Simon is currently 5 years younger than 15:\n\n\\[\n15 - 5 = 10\n\\]\n\nTherefore, Simon is 10 years old.\n\n#### 10"
+        },
+        {
+          "id": "gsm8k_dev_0032",
+          "n_tokens": 175,
+          "seconds": 4.56,
+          "tok_s": 38.4,
+          "forwards": 187,
+          "correct": false,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Find the number of cookies in 200 dozen.**  \n1 dozen = 12 cookies, so:  \n\\( 200 \\times 12 = 2400 \\) cookies.\n\n**Step 2: Find the milk needed per cookie.**  \nJuan needs 10 half-gallons for 40 cookies:  \nMilk per cookie = \\( \\frac{10}{40} = 0.25 \\) half-gallons per cookie.\n\n**Step 3: Find the milk needed for 2400 cookies.**  \nTotal milk = \\( 2400 \\times 0.25 = 600 \\) half-gallons.\n\n**Final answer:**  \n#### 600"
+        },
+        {
+          "id": "gsm8k_dev_0033",
+          "n_tokens": 85,
+          "seconds": 2.53,
+          "tok_s": 33.6,
+          "forwards": 102,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "1. Roland currently has a thread of length 12 cm.  \n2. The teacher says he needs an additional three-quarters of what he has:  \n   \\( \\frac{3}{4} \\times 12 = 9 \\) cm.  \n3. The total length required is:  \n   \\( 12 + 9 = 21 \\) cm.  \n\n#### 21"
+        },
+        {
+          "id": "gsm8k_dev_0034",
+          "n_tokens": 145,
+          "seconds": 4.35,
+          "tok_s": 33.3,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. First competitor: 22 feet.\n2. Second competitor: one foot farther than the first competitor: \\( 22 + 1 = 23 \\) feet.\n3. Third competitor: two feet shorter than the third competitor.  \n   Wait — that doesn't make sense. It should probably mean \"two feet shorter than the second competitor.\"  \n   Assuming that, third competitor jumped \\( 23 - 2 = 21 \\) feet.\n4. Fourth competitor: 3 feet further than the third competitor: \\( 21 + 3 = 24 \\) feet.\n\n**Final answer:**  \n#### 24"
+        },
+        {
+          "id": "gsm8k_dev_0035",
+          "n_tokens": 208,
+          "seconds": 6.2,
+          "tok_s": 33.5,
+          "forwards": 221,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Barrettes**:  \n   Annie has 6 barrettes.\n\n2. **Scrunchies**:  \n   Twice as many scrunchies as barrettes:  \n   \\( 6 \\times 2 = 12 \\) scrunchies.\n\n3. **Bobby pins**:  \n   Three fewer bobby pins than barrettes:  \n   \\( 6 - 3 = 3 \\) bobby pins.\n\n4. **Total hair decorations**:  \n   \\( 6 + 12 + 3 = 21 \\) hair decorations.\n\n5. **Percentage of bobby pins**:  \n   \\( \\frac{3}{21} \\times 100 = 14.\\overline{2}\\% \\).\n\n6. **Rounded to the nearest percent**:  \n   \\( 14.28\\% \\) rounds to 14%.\n\n**Final answer**:  \n#### 14"
+        },
+        {
+          "id": "gsm8k_dev_0036",
+          "n_tokens": 150,
+          "seconds": 4.21,
+          "tok_s": 35.6,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let’s go step by step.\n\n1. Let \\( x \\) be the sum of Lizette's scores on her first two quizzes.\n2. The average of her three quizzes is 94, so the total score for all three quizzes is:\n   \\[\n   94 \\times 3 = 282\n   \\]\n3. Her third quiz score is 92, so the sum of the first two quizzes is:\n   \\[\n   282 - 92 = 190\n   \\]\n4. The average of the first two quizzes is:\n   \\[\n   \\frac{190}{2} = 95\n   \\]\n\n#### 95"
+        },
+        {
+          "id": "gsm8k_dev_0037",
+          "n_tokens": 187,
+          "seconds": 5.06,
+          "tok_s": 36.9,
+          "forwards": 204,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Actor cost**: $1200  \n2. **Food cost**: \\( 50 \\times 3 = 150 \\) dollars  \n3. **Combined cost of actors and food**: \\( 1200 + 150 = 1350 \\) dollars  \n4. **Equipment rental cost**: twice as much as food and actors combined: \\( 2 \\times 1350 = 2700 \\) dollars  \n5. **Total cost**: \\( 1350 + 2700 = 4050 \\) dollars  \n6. **Revenue**: $10,000  \n7. **Profit**: \\( 10000 - 4050 = 5950 \\) dollars  \n\n#### 5950"
+        },
+        {
+          "id": "gsm8k_dev_0038",
+          "n_tokens": 125,
+          "seconds": 3.52,
+          "tok_s": 35.5,
+          "forwards": 136,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. Tyson is 20 years old.\n2. Frederick is 2 times older than Tyson.  \n   That means Frederick is \\( 2 \\times 20 = 40 \\) years old.\n3. Julian is 20 years younger than Frederick.  \n   So Julian is \\( 40 - 20 = 20 \\) years old.\n4. Kyle is 5 years older than Julian.  \n   Therefore, Kyle is \\( 20 + 5 = 25 \\) years old.\n\n#### 25"
+        },
+        {
+          "id": "gsm8k_dev_0039",
+          "n_tokens": 187,
+          "seconds": 5.37,
+          "tok_s": 34.8,
+          "forwards": 204,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Initial logs**  \nStart with 6 logs.\n\n**Step 2: First hour**  \n- Logs burned: 3  \n- Logs added at the end of the hour: 2  \n- Logs left after first hour: \\( 6 - 3 + 2 = 5 \\) logs.\n\n**Step 3: Second hour**  \n- Logs burned: 3  \n- Logs added at the end of the hour: 2  \n- Logs left after second hour: \\( 5 - 3 + 2 = 4 \\) logs.\n\n**Step 4: Third hour**  \n- Logs burned: 3  \n- Logs added at the end of the hour: 2  \n- Logs left after third hour: \\( 4 - 3 + 2 = 3 \\) logs.\n\n**Final answer:**  \n#### 3"
+        },
+        {
+          "id": "gsm8k_dev_0040",
+          "n_tokens": 155,
+          "seconds": 4.08,
+          "tok_s": 38.0,
+          "forwards": 170,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n**Step 1: Convert all study times to minutes.**\n\n- Kwame: \\( 2.5 \\times 60 = 150 \\) minutes\n- Connor: \\( 1.5 \\times 60 = 90 \\) minutes\n- Lexia: 97 minutes\n\n**Step 2: Find the total study time for Kwame and Connor.**\n\n\\( 150 + 90 = 240 \\) minutes\n\n**Step 3: Find the difference compared to Lexia.**\n\n\\( 240 - 97 = 143 \\) minutes\n\n**Step 4: Final answer.**\n\n#### 143"
+        },
+        {
+          "id": "gsm8k_dev_0041",
+          "n_tokens": 109,
+          "seconds": 2.89,
+          "tok_s": 37.7,
+          "forwards": 119,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Initial chickens**: 4  \n2. **Doubling**: \\( 4 \\times 2 = 8 \\) chickens  \n3. **Neighbor's dog ate one chicken**: \\( 8 - 1 = 7 \\) chickens  \n4. **Found 4 less than ten chickens**: \\( 10 - 4 = 6 \\) chickens  \n5. **Total chickens**: \\( 7 + 6 = 13 \\) chickens  \n\n#### 13"
+        },
+        {
+          "id": "gsm8k_dev_0042",
+          "n_tokens": 99,
+          "seconds": 2.98,
+          "tok_s": 33.3,
+          "forwards": 119,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let’s break it down step by step.\n\n**Step 1: Find daily water usage.**  \nMorning: 4 liters  \nEvening: 6 liters  \nTotal per day = \\( 4 + 6 = 10 \\) liters.\n\n**Step 2: Find number of days for 50 liters.**  \nNumber of days = \\( \\frac{50}{10} = 5 \\) days.\n\n**Final answer:**  \n#### 5"
+        },
+        {
+          "id": "gsm8k_dev_0043",
+          "n_tokens": 384,
+          "seconds": 10.19,
+          "tok_s": 37.7,
+          "forwards": 408,
+          "correct": false,
+          "finish": "length",
+          "has_answer": false,
+          "text": "Let’s go step by step.\n\n---\n\n**Step 1: Define variables.**\n\nLet \\( T \\) be the total number of trees.\n\nShe has:\n- 50% of tree A → \\( 0.5T \\) trees\n- 50% of tree B → \\( 0.5T \\) trees\n\n---\n\n**Step 2: Calculate oranges from each tree type.**\n\n- Tree A: 10 oranges per tree →  \n  Oranges from tree A = \\( 0.5T \\times 10 = 5T \\) oranges\n\n- Tree B: 15 oranges per tree →  \n  Oranges from tree B = \\( 0.5T \\times 15 = 7.5T \\) oranges\n\nTotal oranges = \\( 5T + 7.5T = 12.5T \\) oranges\n\n---\n\n**Step 3: Calculate good oranges from each tree type.**\n\n- Tree A: 60% are good →  \n  Good oranges from tree A = \\( 0.5T \\times 0.6 = 0.3T \\) good oranges\n\n- Tree B: \\( \\frac{1}{3} \\) are good →  \n  Good oranges from tree B = \\( 0.5T \\times \\frac{1}{3} = \\frac{0.5T}{3} = 0.1667T \\) good oranges\n\nTotal good oranges = \\( 0.3T + 0.1667T = 0.4667T \\) good oranges\n\n---\n\n**Step 4: Set up the equation.**\n\nWe know total good oranges = 55:\n\n\\[\n0.4667T = 55\n\\]\n\n---\n\n**Step 5"
+        },
+        {
+          "id": "gsm8k_dev_0044",
+          "n_tokens": 229,
+          "seconds": 6.29,
+          "tok_s": 36.4,
+          "forwards": 255,
+          "correct": false,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let’s go step by step.\n\n**Step 1: Find the time spent watching TV.**  \nA day has 24 hours.  \nTime spent watching TV = \\( \\frac{1}{5} \\) of a day  \n\\( \\frac{1}{5} \\times 24 = 4.8 \\) hours.\n\n**Step 2: Find the remaining time after watching TV.**  \nRemaining time = \\( 24 - 4.8 = 19.2 \\) hours.\n\n**Step 3: Find the time spent studying.**  \nShe spent \\( \\frac{1}{4} \\) of the time left studying.  \nTime spent studying = \\( \\frac{1}{4} \\times 19.2 = 4.8 \\) hours.\n\n**Step 4: Convert hours to minutes.**  \n\\( 4.8 \\times 60 = 28.8 \\) minutes.\n\n**Step 5: Final answer.**  \nShe spent 28.8 minutes studying each day.\n\n#### 28.8"
+        },
+        {
+          "id": "gsm8k_dev_0045",
+          "n_tokens": 135,
+          "seconds": 3.78,
+          "tok_s": 35.7,
+          "forwards": 153,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. Cost of one sweater = $30  \n   Cost of 6 sweaters = \\( 6 \\times 30 = 180 \\) dollars\n\n2. Cost of one scarf = $20  \n   Cost of 6 scarves = \\( 6 \\times 20 = 120 \\) dollars\n\n3. Total cost = \\( 180 + 120 = 300 \\) dollars\n\n4. Money left = \\( 500 - 300 = 200 \\) dollars\n\n#### 200"
+        },
+        {
+          "id": "gsm8k_dev_0046",
+          "n_tokens": 202,
+          "seconds": 5.45,
+          "tok_s": 37.0,
+          "forwards": 221,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's go step by step.\n\n1. **Monday**: Buddy has 30 baseball cards.  \n2. **Tuesday**: He loses half of them.  \n   Half of 30 is \\( \\frac{1}{2} \\times 30 = 15 \\) cards.  \n   So, he has \\( 30 - 15 = 15 \\) cards left.\n\n3. **Wednesday**: He buys 12 baseball cards.  \n   Now he has \\( 15 + 12 = 27 \\) cards.\n\n4. **Thursday**: He buys a third of what he had on Tuesday.  \n   He had 15 cards on Tuesday, so a third is \\( \\frac{1}{3} \\times 15 = 5 \\) cards.  \n   Adding to his current amount: \\( 27 + 5 = 32 \\) cards.\n\n**Final answer:**  \n#### 32"
+        },
+        {
+          "id": "gsm8k_dev_0047",
+          "n_tokens": 104,
+          "seconds": 2.95,
+          "tok_s": 35.3,
+          "forwards": 119,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Money Wyatt started with**: $74  \n2. **Cost of bread**: 5 loaves × $5 per loaf = $25  \n3. **Cost of orange juice**: 4 cartons × $2 per carton = $8  \n4. **Total spent**: $25 + $8 = $33  \n5. **Money left**: $74 − $33 = $41  \n\n#### 41"
+        },
+        {
+          "id": "gsm8k_dev_0048",
+          "n_tokens": 161,
+          "seconds": 4.58,
+          "tok_s": 35.1,
+          "forwards": 187,
+          "correct": true,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let’s break it down step by step.\n\n1. Let R = number of raccoons pepper-sprayed.\n2. S = number of squirrels pepper-sprayed.\n3. The problem says Jason sprays 6 times as many squirrels as raccoons:  \n   \\( S = 6R \\).\n4. The total number of animals sprayed is 84:  \n   \\( R + S = 84 \\).\n\nNow substitute \\( S = 6R \\) into the total equation:\n\n\\[\nR + 6R = 84\n\\]\n\\[\n7R = 84\n\\]\n\\[\nR = 12\n\\]\n\nSo, Jason pepper-sprays 12 raccoons.\n\n#### 12"
+        },
+        {
+          "id": "gsm8k_dev_0049",
+          "n_tokens": 125,
+          "seconds": 3.35,
+          "tok_s": 37.3,
+          "forwards": 136,
+          "correct": false,
+          "finish": "stop",
+          "has_answer": true,
+          "text": "Let's break it down step by step.\n\n1. **Space per can before compacting**: 30 square inches  \n2. **Compaction reduces space by 20%**:  \n   So, the space after compacting is 80% of the original space.  \n3. **Space per can after compacting**: \\( 30 \\times 0.8 = 24 \\) square inches  \n4. **Total space for 60 cans**: \\( 60 \\times 24 = 1440 \\) square inches\n\n#### 1440"
+        }
+      ]
+    }
+  }
+}

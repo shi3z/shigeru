@@ -82,7 +82,8 @@ def load(name, gen_length=512, block_length=32):
         mask_id = getattr(lm.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
         if adapter != "-":
             from peft import PeftModel
-            lm = PeftModel.from_pretrained(lm, adapter).eval().merge_and_unload()
+            for ad in adapter.split("+"):                      # "teacher_adapter+student_adapter" merges sequentially
+                lm = PeftModel.from_pretrained(lm, ad).eval().merge_and_unload()
         model = BDiffModel(lm, mask_id, time_cond=False).cuda().eval()
         stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
         stats = {"forwards": 0, "tokens": 0, "remasked": 0}
