@@ -77,7 +77,8 @@ def load(name, gen_length=512, block_length=32):
         from engine.bdiff.trust import TrustLR
         base = os.path.join(ROOT, "runs/zeta_sft_final_e5/final"); adapter = parts[1]; S = int(parts[2]); unmask = parts[3]
         remask = parts[4] if len(parts) > 4 else "none"; budget = int(parts[5]) if len(parts) > 5 else 2
-        trust = TrustLR.load(parts[6]) if len(parts) > 6 else None; K = 16
+        trust = TrustLR.load(parts[6]) if len(parts) > 6 and parts[6] else None; K = 16
+        pair = parts[7] if len(parts) > 7 else "none"; pair_k = int(parts[8]) if len(parts) > 8 else 2   # research ceiling: chain-rule joint (extra forwards counted in stats)
         tok = AutoTokenizer.from_pretrained(base); lm = AutoModelForCausalLM.from_pretrained(base, dtype=torch.bfloat16, attn_implementation="sdpa").cuda().eval()
         mask_id = getattr(lm.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
         if adapter != "-":
@@ -94,7 +95,7 @@ def load(name, gen_length=512, block_length=32):
             while finish is None:
                 Kb = min(K, gen_length - len(out))
                 cache = model.prefix_cache(torch.tensor([ids + out], device="cuda")); stats["forwards"] += 1
-                toks, info = sample_block_fixed(model, cache, len(ids) + len(out), Kb, S, mask_id, unmask=unmask, remask=remask, remask_budget=budget, trust=trust)
+                toks, info = sample_block_fixed(model, cache, len(ids) + len(out), Kb, S, mask_id, unmask=unmask, remask=remask, remask_budget=budget, trust=trust, pair=pair, pair_k=pair_k)
                 stats["forwards"] += info["forwards"]; stats["remasked"] += info["remasked"]
                 keep = Kb
                 for j in range(Kb):
