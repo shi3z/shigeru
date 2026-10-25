@@ -30,10 +30,9 @@ def step_features(probs, x, mask_id, state):
     """probs [K, V] float (mask id already excluded), x [K] current tokens, state: dict of running tensors
     (prev_pred [K] or None, placed_step [K] (-1 = masked), conf_at [K], changes [K], nb_changed [K] bool) and 'step'.
     Returns (feat [K, F] float, pred [K], conf [K])."""
-    top2 = probs.topk(2, dim=-1)
-    conf = top2.values[:, 0]
-    pred = top2.indices[:, 0]
-    margin = conf - top2.values[:, 1]
+    conf, pred = probs.max(-1)                  # same tie-breaking as the original sampler (first index): bf16 logits
+    top2 = probs.topk(2, dim=-1).values         # tie at the top often enough that topk's order changed 20 % of blocks
+    margin = conf - top2[:, 1]
     entropy = -(probs.clamp_min(1e-12) * probs.clamp_min(1e-12).log()).sum(-1)
     is_mask = x == mask_id
     safe = torch.where(is_mask, pred, x)

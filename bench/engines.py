@@ -1,5 +1,7 @@
 """Uniform text-generation adapters for the quality benchmarks: load(name) -> (generate(prompt_text) -> text, info dict).
-Names: ours[:threshold[:graph]], llada[:steps], fastdllm_v1[:threshold], fastdllm_v2[:threshold], llada2[:threshold:edit], hf:<model path>"""
+Names: ours[:threshold[:graph]], llada[:steps], fastdllm_v1[:threshold], fastdllm_v2[:threshold], llada2[:threshold:edit], hf:<model path>,
+bdiff:<adapter dir>:<steps>:<unmask>[:<remask>[:<budget>[:<trust weights json>]]]  (B-series K = 16 fixed-budget sampler on
+runs/zeta_sft_final_e5/final, engine/bdiff/sampler2.py; "-" as adapter = base model only)"""
 import os, sys, time, torch
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, "..")
 sys.path.insert(0, ROOT); sys.path.insert(0, HERE)
@@ -68,6 +70,41 @@ def load(name, gen_length=512, block_length=32):
             eos = tok.eos_token_id; eff = seq.index(eos) if eos in seq else len(seq)
             return tok.decode(seq[:eff], skip_special_tokens=True)
         return gen, {"engine": name, "model": path}
+    if kind == "bdiff":
+        from transformers import AutoModelForCausalLM
+        from engine.bdiff.model import BDiffModel
+        from engine.bdiff.sampler2 import sample_block_fixed
+        from engine.bdiff.trust import TrustLR
+        base = os.path.join(ROOT, "runs/zeta_sft_final_e5/final"); adapter = parts[1]; S = int(parts[2]); unmask = parts[3]
+        remask = parts[4] if len(parts) > 4 else "none"; budget = int(parts[5]) if len(parts) > 5 else 2
+        trust = TrustLR.load(parts[6]) if len(parts) > 6 else None; K = 16
+        tok = AutoTokenizer.from_pretrained(base); lm = AutoModelForCausalLM.from_pretrained(base, dtype=torch.bfloat16, attn_implementation="sdpa").cuda().eval()
+        mask_id = getattr(lm.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
+        if adapter != "-":
+            from peft import PeftModel
+            lm = PeftModel.from_pretrained(lm, adapter).eval().merge_and_unload()
+        model = BDiffModel(lm, mask_id, time_cond=False).cuda().eval()
+        stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
+        stats = {"forwards": 0, "tokens": 0, "remasked": 0}
+        def gen(text):
+            ids = tok.apply_chat_template([{"role": "user", "content": text}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
+            ids = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
+            out = []; finish = None
+            while finish is None:
+                Kb = min(K, gen_length - len(out))
+                cache = model.prefix_cache(torch.tensor([ids + out], device="cuda")); stats["forwards"] += 1
+                toks, info = sample_block_fixed(model, cache, len(ids) + len(out), Kb, S, mask_id, unmask=unmask, remask=remask, remask_budget=budget, trust=trust)
+                stats["forwards"] += info["forwards"]; stats["remasked"] += info["remasked"]
+                keep = Kb
+                for j in range(Kb):
+                    if toks[j] in stop_ids:
+                        keep, finish = j + 1, "stop"; break
+                out += toks[:keep]
+                if len(out) >= gen_length:
+                    finish = finish or "length"
+            stats["tokens"] += len(out)
+            return tok.decode(out, skip_special_tokens=True)
+        return gen, {"engine": name, "model": base, "adapter": adapter, "stats": stats}
     if kind == "hf":
         from transformers import AutoModelForCausalLM
         path = parts[1]
