@@ -91,6 +91,7 @@ same student, HumanEval, variant B and the full-data run follow in §5.2.
 | student B (A + look-ahead) | 79.3 % | – | – | – |
 | student D (hard CE labels instead of KL; held-out hard-pair 48.6 %) | 82.0 % | – | – | – |
 | student C (all 65 k GSM8K states, 2 000 steps; hard-pair 48.3 %) | 77.3 % | 87.3 % | – | – |
+| student A' (A with end-of-text pairs excluded from the states; hard-pair 46 %) | **82.7 %** (0 premature EOS) | – | – | – |
 | student E (65 k GSM8K + 11 k MBPP states, 3 000 steps; hard-pair 40.7 %) | 80.0 % (0 premature EOS) | 88.7 % | **0.0 %** (132 / 164 IndentationError) | 40.9 % (baseline 50.6, A 54.9) |
 
 The S = 16 cost of student A is small and within noise (−4 of 150), and its HumanEval at S = 16 is higher
