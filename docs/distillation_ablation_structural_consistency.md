@@ -39,3 +39,37 @@ S = 16 on dev2 (150 fresh items).
 Reading rule fixed in advance: if B ≈ C ≈ E ≫ A and F ≈ A, the gain is the *teacher data* (states and pseudo-labels),
 not the pair objective; if C ≈ E ≫ B, the pair terms matter; if D ≈ E, the KL alone suffices; if F ≈ E, it is just
 more training.
+
+## 3. HumanEval syntax collapse of student E (brief §3; bench/diag_code_structure.py, results/pure/code_struct_gen_e.json)
+
+Classification of the 164 programs (ast.parse, then the HumanEval tests), S = 8 vs S = 16, same student, same prompts:
+
+| | pass | test_fail (AssertionError) | runtime_error | timeout | incomplete (length budget / no fence) | SyntaxError | **IndentationError** |
+|---|---|---|---|---|---|---|---|
+| student E, S = 8 | 0 | 1 | 0 | 0 | 30 | 0 | **133 (81 %)** |
+| student E, S = 16 | 67 | 51 | 33 | 1 | 11 | 0 | 1 |
+
+Where the 133 IndentationErrors come from (error line → generated token → block, position, denoising step):
+**132 of 133 are the same token: block 0, position 3, placed at step 2**; the outputs begin
+`defpython\n has_close_elements(` instead of ```` ```python\ndef has_close_elements( ```` or `def has_close_elements(`.
+The first forward (all 16 masks) places positions 0–1 independently: position 0 takes `def` (the mode of the unfenced
+answer style), position 1 takes `python` (the mode of the fenced style ```` ```python ````) — two answer formats mixed
+in one pair.  Step 2 then places `\n` and ` has` (the function name with the leading space it would have after `def`)
+— a header line beginning with a space, hence `IndentationError: unexpected indent` on the first line.  Everything
+after that is largely correct code (the test_fail / runtime rows of S = 16 show the same bodies).  At S = 16 the first
+position is placed alone and the format is consistent (`def triangle_are…`).
+
+So the "indentation collapse" is **not** an indentation-dependency failure inside the code body: it is the independent
+placement of the first two tokens of the answer, i.e. the first-forward incoherence measured in B9 (§3 there: 6.8
+duplicate/incoherent adjacent tokens per all-mask block), landing on the one position where it is fatal for Python.
+Student E made it systematic because its MBPP teacher states taught a pair preference (`def` first) that conflicts with
+the HumanEval prompt format ("Reply with only the complete function in a ```python block"); the baseline and student A
+(§3.1 below) show how often the same first pair breaks without that training.  The S = 8 and S = 16 outputs of E
+diverge at token 7 on average (first 32 tokens identical in 4 % of the problems): the decisive difference is made in
+the first block.
+
+Token-category rates of the generated code (S = 8 vs 16) are the same within 1 point (indent 14.5 / 14.2 %, newline
+9.7 / 8.9 %, bracket 7.3 / 7.6 %), so the student does not under- or over-produce structural tokens; the pair types
+placed together at S = 8 are dominated by other+other (7 191), indent+other (1 837), newline+indent (1 272),
+other+newline (1 128) — the newline→indent pair, the one that would break indentation inside the body, is placed
+jointly 1 272 times and is responsible for none of the 133 errors.
