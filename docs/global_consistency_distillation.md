@@ -111,3 +111,19 @@ The student is specialised to the states it was trained on — two tokens commit
 the independence assumption costs most (S = 4: +19 points, S = 8: +11); at one token per forward or close to it there
 is nothing to resolve and the extra LoRA costs 2–3 points.  A deployment therefore switches adapters with the budget
 (or trains one student on mixed S), which is a configuration question, not a research one.
+
+### 5.4 GSM8K test (1 319; S = 8 left-to-right fixed on dev2 before the run)
+
+| decoder, 8 forwards per 16-token block | GSM8K test | vs baseline (paired) | tokens / forward | tok/s (A100, HF path) | premature EOS / length-budget hits |
+|---|---|---|---|---|---|
+| B-series S = 8 (undistilled adapter; trust_aware_diffusion.md §7) | 72.9 % | – | 1.72 | 77.6 | 4 / 100 |
+| **student A (conditional distillation, 12 k states, 25 min)** | **77.1 %** (1 017 / 1 319) | **+169 / −113 items, McNemar p = 0.001** | 1.71 | 75.5 | 35 / 54 |
+| student E (GSM8K + MBPP states, 3 000 steps) | __ETEST__ | | | | |
+| reference: B8 joint teacher (22 forwards per block) | __TTEST__ | | 0.67 | ~30 | |
+| reference: S = 16 left-to-right, undistilled | 84.8 % | | 0.90 | 56 (zeta) | 0 / 67 |
+
+The test gain is +4.2 points (significant), smaller than the +11.3 on dev2 — the 150-item set was on the favourable
+side — and below the 80 % short-term target on the test set.  The student ends 35 answers early (premature EOS) where
+the baseline ended 4: the distilled pair decisions include end-of-answer pairs the teacher chose on its own
+trajectories; this is a visible failure mode to address in the next student (e.g. excluding EOS pairs from the
+distillation set), not a tuning knob turned on the test set.
