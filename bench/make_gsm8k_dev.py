@@ -34,9 +34,13 @@ def main():
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=os.path.join(ROOT, "bench/prompts_gsm8k_dev.json"))
+    ap.add_argument("--exclude", nargs="*", default=[], help="existing prompt files whose questions must not be reused (a second held-out set)")
+    ap.add_argument("--id-prefix", default="gsm8k_dev_")
     a = ap.parse_args()
     rows = pq.read_table(os.path.join(ROOT, "data/sources/gsm8k_train.parquet")).to_pylist()
     blob = used_texts()
+    for f in a.exclude:
+        blob += "\n" + "\n".join(p["prompt"] for p in json.load(open(f)))
     clean = [r for r in rows if r["question"].strip()[:120] not in blob]
     print(f"gsm8k train {len(rows)}, not in any training file: {len(clean)}", file=sys.stderr)
     rng = random.Random(a.seed)
@@ -45,8 +49,8 @@ def main():
     for i, r in enumerate(clean[: a.n]):
         gold = r["answer"].split("####")[-1].strip().replace(",", "")
         assert re.fullmatch(r"-?\d+(\.\d+)?", gold), gold
-        out.append({"id": f"gsm8k_dev_{i:04d}", "lang": "en", "prompt": r["question"].strip() + SUFFIX, "answer": gold,
-                    "source": "openai/gsm8k:train", "selection": {"seed": a.seed, "excluded_if_in": "data/distill/*.jsonl"}})
+        out.append({"id": f"{a.id_prefix}{i:04d}", "lang": "en", "prompt": r["question"].strip() + SUFFIX, "answer": gold,
+                    "source": "openai/gsm8k:train", "selection": {"seed": a.seed, "excluded_if_in": ["data/distill/*.jsonl"] + a.exclude}})
     json.dump(out, open(a.out, "w"), ensure_ascii=False, indent=1)
     print(f"wrote {len(out)} -> {a.out}", file=sys.stderr)
 
