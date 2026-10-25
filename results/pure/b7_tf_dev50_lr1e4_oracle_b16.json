@@ -1,0 +1,173 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "skip": 0,
+  "prompts": "bench/prompts_gsm8k_dev.json",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "peak_mem_gib": 7.69,
+  "seconds": 120.7,
+  "args": {
+    "model": "runs/zeta_sft_final_e5/final",
+    "adapter": "runs/bdiff_e5_lr1e4/adapter",
+    "no_time": true,
+    "prompts": "bench/prompts_gsm8k_dev.json",
+    "refs": "results/pure/dev_refs_e5.json",
+    "n": 50,
+    "skip": 0,
+    "K": 16,
+    "steps": 8,
+    "unmask": "left,confidence",
+    "remask": "oracle",
+    "remask_budget": 16,
+    "remask_start": 2,
+    "tau_unmask": 0.9,
+    "tau_remask": 0.5,
+    "trust": null,
+    "trust_mask": null,
+    "schedule": "linear",
+    "skip_tf": false,
+    "skip_gen": true,
+    "max_blocks": 6,
+    "max_new_tokens": 384,
+    "out": "results/pure/b7_tf_dev50_lr1e4_oracle_b16.json"
+  },
+  "TF": {
+    "S8_u-left_r-oracle_b16": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2331,
+      "final_token_error": 0.3638,
+      "remasked_per_block": 6.932,
+      "wrong_to_correct": 542,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 1510,
+      "correct_to_correct": 0,
+      "correction_success": 0.2641,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 1.831,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.72,
+          "masked": 12.28,
+          "remasked": 0.28
+        },
+        {
+          "step": 3,
+          "fixed": 5.41,
+          "masked": 10.59,
+          "remasked": 0.59
+        },
+        {
+          "step": 4,
+          "fixed": 7.08,
+          "masked": 8.92,
+          "remasked": 0.92
+        },
+        {
+          "step": 5,
+          "fixed": 8.72,
+          "masked": 7.28,
+          "remasked": 1.28
+        },
+        {
+          "step": 6,
+          "fixed": 10.29,
+          "masked": 5.71,
+          "remasked": 1.71
+        },
+        {
+          "step": 7,
+          "fixed": 11.85,
+          "masked": 4.15,
+          "remasked": 2.15
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-oracle_b16": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2162,
+      "final_token_error": 0.3775,
+      "remasked_per_block": 7.247,
+      "wrong_to_correct": 394,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 1751,
+      "correct_to_correct": 0,
+      "correction_success": 0.1837,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 1.331,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.7,
+          "masked": 12.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 3,
+          "fixed": 5.4,
+          "masked": 10.6,
+          "remasked": 0.6
+        },
+        {
+          "step": 4,
+          "fixed": 7.04,
+          "masked": 8.96,
+          "remasked": 0.96
+        },
+        {
+          "step": 5,
+          "fixed": 8.63,
+          "masked": 7.37,
+          "remasked": 1.37
+        },
+        {
+          "step": 6,
+          "fixed": 10.25,
+          "masked": 5.75,
+          "remasked": 1.75
+        },
+        {
+          "step": 7,
+          "fixed": 11.73,
+          "masked": 4.27,
+          "remasked": 2.27
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    }
+  },
+  "GEN": {}
+}

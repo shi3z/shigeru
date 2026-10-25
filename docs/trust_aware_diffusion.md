@@ -143,3 +143,96 @@ model has no better answer for those positions in the remaining steps.  Best net
 tokens per block (2.5 %), final token error 45.8 → 45.0 %.  **Gate 2 (net repair) is passed only nominally by the
 trust rule and failed by every rule built on the current forward; the refill, not the detection, is the limit.**
 Unmasking by the trust score instead of confidence is worse (block exact 20.9 → 16.9 %).
+
+### 3.2 Ceiling: oracle re-masking (research diagnostic, reads the reference — never usable at inference)
+
+Same protocol, but the rule re-masks exactly the visible tokens that differ from the reference (lowest placement
+confidence first), i.e. a perfect trust detector under the same 8-forward budget.
+
+| unmask | oracle budget / step | re-masks / block | W→C | W→W' | correction success | final token error | block exact |
+|---|---|---|---|---|---|---|---|
+| left | 2 | 4.98 | 446 | 1 029 | 30.2 % | 45.8 → 37.6 % | 20.9 → 23.3 % |
+| left | 4 | 6.56 | 542 | 1 401 | 27.9 % | 36.4 % | 23.3 % |
+| left | 16 (unlimited) | 6.93 | 542 | 1 510 | 26.4 % | 36.4 % | 23.3 % |
+| confidence | 2 | 4.96 | 297 | 1 170 | 20.3 % | 45.6 → 39.2 % | 19.3 → 21.6 % |
+| confidence | 16 | 7.25 | 394 | 1 751 | 18.4 % | 37.8 % | 21.6 % |
+
+**Even perfect detection repairs only 26–30 % of the tokens it re-masks**; the block exact-match rate rises by 2.4
+points at most and 36 % of the tokens are still wrong after 8 forwards.  The refill — the model's prediction for a
+re-masked position given its (partly wrong) neighbours, with 1–5 forwards left — is the bottleneck, not the
+decision of what to re-mask.  For scale: simply spending 16 forwards (S = 16, left-to-right, no re-masking) gives
+block exact 38.5 % and token error 36.7 % on the same blocks (results/pure/b7_tf_dev50_lr1e4_s16.json) — eight
+more forwards of ordinary unmasking are worth more than perfect error detection within eight; and at S = 16 the
+stability rule is already harmful (W→C 5 vs C→W 11).  This is the reason the Trust Head of brief §5 was not trained (§5 below): a head
+could at best approach these oracle numbers, which do not move GSM8K (the trust rule's net +0.18 tokens per block
+vs the oracle's +1.5–1.8 would have to be multiplied by the refill's 30 % success).
+
+### 3.3 Free generation under the fixed budget — GSM8K accuracy
+
+Setting: lr1e-4 adapter, K = 16, S = 8, 384-token budget, greedy, batch 1; every row is exactly 8 forwards per block
+plus the prefix pass (tokens/forward 1.70–1.72 for every row; re-masking changes nothing in the count).  dev-50 =
+exploration items (±8 points of tie-breaking noise, §3); **dev2 = 150 fresh items, the decision set**; AR greedy of
+the same base model on dev2 = 92.0 % (dev2_refs_e5.json), B-series S = 16 on dev2 = 82.0 % (confidence) /
+**90.0 % (left-to-right)**.  Files: results/pure/b7_gen_dev50_lr1e4_*.json, b7_gen_dev2_lr1e4_*.json (zeta rows in the
+same names there).  McNemar = exact paired test against left/none on the same 150 items.
+
+| unmask | remask (budget) | dev-50 | dev2 (150) | dev2 vs left/none: wins / losses, p |
+|---|---|---|---|---|
+| **left** | **none** (baseline, = B-series S = 8 left) | 76 | **70.0** | – |
+| left | disagree (2) | 80 | 64.7 | +17 / −25, 0.28 |
+| left | lowprob 0.5 (2) | 88 | 70.0 | – |
+| left | **stability (2)** | 78 | **76.7** | **+21 / −11, 0.11** |
+| left | stability (1) | 80 | 74.7 | |
+| left | stability (4) | 76 | 76.7 | |
+| left | dependency (2) | 84 | 70.0 | +20 / −20, 1.0 |
+| left | dependency (1) | – | 73.3 | |
+| left | trust 0.5 (2) | 68 | 66.7 | +16 / −21, 0.51 |
+| left | lowprob 0.3 (2) | – | 74.0 | |
+| confidence | none (= B-series S = 8 confidence) | 66 | 70.0 | +24 / −24, 1.0 |
+| confidence | disagree (2) | 68 | 57.3 | +14 / −33, **0.008** (worse) |
+| confidence | lowprob 0.5 (2) | 66 | 62.7 | |
+| confidence | stability (2) | 72 | 66.7 | +21 / −26, 0.56 |
+| confidence | dependency (2) | 72 | 64.0 | +18 / −27, 0.23 |
+| confidence | trust 0.5 (2) | 62 | 61.3 | +23 / −36, 0.12 |
+| trust-score order | none / stability / trust | 64 / 64 / 60 | – | |
+| left, cosine mask schedule | none / stability (2) | – | 68.0 (1.93 tok/fwd) / 64.7 | |
+
+Reading: of fifteen re-masking variants, **one** has a positive effect on the fresh set — left-to-right unmasking
+with the stability rule (re-mask a token the model has contradicted in two consecutive forwards; ~1 re-mask per
+block): 70.0 → 76.7 % (+10 items of 150, p = 0.11, not significant at 150).  Every rule based on a single forward's
+disagreement is neutral or harmful on dev2 (confidence + disagree: −12.7, p = 0.008), the dev-50 "winners" (lowprob
+88 %, dependency 84 %) are noise, and the trust-score rules are harmful despite the best detector (§3.1: they re-mask
+5–6 tokens per block and most refills come back different-but-wrong, which also breaks the left-to-right structure
+that gives S = 8 its 70 %).  **Gate 3 (clear improvement of S = 8 on unused data): not met at the 80 % target — the
+best S = 8 point is 76.7 % on dev2; see §7 for the test-set number.**
+
+## 4. Dependency-aware token selection (brief §4; S = 8, K = 16, 2 tokens per forward)
+
+| unmask rule (no re-masking) | dev-50 | dev2 (150) | tokens / forward |
+|---|---|---|---|
+| confidence top-2 | 66 | 70.0 | 1.70 |
+| left-to-right 2 tokens | 76 | 70.0 | 1.71 |
+| non-adjacent top-2 (skip neighbours of a chosen position) | 66 | – | 1.70 |
+| dependency-aware top-2 (non-adjacent, left neighbour must be visible) | 72 | – | 1.71 |
+| adaptive top-M (all positions with conf ≥ 0.9, at least the schedule's 2) | 60 | 67.3 | 1.72–1.73 |
+| trust-score order (logistic score on masked-position features) | 64 | – | 1.69 |
+| + re-masking on top of these (disagree / dependency) | 52–72 | 66.0 (adaptive + dependency) | |
+
+The A-series finding (simultaneous updates of adjacent positions are the harmful ones) does **not** transfer: forbidding
+adjacent pairs or requiring a visible left neighbour does not beat plain confidence order (66–72 vs 66 on dev-50), and
+the adaptive rule is worse (it commits more tokens per step exactly when the block is easy, and the 2-per-step
+schedule is already the budget).  In the block-bidirectional model the two tokens placed per step are predicted
+jointly from the same forward and are coherent with each other; the errors of S = 8 come from positions placed with
+*too little context*, not from adjacent collisions — which is why left-to-right (every position sees all its left
+context) is as good as confidence order at S = 8 and clearly better at S = 16 (90 vs 82 % on dev2).  No dependency
+estimate with extra forwards was built: the A-series oracle (dependency_aware_refinement.md) already costs K
+forwards per step and the inference-time proxy (adjacency) above has no effect.
+
+## 5. Trust Prediction Head (brief §5) — not trained, by the gate
+
+The brief allows a trained head only if the training-free trust signals lack discriminative power.  They are
+moderate (AUROC 0.77–0.80, §2) — but §3.2 shows that a *perfect* detector would repair only 26–30 % of what it
+re-masks and lift block exact match by 2.4 points, and §3.3 shows that the best available detector (the logistic
+score) makes generation worse when used for re-masking.  A head on hidden states could improve detection, not the
+refill; the measured ceiling says that is not where the S = 8 accuracy is lost.  The 4B stays frozen and no
+visible-correction loss was reintroduced, as required.

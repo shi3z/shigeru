@@ -1,0 +1,493 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 16,
+  "n": 50,
+  "skip": 0,
+  "prompts": "bench/prompts_gsm8k_dev.json",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "peak_mem_gib": 7.69,
+  "seconds": 469.6,
+  "args": {
+    "model": "runs/zeta_sft_final_e5/final",
+    "adapter": "runs/bdiff_e5_lr1e4/adapter",
+    "no_time": true,
+    "prompts": "bench/prompts_gsm8k_dev.json",
+    "refs": "results/pure/dev_refs_e5.json",
+    "n": 50,
+    "skip": 0,
+    "K": 16,
+    "steps": 16,
+    "unmask": "left,confidence",
+    "remask": "none,stability",
+    "remask_budget": 2,
+    "remask_start": 2,
+    "tau_unmask": 0.9,
+    "tau_remask": 0.5,
+    "trust": null,
+    "trust_mask": null,
+    "schedule": "linear",
+    "skip_tf": false,
+    "skip_gen": true,
+    "max_blocks": 6,
+    "max_new_tokens": 384,
+    "out": "results/pure/b7_tf_dev50_lr1e4_s16.json"
+  },
+  "TF": {
+    "S16_u-left_r-none": {
+      "blocks": 296,
+      "forwards_per_block": 16.0,
+      "block_exact": 0.3851,
+      "final_token_error": 0.3674,
+      "remasked_per_block": 0.0,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 0,
+      "correct_to_correct": 0,
+      "correction_success": 0.0,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 1.0,
+          "masked": 15.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 3.0,
+          "masked": 13.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 5.0,
+          "masked": 11.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 7.0,
+          "masked": 9.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 9,
+          "fixed": 9.0,
+          "masked": 7.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 10,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 11,
+          "fixed": 11.0,
+          "masked": 5.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 12,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 13,
+          "fixed": 13.0,
+          "masked": 3.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 14,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 15,
+          "fixed": 15.0,
+          "masked": 1.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 16,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S16_u-left_r-stability_b2": {
+      "blocks": 296,
+      "forwards_per_block": 16.0,
+      "block_exact": 0.3682,
+      "final_token_error": 0.3758,
+      "remasked_per_block": 2.855,
+      "wrong_to_correct": 5,
+      "correct_to_wrong": 11,
+      "wrong_to_wrong": 129,
+      "correct_to_correct": 700,
+      "correction_success": 0.0373,
+      "damage_rate": 0.0155,
+      "net_gain_per_block": -0.02,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 1.0,
+          "masked": 15.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 2.93,
+          "masked": 13.07,
+          "remasked": 0.07
+        },
+        {
+          "step": 4,
+          "fixed": 3.77,
+          "masked": 12.23,
+          "remasked": 0.23
+        },
+        {
+          "step": 5,
+          "fixed": 4.94,
+          "masked": 11.06,
+          "remasked": 0.06
+        },
+        {
+          "step": 6,
+          "fixed": 5.82,
+          "masked": 10.18,
+          "remasked": 0.18
+        },
+        {
+          "step": 7,
+          "fixed": 6.71,
+          "masked": 9.29,
+          "remasked": 0.29
+        },
+        {
+          "step": 8,
+          "fixed": 7.9,
+          "masked": 8.1,
+          "remasked": 0.1
+        },
+        {
+          "step": 9,
+          "fixed": 8.73,
+          "masked": 7.27,
+          "remasked": 0.27
+        },
+        {
+          "step": 10,
+          "fixed": 9.7,
+          "masked": 6.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 11,
+          "fixed": 10.85,
+          "masked": 5.15,
+          "remasked": 0.15
+        },
+        {
+          "step": 12,
+          "fixed": 11.7,
+          "masked": 4.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 13,
+          "fixed": 12.69,
+          "masked": 3.31,
+          "remasked": 0.31
+        },
+        {
+          "step": 14,
+          "fixed": 13.75,
+          "masked": 2.25,
+          "remasked": 0.25
+        },
+        {
+          "step": 15,
+          "fixed": 14.66,
+          "masked": 1.34,
+          "remasked": 0.34
+        },
+        {
+          "step": 16,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S16_u-confidence_r-none": {
+      "blocks": 296,
+      "forwards_per_block": 16.0,
+      "block_exact": 0.3041,
+      "final_token_error": 0.3913,
+      "remasked_per_block": 0.0,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 0,
+      "correct_to_correct": 0,
+      "correction_success": 0.0,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 1.0,
+          "masked": 15.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 3.0,
+          "masked": 13.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 5.0,
+          "masked": 11.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 7.0,
+          "masked": 9.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 9,
+          "fixed": 9.0,
+          "masked": 7.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 10,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 11,
+          "fixed": 11.0,
+          "masked": 5.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 12,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 13,
+          "fixed": 13.0,
+          "masked": 3.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 14,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 15,
+          "fixed": 15.0,
+          "masked": 1.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 16,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S16_u-confidence_r-stability_b2": {
+      "blocks": 296,
+      "forwards_per_block": 16.0,
+      "block_exact": 0.2838,
+      "final_token_error": 0.3972,
+      "remasked_per_block": 2.436,
+      "wrong_to_correct": 8,
+      "correct_to_wrong": 8,
+      "wrong_to_wrong": 132,
+      "correct_to_correct": 573,
+      "correction_success": 0.0571,
+      "damage_rate": 0.0138,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 1.0,
+          "masked": 15.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 2.93,
+          "masked": 13.07,
+          "remasked": 0.07
+        },
+        {
+          "step": 4,
+          "fixed": 3.84,
+          "masked": 12.16,
+          "remasked": 0.16
+        },
+        {
+          "step": 5,
+          "fixed": 4.93,
+          "masked": 11.07,
+          "remasked": 0.07
+        },
+        {
+          "step": 6,
+          "fixed": 5.85,
+          "masked": 10.15,
+          "remasked": 0.15
+        },
+        {
+          "step": 7,
+          "fixed": 6.8,
+          "masked": 9.2,
+          "remasked": 0.2
+        },
+        {
+          "step": 8,
+          "fixed": 7.86,
+          "masked": 8.14,
+          "remasked": 0.14
+        },
+        {
+          "step": 9,
+          "fixed": 8.78,
+          "masked": 7.22,
+          "remasked": 0.22
+        },
+        {
+          "step": 10,
+          "fixed": 9.76,
+          "masked": 6.24,
+          "remasked": 0.24
+        },
+        {
+          "step": 11,
+          "fixed": 10.83,
+          "masked": 5.17,
+          "remasked": 0.17
+        },
+        {
+          "step": 12,
+          "fixed": 11.79,
+          "masked": 4.21,
+          "remasked": 0.21
+        },
+        {
+          "step": 13,
+          "fixed": 12.69,
+          "masked": 3.31,
+          "remasked": 0.31
+        },
+        {
+          "step": 14,
+          "fixed": 13.77,
+          "masked": 2.23,
+          "remasked": 0.23
+        },
+        {
+          "step": 15,
+          "fixed": 14.72,
+          "masked": 1.28,
+          "remasked": 0.28
+        },
+        {
+          "step": 16,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    }
+  },
+  "GEN": {}
+}
