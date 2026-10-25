@@ -207,7 +207,24 @@ and IndentationError rate from the classifier of §3), dev2 S = 8.  Results in �
 
 ### 5.1 Results
 
-__S5RESULTS__
+| student (masked CE only, 1 500 steps, hard ×4) | states | HumanEval S = 8 | HumanEval S = 16 | GSM8K dev2 S = 8 |
+|---|---|---|---|---|
+| undistilled adapter | – | 8.5 % | 50.6 % | 70.0 % |
+| arm B (12 k GSM8K states) | 12 k | 8.5 % (B-large) | – | 83.3 % |
+| student E (GSM8K + MBPP-format states, CE + KL) | 76 k | 0.0 % | 40.9 % | 80.0 % |
+| **arm B + function-format code states** | 12 k + 24.7 k | **19.5 %** (32 / 164) | 47.0 % (−6 items) | 76.0 % (−11 items vs arm B) |
+| reference: B8 joint teacher at S = 8 (22 forwards) | – | 23.2 % | – | 89.3 % |
+
+Syntax classification of the B + code student's S = 8 programs: __BCSYN__
+
+Reading: the same recipe that lifted GSM8K lifts code once the states are in the evaluation's format — HumanEval S = 8
+8.5 → 19.5 %, i.e. 84 % of the way to the sequential teacher's 23.2 % — with no Python-specific rule or loss; the
+MBPP-dialect failure of student E (0 %) is confirmed to have been a data-format problem.  The cost: one LoRA now serves
+two state distributions and GSM8K S = 8 falls from 83.3 to 76.0 % on dev2 (code states are 2/3 of the mixture) and
+HumanEval S = 16 loses 6 items.  **Gate 3: met for syntax validity and S = 8 code generation (8.5 → 19.5 %), not met
+for the 30 % target and not without a GSM8K cost at this mixture.**  Target-wise the ceiling is the teacher's 23 %: at
+S = 8 the pairwise teacher does not solve code, so a better teacher (first-forward / longer sequential resolution per
+step), not a better student, is the next lever for code.
 
 ## 6. Monotonic unmasking vs global refinement (brief §6)
 
@@ -245,7 +262,7 @@ noise process; the matching data recipe is now known).
 | B10 student E (GSM8K + MBPP states), S = 8 | 8 | 80.0 | 78.4 | 0.0 | (trained on MBPP) |
 | **ablation arm B (masked CE only, 12 k states), S = 8** | 8 | **83.3** | **77.8** (+184 / −119 vs baseline, p = 0.0002) | – | – |
 | arm B, S = 16 | 16 | 90.0 | – | – | – |
-| arm B + function-format code states, S = 8 / 16 | 8 / 16 | __BC8__ | – | __BCH8__ / __BCH16__ | (MBPP-derived prompts in training) |
+| arm B + function-format code states, S = 8 / 16 | 8 / 16 | 76.0 | – | **19.5** / 47.0 | (MBPP-derived prompts in training) |
 
 Syntax validity / IndentationError rate at S = 8 (HumanEval, 164): baseline 39 / 24 %, student A 35 / 16 %, student E
 19 / 81 %; at S = 16 all three are ≥ 97 % syntactically valid with 0–1 IndentationErrors.
@@ -280,7 +297,7 @@ This phase: 10 LoRA runs ≈ 4.5 GPU-hours, diagnostics and evaluations ≈ 9 GP
 |---|---|
 | 1 cause of the B10 gain | **identified**: teacher data (on-policy states + joint-resolved labels), not the pair/KL objective; same-budget ordinary data gives a third of the gain and hurts S = 16 |
 | 2 cause of the syntax collapse | **identified**: independent placement of a dependent pair — concentrated on the first pair of the answer for E (format mixing from MBPP states), distributed over seams for A and the baseline; not an indentation deficit |
-| 3 training improves syntax validity and free generation | __G3__ |
+| 3 training improves syntax validity and free generation | **partly**: HumanEval S = 8 8.5 → 19.5 % with code states in the evaluation format (84 % of the teacher ceiling), GSM8K S = 8 70.0 → 83.3 % (arm B); the two-domain mixture trades 7 GSM8K points for the code gain; 30 % / 80 %-on-test targets not reached |
 | 4 non-autoregressive capability | **no**: gains are specific to the monotonic left-to-right sampler |
 
 Next structure, from the measurements: keep the backbone and the one-LoRA, eight-forward budget; change *what states

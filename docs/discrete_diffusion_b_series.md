@@ -460,3 +460,15 @@ block, no sequential conditioning at inference: hard-state pair agreement 3 → 
 (p = 0.01), **GSM8K test 72.9 → 77.1 % (p = 0.001)**, same latency; S = 4 27 → 46 % on dev2.  Label-only CE works as
 well as the KL; 5× data, more steps and a look-ahead term do not help; the student costs 2–4 items at S = 12/16; code
 stays near 10 % at S = 8 (the teacher itself is 23 %).  First S = 8 improvement of the B-series on the test set.
+
+## 16. Phase B10.5 — ablation and structural consistency (summary; full record in distillation_ablation_structural_consistency.md)
+
+Same data, steps, rank and lr: masked CE alone on the teacher-trajectory states gives dev2 S = 8 83.3 % / S = 16 90.0 %
+(GSM8K test 77.8 %), CE + KL 81.3 / 87.3, KL alone 75.3 / 81.3, ordinary data 74.7 / 82.0 — **the B10 gain is the
+on-policy teacher-trajectory data, not the conditional KL.**  The code "indentation collapse" of student E was the
+first pair of the answer mixing two formats (132 / 133 errors at block 0 position 3) plus an MBPP dialect shift
+(colon accuracy 96 → 17 % teacher-forced); baseline and student A fail code through distributed pair-seam token drops.
+Teacher-forced code pairs are 90–92 % right vs 47–49 % for prose; structural seams cost only 2–5 points — code dies
+because every pair error is fatal.  The same masked-CE recipe with code states in the evaluation's prompt format lifts
+HumanEval S = 8 from 8.5 to 19.5 % (teacher ceiling 23.2 %) at a 7-point GSM8K cost in the shared LoRA.  Gains do not
+transfer to a non-monotonic sampler.  All at 8 forwards per block, no AR verification.
