@@ -236,3 +236,24 @@ re-masks and lift block exact match by 2.4 points, and §3.3 shows that the best
 score) makes generation worse when used for re-masking.  A head on hidden states could improve detection, not the
 refill; the measured ceiling says that is not where the S = 8 accuracy is lost.  The 4B stays frozen and no
 visible-correction loss was reintroduced, as required.
+
+## 6. The 8-step block, redesigned (brief §6) — what survives
+
+Per-step state of a 16-token block (dev2 average over all blocks; fixed / masked / re-masked after the step).  Every
+variant finishes 16 tokens at the 8th forward; nothing reads the reference.
+
+| strategy | s1 | s2 | s3 | s4 | s5 | s6 | s7 | s8 | dev2 |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 current left-to-right | 2/14/0 | 4/12/0 | 6/10/0 | 8/8/0 | 10/6/0 | 12/4/0 | 14/2/0 | 16/0/0 | 70.0 |
+| 2 current confidence order | 2/14/0 | 4/12/0 | 6/10/0 | 8/8/0 | 10/6/0 | 12/4/0 | 14/2/0 | 16/0/0 | 70.0 |
+| 3 trust-aware unmasking (logistic score order) | same counts as 2 | | | | | | | | 64 (dev-50) |
+| 4 trust-aware re-masking (left, score < 0.5, budget 2) | 2/14/0 | 3.5/12.5/0.5 | 5.4/10.6/0.6 | 7.2/8.8/0.8 | 8.9/7.1/1.1 | 10.7/5.3/1.3 | 12.5/3.5/1.5 | 16/0/0 | 66.7 |
+| 5 dependency-aware unmasking (non-adjacent, left neighbour visible) | same counts as 1 | | | | | | | | 72 (dev-50) |
+| 6 adaptive mixed (conf ≥ 0.9 → unmask, + dependency re-mask) | 2–4 per step, 1.70–1.73 tok/fwd | | | | | | | | 66.0 |
+| **left-to-right + stability re-mask (budget 2)** | 2/14/0 | 4/12/0 | 5.8/10.2/0.17 | 7.9/8.1/0.11 | 9.9/6.1/0.14 | 11.7/4.3/0.30 | 13.75/2.25/0.25 | 16/0/0 | **76.7** |
+
+The surviving design re-masks about one token per block (0.98), almost always in the second half of the block's
+life, and otherwise is the plain left-to-right 2-tokens-per-forward schedule.  It is the only variant that beats the
+current S = 8 decoders on the fresh set; it does not reach the 80 % target there (76.7 %) and HumanEval shows it does
+nothing for code (8.5 % with and without re-masking, §7).  The re-masking rules that touch more tokens (trust, disagree
+at every step) lose more than they gain because the refill fails 70–85 % of the time (§3.1–3.2).
