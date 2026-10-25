@@ -1,0 +1,3005 @@
+{
+  "task": "mbpp",
+  "engine": "bdiff:runs/bdiff_e5_lr1e4/adapter+runs/consist_a/adapter:16:left",
+  "model": "/mnt/ssdraid/project/open-mercury/bench/../runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter+runs/consist_a/adapter",
+  "stats": {
+    "forwards": 31127,
+    "tokens": 26449,
+    "remasked": 0
+  },
+  "n": 427,
+  "pass@1": 0.5292740046838408,
+  "seconds": 784.9716310501099,
+  "results": [
+    {
+      "id": "mbpp/2",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def similar_elements(list1, list2):\n    return set(list1) & set(list2)"
+    },
+    {
+      "id": "mbpp/3",
+      "pass": true,
+      "secs": 2.8,
+      "err": "",
+      "answer": "def is_not_prime(n):\n    if n <= 1:\n        return True\n    if n <= 3:\n        return False\n    if n % 2 == 0 or n % 3 == 0:\n        return True\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return True\n        i += 6\n    return False"
+    },
+    {
+      "id": "mbpp/4",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\nimport heapq\n\ndef heap_queue_largest(numbers, n):\n    return heapq.nlargest(n, numbers)\n```"
+    },
+    {
+      "id": "mbpp/6",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp222ao_3z.py\", line 6, in <module>\n    assert differ_At_One_Bit_Pos(13,9) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef differ_At_One_Bit_Pos(a, b):\n    return (a ^ b) == 1\n```"
+    },
+    {
+      "id": "mbpp/7",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def find_char_long(string):\n    return {word for word in string.split() if len(word) >= 4}"
+    },
+    {
+      "id": "mbpp/8",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def square_nums(lst):\n    return [x ** 2 for x in lst]"
+    },
+    {
+      "id": "mbpp/9",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpllms6jsg.py\", line 10, in <module>\n    assert find_Rotations(\"aaaa\") == 1\n           ^^^^^^^^^^^^^^\nNameError: name 'find_Rotations' is not defined. Did you mean: 'find_rotations'?\n",
+      "answer": "```python\ndef find_rotations(s):\n    n = len(s)\n    for i in range(1, n):\n        if s[:n - i] == s[i:]:\n            return i\n    return n\n```"
+    },
+    {
+      "id": "mbpp/11",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3ix4ck3p.py\", line 8, in <module>\n    assert remove_Occ(\"hello\",\"l\") == \"heo\"\n           ^^^^^^^^^^\nNameError: name 'remove_Occ' is not defined. Did you mean: 'remove_occ'?\n",
+      "answer": "```python\ndef remove_occ(string, char):\n    first = string.find(char)\n    last = string.rfind(char)\n    return string[:first] + string[first+1:last] + string[last+1:]\n```"
+    },
+    {
+      "id": "mbpp/12",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef sort_matrix(matrix):\n    return sorted(matrix, key=lambda row: sum(row))\n```"
+    },
+    {
+      "id": "mbpp/14",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7tt1atae.py\", line 6, in <module>\n    assert find_volume(10, 8, 6) == 240\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def find_volume(length, width, height):\n    return (length * width * height) / 3\n\n# Test cases\nassert find_volume(10, 8, 6) == 240\nassert find_volume(3, 2, 2) == 6\nassert find_volume(1, 2, 1) == 1"
+    },
+    {
+      "id": "mbpp/16",
+      "pass": false,
+      "secs": 0.8,
+      "err": "ext_lowercase_underscore(\"aab_cbbbc\")==(True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpksd442qb.py\", line 3, in text_lowercase_underscore\n    return bool(re.fullmatch(r'^([a-z_]+)*$', s))\n                ^^\nNameError: name 're' is not defined. Did you forget to import 're'?\n",
+      "answer": "```python\ndef text_lowercase_underscore(s):\n    return bool(re.fullmatch(r'^([a-z_]+)*$', s))\n```"
+    },
+    {
+      "id": "mbpp/17",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def square_perimeter(side_length):\n    return 4 * side_length"
+    },
+    {
+      "id": "mbpp/18",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef remove_dirty_chars(s, t):\n    return ''.join([c for c in s if c not in t])\n```"
+    },
+    {
+      "id": "mbpp/19",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def test_duplicate(arr):\n    return len(set(arr)) != len(arr)"
+    },
+    {
+      "id": "mbpp/20",
+      "pass": false,
+      "secs": 2.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9lbflxtp.py\", line 6, in <module>\n    assert is_woodall(383) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def is_woodall(n):\n    return n % 11 == 0 and n % 7 == 0 and n % 3 == 0 and n % 2 == 0\n\n# Test cases\nassert is_woodall(383) == True\nassert is_woodall(254) == False\nassert is_woodall(200) == False"
+    },
+    {
+      "id": "mbpp/56",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def check(n):\n    return 2 * int(str(n)[::-1]) == n + 1"
+    },
+    {
+      "id": "mbpp/57",
+      "pass": false,
+      "secs": 2.1,
+      "err": "ule>\n    assert find_max_num([1,2,3]) == 321\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp96ggze6t.py\", line 3, in find_max_num\n    return int(''.join(sorted(digits, reverse=True)))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: sequence item 0: expected str instance, int found\n",
+      "answer": "def find_max_num(digits):\n    return int(''.join(sorted(digits, reverse=True)))\n\n# Test cases\nassert find_max_num([1,2,3]) == 321\nassert find_max_num([4,5,6,1]) == 6541\nassert find_max_num([1,2,3,9]) == 9321"
+    },
+    {
+      "id": "mbpp/58",
+      "pass": false,
+      "secs": 1.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpp_xiuidu.py\", line 6, in <module>\n    assert opposite_Signs(1,-2) == True\n           ^^^^^^^^^^^^^^\nNameError: name 'opposite_Signs' is not defined. Did you mean: 'opposite_signs'?\n",
+      "answer": "```python\ndef opposite_signs(a, b):\n    return a < 0 and b >  0 or a > 0 and b < 0\n```"
+    },
+    {
+      "id": "mbpp/59",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpb7xswvbk.py\", line 5, in <module>\n    assert is_octagonal(5) == 65\n           ^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def is_octagonal(n):\n    return n * (3 * n - 2) // 2"
+    },
+    {
+      "id": "mbpp/61",
+      "pass": false,
+      "secs": 2.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp8hjc3lmb.py\", line 18, in <module>\n    assert count_Substrings('112112') == 6\n           ^^^^^^^^^^^^^^^^\nNameError: name 'count_Substrings' is not defined. Did you mean: 'count_substrings'?\n",
+      "answer": "```python\ndef count_substrings(s):\n    n = len(s)\n    count = 0\n\n    for i in range(n):\n        current_sum = 0\n        for j in range(i, n):\n            current_sum += int(s[j])\n            if current_sum == (j - i + 1):\n                count += 1\n            elif current_sum > (j - i + 1):\n                break\n\n    return count\n```"
+    },
+    {
+      "id": "mbpp/62",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def smallest_num(lst):\n    return min(lst)"
+    },
+    {
+      "id": "mbpp/63",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmphwehye41.py\", line 6, in <module>\n    assert max_difference([(3, 5), (1, 7), (10, 3), (1, 2)]) == 7\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef max_difference(pairs):\n    return max((b - a for a, b in pairs), default=0)\n```"
+    },
+    {
+      "id": "mbpp/64",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def subject_marks(tuples):\n    return sorted(tuples, key=lambda x: x[1])"
+    },
+    {
+      "id": "mbpp/65",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def recursive_list_sum(lst):\n    total = 0\n    for element in lst:\n        if isinstance(element, list):\n            total += recursive_list_sum(element)\n        else:\n            total += element\n    return total"
+    },
+    {
+      "id": "mbpp/66",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def pos_count(lst):\n    return sum(1 for num in lst if num > 0)"
+    },
+    {
+      "id": "mbpp/67",
+      "pass": false,
+      "secs": 8.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpw0__ib6m.py\", line 21, in <module>\n    assert bell_number(10)==115975\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": " 1):\n            bell_numbers[i] += bell_numbers[j - 1]\n\n    return bell_numbers[n]\n```\n\nLet's test it with the given examples:\n\n```python\nprint(bell_number(2))  # Output: 2\nprint(bell_number(10))  # Output: 115975\nprint(bell_number(56))  # Output: 6775685320645824322581483068371419745979053216268760300\n```\n\nNote: The last test case may take a long time to compute due to the large number involved."
+    },
+    {
+      "id": "mbpp/68",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpzhohvwz1.py\", line 5, in <module>\n    assert is_Monotonic([6, 5, 4, 4]) == True\n           ^^^^^^^^^^^^\nNameError: name 'is_Monotonic' is not defined. Did you mean: 'is_monotonic'?\n",
+      "answer": "def is_monotonic(arr):\n    return all(arr[i] <= arr[i + 1] for i in range(len(arr) - 1)) or all(arr[i] >= arr[i + 1] for i in range(len(arr) - 1))"
+    },
+    {
+      "id": "mbpp/69",
+      "pass": false,
+      "secs": 1.6,
+      "err": "ist[k] for j, k in enumerate(sublist)):\n       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpo2q0zon8.py\", line 6, in <genexpr>\n    if all(lst[i + j] == sublist[k] for j, k in enumerate(sublist)):\n                         ~~~~~~~^^^\nIndexError: list index out of range\n",
+      "answer": "def is_sublist(lst, sublist):\n    n = len(lst)\n    m = len(sublist)\n    for i in range(n - m + 1):\n        if all(lst[i + j] == sublist[k] for j, k in enumerate(sublist)):\n            return True\n    return False"
+    },
+    {
+      "id": "mbpp/70",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "def get_equal(tuples):\n    if not tuples:\n        return True\n    first_len = len(tuples[0])\n    for t in tuples[1:]:\n        if len(t) != first_len:\n            return False\n    return True"
+    },
+    {
+      "id": "mbpp/71",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "def comb_sort(lst):\n    n = len(lst)\n    gap = n // 2\n    swapped = True\n\n    while gap > 0 or swapped:\n        swapped = False\n        i = 0\n        while i + gap < n:\n            if lst[i] > lst[i + gap]:\n                lst[i], lst[i + gap] = lst[i + gap], lst[i]\n                swapped = True\n            i += 1\n\n        gap = gap // 2\n\n    return lst"
+    },
+    {
+      "id": "mbpp/72",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpygpjbxwl.py\", line 6, in <module>\n    assert dif_Square(5) == True\n           ^^^^^^^^^^\nNameError: name 'dif_Square' is not defined. Did you mean: 'dif_square'?\n",
+      "answer": "```python\ndef dif_square(n):\n    return any((i + j) % 4 == 1 for i in range(2, n + 1) for j in range(i, n + 1) if i * j == n)\n```"
+    },
+    {
+      "id": "mbpp/74",
+      "pass": false,
+      "secs": 2.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpahcwxtvx.py\", line 6, in <module>\n    assert is_samepatterns([\"red\", \"green\", \"green\"], [\"a\", \"b\", \"b\"]) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def is_samepatterns(pattern, sequence):\n    return len(pattern) == len(sequence) and all(pattern[i] == sequence[i] for i in range(len(pattern)))\n\n# Test cases\nassert is_samepatterns([\"red\", \"green\", \"green\"], [\"a\", \"b\", \"b\"]) == True\nassert is_samepatterns([\"red\", \"green\", \"greenn\"], [\"a\", \"b\", \"b\"]) == False\nassert is_samepatterns([\"red\", \"green\", \"greenn\"], [\"a\", \"b\"]) == False"
+    },
+    {
+      "id": "mbpp/75",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef find_tuples(tuples, k):\n    return [tuple for tuple in tuples if all(element % k == 0 for element in tuple)]\n```"
+    },
+    {
+      "id": "mbpp/77",
+      "pass": false,
+      "secs": 0.9,
+      "err": "t call last):\n  File \"/tmp/tmpf8l76_tm.py\", line 5, in <module>\n    assert is_Diff (12345) == False\n           ^^^^^^^^^^^^^^^\n  File \"/tmp/tmpf8l76_tm.py\", line 3, in is_Diff\n    return abs(sum(n[::2]) - sum(n[1::2])) % 11 == 0\n                   ~^^^^^\nTypeError: 'int' object is not subscriptable\n",
+      "answer": "def is_Diff(n):\n    return abs(sum(n[::2]) - sum(n[1::2])) % 11 == 0"
+    },
+    {
+      "id": "mbpp/79",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def word_len(word):\n    return len(word) % 2 != 0"
+    },
+    {
+      "id": "mbpp/80",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "The nth tetrahedral number is given by the formula:\n\\[\n\\frac{n(n+1)(n+2)}{6}\n\\]\n\nHere's the function:\n\n```python\ndef tetrahedral_number(n):\n    return n * (n + 1) * (n + 2) // 6\n```"
+    },
+    {
+      "id": "mbpp/82",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "import math\n\ndef volume_sphere(radius):\n    return (4/3) * math.pi * (radius ** 3)"
+    },
+    {
+      "id": "mbpp/83",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpr17z26wl.py\", line 6, in <module>\n    assert get_Char(\"abc\") == \"f\"\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef get_Char(s):\n    return chr(sum(ord(c) for c in s) % 26 + ord('A'))\n```"
+    },
+    {
+      "id": "mbpp/84",
+      "pass": false,
+      "secs": 2.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp36vkunx7.py\", line 17, in <module>\n    assert sequence(10) == 6\n           ^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def sequence(n):\n    if n <= 0:\n        return 0\n    elif n == 1 or n == 2:\n        return 1\n    # Initialize the sequence list\n    seq = [0] * (n + 1)\n    seq[1] = 1\n    seq[2] = 2\n\n    for i in range(3, n + 1):\n        seq[i] = seq[i - 1] + seq[i - seq[i - 2]]\n\n    return seq[n]"
+    },
+    {
+      "id": "mbpp/85",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "import math\n\ndef surfacearea_sphere(radius):\n    return 4 * math.pi * (radius ** 2)"
+    },
+    {
+      "id": "mbpp/86",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "def centered_hexagonal_number(n):\n    return (6 * n * (n - 1)) // 2 + 1\n\n# Test cases\nassert centered_hexagonal_number(10) == 271\nassert centered_hexagonal_number(2) == 7\nassert centered_hexagonal_number(9) == 217"
+    },
+    {
+      "id": "mbpp/87",
+      "pass": false,
+      "secs": 0.8,
+      "err": "', 'B': 'Black', 'R': 'Red', 'G': 'Green', 'L': 'lavender'}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def merge_dictionaries_three(dict1, dict2, dict3):\n    return {**dict1, **dict2, **dict3}"
+    },
+    {
+      "id": "mbpp/88",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def freq_count(lst):\n    return {item: lst.count(item) for item in set(lst)}"
+    },
+    {
+      "id": "mbpp/89",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef closest_num(n):\n    return n - 1\n```"
+    },
+    {
+      "id": "mbpp/90",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def len_log(words):\n    return max(len(word) for word in words)"
+    },
+    {
+      "id": "mbpp/91",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def find_substring(string_list, substring):\n    return any(string in string_list for string in string_list if substring in string)"
+    },
+    {
+      "id": "mbpp/92",
+      "pass": false,
+      "secs": 2.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp1rdi7413.py\", line 15, in <module>\n    assert is_undulating(1212121) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def is_undulating(n):\n    s = str(n)\n    if len(s) < 3:\n        return False\n\n    for i in range(1, len(s) - 1):\n        if s[i - 1] == s[i + 1]:\n            return False\n\n    return True\n\n\n# Test cases\nassert is_undulating(1212121) == True\nassert is_undulating(1991) == False\nassert is_undulating(121) == True"
+    },
+    {
+      "id": "mbpp/93",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def power(a, b):\n    return a ** b"
+    },
+    {
+      "id": "mbpp/94",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef index_minimum(tuples):\n    return min(tuples, key=lambda x: x[1])[0]\n```"
+    },
+    {
+      "id": "mbpp/95",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def Find_Min_Length(list_of_lists):\n    return min(len(lst) for lst in list_of_lists)"
+    },
+    {
+      "id": "mbpp/96",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "def divisor(n):\n    count = 0\n    i = 1\n    while i * i <= n:\n        if n % i == 0:\n            count += 1\n            if i != n // i:\n                count += 1\n        i += 1\n    return count"
+    },
+    {
+      "id": "mbpp/97",
+      "pass": true,
+      "secs": 10.0,
+      "err": "",
+      "answer": ", 2, 3, 2], [4, 5, 6, 2], [7, 8, 9, 5]]) == {1: 1, 2: 3, 3: 1, 4: 1, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1}\n\n# Test case 2\nfrequency_lists([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]) == {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1, 11: 1, 12: 1}\n\n# Test case 3\nfrequency_lists([[20,30,40,17], [18,16,14,13], [10,20,30,40]]) == {20: 2, 30: 2, 40: 2, 17: 1, 18: 1, 16: 1, 14: 1, 13: 1, 10: 1}"
+    },
+    {
+      "id": "mbpp/98",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpc8h3vmva.py\", line 5, in <module>\n    assert math.isclose(multiply_num((8, 2, 3, -1, 7)), -67.2, rel_tol=0.001)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def multiply_num(numbers):\n    return sum(numbers) / len(numbers)"
+    },
+    {
+      "id": "mbpp/99",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpcci99qnm.py\", line 10\n    return ''.join(reversed(binary_digits)))\n                                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def decimal_to_binary(n):\n    if n == 0:\n        return '0'\n    binary_digits = []\n    while n > 0:\n        remainder = n % 2\n        binary_digits.append(str(remainder))\n        n = n // 2\n    return ''.join(reversed(binary_digits)))"
+    },
+    {
+      "id": "mbpp/100",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef next_smallest_palindrome(n):\n    while True:\n        n += 1\n        if str(n) == str(n)[::-1]:\n            return n\n```"
+    },
+    {
+      "id": "mbpp/101",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def kth_element(arr, k):\n    return arr[k - 1]"
+    },
+    {
+      "id": "mbpp/102",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "def snake_to_camel(snake_case):\n    return ''.join(word.capitalize() for word in snake_case.split('_'))\n\n\n# Test cases\nassert snake_to_camel('python_program') == 'PythonProgram'\nassert snake_to_camel('python_language') == 'PythonLanguage'\nassert snake_to_camel('programming_language') == 'ProgrammingLanguage'"
+    },
+    {
+      "id": "mbpp/103",
+      "pass": false,
+      "secs": 2.8,
+      "err": "r>\n    return sum((-1) ** k * comb(n, k) * (m - k + 1) ** (n - 1) for k in range(n + 1))\n                           ^^^^^^^^^^\n  File \"/tmp/tmpl14h5uy9.py\", line 13, in comb\n    return math.combinations(n, k)\n           ^^^^^^^^^^^^^^^^^\nAttributeError: module 'math' has no attribute 'combinations'\n",
+      "answer": "```python\ndef eulerian_num(n, m):\n    if m < 0 or m > n:\n        return 0\n    if m == 0 or m == n:\n        return 1\n\n    return sum((-1) ** k * comb(n, k) * (m - k + 1) ** (n - 1) for k in range(n + 1))\n\nimport math\n\ndef comb(n, k):\n    return math.combinations(n, k)\n```"
+    },
+    {
+      "id": "mbpp/104",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def sort_sublists(lst):\n    return [sorted(sub) for sub in lst]"
+    },
+    {
+      "id": "mbpp/105",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def count(lst):\n    return sum(1 for item in lst if isinstance(item, bool) and item)"
+    },
+    {
+      "id": "mbpp/106",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def add_lists(lst, t):\n    return tuple(t) + tuple(lst)"
+    },
+    {
+      "id": "mbpp/108",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```\ndef merge_sorted_list(list1, list2, list3):\n    return sorted(list1 + list2 + list3)\n```"
+    },
+    {
+      "id": "mbpp/109",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpffupy0js.py\", line 14, in <module>\n    assert odd_Equivalent(\"011001\",6) == 3\n           ^^^^^^^^^^^^^^\nNameError: name 'odd_Equivalent' is not defined. Did you mean: 'odd_equivalent'?\n",
+      "answer": "```python\ndef odd_equivalent(binary_str, rotations):\n    n = len(binary_str)\n    odd_count = 0\n\n    for _ in range(rotations):\n        rotated = binary_str[-1] + binary_str[:-1]\n        if int(rotated, 2) % 2 == 1:\n            odd_count += 1\n\n    return odd_count\n```"
+    },
+    {
+      "id": "mbpp/111",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def common_in_nested_lists(nested_lists):\n    return set.intersection(*map(set, nested_lists))"
+    },
+    {
+      "id": "mbpp/113",
+      "pass": false,
+      "secs": 0.4,
+      "err": "\"/tmp/tmpkkuueau0.py\", line 5, in <module>\n    assert check_integer(\"python\")==False\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpkkuueau0.py\", line 3, in check_integer\n    return isinstance(int(s), int)\n                      ^^^^^^\nValueError: invalid literal for int() with base 10: 'python'\n",
+      "answer": "def check_integer(s):\n    return isinstance(int(s), int)"
+    },
+    {
+      "id": "mbpp/115",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def empty_dit(lst):\n    return all(not d for d in lst)"
+    },
+    {
+      "id": "mbpp/116",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def tuple_to_int(t):\n    return int(''.join(map(str, t)))"
+    },
+    {
+      "id": "mbpp/117",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef list_to_float(lst):\n    return [tuple(float(x) for x in sublist) for sublist in lst]\n```"
+    },
+    {
+      "id": "mbpp/118",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def string_to_list(s):\n    return s.split()"
+    },
+    {
+      "id": "mbpp/119",
+      "pass": false,
+      "secs": 2.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2kj84py0.py\", line 16, in <module>\n    assert search([1,1,3,3,4,4,5,5,7,7,8]) == 8\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef search(arr):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] == arr[mid + 1]:\n            left = mid + 2\n        elif arr[mid] == arr[mid - 1]:\n            right = mid - 2\n        else:\n            return arr[mid]\n    return arr[left]\n```"
+    },
+    {
+      "id": "mbpp/120",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\ndef max_product_tuple(pairs):\n    max_product = 0\n    for a, b in pairs:\n        product = abs(a * b)\n        if product > max_product:\n            max_product = product\n    return max_product\n```"
+    },
+    {
+      "id": "mbpp/123",
+      "pass": false,
+      "secs": 4.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpdtxbx05e.py\", line 24, in <module>\n    assert amicable_numbers_sum(999)==504\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "number % i == 0:\n                if i != number // i:\n                    total += i + number // i\n                else:\n                    total += i\n            i += 1\n        return total\n\n    total_sum = 0\n    for a in range(2, n + 1):\n        b = sum_of_proper_divisors(a)\n        if b != a and b <= n and sum_of_proper_divisors(b) == a:\n            total_sum += a + b\n\n    return total_sum\n```"
+    },
+    {
+      "id": "mbpp/124",
+      "pass": false,
+      "secs": 0.8,
+      "err": "<module>\n    assert math.isclose(angle_complex(0,1j), 1.5707963267948966, rel_tol=0.001)\n                        ^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp75wq6j4q.py\", line 6, in angle_complex\n    return math.atan2(imag, real)\n           ^^^^^^^^^^^^^^^^^^^^^^\nTypeError: must be real number, not complex\n",
+      "answer": "import math\n\n\ndef angle_complex(real, imag):\n    return math.atan2(imag, real)"
+    },
+    {
+      "id": "mbpp/125",
+      "pass": false,
+      "secs": 2.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpk17xfgvn.py\", line 17, in <module>\n    assert find_length(\"11000010001\") == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef find_length(binary_string):\n    max_diff = 0\n    current_diff = 0\n\n    for char in binary_string:\n        if char == '0':\n            current_diff += 1\n        else:\n            current_diff -= 1\n\n        max_diff = max(max_diff, current_diff)\n\n    return max_diff\n```"
+    },
+    {
+      "id": "mbpp/126",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpuzt0ka6d.py\", line 11, in <module>\n    assert sum(10,15) == 6\n           ^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sum(a, b):\n    def gcd(x, y):\n        while y:\n            x, y = y, x % y\n        return x\n\n    return gcd(a, b)\n```"
+    },
+    {
+      "id": "mbpp/127",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def multiply_int(a, b):\n    return a * b"
+    },
+    {
+      "id": "mbpp/128",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpfypp3rlh.py\", line 5, in <module>\n    assert long_words(3,\"python is a programming language\")==['python','programming','language']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def long_words(n, words):\n    return [word for word in words if len(word) > n]"
+    },
+    {
+      "id": "mbpp/129",
+      "pass": true,
+      "secs": 6.7,
+      "err": "",
+      "answer": "\n    diag1 = sum(matrix[i][i] for i in range(n))\n    diag2 = sum(matrix[i][n - 1 - i] for i in range(n))\n\n    return diag1 == total and diag2 == total\n\n\n# Test cases\nassert magic_square_test([[7, 12, 1, 14], [2, 13, 8, 11], [16, 3, 10, 5], [9, 6, 15, 4]]) == True\nassert magic_square_test([[2, 7, 6], [9, 5, 1], [4, 3, 8]]) == True\nassert magic_square_test([[2, 7, 6], [9, 5, 1], [4, 3, 7]]) == False"
+    },
+    {
+      "id": "mbpp/130",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpcv3yg1ga.py\", line 6, in <module>\n    assert max_occurrences([2,3,8,4,7,9,8,7,9,15,14,10,12,13,16,18])==8\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def max_occurrences(lst):\n    return max(set(lst), key=lambda x: lst.count(x))"
+    },
+    {
+      "id": "mbpp/131",
+      "pass": false,
+      "secs": 3.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpyjf04w8t.py\", line 23, in <module>\n    assert reverse_vowels(\"USA\") == \"ASU\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": ", 'e', 'i', 'o', 'u'}\n    chars = list(s)\n    left = 0\n    right = len(chars) - 1\n\n    while left < right:\n        while left < right and chars[left] not in vowels:\n            left += 1\n        while left < right and chars[right] not in vowels:\n            right -= 1\n\n        chars[left], chars[right] = chars[right], chars[left]\n\n        left += 1\n        right -= 1\n\n    return ''.join(chars)\n```"
+    },
+    {
+      "id": "mbpp/132",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def tup_string(t):\n    return ''.join(t)"
+    },
+    {
+      "id": "mbpp/133",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def sum_negativenum(numbers):\n    return sum(n for n in numbers if n < 0)"
+    },
+    {
+      "id": "mbpp/135",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpclukg2rm.py\", line 5, in <module>\n    assert hexagonal_num(10) == 190\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def hexagonal_num(n):\n    return n * (2 * n - 1) // 3"
+    },
+    {
+      "id": "mbpp/137",
+      "pass": false,
+      "secs": 0.9,
+      "err": "ost recent call last):\n  File \"/tmp/tmpl2el1ux9.py\", line 5, in <module>\n    assert math.isclose(zero_count([0, 1, 2, -1, -5, 6, 0, -3, -2, 3, 4, 6, 8]), 0.181818, rel_tol=0.001)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def zero_count(arr):\n    return len([x for x in arr if x ==  0]) / len(arr)"
+    },
+    {
+      "id": "mbpp/138",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpw62c0uab.py\", line 6, in <module>\n    assert is_Sum_Of_Powers_Of_Two(10) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'is_Sum_Of_Powers_Of_Two' is not defined. Did you mean: 'is_sum_of_powers_of_two'?\n",
+      "answer": "```python\ndef is_sum_of_powers_of_two(n):\n    return n != 0 and (n & (n - 1)) == 0\n```"
+    },
+    {
+      "id": "mbpp/139",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "import math\n\n\ndef circle_circumference(radius):\n    return 2 * math.pi * radius"
+    },
+    {
+      "id": "mbpp/140",
+      "pass": false,
+      "secs": 0.8,
+      "err": " 5), (4, 5, 7), (1, 4)])) == set([3, 4, 5, 7, 1])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmph1wspsyt.py\", line 3, in extract_singly\n    return set(sum(nested_list, []))\n               ^^^^^^^^^^^^^^^^^^^^\nTypeError: can only concatenate list (not \"tuple\") to list\n",
+      "answer": "def extract_singly(nested_list):\n    return set(sum(nested_list, []))"
+    },
+    {
+      "id": "mbpp/141",
+      "pass": true,
+      "secs": 8.5,
+      "err": "",
+      "answer": " # Flip lst from 0 to max_index\n            lst[:max_index + 1] = lst[:max_index + 1][::-1]\n\n            # Flip lst from 0 to i\n            lst[:i + 1] = lst[:i + 1][::-1]\n\n    return lst\n\n\n# Test cases\nassert pancake_sort([15, 79, 25, 38, 69]) == [15, 25, 38, 69, 79]\nassert pancake_sort([98, 12, 54, 36, 85]) == [12, 36, 54, 85, 98]\nassert pancake_sort([41, 42, 32, 12, 23]) == [12, 23, 32, 41, 42]"
+    },
+    {
+      "id": "mbpp/142",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef count_samepair(list1, list2, list3):\n    return sum(1 for a, b, c in zip(list1, list2, list3) if a == b and b == c)\n```"
+    },
+    {
+      "id": "mbpp/143",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpofcj9az8.py\", line 8, in <module>\n    assert find_lists(([9, 8, 7, 6, 5, 4, 3, 2, 1])) == 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef find_lists(t):\n    return sum(1 for element in t if isinstance(element, list))\n```"
+    },
+    {
+      "id": "mbpp/145",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def max_Abs_Diff(arr):\n    return max(abs(a - b) for a, b in zip(arr, arr[::-1]))"
+    },
+    {
+      "id": "mbpp/160",
+      "pass": false,
+      "secs": 7.1,
+      "err": "timeout",
+      "answer": "gcd(a, b)\n    x0 = (n // g) * x\n    y0 = (n // g) * y\n\n    # Find the general solution\n    x = x0 + (b // g) * k\n    y = y0 - (a // g) * k\n\n    # Find the smallest non-negative solution\n    while x < 0:\n        k += (a // g)\n    while y < 0:\n        k -= (b // g)\n\n    return (x, y)\n\n\ndef extended_gcd(a, b):\n    if b == 0:\n        return (1, 0, a)\n    else:\n        return extended_gcd(b, a % b)\n```"
+    },
+    {
+      "id": "mbpp/161",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def remove_elements(lst, remove_list):\n    return [x for x in lst if x not in remove_list]"
+    },
+    {
+      "id": "mbpp/162",
+      "pass": true,
+      "secs": 1.1,
+      "err": "",
+      "answer": "```python\ndef sum_series(n):\n    return sum(n - 2 * i for i in range(n // 2 + 1))\n```"
+    },
+    {
+      "id": "mbpp/163",
+      "pass": false,
+      "secs": 1.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpdqtb41c8.py\", line 8, in <module>\n    assert math.isclose(area_polygon(4, 20), 400., rel_tol=0.001)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "Here's the function:\n\n```python\nimport math\n\ndef area_polygon(length, sides):\n    return (length ** 2 * sides) / (4 * math.tan(math.pi / sides))\n```"
+    },
+    {
+      "id": "mbpp/164",
+      "pass": true,
+      "secs": 2.5,
+      "err": "",
+      "answer": "def are_equivalent(a, b):\n    return sum_of_divisors(a) == sum_of_divisors(b)\n\n\ndef sum_of_divisors(n):\n    total = 1\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            total *= i\n            if i != n // i:\n                total *= n // i\n        i += 1\n    return total"
+    },
+    {
+      "id": "mbpp/165",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpa7ptscns.py\", line 11, in <module>\n    assert count_char_position(\"ABcED\") == 3\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef count_char_position(s):\n    count = 0\n    for i, char in enumerate(s):\n        if abs(ord(char) - (i + 97)) == 0:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/166",
+      "pass": true,
+      "secs": 2.5,
+      "err": "",
+      "answer": "```python\ndef find_even_pair(lst):\n    even_count = 0\n    odd_count = 0\n\n    for num in lst:\n        if num % 2 == 0:\n            even_count += 1\n        else:\n            odd_count += 1\n\n    return even_count * (even_count - 1) // 2 + odd_count * (odd_count - 1) // 2\n```"
+    },
+    {
+      "id": "mbpp/167",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0wcd6c5u.py\", line 12, in <module>\n    assert next_power_of_2(5) == 8\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef next_power_of_2(n):\n    if n <= 0:\n        return 1\n    n = 1\n    while n < n:\n        n <<= 1\n    return n\n```"
+    },
+    {
+      "id": "mbpp/168",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def frequency(lst, num):\n    return lst.count(num)"
+    },
+    {
+      "id": "mbpp/170",
+      "pass": true,
+      "secs": 4.1,
+      "err": "",
+      "answer": "def sum_range_list(lst, start, end):\n    return sum(lst[start:end + 1])\n\n# Test cases\nassert sum_range_list([2,1,5,6,8,3,4,9,10,11,8,12], 8, 10) == 29\nassert sum_range_list([2,1,5,6,8,3,4,9,10,11,8,12], 5, 7) == 16\nassert sum_range_list([2,1,5,6,8,3,4,9,10,11,8,12], 7, 10) == 38"
+    },
+    {
+      "id": "mbpp/171",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def perimeter_pentagon(side_length):\n    return 5 * side_length"
+    },
+    {
+      "id": "mbpp/172",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef count_occurance(s):\n    return s.count(\"std\")\n```"
+    },
+    {
+      "id": "mbpp/222",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def check_type(t):\n    return all(isinstance(e, int) for e in t)"
+    },
+    {
+      "id": "mbpp/223",
+      "pass": false,
+      "secs": 4.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpmyxzu27z.py\", line 29, in <module>\n    assert is_majority([1, 1, 2, 4, 4, 4, 6, 6], 8, 4) == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": " # If the element is not present, return False\n    if left >= n or arr[left] != element:\n        return False\n\n    # Find the last occurrence of the element\n    left = 0\n    right = n - 1\n    while left <= right:\n        if arr[right] == element:\n            break\n        right -= 1\n\n    # Check if the count of the element is more than n/2\n    count = right - left + 1\n    return count > n // 2\n```"
+    },
+    {
+      "id": "mbpp/224",
+      "pass": false,
+      "secs": 1.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpb37r7d8b.py\", line 9, in <module>\n    assert count_Set_Bits(2) == 1\n           ^^^^^^^^^^^^^^\nNameError: name 'count_Set_Bits' is not defined. Did you mean: 'count_set_bits'?\n",
+      "answer": "def count_set_bits(n):\n    count = 0\n    while n > 0:\n        count += n & 1\n        n >>= 1\n    return count"
+    },
+    {
+      "id": "mbpp/226",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmps00vlj2e.py\", line 3\n    return ''.join(s[::2]))\n                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def odd_values_string(s):\n    return ''.join(s[::2]))"
+    },
+    {
+      "id": "mbpp/227",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def min_of_three(a, b, c):\n    return min(a, b, c)"
+    },
+    {
+      "id": "mbpp/228",
+      "pass": false,
+      "secs": 5.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpnby6e7h2.py\", line 2, in <module>\n    assert all_bits_unset_in_given_range(4, 1, 2) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'all_bits_unset_in_given_range' is not defined\n",
+      "answer": "the given range.\n\nHere's the function:\n\n```python\ndef all_bits_unset_in_given_range(n, start, end):\n    mask = 0\n    for i in range(start, end + 1):\n        mask |= (1 << i)\n    return (n & mask) == 0\n```\n\nLet's test it:\n\n```python\nassert all_bits_unset_in_given_range(4, 1, 2) == True\nassert all_bits_unset_in_given_range(17, 2, 4) == True\nassert all_bits_unset_in_given_range(39, 4, 6) == False\n```"
+    },
+    {
+      "id": "mbpp/229",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp799ko3il.py\", line 13, in <module>\n    assert re_arrange_array([-1, 2, -3, 4, 5, 6, -7, 8, 9], 9) == [-1, -3, -7, 4, 5, 6, 2, 8, 9]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef re_arrange_array(arr, n):\n    negatives = []\n    positives = []\n    for i in range(n):\n        if arr[i] < 0:\n            negatives.append(arr[i])\n        else:\n            positives.append(arr[i])\n    return negatives + positives\n```"
+    },
+    {
+      "id": "mbpp/230",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def replace_blank(string, char):\n    return string.replace(' ', char)"
+    },
+    {
+      "id": "mbpp/232",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def larg_nnum(lst, n):\n    return sorted(lst, reverse=True)[:n]"
+    },
+    {
+      "id": "mbpp/233",
+      "pass": false,
+      "secs": 0.8,
+      "err": "ent call last):\n  File \"/tmp/tmp71c3_7rp.py\", line 8, in <module>\n    assert math.isclose(lateralsuface_cylinder(10,5), 314.15000000000003, rel_tol=0.001)\n                        ^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'lateralsuface_cylinder' is not defined. Did you mean: 'lateralsurface_cylinder'?\n",
+      "answer": "```\nimport math\n\ndef lateralsurface_cylinder(radius, height):\n    return 2 * math.pi * radius * height\n```"
+    },
+    {
+      "id": "mbpp/234",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def volume_cube(side_length):\n    return side_length ** 3"
+    },
+    {
+      "id": "mbpp/235",
+      "pass": false,
+      "secs": 0.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmprcwz0pp3.py\", line 6, in <module>\n    assert even_bit_set_number(10) == 10\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef even_bit_set_number(n):\n    return n | 0x55555555\n```"
+    },
+    {
+      "id": "mbpp/237",
+      "pass": false,
+      "secs": 1.3,
+      "err": "recent call last):\n  File \"/tmp/tmpagbuovmd.py\", line 9, in <module>\n    assert check_occurences([(3, 1), (1, 3), (2, 5), (5, 2), (6, 3)] ) == {(1, 3): 2, (2, 5): 2, (3, 6): 1}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef check_occurences(tuples_list):\n    occurrences = {}\n    for tuple in tuples_list:\n        occurrences[tuple] = occurrences.get(tuple, 0) + 1\n    return occurrences\n```"
+    },
+    {
+      "id": "mbpp/238",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef number_of_substrings(s):\n    return len(s) * (len(s) + 1) // 2\n```"
+    },
+    {
+      "id": "mbpp/239",
+      "pass": false,
+      "secs": 2.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0lyggbej.py\", line 17, in <module>\n    assert get_total_number_of_sequences(10, 4) == 4\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef get_total_number_of_sequences(m, n):\n    if n == 0:\n        return 1\n\n    dp = [0] * (n + 1)\n    dp[0] = 1\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if j * 2 <= m:\n                dp[i] += dp[i - 1]\n\n    return dp[n]\n```"
+    },
+    {
+      "id": "mbpp/240",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def replace_list(lst1, lst2):\n    lst1[-1:] = lst2\n    return lst1"
+    },
+    {
+      "id": "mbpp/242",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def count_charac(s):\n    return len(s)"
+    },
+    {
+      "id": "mbpp/244",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpce6lcmoo.py\", line 9, in <module>\n    assert next_Perfect_Square(35) == 36\n           ^^^^^^^^^^^^^^^^^^^\nNameError: name 'next_Perfect_Square' is not defined. Did you mean: 'next_perfect_square'?\n",
+      "answer": "```python\ndef next_perfect_square(n):\n    while True:\n        n += 1\n        if n * n > n:\n            return n * n\n```"
+    },
+    {
+      "id": "mbpp/245",
+      "pass": true,
+      "secs": 6.2,
+      "err": "",
+      "answer": "ec = [0] * n\n    for i in range(n - 1, -1, -1):\n        dec[i] = arr[i]\n        for j in range(i + 1, n):\n            if arr[j] <= arr[i]:\n                dec[i] = max(dec[i], arr[i] + dec[j])\n\n    # Step 3: Find max bitonic subsequence sum\n    max_sum = 0\n    for i in range(n):\n        total = inc[i] + dec[i] - arr[i]\n        if total > max_sum:\n            max_sum = total\n\n    return max_sum\n```"
+    },
+    {
+      "id": "mbpp/246",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "def babylonian_squareroot(n):\n    if n < 0:\n        raise ValueError(\"Square root of a negative number is not real.\")\n    guess = n\n    for _ in range(10):\n        guess = (guess + n / guess) / 2\n    return guess"
+    },
+    {
+      "id": "mbpp/247",
+      "pass": false,
+      "secs": 4.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpevziuj_4.py\", line 19, in <module>\n    assert lps(\"TENS FOR TENS\") == 5\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "f lps(s):\n    n = len(s)\n    dp = [[0] * n for _ in range(n)]\n\n    for i in range(n - 1, -1, -1):\n        for j in range(i, n):\n            if s[i] == s[j]:\n                if i + 1 <= j:\n                    dp[i][j] = dp[i + 1][j - 1] + 2\n                else:\n                    dp[i][j] = 2\n            else:\n                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n\n    return dp[0][n - 1]\n```"
+    },
+    {
+      "id": "mbpp/248",
+      "pass": false,
+      "secs": 0.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpb9tf6kth.py\", line 5, in <module>\n    assert math.isclose(harmonic_sum(7), 2.5928571428571425, rel_tol=0.001)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def harmonic_sum(n):\n    return sum(1/i for i in range(1, n))"
+    },
+    {
+      "id": "mbpp/249",
+      "pass": false,
+      "secs": 0.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp129gzvfh.py\", line 5, in <module>\n    assert intersection_array([1, 2, 3, 5, 7, 8, 9, 10],[1, 2, 4, 8, 9])==[1, 2, 8, 9]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def intersection_array(arr1, arr2):\n    return list(set(arr1) & set(arr2))"
+    },
+    {
+      "id": "mbpp/250",
+      "pass": false,
+      "secs": 0.5,
+      "err": " 5, 2, 10, 15, 10, 8, 5, 8, 8, 2),4) == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp2xl91shk.py\", line 3, in count_X\n    return tuple.count(element)\n           ^^^^^^^^^^^^^^^^^^^^\nTypeError: descriptor 'count' for 'tuple' objects doesn't apply to a 'int' object\n",
+      "answer": "def count_X(t, element):\n    return tuple.count(element)"
+    },
+    {
+      "id": "mbpp/251",
+      "pass": false,
+      "secs": 13.6,
+      "err": "  File \"/tmp/tmptg9ua01c.py\", line 81\n    def insert_element\n                      ^\nSyntaxError: expected '('\n",
+      "answer": "ment(lst, element):\n    return [element for _ in lst]\n\n# No, that's still not right. Let's try a different approach.\n\ndef insert_element(lst, element):\n    return [element for _ in lst]\n\n# No, that's still not right. Let's try a different approach.\n\ndef insert_element(lst, element):\n    return [element for _ in lst]\n\n# No, that's still not right. Let's try a different approach.\n\ndef insert_element"
+    },
+    {
+      "id": "mbpp/252",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "def convert(com):\n    r = abs(com)\n    theta = 0.0 if com >= 0 else 3.141592653589793\n    return (r, theta)"
+    },
+    {
+      "id": "mbpp/253",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def count_integer(lst):\n    return sum(1 for item in lst if isinstance(item, int))"
+    },
+    {
+      "id": "mbpp/255",
+      "pass": false,
+      "secs": 2.1,
+      "err": "e\"],2)==[('Red', 'Red'), ('Red', 'Green'), ('Red', 'Blue'), ('Green', 'Green'), ('Green', 'Blue'), ('Blue', 'Blue')]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def combinations_colors(lst, n):\n    result = []\n    def backtrack(start, path):\n        if len(path) == n:\n            result.append(tuple(path))\n            return\n        for i in range(len(lst)):\n            path.append(lst[i])\n            backtrack(i, path)\n            path.pop()\n    backtrack(0, [])\n    return result"
+    },
+    {
+      "id": "mbpp/256",
+      "pass": false,
+      "secs": 4.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpd1kg2j5c.py\", line 33, in <module>\n    assert count_Primes_nums(5) == 2\n           ^^^^^^^^^^^^^^^^^\nNameError: name 'count_Primes_nums' is not defined\n",
+      "answer": "     return 0\n\n    count = 0\n    for i in range(2, n):\n        if is_prime(i):\n            count += 1\n\n    return count\n\n\ndef is_prime(n):\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n\n    return True\n```"
+    },
+    {
+      "id": "mbpp/257",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def swap_numbers(a, b):\n    return (b, a)"
+    },
+    {
+      "id": "mbpp/259",
+      "pass": false,
+      "secs": 8.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpno14i55g.py\", line 2, in <module>\n    assert maximize_elements(((1, 3), (4, 5), (2, 9), (1, 10)), ((6, 7), (3, 9), (1, 1), (7, 3))) == ((6, 7), (4, 9), (2, 9), (7, 10))\n           ^^^^^^^^^^^^^^^^^\nNameError: name 'maximize_elements' is not defined\n",
+      "answer": "rt maximize_elements(((1, 3), (4, 5), (2, 9), (1, 10)), ((6, 7), (3, 9), (1, 1), (7, 3))) == ((6, 7), (4, 9), (2, 9), (7, 10))\nassert maximize_elements(((2, 4), (5, 6), (3, 10), (2, 11)), ((7, 8), (4, 10), (2, 2), (8, 4))) == ((7, 8), (5, 10), (3, 10), (8, 11))\nassert maximize_elements(((3, 5), (6, 7), (4, 11), (3, 12)), ((8, 9), (5, 11), (3, 3), (9, 5))) == ((8, 9), (6, 11), (4, 11), (9, 12))\n```"
+    },
+    {
+      "id": "mbpp/260",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwwrga45_.py\", line 9, in <module>\n    assert newman_prime(3) == 7\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef newman_prime(n):\n    a, b = 1, 1\n    for _ in range(n - 1):\n        a, b = b, a * b + 2\n    return b\n```"
+    },
+    {
+      "id": "mbpp/261",
+      "pass": true,
+      "secs": 4.2,
+      "err": "",
+      "answer": "def division_elements(tuple1, tuple2):\n    return tuple(a / b for a, b in zip(tuple1, tuple2))\n\n# Test cases\nassert division_elements((10, 4, 6, 9), (5, 2, 3, 3)) == (2, 2, 2, 3)\nassert division_elements((12, 6, 8, 16), (6, 3, 4, 4)) == (2, 2, 2, 4)\nassert division_elements((20, 14, 36, 18), (5, 7, 6, 9)) == (4, 2, 6, 2)"
+    },
+    {
+      "id": "mbpp/262",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def split_two_parts(lst, L):\n    return (lst[:L], lst[L:])"
+    },
+    {
+      "id": "mbpp/264",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpieed64v8.py\", line 9, in <module>\n    assert dog_age(12)==61\n           ^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef dog_age(human_age):\n    if human_age <= 2:\n        return 10.5 * human_age\n    else:\n        return 21 + 9 * (human_age - 2)\n```"
+    },
+    {
+      "id": "mbpp/265",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef list_split(lst, n):\n    return [lst[i::n] for i in range(n)]\n```"
+    },
+    {
+      "id": "mbpp/266",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def lateralsurface_cube(side_length):\n    return 4 * (side_length ** 2)"
+    },
+    {
+      "id": "mbpp/267",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwwz30fcy.py\", line 6, in <module>\n    assert square_Sum(2) == 10\n           ^^^^^^^^^^\nNameError: name 'square_Sum' is not defined. Did you mean: 'square_sum'?\n",
+      "answer": "```python\ndef square_sum(n):\n    return n * (4 * n - 1) // 3\n```"
+    },
+    {
+      "id": "mbpp/268",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def find_star_num(n):\n    return 6 * n * n - 6 * n + 1"
+    },
+    {
+      "id": "mbpp/269",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def ascii_value(char):\n    return ord(char)"
+    },
+    {
+      "id": "mbpp/270",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef sum_even_and_even_index(lst):\n    return sum(num for idx, num in enumerate(lst) if idx % 2 == 0 and num % 2 == 0)\n```"
+    },
+    {
+      "id": "mbpp/271",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef even_Power_Sum(n):\n    total = 0\n    i = 2\n    while n > 0:\n        total += i ** 5\n        i += 2\n        n -= 1\n    return total\n```"
+    },
+    {
+      "id": "mbpp/272",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def rear_extract(tuples_list):\n    return [tuple[-1] for tuple in tuples_list]"
+    },
+    {
+      "id": "mbpp/273",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpyyex39_p.py\", line 5, in <module>\n    assert substract_elements((10, 4, 5), (2, 5, 18)) == (8, -1, -13)\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'substract_elements' is not defined. Did you mean: 'subtract_elements'?\n",
+      "answer": "def subtract_elements(tuple1, tuple2):\n    return tuple(a - b for a, b in zip(tuple1, tuple2))"
+    },
+    {
+      "id": "mbpp/274",
+      "pass": false,
+      "secs": 0.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpnmvc91qr.py\", line 6, in <module>\n    assert even_binomial_Coeff_Sum(4) == 8\n           ^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'even_binomial_Coeff_Sum' is not defined. Did you mean: 'even_binomial_coeff_sum'?\n",
+      "answer": "```python\ndef even_binomial_coeff_sum(n):\n    return (1 << (n // 2 + 1)) - 1\n```"
+    },
+    {
+      "id": "mbpp/276",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "import math\n\ndef volume_cylinder(radius, height):\n    return math.pi * radius ** 2 * height"
+    },
+    {
+      "id": "mbpp/277",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def dict_filter(dictionary, n):\n    return {k: v for k, v in dictionary.items() if v >= n}"
+    },
+    {
+      "id": "mbpp/278",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef count_first_elements(t):\n    count = 0\n    for element in t:\n        if isinstance(element, tuple):\n            break\n        count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/279",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpu_kk3bji.py\", line 6, in <module>\n    assert is_num_decagonal(3) == 27\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "The nth decagonal number is given by the formula:\n\\[\n\\frac{5n^2 - 3n}{2}\n\\]\n\nHere's the function:\n\n```python\ndef is_num_decagonal(n):\n    return (5 * n * n - 3 * n) // 2\n```"
+    },
+    {
+      "id": "mbpp/280",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "def sequential_search(arr, element):\n    for i, val in enumerate(arr):\n        if val == element:\n            return (True, i)\n    return (False, -1)"
+    },
+    {
+      "id": "mbpp/281",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def all_unique(lst):\n    return len(set(lst)) == len(lst)"
+    },
+    {
+      "id": "mbpp/282",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "def sub_list(a, b):\n    return [a[i] - b[i] for i in range(len(a))]\n\n# Test cases\nassert sub_list([1, 2, 3], [4,5,6]) == [-3,-3,-3]\nassert sub_list([1,2], [3,4]) == [-2,-2]\nassert sub_list([90,120], [50,70]) == [40,50]"
+    },
+    {
+      "id": "mbpp/283",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef validate(n):\n    s = str(n)\n    for digit in s:\n        if s.count(digit) > int(digit):\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/284",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def check_element(lst, element):\n    return all(item == element for item in lst)"
+    },
+    {
+      "id": "mbpp/285",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpf_e7c_j9.py\", line 8, in <module>\n    assert text_match_two_three(\"abbbba\")==(True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef text_match_two_three(text):\n    return 'ab' in text and (text.count('b') >= 2 and text.count('b') <= 3)\n```"
+    },
+    {
+      "id": "mbpp/286",
+      "pass": false,
+      "secs": 4.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpo33zg3w5.py\", line 21, in <module>\n    assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "loat('-inf')\n    current_sum = 0\n    for num in arr:\n        current_sum = max(current_sum + num, num)\n        max_sub_sum = max(max_sub_sum, current_sum)\n\n    # If the maximum subarray sum is positive, we can add it (k - 1) times\n    if max_sub_sum > 0:\n        return max_sub_sum * (k - 1) + total_sum\n\n    # Otherwise, the maximum subarray sum is the maximum single element\n    return max(arr)\n```"
+    },
+    {
+      "id": "mbpp/287",
+      "pass": false,
+      "secs": 1.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpvmzjupva.py\", line 6, in <module>\n    assert square_Sum(2) == 20\n           ^^^^^^^^^^\nNameError: name 'square_Sum' is not defined. Did you mean: 'square_sum'?\n",
+      "answer": "```python\ndef square_sum(n):\n    return n * (n + 1) * (2 * n + 1) // 3\n```"
+    },
+    {
+      "id": "mbpp/290",
+      "pass": true,
+      "secs": 2.5,
+      "err": "",
+      "answer": "```python\ndef max_length(list_of_lists):\n    if not list_of_lists:\n        return None\n\n    max_len = 0\n    max_list = []\n\n    for sublist in list_of_lists:\n        current_len = len(sublist)\n        if current_len > max_len:\n            max_len = current_len\n            max_list = sublist\n\n    return (max_len, max_list)\n```"
+    },
+    {
+      "id": "mbpp/291",
+      "pass": false,
+      "secs": 5.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpj74r4jvs.py\", line 27, in <module>\n    assert count_no_of_ways(2, 4) == 16\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "'curr' ways, and the one before that was painted in 'prev' ways, then the current post can be painted in k ways\n        new_curr = k * (curr + prev)\n\n        # If the previous post was painted in 'curr' ways, and the one before that was painted in 'prev' ways, then the current post can be painted in k ways\n        new_prev = curr + prev\n\n        prev, curr = new_prev, new_curr\n\n    return curr\n```"
+    },
+    {
+      "id": "mbpp/292",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def find(a, b):\n    return abs(a) // abs(b)"
+    },
+    {
+      "id": "mbpp/293",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\nimport math\n\ndef otherside_rightangle(a, b):\n    return math.sqrt(a**2 + b**2)\n```"
+    },
+    {
+      "id": "mbpp/294",
+      "pass": false,
+      "secs": 2.5,
+      "err": "irtw5c.py\", line 6, in <module>\n    assert max_val(['Python', 3, 2, 4, 5, 'version']) == 5\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpppirtw5c.py\", line 3, in max_val\n    return max(lst)\n           ^^^^^^^^\nTypeError: '>' not supported between instances of 'int' and 'str'\n",
+      "answer": "def max_val(lst):\n    return max(lst)\n\n# Test cases\nassert max_val(['Python', 3, 2, 4, 5, 'version']) == 5\nassert max_val(['Python', 15, 20, 25]) == 25\nassert max_val(['Python', 30, 20, 40, 50, 'version']) == 50"
+    },
+    {
+      "id": "mbpp/295",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpp3r7cv9s.py\", line 11, in <module>\n    assert sum_div(8)==7\n           ^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def sum_div(n):\n    total = 0\n    for i in range(1, int(n**0.5) + 1):\n        if n % i == 0:\n            total += i\n            if i != n // i:\n                total += n // i\n    return total"
+    },
+    {
+      "id": "mbpp/296",
+      "pass": false,
+      "secs": 13.4,
+      "err": "  File \"/tmp/tmpuao4czhy.py\", line 85\n    i += \n         ^\nSyntaxError: invalid syntax\n",
+      "answer": "left = merge_sort(arr[:mid])\n        right = merge_sort(arr[mid:])\n\n        i = j = k = 0\n        while i < len(left) and j < len(right):\n            if left[i] <= right[j]:\n                arr[k] = left[i]\n                i += 1\n            else:\n                arr[k] = right[j]\n                j += 1\n            k += 1\n\n        while i < len(left):\n            arr[k] = left[i]\n            i += "
+    },
+    {
+      "id": "mbpp/297",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "def flatten_list(nested_list):\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result.extend(flatten_list(item))\n        else:\n            result.append(item)\n    return result"
+    },
+    {
+      "id": "mbpp/299",
+      "pass": false,
+      "secs": 2.1,
+      "err": "x_aggregate([('Juan Whelan',90),('Sabah Colley',88),('Peter Nichols',7),('Juan Whelan',122),('Sabah Colley',84)])==('Juan Whelan', 212)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def max_aggregate(tuples):\n    max_sum = -float('inf')\n    max_person = \"\"\n    for name, score in tuples:\n        current_sum = sum(score for name, score in tuples)\n        if current_sum > max_sum:\n            max_sum = current_sum\n            max_person = name\n    return (max_person, max_sum)"
+    },
+    {
+      "id": "mbpp/300",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpzlqdkulm.py\", line 6, in <module>\n    assert math.isclose(count_binary_seq(1), 2.0, rel_tol=0.001)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef count_binary_seq(n):\n    return 2 * (2 * n - 1) * (2 * n - 3) // 3\n```"
+    },
+    {
+      "id": "mbpp/301",
+      "pass": false,
+      "secs": 2.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpv8i69hly.py\", line 15, in <module>\n    assert dict_depth({'a':1, 'b': {'c': {'d': {}}}})==4\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def dict_depth(d):\n    if not isinstance(d, dict):\n        return 0\n\n    max_depth = 0\n    for value in d.values():\n        if isinstance(value, dict):\n            current_depth = 1 + dict_depth(value)\n            if current_depth > max_depth:\n                max_depth = current_depth\n\n    return max_depth"
+    },
+    {
+      "id": "mbpp/304",
+      "pass": false,
+      "secs": 2.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpltzjejmx.py\", line 16, in <module>\n    assert find_Element([1,2,3,4,5],[[0,2],[0,3]],2,1) == 3\n           ^^^^^^^^^^^^\nNameError: name 'find_Element' is not defined. Did you mean: 'find_element'?\n",
+      "answer": "ffective_rotations = sum(rotation[1] for rotation in rotations)\n    \n    # Find the effective rotation count after applying the given number of rotations\n    effective_rotations = (effective_rotations + n) % len(arr)\n    \n    # Find the effective index\n    effective_index = (k - effective_rotations) % len(arr)\n    \n    # Return the element at the effective index\n    return arr[effective_index]\n```"
+    },
+    {
+      "id": "mbpp/305",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpg1gdy3eq.py\", line 5, in <module>\n    assert start_withp([\"Python PHP\", \"Java JavaScript\", \"c c++\"])==('Python', 'PHP')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def start_withp(words):\n    return [word.split()[0] for word in words if word.startswith('p')][:2]"
+    },
+    {
+      "id": "mbpp/306",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2p4s9utz.py\", line 20, in <module>\n    assert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5 ], 7, 4, 6) == 11\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "arr, n, k, m):\n    # Initialize dp array\n    dp = [0] * n\n\n    # Fill dp array\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[j] > arr[i]:\n                dp[j] = max(dp[j], dp[i] + arr[j])\n\n    # Find maximum sum including arr[m]\n    max_sum = 0\n    for i in range(m):\n        if arr[i] < arr[m]:\n            max_sum = max(max_sum, dp[i] + arr[m])\n\n    return max_sum```"
+    },
+    {
+      "id": "mbpp/307",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3rlfozxv.py\", line 5, in <module>\n    assert colon_tuplex((\"HELLO\", 5, [], True) ,2,50)==(\"HELLO\", 5, [50], True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def colon_tuplex(t, i, v):\n    return list(t)[:i] + [v] + list(t)[i+1:]"
+    },
+    {
+      "id": "mbpp/308",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\ndef large_product(list1, list2, n):\n    products = []\n    for i in range(len(list1)):\n        for j in range(len(list2)):\n            products.append(list1[i] * list2[j])\n    products.sort(reverse=True)\n    return products[:n]\n```"
+    },
+    {
+      "id": "mbpp/309",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def maximum(a, b):\n    return max(a, b)"
+    },
+    {
+      "id": "mbpp/310",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp6qa8wj7o.py\", line 5, in <module>\n    assert string_to_tuple(\"python 3.0\")==('p', 'y', 't', 'h', 'o', 'n', '3', '.', '0')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def string_to_tuple(s):\n    return tuple(s)"
+    },
+    {
+      "id": "mbpp/311",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7pr4f2qo.py\", line 6, in <module>\n    assert set_left_most_unset_bit(10) == 14\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef set_left_most_unset_bit(n):\n    return n | (n + 1)\n```"
+    },
+    {
+      "id": "mbpp/312",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "import math\n\n\ndef volume_cone(radius, height):\n    return (1/3) * math.pi * (radius ** 2) * height"
+    },
+    {
+      "id": "mbpp/388",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpuh75o2v3.py\", line 6, in <module>\n    assert highest_Power_of_2(10) == 8\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'highest_Power_of_2' is not defined. Did you mean: 'highest_power_of_2'?\n",
+      "answer": "```python\ndef highest_power_of_2(n):\n    return 1 << (n.bit_length() - 1)\n```"
+    },
+    {
+      "id": "mbpp/389",
+      "pass": true,
+      "secs": 2.9,
+      "err": "",
+      "answer": "def find_lucas(n):\n    if n == 0:\n        return 2\n    elif n == 1:\n        return 1\n\n    a, b = 2, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n\n    return b\n\n\n# Test cases\nassert find_lucas(9) == 76\nassert find_lucas(4) == 7\nassert find_lucas(3) == 4"
+    },
+    {
+      "id": "mbpp/390",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def add_string(lst, fmt):\n    return [fmt.format(x) for x in lst]"
+    },
+    {
+      "id": "mbpp/391",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "def convert_list_dictionary(keys, values, scores):\n    return [{key: {value: score}} for key, value, score in zip(keys, values, scores)]"
+    },
+    {
+      "id": "mbpp/392",
+      "pass": true,
+      "secs": 1.7,
+      "err": "",
+      "answer": "```python\ndef get_max_sum(n):\n    if n <= 0:\n        return 0\n    return max((get_max_sum(n // 2) + get_max_sum(n // 3) + get_max_sum(n // 4) + get_max_sum(n // 5)), n)\n```"
+    },
+    {
+      "id": "mbpp/393",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp1jbnw56c.py\", line 5, in <module>\n    assert max_length_list([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def max_length_list(lst):\n    return max(lst, key=len)"
+    },
+    {
+      "id": "mbpp/394",
+      "pass": true,
+      "secs": 1.0,
+      "err": "",
+      "answer": "def check_distinct(t):\n    return len(set(t)) == len(t)"
+    },
+    {
+      "id": "mbpp/395",
+      "pass": true,
+      "secs": 1.5,
+      "err": "",
+      "answer": "```python\ndef first_non_repeating_character(s):\n    for i, char in enumerate(s):\n        if s.count(char) == 1:\n            return char\n    return None\n```"
+    },
+    {
+      "id": "mbpp/396",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def check_char(s):\n    if len(s) < 2:\n        return \"Valid\"\n    if s[0] == s[-1]:\n        return \"Valid\"\n    return \"Invalid\""
+    },
+    {
+      "id": "mbpp/397",
+      "pass": true,
+      "secs": 2.5,
+      "err": "",
+      "answer": "def median_numbers(a, b, c):\n    return sorted([a, b, c])[1]\n\n# Test cases\nassert median_numbers(25,55,65) == 55.0\nassert median_numbers(20,10,30) == 20.0\nassert median_numbers(15,45,75) == 45.0"
+    },
+    {
+      "id": "mbpp/398",
+      "pass": false,
+      "secs": 1.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpm6dmqlzr.py\", line 12, in <module>\n    assert sum_of_digits([10,2,56])==14\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sum_of_digits(numbers):\n    total = 0\n    for num in numbers:\n        if isinstance(num, int):\n            total += abs(num)\n        elif isinstance(num, str):\n            total += sum(int(d) for d in num if d.isdigit())\n    return total\n```"
+    },
+    {
+      "id": "mbpp/399",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def bitwise_xor(*tuples):\n    return tuple(a ^ b for a, b in zip(*tuples))"
+    },
+    {
+      "id": "mbpp/400",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpfpkouo9p.py\", line 6, in <module>\n    assert extract_freq([(3, 4), (1, 2), (4, 3), (5, 6)] ) == 3\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef extract_freq(lst):\n    return len(set(tuple for tuple in lst))\n```"
+    },
+    {
+      "id": "mbpp/401",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef add_nested_tuples(tuple1, tuple2):\n    result = []\n    for i in range(len(tuple1)):\n        inner_result = []\n        for j in range(len(tuple1[i])):\n            inner_result.append(tuple1[i][j] + tuple2[i][j])\n        result.append(tuple(inner_result))\n    return tuple(result)\n```"
+    },
+    {
+      "id": "mbpp/404",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def minimum(a, b):\n    return a if a < b else b"
+    },
+    {
+      "id": "mbpp/405",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def check_tuplex(t, element):\n    return element in t"
+    },
+    {
+      "id": "mbpp/406",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpmxpt8lr_.py\", line 5, in <module>\n    assert find_Parity(12) == False\n           ^^^^^^^^^^^\nNameError: name 'find_Parity' is not defined. Did you mean: 'find_parity'?\n",
+      "answer": "def find_parity(n):\n    return n % 2 != 0"
+    },
+    {
+      "id": "mbpp/407",
+      "pass": false,
+      "secs": 2.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpa40xs7ry.py\", line 13, in <module>\n    assert rearrange_bigger(10)==False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef rearrange_bigger(n):\n    digits = list(str(n))\n    digits.sort()\n    for i in range(len(digits) - 1, -1, -1):\n        if digits[i] > digits[i - 1]:\n            digits[i - 1], digits[i] = digits[i], digits[i - 1]\n            return int(''.join(digits))\n    return False\n```"
+    },
+    {
+      "id": "mbpp/408",
+      "pass": false,
+      "secs": 7.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpz36nzjku.py\", line 23, in <module>\n    assert k_smallest_pairs([1,3,7],[2,4,6],2)==[[1, 2], [1, 4]]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "     if not heap:\n            break\n        val, (i, j) = heapq.heappop(heap)\n        result.append((arr1[i], arr2[j]))\n\n    return result\n```\n\nLet's test it:\n\n```python\nprint(k_smallest_pairs([1,3,7], [2,4,6], 2))  # [[1, 2], [1, 4]]\nprint(k_smallest_pairs([1,3,7], [2,4,6], 1))  # [[1, 2]]\nprint(k_smallest_pairs([1,3,7], [2,4,6], 7))  # [[1, 2], [1, 4], [3, 2], [1, 6], [3, 4], [3, 6], [7, 2]]\n```"
+    },
+    {
+      "id": "mbpp/409",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp8e0szb7s.py\", line 10, in <module>\n    assert min_product_tuple([(2, 7), (2, 6), (1, 8), (4, 9)] )==8\n           ^^^^^^^^^^^^^^^^^\nNameError: name 'min_product_tuple' is not defined. Did you mean: 'min_product_tuples'?\n",
+      "answer": "def min_product_tuples(tuples_list):\n    return min(product for a, b in tuples_list for product in (a * b, b * a))\n\n# Test cases\nassert min_product_tuples([(2, 7), (2, 6), (1, 8), (4, 9)]) == 8\nassert min_product_tuples([(10,20), (15,2), (5,10)]) == 30\nassert min_product_tuples([(11,44), (10,15), (20,5), (12, 9)]) == 100"
+    },
+    {
+      "id": "mbpp/410",
+      "pass": false,
+      "secs": 0.4,
+      "err": "43rku1dl.py\", line 6, in <module>\n    assert min_val(['Python', 3, 2, 4, 5, 'version'])==2\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp43rku1dl.py\", line 3, in min_val\n    return min(lst)\n           ^^^^^^^^\nTypeError: '<' not supported between instances of 'int' and 'str'\n",
+      "answer": "```python\ndef min_val(lst):\n    return min(lst)\n```"
+    },
+    {
+      "id": "mbpp/411",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef snake_to_camel(snake_case_string):\n    return ''.join(word.capitalize() for word in snake_case_string.split('_'))\n```"
+    },
+    {
+      "id": "mbpp/412",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def remove_odd(lst):\n    return [num for num in lst if num % 2 ==  0]"
+    },
+    {
+      "id": "mbpp/413",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def extract_nth_element(lst, n):\n    return [t[n] for t in lst]"
+    },
+    {
+      "id": "mbpp/414",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def overlapping(seq1, seq2):\n    return any(value in seq2 for value in seq1)"
+    },
+    {
+      "id": "mbpp/415",
+      "pass": false,
+      "secs": 2.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0k3xrw8j.py\", line 19, in <module>\n    assert max_Product([1,2,3,4,7,0,8,4]) == (7,8)\n           ^^^^^^^^^^^\nNameError: name 'max_Product' is not defined. Did you mean: 'max_product'?\n",
+      "answer": "        raise ValueError(\"Array must have at least two elements\")\n\n    max_product = float('-inf')\n    best_pair = None\n\n    for i in range(len(arr)):\n        for j in range(i + 1, len(arr)):\n            current_product = arr[i] * arr[j]\n            if current_product > max_product:\n                max_product = current_product\n                best_pair = (arr[i], arr[j])\n\n    return best_pair\n```"
+    },
+    {
+      "id": "mbpp/417",
+      "pass": false,
+      "secs": 2.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpr3lvx0sy.py\", line 16, in <module>\n    assert group_tuples([('x', 'y'), ('x', 'z'), ('w', 't')]) == [('x', 'y', 'z'), ('w', 't')]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef group_tuples(tuples):\n    result = []\n    i = 0\n    n = len(tuples)\n    while i < n:\n        first = tuples[i][0]\n        j = i\n        while j < n and tuples[j][0] == first:\n            j += 1\n        result.append(tuple(tuples[i:j]))\n        i = j\n    return result\n```"
+    },
+    {
+      "id": "mbpp/418",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def Find_Max(lst):\n    return max(lst, key=len)"
+    },
+    {
+      "id": "mbpp/419",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef round_and_sum(numbers):\n    return round(sum(round(n) for n in numbers)) * len(numbers)\n```"
+    },
+    {
+      "id": "mbpp/420",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpr2l45_yv.py\", line 6, in <module>\n    assert cube_Sum(2) == 72\n           ^^^^^^^^\nNameError: name 'cube_Sum' is not defined. Did you mean: 'cube_sum'?\n",
+      "answer": "```python\ndef cube_sum(n):\n    return n * (n + 1) * (2 * n + 1) * 2\n```"
+    },
+    {
+      "id": "mbpp/421",
+      "pass": false,
+      "secs": 0.4,
+      "err": "<module>\n    assert concatenate_tuple((\"ID\", \"is\", 4, \"UTS\") ) == 'ID-is-4-UTS'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp6u543371.py\", line 3, in concatenate_tuple\n    return \"-\".join(t)\n           ^^^^^^^^^^^\nTypeError: sequence item 2: expected str instance, int found\n",
+      "answer": "def concatenate_tuple(t):\n    return \"-\".join(t)"
+    },
+    {
+      "id": "mbpp/422",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpvbjl8o6v.py\", line 5, in <module>\n    assert find_Average_Of_Cube(2) == 4.5\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def find_Average_Of_Cube(n):\n    return sum(range(1, n + 1)) ** 3 / n"
+    },
+    {
+      "id": "mbpp/424",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def extract_rear(t):\n    return [s[-1] for s in t]"
+    },
+    {
+      "id": "mbpp/425",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def count_element_in_list(lst, element):\n    return sum(1 for sublist in lst if element in sublist)"
+    },
+    {
+      "id": "mbpp/426",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def filter_oddnumbers(numbers):\n    return [num for num in numbers if num % 2 != 0]"
+    },
+    {
+      "id": "mbpp/427",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpdm92tx0h.py\", line 3\n    return f\"{date_str[8:10}-{date_str[5:7]}-{date_str[:4]}\"\n                           ^\nSyntaxError: closing parenthesis '}' does not match opening parenthesis '['\n",
+      "answer": "```python\ndef change_date_format(date_str):\n    return f\"{date_str[8:10}-{date_str[5:7]}-{date_str[:4]}\"\n```"
+    },
+    {
+      "id": "mbpp/428",
+      "pass": true,
+      "secs": 8.0,
+      "err": "",
+      "answer": "            arr[j + gap] = arr[j]\n                j -= gap\n            arr[j + gap] = temp\n        gap = gap // 2\n\n    return arr\n\n\n# Test cases\nassert shell_sort([12, 23, 4, 5, 3, 2, 12, 81, 56, 95]) == [2, 3, 4, 5, 12, 12, 23, 56, 81, 95]\nassert shell_sort([24, 22, 39, 34, 87, 73, 68]) == [22, 24, 34, 39, 68, 73, 87]\nassert shell_sort([32, 30, 16, 96, 82, 83, 74]) == [16, 30, 32, 74, 82, 83, 96]"
+    },
+    {
+      "id": "mbpp/429",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpj4n007oy.py\", line 5, in <module>\n    assert and_tuples((10, 4, 6, 9), (5, 2, 3, 3)) == (0, 0, 2, 1)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def and_tuples(a, b):\n    return tuple(x ^ y for x, y in zip(a, b))"
+    },
+    {
+      "id": "mbpp/430",
+      "pass": false,
+      "secs": 7.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0q0f2nfx.py\", line 2, in <module>\n    assert parabola_directrix(5, 3, 2) == -198\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'parabola_directrix' is not defined\n",
+      "answer": "dth of the parabola.\n2. The constant `c` is the y-coordinate of the vertex.\n\nSo, the directrix is:\n\n\\[\ny = -\\frac{1}{4a} + c\n\\]\n\nNow, let's implement this in Python:\n\n```python\ndef parabola_directrix(a, b, c):\n    return -1/(4 * a) + c\n```\n\nLet's test it:\n\n```python\nassert parabola_directrix(5, 3, 2) == -198\nassert parabola_directrix(9, 8, 4) == -2336\nassert parabola_directrix(2, 4, 6) == -130\n```"
+    },
+    {
+      "id": "mbpp/431",
+      "pass": true,
+      "secs": 1.1,
+      "err": "",
+      "answer": "def common_element(list1, list2):\n    return any(item in list2 for item in list1) or None"
+    },
+    {
+      "id": "mbpp/432",
+      "pass": false,
+      "secs": 2.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpy0twzpz6.py\", line 6, in <module>\n    assert median_trapezium(15,25,35) == 20\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def median_trapezium(a, b, c):\n    return (a + b + c) / 2\n\n# Test cases\nassert median_trapezium(15,25,35) == 20\nassert median_trapezium(10,20,30) == 15\nassert median_trapezium(6,9,4) == 7.5"
+    },
+    {
+      "id": "mbpp/433",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def check_greater(arr, num):\n    return all(num > element for element in arr)"
+    },
+    {
+      "id": "mbpp/434",
+      "pass": false,
+      "secs": 0.9,
+      "err": "mp/tmpv637iak0.py\", line 6, in <module>\n    assert text_match_one(\"ac\")==False\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpv637iak0.py\", line 3, in text_match_one\n    return bool(re.fullmatch(r'ab+', string))\n                ^^\nNameError: name 're' is not defined. Did you forget to import 're'?\n",
+      "answer": "```python\ndef text_match_one(string):\n    return bool(re.fullmatch(r'ab+', string))\n```"
+    },
+    {
+      "id": "mbpp/435",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpkh2nx9d_.py\", line 5, in <module>\n    assert last_Digit(123) == 3\n           ^^^^^^^^^^\nNameError: name 'last_Digit' is not defined. Did you mean: 'last_digit'?\n",
+      "answer": "def last_digit(n):\n    return abs(n) % 10"
+    },
+    {
+      "id": "mbpp/436",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def neg_nos(lst):\n    return [num for num in lst if num < 0]"
+    },
+    {
+      "id": "mbpp/437",
+      "pass": false,
+      "secs": 0.8,
+      "err": "eturn ''.join(c for c in s if int(c) % 2 == 0)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpayv1wrc7.py\", line 3, in <genexpr>\n    return ''.join(c for c in s if int(c) % 2 == 0)\n                                   ^^^^^^\nValueError: invalid literal for int() with base 10: 'p'\n",
+      "answer": "def remove_odd(s):\n    return ''.join(c for c in s if int(c) % 2 == 0)"
+    },
+    {
+      "id": "mbpp/438",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp4r3kgra1.py\", line 10, in <module>\n    assert count_bidirectional([(5, 6), (1, 2), (6, 5), (9, 1), (6, 5), (2, 1)] ) == 3\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef count_bidirectional(pairs):\n    count = 0\n    for a, b in pairs:\n        if (a, b) == (b, a):\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/439",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef multiple_to_single(int_list):\n    return int(\"\".join(map(str, int_list)))\n```"
+    },
+    {
+      "id": "mbpp/440",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp86f3ulyp.py\", line 10, in <module>\n    assert find_adverb_position(\"clearly!! we can see the sky\")==(0, 7, 'clearly')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef find_adverb_position(sentence):\n    words = sentence.split()\n    for i, word in enumerate(words):\n        if word.endswith(\"ly\"):\n            return (i, len(word), word)\n    return None\n```"
+    },
+    {
+      "id": "mbpp/441",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def surfacearea_cube(size):\n    return 6 * size ** 2"
+    },
+    {
+      "id": "mbpp/442",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpcgfkpk8y.py\", line 6, in <module>\n    assert positive_count([0, 1, 2, -1, -5, 6, 0, -3, -2, 3, 4, 6, 8])==0.54\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef positive_count(arr):\n    return len([x for x in arr if x > 0]) / len(arr)\n```"
+    },
+    {
+      "id": "mbpp/443",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9yv5j5k8.py\", line 5, in <module>\n    assert largest_neg([1,2,3,-4,-6]) == -6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def largest_neg(lst):\n    return max((n for n in lst if n < 0))"
+    },
+    {
+      "id": "mbpp/444",
+      "pass": false,
+      "secs": 0.8,
+      "err": "tmpuhh984uw.py\", line 6, in <module>\n    assert trim_tuple([(5, 3, 2, 1, 4), (3, 4, 9, 2, 1),(9, 1, 2, 3, 5), (4, 8, 2, 1, 7)], 2) == '[(2,), (9,), (2,), (2,)]'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef trim_tuple(tuple_list, k):\n    return [tuple[t[k:]] for t in tuple_list]\n```"
+    },
+    {
+      "id": "mbpp/445",
+      "pass": false,
+      "secs": 1.7,
+      "err": "e>\n    assert index_multiplication(((1, 3), (4, 5), (2, 9), (1, 10)),((6, 7), (3, 9), (1, 1), (7, 3)) ) == ((6, 21), (12, 45), (2, 9), (7, 30))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef index_multiplication(tuple1, tuple2):\n    result = []\n    for i in range(len(tuple1)):\n        result.append((tuple1[i][0] * tuple2[i][0], tuple1[i][1] * tuple2[i][1]))\n    return result\n```"
+    },
+    {
+      "id": "mbpp/446",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpkswr9392.py\", line 6, in <module>\n    assert count_Occurrence(('a', 'a', 'c', 'b', 'd'),['a', 'b'] ) == 3\n           ^^^^^^^^^^^^^^^^\nNameError: name 'count_Occurrence' is not defined. Did you mean: 'count_occurrence'?\n",
+      "answer": "```python\ndef count_occurrence(lst, elements):\n    return sum(lst.count(e) for e in elements)\n```"
+    },
+    {
+      "id": "mbpp/447",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def cube_nums(lst):\n    return [x ** 3 for x in lst]"
+    },
+    {
+      "id": "mbpp/448",
+      "pass": false,
+      "secs": 2.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp06gvpz9a.py\", line 13, in <module>\n    assert cal_sum(9) == 49\n           ^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def cal_sum(n):\n    if n <= 0:\n        return 0\n    elif n <= 2:\n        return 2\n    else:\n        a, b, c = 0, 2, 3\n        for _ in range(n - 2):\n            a, b, c = b, c, a + b + c\n        return c"
+    },
+    {
+      "id": "mbpp/450",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def extract_string(string_list, size):\n    return [s for s in string_list if len(s) == size]"
+    },
+    {
+      "id": "mbpp/451",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def remove_whitespaces(s):\n    return ''.join(s.split())"
+    },
+    {
+      "id": "mbpp/452",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef loss_amount(actual, expected):\n    return max(0, expected - actual)\n```"
+    },
+    {
+      "id": "mbpp/453",
+      "pass": false,
+      "secs": 2.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmptli5xp2_.py\", line 15, in <module>\n    assert sumofFactors(18) == 26\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sumofFactors(n):\n    total = 0\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            if i % 2 == 0:\n                total += i\n            if (n // i) % 2 == 0:\n                total += n // i\n        i += 1\n    return total\n```"
+    },
+    {
+      "id": "mbpp/454",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def text_match_wordz(text):\n    return 'z' in text"
+    },
+    {
+      "id": "mbpp/455",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpqpxi5xvu.py\", line 6, in <module>\n    assert check_monthnumb_number(5)==True\n           ^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'check_monthnumb_number' is not defined. Did you mean: 'check_month_number'?\n",
+      "answer": "```python\ndef check_month_number(month_number):\n    return month_number in {1, 3, 5, 7, 8, 10, 12}\n```"
+    },
+    {
+      "id": "mbpp/456",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def reverse_string_list(string_list):\n    return [word[::-1] for word in string_list]"
+    },
+    {
+      "id": "mbpp/457",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def Find_Min(sublists):\n    return min(sublists, key=len)"
+    },
+    {
+      "id": "mbpp/458",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def rectangle_area(length, width):\n    return length * width"
+    },
+    {
+      "id": "mbpp/459",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef remove_uppercase(s):\n    return ''.join([c for c in s if not c.isupper()])\n```"
+    },
+    {
+      "id": "mbpp/460",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def Extract(lst):\n    return [sub[0] for sub in lst]"
+    },
+    {
+      "id": "mbpp/461",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpqeyqjk2z.py\", line 6, in <module>\n    assert upper_ctr('PYthon') == 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef upper_ctr(s):\n    return sum(1 for c in s if c.isupper())\n```"
+    },
+    {
+      "id": "mbpp/462",
+      "pass": false,
+      "secs": 0.9,
+      "err": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef combinations_list(lst):\n    return [set() for _ in range(len(lst) + 1)]\n```"
+    },
+    {
+      "id": "mbpp/463",
+      "pass": false,
+      "secs": 2.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9za9qsm3.py\", line 16, in <module>\n    assert max_subarray_product([1, -2, -3, 0, 7, -8, -2]) == 112\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef max_subarray_product(arr):\n    if not arr:\n        return 0\n\n    max_product = arr[0]\n    current_product = arr[0]\n\n    for num in arr[1:]:\n        current_product = max(current_product * num, num)\n        max_product = max(max_product, current_product)\n\n    return max_product\n```"
+    },
+    {
+      "id": "mbpp/464",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def check_value(dictionary, value):\n    return all(value == v for v in dictionary.values())"
+    },
+    {
+      "id": "mbpp/465",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def drop_empty(d):\n    return {k: v for k, v in d.items() if v is not None}"
+    },
+    {
+      "id": "mbpp/468",
+      "pass": false,
+      "secs": 2.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpxm9amgxu.py\", line 14, in <module>\n    assert max_product([3, 100, 4, 5, 150, 6]) == 3000\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef max_product(arr):\n    n = len(arr)\n    dp = [1] * n\n\n    for i in range(n):\n        for j in range(i):\n            if arr[j] * arr[i] > dp[i]:\n                dp[i] = arr[j] * arr[i]\n\n    return max(dp)\n```"
+    },
+    {
+      "id": "mbpp/470",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def add_pairwise(t):\n    return tuple(a + b for a, b in zip(t, t[1:]))"
+    },
+    {
+      "id": "mbpp/471",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef find_remainder(arr, n):\n    product = 1\n    for num in arr:\n        product = (product * num) % n\n    return product\n```"
+    },
+    {
+      "id": "mbpp/472",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2omp9qyq.py\", line 5, in <module>\n    assert check_Consecutive([1,2,3,4,5]) == True\n           ^^^^^^^^^^^^^^^^^\nNameError: name 'check_Consecutive' is not defined. Did you mean: 'check_consecutive'?\n",
+      "answer": "def check_consecutive(lst):\n    return all(b - a == 1 for a, b in zip(lst, lst[1:]))"
+    },
+    {
+      "id": "mbpp/473",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmpet8wg7yy.py\", line 3\n    return set(tuple_list) & set(other_list))\n                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```python\ndef tuple_intersection(tuple_list, other_list):\n    return set(tuple_list) & set(other_list))\n```"
+    },
+    {
+      "id": "mbpp/474",
+      "pass": true,
+      "secs": 2.4,
+      "err": "",
+      "answer": "def replace_char(s, old_char, new_char):\n    return s.replace(old_char, new_char)\n\n# Test cases\nassert replace_char(\"polygon\", 'y', 'l') == \"pollgon\"\nassert replace_char(\"character\", 'c', 'a') == \"aharaater\"\nassert replace_char(\"python\", 'l', 'a') == \"python\""
+    },
+    {
+      "id": "mbpp/475",
+      "pass": false,
+      "secs": 0.8,
+      "err": "ile \"/tmp/tmpn3ii434i.py\", line 5, in <module>\n    assert sort_counter({'Math':81, 'Physics':83, 'Chemistry':87})==[('Chemistry', 87), ('Physics', 83), ('Math', 81)]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def sort_counter(dictionary):\n    return sorted(dictionary.items(), key=lambda item: item[1])"
+    },
+    {
+      "id": "mbpp/476",
+      "pass": false,
+      "secs": 0.4,
+      "err": "ck (most recent call last):\n  File \"/tmp/tmp3shm3q__.py\", line 5, in <module>\n    assert big_sum([1,2,3]) == 4\n           ^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp3shm3q__.py\", line 3, in big_sum\n    return sum(max(arr) + min(arr))\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: 'int' object is not iterable\n",
+      "answer": "def big_sum(arr):\n    return sum(max(arr) + min(arr))"
+    },
+    {
+      "id": "mbpp/477",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def is_lower(s):\n    return s.lower()"
+    },
+    {
+      "id": "mbpp/478",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef remove_lowercase(s):\n    return ''.join([c for c in s if c.isupper()])\n```"
+    },
+    {
+      "id": "mbpp/479",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp6pk_ei73.py\", line 7, in <module>\n    assert first_Digit(123) == 1\n           ^^^^^^^^^^^\nNameError: name 'first_Digit' is not defined. Did you mean: 'first_digit'?\n",
+      "answer": "def first_digit(n):\n    while n >  9:\n        n //= 10\n    return n"
+    },
+    {
+      "id": "mbpp/554",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def Split(numbers):\n    return [num for num in numbers if num % 2 !=  0]"
+    },
+    {
+      "id": "mbpp/555",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp4217jpsw.py\", line 6, in <module>\n    assert difference(3) == 30\n           ^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef difference(n):\n    return n * n * n - n * (n + 1) // 2\n```"
+    },
+    {
+      "id": "mbpp/556",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpc7hzutbw.py\", line 10, in <module>\n    assert find_Odd_Pairs([5,4,7,2,1],5) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef find_Odd_Pairs(arr, n):\n    odd_count = 0\n    for i in range(n):\n        if arr[i] % 2 == 1:\n            odd_count += 1\n    return (odd_count * (n - odd_count)) // 2\n\n# Test cases\nassert find_Odd_Pairs([5,4,7,2,1],5) == 6\nassert find_Odd_Pairs([7,2,8,1,0,5,11],7) == 12\nassert find_Odd_Pairs([1,2,3],3) == 2\n```"
+    },
+    {
+      "id": "mbpp/557",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "def toggle_string(s):\n    return ''.join([c.lower() if c.isupper() else c.upper() for c in s])\n\n# Test cases\nassert toggle_string(\"Python\") == \"pYTHON\"\nassert toggle_string(\"Pangram\") == \"pANGRAM\"\nassert toggle_string(\"LIttLE\") == \"liTTle\""
+    },
+    {
+      "id": "mbpp/558",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp6adrzb3y.py\", line 5\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "def digit_distance_nums(a, b):\n    return sum(abs(x - y) for x, y in zip(str(a), str(b)))\n\n```"
+    },
+    {
+      "id": "mbpp/559",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef max_sub_array_sum(arr, n):\n    max_current = max_global = arr[0]\n    for i in range(1, n):\n        max_current = max(arr[i], max_current + arr[i])\n        max_global = max(max_global, max_current)\n    return max_global\n```"
+    },
+    {
+      "id": "mbpp/560",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpsuya81qb.py\", line 6, in <module>\n    assert union_elements((3, 4, 5, 6),(5, 7, 4, 10) ) == (3, 4, 5, 6, 7, 10)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef union_elements(tuple1, tuple2):\n    return sorted(set(tuple1) | set(tuple2))\n```"
+    },
+    {
+      "id": "mbpp/562",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def Find_Max_Length(lst):\n    return max(len(sub) for sub in lst)"
+    },
+    {
+      "id": "mbpp/563",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpifmy90w7.py\", line 5, in <module>\n    assert extract_values('\"Python\", \"PHP\", \"Java\"')==['Python', 'PHP', 'Java']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def extract_values(s):\n    return [v for v in s.split(\",\") if v.startswith('\"') and v.endswith('\"')]"
+    },
+    {
+      "id": "mbpp/564",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpbczv8bwa.py\", line 6, in <module>\n    assert count_Pairs([1,2,1],3) == 2\n           ^^^^^^^^^^^\nNameError: name 'count_Pairs' is not defined. Did you mean: 'count_pairs'?\n",
+      "answer": "```python\ndef count_pairs(lst):\n    return len({(i, j) for i in range(len(lst)) for j in range(i + 1, len(lst)) if lst[i] != lst[j]})\n```"
+    },
+    {
+      "id": "mbpp/565",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def split(s):\n    return list(s)"
+    },
+    {
+      "id": "mbpp/566",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def sum_digits(n):\n    return sum(int(d) for d in str(n))"
+    },
+    {
+      "id": "mbpp/567",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def issort_list(lst):\n    return all(lst[i] <= lst[i + 1] for i in range(len(lst) - 1))"
+    },
+    {
+      "id": "mbpp/568",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def empty_list(N):\n    return [{} for _ in range(N)]"
+    },
+    {
+      "id": "mbpp/569",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "def sort_sublists(lst):\n    return [sorted(sub) for sub in lst]"
+    },
+    {
+      "id": "mbpp/572",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpvtulx8bo.py\", line 5, in <module>\n    assert two_unique_nums([1,2,3,2,3,4,5]) == [1, 4, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def two_unique_nums(lst):\n    return list(set(lst))"
+    },
+    {
+      "id": "mbpp/573",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpntdvhcqu.py\", line 9, in <module>\n    assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef unique_product(lst):\n    return 1\n    for num in set(lst):\n        product *= num\n    return product\n```"
+    },
+    {
+      "id": "mbpp/574",
+      "pass": false,
+      "secs": 2.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpr3p6t4ne.py\", line 8, in <module>\n    assert surfacearea_cylinder(10,5) == 942.45\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "import math\n\ndef surfacearea_cylinder(radius, height):\n    return 2 * math.pi * radius * (radius + height)\n\n# Test cases\nassert surfacearea_cylinder(10,5) == 942.45\nassert surfacearea_cylinder(4,5) == 226.18800000000002\nassert surfacearea_cylinder(4,10) == 351.848"
+    },
+    {
+      "id": "mbpp/576",
+      "pass": false,
+      "secs": 3.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpvhw2odvd.py\", line 18, in <module>\n    assert is_Sub_Array([1,4,3,5],[1,2]) == False\n           ^^^^^^^^^^^^\nNameError: name 'is_Sub_Array' is not defined. Did you mean: 'is_sub_array'?\n",
+      "answer": "def is_sub_array(arr, sub):\n    n = len(arr)\n    m = len(sub)\n\n    for i in range(n - m + 1):\n        if arr[i:i + m] == sub:\n            return True\n\n    return False\n\n\n# Test cases\nassert is_sub_array([1,4,3,5], [1,2]) == False\nassert is_sub_array([1,2,1], [1,2,1]) == True\nassert is_sub_array([1,0,2,2], [2,2,0]) == False"
+    },
+    {
+      "id": "mbpp/577",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmphnzdte39.py\", line 11, in <module>\n    assert last_Digit_Factorial(4) == 4\n           ^^^^^^^^^^^^^^^^^^^^\nNameError: name 'last_Digit_Factorial' is not defined. Did you mean: 'last_digit_factorial'?\n",
+      "answer": "```python\ndef last_digit_factorial(n):\n    if n < 0:\n        return None\n    result = 1\n    for i in range(1, n + 1):\n        result = (result * i) % 10\n    return result\n```"
+    },
+    {
+      "id": "mbpp/578",
+      "pass": false,
+      "secs": 7.5,
+      "err": "  File \"/tmp/tmp_xe6pjrs.py\", line 3\n    return [list1[i], list2[i], list3[i]] for i in range(len(list1))]\n                                                                    ^\nSyntaxError: unmatched ']'\n",
+      "answer": "eturn [list1[i], list2[i], list3[i]] for i in range(len(list1))]\n\n# Test cases\nassert interleave_lists([1,2,3,4,5,6,7],[10,20,30,40,50,60,70],[100,200,300,400,500,600,700]) == [1, 10, 100, 2, 20, 200, 3, 30, 300, 4, 40, 400, 5, 50, 500, 6, 60, 600, 7, 70, 700]\nassert interleave_lists([10,20],[15,2],[5,10]) == [10,15,5,20,2,10]\nassert interleave_lists([11,44], [10,15], [20,5]) == [11,10,20,44,15,5]"
+    },
+    {
+      "id": "mbpp/579",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef find_dissimilar(tuple1, tuple2):\n    return tuple(set(tuple1) ^ set(tuple2))\n```"
+    },
+    {
+      "id": "mbpp/580",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3adxy85p.py\", line 12, in <module>\n    assert extract_even((4, 5, (7, 6, (2, 4)), 6, 8)) == (4, (6, (2, 4)), 6, 8)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef extract_even(nested_tuple):\n    result = []\n    for element in nested_tuple:\n        if isinstance(element, tuple):\n            result.extend(extract_even(element))\n        elif isinstance(element, int) and element % 2 == 0:\n            result.append(element)\n    return tuple(result)\n```"
+    },
+    {
+      "id": "mbpp/581",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpmvcyea_1.py\", line 8, in <module>\n    assert surface_Area(3,4) == 33\n           ^^^^^^^^^^^^\nNameError: name 'surface_Area' is not defined. Did you mean: 'surface_area'?\n",
+      "answer": "def surface_area(base_edge, height):\n    base_area = base_edge ** 2\n    slant_height = (base_edge ** 2 + height ** 2) ** 0.5\n    lateral_area = 2 * base_edge * slant_height\n    return base_area + lateral_area"
+    },
+    {
+      "id": "mbpp/582",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def my_dict(d):\n    return not bool(d)"
+    },
+    {
+      "id": "mbpp/583",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpezkz8j_u.py\", line 5, in <module>\n    assert catalan_number(10)==16796\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def catalan_number(n):\n    return (2 * n) * (2 * n - 1) // (n + 1)"
+    },
+    {
+      "id": "mbpp/584",
+      "pass": false,
+      "secs": 13.3,
+      "err": "  File \"/tmp/tmpogk0vgzd.py\", line 2\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "  continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue\n        if s[i] == ' ' and s[i + 1] == ' ':\n            continue"
+    },
+    {
+      "id": "mbpp/585",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def expensive_items(dataset, n):\n    return sorted(dataset, key=lambda item: -item['price'])[:n]"
+    },
+    {
+      "id": "mbpp/586",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpuui8g_52.py\", line 5, in <module>\n    assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]\n           ^^^^^^^^^\nNameError: name 'split_Arr' is not defined. Did you mean: 'split_arr'?\n",
+      "answer": "def split_arr(arr, n):\n    return arr[n:] + arr[:n]"
+    },
+    {
+      "id": "mbpp/587",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def list_tuple(lst):\n    return tuple(lst)"
+    },
+    {
+      "id": "mbpp/588",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def big_diff(lst):\n    return max(lst) - min(lst)"
+    },
+    {
+      "id": "mbpp/589",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def perfect_squares(start, end):\n    return [i * i for i in range(1, int(end ** 0.5) + 1) if start <= i * i <= end]"
+    },
+    {
+      "id": "mbpp/590",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpe594v82q.py\", line 9, in <module>\n    assert polar_rect(3,4)==((5.0, 0.9272952180016122), (-2+2.4492935982947064e-16j))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "import math\n\ndef polar_rect(r, theta):\n    x = r * math.cos(theta)\n    y = r * math.sin(theta)\n    return (x, y)"
+    },
+    {
+      "id": "mbpp/591",
+      "pass": false,
+      "secs": 3.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7c675tsf.py\", line 14, in <module>\n    assert swap_List([12, 35, 9, 56, 24]) == [24, 35, 9, 56, 12]\n           ^^^^^^^^^\nNameError: name 'swap_List' is not defined. Did you mean: 'swap_list'?\n",
+      "answer": "def swap_list(lst):\n    if len(lst) <= 1:\n        return lst\n    lst[0], lst[-1] = lst[-1], lst[0]\n    return lst\n\n\n# Test cases\nassert swap_list([12, 35, 9, 56, 24]) == [24, 35, 9, 56, 12]\nassert swap_list([1, 2, 3]) == [3, 2, 1]\nassert swap_list([4, 5, 6]) == [6, 5, 4]"
+    },
+    {
+      "id": "mbpp/592",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp643mpmtq.py\", line 6, in <module>\n    assert sum_of_product(3) == 15\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sum_of_product(n):\n    return sum(range(1, n + 1)) * sum(range(1, n + 1))\n\n# Test cases\nassert sum_of_product(3) == 15\nassert sum_of_product(4) == 56\nassert sum_of_product(1) == 1\n```"
+    },
+    {
+      "id": "mbpp/593",
+      "pass": false,
+      "secs": 0.8,
+      "err": "94.196\")==('216.8.94.196')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpwiy5d_ye.py\", line 3, in removezero_ip\n    return \".\".join(int(part) for part in ip.split(\".\"))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: sequence item 0: expected str instance, int found\n",
+      "answer": "def removezero_ip(ip):\n    return \".\".join(int(part) for part in ip.split(\".\"))"
+    },
+    {
+      "id": "mbpp/594",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef diff_even_odd(lst):\n    first_even = None\n    first_odd = None\n    \n    for num in lst:\n        if first_even is None and num % 2 == 0:\n            first_even = num\n        if first_odd is None and num % 2 !=  0:\n            first_odd = num\n    \n    return first_even - first_odd\n```"
+    },
+    {
+      "id": "mbpp/595",
+      "pass": false,
+      "secs": 3.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpgrbbyzcn.py\", line 22, in <module>\n    assert min_Swaps(\"1101\",\"1110\") == 1\n           ^^^^^^^^^\nNameError: name 'min_Swaps' is not defined. Did you mean: 'min_swaps'?\n",
+      "answer": "turn \"Not Possible\"\n\n    n = len(a)\n    count = 0\n\n    for i in range(n):\n        if a[i] != b[i]:\n            # Find the position of the different bit in b\n            for j in range(n):\n                if b[j] != a[i]:\n                    # Swap the bits at positions i and j\n                    a[i], a[j] = a[j], a[i]\n                    count += 1\n                    break\n\n    return count\n```"
+    },
+    {
+      "id": "mbpp/596",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "import sys\n\n\ndef tuple_size(t):\n    return sys.getsizeof(t)"
+    },
+    {
+      "id": "mbpp/597",
+      "pass": false,
+      "secs": 4.2,
+      "err": " 20, in <module>\n    assert find_kth([2, 3, 6, 7, 9], [1, 4, 8, 10], 5) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp6b8f8b7v.py\", line 10, in find_kth\n    if i < n and j >= 0 and a[i] > b[j]:\n                                   ~^^^\nIndexError: list index out of range\n",
+      "answer": "(a, b, k):\n    n, m = len(a), len(b)\n    left, right = 0, n + m\n\n    while left < right:\n        mid = (left + right) // 2\n        i, j = mid, (n + m - mid) - 1\n\n        if i < n and j >= 0 and a[i] > b[j]:\n            left = mid + 1\n        elif i >= n or j < 0 and b[j] > a[i]:\n            right = mid\n        else:\n            return a[i] if i < n else b[j]\n\n    return a[i] if i < n else b[j]\n```"
+    },
+    {
+      "id": "mbpp/598",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "def armstrong_number(n):\n    digits = list(map(int, str(n)))\n    power = len(digits)\n    total = sum([d ** power for d in digits])\n    return total == n"
+    },
+    {
+      "id": "mbpp/599",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpzcwp1n8u.py\", line 5, in <module>\n    assert sum_average(10)==(55, 5.5)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def sum_average(n):\n    return (n * (n + 1) // 2, n * (n + 1) / 2)"
+    },
+    {
+      "id": "mbpp/600",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpj31rg321.py\", line 5, in <module>\n    assert is_Even(1) == False\n           ^^^^^^^\nNameError: name 'is_Even' is not defined. Did you mean: 'is_even'?\n",
+      "answer": "def is_even(n):\n    return n % 2 == 0"
+    },
+    {
+      "id": "mbpp/602",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "def first_repeated_char(s):\n    seen = set()\n    for ch in s:\n        if ch in seen:\n            return ch\n        seen.add(ch)\n    return None"
+    },
+    {
+      "id": "mbpp/603",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp8xar6hc_.py\", line 20, in <module>\n    assert get_ludic(10) == [1, 2, 3, 5, 7]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": ":\n        return []\n\n    # Step 1: Generate sieve for all numbers up to n\n    sieve = [True] * (n + 1)\n    sieve[0] = sieve[1] = False\n\n    # Step 2: Eliminate non-lucid numbers\n    for i in range(2, n + 1):\n        if sieve[i]:\n            for j in range(i, n + 1, i):\n                sieve[j] = False\n\n    # Step 3: Collect remaining numbers\n    return [i for i, val in enumerate(sieve) if val]\n```"
+    },
+    {
+      "id": "mbpp/604",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def reverse_words(s):\n    return ' '.join(reversed(s.split()))"
+    },
+    {
+      "id": "mbpp/605",
+      "pass": true,
+      "secs": 3.6,
+      "err": "",
+      "answer": "def prime_num(n):\n    if n <= 1:\n        return False\n    if n <= 3:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\n\n# Test cases\nassert prime_num(13) == True\nassert prime_num(7) == True\nassert prime_num(-1010) == False"
+    },
+    {
+      "id": "mbpp/606",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmprew9g0wu.py\", line 5, in <module>\n    assert radian_degree(90)==1.5707963267948966\n           ^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmprew9g0wu.py\", line 3, in radian_degree\n    return math.radians(deg)\n           ^^^^\nNameError: name 'math' is not defined. Did you forget to import 'math'?\n",
+      "answer": "def radian_degree(deg):\n    return math.radians(deg)"
+    },
+    {
+      "id": "mbpp/607",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\nimport re\n\ndef find_literals(string, pattern):\n    match = re.search(pattern, string)\n    if match:\n        return (match.group(), match.start(), match.end())\n    else:\n        return None\n```"
+    },
+    {
+      "id": "mbpp/608",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpgfxjtu2f.py\", line 12, in <module>\n    assert bell_Number(2) == 2\n           ^^^^^^^^^^^\nNameError: name 'bell_Number' is not defined. Did you mean: 'bell_number'?\n",
+      "answer": "def bell_number(n):\n    if n < 0:\n        return 0\n    dp = [0] * (n + 1)\n    for i in range(1, n + 1):\n        dp[i] = 1\n        for j in range(1, i):\n            dp[i] += dp[j]\n    return dp[n]"
+    },
+    {
+      "id": "mbpp/610",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp1rdqqzz9.py\", line 6, in <module>\n    assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef remove_kth_element(lst, k):\n    return lst[:k] + lst[k+1:]\n```"
+    },
+    {
+      "id": "mbpp/611",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpgx8wuofb.py\", line 7, in <module>\n    assert max_of_nth([[6, 7, 8], [2, 4, 6], [9, 10, 20]], 1) == 10\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef max_of_nth(matrix, n):\n    return max(column for column in zip(*matrix))[n]\n```"
+    },
+    {
+      "id": "mbpp/612",
+      "pass": false,
+      "secs": 1.2,
+      "err": "\"/tmp/tmp9_vjkxjt.py\", line 9, in <module>\n    assert merge([['x', 'y','z' ], ['a', 'b','c'], ['m', 'n','o']]) == [['x', 'a', 'm'], ['y', 'b', 'n'],['z', 'c','o']]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def merge(list_of_lists):\n    first_list = [sub[0] for sub in list_of_lists]\n    second_list = [sub[1] for sub in list_of_lists]\n    return [first_list, second_list]"
+    },
+    {
+      "id": "mbpp/614",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpdiw69kna.py\", line 6, in <module>\n    assert cummulative_sum([(1, 3), (5, 6, 7), (2, 6)]) == 30\n           ^^^^^^^^^^^^^^^\nNameError: name 'cummulative_sum' is not defined. Did you mean: 'cumulative_sum'?\n",
+      "answer": "```python\ndef cumulative_sum(tuple_list):\n    return sum(sum(sub) for sub in tuple_list)\n```"
+    },
+    {
+      "id": "mbpp/615",
+      "pass": false,
+      "secs": 0.8,
+      "err": "p/tmpfp4r7pbn.py\", line 5, in <module>\n    assert average_tuple(((10, 10, 10, 12), (30, 45, 56, 45), (81, 80, 39, 32), (1, 2, 3, 4)))==[30.5, 34.25, 27.0, 23.25]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def average_tuple(tuples):\n    return [sum(t) / len(t) for t in tuples]"
+    },
+    {
+      "id": "mbpp/616",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def tuple_modulo(a, b):\n    return tuple(x % y for x, y in zip(a, b))"
+    },
+    {
+      "id": "mbpp/617",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpzr5njzvv.py\", line 11, in <module>\n    assert min_Jumps((3,4),11)==3.5\n           ^^^^^^^^^\nNameError: name 'min_Jumps' is not defined. Did you mean: 'min_jumps'?\n",
+      "answer": "```python\nimport math\n\ndef min_jumps(start, length):\n    x, y = start\n    distance = math.hypot(x, y)\n    jumps = distance / length\n    return jumps\n```"
+    },
+    {
+      "id": "mbpp/618",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def div_list(list1, list2):\n    return [a / b for a, b in zip(list1, list2)]"
+    },
+    {
+      "id": "mbpp/619",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef move_num(s):\n    return ''.join([c for c in s if not c.isdigit()]) + ''.join([c for c in s if c.isdigit()])\n```"
+    },
+    {
+      "id": "mbpp/620",
+      "pass": true,
+      "secs": 2.1,
+      "err": "",
+      "answer": "```python\ndef largest_subset(numbers):\n    if not numbers:\n        return 0\n\n    # Count even and odd numbers\n    even = sum(1 for num in numbers if num % 2 == 0)\n    odd = len(numbers) - even\n\n    # The largest subset is either all evens or all odds\n    return max(even, odd)\n```"
+    },
+    {
+      "id": "mbpp/622",
+      "pass": false,
+      "secs": 3.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp6852by1w.py\", line 21, in <module>\n    assert get_median([1, 12, 15, 26, 38], [2, 13, 17, 30, 45], 5) == 16.0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "e two sorted lists using a two-pointer approach\n    i = j = 0\n    merged = []\n    for _ in range(n):\n        if list1[i] <= list2[j]:\n            merged.append(list1[i])\n            i += 1\n        else:\n            merged.append(list2[j])\n            j += 1\n\n    # Find the median\n    if n % 2 == 0:\n        return (merged[n // 2 - 1] + merged[n // 2]) / 2\n    else:\n        return merged[n // 2]\n```"
+    },
+    {
+      "id": "mbpp/623",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def nth_nums(lst, n):\n    return [x ** n for x in lst]"
+    },
+    {
+      "id": "mbpp/624",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def is_upper(string):\n    return string.upper()"
+    },
+    {
+      "id": "mbpp/625",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpo76dmuci.py\", line 8, in <module>\n    assert swap_List([1,2,3]) == [3,2,1]\n           ^^^^^^^^^\nNameError: name 'swap_List' is not defined. Did you mean: 'swap_list'?\n",
+      "answer": "def swap_list(lst):\n    if len(lst) < 2:\n        return lst\n\n    return [lst[-1]] + lst[1:-1] + [lst[0]]"
+    },
+    {
+      "id": "mbpp/626",
+      "pass": true,
+      "secs": 1.3,
+      "err": "",
+      "answer": "```python\ndef triangle_area(radius):\n    if radius < 0:\n        return None\n    if radius == 0:\n        return 0\n    return radius * radius\n```"
+    },
+    {
+      "id": "mbpp/627",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0wuxxyoa.py\", line 9, in <module>\n    assert find_First_Missing([0,1,2,3]) == 4\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'find_First_Missing' is not defined. Did you mean: 'find_first_missing'?\n",
+      "answer": "```python\ndef find_first_missing(sorted_numbers):\n    for i in range(len(sorted_numbers)):\n        if sorted_numbers[i] != i:\n            return i\n    return len(sorted_numbers)\n```"
+    },
+    {
+      "id": "mbpp/628",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def replace_spaces(s):\n    return '%20'.join(s.split())"
+    },
+    {
+      "id": "mbpp/629",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def Split(numbers):\n    return [num for num in numbers if num % 2 ==  0]"
+    },
+    {
+      "id": "mbpp/630",
+      "pass": true,
+      "secs": 3.0,
+      "err": "",
+      "answer": "def get_coordinates(coord):\n    x, y = coord\n    return [\n        [x - 1, y - 1],\n        [x - 1, y],\n        [x - 1, y + 1],\n        [x, y - 1],\n        [x, y],\n        [x, y + 1],\n        [x + 1, y - 1],\n        [x + 1, y],\n        [x + 1, y + 1],\n    ]"
+    },
+    {
+      "id": "mbpp/631",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2gb9tct9.py\", line 6, in <module>\n    assert replace_spaces('Jumanji The Jungle') == 'Jumanji_The_Jungle'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef replace_spaces(s):\n    return s.replace(' ', '_').replace('_', ' ')\n```"
+    },
+    {
+      "id": "mbpp/632",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp2wl4_3av.py\", line 3\n    return [x for x in lst if x != 0] + [0] * lst.count(0))\n                                                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def move_zero(lst):\n    return [x for x in lst if x != 0] + [0] * lst.count(0))"
+    },
+    {
+      "id": "mbpp/633",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpy9atrlx4.py\", line 10, in <module>\n    assert pair_xor_Sum([5,9,7,6],4) == 47\n           ^^^^^^^^^^^^\nNameError: name 'pair_xor_Sum' is not defined. Did you mean: 'pair_xor_sum'?\n",
+      "answer": "```python\ndef pair_xor_sum(numbers, n):\n    total = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            total ^= numbers[i] ^ numbers[j]\n    return total\n```"
+    },
+    {
+      "id": "mbpp/635",
+      "pass": true,
+      "secs": 5.4,
+      "err": "",
+      "answer": "st[0] = lst[0], lst[i]\n        heapify(lst, i, 0)\n\n    return lst\n\n\ndef heapify(lst, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n\n    if left < n and lst[left] > lst[largest]:\n        largest = left\n\n    if right < n and lst[right] > lst[largest]:\n        largest = right\n\n    if largest != i:\n        lst[i], lst[largest] = lst[largest], lst[i]\n        heapify(lst, n, largest)"
+    },
+    {
+      "id": "mbpp/637",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def noprofit_noloss(cost_price,selling_price):\n    return cost_price == selling_price"
+    },
+    {
+      "id": "mbpp/638",
+      "pass": false,
+      "secs": 2.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp033uxonc.py\", line 6, in <module>\n    assert wind_chill(120,35)==40\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "Here's the function:\n\n```python\ndef wind_chill(wind_velocity, temperature):\n    return round(13.0 + 0.622 * temperature - 1.5 * (wind_velocity ** 0.16) + 0.008 * (wind_velocity ** 0.16) * temperature)\n```"
+    },
+    {
+      "id": "mbpp/639",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef sample_nam(names):\n    return sum(len(name) for name in names if name[0].isupper())\n```"
+    },
+    {
+      "id": "mbpp/640",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpggsr46dq.py\", line 6, in <module>\n    assert remove_parenthesis([\"python (chrome)\"])==(\"python\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef remove_parenthesis(string):\n    return \"\".join(char for char in string if char not in \"()\")\n```"
+    },
+    {
+      "id": "mbpp/641",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2uqalu4e.py\", line 5, in <module>\n    assert is_nonagonal(10) == 325\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def is_nonagonal(n):\n    return n * (5 * n - 3) // 2"
+    },
+    {
+      "id": "mbpp/643",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef text_match_wordz_middle(string):\n    return 'z' in string[1:-1]\n```"
+    },
+    {
+      "id": "mbpp/644",
+      "pass": true,
+      "secs": 4.1,
+      "err": "",
+      "answer": "def reverse_Array_Upto_K(arr, k):\n    arr[:k] = arr[:k][::-1]\n    return arr\n\n# Test cases\nassert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]\nassert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]\nassert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
+    },
+    {
+      "id": "mbpp/720",
+      "pass": true,
+      "secs": 6.0,
+      "err": "",
+      "answer": "t, d):\n    return t + (d,)\n\n# Example usage:\nadd_dict_to_tuple((4, 5, 6), {\"MSAM\" : 1, \"is\" : 2, \"best\" : 3})\n# Output: (4, 5, 6, {'MSAM': 1, 'is': 2, 'best': 3})\n\nadd_dict_to_tuple((1, 2, 3), {\"UTS\" : 2, \"is\" : 3, \"Worst\" : 4})\n# Output: (1, 2, 3, {'UTS': 2, 'is': 3, 'Worst': 4})\n\nadd_dict_to_tuple((8, 9, 10), {\"POS\" : 3, \"is\" : 4, \"Okay\" : 5})\n# Output: (8, 9, 10, {'POS': 3, 'is': 4, 'Okay': 5})"
+    },
+    {
+      "id": "mbpp/721",
+      "pass": false,
+      "secs": 11.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpagfmqs1m.py\", line 30, in <module>\n    assert maxAverageOfPath([[1, 2, 3], [6, 5, 4], [7, 3, 9]]) == 5.2\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "!= -float('inf'):\n            max_sum = current_max\n            max_length = length\n            break\n\n    return max_sum / max_length\n```\n\nLet's test it with the first test case:\n\n```python\nprint(maxAverageOfPath([[1, 2, 3], [6, 5, 4], [7, 3, 9]]))\n# Output: 5.2\n```\n\nAnd with the second test case:\n\n```python\nprint(maxAverageOfPath([[2, 3, 4], [7, 6, 5], [8, 4, 10]]))\n# Output: 6.2\n```\n\nAnd so on."
+    },
+    {
+      "id": "mbpp/722",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmp7o9uzr_t.py\", line 4\n    name: height, weight\n                       ^\nSyntaxError: ':' expected after dictionary key\n",
+      "answer": "```python\ndef filter_data(students, min_height, min_weight):\n    return {\n        name: height, weight\n        for name, (height, weight) in students.items()\n        if height >= min_height and weight >= min_weight\n    }\n```"
+    },
+    {
+      "id": "mbpp/723",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef count_same_pair(list1, list2):\n    return sum(1 for i in range(len(list1)) if list1[i] == list2[i])\n```"
+    },
+    {
+      "id": "mbpp/724",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef power_base_sum(base, power):\n    result = base ** power\n    total = 0\n    for digit in str(result):\n        total += int(digit)\n    return total\n```"
+    },
+    {
+      "id": "mbpp/725",
+      "pass": false,
+      "secs": 0.8,
+      "err": "all last):\n  File \"/tmp/tmpi8pgwgxx.py\", line 6, in <module>\n    assert extract_quotation('Cortex \"A53\" Based \"multi\" tasking \"Processor\"') == ['A53', 'multi', 'Processor']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef extract_quotation(string):\n    return [s for s in string.split('\"') if s.strip()]\n```"
+    },
+    {
+      "id": "mbpp/726",
+      "pass": false,
+      "secs": 0.8,
+      "err": "multiply_elements\n    return tuple(t * next(numbers) for numbers in numbers)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpxuqrkzhq.py\", line 3, in <genexpr>\n    return tuple(t * next(numbers) for numbers in numbers)\n                 ^\nNameError: name 't' is not defined\n",
+      "answer": "```python\ndef multiply_elements(numbers):\n    return tuple(t * next(numbers) for numbers in numbers)\n```"
+    },
+    {
+      "id": "mbpp/728",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def sum_list(a, b):\n    return [x + y for x, y in zip(a, b)]"
+    },
+    {
+      "id": "mbpp/730",
+      "pass": false,
+      "secs": 8.2,
+      "err": "  File \"/tmp/tmp1qdwxq99.py\", line 9\n    if lst[i] != lst[i - 1]):\n                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "icates([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 4]\nassert consecutive_duplicates([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]) == [10, 15, 19, 18, 17, 26, 17, 18, 10]\nassert consecutive_duplicates(['a', 'a', 'b', 'c', 'd', 'd']) == ['a', 'b', 'c', 'd']\nassert consecutive_duplicates(['a', 'a', 'b', 'c', 'd', 'd', 'a', 'a']) == ['a', 'b', 'c', 'd', 'a']"
+    },
+    {
+      "id": "mbpp/731",
+      "pass": true,
+      "secs": 4.8,
+      "err": "",
+      "answer": "ne\n\nThe slant height $ l $ can be found using the Pythagorean theorem:\n\n\\[\nl = \\sqrt{r^2 + h^2}\n\\]\n\nSo, the steps are:\n1. Calculate the slant height $ l $ using $ \\sqrt{r^2 + h^2} $.\n2. Multiply $ r $ by $ l $.\n3. Multiply the result by $ \\pi $.\n\nNow, let's implement this in Python:\n\n```python\nimport math\n\ndef lateralsurface_cone(r, h):\n    l = math.sqrt(r**2 + h**2)\n    return math.pi * r * l\n```"
+    },
+    {
+      "id": "mbpp/732",
+      "pass": false,
+      "secs": 0.4,
+      "err": "\n  File \"/tmp/tmp_brwvhwk.py\", line 5, in <module>\n    assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def replace_specialchar(s):\n    return ','.join(s.split())"
+    },
+    {
+      "id": "mbpp/733",
+      "pass": true,
+      "secs": 3.1,
+      "err": "",
+      "answer": "```\ndef find_first_occurrence(arr, target):\n    left = 0\n    right = len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] < target:\n            left = mid + 1\n        elif arr[mid] > target:\n            right = mid - 1\n        else:\n            if mid == 0 or arr[mid - 1] != target:\n                return mid\n            left = mid + 1\n\n    return -1\n```"
+    },
+    {
+      "id": "mbpp/734",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpyoejsz17.py\", line 13, in <module>\n    assert sum_Of_Subarray_Prod([1,2,3]) == 20\n           ^^^^^^^^^^^^^^^^^^^^\nNameError: name 'sum_Of_Subarray_Prod' is not defined. Did you mean: 'sum_of_subarray_prod'?\n",
+      "answer": "Here's the Python function:\n\n```python\ndef sum_of_subarray_prod(arr):\n    n = len(arr)\n    total = 0\n    for i in range(n):\n        current_prod = 1\n        for j in range(i, n):\n            current_prod *= arr[j]\n            total += current_prod\n    return total\n```"
+    },
+    {
+      "id": "mbpp/735",
+      "pass": false,
+      "secs": 12.8,
+      "err": "  File \"/tmp/tmpxz5brw3h.py\", line 2\n    ```python\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+    },
+    {
+      "id": "mbpp/736",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```\ndef left_insertion(sorted_list, value):\n    left, right = 0, len(sorted_list)\n    while left < right:\n        mid = (left + right) // 2\n        if sorted_list[mid] < value:\n            left = mid + 1\n        else:\n            right = mid\n    return left\n```"
+    },
+    {
+      "id": "mbpp/737",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\nimport re\n\ndef check_str(s):\n    return bool(re.match(r'^[aeiouAEIOU]', s))\n```"
+    },
+    {
+      "id": "mbpp/738",
+      "pass": false,
+      "secs": 1.1,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp8rm0n82b.py\", line 8, in <module>\n    assert geometric_sum(7) == 1.9921875\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```\ndef geometric_sum(n):\n    if n ==  1:\n        return 1\n    return 1 / n + geometric_sum(n - 1)\n```"
+    },
+    {
+      "id": "mbpp/739",
+      "pass": false,
+      "secs": 6.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0wdmue1l.py\", line 25, in <module>\n    assert find_index(2) == 4\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "or k\n    low, high = 1, 10**10\n    while low <= high:\n        mid = (low + high) // 2\n        t = mid * (mid + 1) // 2\n        digits = len(str(t))\n        if digits < n:\n            low = mid + 1\n        elif digits > n:\n            high = mid - 1\n        else:\n            return mid\n\n    return low\n\n\n# Test cases\nassert find_index(2) == 4\nassert find_index(3) == 14\nassert find_index(4) == 45\n```"
+    },
+    {
+      "id": "mbpp/740",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7skqj8b9.py\", line 5, in <module>\n    assert tuple_to_dict((1, 5, 7, 10, 13, 5)) == {1: 5, 7: 10, 13: 5}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def tuple_to_dict(t):\n    return dict(zip(t, t[1:]))"
+    },
+    {
+      "id": "mbpp/741",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def all_Characters_Same(s):\n    return all(c == s[0] for c in s)"
+    },
+    {
+      "id": "mbpp/742",
+      "pass": false,
+      "secs": 7.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpj8bbtehw.py\", line 2, in <module>\n    assert area_tetrahedron(3) == 15.588457268119894\n           ^^^^^^^^^^^^^^^^\nNameError: name 'area_tetrahedron' is not defined\n",
+      "answer": "tetrahedron is:\n\n\\[\n\\text{Area} = 4 \\times \\frac{\\sqrt{3}}{4} \\times s^2 = \\sqrt{3} \\times s^2\n\\]\n\nNow, let's implement this in Python:\n\n```python\nimport math\n\ndef area_tetrahedron(s):\n    return math.sqrt(3) * s ** 2\n```\n\nLet's test it:\n\n```python\nassert area_tetrahedron(3) == 15.588457268119894\nassert area_tetrahedron(20) == 692.8203230275509\nassert area_tetrahedron(10) == 173.20508075688772\n```"
+    },
+    {
+      "id": "mbpp/743",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def rotate_right(lst, n):\n    n = n % len(lst)\n    return lst[-n:] + lst[:-n]"
+    },
+    {
+      "id": "mbpp/744",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def check_none(t):\n    return None in t"
+    },
+    {
+      "id": "mbpp/745",
+      "pass": false,
+      "secs": 1.5,
+      "err": "f5g.py\", line 3, in divisible_by_digits\n    return [n for n in range(startnum, endnum + 1) if all(n % d == 0 for d in set(str(n)) and d.isdigit())]\n                                                                                              ^\nNameError: name 'd' is not defined. Did you mean: 'id'?\n",
+      "answer": "```\ndef divisible_by_digits(startnum, endnum):\n    return [n for n in range(startnum, endnum + 1) if all(n % d == 0 for d in set(str(n)) and d.isdigit())]\n```"
+    },
+    {
+      "id": "mbpp/746",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\nimport math\n\ndef sector_area(radius, angle):\n    if angle > 360:\n        return None\n    return (radius ** 2) * math.pi * (angle / 360)\n```"
+    },
+    {
+      "id": "mbpp/747",
+      "pass": false,
+      "secs": 5.5,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpy41suqvp.py\", line 23, in <module>\n    assert lcs_of_three('abcd1e2', 'bc12ea', 'bd1ea') == 3\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": " range(n + 1):\n            for k in range(o + 1):\n                if s1[i - 1] == s2[j - 1] == s3[k - 1]:\n                    dp[i][j][k] = dp[i - 1][j - 1][k - 1] + 1\n                else:\n                    dp[i][j][k] = max(\n                        dp[i - 1][j][k],\n                        dp[i][j - 1][k],\n                        dp[i][j][k - 1]\n                    )\n\n    return dp[m][n][o]\n```"
+    },
+    {
+      "id": "mbpp/748",
+      "pass": false,
+      "secs": 2.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmps6sr3s1l.py\", line 19, in <module>\n    assert capital_words_spaces(\"PythonProgrammingExamples\") == 'Python Programming Examples'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef capital_words_spaces(s):\n    result = []\n    i = 0\n    n = len(s)\n    while i < n:\n        if s[i].isupper():\n            result.append(s[i])\n            i += 1\n        elif i < n and s[i].islower():\n            result.append(s[i])\n            i += 1\n        else:\n            i += 1\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "mbpp/749",
+      "pass": false,
+      "secs": 7.5,
+      "err": "plbht0fvd.py\", line 6, in <module>\n    assert sort_numeric_strings( ['4','12','45','7','0','100','200','-12','-500']) == [-500, -12, 0, 4, 7, 12, 45, 100, 200]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "500']) == [-500, -12, 0, 4, 7, 12, 45, 100, 200]\n\n# Test case 2\nassert sort_numeric_strings(['2','3','8','4','7','9','8','2','6','5','1','6','1','2','3','4','6','9','1','2']) == [1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8, 9, 9]\n\n# Test case 3\nassert sort_numeric_strings(['1','3','5','7','1', '3','13', '15', '17','5', '7 ','9','1', '11']) == [1, 1, 1, 3, 3, 5, 5, 7, 7, 9, 11, 13, 15, 17]"
+    },
+    {
+      "id": "mbpp/750",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def add_tuple(lst, t):\n    return lst + list(t)"
+    },
+    {
+      "id": "mbpp/751",
+      "pass": false,
+      "secs": 2.0,
+      "err": "7yvki.py\", line 12, in <module>\n    assert check_min_heap([1, 2, 3, 4, 5, 6]) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpdz37yvki.py\", line 7, in check_min_heap\n    if arr[i] > arr[left] or arr[i] > arr[right]:\n                ~~~^^^^^^\nIndexError: list index out of range\n",
+      "answer": "```\ndef check_min_heap(arr):\n    n = len(arr)\n    for i in range(1, n // 2 + 1):\n        left = 2 * i\n        right = 2 * i + 1\n        if arr[i] > arr[left] or arr[i] > arr[right]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/752",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmp0uvablox.py\", line 5\n    elif n == 1 or n == 2:\n    ^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "Here's a simple recursive implementation:\n\n```python\ndef jacobsthal_num(n):\n    if n == 0:\n        return 0\n        elif n == 1 or n == 2:\n            return 1\n        else:\n            return 2 * jacobsthal_num(n - 1) + jacobsthal_num(n - 2)\n```"
+    },
+    {
+      "id": "mbpp/753",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```\ndef min_k(records, k):\n    return sorted(records, key=lambda x: x[1])[:k]\n```"
+    },
+    {
+      "id": "mbpp/754",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef extract_index_list(l1, l2, l3):\n    return [l1[i] for i in range(len(l1)) if l1[i] == l2[i] == l3[i]]\n```"
+    },
+    {
+      "id": "mbpp/755",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "def second_smallest(lst):\n    if len(lst) < 2:\n        return None\n\n    first = second = float('inf')\n\n    for num in lst:\n        if num < first:\n            second = first\n            first = num\n        elif first < num < second:\n            second = num\n\n    return second if second != float('inf') else None"
+    },
+    {
+      "id": "mbpp/756",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpz49xx0m_.py\", line 10, in <module>\n    assert text_match_zero_one(\"abbbba\")==True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "import re\n\n\ndef text_match_zero_one(string):\n    return bool(re.fullmatch(r'a[b]+', string))"
+    },
+    {
+      "id": "mbpp/757",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef count_reverse_pairs(string_list):\n    count = 0\n    for i in range(len(string_list)):\n        for j in range(i + 1, len(string_list)):\n            if string_list[i] == string_list[j][::-1]:\n                count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/758",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef unique_sublists(lst):\n    counts = {}\n    for sublist in lst:\n        key = tuple(sublist)\n        counts[key] = counts.get(key, 0) + 1\n    return counts\n```"
+    },
+    {
+      "id": "mbpp/759",
+      "pass": false,
+      "secs": 13.1,
+      "err": "\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d\n                             ^\nSyntaxError: unterminated string literal (detected at line 6)\n",
+      "answer": "}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d+\\.\\d{2}|\\d"
+    },
+    {
+      "id": "mbpp/760",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def unique_Element(lst):\n    return len(set(lst)) == 1"
+    },
+    {
+      "id": "mbpp/762",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp_alb0_4b.py\", line 6, in <module>\n    assert check_monthnumber_number(6)==True\n           ^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'check_monthnumber_number' is not defined. Did you mean: 'check_month_number'?\n",
+      "answer": "```python\ndef check_month_number(month_number):\n    return month_number in {4,6,9,11}\n```"
+    },
+    {
+      "id": "mbpp/763",
+      "pass": false,
+      "secs": 2.0,
+      "err": "ent call last):\n  File \"/tmp/tmp9btqh550.py\", line 12, in <module>\n    assert find_min_diff((1,5,3,19,18,25),6) == 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp9btqh550.py\", line 3, in find_min_diff\n    arr.sort()\n    ^^^^^^^^\nAttributeError: 'tuple' object has no attribute 'sort'\n",
+      "answer": "```\ndef find_min_diff(arr, n):\n    arr.sort()\n    min_diff = float('inf')\n    for i in range(n - 1):\n        diff = arr[i + 1] - arr[i]\n        if diff < min_diff:\n            min_diff = diff\n    return min_diff\n```"
+    },
+    {
+      "id": "mbpp/764",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def number_ctr(s):\n    return sum(1 for c in s if c.isdigit())"
+    },
+    {
+      "id": "mbpp/765",
+      "pass": false,
+      "secs": 2.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp2v7gxylm.py\", line 8, in <module>\n    assert is_polite(7) == 11\n           ^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "use the following approach:\n\n1. A polite number is a positive integer that is not a power of 2.\n2. The nth polite number is equal to the nth positive integer minus the number of powers of 2 less than or equal to that integer.\n\nSo, the nth polite number is:\n\nn - floor(log2(n))\n\nNow, let's implement this in Python:\n\n```python\nimport math\n\ndef is_polite(n):\n    return n - math.floor(math.log2(n))\n```"
+    },
+    {
+      "id": "mbpp/766",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def pair_wise(lst):\n    return [(lst[i], lst[i + 1]) for i in range(len(lst) - 1)]"
+    },
+    {
+      "id": "mbpp/767",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpnlddaijh.py\", line 13, in <module>\n    assert get_pairs_count([1,1,1,1],2) == 6\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef get_pairs_count(numbers, target):\n    count = 0\n    seen = set()\n    for num in numbers:\n        complement = target - num\n        if complement in seen:\n            count += 1\n        seen.add(num)\n    return count\n```"
+    },
+    {
+      "id": "mbpp/769",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpcay1w2xd.py\", line 5, in <module>\n    assert (Diff([10, 15, 20, 25, 30, 35, 40], [25, 40, 35])) == [10, 20, 30, 15]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def Diff(a, b):\n    return [x for x in a if x not in b] + [x for x in b if x not in a]"
+    },
+    {
+      "id": "mbpp/770",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef odd_num_sum(n):\n    return sum((i * 2 - 1) ** 4 for i in range(1, n + 1))\n```"
+    },
+    {
+      "id": "mbpp/771",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmp421c9cf8.py\", line 8\n    if not stack or stack[-1] != {\"(\":\")\", \"[\"\"]\", \"}\": \"}\"}[char]]:\n                                                                  ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```\ndef check_expression(expression):\n    stack = []\n    for char in expression:\n        if char in \"({[}\":\n            stack.append(char)\n        elif char in \")}]\":\n            if not stack or stack[-1] != {\"(\":\")\", \"[\"\"]\", \"}\": \"}\"}[char]]:\n                return False\n            stack.pop()\n    return not stack\n```"
+    },
+    {
+      "id": "mbpp/772",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef remove_length(s, k):\n    return ' '.join(word for word in s.split() if len(word) != k)\n```"
+    },
+    {
+      "id": "mbpp/773",
+      "pass": false,
+      "secs": 4.9,
+      "err": "ll last):\n  File \"/tmp/tmp80nn6o0u.py\", line 19, in <module>\n    assert occurrence_substring('python programming, programming language', 'language') == ('language', 31, 39)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "ses\nassert occurrence_substring('python programming, python language', 'python') == ('python', 0, 6)\nassert occurrence_substring('python programming, programming language', 'programming') == ('programming', 7, 18)\nassert occurrence_substring('python programming, programming language', 'language') == ('language', 31, 39)\nassert occurrence_substring('c++ programming, c++ language', 'python') == None"
+    },
+    {
+      "id": "mbpp/775",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef odd_position(lst):\n    for i in range(1, len(lst), 2):\n        if lst[i] % 2 == 0:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/776",
+      "pass": true,
+      "secs": 2.4,
+      "err": "",
+      "answer": "```python\ndef count_vowels(s):\n    vowels = set(\"aeiouAEIOU\")\n    count = 0\n    for i in range(len(s)):\n        if s[i] in vowels:\n            continue\n        if (i > 0 and s[i - 1] in vowels) or (i < len(s) - 1 and s[i + 1] in vowels):\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/777",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "```python\ndef find_sum(lst):\n    return sum(set(lst))\n```"
+    },
+    {
+      "id": "mbpp/778",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef pack_consecutive_duplicates(lst):\n    result = []\n    i = 0\n    n = len(lst)\n    while i < n:\n        j = i\n        while j < n and lst[j] == lst[i]:\n            j += 1\n        result.append(lst[i:j])\n        i = j\n    return result\n```"
+    },
+    {
+      "id": "mbpp/779",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef unique_sublists(lst):\n    counts = {}\n    for sublist in lst:\n        key = tuple(sublist)\n        counts[key] = counts.get(key, 0) + 1\n    return counts\n```"
+    },
+    {
+      "id": "mbpp/780",
+      "pass": false,
+      "secs": 1.6,
+      "err": "/tmp1_n9qyb_.py\", line 11, in <module>\n    assert find_combinations([(2, 4), (6, 7), (5, 1), (6, 10)]) == [(8, 11), (7, 5), (8, 14), (11, 8), (12, 17), (11, 11)]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\nfrom itertools import combinations\n\ndef find_combinations(tuple_list):\n    result = []\n    for i, j in combinations(tuple_list, 2):\n        result.append((i[0] + j[1], i[1] + j[0]))\n    return result\n```"
+    },
+    {
+      "id": "mbpp/781",
+      "pass": true,
+      "secs": 2.8,
+      "err": "",
+      "answer": "def count_divisors(n):\n    count = 0\n    i = 1\n    while i * i <= n:\n        if n % i == 0:\n            count += 1\n            if i != n // i:\n                count += 1\n        i += 1\n    return count % 2 == 0\n\n\n# Test cases\nassert count_divisors(10)\nassert not count_divisors(100)\nassert count_divisors(125)"
+    },
+    {
+      "id": "mbpp/782",
+      "pass": true,
+      "secs": 1.6,
+      "err": "",
+      "answer": "```python\ndef odd_length_sum(arr):\n    n = len(arr)\n    total = 0\n    for i in range(n):\n        length = 1\n        while i + length <= n:\n            total += sum(arr[i:i+length])\n            length += 2\n    return total\n```"
+    },
+    {
+      "id": "mbpp/783",
+      "pass": false,
+      "secs": 6.2,
+      "err": "py\", line 36, in <module>\n    assert rgb_to_hsv(255, 255, 255)==(0, 0.0, 100.0)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmps22v4vk0.py\", line 4, in rgb_to_hsv\n    max = max(r, g, b)\n          ^^^\nUnboundLocalError: cannot access local variable 'max' where it is not associated with a value\n",
+      "answer": ":\n        return (0, 0, 100.0)\n\n    if max == r:\n        h = (g - b) / delta\n        if h < 0:\n            h += 6\n    elif max == g:\n        h = (b - r) / delta\n        if h < 0:\n            h += 6\n    else:\n        h = (r - g) / delta\n        if h < 0:\n            h += 6\n\n    h = h * 60\n\n    if delta ==  0:\n        s = 0\n    else:\n        s = delta / max\n\n    v = max * 100.0\n\n    return (h, s, v)"
+    },
+    {
+      "id": "mbpp/784",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef mul_even_odd(lst):\n    even = None\n    odd = None\n    \n    for num in lst:\n        if even is None and num % 2 == 0:\n            even = num\n        elif odd is None and num % 2 == 1:\n            odd = num\n    \n    return even * odd\n```"
+    },
+    {
+      "id": "mbpp/785",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def tuple_str_int(s):\n    return tuple(map(int, s.strip(\"()\").split(\",\")))"
+    },
+    {
+      "id": "mbpp/786",
+      "pass": true,
+      "secs": 1.9,
+      "err": "",
+      "answer": "```python\ndef right_insertion(sorted_list, value):\n    left, right = 0, len(sorted_list)\n    while left < right:\n        mid = (left + right) // 2\n        if sorted_list[mid] < value:\n            left = mid + 1\n        else:\n            right = mid\n    return left\n```"
+    },
+    {
+      "id": "mbpp/787",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "```python\ndef text_match_three(text):\n    return 'abbb' in text\n```"
+    },
+    {
+      "id": "mbpp/788",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpiysscut3.py\", line 5, in <module>\n    assert new_tuple([\"WEB\", \"is\"], \"best\") == ('WEB', 'is', 'best')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def new_tuple(string, lst):\n    return tuple(string) + tuple(lst)"
+    },
+    {
+      "id": "mbpp/790",
+      "pass": true,
+      "secs": 1.2,
+      "err": "",
+      "answer": "```python\ndef even_position(lst):\n    for i in range(0, len(lst), 2):\n        if lst[i] % 2 != 0:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/791",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9b13wojr.py\", line 7, in <module>\n    assert remove_nested((1, 5, 7, (4, 6), 10)) == (1, 5, 7, 10)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def remove_nested(t):\n    if isinstance(t, tuple):\n        return tuple([remove_nested(x) for x in t])\n    return t"
+    },
+    {
+      "id": "mbpp/792",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "```python\ndef count_list(n):\n    return len(n)\n```"
+    },
+    {
+      "id": "mbpp/793",
+      "pass": true,
+      "secs": 2.4,
+      "err": "",
+      "answer": "```python\ndef last(arr, element):\n    left, right = 0, len(arr)\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] < element:\n            left = mid + 1\n        elif arr[mid] > element:\n            right = mid\n        else:\n            left = mid + 1\n    return left - 1 if left > 0 else -1\n```"
+    },
+    {
+      "id": "mbpp/794",
+      "pass": false,
+      "secs": 0.8,
+      "err": "tmp3lqng2u7.py\", line 6, in <module>\n    assert text_starta_endb(\"aabbbb\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp3lqng2u7.py\", line 3, in text_starta_endb\n    return bool(re.fullmatch(r'a.*b', s))\n                ^^\nNameError: name 're' is not defined. Did you forget to import 're'?\n",
+      "answer": "```python\ndef text_starta_endb(s):\n    return bool(re.fullmatch(r'a.*b', s))\n```"
+    },
+    {
+      "id": "mbpp/796",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def return_sum(dictionary):\n    return sum(dictionary.values())"
+    },
+    {
+      "id": "mbpp/797",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3ovs5q9o.py\", line 6, in <module>\n    assert sum_in_range(2,5) == 8\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```python\ndef sum_in_range(l, r):\n    return sum(range(l, r + 1, 2))\n```"
+    },
+    {
+      "id": "mbpp/798",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def _sum(arr):\n    return sum(arr)"
+    },
+    {
+      "id": "mbpp/799",
+      "pass": true,
+      "secs": 4.4,
+      "err": "",
+      "answer": "def left_rotate(n, d):\n    return ((n << d) | (n >> (32 - d))) & 0xFFFFFFFF\n\n\n# Test cases\nassert left_rotate(16,2) == 64\nassert left_rotate(10,2) == 40\nassert left_rotate(99,3) == 792\nassert left_rotate(99,3) == 792\nassert left_rotate(0b0001,3) == 0b1000\nassert left_rotate(0b0101,3) == 0b101000\nassert left_rotate(0b11101,3) == 0b11101000"
+    },
+    {
+      "id": "mbpp/800",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def remove_all_spaces(s):\n    return ''.join(s.split())"
+    },
+    {
+      "id": "mbpp/801",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3staa1li.py\", line 6, in <module>\n    assert test_three_equal(-1,-2,-3) == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def test_three_equal(a, b, c):\n    return sum(1 for x in [a, b, c] if x == a)"
+    },
+    {
+      "id": "mbpp/802",
+      "pass": false,
+      "secs": 3.2,
+      "err": "ecent call last):\n  File \"/tmp/tmprrgpqp_y.py\", line 23, in <module>\n    assert count_rotation([3,2,1]) == 1\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmprrgpqp_y.py\", line 10, in count_rotation\n    if arr[mid] > arr[mid + 1]:\n                  ~~~^^^^^^^^^\nIndexError: list index out of range\n",
+      "answer": "ef count_rotation(arr):\n    n = len(arr)\n    low = 0\n    high = n - 1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if arr[mid] > arr[mid + 1]:\n            low = mid + 1\n        elif arr[mid] < arr[mid - 1]:\n            high = mid - 1\n        else:\n            if arr[mid] > arr[0]:\n                low = mid + 1\n            else:\n                high = mid - 1\n\n    return low\n```"
+    },
+    {
+      "id": "mbpp/803",
+      "pass": true,
+      "secs": 4.8,
+      "err": "",
+      "answer": " 2\n        square = mid * mid\n        if square == n:\n            return True\n        elif square < n:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return False\n\n\n# Test cases\nassert not is_perfect_square(10)\nassert is_perfect_square(36)\nassert not is_perfect_square(14)\nassert is_perfect_square(14 * 14)\nassert not is_perfect_square(125)\nassert is_perfect_square(125 * 125)"
+    },
+    {
+      "id": "mbpp/804",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def is_product_even(numbers):\n    return any(n % 2 == 0 for n in numbers)"
+    },
+    {
+      "id": "mbpp/805",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def max_sum_list(lst):\n    return max(lst, key=sum)"
+    },
+    {
+      "id": "mbpp/806",
+      "pass": true,
+      "secs": 2.0,
+      "err": "",
+      "answer": "```python\ndef max_run_uppercase(s):\n    max_run = 0\n    current_run = 0\n\n    for char in s:\n        if char.isupper():\n            current_run += 1\n            if current_run > max_run:\n                max_run = current_run\n        else:\n            current_run = 0\n\n    return max_run\n```"
+    },
+    {
+      "id": "mbpp/807",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def first_odd(numbers):\n    for num in numbers:\n        if num % 2 != 0:\n            return num\n    return None"
+    },
+    {
+      "id": "mbpp/808",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def check_K(t, k):\n    return k in t"
+    },
+    {
+      "id": "mbpp/809",
+      "pass": true,
+      "secs": 0.8,
+      "err": "",
+      "answer": "def check_smaller(tuple1, tuple2):\n    return all(a > b for a, b in zip(tuple1, tuple2))"
+    }
+  ]
+}

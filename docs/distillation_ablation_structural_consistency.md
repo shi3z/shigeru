@@ -239,8 +239,8 @@ noise process; the matching data recipe is now known).
 | undistilled adapter, S = 16 | 16 | 90.0 | 84.8 | 50.6 | 50.6 (216 / 427) |
 | undistilled adapter, S = 8 | 8 | 70.0 | 72.9 | 8.5 | 1.9 (8 / 427) |
 | B8 joint teacher, S = 8 | 22 | 89.3 | 80.7 | 23.2 | – |
-| B10 student A (CE + KL), S = 8 | 8 | 81.3 | 77.1 | 10.4 | __MA8__ |
-| B10 student A, S = 16 | 16 | 87.3 | – | 54.9 | __MA16__ |
+| B10 student A (CE + KL), S = 8 | 8 | 81.3 | 77.1 | 10.4 | 4.2 (18 / 427) |
+| B10 student A, S = 16 | 16 | 87.3 | – | 54.9 | 52.9 (226 / 427) |
 | B10 student A' (EOS pairs excluded), S = 8 | 8 | 82.7 | 77.3 | – | – |
 | B10 student E (GSM8K + MBPP states), S = 8 | 8 | 80.0 | 78.4 | 0.0 | (trained on MBPP) |
 | **ablation arm B (masked CE only, 12 k states), S = 8** | 8 | **83.3** | **77.8** (+184 / −119 vs baseline, p = 0.0002) | – | – |
