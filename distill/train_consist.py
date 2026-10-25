@@ -67,6 +67,7 @@ def main():
     ap.add_argument("--lambda-mask", type=float, default=1.0)
     ap.add_argument("--kl-topk", type=int, default=0, help="0 = full-vocabulary KL; else KL over the teacher's top-k plus the rest mass")
     ap.add_argument("--max-rows", type=int, default=None)
+    ap.add_argument("--hard-weight", type=float, default=1.0, help="sampling weight of 'hard' states (independent argmax pair != teacher pair) relative to easy ones")
     ap.add_argument("--eval-every", type=int, default=250)
     ap.add_argument("--save-every", type=int, default=500)
     ap.add_argument("--seed", type=int, default=0)
@@ -154,21 +155,36 @@ def main():
             j_ok_teacher_marginal = float(int(r["cand"][1][int(r["lp"][1].argmax())]) == b_star)   # what the un-distilled marginal would pick
         return l_i, l_kl, l_mask, pair_ok, j_ok, j_ok_teacher_marginal
 
+    def is_hard(r):
+        """independent argmax pair (from the stored marginals) differs from the teacher's joint pair"""
+        k = r["cand"].shape[1]
+        jscore = r["lp"][0][:, None] + r["lp"][1][None, :] + r["delta"]
+        best = int(jscore.argmax()); ai, bj = divmod(best, k)
+        return not (ai == int(r["lp"][0].argmax()) and bj == int(r["lp"][1].argmax()))
+
     def evaluate(rows, n=200):
         student.eval(); acc = dict(l_i=0.0, l_kl=0.0, l_mask=0.0, pair=0.0, j=0.0, j_marg=0.0); m = 0
+        hard = dict(pair=0.0, j=0.0, n=0)
         with torch.no_grad():
-            for r in rows[:n]:
+            for r in rows[:n] + [h for h in rows if is_hard(h)][: n // 2]:
                 l_i, l_kl, l_mask, pair_ok, j_ok, j_m = losses(r, False)
+                if is_hard(r):
+                    hard["pair"] += pair_ok; hard["j"] += j_ok; hard["n"] += 1
+                    continue
                 acc["l_i"] += float(l_i); acc["l_kl"] += float(l_kl); acc["l_mask"] += float(l_mask); acc["pair"] += pair_ok; acc["j"] += j_ok; acc["j_marg"] += j_m; m += 1
         student.train()
-        return {k: round(v / max(1, m), 4) for k, v in acc.items()}
+        out = {k: round(v / max(1, m), 4) for k, v in acc.items()}
+        out.update(hard_n=hard["n"], hard_pair=round(hard["pair"] / max(1, hard["n"]), 4), hard_j=round(hard["j"] / max(1, hard["n"]), 4))
+        return out
 
     log = open(os.path.join(a.out, "log.jsonl"), "a")
     ev0 = evaluate(held); print("step 0 held-out", json.dumps(ev0), flush=True); log.write(json.dumps(dict(step=0, heldout=ev0)) + "\n")
     student.train(); t0 = time.time(); step = 0; run = dict(l_i=0.0, l_kl=0.0, l_mask=0.0, pair=0.0, n=0)
-    order = list(range(len(train)))
+    hard_idx = [n for n, r in enumerate(train) if is_hard(r)]
+    print(f"hard states (independent != teacher pair): {len(hard_idx)} / {len(train)} = {len(hard_idx) / max(1, len(train)):.3f}", flush=True)
+    weights = torch.ones(len(train)); weights[hard_idx] = a.hard_weight
     while step < a.steps:
-        random.shuffle(order)
+        order = torch.multinomial(weights, len(train), replacement=True).tolist()
         for idx in order:
             l_i, l_kl, l_mask, pair_ok, _, _ = losses(train[idx])
             loss = (l_i + a.lambda_kl * l_kl + a.lambda_mask * l_mask) / a.accum
