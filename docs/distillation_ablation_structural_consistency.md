@@ -236,14 +236,14 @@ noise process; the matching data recipe is now known).
 
 | decoder, K = 16, left-to-right, no AR verification | forwards / block | GSM8K dev2 | GSM8K test | HumanEval | MBPP (sanitized) |
 |---|---|---|---|---|---|
-| undistilled adapter, S = 16 | 16 | 90.0 | 84.8 | 50.6 | __MB16__ |
-| undistilled adapter, S = 8 | 8 | 70.0 | 72.9 | 8.5 | __MB8__ |
+| undistilled adapter, S = 16 | 16 | 90.0 | 84.8 | 50.6 | 50.6 (216 / 427) |
+| undistilled adapter, S = 8 | 8 | 70.0 | 72.9 | 8.5 | 1.9 (8 / 427) |
 | B8 joint teacher, S = 8 | 22 | 89.3 | 80.7 | 23.2 | – |
 | B10 student A (CE + KL), S = 8 | 8 | 81.3 | 77.1 | 10.4 | __MA8__ |
 | B10 student A, S = 16 | 16 | 87.3 | – | 54.9 | __MA16__ |
 | B10 student A' (EOS pairs excluded), S = 8 | 8 | 82.7 | 77.3 | – | – |
 | B10 student E (GSM8K + MBPP states), S = 8 | 8 | 80.0 | 78.4 | 0.0 | (trained on MBPP) |
-| **ablation arm B (masked CE only, 12 k states), S = 8** | 8 | **83.3** | __BTEST__ | – | – |
+| **ablation arm B (masked CE only, 12 k states), S = 8** | 8 | **83.3** | **77.8** (+184 / −119 vs baseline, p = 0.0002) | – | – |
 | arm B, S = 16 | 16 | 90.0 | – | – | – |
 | arm B + function-format code states, S = 8 / 16 | 8 / 16 | __BC8__ | – | __BCH8__ / __BCH16__ | (MBPP-derived prompts in training) |
 

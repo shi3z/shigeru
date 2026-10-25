@@ -1,0 +1,3005 @@
+{
+  "task": "mbpp",
+  "engine": "bdiff:runs/bdiff_e5_lr1e4/adapter:8:left",
+  "model": "/mnt/ssdraid/project/open-mercury/bench/../runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "stats": {
+    "forwards": 21771,
+    "tokens": 35620,
+    "remasked": 0
+  },
+  "n": 427,
+  "pass@1": 0.01873536299765808,
+  "seconds": 509.19313311576843,
+  "results": [
+    {
+      "id": "mbpp/2",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpeaagiwy1.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_elements(a1, a2):\n    return set(a1) & set(a2)"
+    },
+    {
+      "id": "mbpp/3",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpz7kumw2t.py\", line 4\n    return True\n               ^\nIndentationError: unindent does not match any outer indentation level\n",
+      "answer": "def is_not_prime(n):\n    if n < 2:\n return True\n    n =  abs(n)\n    if n % 2 == 0:\n return True\n    i = 3\n    while i * i <= n:\n if if n % i == 0:\n return True\n        i += 2\n    return False"
+    },
+    {
+      "id": "mbpp/4",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpvur73o2e.py\", line 2\n    import def heap_queue_largest(numbers, n):\n           ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\nimport def heap_queue_largest(numbers, n):\n    return sorted(n largest, reverse=True)\n``````"
+    },
+    {
+      "id": "mbpp/6",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpjwdnl05g.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nd_At_One_Bit_Pos(a, b):\n    return ( (a ^ b) ==  ) and"
+    },
+    {
+      "id": "mbpp/7",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp16471z76.py\", line 2\n    def def find_char_long(s):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def find_char_long(s):\n    return = set(word for s.split if len and len >= 4)"
+    },
+    {
+      "id": "mbpp/8",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpthrk_xpu.py\", line 4\n    return [(x ** 2 for x in lst]\n                                ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def\nsquare_nums(lst):\n    return [(x ** 2 for x in lst]"
+    },
+    {
+      "id": "mbpp/9",
+      "pass": false,
+      "secs": 2.1,
+      "err": " minimum is 2. For the \"abc\" string, it need to rotated thr3) get back same string, so the minimum is 3.\n                                                                                                                                                                      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "the minimum is 1. For the \"ab\" string, it need to rotated twice2) get back same string, so the minimum is 2. For the \"abc\" string, it need to rotated thr3) get back same string, so the minimum is 3.\n\n The function can be implemented as follows:\n\n```python\ndef find_rototations(s):\n    n len(s)\n    if n == 0:\n return 0\n\n    for = 1 to n-1:\n        if s[i1:] == s[-i:i]:\n return i\n\n    return n\n``````"
+    },
+    {
+      "id": "mbpp/11",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpp_qblflw.py\", line 5\n    return s[:first]1]last]\n                     ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```\ndef remove_occcc(s, char):\n    first = = s(s, char)\n    last = s(s, char,1)\n    return s[:first]1]last]\n```"
+    },
+    {
+      "id": "mbpp/12",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def sort_matrix(matrix):\n    return sorted(matrix, key=lambda row: sum(row))\n\n"
+    },
+    {
+      "id": "mbpp/14",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpq6a8870j.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nfind_volume(length, width, height):\n    return (length * width * height) 2 2"
+    },
+    {
+      "id": "mbpp/16",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpht0dnsz2.py\", line 5\n    return not any(string)is not and not(string.isislower) and not(string.isupperlower) and not(string.islower)) and\n                                                                                                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\nimport textwrap\n\ndef text_lowercase_underscore(string):\n    return not any(string)is not and not(string.isislower) and not(string.isupperlower) and not(string.islower)) and```"
+    },
+    {
+      "id": "mbpp/17",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp4htp2gmv.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsquare_perimeter(side_length):\n    return 4 * side_length"
+    },
+    {
+      "id": "mbpp/18",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2td4owgy.py\", line 3\n    return ''.join([ for ch in string if ch not in chars])\n                     ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef remove_dirty_chars(string, chars):\n    return ''.join([ for ch in string if ch not in chars])\n```"
+    },
+    {
+      "id": "mbpp/19",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmptt8xrum3.py\", line 4\n    return len in len(arr) set(arrarr))\n                                      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ntest_duplicate(arr):\n    return len in len(arr) set(arrarr))"
+    },
+    {
+      "id": "mbpp/20",
+      "pass": false,
+      "secs": 1.9,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp9bluugpp.py\", line 22, in <module>\n    assert is_woodall(383) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "def can__woodall(n):\n    if n < 1:\n\n        False\n\n    # = 1 + 2 + 3 + ... + k\n  # k(k 1 2 = n\n    k = 1\n    while k * (k + 1) // 2 <= n:\n        k += 1\n\n    return k * (k + 1) // 2 == n\n\ndef is_woodall(n):\n    return can__woodall(n)\n\n# is__woodall(383) == True\n# is__woodall(254) == False\n# is__woodall(200) == False"
+    },
+    {
+      "id": "mbpp/56",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp363gkn7z.py\", line 3\n    return = 2 *(n // 10) 1 1 n % 10) 1\n                                    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def check(n):\n    return = 2 *(n // 10) 1 1 n % 10) 1\n\ndef check(n70) == False\n    assert check(23) == False\n    assert check(73) == True"
+    },
+    {
+      "id": "mbpp/57",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpoqxu7li4.py\", line 8\n    join(map, str))\n                  ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def can_form(digits):\n    return sorted(digits, reverse=True)\n\ndef largest_number(digits):\n    return can_form(digits)\n\njoin(map, str))\n\ndef find_max_Num(digits):\n    return int_number(l(digits))\n\n```"
+    },
+    {
+      "id": "mbpp/58",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp7la162bl.py\", line 6, in <module>\n    assert opposite_Signs(1,-2) == True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```\ndef opposite_Signs(a, b):\n    return a < b < b or a > b > a\n```"
+    },
+    {
+      "id": "mbpp/59",
+      "pass": false,
+      "secs": 6.5,
+      "err": " 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 \n                  ^\nSyntaxError: invalid syntax\n",
+      "answer": "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 "
+    },
+    {
+      "id": "mbpp/61",
+      "pass": false,
+      "secs": 6.5,
+      "err": "1111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61111 6 61"
+    },
+    {
+      "id": "mbpp/62",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmplfgotvfm.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsm_num(lst):\n    return min(lst)"
+    },
+    {
+      "id": "mbpp/63",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpmkp6raig.py\", line 2\n    def def max_difference(p):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def max_difference(p):\n    return max(max(b) - a for (a, b) in p)\n```"
+    },
+    {
+      "id": "mbpp/64",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpy64w_09p.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsubject_marks(tmarks):\n    return sorted(tmarks, key=lambda=lambda x: x[1])\n\n\n"
+    },
+    {
+      "id": "mbpp/65",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpyiplson5.py\", line 6\n    return return lst + sum_list_sum([i for i in lst if isinstance isinstance(i, list))\n                                                                                      ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\ndef_list_sum(lst):\n    if  isinstance isinstance(lst, list):\n        return sum0\n    return return lst + sum_list_sum([i for i in lst if isinstance isinstance(i, list))\n   "
+    },
+    {
+      "id": "mbpp/66",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp_rii75lz.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_count(lst):\n    return sum(11 for num in lst if num > 0)\n```"
+    },
+    {
+      "id": "mbpp/67",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp7yj07vg1.py\", line 2\n    `` can't bell_number(5) == 55\n          ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "`` can't bell_number(5) == 55\n```"
+    },
+    {
+      "id": "mbpp/68",
+      "pass": false,
+      "secs": 0.8,
+      "err": "rn all(arr[i] <= arr[i+1 for i in range(len(arr) - 1 or all(arr[i] >= arr[i+1 for i in range(len(arr) - 1))\n                                                                                                                  ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\nis_monotonic(arr):\n    return all(arr[i] <= arr[i+1 for i in range(len(arr) - 1 or all(arr[i] >= arr[i+1 for i in range(len(arr) - 1))"
+    },
+    {
+      "id": "mbpp/69",
+      "pass": false,
+      "secs": 6.5,
+      "err": "nt call last):\n  File \"/tmp/tmp1_40ho91.py\", line 92, in <module>\n    assert is_sublist([2,4,3,5,7],[3,7])==False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp1_40ho91.py\", line 83, in is_sublist\n    m = len(sub)\n            ^^^\nNameError: name 'sub' is not defined. Did you mean: 'sum'?\n",
+      "answer": "blist:\n            return True\n    return False\n\n\ndef is_sublist(lst, sublist):\n    n = len(lst)\n    m = len(sub)\n    for i in range(n - m + 1):\n        if lst[i:ii + m] == sublist:\n            return True\n    return False\n\n\ndef is_sublist(lst, sublist):\n    n = len(lst)\n    m = len(sub)\n    for i in range(n - m + 1):\n        if lst[i:ii + m] == sublist:\n            return True\n    return False\n\n\n"
+    },
+    {
+      "id": "mbpp/70",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmpynt9v1w6.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nget_equal(tuples):\n):\n    if not:\n        return True\n    first_len len(tuples[ 0])\n    for t in tuples[1:]:\n        if len(t) != first_len:\n            return False\n    return True"
+    },
+    {
+      "id": "mbpp/71",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmp7c2i8i_q.py\", line 2\n    def def comb_sort(lst):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def comb_sort(lst):\n    while True < len1:\n        gap = len // 2\n        i = 0\n while i < len - gap:\n            j = i + gap\n if lst[i] > lst[j]:\n                lst[i], lst[j] = lst[j], lst[i]\n            i += 1\n        if gap == 1:\n            break\n        gap = max // 2\n\n    return lst"
+    },
+    {
+      "id": "mbpp/72",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp5yz9wg49.py\", line 2\n    can bedef is_square_difference(n):\n        ^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "``` can bedef is_square_difference(n):\n    return n % 4 != 2 and n % 3 != 0\n\n```"
+    },
+    {
+      "id": "mbpp/74",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmp3xdlf8_b.py\", line 9\n    if = patterns[ii]            for = sequences in range_s):\n                                                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def is_samepatterns(patterns, sequences):\n    len_p = len(patterns)\n    len_s = len(sequences)\n    if len_p != len_s:\n        return False\n\n    for i in range(range(len_p)):\n        if = patterns[ii]            for = sequences in range_s):\n            if patterns[i] != sequences[j]:\n                return False\n    return True\n\n"
+    },
+    {
+      "id": "mbpp/75",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpvvsf91cc.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nfind_tuples(tuples, k):\n    return []\n    for t in tuples:\n        if all all(t % k == 0 for element in t):\n return t\n```"
+    },
+    {
+      "id": "mbpp/77",
+      "pass": false,
+      "secs": 0.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwwz7oht7.py\", line 8, in <module>\n    assert is_Diff (12345) == False\n           ^^^^^^^\nNameError: name 'is_Diff' is not defined\n",
+      "answer": "def can_diviff(n):\n    return abs % 11 == 0\n\n\n"
+    },
+    {
+      "id": "mbpp/79",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpvga52gj6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nword(word):\n    return len(word) % 2 != 0"
+    },
+    {
+      "id": "mbpp/80",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpv2lxqjuh.py\", line 7, in <module>\n    assert tetrahedral_number(5) == 35\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'tetrahedral_number' is not defined\n",
+      "answer": "def canonical_number(n):\n    return n * (n + 1) *  ( + 2) // 6\n\n"
+    },
+    {
+      "id": "mbpp/82",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmp68vevbbq.py\", line 2\n    import\n          ^\nSyntaxError: invalid syntax\n",
+      "answer": "import\nimport\nimport\nimport\nimport\nimport\nimportimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\nimport math\nimport math\n\n"
+    },
+    {
+      "id": "mbpp/83",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpa_sy6jvr.py\", line 3\n    return sum(ord(ord(c) for c in s) 26\n              ^\nSyntaxError: '(' was never closed\n",
+      "answer": "```\ndef get_Char(s):\n    return sum(ord(ord(c) for c in s) 26\n```"
+    },
+    {
+      "id": "mbpp/84",
+      "pass": false,
+      "secs": 0.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp13rcm40f.py\", line 10, in <module>\n    assert sequence(10) == 6\n           ^^^^^^^^\nNameError: name 'sequence' is not defined\n",
+      "answer": "def can_sequence(n):\n    if n <= 0:\n        return 0\n    sequence = [1, 1]\n    for i in range(2, n):\n        sequence.append = sequence[i - 1] + sequence[i - 2]\n    return sequence[n1]"
+    },
+    {
+      "id": "mbpp/85",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpboykjnah.py\", line 9\n    return 4 * math * (**2radius)\n                         ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "import\nimport\nimport\nimport\nimport math\n\ndef surfacearea_sphere(radius):\n    return 4 * math * (**2radius)"
+    },
+    {
+      "id": "mbpp/86",
+      "pass": false,
+      "secs": 1.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpysatuogy.py\", line 9, in <module>\n    assert centered_hexagonal_number(10) == 271\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'centered_hexagonal_number' is not defined. Did you mean: 'can_centeragonal_number'?\n",
+      "answer": "def can_centeragonal_number(n):\n    return (5 * n**2 - 5 * n + 2) // 6\n\n# centered_hexagonal_number(10) == 271\n# assert centered_hexagonal_number(2) == 7\n# assert centered_hexagonal_number(9) == 217"
+    },
+    {
+      "id": "mbpp/87",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpf17va2xi.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmerge_dictionaries_three(dict1, dict2, dict3):\n    return = {1,  2,  3}\n\n"
+    },
+    {
+      "id": "mbpp/88",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxbws2ots.py\", line 4\n    return {(element: count for for element in lst}\n                                                  ^\nSyntaxError: closing parenthesis '}' does not match opening parenthesis '('\n",
+      "answer": "def\ndef_count(lst):\n    return {(element: count for for element in lst}\n```"
+    },
+    {
+      "id": "mbpp/89",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp48j75oe5.py\", line 2, in <module>\n    closest_num(11) == 10\n    ^^^^^^^^^^^\nNameError: name 'closest_num' is not defined\n",
+      "answer": "def can_close(n):\n    return n - 1\n\n``` closest_num(11) == 10\nassert closest_num(7) == 6\nassert closest_num(12) == 11```"
+    },
+    {
+      "id": "mbpp/90",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmplb8ifs6a.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_log(wordswords):\n    return max(len(len(word for word in words))"
+    },
+    {
+      "id": "mbpp/91",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5x4dlb7w.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nfind_substring(string_list, substring):\n    return any in string for string in string_list if"
+    },
+    {
+      "id": "mbpp/92",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpdx98u1zo.py\", line 4\n    if len(str_n) < 2:\nIndentationError: unexpected indent\n",
+      "answer": "def can__undulating(n):\n    str_n = str(n)\n        if len(str_n) < 2:\n return False\n        for i in range(1, len(len(str_n) - 1):\n):\n            if str_n[ii -1] == str_n[ii +1]:\n:\n                return False\n        return True\n\ndef is_undulating(n):\n    return can__undulating(n)"
+    },
+    {
+      "id": "mbpp/93",
+      "pass": true,
+      "secs": 0.2,
+      "err": "",
+      "answer": "def power(a, b):\n    return a ** b"
+    },
+    {
+      "id": "mbpp/94",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpt7iq2c68.py\", line 2\n    def def index_minimum(tuples):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def index_minimum(tuples):\n    return min(tuples, key=lambda1:1[])[0]"
+    },
+    {
+      "id": "mbpp/95",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp1ew_71ku.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_Min_Length(list_of_lists):\n    return min(lenlen(lst for lst in list_of_lists))"
+    },
+    {
+      "id": "mbpp/96",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp1ptcu93d.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndivisors(n):\n    if n <= 0:\n        return 0\n    count = 1\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            count += 1\n if i // i != i:\n                count += 1\n        i += 1\n    return count"
+    },
+    {
+      "id": "mbpp/97",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmphq2g1h0p.py\", line 7\n    result[itemitem] 1.get(item, 0) + 1\n                      ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "def\nfrequency_lists(fl):\n    result = {}\n    for sublist in fl:\n        for item in sublist:\n            result[itemitem] 1.get(item, 0) + 1\n    return result"
+    },
+    {
+      "id": "mbpp/98",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpmthuczuu.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_num(numbers):\n    result = 1\n    for num in numbers:\n        result *= num\n    return len(numbers) != result and 0 / len(numbers)"
+    },
+    {
+      "id": "mbpp/99",
+      "pass": false,
+      "secs": 1.3,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmptj9ialnb.py\", line 2, in <module>\n    decimal_to_binary(8) == '1000'\n    ^^^^^^^^^^^^^^^^^\nNameError: name 'decimal_to_binary' is not defined\n",
+      "answer": "def\ndef_to_binary(n):\n    if n <=  :\n        return '0'\n    binary = ''\n    while n > 0:\n        remainder = n % 2\n        binary = str(remainder) + binary\n        n = n // 2\n    return binary\n\n``` decimal_to_binary(8) == '1000'\nassert decimal_to_binary(18) == '10010'\nassert decimal_to_binary(7) == '111'```"
+    },
+    {
+      "id": "mbpp/100",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpqzj9vae7.py\", line 2\n    can't a palindrome function to the next smallest palindrome of a given integer. Here can be one way:\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "``` can't a palindrome function to the next smallest palindrome of a given integer. Here can be one way:\n\n```def next_smallest_palindrome(n):\n    while = n1\n        if = str(n) == strstr(n        return return n\n    n = 10 ** + 1\n    while n < 10 ** + 1:\n        if = str(n) == str(n):\n            return n\n        n += 1\n    return 90011```"
+    },
+    {
+      "id": "mbpp/101",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp90y8quh5.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nkth_element(arr, k):\n    return arr[kk - 1]"
+    },
+    {
+      "id": "mbpp/102",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp7nwyumw1.py\", line 3\n    return words =join('_',([word for word in snake_string.splitsplit('_)\n                                                                      ^\nSyntaxError: unterminated string literal (detected at line 3)\n",
+      "answer": "def snake_to_camel(snake_string):\n    return words =join('_',([word for word in snake_string.splitsplit('_)\n    return ''.[0].upper() + ''.join(word for word in words[1:])\n\n\n```python"
+    },
+    {
+      "id": "mbpp/103",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmp3a39nl17.py\", line 4\n    ``(n, m) = (n - 1) *(n - m) + 2 * - 1) m - 1) * (n - m1 - 1)\n                                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": ":\n- a(n1, m) 0 for all n >=  \n- a(n,  - 1) n - 1\n\nHere can implement a simple version using this formula:\n\n```python\ndef eulerian_num(n, m):\n    if n < 1 or m < 0 or m > n:\n        return 0\n    if m == n1:\n        return 1(n - 1)\n    return (n - 1) * (n - m) + 2 * ((n - 1) * (n - m1 - 1))\n\n# test cases\nprint eulerian_num(3, 1)  4\nprint eulerian_num(4, 1) == 11\nprint eulerian_num(5, 3) == 26\n``````"
+    },
+    {
+      "id": "mbpp/104",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def sort_sublists(lstlists):\n    return([sorted(s) for s in lstlists])\n\n\n"
+    },
+    {
+      "id": "mbpp/105",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2ot228ky.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount(lst):\n    return sum(1 for x in lst if x is"
+    },
+    {
+      "id": "mbpp/106",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpn4y1rgfe.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nadd_lists(lst, t):\n    return tuple(*t + list(lst))"
+    },
+    {
+      "id": "mbpp/108",
+      "pass": true,
+      "secs": 0.9,
+      "err": "",
+      "answer": "`` can use merge sort from the standard library library to but since can't implement it, here can use a simple approach:\n\n sort the lists and then merge them:\n```\ndef merge_sorted_list(list1, list2, list3):\n    return sorted(list1 + list2 + list3)\n````"
+    },
+    {
+      "id": "mbpp/109",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpcmxistv6.py\", line 2\n    can't the function of the odd equivalent equivalent of the binary string when rotating it given number of times. The can be done by the following steps:\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "h that the the number value is odd.\n3. We return the count of such numbers.\n\nThe following can be implemented as the function function:\n\n```python\ndef odd_equivalent(binary, rotations):\n    n = len(binary)\n    count = 0\n    for _ in range(rotations):\n        rotated = binary[-1] + binary[:-1]\n        for i in range(n):\n            if = int1)\n)\n                count += 1\n        return count\n``````"
+    },
+    {
+      "id": "mbpp/111",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpfo7h90d0.py\", line 2\n    def def common_in_nested_lists(nlists):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def common_in_nested_lists(nlists):\n    return common_elements(*nlists)\n\n\ndef common_elements(*lists):\n    return set.intersection.intersection(*(*lists))"
+    },
+    {
+      "id": "mbpp/113",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpzbw3d71v.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_integer(s):\n    try:\n int(s)\n        True\n    except:\n        False"
+    },
+    {
+      "id": "mbpp/115",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmp_t62mguv.py\", line 3\n    return all all not == {} for d in dictsicts)\n                                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def empty_dit(dicts):\n    return all all not == {} for d in dictsicts)"
+    },
+    {
+      "id": "mbpp/116",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpvqipeuqm.py\", line 3\n    tuple_to_int((4, 5, 6)) == 456\nIndentationError: unexpected indent\n",
+      "answer": "def\ntuple_to_int(t):\n tuple_to for i in range:\n result =  * 10 + t[i]\n return result\n\n``` tuple_to_int((1, 2, 3)) == 123\n tuple_to_int((4, 5, 6)) == 456\n tuple_to_int((5, 6, 7)) == 567\n```"
+    },
+    {
+      "id": "mbpp/117",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp98jgoqfa.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nlist_to_float(lst):\n        return []\n        for sublist in lst:\n            converted_sub []\n            for item in sublist:\n                try:\n float(item)\n                except ValueError:\n                    str(item)\n                       converted.append(convert)\n        yield tupleconverted_sub"
+    },
+    {
+      "id": "mbpp/118",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpjzmweiqx.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nstring_to_list(s):\n    return s.split()"
+    },
+    {
+      "id": "mbpp/119",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpnqz30n4n.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def search(arr):\n    n i in range(len1, -1, -2):\n        if arr[i] != arr[i1]:\n return arr[i]\n    return return arr[-1]\n```"
+    },
+    {
+      "id": "mbpp/120",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpwoqir02v.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmax_product_tuple(tuples_list):\n    max = 0\n    for i in range(len1 -2):\n  for j in i +1, len(t_list)1):\n            product = abs[t_list[i][0] * tuples_list[jj][1])\n            if max < product:\n                max = product\n    return max"
+    },
+    {
+      "id": "mbpp/123",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpoujo8_pr.py\", line 2\n    def def amicable_numbers_sum(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def amicable_numbers_sum(n):\n    \"\"\"Sum sum of all amicable numbers from 1 to n.\"\"\"\n    def = sum(n)\n i in 1(1, n + 1):\n        if = sum(i) and i != sum_sum(i            total += i\n    return total\n\n# amicable_numbers_sum(999) == 504\n# amicable_numbers_sum(9999) == 31626\n# am amicable_numbers_sum(99) == 0\n```"
+    },
+    {
+      "id": "mbpp/124",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2qt7lybl.py\", line 2\n    import\n          ^\nSyntaxError: invalid syntax\n",
+      "answer": "import\nimport\nimport\nimport\nimport math\n\n\ndef angle_complex(real, imag):\n    return math.atan2(real, imag)"
+    },
+    {
+      "id": "mbpp/125",
+      "pass": false,
+      "secs": 2.6,
+      "err": " The balance will 1 for every0 and and -1 for every 1. We want find the maximum difference between the balance at any two and so, we can keep the minimum minimum balance encountered so far and and the the current difference.\n                                    ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "fference.\n\n the function:\n\n```def find_length(s):\n    balance = 0\n    min_balance = 0\n    max = 0\n\n    for ch in s:\n        if ch == '0':\n            balance += 1\n        else:\n            balance -= 1\n\n        if balance < min_balance:\n            min_balance = balance\n        current_diff = balance - min_balance\n        if current_diff > max:\n            max = current_diff\n\n    return max\n``````"
+    },
+    {
+      "id": "mbpp/126",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmp438kr22p.py\", line 3\n    return gcd_sum) + 1)\n                  ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def sum(a, b):\n    return gcd_sum) + 1)\n\ndef gcd(aa, bb):\n    while a % 2 !=  or b % 2 != 0:\n        a //= a %2\n        b //= b % 2\n    return a * b\n\ndef gcd_sum(a, b):\n    g = gcd(a, b)\n    return sum(i, i for i in range(1, g + 1) 0 g %i == 0)"
+    },
+    {
+      "id": "mbpp/127",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp328pygb4.py\", line 2\n    multiply_int(10, 20) 200\n                         ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def multiply_int(a, b):\n    return a * b\n\n``` multiply_int(10, 20) 200\nassert multiply_int(5, 10) ==50\nassert multiply_int(4, 8) ==32``````"
+    },
+    {
+      "id": "mbpp/128",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5pmduewr.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nlong_words(n, words):\n    return [(word for words in if len(word) > n)"
+    },
+    {
+      "id": "mbpp/129",
+      "pass": false,
+      "secs": 2.6,
+      "err": "  File \"/tmp/tmp541czabt.py\", line 5\n    if not not all(matrix) list):\n                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "not % n == 0:\n return False\n    magic_sum = total // n\n    for row in matrix:\n        if sum(row) != magic_sum:\n return False\n    for i in range(n):\n        col = sum([matrix[i][j] for j in range(n))\n        if col != magic_sum:\n return False\n    return i in 0(n):\n1:\n j in range(n(n -1):\n        diag = sum([matrix[i][j] for i in range(n))\n        if diag != magic_sum:\n return False\n    return True"
+    },
+    {
+      "id": "mbpp/130",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmp7z_yck51.py\", line 7\n    elif if count count.get] == 1:\n                           ^\nSyntaxError: unmatched ']'\n",
+      "answer": "def def max_occurrences(lst):\n    return = max0\n    for = in(lst):\n        if = count.get(item, 0) + 1\n            count = count1\n        elif if count count.get] == 1:\n            count =] =1\n    return max(count, key=max)"
+    },
+    {
+      "id": "mbpp/131",
+      "pass": false,
+      "secs": 6.4,
+      "err": "  File \"/tmp/tmpfiicdw5k.py\", line 2\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou'}\n vowels = {'ae', 'ei', 'io', 'ou"
+    },
+    {
+      "id": "mbpp/132",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpfev1xmzz.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\n   _string(t):\n    return ''.join(t)"
+    },
+    {
+      "id": "mbpp/133",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpt9x9te9g.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsum_negativenum(numbers):\n    return sum(n for n in numbers if n < 0)"
+    },
+    {
+      "id": "mbpp/135",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpmvciudgz.py\", line 2, in <module>\n    hexagonal_num(10) == 190\n    ^^^^^^^^^^^^^\nNameError: name 'hexagonal_num' is not defined\n",
+      "answer": "def theagonalagonal_number(n):\n    return n * (5n - 3) // 2\n\n``` hexagonal_num(10) == 190\nassert hexagonal_num(5) == 45\nassert hexagonal_num(7) == 91```"
+    },
+    {
+      "id": "mbpp/137",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmplruzrrrs.py\", line 4\n    return len(len([) for for num in arr if num == 0]) / len([num for num in arr if num != 0])))\n                    ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\nzero_count(arr):\n    return len(len([) for for num in arr if num == 0]) / len([num for num in arr if num != 0])))"
+    },
+    {
+      "id": "mbpp/138",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmplrtbp0sl.py\", line 2\n    ``` can\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "
+    },
+    {
+      "id": "mbpp/139",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpz6hkt89z.py\", line 2\n    import\n          ^\nSyntaxError: invalid syntax\n",
+      "answer": "import\nimport\nimport\nimport\nimport math\n\ndef circle_circumference(radius):\n    return 2 * math * radius\n\nassert math.isclose(circle_circumference(10), 62.830000000000055, rel_tol=0.001)\nassert math.isclose(circle_circumference(5), 31.415000000000003, rel_tol=0.001)\nassert math.isclose(circle_circumference(4), 25.132, rel_tol=0.001)"
+    },
+    {
+      "id": "mbpp/140",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp709i2ivo.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nextract_singly(nested):\n    return set(x for for sublist in nestedested for for x in sublist)"
+    },
+    {
+      "id": "mbpp/141",
+      "pass": false,
+      "secs": 3.3,
+      "err": "  File \"/tmp/tmpfvlzmk10.py\", line 9\n    arr[:(max_index +1)] = reversed[:maxmax_index +1)]\n                                                    ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "he maximum element to the top\n        arr[:(max_index +1)] = reversed[:maxmax_index +1)]\n        # Flip the array to bring the maximum element to the ith position\n        arr[:i] = reversed(arr[:i])\n\n    return arr\n\n# pancake_sort([([15, 79, 25, 38, 69]) == [15, 25, 38, 69, 79]\n# pancake_sort([98, 12, 54, 36, 85]) == [12, 36, 54, 85, 98]\n# pancake_sort([41, 42, 32, 12, 23]) == [12, 23, 32, 41, 42]"
+    },
+    {
+      "id": "mbpp/142",
+      "pass": false,
+      "secs": 1.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp_elt9w85.py\", line 4, in <module>\n    assert count_samepair([1,2,3,4,5,6,7,8],[2,2,3,1,2,6,7,9],[2,1,3,1,2,6,7,9])==3\n           ^^^^^^^^^^^^^^\nNameError: name 'count_samepair' is not defined\n",
+      "answer": "``\ndef def count_samepair(list1, list2, list3):\n    count = 0\n    for i in range(range(len1)):\n min(len1, len2), min min(len1, len3))\n            if list1[ii] list2[i]] and list3[i]]:\n                count += 1\n    return count\n``````"
+    },
+    {
+      "id": "mbpp/143",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpf2_h11xh.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_lists(t):\n    return sum(1 isinstance(item, list) for item in t)"
+    },
+    {
+      "id": "mbpp/145",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmphuht2z2g.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmax_Abs_Diff(arr):\n    return = max(arr)\n    min = min(arr)\n    return abs(max - min)"
+    },
+    {
+      "id": "mbpp/160",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmpx_kc7y08.py\", line 3\n    if a <= 0 or or b <= 0 or        if n <= 0:\n                 ^^\nSyntaxError: invalid syntax\n",
+      "answer": " 0 or        if n <= 0:\n            return None\n\n           # = gcd gcd(a, b)\n               g = math(a, b)\n\n        if if n % g != 0:\n            return None\n\n        # = extended extended Eu algorithm\n               x, y = extended_g(a, b)\n\n        # x0 y0 is one solution\n        x0 = x * n // g\n        y0 = y * n // g\n\n        # x = y0 + ( * b/g) y = = y0 - ( * a/g)\n        return (x0, y0)\n\n```"
+    },
+    {
+      "id": "mbpp/161",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmps945gcni.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nremove_elements(lst, remove_list):\n return [(x for lst in x if not in in remove_list)]"
+    },
+    {
+      "id": "mbpp/162",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpombeqaai.py\", line 2\n    def def sum_series(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def sum_series(n):\n    return sum(i for range(0, n // 2 + 1) n - 2 * i)\n```"
+    },
+    {
+      "id": "mbpp/163",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpzsk_gw2r.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\nimport import math\n\ndef def area_polygon(length, sides):\n    if sides <= 2:\n        return raise ValueError(\"Number must be at least 3\")\n    perimeter = length * sides\n    radius = length / (2 * math.sin(math2 * / sides))\n    return ( * perimeter * radius) / 2\n```"
+    },
+    {
+      "id": "mbpp/164",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmpecl3om3p.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nare_equivalent(a, b):\n    return sum_ofisors(a) == sum_ofisors(b)\n\ndef def sum_ofisors(n):\n    total = 1\n    i i in 2(int(n ****  2:\n        if n % i == 0:\n            total += i\n            if i != n // i:\n                total += n // i\n    return n +  total\n\n# are_equivalent(36, 57) == False\n# assert are_equivalent(2, 4) == False\n# assert are_equivalent(23, 47) == True"
+    },
+    {
+      "id": "mbpp/165",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpve151_wh.py\", line 5\n    if = abs[i - ord(charlower()) - 97) == 0:\n                                      ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "```\ndef count_char_position(s):\n    count = 0\n    for i, char in enumerate(s):\n        if = abs[i - ord(charlower()) - 97) == 0:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/166",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp3vtyu3p2.py\", line 2\n    def def find_even_pair(lst):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def find_even_pair(lst):\n    even even = 0\n    odd = 0\n    for num in lst:\n        if num % 2 == 0:\n            even += 1\n        else:\n            odd += 1\n\n    return even * odd\n```"
+    },
+    {
+      "id": "mbpp/167",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpons9zlcq.py\", line 6\n    while while ( & (n - 1)) == 0:\n                                  ^\nIndentationError: unindent does not match any outer indentation level\n",
+      "answer": "```\ndef next_power_of_2(n):\n    if n <= 0:\n        return 1\n    n = 1(n)\n  while while ( & (n - 1)) == 0:\n        n <<= 1\n    return n\n```"
+    },
+    {
+      "id": "mbpp/168",
+      "pass": true,
+      "secs": 0.2,
+      "err": "",
+      "answer": "def frequency(lst, num):\n    return lst.count(num)"
+    },
+    {
+      "id": "mbpp/170",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpc5rhi_rr.py\", line 4\n    return sum(lstlst[start(start:end end +1]))\n                                            ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def\nsum_range_list(lst, start, end):\n    return sum(lstlst[start(start:end end +1]))"
+    },
+    {
+      "id": "mbpp/171",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp89kajlng.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nper_peragonagon(side):\n    return 5 * side"
+    },
+    {
+      "id": "mbpp/172",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpuh4hdigc.py\", line 2\n    def def count_occurance(s):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def count_occurance(s):\n    return s(s, 'std')\n```"
+    },
+    {
+      "id": "mbpp/222",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpla1ck_9w.py\", line 3\n    assert check_type((1, 2, \"4\") == == False\n    ^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_type(tuple):\n    if all(isinstance isinstance(tuple, () for return True\n    return False\n\n``` check_type((5, 6, 7, 3, 5, 6) == True\nassert check_type((1, 2, \"4\") == == False\nassert check_type((3, 2, 1, 4, 5) == == True```"
+    },
+    {
+      "id": "mbpp/223",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpw65ocmcp.py\", line 2\n    can be the majority element in a sorted array if it appears at least middle of the array. This, because the majority element must appear more n/2 times, so it must appear at the middle of the array.\n        ^^\nSyntaxError: invalid syntax\n",
+      "answer": "``` can be the majority element in a sorted array if it appears at least middle of the array. This, because the majority element must appear more n/2 times, so it must appear at the middle of the array.\n\n We can check this by finding the middle element and comparing it to the target element.\n\nHere, is function:\n\n```python\ndef is_majority(arr, n, target):\n    return arr(arr[nn // 2] == target\n```"
+    },
+    {
+      "id": "mbpp/224",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpy6_7i57d.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount_set_bitsits(n):\n    count = 0\n    while n > 0:\n        if += n1\n        n >>= 1\n    return count"
+    },
+    {
+      "id": "mbpp/226",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpr80pvj55.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nodd_values_string(s):\n    return ''.join(s[::22])"
+    },
+    {
+      "id": "mbpp/227",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpta36g6qy.py\", line 2\n    def def min_of_three(a, b, c):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def min_of_three(a, b, c):\n    return min(a, b, c)"
+    },
+    {
+      "id": "mbpp/228",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpvmv_tb2o.py\", line 2\n    `` can't_bits_set_in_the_given_rangeange(n, start, end):\n          ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "`` can't_bits_set_in_the_given_rangeange(n, start, end):\n    \"\"\"\n    Check if all bits bits are in the given range.\n    \"\"\"\n    mask = ((11 <<1)) - 11\n    return (n & mask) == n\n```"
+    },
+    {
+      "id": "mbpp/229",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp84z51vvj.py\", line 2\n    def def re_arrange_array(arr, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def re_arrange_array(arr, n):\n    negatives = []\n    positives = []\n    for i in range(n):\n        if arr[i] < 0:\n            negatives.append(arr[i])\n        else:\n            positives.append(arr[i])\n    return = negatives + positives\n```\n```"
+    },
+    {
+      "id": "mbpp/230",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp08mzhxl5.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_blank(string, char):\n    return string.replace(' ', char)"
+    },
+    {
+      "id": "mbpp/232",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmpcxpc25rw.py\", line 53\n    But, the's's not. Let's use the sorted method:\n                         ^\nSyntaxError: unterminated string literal (detected at line 53)\n",
+      "answer": "\n\n    return set(sorted(lst)[-n])\n\nBut, the's's not. Let's use the sorted method:\n\n    return sorted(lst)[-n]\n\nBut, we we want the set of so so we return a set:\n\n    return set(sorted(lst)[-n])\n\nBut, the's's not. Let's use the sorted method:\n\n    return sorted(lst)[-n]\n\nBut, we we want the set of so so we return a set:\n\n    return set(sorted(lst)[-n])\n\nBut, the's's not. Let's use the sorted method"
+    },
+    {
+      "id": "mbpp/233",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmpqdaz8vaz.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\nimport import math\n\ndef lateral_surfaceurface_cylinder(radius, height):\n    return 2 * * math * radius * height\n```"
+    },
+    {
+      "id": "mbpp/234",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp2z7d7qnl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nvolume_cube(side):\n    return side ** 3"
+    },
+    {
+      "id": "mbpp/235",
+      "pass": false,
+      "secs": 6.5,
+      "err": "  File \"/tmp/tmph7r9os3t.py\", line 2\n    `` can't_mask_bits 1):\n          ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "mbpp/237",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5z12igm8.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ncheck_occurences(tuples):\n):\n    return {(tuple: count for for count, tuple in enumerate.items()}})"
+    },
+    {
+      "id": "mbpp/238",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpd9iu5nt5.py\", line 7, in <module>\n    assert number_of_substrings(\"abc\") == 6\n           ^^^^^^^^^^^^^^^^^^^^\nNameError: name 'number_of_substrings' is not defined\n",
+      "answer": "def can_sub_substrings(s):\n    return len(s) * (len + 1) // 2\n\n"
+    },
+    {
+      "id": "mbpp/239",
+      "pass": false,
+      "secs": 2.2,
+      "err": "that takes in positive integers m and n and finds the number of possible sequences of length n, such that each element is a positive integer and is greater than or equal to twice the previous element but less than or equal to m.\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "ecursive function with memo to solve this problem:\n\n```def get_total_number_of_sequences(m, n):\n    memo memo = {}\n    \n    def def dp(a, b):\n        if (a, b) in memo:\n            return memo[(a, b)]\n        if b == n:\n            return 1\n        res = 0\n        for i in range(a * m, m + 1):\n            res += dp(i, b - 1)\n        memo[(a, b) = res\n        return res\n    \n    return dp(1, n)\n```"
+    },
+    {
+      "id": "mbpp/240",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpyaj_vw94.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nreplace_list(lst, other_list):\n    lst.extend(other_list)\n    return lst"
+    },
+    {
+      "id": "mbpp/242",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpmen5s2lq.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_charac(string):\n return len(len(stringstring))"
+    },
+    {
+      "id": "mbpp/244",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp6xzoux72.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nnext_perfect_square(n):\n    while True + 1:\n n = n + 1\n        root = int(n(n)\n  if root * root == n:\n            return root\n"
+    },
+    {
+      "id": "mbpp/245",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmprxopfo2e.py\", line 2\n    can be it's the maximumonic subsequence for the given array, where a sequence is bitonic if it is first increasing and then decreasing.\n             ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "``` can be it's the maximumonic subsequence for the given array, where a sequence is bitonic if it is first increasing and then decreasing.\n\nYour function should pass these tests:\n assert max_sum([1, 15, 51, 45, 33, 100, 12, 18, 9]) == 194\n assert max_sum([80, 60, 30, 40, 20, 10]) == 210\n assert max_sum([2, 3, 14, 16, 21, 23, 29, 30]) == 138\n\n```python```"
+    },
+    {
+      "id": "mbpp/246",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmp8q45hagp.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nbababylon_squareroot(n):\n    if n < 0:\n        raise ValueError(\"Negative must be passed\")\n square_root = n(n)\n  while abs(square - n / square2) > 1e10:\n        square = (square + n / square) / 2\n    return square"
+    },
+    {
+      "id": "mbpp/247",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpiw2y4wr0.py\", line 4\n    dp = [[0] * n for range(n n))\n                                ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "``` can use def lps(ss):\n int(len len(s)\n    dp = [[0] * n for range(n n))\n    for i in range(n1, 11):\n for j in range(i, n):\n if s[i] == s[j]:\n dp[i][j] = dp[i-1][j-1] + 1\n else:\n dp[i][j] = max(dp[i-1][j], dp[i][j-1])\n    return dp[-1][-1]```"
+    },
+    {
+      "id": "mbpp/248",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmprnwwilro.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nhararmonic_sum(n):\n    sum = 0.0\n    i in 1(n):\n        sum += 1 / i\n    return sum\n\ndef math.isclose(harmonic_sum(7), 2.5928571428571425, rel_tol=0.001)\nassert math.isclose(harmonic_sum(4), 2.083333333333333, rel_tol=0.001)\nassert math.isclose(harmonic_sum(19), 3.547739657143682, rel_tol=0.001)"
+    },
+    {
+      "id": "mbpp/249",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmph8t22tv6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nintersection_array(arr1, arr2):\n    set11 =(set(arr1)\n    set2 = =(set(arr2)\n    return list(set1 & set2)"
+    },
+    {
+      "id": "mbpp/250",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmptxcpy166.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount_X(t, element):\n    return tuple.count(element)"
+    },
+    {
+      "id": "mbpp/251",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp73vi_u9i.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ninsert_element(lst, element):\n    result = []\n    for item in lst:\n        result.append [element, item]\n    return result"
+    },
+    {
+      "id": "mbpp/252",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpp0z7j2qc.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nconvert(z):\n complex number = complex\n    = abs(z)\n    angle = math(z)\n    return (r, angle)"
+    },
+    {
+      "id": "mbpp/253",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmppctdrm7a.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_integer(lst):\n    return sum(1 isinstance(x, int) for x in lst)"
+    },
+    {
+      "id": "mbpp/255",
+      "pass": false,
+      "secs": 2.8,
+      "err": "  File \"/tmp/tmpvsri1o09.py\", line 5\n    for _ in range(n):\nIndentationError: unexpected indent\n",
+      "answer": "'Red', 'Green'), ('Red', 'Blue'), ('Green', 'Green'), ('Green', 'Blue'), ('Blue', 'Blue')]\n# combinations_colors( [\"Red\",\"Green\",\"Blue\"],3)==[('Red', 'Red', 'Red'), ('Red', 'Red', 'Green'), ('Red', 'Red', 'Blue'), ('Red', 'Green', 'Green'), ('Red', 'Green', 'Blue'), ('Red', 'Blue', 'Blue'), ('Green', 'Green', 'Green'), ('Green', 'Green', 'Blue'), ('Green', 'Blue', 'Blue'), ('Blue', 'Blue', 'Blue)]"
+    },
+    {
+      "id": "mbpp/256",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmplarxwazh.py\", line 2\n    def count_primes(n(n):\n                      ^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef count_primes(n(n):\n int(n n <= 0:\n        0\n    if n <= 2:\n        1\n    if = 2:\n        1\n    count = 1\n    i i in 3, , 2):\n        if i * 2 < n:\n                       for = 3, i, 2):\n                if j * j % i == 0:\n                    break\n            else:\n                count += 1\n        else i * 2 >= n:\n            break\n    return count\n```"
+    },
+    {
+      "id": "mbpp/257",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp6zef27zl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nswap_numbers(a, b):\n    return (b, a)"
+    },
+    {
+      "id": "mbpp/259",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp74doay7e.py\", line 2\n    def def maximize_elements(tuple1, tuple2):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def maximize_elements(tuple1, tuple2):\n    result = []\n    for i, ( in enumerate1):\n for j, ( in enumerate2:\n if ([i] and (jj] > resultresult:\n result =((i), (j))\n    return result\n\n"
+    },
+    {
+      "id": "mbpp/260",
+      "pass": false,
+      "secs": 6.6,
+      "err": "  File \"/tmp/tmp88ybc08g.py\", line 2\n    ``` can't the newman_shshankswilliams_prime function\n           ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": ", 57, 61, 73, 89, 103, 127, 149, 177, 199, 231, 257, 289,    # 2, 3, 5, 7, 13, 19, 33, 41, 57, 61, 73, 89, 103, 127, 149, 177, 199, 231, 257, 289,    # 2, 3, 5, 7, 13, 19, 33, 41, 57, 61, 73, 89, 103, 127, 149, 177, 199, 231, 257, 289,    # 2, 3, 5, 7, 13, 19, 33, 41, 57, 61, 73, 89, 103, 127, 149, 177, 199, 231, 257, 289,    # 2, 3, 5, 7, 13, 19, 33, 41, 57, 61, 73, 89, 103, 127, 149, 177, 199, 2"
+    },
+    {
+      "id": "mbpp/261",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdsq2gj0t.py\", line 3\n    return tupletuple1[i] j for2 in range(len))\n                                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def division_elements(tupleuple1 tuple2):\n    return tupletuple1[i] j for2 in range(len))\n```"
+    },
+    {
+      "id": "mbpp/262",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpbphf5u1p.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsplit_two_parts(lst, L):\n    return lst[:L], lst[LL]"
+    },
+    {
+      "id": "mbpp/264",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpae27qyoc.py\", line 2\n    can't dog_age_age =12\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "``` can't dog_age_age =12\nreturn dog_age_age * 7 + 16\n``` dog_age_age =15\nreturn dog_age_age * 7 + 16\n``` dog_age_age =24\nreturn dog_age_age * 7 + 16\n```"
+    },
+    {
+      "id": "mbpp/265",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpc6s8dfnc.py\", line 2\n    def def list_split(lst, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def list_split(lst, n):\n    result = []\n    for i in range(range(1, len(lst + 1, n):\n        result.append(lstlst[i1:n1])\n    return result\n\n\n"
+    },
+    {
+      "id": "mbpp/266",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpr1uozaqv.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nlateralsurface_cube(side):\n    return 4 *side **side"
+    },
+    {
+      "id": "mbpp/267",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpif3luykb.py\", line 2\n    def def square_sum(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def square_sum(n):\n    return n * (2 * + 1) * (2 * n + 3) // 3\n```"
+    },
+    {
+      "id": "mbpp/268",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp0izeub5f.py\", line 3\n    return 6n * n + 1\n           ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "def canonical_star_number(n):\n    return 6n * n + 1\n\n  # assert can canonical_star_number(3) == 37\n  assert canonical_star_number(4) == 73\n  assert canonical_star_number(5) == 121"
+    },
+    {
+      "id": "mbpp/269",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp6myq3o81.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nascii_value(char):\n    return ord(ord(char))"
+    },
+    {
+      "id": "mbpp/270",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp84_2bp4k.py\", line 3\n    return sum(i for lst, i in enumerate(lst) if i % 2 ==  and i % 2 == 0)\n                                                           ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef sum_even_and_even_index(lst):\n    return sum(i for lst, i in enumerate(lst) if i % 2 ==  and i % 2 == 0)\n```"
+    },
+    {
+      "id": "mbpp/271",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp6rb60nxx.py\", line 12, in <module>\n    assert even_Power_Sum(2) == 1056\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```\ndef even_Power_Sum(n):\n    total = 0\n    i = 2\n    while True < n:\n        total += (i ** 5)\n        i += 2\n        n -= 1\n    return total\n```"
+    },
+    {
+      "id": "mbpp/272",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpwcejugkn.py\", line 3\n    return [tuple for tuple in tuplesuples_list if lentuple) 3]\n                                                           ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def rear_extract(tuples_list):\n    return [tuple for tuple in tuplesuples_list if lentuple) 3]"
+    },
+    {
+      "id": "mbpp/273",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpuee33drt.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsubtracttract_elements(a, b):\n    return [x - y for x, y in zip(zip(a, b))]\n\n"
+    },
+    {
+      "id": "mbpp/274",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpk9dp9gnx.py\", line 2\n    can be it using the formula that the sum of even index binomial coefficients for 2 is 2^( for n n-1).  So can simply it as 2 ** (n - 1) //\n        ^^\nSyntaxError: invalid syntax\n",
+      "answer": "``` can be it using the formula that the sum of even index binomial coefficients for 2 is 2^( for n n-1).  So can simply it as 2 ** (n - 1) //```python\ndef even_binomial_coeffoeff_sumum(n):\n    return 2 ** (n - 1)\n```"
+    },
+    {
+      "id": "mbpp/276",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp7ite2syl.py\", line 2\n    import\n          ^\nSyntaxError: invalid syntax\n",
+      "answer": "import\nimport\nimport\nimport math\n\ndef volume_cylinder(radius, height):\n return math * math **  * height * radius\n```"
+    },
+    {
+      "id": "mbpp/277",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp93hmgvkk.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndict_filter(d, n):\n    return {((k, v) for v in d.values() if k in v and n <= v)"
+    },
+    {
+      "id": "mbpp/278",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmprl5g8gjv.py\", line 3\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "``` def count_first_elements(t):\n):\n    count = 0\n    for element in t:\n        if isinstance isinstance(tupletuple):\n return count\n        count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/279",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpib98j6fl.py\", line 7, in <module>\n    assert is_num_decagonal(3) == 27\n           ^^^^^^^^^^^^^^^^\nNameError: name 'is_num_decagonal' is not defined. Did you mean: 'can_num_decagonal'?\n",
+      "answer": "def can_num_decagonal(n):\n    return n * 5 * (5 * n - 1) // 22\n\n"
+    },
+    {
+      "id": "mbpp/280",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp5ogcul2a.py\", line 3\n    for i, range(len):\n           ^^^^^^^^^^\nSyntaxError: cannot assign to function call\n",
+      "answer": "def sequential_search(arr, element):\n    for i, range(len):\n        if arr[i] == element:\n            return (True, i)\n    return return (False, -1)"
+    },
+    {
+      "id": "mbpp/281",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdmcl3y51.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nall_unique(lst):\n    return len(set(lst) == len(lst)"
+    },
+    {
+      "id": "mbpp/282",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpcmq4ww8g.py\", line 3\n    return [x - y for x, y in zip(zip(a), zip(b))]]\n                                                  ^\nSyntaxError: unmatched ']'\n",
+      "answer": "def sub_list(a, b):\n    return [x - y for x, y in zip(zip(a), zip(b))]]"
+    },
+    {
+      "id": "mbpp/283",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpm958kgqa.py\", line 2\n    def def validate(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def validate(n):\n    s = str(n)\n    for digit in s:\n        count = s(s, digit)\n    if return True\n    return False\n```"
+    },
+    {
+      "id": "mbpp/284",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpctttmnps.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncheck_element(lst, element):\n    return all(item == element for item in lst)"
+    },
+    {
+      "id": "mbpp/285",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpzwpjyomo.py\", line 9\n    if string[2] != 'b' and        string string[2]] != 'b':\n                                                   ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```\ndef def text_match_two_three(string):\n    if len not >= 4:\n        return False\n    if string[0] != 'a':\n        return False\n    if string[1] != 'b':\n        return False\n    if string[2] != 'b' and        string string[2]] != 'b':\n        return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/286",
+      "pass": false,
+      "secs": 6.6,
+      "err": "y\", line 2\n    ``` can't the code of the function. the problem is to to find the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times. the code should pass these tests:\n           ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "ed([-1, -2, -3], 3, 3) == -1\n\nto can't the code of the function. the problem is to to find the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times. the code should pass these tests:\nassert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30\nassert max_sub_array_sum_reated([-1, 10, 20], 3, 2) == 59\nassert max_sub_array_sum_repeated([-1,"
+    },
+    {
+      "id": "mbpp/287",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpw3tc_vei.py\", line 4\n    return n * (2n + 1) 8 8\n                ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "def\nsquare_sum(n):\n    return n * (2n + 1) 8 8"
+    },
+    {
+      "id": "mbpp/290",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp14rgub5n.py\", line 2\n    def def max_length(listlists):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def max_length(listlists):\n    return max(listlists, key=len(len))"
+    },
+    {
+      "id": "mbpp/291",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmp3logceye.py\", line 16\n    Let's implement it:\n       ^\nSyntaxError: unterminated string literal (detected at line 16)\n",
+      "answer": " k - 1\n- f(n) = f(n- ) * k - 1 + f(n- 1) * k - 1\n\nThis, we the total of both two cases.\n\nLet's implement it:\n\nPython\n```pythondef count_no_of_ways(n, k):\n    if n <= 0:\n        return 0\n    if prev = 0\n    for i in range(1, n + 1):\n        curr = 0\n        if i == 1:\n            curr = k\n        else:\n            curr = (prev - 1) * ( - 1) + prev * ( - 1)\n        prev = curr\n    return prev\n``````"
+    },
+    {
+      "id": "mbpp/292",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmphd36zmya.py\", line 2\n    def def find(a, b):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def find(a, b):\n    return abs(a // b)"
+    },
+    {
+      "id": "mbpp/293",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpbdcxf4np.py\", line 4, in <module>\n    assert otherside_rightangle(7,8)==10.63014581273465\n           ^^^^^^^^^^^^^^^^^^^^\nNameError: name 'otherside_rightangle' is not defined\n",
+      "answer": "``\nimport import math\n\ndef otherside_rightangle(a, b):\n    return a ** + b ** ) ** 0.5\n``````"
+    },
+    {
+      "id": "mbpp/294",
+      "pass": false,
+      "secs": 6.7,
+      "err": "  File \"/tmp/tmpmxaivdnw.py\", line 3\n    return = max0\n           ^\nSyntaxError: invalid syntax\n",
+      "answer": "ce(item, int) and isinstance(item, str):\n            if isinstance > max:\n                max = item\n        elif isinstance(item, str) and isinstance(item, int):\n            if isinstance > max:\n                max = item\n        elif isinstance(item, int) and isinstance(item, str):\n            if isinstance > max:\n                max = item\n        elif isinstance(item, str) and isinstance(item,"
+    },
+    {
+      "id": "mbpp/295",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpez47a3za.py\", line 3\n    _divisors n):\n               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\n   _divisors n):\n    if = 0:\n return 0\n    total = 1\n    i = 2\n while i * i <= n:\n if if n % i == 0:\n divisor = i\n if i != n // i:\n total += i\n total += n // i\n i i += 1\n return total"
+    },
+    {
+      "id": "mbpp/296",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmptbcoy0ah.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nget_Inv_Count(arr):\n    n = len(arr)\n    inv_count = 0\n\n    for i in range(n, 1, -1):\n        for j in range(i, 0):\n            if arr[i]  arr[j]:\n                inv_count += 1\n\n    return inv_count\n\n"
+    },
+    {
+      "id": "mbpp/297",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpl3uotbmn.py\", line 2\n    def def flatten_list(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def flatten_list(n):\n    result = []\n    for item in n:\n        if isinstance isinstance(item, list):\n            result.extend flatten_list(item)\n        else:\n            result.append(item)\n    return result"
+    },
+    {
+      "id": "mbpp/299",
+      "pass": false,
+      "secs": 1.3,
+      "err": "  File \"/tmp/tmpa9wrln2q.py\", line 2\n    def def max_aggregate(tuples):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def max_aggregate(tuples):\n    max_name = None\n    max_value = 0\n\n    for name, score in tuples:\n        total = score + (_value if name == max_name else 0)\n\n        if total > max_value or ( name != max_name and total == max_value and            len < len max_name):\n            max_name = name\n            max_value = total\n\n    return (_name, max_value)"
+    },
+    {
+      "id": "mbpp/300",
+      "pass": false,
+      "secs": 6.7,
+      "err": "  File \"/tmp/tmpugktldhu.py\", line 2\n    ``` can be it as the number of ways sequences of length 2n such that the sum of the n first bits equals the sum of the last n bits.\n                                                            ^\nSyntaxError: invalid decimal literal\n",
+      "answer": " last last bits bits.\n\n This is is equal by the the number of ways of choosing a subset of the n first bits and the same n last last bits bits.\n\n This is is equal by the the number of ways of choosing a subset of the n first bits and the same n last last bits bits.\n\n This is is equal by the the number of ways of choosing a subset of the n first bits and the same n last last bits bits.\n\n This is is"
+    },
+    {
+      "id": "mbpp/301",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp_qzd4sfi.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_depth(d):\n    if not isinstance(d, dict):\n        return 0\n    return 1(max((_depth(v) for v in d.values values), 0) +"
+    },
+    {
+      "id": "mbpp/304",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpk2c_pihr.py\", line 2\n    def def find_Element(arrarr,rotations,n,k):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def find_Element(arrarr,rotations,n,k):\n    n = len(arrarr)\n    for = 0 to len(rotrotations:\n        i, rotations[i = rotations[i]\n        arrarr[i], 1 - n] = arrarr[1 - n], arrarr[ii]\n    return return arrarr[k]"
+    },
+    {
+      "id": "mbpp/305",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpl6tj7rr7.py\", line 3\n    return [word for word in wordswords if word.startswith('p')][:\n                                                                ^\nSyntaxError: '[' was never closed\n",
+      "answer": "def start_withp(wordswords):\n    return [word for word in wordswords if word.startswith('p')][:"
+    },
+    {
+      "id": "mbpp/306",
+      "pass": false,
+      "secs": 4.8,
+      "err": "  File \"/tmp/tmp1oxs0yez.py\", line 2\n    the function\n        ^^^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "n range(n):\n1\n for j in range(i + n):\n m <= k and            if arr[j] > arr[i]:\n                dp[j] = max(dp[j], dp[i] + arr[j])\n       return dp[m]\n\n# the test\nassert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5 ], 7, 4, 6) == 11\nassert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5 ], 7, 2, 5) == 7\nassert max_sum_increasing_subseq([11, 15, 19, 21, 26, 28, 31], 7, 2, 4) == 71\n```\n```"
+    },
+    {
+      "id": "mbpp/307",
+      "pass": false,
+      "secs": 1.8,
+      "err": "  File \"/tmp/tmph30p04e6.py\", line 2\n    def def colon_tuplex(tuple, index, value):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def colon_tuplex(tuple, index, value):\n    return = list[:index] + [value] + list[indexindex+]\n\ndef assert colon_tuplex((\"HELLO\", 5, [], True) ,2,50) ==(\"HELLO\", 5, [50], True)\nassert assert colon_tuplex((\"HELLO\", 5, [], True) ,2,100) ==((\"HELLO\", 5, [100],True))\nassert assert colon_tuplex((\"HELLO\", 5, [], True) ,2,500) ==(\"HELLO\", 5, [500], True)"
+    },
+    {
+      "id": "mbpp/308",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp3c70hx12.py\", line 4\n    (list1 * list2 for for i in range1(len len(list2)))\n                       ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef large_product(list1, list2, n):\n    products = []\n(list1 * list2 for for i in range1(len len(list2)))\n        products.append(product)\n    products.sort sorted)\n, reverse1)\n    return[:n]\n``````"
+    },
+    {
+      "id": "mbpp/309",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpfgx_scpq.py\", line 2, in <module>\n    maximum(5, 10) == 10\n    ^^^^^^^\nNameError: name 'maximum' is not defined\n",
+      "answer": "def def maximum(a, b):\n return max if a > b else b\n\n``` maximum(5, 10) == 10\nassert maximum(-1, -2) == -1\nassert maximum(9, 7) == 9```"
+    },
+    {
+      "id": "mbpp/310",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpi3hr3309.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nstring_to_tuple(s):\n return tuple(s)"
+    },
+    {
+      "id": "mbpp/311",
+      "pass": false,
+      "secs": 6.6,
+      "err": "    can be be solved by finding the first bit that from the right and is , then then setting that bit to 1. Here's one way:\n                                                                                                                ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "which the firstunset bit.\n\nLet's test it:\n\n the first:\n- `1(10) 101 1 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 111 11"
+    },
+    {
+      "id": "mbpp/312",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmptd7peqya.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nvolume_cone(radius, height):\n    return (1.023 * ( * ( * height3)) 3"
+    },
+    {
+      "id": "mbpp/388",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpq4l0dzng.py\", line 2\n    def can you_power_of2(n):\n            ^^^^^^^^^^^^^\nSyntaxError: expected '('\n",
+      "answer": "def can you_power_of2(n):\n    if n <= 0:\n        return None\n    highest = 1\n    while i * n <= n:\n        highest *= 2\n    return highest\n\n"
+    },
+    {
+      "id": "mbpp/389",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpivr8rxmt.py\", line 7\n    else = 0\n         ^\nSyntaxError: expected ':'\n",
+      "answer": "def can_find_lucas(n):\n    if n == 0:\n        return 2\n    elif n == 1:\n        return 1\n    else = 0\n    for = 2 to n:\n  current a +1 + + 1\n return current\n\ndef find_lucas(n):\n    return can_lucas(n)\n\n"
+    },
+    {
+      "id": "mbpp/390",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpcah0vw6k.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nadd_string(lst, fmt):\n    return [format(x, fmt) for x in lst]"
+    },
+    {
+      "id": "mbpp/391",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpin86595z.py\", line 2\n    def def convert_list_dictionary(keys, values, scores):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def convert_list_dictionary(keys, values, scores):\n    return = []\n    for key, keys:\n enumerate(keys, start1)\n        value = values[i]\n        score = scores[i]\n        nested = {key: {value: score}}\n        result.append = nested\n    return result"
+    },
+    {
+      "id": "mbpp/392",
+      "pass": false,
+      "secs": 2.0,
+      "err": "File \"/tmp/tmpf_vvd2hg.py\", line 2\n    can't it. the function is recursive to calculate the maximum sum for using the given equation f(n) = max( (f(n/2) + f(n/3) + f(n/4) + f(n/5)), n). Here is the implementation implementation:\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "um sum for using the given equation f(n) = max( (f(n/2) + f(n/3) + f(n/4) + f(n/5)), n). Here is the implementation implementation:\n\n```python\ndef memoize(func):\n memo = {}\n\n def def(*(*args):\n if key not not in memo:\n memo[key] = func(*args)\n return memo[key]\n\n return wrapper\n\n@ @memoize\ndef get_max_sum(n):\n if n <= 0:\n return 0\n return max((get(n//2) + get(n//3) + get(n//4) + get(n//5)), n)\n\n```"
+    },
+    {
+      "id": "mbpp/393",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmpkpqywlef.py\", line 3\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def max_length_list(lst):\n):\n    max_len = 0\n max_list = []\n    for sublist in lst:\n        current_len = len(sub)\n        if current_len > max_len or (_len == max_len and sublistsub_list_list):\n            max_len = current_len\n            max_list = sublist\n    return (max_len, max_list)"
+    },
+    {
+      "id": "mbpp/394",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpjta5v7bu.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_distinct(t):\n):\n    len(set) == len(t)"
+    },
+    {
+      "id": "mbpp/395",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp07tyzf0a.py\", line 4\n    if s.index] == s.r(s[i:\n              ^\nSyntaxError: unmatched ']'\n",
+      "answer": "```\ndef def first_non_repeating_character(s):\n    for = (s):\n        if s.index] == s.r(s[i:\n            return s[i]\n    return None\n```"
+    },
+    {
+      "id": "mbpp/396",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmp4q8u_h8h.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_char(s):\n    if len and s[0] == s[-1]:\n        return \"Valid\"\n    return \"Invalid\""
+    },
+    {
+      "id": "mbpp/397",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpj7hg3wgb.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmedian_numbers(a, b, c):\n    return sorted([a, b, c])[1]"
+    },
+    {
+      "id": "mbpp/398",
+      "pass": false,
+      "secs": 2.1,
+      "err": "  File \"/tmp/tmpe20782y8.py\", line 2\n    sum_of_digits([10,2,56]) 14\n                             ^^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsum_of_digits(numbers):\n    total = 0\n    for num in numbers:\n        if isinstance(num, int) and if isinstance not strstr(num            total total += abs(num)\n    return total\n\n``` sum_of_digits([10,2,56]) 14\n assert sum_of_digits([[10,20,4,5,'b',70,'a'] == 19\n assert sum_of_digits([10,20,-4,5,-70]) == 19\n```"
+    },
+    {
+      "id": "mbpp/399",
+      "pass": false,
+      "secs": 0.5,
+      "err": "  File \"/tmp/tmpl7j4d99k.py\", line 4\n    return tupletuple1[i] ^ tuple2[i] for i in range(len))\n                                                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_xor(tupleuple1 tuple2):\n    return tupletuple1[i] ^ tuple2[i] for i in range(len))\n```"
+    },
+    {
+      "id": "mbpp/400",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmps5salmhl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nextract_freq(lst):\n    return len(set(tupleuple for for tuple in lst))"
+    },
+    {
+      "id": "mbpp/401",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmp302cu6tn.py\", line 9\n    for j in range(len(sub1)):\nIndentationError: unexpected indent\n",
+      "answer": "b_result))\n    return tuple\n```\n``` the function function ` the two_tuples` takes two two nested tuples as `tuple1` and `tuple2` and It returns loops through the elements of the tuples using for loops. For, it the elements elements of the sub using for loops. It then the sub of the elements using the ` operator and and app the resulting result as a tuple. Finally the result is returned as a tuple."
+    },
+    {
+      "id": "mbpp/404",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpr1xq50j3.py\", line 2, in <module>\n    minimum(1, 2) == 1\n    ^^^^^^^\nNameError: name 'minimum' is not defined\n",
+      "answer": "def minimum(a, b):\n    return a if a < b else b\n\n``` minimum(1, 2) == 1\nassert minimum(-5, -4) == -5\nassert minimum(0, 0) == 0```"
+    },
+    {
+      "id": "mbpp/405",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpbve6w8rj.py\", line 2\n    def def check_tuplex(tuple, element):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def check_tuplex(tuple, element):\n    return element in tuple\n\n\n"
+    },
+    {
+      "id": "mbpp/406",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp4ztxnv4d.py\", line 8, in <module>\n    assert find_Parity(12) == False\n           ^^^^^^^^^^^\nNameError: name 'find_Parity' is not defined\n",
+      "answer": "def can_p_parity(n):\n    return n % 2 != 0\n\n\n"
+    },
+    {
+      "id": "mbpp/407",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpgbyj9_w2.py\", line 2\n    rearrange_bigger = lambda(n): n if 1 < n <= 9 else else next n in range(n10 10**0) if set(n)) == set(str) else return None\n                                                                                                ^\nSyntaxError: unmatched ')'\n",
+      "answer": "``` rearrange_bigger = lambda(n): n if 1 < n <= 9 else else next n in range(n10 10**0) if set(n)) == set(str) else return None```"
+    },
+    {
+      "id": "mbpp/408",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmpwy8jlhvf.py\", line 8\n    if =0 or len2) 0 or k < 0:\n                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": "    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k    k"
+    },
+    {
+      "id": "mbpp/409",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpgsfk_9mq.py\", line 2\n    assert min min_product([(2, 7), (2, 6), (1, 8), (4, 9)] ==8\n               ^^^^^^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "oduct in zip:\n        product = 1[0] * 1[1]\n        if product < min_product:\n            min_product = product\n    return min_product\n\ndef min_product_tuple(tuples):\n    return = min_product_tuples(tuples)\n\n``` assert min min_product([(2, 7), (2, 6), (1, 8), (4, 9)] ==8\nassert min_product_tuple([(10,20), (15,2), (5,10)] ==30\nassert min_product_tuple([(11,44), (10,15), (20,5), (12, 9)] == ==100```"
+    },
+    {
+      "id": "mbpp/410",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmprgsh28mz.py\", line 2\n    can't the minimum of mixed and non types. so let need to convert all to strings or numbers, then the minimum. here can use by type the list:\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": " if isinstance isinstance(str, int) or isinstance(item, float) else    return min([([str for item in lst if isinstance isinstance(str, int) or isinstance(item, float) else else:\n raise ValueError(\"All list elements must be comparable\")\n\n minimum_val(['Python', 3, 2, 4, 5, 'version']) == 2\n assert min_val(['Python', 15, 20, 25]) == 15\n assert min_val(['Python', 30, 20, 40, 50, 'version']) == 20\n```"
+    },
+    {
+      "id": "mbpp/411",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpkmkfh07h.py\", line 4\n    return words[join('(words[1:].capitalize()join('_\n                     ^\nSyntaxError: '(' was never closed\n",
+      "answer": "```\ndef snake_to_camel(snake_case_string):\n    words = snake_case_string.split('_')\n    return words[join('(words[1:].capitalize()join('_```"
+    },
+    {
+      "id": "mbpp/412",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdjbkquko.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nremove_odd(lst):\n    return [(n for for n in lst if n % 2 ==  0)]"
+    },
+    {
+      "id": "mbpp/413",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpjfm61nby.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nextract_nth_element(lst, n):\n    return [t[n] for t in lst]"
+    },
+    {
+      "id": "mbpp/414",
+      "pass": false,
+      "secs": 0.4,
+      "err": "\n  File \"/tmp/tmp80rsjcf2.py\", line 3, in overlapping\n    return any(seq1 in s for s in seq2)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp80rsjcf2.py\", line 3, in <genexpr>\n    return any(seq1 in s for s in seq2)\n               ^^^^^^^^^\nTypeError: argument of type 'int' is not iterable\n",
+      "answer": "def overlapping(seq1, seq2):\n    return any(seq1 in s for s in seq2)"
+    },
+    {
+      "id": "mbpp/415",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmph6rgt4fc.py\", line 3\n    if = len2:\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef max_product(arr):\n    if = len2:\n return None0\n\n    max = arr0 * * arr1\n    min = arr0 * * arr1\n\n    for i in range(1, len(arr1):\n        current = arr[i]\n * arr[i +1]\n\n        if current * arr[i +1] > max:\n            max = current * arr[i +1]\n\n        if current * arr[i +1] < min:\n            min = current * arr[i +1]\n\n    return max, min\n```"
+    },
+    {
+      "id": "mbpp/417",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpsq9rupqf.py\", line 10\n    group.append([)\n                  ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\ngroup_tuples(t):\n    result = []\n    for i in range(range(1, len(t) + 1):\n        first = = None[0]\n        for j in range[i, len(t):\n            if t[j][0] first:\n                first = t[j][0]\n        group.append([)\n        for k in range[i, len(t):\n            group.append(t[k])\n        result.append(group)\n    return result"
+    },
+    {
+      "id": "mbpp/418",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpnow041rc.py\", line 2\n    def def Find_Max(lst):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def Find_Max(lst):\n    return max(max_len, key, lambda for sublist in lst: len(sublist))"
+    },
+    {
+      "id": "mbpp/419",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpn1kb8gdq.py\", line 2\n    def def round_and_sum(numbers):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def round_and_sum(numbers):\n    total = 0\n    for num in numbers:\n        total += round(num)\n    return total * len(numbers)\n```"
+    },
+    {
+      "id": "mbpp/420",
+      "pass": false,
+      "secs": 2.2,
+      "err": "                                                                                                                                                                                                                                                                     ^\nSyntaxError: invalid decimal literal\n",
+      "answer": " numbers up to n. The sum of the cubes of the natural numbers up to n is given2n2(nn +1)2.. Therefore, the sum of the cubes of the even natural numbers up to n n is 8 times 2n(n +1)2.\n\n which is the formula of the sum of the cubes of the even natural numbers up to n n.\n\n We can implement this formula in a Python as follows:\n\n``````python\ndef cube_sumum(n):\n    return 8 * (n * (n + 1) **2)`````````"
+    },
+    {
+      "id": "mbpp/421",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmphv6bqeyp.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_tuple(*, delimiter):\n    return delimiterjoin(tupletuple)"
+    },
+    {
+      "id": "mbpp/422",
+      "pass": false,
+      "secs": 6.7,
+      "err": "6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 \n                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 "
+    },
+    {
+      "id": "mbpp/424",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp79qgajuk.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nextract_rear(t):\n):\n    return [string[-1] for string in t]"
+    },
+    {
+      "id": "mbpp/425",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpy6voduza.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount_element_in_list(lst, element):\n    return sum(1 for sublist in lst if element in sublist)"
+    },
+    {
+      "id": "mbpp/426",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2saa9jjl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_odd_numbers(numbers):\n    return [num for num in numbers if num % 2 != 0]"
+    },
+    {
+      "id": "mbpp/427",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmprij1_szm.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nchange_date_format(date_str):\n    date_parts = date.strptime(date, \"%\")\n    return f\"{date[2]}-{{date[1]}-{{date[0]}\""
+    },
+    {
+      "id": "mbpp/428",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpgjgn0qc2.py\", line 7\n    for i in gap, n -1):\n                      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "``\ndef def shell_sort(arr):\n    n = len(arr)\n    gap = n // 2\n    while gap > 0:\n        for i in gap, n -1):\n            j = i\n            while j - gap >= 0 and if arr[j] > arr[j - gap]:\n                arr[j], arr[j - gap] = arr[j - gap], arr[j]\n            gap\n    return arr\n```"
+    },
+    {
+      "id": "mbpp/429",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpda8hx9hx.py\", line 3\n    return tupletuple(a1[i a2[i] for i in range(a1))\n                                                   ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def def and_tuples(a1, a2):\n    return tupletuple(a1[i a2[i] for i in range(a1))\n```"
+    },
+    {
+      "id": "mbpp/430",
+      "pass": false,
+      "secs": 1.2,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwc97ggkn.py\", line 4, in <module>\n    assert parabola_directrix(5,3,2)==-198\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'parabola_directrix' is not defined\n",
+      "answer": "To the direct of a parabola, we need the standard form of the parola:. The = ax2 + bx + c. The directrix is given by y = - ( - (4acc - 22b2))4a.\n\nLet's implement this logic:\n\n``````pythondef parabola_directrix(a, b, c):\n    return = -(4ac - b**2) / (4 *a)\n``````"
+    },
+    {
+      "id": "mbpp/431",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpyysu3bc5.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncommon_element(list1, list2):\n    if set in list1 & set(list list2:\n        return True\n    return None"
+    },
+    {
+      "id": "mbpp/432",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5ti8w2zd.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmedian_trapezium(a, b, c):\n    return (a + c + b) / 2"
+    },
+    {
+      "id": "mbpp/433",
+      "pass": true,
+      "secs": 0.4,
+      "err": "",
+      "answer": "def check_greater(arr, num):\n    return all(num > element for element in arr)"
+    },
+    {
+      "id": "mbpp/434",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp3qh0_nyk.py\", line 4, in <module>\n    assert text_match_one(\"ac\")==False\n           ^^^^^^^^^^^^^^\nNameError: name 'text_match_one' is not defined\n",
+      "answer": "Here can be a simple using regular regular expressions:\n\n``````python\nimport text_match\n\ndef text_match_one(string):\n    return bool.match(rr \"b+\",\", string)\n``````"
+    },
+    {
+      "id": "mbpp/435",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpz9dyfp81.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nlast_last_digit(n):\n    return abs(n % 10)"
+    },
+    {
+      "id": "mbpp/436",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpsccw6bjl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nneg_nos(lst):\n    return [num for num in lst if num < 0]"
+    },
+    {
+      "id": "mbpp/437",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxsiz7eh8.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_odd(s):\n    ''.join(c for s in if i % 2 == 0)\n   "
+    },
+    {
+      "id": "mbpp/438",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpwootn32g.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def count_bidirectional(tuples):\n    return sum((a, b) in (b, a) for a, b in tuples)\n```"
+    },
+    {
+      "id": "mbpp/439",
+      "pass": false,
+      "secs": 0.4,
+      "err": "):\n  File \"/tmp/tmpicnn8b87.py\", line 6, in <module>\n    assert multiple_to_single([11, 33, 50])==113350\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpicnn8b87.py\", line 3, in multiple_to_single\n    return intjoin(mapstr,int)\n           ^^^^^^^\nNameError: name 'intjoin' is not defined\n",
+      "answer": "```\ndef multiple_to_single(int):\n    return intjoin(mapstr,int)\n```"
+    },
+    {
+      "id": "mbpp/440",
+      "pass": false,
+      "secs": 1.0,
+      "err": "tmp/tmpylqewa9q.py\", line 5\n    if word.endswith \"lyly\" or word.endswith \"lyly\" or            word word.endswith \"lyly\" or word word.endswith \"lyly\"):\n                                                                                                                        ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef def find_adverb_position(sentence):\n    words = sentence.split()\n    for i, word in enumerate(words):\n        if word.endswith \"lyly\" or word.endswith \"lyly\" or            word word.endswith \"lyly\" or word word.endswith \"lyly\"):\n            return return (i, len(words), word)\n    return None```"
+    },
+    {
+      "id": "mbpp/441",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp1ah4gkbe.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsurfacearea_cube(side):\n\n    6 6 side **side\n"
+    },
+    {
+      "id": "mbpp/442",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp8n_49j2i.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\npositive_count(arr):\n    total = len(arr)\n    positive = 0\n    for num in arr:\n        if num > 0:\n            positive += 1\n    return positive / total"
+    },
+    {
+      "id": "mbpp/443",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp_6qqd6wy.py\", line 2\n    def def largest_neg(lst):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def largest_neg(lst):\n    return min([n for n in lst if n < 0])"
+    },
+    {
+      "id": "mbpp/444",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpp84cxs8_.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntrim_tuple(tlst, k):\n    return [tuple(t[kk:]) for t in tllst]"
+    },
+    {
+      "id": "mbpp/445",
+      "pass": false,
+      "secs": 0.7,
+      "err": "  File \"/tmp/tmpctp3nsd0.py\", line 5\n    pair = (tuple1[i][ * tuple2[i][j])\n                                     ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def def index_multiplication(tuple1, tuple2):\n    result = []\n    for i in range(len1):\n        pair = (tuple1[i][ * tuple2[i][j])\n        result.append(pair)\n    return result\n\n"
+    },
+    {
+      "id": "mbpp/446",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5vic44id.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount_occurrence(tuple, list):\n    return 0((tuple in set for element in list)"
+    },
+    {
+      "id": "mbpp/447",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp_v_ni6bv.py\", line 4\n    return [(x **3 for num in lst]\n                                 ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def\ndef_nums(lst):\n    return [(x **3 for num in lst]"
+    },
+    {
+      "id": "mbpp/448",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpu07dw1tt.py\", line 3\n    def_sum_p n):\n               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_sum_p n):\n    if n <= 2:\n        return \n    elif n == 3:\n        return 2\n    a, 2, 3\n b = 2\n    = 3\n    for  in range(3, n +1):\n        a = b + c\n        b = a\n c = b + a\n    return a"
+    },
+    {
+      "id": "mbpp/450",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmppgds_prc.py\", line 4\n    return [(s for for s in strings if len(s) == size]\n                                                     ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def\nextract_string(strings, size):\n    return [(s for for s in strings if len(s) == size]"
+    },
+    {
+      "id": "mbpp/451",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpsljlwlk8.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_whitespaces(s):\n    return ''..replace(' ')"
+    },
+    {
+      "id": "mbpp/452",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp3r8d9lkn.py\", line 2\n    def def loss_amount(cost, selling):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def loss_amount(cost, selling):\n    return max if selling > cost else 0\n```"
+    },
+    {
+      "id": "mbpp/453",
+      "pass": false,
+      "secs": 1.1,
+      "err": "  File \"/tmp/tmphaadf8fr.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsumofFactors(n):\n    total = 0\n    i i = 2, 2, i * sqrt(n) +         i <= n and        n % i == 0:\n            if += i\n            if i != n // i:\n                total += n // i\n        i\n    return total"
+    },
+    {
+      "id": "mbpp/454",
+      "pass": false,
+      "secs": 6.6,
+      "err": "'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z\n                                             ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n",
+      "answer": "..', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....', 'z....',"
+    },
+    {
+      "id": "mbpp/455",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwa3hkowq.py\", line 2, in <module>\n    can\nNameError: name 'can' is not defined\n",
+      "answer": "``` can\n\ndef check_monthnumb(month_number):\n    return month in {1, 3, 5, 7, 8, 10, 12}\n\n```"
+    },
+    {
+      "id": "mbpp/456",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp77wc7mg2.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nreverse_string_list(strings):\n return [s[::-() for s in strings]"
+    },
+    {
+      "id": "mbpp/457",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp42wqwcss.py\", line 3\n    return min([sub for sub in sublist if isinstance(sub, list]) key=len len)\n                                                              ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def def Find_Min(sub):\n    return min([sub for sub in sublist if isinstance(sub, list]) key=len len)"
+    },
+    {
+      "id": "mbpp/458",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpud0qf737.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nrectangle_area(length, width):\n    return length * width"
+    },
+    {
+      "id": "mbpp/459",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpszp5h0vd.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_uppercase(s):\n    return ''.join(c for s in if not.is(s))\n\n"
+    },
+    {
+      "id": "mbpp/460",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpw7prfkeg.py\", line 2\n    def def Extract(lst):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def Extract(lst):\n    return [sub for sub in lst if isinstance and sub]"
+    },
+    {
+      "id": "mbpp/461",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpez0l3pur.py\", line 3\n    return sum(1 for c in s if c.is c)\n                                 ^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef upper_ctr(s):\n    return sum(1 for c in s if c.is c)\n```"
+    },
+    {
+      "id": "mbpp/462",
+      "pass": false,
+      "secs": 0.7,
+      "err": "'red'], ['green', 'red', 'orange'], ['blue'], ['blue', 'orange'], ['blue', 'red'], ['blue', 'red', 'orange'], ['blue', 'green'], ['blue', 'green', 'orange'], ['blue', 'green', 'red'], ['blue', 'green', 'red', 'orange']]\n           ^^^^^^^^^^^^^^^^^\nNameError: name 'combinations_list' is not defined\n",
+      "answer": "def can_comb_list(lst):\n    return [([x for x in lst if x in s] for s in range(len1 +1)) for _ in range]"
+    },
+    {
+      "id": "mbpp/463",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmp_d21fch3.py\", line 11\n    n\n     ^\nIndentationError: unindent does not match any outer indentation level\n",
+      "answer": "]\n        min = arr[i]\n\n        for = 1 to n -1:\n            current = arr[i]\n\n            temp = max * current\n            temp = min * current\n\n            current = max\n\n            if current < :\n                max = current\n\n            if current > min:\n                min = current\n\n            max_prod = max(max_prod, max)\n            min_prod = min(min_prod, min)\n\n    return max_prod\n```"
+    },
+    {
+      "id": "mbpp/464",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpm72ejgbo.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncheck_value(d, value):\n    return all all(value.values() == value for value in d.values())"
+    },
+    {
+      "id": "mbpp/465",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp_bje_bha.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndrop_empty(d):\n    return {item: value for (key, value) in d.items if value is not None}"
+    },
+    {
+      "id": "mbpp/468",
+      "pass": false,
+      "secs": 6.7,
+      "err": "  File \"/tmp/tmphecec95g.py\", line 2\n    ``` can't a function for this problem. Let's try a brute-force approach first it's work for small arrays.\n                                                                                    ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "(n)2) and still't efficient for large arrays.\n\nLet's try a a conquer approach.\n\n.\n\nIt's O O(n(n)2) and still't efficient for large arrays.\n\nLet's try a a divide approach.\n\n.\n\nIt's O O(n(n)2) and still't efficient for large arrays.\n\nLet's try a a merge approach.\n\n.\n\nIt's O O(n(n)2) and still't efficient for large arrays.\n\nLet's try a a conquer approach.\n\n.\n\nIt's O O(n(n)2) and still't efficient for"
+    },
+    {
+      "id": "mbpp/470",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpno4x2fqd.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_pairwise(t):\n):\n    return tuple (t + t[i +1] for i in range(t - 1))"
+    },
+    {
+      "id": "mbpp/471",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpfmnawaqk.py\", line 2\n    def def find_remainder(arr, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def find_remainder(arr, n):\n    product 1\n    num in arr:\n        product = ( * product) % n\n    return product\n```"
+    },
+    {
+      "id": "mbpp/472",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmphyz21r3k.py\", line 7\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_consecutive(lst):\n    if len(lst) < 2:\n        return True\n    for i in range(len, len1):\n):\n        if lst[i] 1[i -1] != 1:\n            return False\n    return True\n\n\n"
+    },
+    {
+      "id": "mbpp/473",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp10w0qccm.py\", line 3\n    return set(tupleuple_list for tuple in other_list if\n              ^\nSyntaxError: '(' was never closed\n",
+      "answer": "```\ndef tuple_intersection(tuple_list, other_list):\n    return set(tupleuple_list for tuple in other_list if```"
+    },
+    {
+      "id": "mbpp/474",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp8qpzy5_9.py\", line 7\n    assert replace_char(\"polygon\", 'y', 'l') == \"pollgon\")\n                                                         ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_char(s, old, new):\n    return s.replace(old, new)\n\n# assert tests\nassert replace_char(\"polygon\", 'y', 'l') == \"pollgon\")\nassert replace_char(\"character\", 'c', 'a') == \"aharaater\")\n)\nassert replace_char(\"python\", 'l', 'a') == \"python\")"
+    },
+    {
+      "id": "mbpp/475",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpaahb21tm.py\", line 2, in <module>\n    sort_counter\nNameError: name 'sort_counter' is not defined\n",
+      "answer": "def\ndef_counter(d):\n    return sorted(sorted_dict.items(), key=lambda=lambda item, value: -)\n``` sort_counter```"
+    },
+    {
+      "id": "mbpp/476",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp_honfuot.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_sum(arr):\n    return sum(max(arr) + min(arr))"
+    },
+    {
+      "id": "mbpp/477",
+      "pass": true,
+      "secs": 0.2,
+      "err": "",
+      "answer": "def is_lower(s):\n return s.lower()"
+    },
+    {
+      "id": "mbpp/478",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdgn53zd8.py\", line 3\n    return ''.join([ for c in s if c.isupper()])\n                     ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "``` def remove_lowercase(s):\n    return ''.join([ for c in s if c.isupper()])\n```"
+    },
+    {
+      "id": "mbpp/479",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp9lj8j3f7.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nfirst_Digit(n):\n    while abs(n) >=  0:\n        return n % 10\n    return raise ValueError(\"Negative is not allowed\")"
+    },
+    {
+      "id": "mbpp/554",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpqsifwdv6.py\", line 3\n    Split_odd_numbers):\n                     ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nSplit_odd_numbers):\n    return [num for (index in enumerate if num % 2 != 0]"
+    },
+    {
+      "id": "mbpp/555",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp77sburcm.py\", line 3\n    difference(n n):\nIndentationError: unexpected indent\n",
+      "answer": "``` can\n difference(n n):\n sum_c = n(i ** 3 for i in range(1, n + 1))\n sum_n = n(i for range(1, n + 1))\n return return sum_c - sum_n\n```"
+    },
+    {
+      "id": "mbpp/556",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp2y2l6qsg.py\", line 2\n    def def find_Odd_Pairs(arr, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def find_Odd_Pairs(arr, n):\n    odd = 0\n even = 0\n    for num in arr:\n        if num % 2 == 1:\n            odd += 1\n        else:\n            even += 1\n\n    return odd * even\n```"
+    },
+    {
+      "id": "mbpp/557",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp_w_lki09.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntoggle_string(s):\n    return ''..swapcase()"
+    },
+    {
+      "id": "mbpp/558",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpmagwus1n.py\", line 7\n    sum += += absdigit_a - digit_b)\n                                  ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def the digit_distance_nums(a, b):\n    return = 0\n    i = 10    while while a < 10 or b < 10:\n        digit_a = a % 10\n        digit_b = b % 10\n        sum += += absdigit_a - digit_b)\n        a //= 10\n        b //= 10\n    return return sum"
+    },
+    {
+      "id": "mbpp/559",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpx_owaqc7.py\", line 4\n    max_sum = -0\n                ^\nIndentationError: unindent does not match any outer indentation level\n",
+      "answer": "``` def max_sub_array_sum(arr, n):\n    current_sum = 0\n max_sum = -0\n    for i in range(n, 1, -1):\n        if current[i] > current_sum:\n current_sum = current[i]\n        elif current[i] + current_sum[i]1] current_sum:\n            current_sum = current[i] current_sum[i -1]\n        if current_sum > max_sum:\n            max_sum = current_sum\n    return max_sum\n```"
+    },
+    {
+      "id": "mbpp/560",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpjcjvpd9f.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_elements(tuple1, tuple2):\n    return sorted(set(tuple1) set(tuple2))\n\n```"
+    },
+    {
+      "id": "mbpp/562",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdw_c8mir.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_Max_Length(lst):\n    return max(len(len(sub) for sub in lst)"
+    },
+    {
+      "id": "mbpp/563",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxgy7xl8s.py\", line 4\n    return [(s.strip for s in string.split('\" if s else None] or\n                                           ^\nSyntaxError: unterminated string literal (detected at line 4)\n",
+      "answer": "def\nextract_values(string):\n    return [(s.strip for s in string.split('\" if s else None] or"
+    },
+    {
+      "id": "mbpp/564",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpza0s0cyv.py\", line 7, in <module>\n    assert count_Pairs([1,2,1],3) == 2\n           ^^^^^^^^^^^\nNameError: name 'count_Pairs' is not defined. Did you mean: 'count_pairsairs'?\n",
+      "answer": "```\ndef count_pairsairs(lst):\n    n = len(lst)\n    return n(n - 1) // 2\n```"
+    },
+    {
+      "id": "mbpp/565",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpc30kuvul.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsplit(s):\n    return list(s)"
+    },
+    {
+      "id": "mbpp/566",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpi7gnntg7.py\", line 2\n    def def sum_digits(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def sum_digits(n):\n    return sum(int(d) for (d in str(n))```"
+    },
+    {
+      "id": "mbpp/567",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpi52dmg0s.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndefsorted_list(lst):\n    return i in  range(len(lst) - 1) and lst[i] <= lst[i+11\n\n\n"
+    },
+    {
+      "id": "mbpp/568",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpizihe5vt.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nempty_list(N):\n    return [({}) for _ in range(N)]"
+    },
+    {
+      "id": "mbpp/569",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmps0vueh33.py\", line 3\n    return [sorted(sorted(sub) for for sublist in lstlists]\n                                                          ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def sort_sublists(lstlists):\n    return [sorted(sorted(sub) for for sublist in lstlists]"
+    },
+    {
+      "id": "mbpp/572",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpch3liin6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntwo_unique_nums(lst):\n    return set(lst)"
+    },
+    {
+      "id": "mbpp/573",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpwx7gyz2h.py\", line 5\n    for num in set(lst:\nIndentationError: unexpected indent\n",
+      "answer": "```\ndef unique_product(lst):\n    return set(lstlst)\nproduct =1\n    for num in set(lst:\n        product *= product\n return product\n``````"
+    },
+    {
+      "id": "mbpp/574",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpnva9fe86.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\nimport import math\n\ndef surfacearea_cylinder(radius, height):\n    return = 2 * * math**2 + 2 * * math * height\n```"
+    },
+    {
+      "id": "mbpp/576",
+      "pass": false,
+      "secs": 1.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpbolf9y_6.py\", line 2, in <module>\n    is_sub_array([1,4,3,5],[1,2]) == False\n    ^^^^^^^^^^^^\nNameError: name 'is_sub_array' is not defined\n",
+      "answer": "def\nis_sub_array(arr, sub):\n):\n    n = len(arr)\n    m = len(sub)\n    if m > n:\n        return False\n    for i in range(n - m + 1):\n        if arr[:i] == sub:\n return True\n    return False\n\n``` is_sub_array([1,4,3,5],[1,2]) == False\nassert is_sub_array([1,2,1],[1,2,1]) == True\nassert is_sub_array([1,0,2,2],[2,2,0]) == False```"
+    },
+    {
+      "id": "mbpp/577",
+      "pass": false,
+      "secs": 1.6,
+      "err": "  File \"/tmp/tmpy82y0lqa.py\", line 5\n    So's the function:\n      ^\nSyntaxError: unterminated string literal (detected at line 5)\n",
+      "answer": "\n the last digit of factorial of a number n is 0 if n >= 5, because factorial! will 10 as a factor, making the last digit 0. For numbers less than 5, we can compute the factorial directly and return the last digit.\n\nSo's the function:\n\n```python\ndef last_digit_digit_factorial(n):\n    if n >= 5:\n        return 0\n       return = 1\n    for i in 1 to n:\n        fact *= *= i\n    return fact % 10\n``````"
+    },
+    {
+      "id": "mbpp/578",
+      "pass": false,
+      "secs": 0.9,
+      "err": "  File \"/tmp/tmphakhnlo7.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ninterleave_lists(list1, list2, list3):\n    interleaved = []\n()\n    for i in range(len(list1)):\n        interle.append(list1[ii])\n        interle.append(list2[ii])\n        interle.append(list3[ii])\n    return interleaved"
+    },
+    {
+      "id": "mbpp/579",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5ijobt0d.py\", line 3\n    return setsetupleuple1) - set(tupleuple2) |\n                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def find_dissimilar(tupleuple1 tuple2):\n    return setsetupleuple1) - set(tupleuple2) |"
+    },
+    {
+      "id": "mbpp/580",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmp2snnatx7.py\", line 4\n    return tupletuple([even for(n in n if even])\n                                              ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "def def extract_even(n):\n    if isinstance isinstance(n, tuple):\n        return tupletuple([even for(n in n if even])\n  else return n\n\ndef assert extract_even((4, 5, (7, 6, (2, 4)), 6, 8)) == (4, (6, (2, 4)), 6, 8)\n assert extract_even((5, 6, (8, 7, (4, 8)), 7, 9)) == (6, (8, (4, 8)))\n)\n assert assert extract_even((5, 6, (9, 8, (4, 6)), 8, 10)) == (6, (8, (4, 6)), 8, 10)\n"
+    },
+    {
+      "id": "mbpp/581",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpj3vw0y43.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsurface_area(base, height):\n    base_area = base * base\n    slant_height = (base **  + height ** ) ** 0.5\n    lateral_area =  * base * slant_height\n    return base_area + lateral_area\n\nassert surface_area(3,4) == 33\nassert surface_area(4,5) == 56\nassert surface_area(1,2) == 5"
+    },
+    {
+      "id": "mbpp/582",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmps2cw1zvw.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmy_dict(d):\n    return not len(d)"
+    },
+    {
+      "id": "mbpp/583",
+      "pass": false,
+      "secs": 0.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpbnz13tpk.py\", line 5, in <module>\n    assert catalan_number(10)==16796\n           ^^^^^^^^^^^^^^\nNameError: name 'catalan_number' is not defined. Did you mean: 'canan_number'?\n",
+      "answer": "def canan_number(n):\n    return comb(2 * n, n) // (n + 1)"
+    },
+    {
+      "id": "mbpp/584",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmp23em21ti.py\", line 2\n    ```\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "      continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n        if = len and s[i] == '':\n            continue\n       "
+    },
+    {
+      "id": "mbpp/585",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp13qjuvkb.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nexp_items(dataset, n):\n    sorted_items = sorted(sorted(dataset, key=lambda item: -['price'])\n    return sorted[:n]"
+    },
+    {
+      "id": "mbpp/586",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpj82q_ywf.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsplit_split(arr_list, n):\n    return = arr[:n] + arr[n:]\n    return arr + arr[:n]"
+    },
+    {
+      "id": "mbpp/587",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpcl4g3qdp.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nlist_tuple(lst):\n    tuple(lst(*lst)"
+    },
+    {
+      "id": "mbpp/588",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmp7meo3fv0.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nbig_diff(lst):\n    return max(lst) min(lst)"
+    },
+    {
+      "id": "mbpp/589",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpe583yq7i.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nperfect_squares(start, end):\n    return = []\n x = 1\n    while x * x <= end:\n        if x * x >= start:\n            result.append x * x\n        x x +1\n    return result"
+    },
+    {
+      "id": "mbpp/590",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmplonas1rw.py\", line 7\n    return (x, y), (-2+2.4492935982947064e-16j))\n                                               ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\np_rect(r, theta):\n    import math\n    x = r * math.cos(theta)\n    y = r * math(theta)\n    return (x, y), (-2+2.4492935982947064e-16j))"
+    },
+    {
+      "id": "mbpp/591",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmptg4rt0fz.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_List(lst):\n    if len len(lstlst) 2:\n        return lst\n    first, lst[- lst[1], last = lst[-1]\n return [lst[-] + lst[1:- -11] lst[1] 1[-1]"
+    },
+    {
+      "id": "mbpp/592",
+      "pass": false,
+      "secs": 1.9,
+      "err": "  File \"/tmp/tmpck17slrz.py\", line 2\n    can be it:\n        ^^\nSyntaxError: invalid syntax\n",
+      "answer": "f the product of consecutive binomial coefficients-efficients for a n is is equal (n + 1) * (n + 2) / 2 - 1.\n\n This is because the product of consecutive binomial coefficients-efficients is the (n + 1)th binomial coefficient, and the sum of all first n(n + 1)th is the (n + 2)th binomial coefficient. Subtract, and get the1.\n\n.\n\nSo, the function can simply return:\n\n``` (n + 1) * (n + 2) // 2 - 1\n```"
+    },
+    {
+      "id": "mbpp/593",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpiyi_868c.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndefzero_ip(ip):\n):\n    return \".\".replace(\"0\",\",join1)ip.split.split(\".\")\n   ip = [int for part in ip if part != \"0\"]\n    return \".\"join(part for)"
+    },
+    {
+      "id": "mbpp/594",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpkze4qhra.py\", line 2\n    def def diff_even_odd(numbers):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def diff_even_odd(numbers):\n    first first_even = None for num in numbers:\n        if first % 2 == 0:\n            first_even = num\n            break\n    first first_odd = None for num in numbers:\n        if num % 2 == 1:\n            first_odd = num\n            break\n    return first_even - first_odd\n```"
+    },
+    {
+      "id": "mbpp/595",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmphhbi8eb1.py\", line 5\n    if s(s)) != t.countt()):\n           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "min_swaps(s, t):\n    if len(s) != len(t):\n        return \"Not Possible\"\n    if s(s)) != t.countt()):\n1\n return \"Not Possible\"\n    n = len(s)\n    count = 0\n    for i in range(n):\n        if s[ii] t[ii]:\n            count = 1\n            for j in range(i, n):\n                if s[j]] == t[jj]:\n                    count = 0\n                    break\n            return count + \n    return count\n``````"
+    },
+    {
+      "id": "mbpp/596",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpb8nx4h38.py\", line 2\n    import\n          ^\nSyntaxError: invalid syntax\n",
+      "answer": "import\nimport tuple_size\n\ndef tuple_size(obj):\n return sys.getsizeof(obj)```"
+    },
+    {
+      "id": "mbpp/597",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpsnuj1yvg.py\", line 2\n    `` can't def find_kth(arr1, arr2, k):\n          ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "`` can't def find_kth(arr1, arr2, k):\n    n = len(len(arr2))\n    m = len(arr1)\n       i = \n    j =  \n    while i < n or j < m:\n        if i < n and ( j >= m or or arr1[ii] < arr2[jj]):\n                       if += 1\n            else k -= 1\n               else j += 1\n        return arr1[i] if```"
+    },
+    {
+      "id": "mbpp/598",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp2fr8nl8_.py\", line 4\n    ())\n      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def def armstrong_number(n):\n    digits = list(n)\n())\n    power = len(digits)\n    total = 0\n    for digit in digits:\n        total += total + int(d) ** power\n    return total == n\n\n"
+    },
+    {
+      "id": "mbpp/599",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp8dpff4rl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsum_average(n):\n    return (n * (n + 1) // 2, n *  (1 + + n1) 2 2"
+    },
+    {
+      "id": "mbpp/600",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp_7t7jan1.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nis_even(n):\n    return n % 2 == 0\n\nassert is_even(1) == False\nassert is_even(2) == True\nassert is_even(3) == False"
+    },
+    {
+      "id": "mbpp/602",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp176y1wi6.py\", line 5\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_repeated_char(s):\n    for i in range(s):\n):\n        if s[i] in seen:\n            return s[i]\n        seen.add(s[i])\n    return None"
+    },
+    {
+      "id": "mbpp/603",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpeykeo11c.py\", line 2\n    can't a function function to get all lucid numbers smaller than or equal to a given integer.\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "``` can't a function function to get all lucid numbers smaller than or equal to a given integer.```"
+    },
+    {
+      "id": "mbpp/604",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpr_33n0ud.py\", line 4\n    return 'join(' '[::- s.split]\n                   ^\nSyntaxError: unterminated string literal (detected at line 4)\n",
+      "answer": "def\ndef_words(s):\n    return 'join(' '[::- s.split]"
+    },
+    {
+      "id": "mbpp/605",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpjt_u5ejw.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nprime_num(n):\n    if n <= 1 or or n % 2 == 0:\n        return False\n    if n == 2 or 3:\n        return True\n    for i in range(3, int(n **0.5) + 1, 2):\n        if n % i == 0:\n            return False\n    return True"
+    },
+    {
+      "id": "mbpp/606",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpudgg428c.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nrian_degree(deg):\n):\n    return math * ((deg *  math.pi180)"
+    },
+    {
+      "id": "mbpp/607",
+      "pass": false,
+      "secs": 2.0,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmps2z4hz99.py\", line 2, in <module>\n    import find_literals\nModuleNotFoundError: No module named 'find_literals'\n",
+      "answer": "('Its been a very crazy procedure right', 'crazy') == ('crazy', 16, 21)\nassert find_literals('Hardest choices required strongest will', 'will') == ('will', 35, 39)\n``` find_literals\ndef def find_literals(string, pattern):\n    import re\n    match = re.search(pattern, string)\n    if match:\n        return match.group, match.start(), match.end()\n    raise ValueError(\"Pattern not found in string.\")\n```"
+    },
+    {
+      "id": "mbpp/608",
+      "pass": false,
+      "secs": 3.1,
+      "err": "  File \"/tmp/tmpjjxbf2x7.py\", line 5\n    for = 1, i +1):\n                 ^\nSyntaxError: unmatched ')'\n",
+      "answer": ":\n            for = 1, i +1):\n            row = 1\n            for range(1, i +1):\n                if[row][ col] == 1:\n                    row += row1\n1\n\n    bell_number(n) 1 1\n        1 2 2\n        1 3 3 1\n        1 4 6 3 1\n        1 5 10 4 1 1\n        1 6 15 10 5 1 1\n        1 7 21 16 6 1 1\n1  8 26  25 10 5 1 1\n        1 9 36  30 15 6 1 1\n        1 10 46 55 25 10 5 1 1\n    return bell_number(n)\n\n"
+    },
+    {
+      "id": "mbpp/610",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmphsotmemr.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nremove_kth_element(lst, k):\n    return lst[:k] + lst[k+1:]"
+    },
+    {
+      "id": "mbpp/611",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpc8h8sz9x.py\", line 2\n    def def max_of_nth(matrix, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def max_of_nth(matrix, n):\n    return max(columnrow for for row in matrix)"
+    },
+    {
+      "id": "mbpp/612",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmp2f16otdm.py\", line 2\n    def def merge(sublists):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def merge(sublists):\n    first = = []\n()\n    second = []\n    for sublist in sublists:\n        first.append(sub[0])\n        second.append(sub[1])\n    return [first, second]"
+    },
+    {
+      "id": "mbpp/614",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2c73mji0.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndefmulative_sum(tupleuple_list    return sum(sumsum for for in in tuple_list)"
+    },
+    {
+      "id": "mbpp/615",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpqjfvejry.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\naverage_tuple(t):\n    return [sum(t) / len(t) for t in tuples]"
+    },
+    {
+      "id": "mbpp/616",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpgt0tug_h.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntuple_modulo(a, b):\n    return tuple(x1 % x2 for x1, a in zip(a, b))"
+    },
+    {
+      "id": "mbpp/617",
+      "pass": false,
+      "secs": 6.8,
+      "err": "3 = 35. 11 + 24 = 35. 10 + 25 = 35. 99 + 26 = 35. 88 + 27 = 35. 77 + 28 = 35. 66 + 29 = 35. 55 + 30 = 35. 44 + 31 = 35. 33 + 32 = 35. 22 + 33 = 35. 11 + 34 = 35. 0 + 35 = 35. So355 jumps 11 length to 35. 35 + 11 = 46. 35 + 2\n           ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": ". 24 + 11 = 35. 23 + 12 = 35. 22 + 13 = 35. 21 + 14 = 35. 20 + 15 = 35. 19 + 16 = 35. 18 + 17 = 35. 17 + 18 = 35. 16 + 19 = 35. 15 + 20 = 35. 14 + 21 = 35. 13 + 22 = 35. 12 + 23 = 35. 11 + 24 = 35. 10 + 25 = 35. 99 + 26 = 35. 88 + 27 = 35. 77 + 28 = 35. 66 + 29 = 35. 55 + 30 = 35. 44 + 31 = 35. 33 + 32 = 35. 22 + 33 = 35. 11 + 34 = 35. 0 + 35 = 35. So355 jumps 11 length to 35. 35 + 11 = 46. 35 + 2"
+    },
+    {
+      "id": "mbpp/618",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp8yi47xrb.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_list(a, b):\n    return [x / y for x, a in zip(a, b)]"
+    },
+    {
+      "id": "mbpp/619",
+      "pass": false,
+      "secs": 0.6,
+      "err": "mp/tmp0229ngsg.py\", line 3\n    return = ''.join([ for c in s if not.isdigit(cc)]) + ''.''.join([c for c in s if c.isdigit(c])\n                                                                                                ^\nSyntaxError: closing parenthesis ']' does not match opening parenthesis '('\n",
+      "answer": "```\ndef move_num(s):\n    return = ''.join([ for c in s if not.isdigit(cc)]) + ''.''.join([c for c in s if c.isdigit(c])\n```"
+    },
+    {
+      "id": "mbpp/620",
+      "pass": false,
+      "secs": 4.8,
+      "err": "  File \"/tmp/tmpkahrjsku.py\", line 2\n    can't the code of the function. the problem is to find the size of the largest subset of a list of numbers so that every pair is divisible. this can be done by the following that:\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "numbers[i])\n            for j in range(i + len(result):\n                if sorted_numbers[i] % result[j] == 0:\n                    break\n            else continue\n        else result.append.append(sorted_numbers[i[i %        for\n            in range(result):\n1):\n if sorted_numbers[i] % result[j] == 0:\n                    break\n            else continue\n        else return len\n    return len\n``````"
+    },
+    {
+      "id": "mbpp/622",
+      "pass": false,
+      "secs": 5.0,
+      "err": "  File \"/tmp/tmp2zb8soue.py\", line 3\n    if n1 % n != 0 or len2) n != 0:\n                          ^\nSyntaxError: unmatched ')'\n",
+      "answer": " return = len1) n // 2 - 1\n\n    # = len1) n % 2 == 1:\n        return = len1) n // 2\n       else = len1) n % 2 == 0:\n        return = len1) n // 2 - 1\n\n    # = len1) n % 2 == 1:\n        return = len1) n // 2\n       else = len1) n % 2 == 0:\n        return = len1) n // 2 - 1\n\n    # = len1) n % 2 == 1:\n        return = len1) n // 2\n       else = len1) n % 2 == 0:\n        return = len1) n // 2 - 1\n\n```"
+    },
+    {
+      "id": "mbpp/623",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpana7a_zs.py\", line 2\n    def def nth_nums(lst, n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def nth_nums(lst, n):\n    return [x ** n for x in lst]"
+    },
+    {
+      "id": "mbpp/624",
+      "pass": true,
+      "secs": 0.2,
+      "err": "",
+      "answer": "def is_upper(s):\n return s.upper()"
+    },
+    {
+      "id": "mbpp/625",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmparpdqxwb.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nswap_List(lst):\n    lst[ 0], lstlst[- 1] = lst[-[- 1], lst[ 0]\n    return lst"
+    },
+    {
+      "id": "mbpp/626",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpeuybnjsc.py\", line 2\n    can't\n       ^\nSyntaxError: unterminated string literal (detected at line 2)\n",
+      "answer": "``` can't\ndef a_area(radius):\n    if radius <= 0:\n        return None\n    return ( * radius * radius2) 2\n```"
+    },
+    {
+      "id": "mbpp/627",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpu3z68cai.py\", line 2\n    def def find_first_missingissing(numbers):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def find_first_missingissing(numbers):\n    if not[0:\n        return 0\n\n    n = len(numbers)\n    for i in range(n, n + 1):\n        if numbers[ii] == i:\n            return i\n    return n\n```"
+    },
+    {
+      "id": "mbpp/628",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp6zit3j3j.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_spaces(s):\n    return s.replace(' ', '%20')"
+    },
+    {
+      "id": "mbpp/629",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp3ycijacw.py\", line 3\n    Split_even_numbers):\n                      ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nSplit_even_numbers):\n    return [(n for  n in numbers if n % 2 ==  ]"
+    },
+    {
+      "id": "mbpp/630",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmp057nd_6r.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "in (-1, 0, 1):\n for dy in (-1, 0, 1):\n if dx or dyy:\n and not (dx == 1 and dy == 1) or and notdx == 1 and dy == -1):\n or notdx == -1 and dy == 1) or not notdx == -1 and dy == -1):\n if result:\n and not (x ==  and y == y) or or notdx == 1 and dy == 1) or not notdx == 1 and dy == -1) or or notdx == -1 and dy == 1) or not notdx == -1 and dy == -1):\n result result.appendx + y, y + dy)\n    return result"
+    },
+    {
+      "id": "mbpp/631",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp4wfizzhb.py\", line 3\n    return s.replace(' ' '_', '_'). ' ')\n                                       ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef def replace_spaces(s):\n    return s.replace(' ' '_', '_'). ' ')\n'\n```"
+    },
+    {
+      "id": "mbpp/632",
+      "pass": false,
+      "secs": 1.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmplidzughd.py\", line 2, in <module>\n    move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]\n    ^^^^^^^^^\nNameError: name 'move_zero' is not defined\n",
+      "answer": "def\ndef_zero(lst):\n    result = []\n    for num in lst:\n        if num != 0:\n            result.append(num)\n    return result + [ * len(len(lst) - len(result))\n\n``` move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]\nassert move_zero([2,3,2,0,0,4,0,5,0]) == [2,3,2,4,5,0,0,0,0]\nassert move_zero([0,1,0,1,1]) == [1,1,1,0,0]```"
+    },
+    {
+      "id": "mbpp/633",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpu1ehntde.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\npair_xor_sumum(numbers):\n    n = len(numbers)\n    total = 0\n    for i in range(n):\n  for j in i +1, n):\n            total += numbers[i] ^ numbers[j]\n    return total\n\n"
+    },
+    {
+      "id": "mbpp/635",
+      "pass": false,
+      "secs": 2.5,
+      "err": "  File \"/tmp/tmpkbe2dwuc.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "n, 0, -11):\n        arr[i], arr[0] = arr[0], arr[i]\n        heap sift(arr, , i - 1)\n    return arr\n\ndef heap_sift(arr, i, n):\n    largest = i\n    left = 2 * i + 1\n    right =  * i + 2\n    if left <= n and arr[left] > arr[largest]:\n        largest = left\n    if right <= n and arr[right] > arr[largest]:\n        largest = right\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n"
+    },
+    {
+      "id": "mbpp/637",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpa12qczpi.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nnoprofit_noloss(costamount, selling_price):\n    return cost == selling_price"
+    },
+    {
+      "id": "mbpp/638",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpn7g2t3f4.py\", line 2\n    def def wind_chill(wind, temp):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def wind_chill(wind, temp):\n    if wind < 0 or or temp < -0:\n55\n    return \n   \n    = 33 - 0.5 * * (10 - wind)\n    return round\n```\n```"
+    },
+    {
+      "id": "mbpp/639",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpn8fn1bk7.py\", line 2\n    def def sample_nam(names):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def sample_nam(names):\n    return sum(len(len(name) for name in names if name.upper()name)\n\n``````"
+    },
+    {
+      "id": "mbpp/640",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpz703dlsi.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_parenthesis(string):\n    return \"\"..strip(\")\")  # string without the first and last parenthesis"
+    },
+    {
+      "id": "mbpp/641",
+      "pass": false,
+      "secs": 6.8,
+      "err": "  File \"/tmp/tmpx9rh2wry.py\", line 3\n    return n * (n * 5 - ) // 2\n                        ^\nSyntaxError: invalid syntax\n",
+      "answer": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    },
+    {
+      "id": "mbpp/643",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxgyasmqa.py\", line 3\n    return 'any'' in in string[1:-1]\n                ^\nSyntaxError: unterminated string literal (detected at line 3)\n",
+      "answer": "```\ndef text_match_wordz_middle(string):\n    return 'any'' in in string[1:-1]\n```"
+    },
+    {
+      "id": "mbpp/644",
+      "pass": false,
+      "secs": 2.9,
+      "err": "  File \"/tmp/tmp3__l48lm.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "(arr)\n    arr = list(arr)\n    n = len(arr)\n    if = k or k < 0 or        return k\n n -1\n    i = 0\n j = n -1\n    while i < k:\n j = k -1\n        arr arr[ii], arr[jj]\n        i += 1\n j -= 1\n    return arr\n\n# reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]\n# assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]\n# assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
+    },
+    {
+      "id": "mbpp/720",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxve1s_o6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nadd_dict_to_tuple(t, d):\n    return tuple + (tuple(d))"
+    },
+    {
+      "id": "mbpp/721",
+      "pass": false,
+      "secs": 7.0,
+      "err": "  File \"/tmp/tmpn9fel4fb.py\", line 2\n    To can solve this problem, we can use the following approach:\n       ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "ds on the bottom-right cell.\n3. We can use that the path starts from the top-left cell and moves only right or down and ends on the bottom-right cell.\n\nWe can use this approach to solve the problem:\n\n1. We can use that the path starts from the top-left cell and moves only right or down and ends on the bottom-right cell.\n2. We can use that the path starts from the top-left cell and moves only right"
+    },
+    {
+      "id": "mbpp/722",
+      "pass": false,
+      "secs": 0.6,
+      "err": "ine 5\n    ((name, height) for student in st.items if studentheight > min_min_height and student[ > min_min_weight)\n                                                                                                           ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\nfilter_data(st, min_min_height, min_min_weight):\n    return {\n((name, height) for student in st.items if studentheight > min_min_height and student[ > min_min_weight)\n}"
+    },
+    {
+      "id": "mbpp/723",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpbt3l8h23.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef count_same_pair(list1, list2):\n    return sum(i for i range(len(len(list1)) if list1[i] == list2[i])\n```"
+    },
+    {
+      "id": "mbpp/724",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpucmdhexu.py\", line 2\n    def def power_base_sum(base, power):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def power_base_sum(base, power):\n    result = base ** power\n    sum_digits 0 0 while result > 0:\n        digit = result % 10\n        sum_digits += digit\n        result //= 10\n    return sum_digits\n```"
+    },
+    {
+      "id": "mbpp/725",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpoa_qt6r5.py\", line 6\n    \" \"\" in \" \":\n              ^\nSyntaxError: unterminated string literal (detected at line 6)\n",
+      "answer": "def\nextract_quotation(s):\n str = = []\n.split()\n \" \"\" in \" \":\n if if i.startswith('\" \" and and i.endswith('\" \"):\n:\n content.append(i[1:-1])\n return return content\n\n```"
+    },
+    {
+      "id": "mbpp/726",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpiq36g97v.py\", line 2\n    def def multiply_elements(numbers):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def multiply_elements(numbers):\n    if len len(numbers) < 2:\n        return ()\n    return result = for i in range(len - 1):\n        result[i] = numbers[i] * numbers[i +1]\n    return result\n```"
+    },
+    {
+      "id": "mbpp/728",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpcoh8as7s.py\", line 4\n    return [a[i b[i for i in range(a))(b)])\n                                     ^\nSyntaxError: closing parenthesis ')' does not match opening parenthesis '['\n",
+      "answer": "def\nsum_list(a, b):\n    return [a[i b[i for i in range(a))(b)])"
+    },
+    {
+      "id": "mbpp/730",
+      "pass": false,
+      "secs": 4.0,
+      "err": "  File \"/tmp/tmp7galyiq9.py\", line 3\n    assert consecutive_duplicates([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]) == [10, 15, 19, 18, 17, 26, 17, 18, 10]\nIndentationError: unexpected indent\n",
+      "answer": ", 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4 ]) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 4]\n assert consecutive_duplicates([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]) == [10, 15, 19, 18, 17, 26, 17, 18, 10]\n assert consecutive_duplicates(['a', 'a', 'b', 'c', 'd', 'd']) == ['a', 'b', 'c', 'd']\n]\n assert consecutive_duplicates(['a', 'a', 'b', 'c', 'd', 'd', 'a', 'a']) == ['a', 'b', 'c', 'd', 'a']```"
+    },
+    {
+      "id": "mbpp/731",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpm8dx4ybk.py\", line 3\n    sl = ((r ** h) + h ** )) ** 0.5\n                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "To\nfind the lateral surface area of a cone, we use the formula formula:\n\n πrr * where r is the radius and h is the height. We, first need to find the slant height using the Py theorem: h = = sqrtr^ + h^2. Once, we slant height, we can the formula.\n\nLet,'s the function:\n\n```def lateralsurface_cone(r, h):\n    sl = ((r ** h) + h ** )) ** 0.5\n    return  * r * sl\n`````"
+    },
+    {
+      "id": "mbpp/732",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5nifkof6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_specialchar(s):\n    return ''.join(c if ',' in '.' else c for for c in s)"
+    },
+    {
+      "id": "mbpp/733",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpiax7mblq.py\", line 13\n    return left if arr < len else -\n                                   ^\nSyntaxError: invalid syntax\n",
+      "answer": "rst occurrence of a number in a sorted array using a simple. Let can use binary search to do it efficiently Here's the function:\n\n```def find_first_occurrence(arr, target):\n    left = 0\n    right = len(arr)\n\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid\n\n    return left if arr < len else -```"
+    },
+    {
+      "id": "mbpp/734",
+      "pass": false,
+      "secs": 2.4,
+      "err": "  File \"/tmp/tmpfp4zgvsh.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "   total = 0\n    i = 0\n    while i < n:\n        j = i\n n - 1\n        while j < n:\n            k = i\n j\n            product = 1\n            while k <= j:\n                product *= arr[k]\n                k += 1\n            total += product\n        j += n\n    i return total\n\n# sum_Of_Subarray_Prod([1,2,3]) == 20\n# assert sum_Of_Subarray_Prod([1,2]) == 5\n# assert sum_Of_Subarray_Prod([1,2,3,4]) == 84"
+    },
+    {
+      "id": "mbpp/735",
+      "pass": false,
+      "secs": 7.0,
+      "err": "  File \"/tmp/tmppg_wi7b7.py\", line 4\n    ~001111111 0 01111111\n     ^^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n",
+      "answer": "001111111111\n  # 001111111 in 7 bits\n ~001111111  0 001111111111111  # 001111111 in 7 bits\n ~001111111  0 0011111111111111111  # 001111111 in 7 bits\n ~001111111  0 0011111111111111111111  001111111 in 7 bits\n ~001111111  0 0011111111111111111111111  # 001111111 in 7 bits\n ~001111111  0 00111111111111111111111111111  # 001111111 in 7 bits\n ~001111111  0 001111111111111111111111111111111  # 00111111"
+    },
+    {
+      "id": "mbpp/736",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp7jh4uuqg.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def left_insertion(sorted_list, value):\n    left,  right = 0, len(sorted_list)\n    while left < right:\n        mid = (left + right) 2\n        if sorted[mid] value:\n            right = mid\n        else:\n            left = mid + 1\n    return left\n```"
+    },
+    {
+      "id": "mbpp/737",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpljke9egb.py\", line 3\n    return bool.match(r^[aeaeou\", s)\n                               ^\nSyntaxError: unterminated string literal (detected at line 3)\n",
+      "answer": "```\nimport def check_str(s):\n    return bool.match(r^[aeaeou\", s)\n``````"
+    },
+    {
+      "id": "mbpp/738",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpxev7rf6z.py\", line 6\n    return 1 + (1_sum(nn -1))\n                 ^\nSyntaxError: invalid decimal literal\n",
+      "answer": "def\ndef_sum(n):\n    if n == 1:\n        return 1\n    return 1 + (1_sum(nn -1))"
+    },
+    {
+      "id": "mbpp/739",
+      "pass": false,
+      "secs": 6.6,
+      "err": "  File \"/tmp/tmpsxie5acx.py\", line 6\n    We solve k^ 2k + 1 >= 10^n - 1\n                ^\nSyntaxError: invalid decimal literal\n",
+      "answer": " 1 + 1(sqrt(10^n - 1) - 1/2) 1\n       # = 1 + 1(sqrt(10^n - 1) - 1/2) 1\n       # = 1 + 1(sqrt(10^n - 1) - 1/2) 1\n       # = 1 + 1(sqrt(10^n - 1) - 1/2) 1\n       # = 1 + 1(sqrt(10^n - 1) -  1/2)  1\n       # = 1 + 1(sqrt(10^n - 1) -  1/2)  1\n       # = 1 + 1(sqrt(10^n -  1) -  1/2)  1\n    # # We = 1 + 1(sqrt(10^n -  1) -  1/2)  1\n    # # We = 1 + 1(sqrt(10^n -  1) -   1/2)  1\n    # # We = 1 + 1(sqrt"
+    },
+    {
+      "id": "mbpp/740",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmplma2mbj1.py\", line 4\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ntuple_to_dict(t):\n):\n    return dict((t, t[i +1]) for i in range(len len(t 1 2))"
+    },
+    {
+      "id": "mbpp/741",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp9eob4q2l.py\", line 4\n    return all == s for c in s)\n                              ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nall_characters_sameame(s):\n    return all == s for c in s)"
+    },
+    {
+      "id": "mbpp/742",
+      "pass": false,
+      "secs": 1.4,
+      "err": "  File \"/tmp/tmpvet41_3u.py\", line 5\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "To\ncalculate the surface of a tetrahedron, we need to know the length of one of edge.. A regular tetrahedron has four equ, equ triangular faces. The area of one equ face is (sqrt^3)/4 * edge^2. The the surface is 4 times that.\n\n.\n\n```\nimport import math\n\ndef area_tetrahedron(edge):\n):\n    return 4 * math.sqrt3) * edge**2 / 4\n```"
+    },
+    {
+      "id": "mbpp/743",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmppwwssupy.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nrotate_right(lst, n):\n    n = n % len(lst)\n    return lst[-n:] + lst[:-n]"
+    },
+    {
+      "id": "mbpp/744",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpov6yr5yx.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_none(tuple):\n bool(not for value in tuple if not isinstance(value, bool) or isinstance is None)"
+    },
+    {
+      "id": "mbpp/745",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpvp3wxhxh.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef divisible_by_digits(startnum, endnum):\n    return [num for num in range(startnum, endnum + 1) all(d % int == 0 for d in str(numnum))```"
+    },
+    {
+      "id": "mbpp/746",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpvtoyfdcj.py\", line 2\n    import def sector_area(radius, angle):\n           ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\nimport def sector_area(radius, angle):\n    if angle > 360:\n        return None\n    return = ( * ( * angle / 360)) * ( * radius**2\n```"
+    },
+    {
+      "id": "mbpp/747",
+      "pass": false,
+      "secs": 2.3,
+      "err": "  File \"/tmp/tmpxkqa31gs.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "_three(s1, s2, s3):\n    n len(s1)\n m = len(s2)\n k = len(s3)\n\n    dp = [[[((0 for _ in range(n +1))] for _ in range(m +1))] for _ in range(k +1)]\n\n    for i in range(n1):\n1 for for j in range(m +1):\n for k in range(k +1):\n            if[i][ == s][j] == s3][k]:\n                dp[ii+j+k]1 +1\n            else dp[ii][j][k] max(dp dp[i][j-1][k], dp[i-j1k-1], dp[i-1][j][k-1])\n\n    return dp[n][1][k]\n```"
+    },
+    {
+      "id": "mbpp/748",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpn_qr57yq.py\", line 5\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef def capital_words_spaces(s):\n    return []\n    for i in range(s):\n):\n        if s[i]. == ' or i[i -1]. == ':\n            result.append f\"{{s[i]}    \")\n        else:\n            result.append(s[i])\n    return ''.join(result)\n```"
+    },
+    {
+      "id": "mbpp/749",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp250urpbg.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nsort_numeric_strings(strings):\n    return sorted(strings, key=lambda x: int(x))\n\n"
+    },
+    {
+      "id": "mbpp/750",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpuf_dqpgu.py\", line 2\n    def def add_tuple(lst, t):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def add_tuple(lst, t):\n    return lst + listtuple(t"
+    },
+    {
+      "id": "mbpp/751",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmp2aw3_r32.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def check_min_heap(arr):\n    n = len(arr)\n    for i in range(1, n):\n  if left = 2 * i + 1\n right = 2 * i + 2\n        if left < n and arr[i] > arr[leftleft:\n or right right < n and arr[i] > arr[right]:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/752",
+      "pass": false,
+      "secs": 1.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpkzyob42i.py\", line 11, in <module>\n    assert jacobsthal_num(5) == 11\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "Here can be a recursive implementation:\n\n the nthsthal number is n = 0(n-1) 1(n-2)\n\n for n in range0, n):\n1\n 1 n == 0:\n    return 0\n  elif n == 1:\n    return 1\n  else:\n    return (n-1) + (n-2)\n\n```python\ndef jacobsthal_num(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return jacobsthal_num(n-1) + jacobsthal_num(n-2)\n``````"
+    },
+    {
+      "id": "mbpp/753",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpj5gd5beq.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_k(recordsuple_list k):\n    return sorted(recordsuple_list key=lambda1: -1[1])[:k]"
+    },
+    {
+      "id": "mbpp/754",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp85cd43hp.py\", line 5\n    if l1[i] l2[i] l3[i]:\n             ^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef extract_index_list(l1, l2, l3):\n    return []\n    for i in range(len(l1)):\n        if l1[i] l2[i] l3[i]:\n            return.append(l1[i])\n    return []\n```"
+    },
+    {
+      "id": "mbpp/755",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmppld9snz9.py\", line 4\n    if = len2) return None\n             ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\ndef_smallest(lst):\n    if = len2) return None\n    first = float('inf')\n    second = float('inf')\n    for num in lst:\n        if num < first:\n            second = first\n first = num\n        elif num < first and            second num\n    return second if"
+    },
+    {
+      "id": "mbpp/756",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmp0466jg2z.py\", line 4, in <module>\n    assert text_match_zero_one(\"ac\")==False\n           ^^^^^^^^^^^^^^^^^^^\nNameError: name 'text_match_zero_one' is not defined\n",
+      "answer": "I\n'll the function using regular regular expressions:\n\n``````pythonimport re\n\ndef text_match_zero_one(string):\n    return re.full(r'^ab*b$', string)\n```"
+    },
+    {
+      "id": "mbpp/757",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpj23q2ppi.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef count_reverse_pairs(string):\n    count = 0\n    for i in range(string):\n len(string = len[i]\n        for j in range(i, len):\n            if string[i] == string[j][            count += 1\n            break\n       return count\n```"
+    },
+    {
+      "id": "mbpp/758",
+      "pass": false,
+      "secs": 0.8,
+      "err": "]] )=={(1, 3): 2, (5, 7): 2, (13, 15, 17): 1, (9, 11): 1}\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpau379oj3.py\", line 5, in unique_sublists\n    key = tuple(sub)\n                ^^^\nNameError: name 'sub' is not defined. Did you mean: 'sum'?\n",
+      "answer": "```\ndef unique_sublists(lst):\n    result = {}\n    for sublist in lst:\n        key = tuple(sub)\n        if key in result:\n            result[key] += 1\n        else:\n            result[key] = 1\n    return result\n```"
+    },
+    {
+      "id": "mbpp/759",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpsn3rojb6.py\", line 4\n    assert is_decimal('123.11') True\n                                ^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\nimport is_decimal\n\nassert is_decimal('123.11') True\nassert is_decimal('e666.86')False\nassert is_decimal('3.124587')False\nassert is_decimal('1.11') True\nassert is_decimal('1.1.11')False\n```"
+    },
+    {
+      "id": "mbpp/760",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpr0ytg4fw.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nunique_Element(lst):\n    return len(set(lst)) == 1"
+    },
+    {
+      "id": "mbpp/762",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpw9z2qtee.py\", line 2, in <module>\n    can\nNameError: name 'can' is not defined\n",
+      "answer": "``` can\n\ndef check_month_number(month):\n    return month in {4,6,9,11}\n\n``` check_month_number(6) True\n assert check_month_number(2) False\n assert check_month_number(12) False```"
+    },
+    {
+      "id": "mbpp/763",
+      "pass": false,
+      "secs": 2.0,
+      "err": "  File \"/tmp/tmp8x0dn2u0.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def find_min_diff(arr, n):\n    arr = sorted(arr)\n    min = float1\n\n    i = 0\n    j = 1\n    while i < n - 1:\n        diff = arr[i + 1] - arr[i]\n        if diff < min:\n            min = diff\n        i i + 1\n    return min\n\n# find_min_diff((1,5,3,19,18,25),6) == 1\nassert find_min_diff((4,3,2,6),4) == 1\n# assert find_min_diff((30,5,20,9),4) == 4\n```"
+    },
+    {
+      "id": "mbpp/764",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpb01s7q01.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nnumber_ctr(s):\n    return sum(1 for c in s if c.isdigit())"
+    },
+    {
+      "id": "mbpp/765",
+      "pass": false,
+      "secs": 6.7,
+      "err": " 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 \n                  ^\nSyntaxError: invalid syntax\n",
+      "answer": "1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 2 1 2 "
+    },
+    {
+      "id": "mbpp/766",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp94rfcuh6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\npair_wise(lst):\n    return []\n    i in range(len1 -1):\n yield (lst[ii+1])"
+    },
+    {
+      "id": "mbpp/767",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp7yn0jlxf.py\", line 2\n    def def get_pairs_count(numbers, sum):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def get_pairs_count(numbers, sum):\n    count = 0\n    for = (len(numbers) - 1):\n        for j in range(i + 1, len(numbers)):\n            if numbers[i] + numbers[j] == sum:\n                count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/769",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpskemyrh0.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nDiff(a, b):\n return list(x for a in x if not in in b)"
+    },
+    {
+      "id": "mbpp/770",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpvh0405ii.py\", line 2\n    def def odd_num_sum(n):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def odd_num_sum(n):\n    return = sum0\n    for i in range(1, n + 1):\n        num = 2 * i - 1\n        total += num ** 4\n    return total\n```"
+    },
+    {
+      "id": "mbpp/771",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmpfjdnnhsr.py\", line 10\n    \":\n    ^\nSyntaxError: unterminated string literal (detected at line 10)\n",
+      "answer": "``\ndef def check_expression(expression):\n    stack = []\n\n    for char in expression:\n        if char in \"({[}])\":\n            stack.append(char)\n        elif char in \")}]\":\n\":\n            if not stack or return False\n            stack.pop stack[- == char:\n                return False\n\n    return not\n```"
+    },
+    {
+      "id": "mbpp/772",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpgq58e76n.py\", line 3\n    return ' '. ' '. for word in s.split() if len(word) != k)\n                                                            ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef remove_length(s, k):\n    return ' '. ' '. for word in s.split() if len(word) != k)\n```"
+    },
+    {
+      "id": "mbpp/773",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp7de78q9a.py\", line 7\n    ):\n    ^\nSyntaxError: unmatched ')'\n",
+      "answer": "def\nocurance_substring(string, substring):\n    if not not string:\n        return None\n    for i in range(string):\n):\n        if string.startswith(sub, i):\n            return (, i, i + len)\n    return None\n\n```\n"
+    },
+    {
+      "id": "mbpp/775",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmppp3sx970.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nodd_position(lst):\n    for i in range(1, len(len(lst 2 1):\n        if lst[i] % 2 == 0:\n            return False\n    return True"
+    },
+    {
+      "id": "mbpp/776",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmphm3pvyot.py\", line 3\n    vowels vowels =aeioueiou    count = 0\n           ^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef count_vowels(s):\n    vowels vowels =aeioueiou    count = 0\n    for i in range(len1 - -1):\n        if s[i] in vowels and ss[i1] in vowels or s[i -1] in vowels:\n            count += 1\n    return count\n```"
+    },
+    {
+      "id": "mbpp/777",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp2juu9d0z.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\ndef def find_sum(lst):\n    return sum(x for x in lst if lst.count(x) 1)\n```"
+    },
+    {
+      "id": "mbpp/778",
+      "pass": false,
+      "secs": 1.0,
+      "err": "p/tmpzzg49wew.py\", line 4, in <module>\n    assert pack_consecutive_duplicates([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4])==[[0, 0], [1], [2], [3], [4, 4], [5], [6, 6, 6], [7], [8], [9], [4, 4]]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: name 'pack_consecutive_duplicates' is not defined\n",
+      "answer": "``\ndef def pack_consecutive_duplicates(lst):\n    result = []\n    i = 0\n    n = len(lst)\n    while i < n:\n        j = i\n  while while j < n and lst[j] == lst[i]:\n            j += 1\n        result.append(lstlst[i:j+        i = j\n    return result\n``````"
+    },
+    {
+      "id": "mbpp/779",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpr8rn7bn4.py\", line 7\n    counts counts.getkey, 0) + 1\n                           ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef def unique_sublists(lst):\n    counts = {}\n()\n    for sublist in lst:\n        key = tuple(sublist)\n        counts counts.getkey, 0) + 1\n    return counts\n```"
+    },
+    {
+      "id": "mbpp/780",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmpy2ltt_fy.py\", line 2\n    ``\n    ^\nSyntaxError: invalid syntax\n",
+      "answer": "``\nfrom from itertools import combinations\n\ndef find_combinations(tuple):\n    return [((sum1 + sum2), (tuple1[0] + tuple2[0]) for (tuple1, tuple2) in combinations(tuple, 2))\n``"
+    },
+    {
+      "id": "mbpp/781",
+      "pass": false,
+      "secs": 1.4,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpwrr1nclt.py\", line 2, in <module>\n    count_divisors(10)\n    ^^^^^^^^^^^^^^\nNameError: name 'count_divisors' is not defined\n",
+      "answer": "def\ncount_divisors(n):\n    count 0\n    i in 1, int, n(n ** 0.5) + 1\n        if n % i == 0:\n            count += 1\n if i != n // i:\n                count += 1\n    return count % 2 == 0\n\n``` count_divisors(10)\n``` not count_divisors(100)\n``` count_divisors(125)```"
+    },
+    {
+      "id": "mbpp/782",
+      "pass": false,
+      "secs": 0.8,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpav_ka17z.py\", line 4, in <module>\n    assert odd_length_sum([1,2,4]) == 14\n           ^^^^^^^^^^^^^^\nNameError: name 'odd_length_sum' is not defined\n",
+      "answer": "``\ndef def odd_length_sum(arr):\n    n = len(arr)\n    total = 0\n    for i in range(n, 1, -1):\n        for j in range(i, n):\n  total total + arr[j]\n       return return total\n``````"
+    },
+    {
+      "id": "mbpp/783",
+      "pass": false,
+      "secs": 4.3,
+      "err": "  File \"/tmp/tmpm2hxqhhr.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": ". +  ( ( - min) / g - min) % 60\n        elif elif == b:\n            h = 60. + 2 *0. ( ( - min) / b - min) % 60\n    else:\n        s = 100. * delta / max\n        if max == r:\n            h = 60. +  ( ( - min) / r - min) % 60\n        elif elif == g:\n            h = 60. + 2 *0. ( ( - min) / g - min) % 60\n        elif elif == b:\n            h = 60. + 2 *0. ( ( - min) / b - min) % 60\n    return (, s, v)"
+    },
+    {
+      "id": "mbpp/784",
+      "pass": false,
+      "secs": 1.7,
+      "err": "  File \"/tmp/tmpizqv1k_x.py\", line 3\n    assert mul_even_odd([1,2,3,4,5,6,7,8,9,10]) ==2\nIndentationError: unexpected indent\n",
+      "answer": "def\nmul_even_odd(numbers):\n    for = 0\n len(numbers) -1:\n if i[i] % 2 == 0:\n even even =[i]\n break\n if i[i] % 2 == 1:\n odd = numbers[i]\n break\n return even * odd\n\n``` assert mul_even_odd([1,3,5,7,4,1,6,8]) ==4\n assert mul_even_odd([1,2,3,4,5,6,7,8,9,10]) ==2\n assert mul_even_odd([1,5,7,9,10]) ==10```"
+    },
+    {
+      "id": "mbpp/785",
+      "pass": false,
+      "secs": 6.6,
+      "err": "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 \n                             ^\nSyntaxError: unterminated string literal (detected at line 3)\n",
+      "answer": "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 "
+    },
+    {
+      "id": "mbpp/786",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmp5q7c0g89.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nright_insertion(sorted_list, value):\n       left len(sorted_list)\n  while right > left:\n        mid = (left + right) 2\n        if value[mid] < value:\n            left = mid + 1\n        else:\n            right = mid\n    return left"
+    },
+    {
+      "id": "mbpp/787",
+      "pass": false,
+      "secs": 0.8,
+      "err": "  File \"/tmp/tmppbmi63ko.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntext_match_three(s):\n    return not isinstance(s, str) or not.startswith('a') or len[1] != 'b' or len[2] != 'b' or len[3] != 'b'"
+    },
+    {
+      "id": "mbpp/788",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpdveup966.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nnew_tuple(string, lst):\n    return tuple(*tuple + (string,"
+    },
+    {
+      "id": "mbpp/790",
+      "pass": false,
+      "secs": 0.6,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmpn04mqmnc.py\", line 9, in <module>\n    assert even_position([3,2,1]) == False\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "answer": "```\ndef even_position(lst):\n    for i in range(1, len(lst), 2):\n        if lst[i] % 2 != 0:\n            return False\n    return True\n```"
+    },
+    {
+      "id": "mbpp/791",
+      "pass": false,
+      "secs": 2.7,
+      "err": "Traceback (most recent call last):\n  File \"/tmp/tmptqf6orhf.py\", line 2, in <module>\n    remove_nested((1, 5, 7, (4, 6), 10)) == (1, 5, 7, 10)\n    ^^^^^^^^^^^^^\nNameError: name 'remove_nested' is not defined\n",
+      "answer": "tance(t, tuple):\n        return tuple\n    for i in range(t):\n):\n        if isinstance(t[i tuple]:\n            return[t[:i] + t[i+1:]\n]\n    return t\n\n``` remove_nested((1, 5, 7, (4, 6), 10)) == (1, 5, 7, 10)\nassert remove_nested((2, 6, 8, (5, 7), 11)) == (2, 6, 8, 11)\nassert remove_nested((3, 7, 9, (6, 8), 12)) == (3, 7, 9, 12)\nassert remove_nested((3, 7, 9, (6, 8), (5,12), 12)) == (3, 7, 9, 12)```"
+    },
+    {
+      "id": "mbpp/792",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp9nybu5_e.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncount_list(n):\n    return len(len(n for n in lists if isinstance isinstance(list, n))"
+    },
+    {
+      "id": "mbpp/793",
+      "pass": false,
+      "secs": 1.2,
+      "err": "  File \"/tmp/tmpa6bv3vqk.py\", line 2\n    def def last(arr, x):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def last(arr, x):\n    left = 0\n    right = len(len(arr)\n    while left < right:\n        mid = (left + right) // 2\n        if arr[mid] < x:\n            left = mid + 1\n        elif arr[mid] > x:\n            right = mid\n  else else:\n            return = mid\n    return -\n``````"
+    },
+    {
+      "id": "mbpp/794",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp5rasyqop.py\", line 2\n    import def text_starta_endb(s):\n           ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\nimport def text_starta_endb(s):\n    return s.startswith('a') and s.endswith('b')\n```"
+    },
+    {
+      "id": "mbpp/796",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmp13m5w0p6.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nreturn_sum(dictionary):\n    return sum(value for dictionary.values values)```"
+    },
+    {
+      "id": "mbpp/797",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpmg65c97r.py\", line 3\n    return sum(i for range in, r + 1) if i % 2 == 1)\n                                                   ^\nSyntaxError: unmatched ')'\n",
+      "answer": "```\ndef sum_in_range(l, r):\n    return sum(i for range in, r + 1) if i % 2 == 1)\n```"
+    },
+    {
+      "id": "mbpp/798",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpqxx3s8p9.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\n_sumsum(arr):\n    return sum(arr)"
+    },
+    {
+      "id": "mbpp/799",
+      "pass": false,
+      "secs": 6.6,
+      "err": "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111\n                                                              ^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n",
+      "answer": "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "id": "mbpp/800",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpm0t0cia1.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_all_spaces(s):\n    return ''.joinpace(s(s))"
+    },
+    {
+      "id": "mbpp/801",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpyyfwx_a5.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ntest_three_equal(a, b, c):\n    return len({{a, b, c} & 3})"
+    },
+    {
+      "id": "mbpp/802",
+      "pass": false,
+      "secs": 3.0,
+      "err": "  File \"/tmp/tmp0qzwfgob.py\", line 6\n    if arr[i] min_val:\n              ^^^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "tationsations required to generate a sorted array is to find the index of the minimum element. The the array of rotations sorted array be the length of the array minus the index of the minimum element.\n\n Here is the correct code:\n\n```def count_rotation(arr):\n    n = len(arr)\n    min_val = arr[    for i in range(1, n):\n        if arr[i] < min_val:\n            min_val = arr[i]\n    return n - 1\n`````"
+    },
+    {
+      "id": "mbpp/803",
+      "pass": false,
+      "secs": 1.5,
+      "err": "  File \"/tmp/tmpjge4x5s0.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_perfect_square(n):\n    if n < 0:\n        return False\n    if = 0:\n        return True\n    low = 1\n high = n\n    while = low high:\n        mid = (low + high) // 2\n        square = mid * mid\n        if square == n:\n            return True\n        elif square < n:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return False\n\n"
+    },
+    {
+      "id": "mbpp/804",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpclbrz01c.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ndef_product_even(numbers):\n    return any(n % 2 == 0 for n in numbers)"
+    },
+    {
+      "id": "mbpp/805",
+      "pass": false,
+      "secs": 0.4,
+      "err": "  File \"/tmp/tmpnipjrn7k.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\nmax_sum_list(lst):\n\n    return max(max_sum, key in lst for sub_sum in sum(sub for sub in lst))\n\n   "
+    },
+    {
+      "id": "mbpp/806",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmp3mhswsjq.py\", line 2\n    def def max_run_uppercase(s):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "```\ndef def max_run_uppercase(s):\n    max_length = 0\n current_length = 0\n\n    for ch in s:\n        if ch.is ch.is            current current_length + 1\n            max max_length, current_length)\n        else:\n            current_length = 0\n\n    return max_length\n```"
+    },
+    {
+      "id": "mbpp/807",
+      "pass": false,
+      "secs": 0.6,
+      "err": "  File \"/tmp/tmpb5vjq3dk.py\", line 6\n    raise raise ValueError(\"No no in in list list\")\n          ^^^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def first_odd(numbers):\n    for num in numbers:\n        if num % 2 != 0:\n            return num\n    raise raise ValueError(\"No no in in list list\")"
+    },
+    {
+      "id": "mbpp/808",
+      "pass": false,
+      "secs": 0.2,
+      "err": "  File \"/tmp/tmpcnv2dbcl.py\", line 2\n    def\n       ^\nSyntaxError: invalid syntax\n",
+      "answer": "def\ncheck_K(tuple, k):\n    return k in tuple"
+    },
+    {
+      "id": "mbpp/809",
+      "pass": false,
+      "secs": 1.0,
+      "err": "  File \"/tmp/tmphdz0bmca.py\", line 2\n    def def check_smaller(tuple1, tuple2):\n        ^^^\nSyntaxError: invalid syntax\n",
+      "answer": "def def check_smaller(tuple1, tuple2):\n    return len(tuple1) len(tuple2) all(tuple1[i] > tuple2[i] for i in range(range(len1)))\n\n len(tuple1) len(tuple2) or anytuple1[i] <= tuple2[i] for i in range(len(len(tuple1)) 1 False\n\n"
+    }
+  ]
+}
