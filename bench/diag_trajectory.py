@@ -85,6 +85,7 @@ def analyse(blocks, K, S, topk):
     """blocks: list of dict(final, ref or None, recs).  Returns the aggregated per-step tables."""
     A = collections.defaultdict(lambda: collections.defaultdict(float))
     N = collections.defaultdict(lambda: collections.defaultdict(int))
+    DJ = collections.defaultdict(lambda: [0.0, 0, 0])            # distance to the nearest position placed at the previous step -> [sum JSD, n, argmax changes]
     stab_final = []; stab_ref = []
     first_vs_final = dict(blocks=0, exact=0, pos_ok=0, rep4_first=0.0, rep4_final=0.0, dup_adj_first=0, dup_adj_final=0)
     for b in blocks:
@@ -132,7 +133,13 @@ def analyse(blocks, K, S, topk):
                 both = m & prev["mask"]
                 if both.any():
                     bi = both.nonzero().flatten()
-                    A[s]["jsd_prev_masked"] += float(jsd_rows(prev["probs"][bi], r["probs"][bi]).sum())
+                    jr = jsd_rows(prev["probs"][bi], r["probs"][bi])
+                    pl = prev["placed"]
+                    if len(pl):
+                        dist = (bi[:, None] - pl[None, :]).abs().min(-1).values
+                        for dd, jv, ch in zip(dist.tolist(), jr.tolist(), (prev["pred"][bi] != r["pred"][bi]).tolist()):
+                            key = str(min(dd, 8)); DJ[key][0] += jv; DJ[key][1] += 1; DJ[key][2] += int(ch)
+                    A[s]["jsd_prev_masked"] += float(jr.sum())
                     A[s]["top1_change_masked"] += int((prev["pred"][bi] != r["pred"][bi]).sum())
                     A[s]["topk_set_jaccard"] += float(sum(len(set(prev["topk_ids"][q].tolist()) & set(r["topk_ids"][q].tolist())) / len(set(prev["topk_ids"][q].tolist()) | set(r["topk_ids"][q].tolist())) for q in bi.tolist()))
                     N[s]["both_masked"] += len(bi)
@@ -159,6 +166,7 @@ def analyse(blocks, K, S, topk):
         per_step[str(s)] = row
     hist_f = collections.Counter(stab_final); hist_r = collections.Counter(stab_ref)
     out = dict(per_step=per_step, topk=topk,
+               jsd_by_distance_to_last_placed={k: dict(n=v[1], jsd=round(v[0] / v[1], 4), top1_change=round(v[2] / v[1], 4)) for k, v in sorted(DJ.items(), key=lambda kv: int(kv[0])) if v[1]},
                stabilisation_step_final=dict(mean=round(sum(stab_final) / len(stab_final), 3), hist={str(k): v for k, v in sorted(hist_f.items())},
                                              frac_by_step=[round(sum(v for k, v in hist_f.items() if k <= s) / len(stab_final), 4) for s in range(1, S + 1)]),
                first_forward_vs_final=dict(block_exact=round(first_vs_final["exact"] / nb, 4), position_acc=round(first_vs_final["pos_ok"] / (nb * K), 4),

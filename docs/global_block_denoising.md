@@ -25,3 +25,42 @@ run itself ends with; and in free mode: FINAL and the GSM8K answer).  At every s
 candidates with log-probs, entropy, max-prob, mask pattern, placed positions, final-layer hidden states (saved).
 Two kinds of statements are kept apart: *diagnostic* ones that compare with FINAL/REF (known only after the run) and
 *inference-time* ones that use only the step's own outputs (entropy, confidence, step-to-step change).
+
+### 2.1 S = 16, left-to-right, teacher-forced (296 blocks of dev 0–49; results/pure/traj_s16_left_tf.json)
+
+Masked positions only (the positions not yet placed at that step); "FINAL" = what this run ends with, "REF" = the
+base model's own greedy answer.  top-k = top-8.
+
+| step | masked | top-1 recall of FINAL | top-8 recall of FINAL | top-1 / top-8 recall of REF | entropy (nats) | mean max-prob | log p(FINAL token) | JSD vs previous step | argmax changed vs previous |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 16 | 0.342 | 0.749 | 0.344 / 0.751 | 2.51 | 0.38 | −2.59 | – | – |
+| 2 | 15 | 0.362 | 0.775 | 0.350 / 0.755 | 2.36 | 0.40 | −2.47 | 0.097 | 0.338 |
+| 4 | 13 | 0.412 | 0.816 | 0.357 / 0.765 | 2.19 | 0.44 | −2.22 | 0.089 | 0.296 |
+| 6 | 11 | 0.469 | 0.835 | 0.369 / 0.753 | 2.00 | 0.48 | −2.04 | 0.090 | 0.295 |
+| **8** | 9 | **0.519** | **0.856** | 0.362 / 0.721 | 1.78 | 0.53 | −1.81 | 0.106 | 0.299 |
+| 10 | 7 | 0.584 | 0.884 | 0.376 / 0.678 | 1.52 | 0.60 | −1.58 | 0.119 | 0.296 |
+| 12 | 5 | 0.699 | 0.929 | 0.415 / 0.664 | 1.13 | 0.69 | −1.13 | 0.142 | 0.310 |
+| 14 | 3 | 0.827 | 0.975 | 0.448 / 0.635 | 0.74 | 0.79 | −0.64 | 0.147 | 0.252 |
+| 16 | 1 | 1.000 | 1.000 | 0.463 / 0.564 | 0.22 | 0.92 | −0.11 | 0.162 | 0.196 |
+
+Whole-block view: Hamming distance of the current argmax block (masked positions take their argmax) to FINAL falls
+10.5 → 4.3 (step 8) → 0; to REF it falls 10.5 → 7.3 → **5.9** and stays there — 37 % of the final tokens differ from
+the reference wording, and the masked positions' agreement with REF never exceeds 46 % (top-1) at any step.
+
+**First forward vs final block** (the "independent argmax" block the model would emit in one step): position
+accuracy 34 %, block exact 0 %, **6.8 adjacent duplicate tokens per 16-token block** (vs 0.1 in the final block;
+4-gram repetition 0.11 vs 0.002): the all-mask marginals are individually plausible but jointly degenerate
+("Let's go by by by by---\n\n.1111111" for "Let's go step by step.\n\n**First round:**\n- Hattie").
+
+**Stabilisation** (first step from which a position's argmax equals its FINAL token for good): mean 8.2 of 16;
+18 % of positions are right from the first forward, 53 % by step 8, 91 % by step 15.  Against REF 42 % of the
+positions never stabilise (their final token is simply not the reference token).
+
+Reading for Gate 1 (is there usable information about the still-masked future in the intermediate states?):
+*yes, but as a candidate set, not as an argmax*: at step 1 the final token is in the top-8 of 75 % of the positions
+(top-1 34 %); at step 8, 86 % (top-1 52 %).  The marginal over a still-masked position keeps moving while others are
+placed (JSD 0.09–0.16 per step, argmax changes at ~30 % of masked positions every step), and the movement does not
+shrink with distance (§2.3) — the block is globally coupled.  At step 8 the structure of the block is "half formed":
+half the positions have their final argmax, the other half is decided only in the last steps by the growing left
+context.  The entropy at masked positions falls smoothly (2.5 → 1.8 at step 8 → 0.2), i.e. the process is not a
+sudden commitment but a gradual sharpening — which is what a distribution-level sampler would try to exploit.

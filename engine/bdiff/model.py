@@ -60,6 +60,21 @@ class BDiffModel(nn.Module):
         return cache
 
     @torch.no_grad()
+    def denoise_embeds(self, cache, P, block_emb, g):
+        """Like denoise, but the block rows are given as input embeddings [1, K, H] (soft tokens, B9-C)."""
+        K = block_emb.shape[1]
+        emb = block_emb
+        if self.time is not None:
+            emb = emb + self.time(torch.tensor([g], device=emb.device)).to(emb.dtype)[:, None]
+        mask = block_mask(P, K, device=emb.device)[None, None]
+        pos = torch.arange(P, P + K, device=emb.device)[None]
+        out = self.lm(inputs_embeds=emb, attention_mask=mask, position_ids=pos, past_key_values=cache, use_cache=True)
+        extra = cache.get_seq_length() - P
+        if extra > 0:
+            cache.crop(-extra)
+        return out.logits[0]
+
+    @torch.no_grad()
     def denoise(self, cache, P, block_ids, g, return_hidden=False):
         """One reverse step's network call: block_ids [1, K] (masks and visible tokens), g mask ratio -> logits [K, V].
         The prefix cache is reused and cropped back to P afterwards (block K/V are never kept).
