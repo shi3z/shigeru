@@ -66,6 +66,7 @@ def main():
     ap.add_argument("--lambda-kl", type=float, default=1.0)
     ap.add_argument("--lambda-mask", type=float, default=1.0)
     ap.add_argument("--kl-topk", type=int, default=0, help="0 = full-vocabulary KL; else KL over the teacher's top-k plus the rest mass")
+    ap.add_argument("--j-ce", action="store_true", help="ablation: replace the KL at j by a hard CE to the teacher's b* (label only, no distribution)")
     ap.add_argument("--lookahead", type=float, default=0.0, help="weight of the transition term: KL(teacher at the NEXT state (a*, b* placed) || student now) on the other masked positions")
     ap.add_argument("--max-rows", type=int, default=None)
     ap.add_argument("--hard-weight", type=float, default=1.0, help="sampling weight of 'hard' states (independent argmax pair != teacher pair) relative to easy ones")
@@ -147,7 +148,9 @@ def main():
         lg = lg.float(); lg[:, mask_id] = -1e4
         logp = torch.log_softmax(lg, -1)
         l_i = -logp[i, a_star]
-        if a.kl_topk:
+        if a.j_ce:
+            l_kl = -logp[j, b_star]
+        elif a.kl_topk:
             tk = p_t.topk(a.kl_topk).indices
             pt = torch.cat([p_t[tk], (1 - p_t[tk].sum()).clamp_min(1e-8)[None]])
             ps = torch.cat([logp[j, tk].exp(), (1 - logp[j, tk].exp().sum()).clamp_min(1e-8)[None]])
