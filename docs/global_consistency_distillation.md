@@ -81,3 +81,18 @@ where it previously never did, without any extra forward, after 25 minutes of Lo
 **Gate 3 (free generation): yes on dev2** — S = 8 GSM8K 70.0 → 81.3 % on 150 fresh items (p = 0.01), the first
 S = 8 result above the brief's 80 % short-term target; the teacher's 89.3 % marks how much is left.  S = 16 with the
 same student, HumanEval, variant B and the full-data run follow in §5.2.
+
+### 5.2 Student A at other budgets, on code, and the ablations
+
+| | S = 8 | S = 16 | HumanEval S = 8 | HumanEval S = 16 |
+|---|---|---|---|---|
+| B-series baseline (lr1e-4 adapter) | dev2 70.0 % | dev2 90.0 % | 8.5 % | 50.6 % |
+| **student A** (12 k GSM8K states, 1 000 steps) | **81.3 %** | 87.3 % (−4 items) | 10.4 % | **54.9 %** |
+| student B (A + look-ahead) | 79.3 % | – | – | – |
+| student D (hard CE labels instead of KL; held-out hard-pair 48.6 %) | __D150__ | – | – | – |
+| student C (all 65 k GSM8K states, 2 000 steps) | __C150__ | __C16__ | – | – |
+| student E (65 k GSM8K + 11 k MBPP states, 3 000 steps) | __E150__ | __E16__ | __EH8__ | __EH16__ |
+
+The S = 16 cost of student A is small and within noise (−4 of 150), and its HumanEval at S = 16 is higher
+(54.9 vs 50.6 %); at S = 8 code stays near 10 % with GSM8K-only teacher states — the code cascade (pairwise §2.3) is not
+touched by a student that has only seen arithmetic states, hence variant E with MBPP teacher data.
