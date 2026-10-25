@@ -84,14 +84,21 @@ def global_sample_block(model, cache, P, K, steps, mask_id, mode="remask", sched
                 changed = int(diff.sum()); x = torch.where(diff, pred, x)
             guess = x.clone()
         elif mode == "remask":
-            x = pred.clone()
+            # visible tokens keep their token (the model's prediction at a visible position is NOT used to overwrite it —
+            # a forward on a fully visible self-generated block rewrites ~13 of 16 tokens and collapses, see §4);
+            # masked positions take their argmax; then the least-confident positions of the whole block are re-masked
+            # (confidence of a visible token = its probability under the current forward), following the schedule.
+            was_mask = x == mask_id
+            x_new = torch.where(was_mask, pred, x)
+            conf_all = torch.where(was_mask, conf, new_probs.gather(-1, x.clamp_min(0)[:, None]).squeeze(-1))
+            guess = x_new.clone()
+            changed = int((prev_guess != guess).sum()) if prev_guess is not None else K
+            x = x_new
             if not last:
                 n_mask = int(round(K * gamma(1.0 - frac, schedule)))
                 if n_mask > 0:
-                    low = conf.argsort()[:n_mask]
+                    low = conf_all.argsort()[:n_mask]
                     x[low] = mask_id
-            changed = int((prev_guess != pred).sum()) if prev_guess is not None else K
-            guess = pred.clone()
         else:
             probs = new_probs
             changed = int((prev_guess != pred).sum()) if prev_guess is not None else K
@@ -107,6 +114,6 @@ def global_sample_block(model, cache, P, K, steps, mask_id, mode="remask", sched
         if trace:
             tr.append(dict(step=s, guess=guess.tolist(), masked=(x == mask_id).tolist()))
         prev_guess = guess
-    out = x if mode in ("sync",) else (pred if mode != "remask" else x)
+    out = x if mode in ("sync", "remask") else pred
     assert int((out == mask_id).sum()) == 0
     return out.tolist(), dict(forwards=forwards, per_step=per_step, trace=tr if trace else None)

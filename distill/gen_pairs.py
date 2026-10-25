@@ -7,6 +7,8 @@ distribution — no reference tokens needed, the target is the frozen model's ow
   h_i, h_j        final-layer hidden states of the two masked positions from the step's forward (bf16)
   cand_i, cand_j  top-k token ids and log-probs at the two positions (k = 4)
   delta [k, k]    log p(b | a) - log p(b) from k extra forwards (candidate a placed at i, j still masked)
+  x               the block state at the step (K token ids, mask id where masked) and, per prompt, the prompt ids and
+                  the generated tokens (<out>_prompts.jsonl) so that every state can be rebuilt for training
   step, P, block  context (step index 1..7, prefix length, block index)
 The sampler continues with the chain-rule joint choice (so later steps come from the better trajectory) — flag
 --follow independent to keep the plain independent trajectory instead.  Shards of --shard rows (torch.save).
@@ -20,7 +22,7 @@ from distill.gpu_guard import check_env
 check_env()
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from bench.common import load_prompts
+from bench.common import load_prompts, score
 from engine.bdiff.model import BDiffModel
 from engine.bdiff.corrupt import gamma
 
@@ -52,17 +54,18 @@ def main():
     stop_ids = {tok.eos_token_id} | ({tok.convert_tokens_to_ids("<|im_end|>")} if "<|im_end|>" in tok.get_vocab() else set())
     prompts = load_prompts(a.prompts)[a.skip: a.skip + a.n]
     rows = []; n_shard = 0; n_rows = 0; n_fwd = 0; t0 = time.time()
+    pf = open(f"{a.out}_prompts.jsonl", "w")
 
     def flush():
         nonlocal rows, n_shard
         if rows:
             torch.save(dict(h=torch.stack([r["h"] for r in rows]), cand=torch.stack([r["cand"] for r in rows]), lp=torch.stack([r["lp"] for r in rows]),
-                            delta=torch.stack([r["delta"] for r in rows]), meta=torch.tensor([r["meta"] for r in rows])), f"{a.out}_{n_shard:03d}.pt")
+                            delta=torch.stack([r["delta"] for r in rows]), meta=torch.tensor([r["meta"] for r in rows]), x=torch.stack([r["x"] for r in rows])), f"{a.out}_{n_shard:03d}.pt")
             n_shard += 1; rows = []
 
     for pi, p in enumerate(prompts):
         ids = tok.apply_chat_template([{"role": "user", "content": p["prompt"]}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
-        ids = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
+        ids = [int(t) for t in (ids[0] if torch.is_tensor(ids) else ids["input_ids"][0])]
         out = []; finish = None; blk = 0
         while finish is None:
             Kb = min(K, a.max_new_tokens - len(out))
@@ -96,11 +99,11 @@ def main():
                         pj = torch.softmax(l2[j], -1)
                         delta[ai] = pj[tj.indices].clamp_min(1e-12).log() - lp_j
                     rows.append(dict(h=torch.stack([hid[i], hid[j]]).to(torch.bfloat16).cpu(), cand=torch.stack([ti.indices, tj.indices]).cpu(),
-                                     lp=torch.stack([lp_i, lp_j]).cpu(), delta=delta.cpu(), meta=[pi + a.skip, blk, s, P, i, j]))
+                                     lp=torch.stack([lp_i, lp_j]).cpu(), delta=delta.cpu(), meta=[pi + a.skip, blk, s, P, i, j], x=x.clone().cpu()))
                     n_rows += 1
                     if a.follow == "joint":
-                        score = lp_i[:, None] + lp_j[None, :] + delta
-                        best = int(score.argmax()); ai, bj = divmod(best, k)
+                        jscore = lp_i[:, None] + lp_j[None, :] + delta
+                        best = int(jscore.argmax()); ai, bj = divmod(best, k)
                         pred = pred.clone(); pred[i] = ti.indices[ai]; pred[j] = tj.indices[bj]
                     if len(rows) >= a.shard:
                         flush()
@@ -113,9 +116,10 @@ def main():
             out += toks[:keep]; blk += 1
             if len(out) >= a.max_new_tokens:
                 finish = finish or "length"
+        pf.write(json.dumps(dict(idx=pi + a.skip, id=p["id"], ids=ids, out=out, correct=score(p, tok.decode(out, skip_special_tokens=True)))) + "\n"); pf.flush()
         if pi % 20 == 0:
             print(f"{pi} prompts, {n_rows} pair rows, {n_fwd} forwards, {time.time() - t0:.0f}s", flush=True)
-    flush()
+    flush(); pf.close()
     json.dump(dict(model=a.model, adapter=a.adapter, prompts=a.prompts, n=len(prompts), k=k, K=K, steps=S, follow=a.follow, rows=n_rows, shards=n_shard,
                    forwards=n_fwd, seconds=round(time.time() - t0, 1), hidden=int(model.lm.config.hidden_size)), open(f"{a.out}_meta.json", "w"), indent=1)
     print(f"=== gen_pairs {n_rows} rows in {n_shard} shards, {n_fwd} forwards, {time.time() - t0:.0f}s", flush=True)
