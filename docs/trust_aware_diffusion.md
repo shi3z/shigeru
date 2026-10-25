@@ -269,7 +269,7 @@ produce identical blocks, §3).
 
 | decoding (no AR verification, no draft) | GSM8K test | HumanEval pass@1 | tokens / forward | tok/s | latency / problem | peak VRAM |
 |---|---|---|---|---|---|---|
-| AR greedy, HF generate (e5 base) | __AR__ | 68.9 % | 1.00 | 52.5 (A100, same-size model) | – | 8.1 GB weights + cache |
+| AR greedy, HF generate (e5 base) | 88.2 % (1 164 / 1 319) | 68.9 % | 1.00 | 52.5 (A100, same-size model) | – | 8.1 GB weights + cache |
 | A-series K = 4 leave-one-out, Jacobi ≤ 6, CUDA-graph engine (sft3; AR of that checkpoint 88.9 / 68.3 %) | 84.2 % | **40.2 %** | 1.18 | 89.9 (A100) | – | 9.4 GB |
 | B-series S = 16, confidence order | 78.6 % | 29.9 % | 0.91 | 39.5 (A100) / 57 (zeta) | – | 7.8 GB |
 | **B-series S = 16, left-to-right** (new baseline point, dev2 90.0 %) | **84.8 %** (1 118 / 1 319) | **50.6 %** | 0.91 | 56.2 (zeta) | 3.39 s | 7.8 GB |
