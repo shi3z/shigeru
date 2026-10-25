@@ -66,6 +66,7 @@ def main():
     ap.add_argument("--lambda-kl", type=float, default=1.0)
     ap.add_argument("--lambda-mask", type=float, default=1.0)
     ap.add_argument("--kl-topk", type=int, default=0, help="0 = full-vocabulary KL; else KL over the teacher's top-k plus the rest mass")
+    ap.add_argument("--lookahead", type=float, default=0.0, help="weight of the transition term: KL(teacher at the NEXT state (a*, b* placed) || student now) on the other masked positions")
     ap.add_argument("--max-rows", type=int, default=None)
     ap.add_argument("--hard-weight", type=float, default=1.0, help="sampling weight of 'hard' states (independent argmax pair != teacher pair) relative to easy ones")
     ap.add_argument("--eval-every", type=int, default=250)
@@ -110,17 +111,23 @@ def main():
         return out.logits[0, P:]
 
     def teacher_targets(prefix, x, i, j, cand, lp, delta):
-        """a*, b* by the chain-rule joint over the stored candidates; full conditional at j given a*."""
+        """a*, b* by the chain-rule joint over the stored candidates; full conditional at j given a*; and, with
+        --lookahead, the teacher's distributions at the NEXT state (a*, b* placed) for the other masked positions."""
         k = cand.shape[1]
         jscore = lp[0][:, None] + lp[1][None, :] + delta
         best = int(jscore.argmax()); ai, bj = divmod(best, k)
         a_star = int(cand[0][ai]); b_star = int(cand[1][bj])
         x2 = list(x); x2[i] = a_star
+        p_next = None
         with torch.no_grad():
             lg = block_forward(teacher, prefix, x2).float()
             lg[:, mask_id] = -1e4                       # finite: the KL below multiplies p_t by log-probs
             p_t = torch.softmax(lg[j], -1)
-        return a_star, b_star, p_t
+            if a.lookahead > 0:
+                x3 = list(x2); x3[j] = b_star
+                lg3 = block_forward(teacher, prefix, x3).float(); lg3[:, mask_id] = -1e4
+                p_next = torch.softmax(lg3, -1)
+        return a_star, b_star, p_t, p_next
 
     def state_of(r):
         pr = prompts[(r["pref"], r["pi"])]
@@ -134,7 +141,7 @@ def main():
     def losses(r, train_mode=True):
         prefix, x, final = state_of(r)
         i, j = r["i"], r["j"]
-        a_star, b_star, p_t = teacher_targets(prefix, x, i, j, r["cand"], r["lp"], r["delta"])
+        a_star, b_star, p_t, p_next = teacher_targets(prefix, x, i, j, r["cand"], r["lp"], r["delta"])
         with torch.autocast("cuda", dtype=torch.bfloat16):
             lg = block_forward(student, prefix, x)
         lg = lg.float(); lg[:, mask_id] = -1e4
@@ -149,11 +156,19 @@ def main():
             l_kl = (p_t * (p_t.clamp_min(1e-12).log() - logp[j])).sum()
         others = [q for q in range(len(x)) if x[q] == mask_id and q not in (i, j) and final[q] != mask_id]
         l_mask = -torch.stack([logp[q, final[q]] for q in others]).mean() if others else lg.new_zeros(())
+        if p_next is not None and others:
+            oq = torch.tensor(others, device=dev)
+            l_look = (p_next[oq] * (p_next[oq].clamp_min(1e-12).log() - logp[oq])).sum(-1).mean()
+            l_mask = a.lambda_mask * l_mask + a.lookahead * l_look   # combined "rest of the block" term (lambda_mask applied here)
+            return l_i, l_kl, l_mask, *stats_of(lg, i, j, a_star, b_star, r)
+        return l_i, l_kl, a.lambda_mask * l_mask, *stats_of(lg, i, j, a_star, b_star, r)
+
+    def stats_of(lg, i, j, a_star, b_star, r):
         with torch.no_grad():
             pair_ok = float(int(lg[i].argmax()) == a_star and int(lg[j].argmax()) == b_star)
             j_ok = float(int(lg[j].argmax()) == b_star)
             j_ok_teacher_marginal = float(int(r["cand"][1][int(r["lp"][1].argmax())]) == b_star)   # what the un-distilled marginal would pick
-        return l_i, l_kl, l_mask, pair_ok, j_ok, j_ok_teacher_marginal
+        return pair_ok, j_ok, j_ok_teacher_marginal
 
     def is_hard(r):
         """independent argmax pair (from the stored marginals) differs from the teacher's joint pair"""
@@ -187,7 +202,7 @@ def main():
         order = torch.multinomial(weights, len(train), replacement=True).tolist()
         for idx in order:
             l_i, l_kl, l_mask, pair_ok, _, _ = losses(train[idx])
-            loss = (l_i + a.lambda_kl * l_kl + a.lambda_mask * l_mask) / a.accum
+            loss = (l_i + a.lambda_kl * l_kl + l_mask) / a.accum
             loss.backward()
             run["l_i"] += float(l_i); run["l_kl"] += float(l_kl); run["l_mask"] += float(l_mask); run["pair"] += pair_ok; run["n"] += 1
             if run["n"] % a.accum == 0:
