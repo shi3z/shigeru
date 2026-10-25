@@ -84,6 +84,7 @@ jointly 1 272 times and is responsible for none of the 133 errors.
 | D  conditional KL only | 43.8 % | 75.3 % | 81.3 % (−13 items: the KL alone damages S = 16) |
 | E  CE + KL (student A) | 47.6 % | 81.3 % | 87.3 % |
 | F  ordinary data, same budget | __F8h__ | __F8__ | __F16__ |
+| B-large: arm B on all 65 k states, 2 000 steps (zeta) | 37.9 % | 80.7 % | __BL16__ |
 
 **Gate 1 answered: the gain is the teacher data, not the pair objective.**  The plain masked cross-entropy on the
 same 12 000 on-policy S = 8 states — targets = the block the teacher-followed trajectory ended with — matches or beats
@@ -132,3 +133,41 @@ distributed single-token drops/duplications at the seam between the two tokens o
 `()`), with newline seams over-represented in the baseline.  Both are the independent-pair placement failure; neither
 is a model-level inability to indent (S = 16 has 0–1 IndentationErrors on the same prompts).  The structural
 dependency measurements (§4) quantify how much more often code pairs than prose pairs cross such a seam.
+
+## 4. Structural dependency analysis (brief §4; bench/diag_code_structure.py --refs, teacher-forced, left-to-right S = 8)
+
+Reference = the base model's own greedy answer; blocks of 16 decoded from the reference prefix; "pair" = the two
+positions a step places; "crossing a boundary" = at least one of the two reference tokens is a newline, indent,
+colon or bracket.  HumanEval (64 prompts, 3 528 pairs) vs GSM8K dev (50 prompts, 2 368 pairs), undistilled adapter.
+
+| | HumanEval: token acc | GSM8K: token acc |
+|---|---|---|
+| all tokens | 92.7 % | 53.3 % |
+| newline | 92.9 % | 58.4 % |
+| indent (whitespace-only token) | 91.9 % | 56.4 % |
+| colon | 96.4 % | 46.0 % |
+| bracket | 89.9 % | 58.4 % |
+| quote | 90.1 % | 78.6 % |
+| token right after a newline | 92.0 % | 53.1 % |
+| **pair crossing a syntactic boundary** | **90.0 %** (n = 1 862) | 48.7 % (n = 1 022) |
+| **pair not crossing one** | **92.3 %** (n = 1 666) | 47.0 % (n = 1 346) |
+| lowest pair types | newline+indent 86.8 %, bracket+other 87.2 %, indent+other 89.2 % | other+colon 38.6 %, other+newline 43.7 % |
+| S = 16 (one token per forward), all tokens | 95.1 % | – |
+
+Reading: (1) code is far more *predictable* than prose under teacher forcing (92.7 vs 53.3 %: a Python continuation
+is nearly determined by its header and context; a GSM8K sentence has many valid wordings), so the exact-match
+pair accuracy on prose mostly measures paraphrase, not failure.  (2) Structural seams cost code pairs 2.3 points
+(90.0 vs 92.3 %), the newline→indent pair 5.5 points — a real but modest structural dependency; the colon is the
+*easiest* code token (96.4 %).  (3) The reason code collapses at S = 8 while prose survives is therefore not that
+code pairs are much harder, but that **every pair error in code is fatal and the errors compound**: with ~8 pairs
+per block and 8–13 % pair error, a 16-token block is syntactically intact with probability ≈ 0.9^8 ≈ 0.43, and a
+150-token function needs ~10 blocks.  At S = 16 the pair seam disappears (token accuracy 95.1 %) and 50–55 % of the
+programs pass.  (4) The model *has* learned the structural dependencies (newline→indent 86.8 %, indent→statement
+89.2 % when placed jointly; 92–95 % when placed sequentially); what it cannot do is apply them to two positions in
+one forward — the same statement as for arithmetic, with a harsher loss function.
+
+**Consequence for §5.**  A Python-specific "structure-aware masking" (jointly masking newline/indent/bracket) would
+target a 2–5 point seam penalty that is not where the programs are lost; the lost programs come from the general
+pair-seam error rate (8–13 %) that the ablation of §2 has already shown how to lower — masked CE on the student's own
+S = 8 states with joint-resolved targets (arm B) — and from the first-forward format decision (E).  The minimal
+training to run is therefore arm B with *code states in the evaluation's prompt format* added, not a Python rule.

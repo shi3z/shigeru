@@ -1,0 +1,163 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "adapter2": null,
+  "prompts": "bench/prompts_humaneval.json",
+  "n": 64,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "tf": {
+    "S8": {
+      "token_acc_by_category": {
+        "bracket": {
+          "acc": 0.8992,
+          "n": 506
+        },
+        "colon": {
+          "acc": 0.9643,
+          "n": 84
+        },
+        "indent": {
+          "acc": 0.9186,
+          "n": 1007
+        },
+        "newline": {
+          "acc": 0.9291,
+          "n": 719
+        },
+        "other": {
+          "acc": 0.9293,
+          "n": 4539
+        },
+        "quote": {
+          "acc": 0.9005,
+          "n": 201
+        }
+      },
+      "acc_after_newline": {
+        "acc": 0.9196,
+        "n": 684
+      },
+      "acc_at_indent": {
+        "acc": 0.9186,
+        "n": 1007
+      },
+      "pair_acc_crossing_boundary": {
+        "acc": 0.8996,
+        "n": 1862
+      },
+      "pair_acc_plain": {
+        "acc": 0.9232,
+        "n": 1666
+      },
+      "pair_acc_by_type": {
+        "other+other": {
+          "acc": 0.9258,
+          "n": 1536
+        },
+        "indent+other": {
+          "acc": 0.8916,
+          "n": 406
+        },
+        "newline+indent": {
+          "acc": 0.8675,
+          "n": 302
+        },
+        "other+newline": {
+          "acc": 0.9147,
+          "n": 293
+        },
+        "other+bracket": {
+          "acc": 0.9091,
+          "n": 198
+        },
+        "bracket+other": {
+          "acc": 0.8715,
+          "n": 179
+        },
+        "other+indent": {
+          "acc": 0.9068,
+          "n": 161
+        },
+        "newline+other": {
+          "acc": 0.9851,
+          "n": 67
+        },
+        "quote+other": {
+          "acc": 0.9091,
+          "n": 66
+        },
+        "other+quote": {
+          "acc": 0.814,
+          "n": 43
+        },
+        "colon+other": {
+          "acc": 0.9762,
+          "n": 42
+        },
+        "indent+quote": {
+          "acc": 1.0,
+          "n": 41
+        },
+        "indent+newline": {
+          "acc": 0.9429,
+          "n": 35
+        },
+        "bracket+bracket": {
+          "acc": 0.8,
+          "n": 30
+        }
+      }
+    },
+    "S16": {
+      "token_acc_by_category": {
+        "bracket": {
+          "acc": 0.9447,
+          "n": 506
+        },
+        "colon": {
+          "acc": 0.9643,
+          "n": 84
+        },
+        "indent": {
+          "acc": 0.9494,
+          "n": 1007
+        },
+        "newline": {
+          "acc": 0.9416,
+          "n": 719
+        },
+        "other": {
+          "acc": 0.9506,
+          "n": 4539
+        },
+        "quote": {
+          "acc": 0.9154,
+          "n": 201
+        }
+      },
+      "acc_after_newline": {
+        "acc": 0.9459,
+        "n": 684
+      },
+      "acc_at_indent": {
+        "acc": 0.9494,
+        "n": 1007
+      },
+      "pair_acc_crossing_boundary": {
+        "acc": 0.0,
+        "n": 0
+      },
+      "pair_acc_plain": {
+        "acc": 0.0,
+        "n": 0
+      },
+      "pair_acc_by_type": {}
+    }
+  },
+  "seconds": 256.4
+}
