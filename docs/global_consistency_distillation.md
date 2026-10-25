@@ -89,7 +89,7 @@ same student, HumanEval, variant B and the full-data run follow in §5.2.
 | B-series baseline (lr1e-4 adapter) | dev2 70.0 % | dev2 90.0 % | 8.5 % | 50.6 % |
 | **student A** (12 k GSM8K states, 1 000 steps) | **81.3 %** | 87.3 % (−4 items) | 10.4 % | **54.9 %** |
 | student B (A + look-ahead) | 79.3 % | – | – | – |
-| student D (hard CE labels instead of KL; held-out hard-pair 48.6 %) | __D150__ | – | – | – |
+| student D (hard CE labels instead of KL; held-out hard-pair 48.6 %) | 82.0 % | – | – | – |
 | student C (all 65 k GSM8K states, 2 000 steps) | __C150__ | __C16__ | – | – |
 | student E (65 k GSM8K + 11 k MBPP states, 3 000 steps) | __E150__ | __E16__ | __EH8__ | __EH16__ |
 
