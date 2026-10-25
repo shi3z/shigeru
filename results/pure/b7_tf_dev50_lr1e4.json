@@ -1,0 +1,1197 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "skip": 0,
+  "prompts": "bench/prompts_gsm8k_dev.json",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "peak_mem_gib": 7.69,
+  "seconds": 1152.8,
+  "args": {
+    "model": "runs/zeta_sft_final_e5/final",
+    "adapter": "runs/bdiff_e5_lr1e4/adapter",
+    "no_time": true,
+    "prompts": "bench/prompts_gsm8k_dev.json",
+    "refs": "results/pure/dev_refs_e5.json",
+    "n": 50,
+    "skip": 0,
+    "K": 16,
+    "steps": 8,
+    "unmask": "confidence,left,trust",
+    "remask": "none,disagree,lowprob,stability,dependency,trust",
+    "remask_budget": 2,
+    "remask_start": 2,
+    "tau_unmask": 0.9,
+    "tau_remask": 0.5,
+    "trust": "results/pure/trust_lr_e5refs_lr1e4_left_half.json",
+    "trust_mask": "results/pure/trust_lr_e5refs_lr1e4_left_masked_half.json",
+    "schedule": "linear",
+    "skip_tf": false,
+    "skip_gen": true,
+    "max_blocks": 6,
+    "max_new_tokens": 384,
+    "out": "results/pure/b7_tf_dev50_lr1e4.json"
+  },
+  "TF": {
+    "S8_u-confidence_r-none": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1926,
+      "final_token_error": 0.4557,
+      "remasked_per_block": 0.0,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 0,
+      "correct_to_correct": 0,
+      "correction_success": 0.0,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-disagree_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1858,
+      "final_token_error": 0.4578,
+      "remasked_per_block": 2.23,
+      "wrong_to_correct": 14,
+      "correct_to_wrong": 14,
+      "wrong_to_wrong": 135,
+      "correct_to_correct": 497,
+      "correction_success": 0.094,
+      "damage_rate": 0.0274,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.7,
+          "masked": 12.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 3,
+          "fixed": 5.84,
+          "masked": 10.16,
+          "remasked": 0.16
+        },
+        {
+          "step": 4,
+          "fixed": 7.53,
+          "masked": 8.47,
+          "remasked": 0.47
+        },
+        {
+          "step": 5,
+          "fixed": 9.7,
+          "masked": 6.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 6,
+          "fixed": 11.41,
+          "masked": 4.59,
+          "remasked": 0.59
+        },
+        {
+          "step": 7,
+          "fixed": 13.59,
+          "masked": 2.41,
+          "remasked": 0.41
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-lowprob_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1892,
+      "final_token_error": 0.4584,
+      "remasked_per_block": 2.314,
+      "wrong_to_correct": 13,
+      "correct_to_wrong": 15,
+      "wrong_to_wrong": 138,
+      "correct_to_correct": 519,
+      "correction_success": 0.0861,
+      "damage_rate": 0.0281,
+      "net_gain_per_block": -0.007,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.69,
+          "masked": 12.31,
+          "remasked": 0.31
+        },
+        {
+          "step": 3,
+          "fixed": 5.84,
+          "masked": 10.16,
+          "remasked": 0.16
+        },
+        {
+          "step": 4,
+          "fixed": 7.53,
+          "masked": 8.47,
+          "remasked": 0.47
+        },
+        {
+          "step": 5,
+          "fixed": 9.68,
+          "masked": 6.32,
+          "remasked": 0.32
+        },
+        {
+          "step": 6,
+          "fixed": 11.39,
+          "masked": 4.61,
+          "remasked": 0.61
+        },
+        {
+          "step": 7,
+          "fixed": 13.55,
+          "masked": 2.45,
+          "remasked": 0.45
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-stability_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1926,
+      "final_token_error": 0.4535,
+      "remasked_per_block": 1.051,
+      "wrong_to_correct": 6,
+      "correct_to_wrong": 5,
+      "wrong_to_wrong": 45,
+      "correct_to_correct": 255,
+      "correction_success": 0.1176,
+      "damage_rate": 0.0192,
+      "net_gain_per_block": 0.003,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 5.73,
+          "masked": 10.27,
+          "remasked": 0.27
+        },
+        {
+          "step": 4,
+          "fixed": 7.9,
+          "masked": 8.1,
+          "remasked": 0.1
+        },
+        {
+          "step": 5,
+          "fixed": 9.91,
+          "masked": 6.09,
+          "remasked": 0.09
+        },
+        {
+          "step": 6,
+          "fixed": 11.65,
+          "masked": 4.35,
+          "remasked": 0.35
+        },
+        {
+          "step": 7,
+          "fixed": 13.77,
+          "masked": 2.23,
+          "remasked": 0.23
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-dependency_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1858,
+      "final_token_error": 0.4554,
+      "remasked_per_block": 1.125,
+      "wrong_to_correct": 15,
+      "correct_to_wrong": 12,
+      "wrong_to_wrong": 71,
+      "correct_to_correct": 235,
+      "correction_success": 0.1744,
+      "damage_rate": 0.0486,
+      "net_gain_per_block": 0.01,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.7,
+          "masked": 12.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 3,
+          "fixed": 5.86,
+          "masked": 10.14,
+          "remasked": 0.14
+        },
+        {
+          "step": 4,
+          "fixed": 7.84,
+          "masked": 8.16,
+          "remasked": 0.16
+        },
+        {
+          "step": 5,
+          "fixed": 9.88,
+          "masked": 6.12,
+          "remasked": 0.12
+        },
+        {
+          "step": 6,
+          "fixed": 11.81,
+          "masked": 4.19,
+          "remasked": 0.19
+        },
+        {
+          "step": 7,
+          "fixed": 13.78,
+          "masked": 2.22,
+          "remasked": 0.22
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-confidence_r-trust_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1757,
+      "final_token_error": 0.4459,
+      "remasked_per_block": 4.115,
+      "wrong_to_correct": 78,
+      "correct_to_wrong": 44,
+      "wrong_to_wrong": 689,
+      "correct_to_correct": 407,
+      "correction_success": 0.1017,
+      "damage_rate": 0.0976,
+      "net_gain_per_block": 0.115,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.76,
+          "masked": 12.24,
+          "remasked": 0.24
+        },
+        {
+          "step": 3,
+          "fixed": 5.67,
+          "masked": 10.33,
+          "remasked": 0.33
+        },
+        {
+          "step": 4,
+          "fixed": 7.46,
+          "masked": 8.54,
+          "remasked": 0.54
+        },
+        {
+          "step": 5,
+          "fixed": 9.3,
+          "masked": 6.7,
+          "remasked": 0.7
+        },
+        {
+          "step": 6,
+          "fixed": 11.01,
+          "masked": 4.99,
+          "remasked": 0.99
+        },
+        {
+          "step": 7,
+          "fixed": 12.69,
+          "masked": 3.31,
+          "remasked": 1.31
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-none": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2095,
+      "final_token_error": 0.4578,
+      "remasked_per_block": 0.0,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 0,
+      "correct_to_correct": 0,
+      "correction_success": 0.0,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-disagree_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1926,
+      "final_token_error": 0.4649,
+      "remasked_per_block": 2.652,
+      "wrong_to_correct": 24,
+      "correct_to_wrong": 31,
+      "wrong_to_wrong": 149,
+      "correct_to_correct": 581,
+      "correction_success": 0.1387,
+      "damage_rate": 0.0507,
+      "net_gain_per_block": -0.024,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.64,
+          "masked": 12.36,
+          "remasked": 0.36
+        },
+        {
+          "step": 3,
+          "fixed": 5.8,
+          "masked": 10.2,
+          "remasked": 0.2
+        },
+        {
+          "step": 4,
+          "fixed": 7.49,
+          "masked": 8.51,
+          "remasked": 0.51
+        },
+        {
+          "step": 5,
+          "fixed": 9.61,
+          "masked": 6.39,
+          "remasked": 0.39
+        },
+        {
+          "step": 6,
+          "fixed": 11.31,
+          "masked": 4.69,
+          "remasked": 0.69
+        },
+        {
+          "step": 7,
+          "fixed": 13.5,
+          "masked": 2.5,
+          "remasked": 0.5
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-lowprob_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1926,
+      "final_token_error": 0.4662,
+      "remasked_per_block": 2.777,
+      "wrong_to_correct": 23,
+      "correct_to_wrong": 35,
+      "wrong_to_wrong": 159,
+      "correct_to_correct": 605,
+      "correction_success": 0.1264,
+      "damage_rate": 0.0547,
+      "net_gain_per_block": -0.041,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.62,
+          "masked": 12.38,
+          "remasked": 0.38
+        },
+        {
+          "step": 3,
+          "fixed": 5.79,
+          "masked": 10.21,
+          "remasked": 0.21
+        },
+        {
+          "step": 4,
+          "fixed": 7.46,
+          "masked": 8.54,
+          "remasked": 0.54
+        },
+        {
+          "step": 5,
+          "fixed": 9.59,
+          "masked": 6.41,
+          "remasked": 0.41
+        },
+        {
+          "step": 6,
+          "fixed": 11.29,
+          "masked": 4.71,
+          "remasked": 0.71
+        },
+        {
+          "step": 7,
+          "fixed": 13.46,
+          "masked": 2.54,
+          "remasked": 0.54
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-stability_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2027,
+      "final_token_error": 0.4614,
+      "remasked_per_block": 1.135,
+      "wrong_to_correct": 8,
+      "correct_to_wrong": 12,
+      "wrong_to_wrong": 54,
+      "correct_to_correct": 262,
+      "correction_success": 0.129,
+      "damage_rate": 0.0438,
+      "net_gain_per_block": -0.014,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 5.7,
+          "masked": 10.3,
+          "remasked": 0.3
+        },
+        {
+          "step": 4,
+          "fixed": 7.87,
+          "masked": 8.13,
+          "remasked": 0.13
+        },
+        {
+          "step": 5,
+          "fixed": 9.9,
+          "masked": 6.1,
+          "remasked": 0.1
+        },
+        {
+          "step": 6,
+          "fixed": 11.61,
+          "masked": 4.39,
+          "remasked": 0.39
+        },
+        {
+          "step": 7,
+          "fixed": 13.78,
+          "masked": 2.22,
+          "remasked": 0.22
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-dependency_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2027,
+      "final_token_error": 0.4628,
+      "remasked_per_block": 1.436,
+      "wrong_to_correct": 17,
+      "correct_to_wrong": 24,
+      "wrong_to_wrong": 102,
+      "correct_to_correct": 282,
+      "correction_success": 0.1429,
+      "damage_rate": 0.0784,
+      "net_gain_per_block": -0.024,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.64,
+          "masked": 12.36,
+          "remasked": 0.36
+        },
+        {
+          "step": 3,
+          "fixed": 5.83,
+          "masked": 10.17,
+          "remasked": 0.17
+        },
+        {
+          "step": 4,
+          "fixed": 7.81,
+          "masked": 8.19,
+          "remasked": 0.19
+        },
+        {
+          "step": 5,
+          "fixed": 9.8,
+          "masked": 6.2,
+          "remasked": 0.2
+        },
+        {
+          "step": 6,
+          "fixed": 11.77,
+          "masked": 4.23,
+          "remasked": 0.23
+        },
+        {
+          "step": 7,
+          "fixed": 13.72,
+          "masked": 2.28,
+          "remasked": 0.28
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-trust_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2027,
+      "final_token_error": 0.4495,
+      "remasked_per_block": 4.78,
+      "wrong_to_correct": 112,
+      "correct_to_wrong": 58,
+      "wrong_to_wrong": 811,
+      "correct_to_correct": 434,
+      "correction_success": 0.1213,
+      "damage_rate": 0.1179,
+      "net_gain_per_block": 0.182,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.72,
+          "masked": 12.28,
+          "remasked": 0.28
+        },
+        {
+          "step": 3,
+          "fixed": 5.55,
+          "masked": 10.45,
+          "remasked": 0.45
+        },
+        {
+          "step": 4,
+          "fixed": 7.37,
+          "masked": 8.63,
+          "remasked": 0.63
+        },
+        {
+          "step": 5,
+          "fixed": 9.07,
+          "masked": 6.93,
+          "remasked": 0.93
+        },
+        {
+          "step": 6,
+          "fixed": 10.92,
+          "masked": 5.08,
+          "remasked": 1.08
+        },
+        {
+          "step": 7,
+          "fixed": 12.6,
+          "masked": 3.4,
+          "remasked": 1.4
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-none": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1689,
+      "final_token_error": 0.4683,
+      "remasked_per_block": 0.0,
+      "wrong_to_correct": 0,
+      "correct_to_wrong": 0,
+      "wrong_to_wrong": 0,
+      "correct_to_correct": 0,
+      "correction_success": 0.0,
+      "damage_rate": 0.0,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 6.0,
+          "masked": 10.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 4,
+          "fixed": 8.0,
+          "masked": 8.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 5,
+          "fixed": 10.0,
+          "masked": 6.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 6,
+          "fixed": 12.0,
+          "masked": 4.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 7,
+          "fixed": 14.0,
+          "masked": 2.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-disagree_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1622,
+      "final_token_error": 0.4785,
+      "remasked_per_block": 2.02,
+      "wrong_to_correct": 9,
+      "correct_to_wrong": 9,
+      "wrong_to_wrong": 124,
+      "correct_to_correct": 456,
+      "correction_success": 0.0677,
+      "damage_rate": 0.0194,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.69,
+          "masked": 12.31,
+          "remasked": 0.31
+        },
+        {
+          "step": 3,
+          "fixed": 5.86,
+          "masked": 10.14,
+          "remasked": 0.14
+        },
+        {
+          "step": 4,
+          "fixed": 7.59,
+          "masked": 8.41,
+          "remasked": 0.41
+        },
+        {
+          "step": 5,
+          "fixed": 9.71,
+          "masked": 6.29,
+          "remasked": 0.29
+        },
+        {
+          "step": 6,
+          "fixed": 11.53,
+          "masked": 4.47,
+          "remasked": 0.47
+        },
+        {
+          "step": 7,
+          "fixed": 13.6,
+          "masked": 2.4,
+          "remasked": 0.4
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-lowprob_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1622,
+      "final_token_error": 0.478,
+      "remasked_per_block": 2.118,
+      "wrong_to_correct": 10,
+      "correct_to_wrong": 9,
+      "wrong_to_wrong": 131,
+      "correct_to_correct": 477,
+      "correction_success": 0.0709,
+      "damage_rate": 0.0185,
+      "net_gain_per_block": 0.003,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.68,
+          "masked": 12.32,
+          "remasked": 0.32
+        },
+        {
+          "step": 3,
+          "fixed": 5.86,
+          "masked": 10.14,
+          "remasked": 0.14
+        },
+        {
+          "step": 4,
+          "fixed": 7.58,
+          "masked": 8.42,
+          "remasked": 0.42
+        },
+        {
+          "step": 5,
+          "fixed": 9.68,
+          "masked": 6.32,
+          "remasked": 0.32
+        },
+        {
+          "step": 6,
+          "fixed": 11.51,
+          "masked": 4.49,
+          "remasked": 0.49
+        },
+        {
+          "step": 7,
+          "fixed": 13.57,
+          "masked": 2.43,
+          "remasked": 0.43
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-stability_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1622,
+      "final_token_error": 0.4696,
+      "remasked_per_block": 1.061,
+      "wrong_to_correct": 5,
+      "correct_to_wrong": 9,
+      "wrong_to_wrong": 46,
+      "correct_to_correct": 254,
+      "correction_success": 0.098,
+      "damage_rate": 0.0342,
+      "net_gain_per_block": -0.014,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 4.0,
+          "masked": 12.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 3,
+          "fixed": 5.71,
+          "masked": 10.29,
+          "remasked": 0.29
+        },
+        {
+          "step": 4,
+          "fixed": 7.89,
+          "masked": 8.11,
+          "remasked": 0.11
+        },
+        {
+          "step": 5,
+          "fixed": 9.91,
+          "masked": 6.09,
+          "remasked": 0.09
+        },
+        {
+          "step": 6,
+          "fixed": 11.64,
+          "masked": 4.36,
+          "remasked": 0.36
+        },
+        {
+          "step": 7,
+          "fixed": 13.79,
+          "masked": 2.21,
+          "remasked": 0.21
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-dependency_b2": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1588,
+      "final_token_error": 0.4789,
+      "remasked_per_block": 0.993,
+      "wrong_to_correct": 8,
+      "correct_to_wrong": 8,
+      "wrong_to_wrong": 63,
+      "correct_to_correct": 215,
+      "correction_success": 0.1127,
+      "damage_rate": 0.0359,
+      "net_gain_per_block": 0.0,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.69,
+          "masked": 12.31,
+          "remasked": 0.31
+        },
+        {
+          "step": 3,
+          "fixed": 5.88,
+          "masked": 10.12,
+          "remasked": 0.12
+        },
+        {
+          "step": 4,
+          "fixed": 7.88,
+          "masked": 8.12,
+          "remasked": 0.12
+        },
+        {
+          "step": 5,
+          "fixed": 9.9,
+          "masked": 6.1,
+          "remasked": 0.1
+        },
+        {
+          "step": 6,
+          "fixed": 11.85,
+          "masked": 4.15,
+          "remasked": 0.15
+        },
+        {
+          "step": 7,
+          "fixed": 13.81,
+          "masked": 2.19,
+          "remasked": 0.19
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-trust_r-trust_b2_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1486,
+      "final_token_error": 0.4628,
+      "remasked_per_block": 3.926,
+      "wrong_to_correct": 78,
+      "correct_to_wrong": 42,
+      "wrong_to_wrong": 713,
+      "correct_to_correct": 329,
+      "correction_success": 0.0986,
+      "damage_rate": 0.1132,
+      "net_gain_per_block": 0.122,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.77,
+          "masked": 12.23,
+          "remasked": 0.23
+        },
+        {
+          "step": 3,
+          "fixed": 5.68,
+          "masked": 10.32,
+          "remasked": 0.32
+        },
+        {
+          "step": 4,
+          "fixed": 7.52,
+          "masked": 8.48,
+          "remasked": 0.48
+        },
+        {
+          "step": 5,
+          "fixed": 9.3,
+          "masked": 6.7,
+          "remasked": 0.7
+        },
+        {
+          "step": 6,
+          "fixed": 11.05,
+          "masked": 4.95,
+          "remasked": 0.95
+        },
+        {
+          "step": 7,
+          "fixed": 12.75,
+          "masked": 3.25,
+          "remasked": 1.25
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    }
+  },
+  "GEN": {}
+}

@@ -1,0 +1,173 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "skip": 0,
+  "prompts": "bench/prompts_gsm8k_dev.json",
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "4",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "peak_mem_gib": 7.69,
+  "seconds": 125.3,
+  "args": {
+    "model": "runs/zeta_sft_final_e5/final",
+    "adapter": "runs/bdiff_e5_lr1e4/adapter",
+    "no_time": true,
+    "prompts": "bench/prompts_gsm8k_dev.json",
+    "refs": "results/pure/dev_refs_e5.json",
+    "n": 50,
+    "skip": 0,
+    "K": 16,
+    "steps": 8,
+    "unmask": "left",
+    "remask": "disagree,trust",
+    "remask_budget": 1,
+    "remask_start": 2,
+    "tau_unmask": 0.9,
+    "tau_remask": 0.5,
+    "trust": "results/pure/trust_lr_e5refs_lr1e4_left_half.json",
+    "trust_mask": null,
+    "schedule": "linear",
+    "skip_tf": false,
+    "skip_gen": true,
+    "max_blocks": 6,
+    "max_new_tokens": 384,
+    "out": "results/pure/b7_tf_dev50_lr1e4_b1.json"
+  },
+  "TF": {
+    "S8_u-left_r-disagree_b1": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.1926,
+      "final_token_error": 0.4605,
+      "remasked_per_block": 2.155,
+      "wrong_to_correct": 16,
+      "correct_to_wrong": 18,
+      "wrong_to_wrong": 115,
+      "correct_to_correct": 489,
+      "correction_success": 0.1221,
+      "damage_rate": 0.0355,
+      "net_gain_per_block": -0.007,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.64,
+          "masked": 12.36,
+          "remasked": 0.36
+        },
+        {
+          "step": 3,
+          "fixed": 5.83,
+          "masked": 10.17,
+          "remasked": 0.17
+        },
+        {
+          "step": 4,
+          "fixed": 7.59,
+          "masked": 8.41,
+          "remasked": 0.41
+        },
+        {
+          "step": 5,
+          "fixed": 9.67,
+          "masked": 6.33,
+          "remasked": 0.33
+        },
+        {
+          "step": 6,
+          "fixed": 11.52,
+          "masked": 4.48,
+          "remasked": 0.48
+        },
+        {
+          "step": 7,
+          "fixed": 13.6,
+          "masked": 2.4,
+          "remasked": 0.4
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    },
+    "S8_u-left_r-trust_b1_t0.5": {
+      "blocks": 296,
+      "forwards_per_block": 8.0,
+      "block_exact": 0.2061,
+      "final_token_error": 0.4552,
+      "remasked_per_block": 3.287,
+      "wrong_to_correct": 90,
+      "correct_to_wrong": 43,
+      "wrong_to_wrong": 525,
+      "correct_to_correct": 315,
+      "correction_success": 0.1463,
+      "damage_rate": 0.1201,
+      "net_gain_per_block": 0.159,
+      "per_step": [
+        {
+          "step": 1,
+          "fixed": 2.0,
+          "masked": 14.0,
+          "remasked": 0.0
+        },
+        {
+          "step": 2,
+          "fixed": 3.75,
+          "masked": 12.25,
+          "remasked": 0.25
+        },
+        {
+          "step": 3,
+          "fixed": 5.61,
+          "masked": 10.39,
+          "remasked": 0.39
+        },
+        {
+          "step": 4,
+          "fixed": 7.55,
+          "masked": 8.45,
+          "remasked": 0.45
+        },
+        {
+          "step": 5,
+          "fixed": 9.38,
+          "masked": 6.62,
+          "remasked": 0.62
+        },
+        {
+          "step": 6,
+          "fixed": 11.26,
+          "masked": 4.74,
+          "remasked": 0.74
+        },
+        {
+          "step": 7,
+          "fixed": 13.16,
+          "masked": 2.84,
+          "remasked": 0.84
+        },
+        {
+          "step": 8,
+          "fixed": 16.0,
+          "masked": 0.0,
+          "remasked": 0.0
+        }
+      ]
+    }
+  },
+  "GEN": {}
+}

@@ -105,6 +105,30 @@ def load(name, gen_length=512, block_length=32):
             stats["tokens"] += len(out)
             return tok.decode(out, skip_special_tokens=True)
         return gen, {"engine": name, "model": base, "adapter": adapter, "stats": stats}
+    if kind == "k4":
+        # A-series K = 4 leave-one-out refinement on the CUDA-graph engine (four_token_diffusion.md §10 setting):
+        # k4:<model dir>[:<max_rounds>]  -> refineN, adopt always, anchor_leftmost, graph path
+        from transformers import AutoModelForCausalLM
+        from engine.cdlm.fast_model import FastQwen3
+        from engine.cdlm.k4_decoder import k4_generate
+        path = parts[1]; rounds = int(parts[2]) if len(parts) > 2 else 6
+        tok = AutoTokenizer.from_pretrained(path); hf = AutoModelForCausalLM.from_pretrained(path, dtype=torch.bfloat16, attn_implementation="sdpa").cuda().eval()
+        mask_id = getattr(hf.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
+        model = FastQwen3.from_hf(hf, device="cuda", dtype=torch.bfloat16, max_len=4096); del hf; torch.cuda.empty_cache()
+        stop_ids = [tok.eos_token_id] + ([tok.convert_tokens_to_ids("<|im_end|>")] if "<|im_end|>" in tok.get_vocab() else [])
+        stats = {"forwards": 0, "tokens": 0}
+        def gen(text):
+            ids = tok.apply_chat_template([{"role": "user", "content": text}], add_generation_prompt=True, enable_thinking=False, return_tensors="pt")
+            ids = ids[0].tolist() if torch.is_tensor(ids) else list(ids["input_ids"][0])
+            out, st = k4_generate(model, tok, ids, gen_length, block=4, strategy="refineN", adopt="always", max_rounds=rounds, anchor_leftmost=True,
+                                  mask_id=mask_id, stop_ids=stop_ids, static=True, use_graph=True)
+            stats["forwards"] += st["forwards"]; stats["tokens"] += len(out)
+            seq = list(out)
+            for s_id in stop_ids:
+                if s_id in seq:
+                    seq = seq[: seq.index(s_id)]
+            return tok.decode(seq, skip_special_tokens=True)
+        return gen, {"engine": name, "model": path, "stats": stats}
     if kind == "hf":
         from transformers import AutoModelForCausalLM
         path = parts[1]

@@ -89,3 +89,57 @@ logistic score on masked features 0.776–0.794; conf as P(correct) has Brier 0.
 **Gate 1 verdict: a trust score exists (0.77–0.80 AUROC) but it is not sharp, and it cannot come from the
 model's current opinion of a visible token.**  Re-masking rules are therefore evaluated under the fixed 8-forward
 budget directly on GSM8K (§3), with the teacher-forced W→C / C→W accounting alongside.
+
+## 3. Selective re-masking under a fixed budget of 8 forwards (brief §3)
+
+Code: engine/bdiff/sampler2.py (`sample_block_fixed`), bench/eval_trust.py.  Exactly 8 network calls per 16-token
+block (plus the one prefix pass per block that every B-series number includes); the 8th call fills every remaining
+mask, so re-masking never adds a forward — the harness counts and reports forwards.  Re-masking never touches a token
+placed in the same step, starts at step 2, and is capped by a budget per step (default 2).  Rules:
+
+| rule | re-mask a visible token when … | signal needed |
+|---|---|---|
+| A none | never (current B-series monotonic unmasking) | – |
+| B disagree | the argmax of the current forward differs from the placed token (most confident disagreement first; the old "remask" heuristic under the fixed budget) | current forward |
+| B' lowprob | the placed token's probability under the current forward is < 0.5 | current forward |
+| C stability | the argmax disagreed with the token in this step **and** the previous one | two forwards |
+| D dependency | the argmax disagrees **and** a neighbour (distance 1) was placed or re-masked in the previous step | current forward + history |
+| E trust | the logistic trust score (§2, fit on dev prompts 0–24) is < 0.5, least trusted first | history (conf_at, changes, age …) |
+
+A note on measurement: the first dev-50 sweep was run with a sampler whose argmax used `topk`, which orders bf16
+ties differently from the original sampler's `max`; that alone changed 11 of 48 teacher-forced blocks and moved the
+S = 8 confidence-order GSM8K dev-50 score from 66 % to 74 %.  Everything below uses the original tie-breaking (the
+two samplers now agree block for block, 48/48), and a ±8-point swing from tie-breaking is the scale of noise a
+50-item set carries — which is why candidates are decided on the 150 fresh items of dev2.
+
+### 3.1 Teacher-forced accounting (dev items 0–49, 296 reference blocks, lr1e-4 adapter, 8 forwards per block)
+
+For every re-masked position: the token it had before re-masking vs the token it ends with, both against the
+reference (W→C = a wrong token was repaired, C→W = a correct token was destroyed, W→W' = still wrong).  Baseline
+error: 7.3 wrong tokens per 16-token block at step 8 (results/pure/b7_tf_dev50_lr1e4*.json).
+
+| unmask | remask | budget / step | re-masks / block | W→C | C→W | W→W' | C→C | net (W→C − C→W) / block | final token error | block exact |
+|---|---|---|---|---|---|---|---|---|---|---|
+| confidence | none | – | 0 | – | – | – | – | 0 | 45.6 % | 19.3 % |
+| confidence | disagree | 2 | 2.23 | 14 | 14 | 135 | 497 | 0.000 | 45.8 % | 18.6 % |
+| confidence | lowprob | 2 | 2.31 | 13 | 15 | 138 | 519 | −0.007 | 45.8 % | 18.9 % |
+| confidence | stability | 2 | 1.05 | 6 | 5 | 45 | 255 | +0.003 | 45.4 % | 19.3 % |
+| confidence | dependency | 2 | 1.12 | 15 | 12 | 71 | 235 | +0.010 | 45.5 % | 18.6 % |
+| confidence | trust | 2 | 4.12 | 78 | 44 | 689 | 407 | +0.115 | 44.6 % | 17.6 % |
+| left | none | – | 0 | – | – | – | – | 0 | 45.8 % | 20.9 % |
+| left | disagree | 1 / 2 / 4 | 2.15 / 2.65 / 2.79 | 16 / 24 / 25 | 18 / 31 / 34 | 115 / 149 / 157 | 489 / 581 / 609 | −0.007 / −0.024 / −0.030 | 46.1 / 46.5 / 46.3 % | 19.3 % |
+| left | lowprob | 2 | 2.78 | 23 | 35 | 159 | 605 | −0.041 | 46.6 % | 19.3 % |
+| left | stability | 2 | 1.14 | 8 | 12 | 54 | 262 | −0.014 | 46.1 % | 20.3 % |
+| left | dependency | 2 | 1.44 | 17 | 24 | 102 | 282 | −0.024 | 46.3 % | 20.3 % |
+| left | trust | 1 / 2 / 4 | 3.29 / 4.78 / 5.61 | 90 / 112 / 134 | 43 / 58 / 80 | 525 / 811 / 961 | 315 / 434 / 486 | +0.159 / +0.182 / +0.182 | 45.5 / 45.0 / 45.0 % | 20.6 / 20.3 / 20.9 % |
+| trust (unmask by trust score) | none | – | 0 | – | – | – | – | 0 | 46.8 % | 16.9 % |
+| trust | trust | 2 | 3.93 | 78 | 42 | 713 | 329 | +0.122 | 46.3 % | 14.9 % |
+
+Reading: the rules that read the model's current opinion (disagree, lowprob, stability, dependency) re-mask 1–3
+tokens per block and repair about as many tokens as they destroy (net −0.04 … +0.01 per block; correction success
+9–17 %, damage 2–11 %).  The trust rule re-masks 3–6 tokens per block, 60–70 % of them *already wrong*
+(AUROC 0.79 at work), yet 85 % of the re-masked wrong tokens come back wrong (W→W' 525–961 vs W→C 90–134): the
+model has no better answer for those positions in the remaining steps.  Best net gain: +0.18 of the 7.3 wrong
+tokens per block (2.5 %), final token error 45.8 → 45.0 %.  **Gate 2 (net repair) is passed only nominally by the
+trust rule and failed by every rule built on the current forward; the refill, not the detection, is the limit.**
+Unmasking by the trust score instead of confidence is worse (block exact 20.9 → 16.9 %).
