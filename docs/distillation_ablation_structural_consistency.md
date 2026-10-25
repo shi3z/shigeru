@@ -113,3 +113,22 @@ S = 8 and S = 16 outputs agree on the first 32 tokens in 89 % of the problems an
 first block is fine for A (unlike E), the body is where the pairs break.  Both students' failures are therefore the
 same mechanism at different places: **independent placement of a dependent pair**; E's MBPP states merely moved the
 most frequent break to the first pair of the answer.
+
+### 3.2 Baseline (undistilled adapter) — same picture
+
+| baseline | pass | test_fail | runtime_error | incomplete | SyntaxError | IndentationError |
+|---|---|---|---|---|---|---|
+| S = 8 | 14 (8.5 %) | 12 | 8 | 5 | **85** | **40** |
+| S = 16 | 83 (50.6 %) | 65 | 9 | 3 | 4 | 0 |
+
+Error tokens at S = 8 are again spread over all steps (10–22 per step) and categories (other 65, **newline 53**, bracket
+9); the baseline breaks more often at newlines than student A (53 vs 29) — the newline+indent seam and the
+statement-end+newline seam are the Python-specific places where two independently placed tokens most often disagree.
+S = 8 and S = 16 agree on the first 32 tokens in 90 % of problems and diverge at token 110 on average.
+
+**Gate 2 answered.**  The syntax collapse is located: (a) for student E, one position — the first pair of the answer,
+placed by the all-mask first forward, mixing two answer formats (132 / 133 errors); (b) for the baseline and student A,
+distributed single-token drops/duplications at the seam between the two tokens of a step (operators, `->`, stray
+`()`), with newline seams over-represented in the baseline.  Both are the independent-pair placement failure; neither
+is a model-level inability to indent (S = 16 has 0–1 IndentationErrors on the same prompts).  The structural
+dependency measurements (§4) quantify how much more often code pairs than prose pairs cross such a seam.
