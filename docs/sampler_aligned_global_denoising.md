@@ -181,3 +181,24 @@ place, which to revisit) buys nothing because the denoiser's output at a visible
 position depends on a context that is 40–48 % different from the teacher's wording either way; the only measurable
 damage of the non-left-to-right order is structural (duplicates 1.23 vs 0.84, GSM8K 62 vs 76).  §6 tests whether
 training on exactly these states changes any of it.
+
+## 5. B11-D — sampler-aligned masked CE arms (distill/train_states.py; all: new LoRA r 64 on the merged B-series model, 1 000 × 8 states, lr 1e-4, targets at masked positions only)
+
+| arm | training states | targets | dev-50 remask S4 / S8 / S16 | dev-50 left S4 / S8 / S16 | dev2 remask S8 | dev2 left S8 |
+|---|---|---|---|---|---|---|
+| B1 baseline (lr1e-4 adapter) | – | – | 32 / 62 / 74 | 32 / 76 / 92 | – / 62 (B9 dev-50 only) | 70.0 |
+| B10.5 arm B (left pair-states, teacher-followed) | left S = 8 pair states | final block of the teacher-followed trajectory | 28 / 62 / 62 | 56 / 82 / 92 | – | 83.3 |
+| B11-B left states, plain | left S = 8 on-policy states | teacher completion given the visible tokens | __B__ | | | |
+| B11-C remask states, plain | non-monotonic re-masking S = 8 on-policy states | same | __C__ | | | |
+| B11-D mixed, plain | remask + left states | same | __D__ | | | |
+| B11-E remask states, plain + corrected | remask states; half the updates use the corrected state (visible ≠ T re-masked) with T as target | | __E__ | | | |
+
+## 6. B11-E — true global refinement with the sampler-aligned models
+
+(filled from the arm evaluations: the non-monotonic sampler's S = 4 / 8 / 16 accuracy, duplicates, overturn rate and
+W→C / C→W per step, side by side with the monotonic samplers on the same models)
+
+## 8. Training distribution vs inference distribution (bench/diag_state_dist.py)
+
+(histogram overlap per feature between each arm's training states and the states the non-monotonic sampler visits in
+free generation on dev-50; filled when the collections are in)
