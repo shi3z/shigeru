@@ -189,9 +189,9 @@ training on exactly these states changes any of it.
 | B1 baseline (lr1e-4 adapter) | – | – | 32 / 62 / 74 | 32 / 76 / 92 | **58.0** (S4 20.0, S16 63.3) | 70.0 |
 | B10.5 arm B (left pair-states, teacher-followed) | left S = 8 pair states | final block of the teacher-followed trajectory | 28 / 62 / 62 | 56 / 82 / 92 | – | 83.3 |
 | B11-B left states, plain | left S = 8 on-policy states | teacher completion given the visible tokens | __B__ | | | |
-| B11-C remask states, plain | non-monotonic re-masking S = 8 on-policy states (35.5 k) | same | 36 / 60 / 66 | 60 / 82 / 86 | 56.0 | 76.7 |
+| B11-C remask states, plain | non-monotonic re-masking S = 8 on-policy states (35.5 k) | same | 36 / 60 / 66 | 60 / 82 / 86 | 56.0 (+23 / −26, p = 0.78) | 76.7 |
 | B11-D mixed, plain | remask + left states | same | __D__ | | | |
-| B11-E remask states, plain + corrected | remask states (35.5 k); half the updates use the corrected state (visible ≠ T re-masked) with T as target | 50 / **62** / 74 | 56 / **86** / 92 | 65.3 | 78.7 |
+| B11-E remask states, plain + corrected | remask states (35.5 k); half the updates use the corrected state (visible ≠ T re-masked) with T as target | 50 / **62** / 74 | 56 / **86** / 92 | **65.3** (+29 / −18 vs baseline, p = 0.14) | 78.7 |
 
 ## 6. B11-E — true global refinement with the sampler-aligned models
 
