@@ -91,3 +91,21 @@ and the whole question of global refinement reduces to one capability the curren
 tokens to re-mask (B7 measured its current opinion of visible tokens as uninformative — because it never saw a wrong
 one in training).  This is exactly the capability the sampler-aligned states of §4 expose the model to, and the
 "corrected" variant is its supervised form.
+
+### 3.1 What the "oracle 70–77 %" numbers are, exactly (brief v2 §3)
+
+- **Quantity**: token accuracy of the whole 16-token block against REF (the base model's own greedy answer for the
+  reference prefix) after the update — *not* block exact match, *not* a correction success rate.  Denominator: 16 × 296
+  blocks per step.
+- **Procedure**: from the state the sampler visited, every visible token that differs from REF is re-masked (this
+  reads REF — it is an upper bound, not an inference method), then the masks are filled one per forward left to right
+  by the frozen model (n_mask' extra forwards, up to 16).  The teacher sees REF only through the choice of which
+  positions to re-mask; it never sees the reference tokens themselves.
+- **Difference to B7's oracle** (trust_aware_diffusion.md §3.2): B7 re-masked wrong tokens under the *left-to-right
+  monotonic* sampler with a per-step budget and refilled them with the plain sampler's remaining forwards (30 % repair
+  success).  Here the refill is the sequential teacher with as many forwards as masks, from states of the *global*
+  sampler, and the number is accuracy after the update, which includes the 50–85 % of tokens that were already right.
+- **What it does and does not say**: it says that from the global sampler's states a block ≈ 73 % identical to REF is
+  reachable *if* the wrong visible tokens are known and *if* the refill is sequential (22+ forwards); it does not say
+  that any inference-time rule finds those tokens (B7: AUROC ≈ 0.5 for the current model), nor that mismatch with REF
+  is error (§3.2 separates the two).
