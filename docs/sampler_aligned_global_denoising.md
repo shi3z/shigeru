@@ -195,8 +195,21 @@ training on exactly these states changes any of it.
 
 ## 6. B11-E — true global refinement with the sampler-aligned models
 
-(filled from the arm evaluations: the non-monotonic sampler's S = 4 / 8 / 16 accuracy, duplicates, overturn rate and
-W→C / C→W per step, side by side with the monotonic samplers on the same models)
+Non-monotonic confidence re-masking (any token may return to [MASK]; no left-to-right commitment; exactly S forwards per
+block), dev2 = 150 fresh items, paired against the undistilled adapter under the same sampler:
+
+| model | S = 4 (4 tokens / forward) | S = 8 | S = 16 |
+|---|---|---|---|
+| baseline (lr1e-4 adapter) | 20.0 % | 58.0 % | 63.3 % |
+| arm C (remask states, plain targets) | – | 56.0 % (+23 / −26, p = 0.78) | – |
+| **arm E (remask states, plain + teacher-corrected targets)** | **43.3 %** (+47 / −12, p < 0.0001) | 65.3 % (+29 / −18, p = 0.14) | **74.0 %** (+33 / −17, p = 0.03) |
+| reference: left-to-right monotonic, baseline / arm E | 27.3 / – | 70.0 / 78.7 | 90.0 / – |
+
+The sampler-aligned model improves the global sampler at every budget (+23, +7, +11 points), significantly at S = 4
+and S = 16, not yet at S = 8 on 150 items; the gain needs the corrected half of the targets (arm C, plain only, does
+not improve the global sampler and costs 8 points at S = 16 on dev-50).  The global sampler remains behind
+left-to-right at every budget on the same model (65.3 vs 78.7 at S = 8).  Whether the improvement is "global denoising"
+or better first placements is the subject of §7.1 (dynamics with arm E).
 
 ## 8. Training distribution vs inference distribution (bench/diag_state_dist.py)
 
