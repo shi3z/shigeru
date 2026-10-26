@@ -114,7 +114,7 @@ an earlier step are re-masked (lowest confidence under the current forward, or r
 | + forced re-mask k = 1, lowest confidence | 76 | 63.3 |
 | + k = 2, lowest confidence | 56 | 64.7 |
 | + k = 3, lowest confidence | 68 | 59.3 |
-| + k = 1, random | – | __K1R__ |
+| + k = 1, random | – | 65.3 |
 | + k = 2, random | 52 | 63.3 |
 | + k = 3, random | 70 | – |
 | left-to-right monotonic, same model | 86 | 78.7 |
