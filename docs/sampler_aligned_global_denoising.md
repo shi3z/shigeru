@@ -55,7 +55,12 @@ token to its right (impossible under left-to-right unmasking); "wrong visible" =
 | **training distribution** (random masks on gold), s2 / s5 / s8 | .875 / .5 / .125 | 2.7 / 4.4 / 1.9 | 0.1 / 0.9 / 4.8 | 99 / 100 / 99 % | **0 / 0 / 0** | 0 | 0 % |
 | non-monotonic re-masking (global), s2 / s5 / s8 | .875 / .5 / .125 | 1.3 / 2.3 / 1.7 | 1.7 / 3.4 / 6.8 | 27 / 82 / 85 % | 0.3 / 2.9 / 6.4 | 15 / 36 / **46 %** | 24 / 63 / 80 % |
 | full-block synchronous (Jacobi), s2 / s5 / s8 | 0 / 0 / 0 | 0 | 16 | 0 % | 10.5 / 14.4 / 14.7 | 66 / 90 / 92 % | 100 % |
-| left-to-right monotonic, s2 / s5 / s8 | .875 / .5 / .125 | 1 / 1 / 1 | 2 / 8 / 14 | 0 / 0 / 0 % | __L2__ | __LF__ | __LS__ |
+| left-to-right monotonic, s2 / s5 / s8 | .875 / .5 / .125 | 1 / 1 / 1 | 2 / 8 / 14 | 0 / 0 / 0 % | 0.3 / 2.5 / 6.0 | 14 / 32 / 43 % | 25 / 59 / 77 % |
+| confidence monotonic, s2 / s5 / s8 | .875 / .5 / .125 | 1.3 / 1.7 / 1.4 | 1.7 / 6.3 / 11.5 | 27 / 53 / 54 % | 0.3 / 2.6 / 5.9 | 15 / 32 / 43 % | 24 / 60 / 78 % |
+
+Against REF, the left-to-right and the global re-masking samplers accumulate wrong visible tokens at the *same* rate
+(0.3 → 2.5 → 6.0 vs 0.3 → 2.9 → 6.4 per state): how much of this is real error and how much paraphrase of the reference
+is the subject of §3.2.
 
 **Gate 1 — what differs between the training states and the sampler states.**  Not the mask geometry: the random
 training masks have *more* islands and *always* have visible tokens to the right of masks, so the global sampler's
@@ -80,7 +85,8 @@ re-masked first (uses REF: an upper bound, never an inference method), then seqf
 | training distribution, s2 / s5 / s8 | 57.5 / 91.6 / 99.3 % | 77.3 / 94.9 / 99.5 % | = seqfill (no wrong visible) |
 | re-masking sampler, s2 / s5 / s8 | 40.6 / 49.7 / 52.5 % | 60.3 / 55.2 / 52.5 % | **65.2 / 72.5 / 74.6 %** |
 | full-block Jacobi, s2 / s5 / s8 | 34.4 / 9.7 / 7.9 % (no masks: nothing to fill) | same | **77.2 / 71.7 / 70.7 %** |
-| left-to-right, s2 / s5 / s8 | __LC__ | | |
+| left-to-right, s2 / s5 / s8 | 40.1 / 51.3 / 54.2 % | 58.6 / 56.6 / 54.2 % | 64.5 / 72.9 / 74.7 % |
+| confidence, s2 / s5 / s8 | 40.6 / 51.2 / 54.4 % | 60.3 / 57.0 / 54.5 % | 65.2 / 71.6 / 74.1 % |
 
 Reading: (1) the sequential teacher is strong where the context is right (training states: 95–99 % at ≤ 50 % masks;
 all-mask: 63 %), (2) on the global sampler's states its gain shrinks step by step (60 → 52 %) because the masks it fills
