@@ -112,7 +112,7 @@ an earlier step are re-masked (lowest confidence under the current forward, or r
 |---|---|---|
 | plain non-monotonic re-masking (reference) | 62 | **65.3** |
 | + forced re-mask k = 1, lowest confidence | 76 | 63.3 |
-| + k = 2, lowest confidence | 56 | __K2L__ |
+| + k = 2, lowest confidence | 56 | 64.7 |
 | + k = 3, lowest confidence | 68 | 59.3 |
 | + k = 1, random | – | __K1R__ |
 | + k = 2, random | 52 | 63.3 |
@@ -120,7 +120,7 @@ an earlier step are re-masked (lowest confidence under the current forward, or r
 | left-to-right monotonic, same model | 86 | 78.7 |
 
 The per-intervention expectation of §3 (+3 to +9 points at a state with 62 % control accuracy) does **not** turn into a
-better sampler: dev-50 scatters 52–76 % around 62 (the spread of a resampling step on 50 items) and dev2 is 59–63 %
+better sampler: dev-50 scatters 52–76 % around 62 (the spread of a resampling step on 50 items) and dev2 is 59–65 %
 against 65.3 %.  The reason is in §3 itself: the intervention's value is positive only because it re-rolls a block whose
 outcome is already known to be wrong 38 % of the time; applied blindly to every block it re-rolls the 62 % correct
 blocks as well, and across the ~10 blocks of an answer the harm (12–19 % per correct block) compounds while a wrong
@@ -155,7 +155,7 @@ improves, but only with the outcome; the pre-registered stopping rule applies to
 | left-to-right S = 8, B10.5 arm B / B11 arm B | 83.3 / 84.0 | 77.8 / 77.2 | – | – |
 | global re-masking S = 8, undistilled | 58.0 | – | – | – |
 | global re-masking S = 8, B11 arm E | 65.3 | __ETEST__ | 8.5 (left-to-right mode) | – |
-| global + forced re-mask (this phase) | 59.3–63.3 | – | – | – |
+| global + forced re-mask (this phase) | 59.3–64.7 | – | – | – |
 | counterfactual oracle (best of 25, outcome known; 26 × forwards) | 95 (dev-50 states) | – | – | – |
 
 ## 9. Forwards, speed, VRAM
