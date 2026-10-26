@@ -26,3 +26,21 @@ only for a fixed final setting; training states only from GSM8K-train prompts di
 ## 2. B11-A — sampler state distributions (bench/diag_sampler_states.py)
 
 (results in §2.1 when the dev-50 runs finish)
+
+## 4. B11-C — sampler-aligned training states (distill/gen_global_states.py)
+
+States are collected by running the *student sampler itself* on GSM8K-train prompts disjoint from every evaluation set
+(bench/prompts_gsm8k_pairtrain.json items 800–1099 for the non-monotonic re-masking sampler, 1100–1399 for the
+left-to-right sampler; 300 prompts each, K = 16, S = 8), following its own choices (on-policy).  Every state x_s — the
+block before the s-th forward, with its [MASK]s and its possibly wrong visible tokens — is stored twice:
+
+| variant | input state | targets | what it teaches |
+|---|---|---|---|
+| plain | x_s as visited | masked positions ← the teacher's sequential completion *conditioned on the current visible tokens* (one forward per mask, left to right over the masks) | fill the masks consistently with whatever is visible, including wrong tokens — the capability a sampler needs at every step; visible positions are never targets |
+| corrected | x_s with every visible token ≠ T re-masked (T = the teacher's sequential block for this prefix, 16 forwards) | all masked positions ← T | correct a wrong visible token only by making it a mask: the B2 failure (CE on visible positions) is not reintroduced |
+
+The all-mask state (step 1), random-looking states (the re-masking sampler at mid-ratio), non-monotonic states
+(masks with visible tokens to their right) and teacher-corrected states are all present in the collected set; the
+"structured mask" and "global refinement" states of the brief are the re-masking sampler's own states at steps 2–8.
+Per state the number of visible tokens differing from T is recorded (the wrong-visible statistic of free generation).
+Cost: ~2 × n_mask teacher forwards per state (plain + the shared T): ~40 s per prompt.
