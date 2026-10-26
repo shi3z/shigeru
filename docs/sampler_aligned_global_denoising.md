@@ -229,3 +229,26 @@ the sampler is the same, the prompts differ), and the original recipe's states d
 islands and prefix, and the wrong-visible dimension — the one that matters (§2.1, §3) — overlaps 0.46 because the
 training states never contain a wrong visible token.  Whether closing this gap changes generation is the separate
 question of §5–§6 (brief v2 §7: "distribution closer" and "quality better" are verified separately).
+
+### 7.1 The same dynamics with arm E (sampler-aligned model) — what changed and what did not
+
+| non-monotonic sampler, S = 8, dev-50 free generation | baseline | **arm E** |
+|---|---|---|
+| GSM8K dev-50 (dev2) | 62 % (58.0) | 62 % (65.3) |
+| final block mismatch with T — all / task-correct / task-wrong | 49.8 / 48.2 / 51.6 % | **38.4 / 36.2 / 41.6 %** |
+| visible tokens later overturned (revisits that changed something), step 2 / 5 / 8 | 3.7 / 2.6 / 0 % | 3.3 / 4.8 / 0 % |
+| adjacent duplicates per block, step 5 / final | 0.46 / **1.23** | 0.60 / **1.38** |
+| positions changed per step, step 2 / 5 / 8 | 5.7 / 3.2 / 0.7 | 5.2 / 2.8 / 0.4 |
+| W→C / C→W vs T per step, step 2 / 5 / 8 | 1.61/0.64 · 0.70/0.40 · 0.14/0.08 | 1.71/0.71 · 0.81/0.43 · 0.09/0.07 |
+| order sensitivity from the step-5 state: left completion = T / remask completion = T / agreement | 50.7 / 50.2 / 83.9 % | 62.0 / 61.6 / 87.9 % |
+
+What changed: the model's placements are closer to the teacher's wording (mismatch with T 50 → 38 %, in correct and
+wrong answers alike — the corrected targets *are* teacher imitation, §3.2) and both completion orders from a given
+state end nearer to T and nearer to each other.  What did **not** change: revisits remain inert (≤ 5 % of visible
+tokens ever overturned, 0 by the end), duplicates per block are not reduced (1.38 vs 1.23 — slightly more), the number
+of positions moved per step is the same.  **Gate 4 (joint correction of several positions without left-to-right
+commitment): not demonstrated.**  The global sampler's gains with arm E (§6) come from better *first placements* under
+its mask layouts, i.e. from the denoiser having seen those layouts and those wrong-token contexts, not from the
+iteration repairing the block.  The brief's question — "iterative improvement of the whole block, or holes filling as
+information arrives from the left?" — keeps the second answer for arm E as well; the aligned training makes the holes
+be filled better, it does not make the sampler correct itself.
