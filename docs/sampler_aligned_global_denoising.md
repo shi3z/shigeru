@@ -140,3 +140,44 @@ oracle's 70–77 % "recovery" is to a large extent re-wording into REF, not repa
 §4: the *corrected* variant (re-mask every visible token ≠ T and target T) imposes the teacher's wording on the student
 — it should be read as "teacher-trajectory imitation", not as "error correction"; the *plain* variant (keep the visible
 tokens, complete consistently with them) does not have this problem.  Both are evaluated (arms C vs E).
+
+## 7. Denoising dynamics of the global sampler (brief v2 §5; baseline adapter, free generation, dev-50, 560 blocks)
+
+Non-monotonic confidence re-masking, S = 8 (GSM8K dev-50 62 %; left-to-right on the same prompts 76 %):
+
+| step | visible / 16 | positions changed vs previous guess | visible later overturned (B) | mismatch with T of visible (C) | adjacent duplicates | Hamming to T (argmax block) | Hamming to own FINAL | W→C / C→W vs T | W→C / C→W vs FINAL |
+|---|---|---|---|---|---|---|---|---|---|
+| 2 | 2 | 5.7 | 3.7 % | 13.5 % | 0.06 | 9.73 | 8.02 | 1.61 / 0.64 | 2.36 / 0.53 |
+| 3 | 4 | 4.9 | 3.8 % | 23.3 % | 0.18 | 9.08 | 6.23 | 1.28 / 0.64 | 2.26 / 0.47 |
+| 5 | 8 | 3.2 | 2.6 % | 36.3 % | 0.46 | 8.31 | 3.07 | 0.70 / 0.40 | 1.81 / 0.27 |
+| 7 | 12 | 1.5 | 1.0 % | 45.6 % | 0.84 | 8.03 | 0.71 | 0.32 / 0.17 | 1.13 / 0.08 |
+| 8 | 14 | 0.7 | 0 | 48.0 % | 0.99 | 7.97 | 0 | 0.14 / 0.08 | 0.71 / 0 |
+
+Final blocks: mismatch with T 49.8 % (task-correct answers 48.2 %, wrong 51.6 %), adjacent duplicates **1.23 per block**
+(left-to-right 0.84), 4-gram repetition 0.087.  Positions whose argmax changed value at least twice during the run:
+40 % (left-to-right 52 % — most of that is the masked argmax moving before placement).
+
+Answers to the four questions of the brief:
+- **A. Correction gain.**  Against T, each step repairs about twice as many positions as it breaks (W→C / C→W 1.6 / 0.6
+  → 0.14 / 0.08), but the repairs are overwhelmingly *newly filled* positions, not revisits: the fraction of visible
+  tokens that the sampler later overturns is 3.7 % at step 2 and falls to 0 — the re-masking budget is spent on
+  low-confidence *fresh* placements that get re-predicted to the same or a similar token.  Revisiting exists but is
+  almost inert.
+- **B. Global consistency.**  Hamming distance to the teacher block stops improving after step 3 (9.1 → 8.0 and flat)
+  while the distance to the run's own final block falls to 0: the process converges to *its own* fixed point, which is
+  as far from T at step 8 as at step 4.  Adjacent duplicates *grow* with the steps (0.06 → 0.99 per block) — the
+  degenerate pairs are created by the placements, not removed by the iterations.  So the honest answer to "is the
+  whole block improving?" is **no**: masks are being filled, and the quality of the filled tokens is set at placement.
+- **C. Order sensitivity.**  From the *same* mid-run state (step 5, 560 states), finishing with 4 more non-monotonic
+  steps or with 4 more left-to-right monotonic fills gives completions that agree with T equally (50.2 vs 50.7 %) and
+  with each other at 83.9 % of positions: the order of the remaining placements barely matters; what matters is the
+  state they start from.
+- **D. Convergence.**  Stable, not oscillating (no position flips back and forth once visible: B → 0), but stable at
+  a point with 1.2 duplicates per block and 12 points less GSM8K accuracy than left-to-right.  The failure mode is
+  *premature lock-in with no mechanism to undo*, not instability.
+
+Taken with §3.2, the picture for the undistilled model is: the global sampler's extra freedom (which positions to
+place, which to revisit) buys nothing because the denoiser's output at a visible position is a copy and at a masked
+position depends on a context that is 40–48 % different from the teacher's wording either way; the only measurable
+damage of the non-left-to-right order is structural (duplicates 1.23 vs 0.84, GSM8K 62 vs 76).  §6 tests whether
+training on exactly these states changes any of it.
