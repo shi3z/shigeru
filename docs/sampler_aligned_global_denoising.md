@@ -115,3 +115,28 @@ one in training).  This is exactly the capability the sampler-aligned states of 
   reachable *if* the wrong visible tokens are known and *if* the refill is sequential (22+ forwards); it does not say
   that any inference-time rule finds those tokens (B7: AUROC ≈ 0.5 for the current model), nor that mismatch with REF
   is error (§3.2 separates the two).
+
+### 3.2 Reference mismatch is not error (brief v2 §2; bench/diag_mismatch.py, free generation on dev-50, baseline adapter)
+
+Five quantities, measured separately on the same runs (T = the sequential teacher block for the same prefix, 16 extra
+forwards per block, research only; REF only where the generated prefix still equals the reference's):
+
+| left-to-right S = 8, free generation (561 blocks) | step 2 | step 5 | step 8 | final block |
+|---|---|---|---|---|
+| A reference mismatch of visible tokens (51 reference-aligned blocks) | 11.8 % | 25.0 % | 42.9 % | 48.9 % |
+| B self-trajectory mismatch (visible tokens vs the run's own final block) | 0 | 0 | 0 | – |
+| C teacher-trajectory mismatch (visible vs T) | 10.9 % | 30.5 % | 42.2 % | **45.2 %** |
+| D adjacent duplicate tokens per block | 0.06 | 0.36 | 0.70 | 0.84 |
+| E task failure | – | – | – | GSM8K dev-50 76 % correct |
+| **paraphrase check**: final-block mismatch with T in task-CORRECT answers / in WRONG answers | | | | **43.5 % / 49.7 %** |
+
+Reading: a correct answer differs from the teacher's sequence at 43.5 % of its tokens; a wrong answer at 49.7 %.  So
+of the ~45 % "wrong visible" tokens reported in §2.1–§3 against REF or T, roughly **43 points are wording freedom and
+about 6 points are the error signal** — the mismatch counts cannot be used as an error rate, and a correction scheme that
+"fixed" every token that differs from the teacher would mostly be rewriting correct answers into the teacher's wording.
+What *does* separate correct from wrong blocks is structural: adjacent duplicates (0.84 per final block overall; §3.3
+gives the split per outcome once the remask run is in) and the GSM8K result itself.  This also recasts §3.1: the
+oracle's 70–77 % "recovery" is to a large extent re-wording into REF, not repair.  Consequences for the training data of
+§4: the *corrected* variant (re-mask every visible token ≠ T and target T) imposes the teacher's wording on the student
+— it should be read as "teacher-trajectory imitation", not as "error correction"; the *plain* variant (keep the visible
+tokens, complete consistently with them) does not have this problem.  Both are evaluated (arms C vs E).
