@@ -65,6 +65,24 @@ continuation after a re-mask is a different sample of the answer, and whether it
 the state, not on which position was re-masked.  (3) The effect decays with position in the answer: single re-masks in
 block 0 repair 35 % / harm 17 %, block 2 24 % / 9 % — early states are more malleable in both directions.
 
+### 3.1 The same experiment on the undistilled adapter (zeta; results/pure/b12_cf_base.json)
+
+| intervention | undistilled: repair / harm / net | arm E: repair / harm / net |
+|---|---|---|
+| single | 20.8 / 15.7 / **−0.040** | 29.8 / 12.8 / +0.034 |
+| pair, adjacent | 30.1 / 17.5 / −0.023 | 39.6 / 16.9 / +0.046 |
+| pair, non-adjacent | 29.7 / 20.1 / −0.042 | 39.0 / 15.6 / +0.052 |
+| multi-3 / multi-4 | 35.4 / 21.1 / −0.030 · 40.6 / 23.5 / −0.030 | 39.5 / 13.4 / +0.067 · 49.1 / 19.4 / +0.067 |
+| random-3 | 41.7 / 19.6 / 0.000 | 54.4 / 19.4 / +0.087 |
+| oracle: wrong states repairable / correct states robust / best-of-25 accuracy | 40 / 48 · 30 / 102 · 94.7 % | 50 / 57 · 32 / 93 · 95.3 % |
+
+With the frozen model every intervention is net-negative (repair 21–42 %, harm 16–24 %): regenerating from its own
+mid-block states is a worse-than-even coin.  The sampler-aligned model (arm E) turned the same move net-positive
+(repair +9 to +13 points, harm −2 to −4) — this is the mechanism behind B11's global-sampler gains, visible here at the
+level of individual transitions: alignment makes *regeneration from a self-generated state* more reliable, which is
+what a global sampler does at every step.  The oracle ceiling is the same for both (≈ 95 %), because best-of-25 is a
+property of the answer distribution, not of the model's judgement.
+
 ## 4. Oracle repair upper bound
 
 | | value |
