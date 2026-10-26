@@ -186,7 +186,7 @@ training on exactly these states changes any of it.
 
 | arm | training states | targets | dev-50 remask S4 / S8 / S16 | dev-50 left S4 / S8 / S16 | dev2 remask S8 | dev2 left S8 |
 |---|---|---|---|---|---|---|
-| B1 baseline (lr1e-4 adapter) | – | – | 32 / 62 / 74 | 32 / 76 / 92 | – / 62 (B9 dev-50 only) | 70.0 |
+| B1 baseline (lr1e-4 adapter) | – | – | 32 / 62 / 74 | 32 / 76 / 92 | **58.0** (S4 20.0, S16 63.3) | 70.0 |
 | B10.5 arm B (left pair-states, teacher-followed) | left S = 8 pair states | final block of the teacher-followed trajectory | 28 / 62 / 62 | 56 / 82 / 92 | – | 83.3 |
 | B11-B left states, plain | left S = 8 on-policy states | teacher completion given the visible tokens | __B__ | | | |
 | B11-C remask states, plain | non-monotonic re-masking S = 8 on-policy states (35.5 k) | same | 36 / 60 / 66 | 60 / 82 / 86 | 56.0 | 76.7 |
