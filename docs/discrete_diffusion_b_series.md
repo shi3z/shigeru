@@ -472,3 +472,17 @@ Teacher-forced code pairs are 90–92 % right vs 47–49 % for prose; structural
 because every pair error is fatal.  The same masked-CE recipe with code states in the evaluation's prompt format lifts
 HumanEval S = 8 from 8.5 to 19.5 % (teacher ceiling 23.2 %) at a 7-point GSM8K cost in the shared LoRA.  Gains do not
 transfer to a non-monotonic sampler.  All at 8 forwards per block, no AR verification.
+
+## 17. Phase B11 — sampler-aligned global denoising (summary; full record in sampler_aligned_global_denoising.md)
+
+The training states of the B-series recipe (random masks over gold, visible tokens always correct) overlap the states the
+non-monotonic global sampler visits by only 0.46–0.72 (0.13–0.44 for the left-to-right sampler); on-policy states of
+the sampler itself overlap 0.97–1.0.  Mismatch with the teacher sequence is mostly wording freedom (43.5 % of tokens in
+task-correct answers vs 49.7 % in wrong ones).  The frozen model's global sampler converges to its own fixed point:
+revisits overturn ≤ 4 % of visible tokens, duplicates grow to 1.2 per block, completion order from a given state barely
+matters.  Masked CE on the global sampler's own states with teacher-corrected targets (arm E) lifts the non-monotonic
+sampler on dev2 from 20.0 / 58.0 / 63.3 to 43.3 / 65.3 / 74.0 % at S = 4 / 8 / 16 (significant at 4 and 16) and the
+left-to-right sampler 70.0 → 78.7 at S = 8, with HumanEval unchanged; plain targets alone (arms C/D) do not help the
+global sampler.  The gains come from better first placements under the global mask layouts, not from iterative
+repair — revisits stay inert — so Gate 4 (true non-autoregressive correction) is not met; the global sampler remains
+13 points behind left-to-right on the same model.  Arm B (left states only): __B11B__.
