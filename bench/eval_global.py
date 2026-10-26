@@ -47,6 +47,9 @@ def main():
     ap.add_argument("--schedule", default="linear")
     ap.add_argument("--t-end", type=float, default=0.2)
     ap.add_argument("--alpha-end", type=float, default=1.0)
+    ap.add_argument("--vis-k", type=int, default=2, help="remask_vis: number of earlier-placed visible tokens re-masked at --vis-step")
+    ap.add_argument("--vis-step", type=int, default=None)
+    ap.add_argument("--vis-rule", default="lowconf", choices=["lowconf", "random"])
     ap.add_argument("--skip-tf", action="store_true")
     ap.add_argument("--skip-gen", action="store_true")
     ap.add_argument("--max-blocks", type=int, default=6)
@@ -87,13 +90,14 @@ def main():
             else:
                 info["per_step"] = [dict(step=st["step"], changed=st["unmasked"], masked=st["masked"]) for st in info["per_step"]]
             return toks, info
-        return global_sample_block(model, cache, P, Kb, S, mask_id, mode=mode, schedule=a.schedule, temperature_end=a.t_end, alpha_end=a.alpha_end, gold=gold)
+        return global_sample_block(model, cache, P, Kb, S, mask_id, mode=mode, schedule=a.schedule, temperature_end=a.t_end, alpha_end=a.alpha_end, gold=gold,
+                                   vis_k=a.vis_k, vis_step=a.vis_step, vis_rule=a.vis_rule, generator=torch.Generator().manual_seed(0))
 
     t0 = time.time(); TF = {}; GEN = {}
     torch.cuda.reset_peak_memory_stats()
     for mode in a.modes.split(","):
         for S in [int(x) for x in a.steps.split(",")]:
-            name = f"{mode}_S{S}"
+            name = f"{mode}_S{S}" + (f"_k{a.vis_k}_{a.vis_rule}" + (f"_s{a.vis_step}" if a.vis_step else "") if mode == "remask_vis" else "")
             if not a.skip_tf and refs:
                 c = collections.Counter(); steps_acc = collections.defaultdict(lambda: collections.Counter()); rep = 0.0
                 for p in prompts:
