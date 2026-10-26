@@ -272,3 +272,41 @@ at the same time drifts further from REF (the base model's AR wording) toward T 
 its corrected targets imitate): the two references disagree on ~40 % of tokens, so "accuracy vs REF" falls while
 "mismatch with T" falls too (§7.1).  Neither is an error rate (§3.2); the task metric (§6) is what counts, and it
 improved under the global sampler.
+
+## 9. Forward counts, speed, VRAM, GPU time
+
+All students are LoRAs merged into the same 4B weights, so inference cost is the sampler's: non-monotonic re-masking
+and left-to-right monotonic both spend exactly S forwards per 16-token block plus the prefix pass (1.71 tokens/forward at
+S = 8, 3.1 at S = 4, 0.90 at S = 16); tok/s on the A100 HF path 70–78 (S = 8), 133–136 (S = 4), 38–41 (S = 16); peak
+inference VRAM 7.9 GB; training peak 16–17 GB (one model, LoRA r 64, 1 000 × 8 states, 23–26 min per arm on an A100).
+Teacher-state generation: ~35 s per prompt on zeta / 29 s on an A100 (2 × n_mask teacher forwards per state); the four
+collections (300 + 100 remask, 300 left prompts; 65 k states) took 1.5 + 0.7 + 2.4 GPU-hours.  Diagnostics
+(state/correction 3 × 1 h, mismatch 4 × 10 min, distributions 3 × 10 min, ability checks 1 h) ≈ 5 GPU-hours; training
+4 arms ≈ 1.7 GPU-hours; evaluations (dev-50 both samplers S = 4/8/16 with teacher-forced dynamics, dev2) ≈ 4 GPU-hours.
+Phase total ≈ 16 GPU-hours on GPUs 4/6/7 and zeta.
+
+## 10. Phase B11 Go / No-Go
+
+| gate | verdict | evidence |
+|---|---|---|
+| 1 state alignment | **yes** | on-policy states of the global sampler overlap its inference distribution 0.97–1.0 on every feature; the original gold-random recipe 0.46–0.72 (0.13–0.44 against the left-to-right sampler) — §8 |
+| 2 repair feasibility | **conditional** | from the global sampler's states a block ≈ 73 % identical to REF is reachable only if the wrong visible tokens are re-masked with knowledge of REF (oracle) and refilled sequentially; without that knowledge the sequential teacher's gain shrinks to zero by step 8; and ~43 of the 45 "wrong" points are wording freedom, not error — §3, §3.1, §3.2 |
+| 3 free generation with the global sampler | **partly** | arm E: dev2 S = 4 20.0 → 43.3 (p < 1e-4), S = 16 63.3 → 74.0 (p = 0.03), S = 8 58.0 → 65.3 (p = 0.14); arm C (plain targets only) no gain; the global sampler stays 13 points behind left-to-right on the same model — §6 |
+| 4 non-autoregressive behaviour | **no** | revisits remain inert (≤ 5 % of visible tokens ever overturned, 0 by the end), duplicates per block unchanged (1.23 → 1.38), gains come from better first placements — §7.1 |
+| 5 generalisation beyond GSM8K | **no** | HumanEval S = 8 8.5 % → 8.5 % (arm E), S = 16 __EH16__ |
+
+Failure causes recorded: (i) the mismatch between the training states and the sampler's states was real and is now
+closed (Gate 1), and closing it does move the global sampler (Gate 3) — but what it buys is the same thing it bought
+left-to-right in B10.5: better denoising of the masks *given* the visible context; (ii) the global sampler's extra
+freedom is unused because the denoiser has no notion that a visible token can be wrong — the corrected targets teach it
+to *imitate the teacher's wording*, not to detect errors (visible positions are never targets, by design, after the B2
+collapse), so revisits stay inert; (iii) "wrong visible token" is mostly paraphrase (§3.2), so a detector trained on
+mismatch-with-teacher would largely learn style, and the ~6-point true-error signal is what any future re-masking
+criterion has to find.
+
+What would have to be true for true global denoising, from these measurements: a training state in which a *wrong*
+(task-breaking, not paraphrased) visible token is present, the position is a target, and the target is "re-mask me" —
+i.e. a learned re-masking decision trained on structural/task-relevant errors (duplicates, broken numbers, the
+first-pair format decision) rather than on teacher mismatch, applied with the denoiser that now handles global mask
+layouts.  That is a different objective from anything tried in B2/B7/B11 (which used visible-token CE, confidence, or
+teacher mismatch) and is the one experiment this phase's data makes well-defined.
