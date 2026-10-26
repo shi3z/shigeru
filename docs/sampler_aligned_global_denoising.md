@@ -222,7 +222,7 @@ generation on dev-50 (results/pure/b11_state_dist_remask.json).
 | inference (remask sampler, dev-50, free) | 4 480 | 1.77 | 3.76 | 59 % | 29.7 % | – |
 | **arm C/E states** (remask sampler on training prompts, on-policy) | 27 872 | 1.76 | 3.76 | 60 % | 30.0 % | **0.998 / 0.967 / 0.996 / 0.974** |
 | original recipe (random masks over gold) | 4 536 | 3.18 | 1.29 | 87 % | 0 % | 0.50 / 0.64 / 0.72 / **0.46** |
-| arm B/D left states | __LEFTDIST__ | | | | | |
+| arm B/D left states (left sampler on training prompts) | 28 840 | 1.0 | 7.0 | 0 % | 26 % | 0.44 / 0.55 / 0.41 / 0.92 |
 
 **Gate 1 (state alignment): the on-policy states cover the inference distribution** (overlap ≥ 0.97 on every feature;
 the sampler is the same, the prompts differ), and the original recipe's states do not: half the mass is elsewhere on
@@ -252,3 +252,18 @@ its mask layouts, i.e. from the denoiser having seen those layouts and those wro
 iteration repairing the block.  The brief's question — "iterative improvement of the whole block, or holes filling as
 information arrives from the left?" — keeps the second answer for arm E as well; the aligned training makes the holes
 be filled better, it does not make the sampler correct itself.
+
+### 6.1 Arm E on the global sampler's teacher-forced states (bench/diag_sampler_states.py with adapter2; REF = base model's greedy answer)
+
+| re-masking sampler states, step 2 / 5 / 8 | baseline | arm E |
+|---|---|---|
+| fill: masked-position accuracy vs REF | 34.2 / 35.4 / 40.7 % | **35.0 / 38.9 / 44.6 %** |
+| sequential teacher fill: block token accuracy vs REF | 60.3 / 55.2 / 52.5 % | 56.6 / 49.6 / 48.5 % |
+| wrong visible per state vs REF | 0.30 / 2.9 / 6.4 | 0.25 / 3.5 / 7.1 |
+| final block token accuracy vs REF | 52.5 % | 48.4 % |
+
+The aligned model fills the global sampler's masks better (+1 to +4 points of masked accuracy at the visited states) and
+at the same time drifts further from REF (the base model's AR wording) toward T (the B-model's sequential wording, which
+its corrected targets imitate): the two references disagree on ~40 % of tokens, so "accuracy vs REF" falls while
+"mismatch with T" falls too (§7.1).  Neither is an error rate (§3.2); the task metric (§6) is what counts, and it
+improved under the global sampler.
