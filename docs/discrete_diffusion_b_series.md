@@ -486,3 +486,13 @@ left-to-right sampler 70.0 → 78.7 at S = 8, with HumanEval unchanged; plain ta
 global sampler.  The gains come from better first placements under the global mask layouts, not from iterative
 repair — revisits stay inert — so Gate 4 (true non-autoregressive correction) is not met; the global sampler remains
 13 points behind left-to-right on the same model.  Arm B (left states only): dev2 left-to-right S = 8 **84.0 %** (best of the series), global sampler 50.0 % (−8): each sampler is improved by its own states and only by them.
+
+## 18. Phase B12 — counterfactual global denoising (summary; full record in counterfactual_global_denoising.md)
+
+From 150 mid-block states of the B11 global sampler, re-masking 1–4 visible positions and regenerating with the same
+remaining budget repairs 30–55 % of wrong answers and breaks 12–19 % of correct ones; targeted positions (lowest
+confidence, adjacency) are no better than random sets of the same size; an outcome-aware oracle (best of 25) reaches
+95 % at 26 × the forwards.  Applied blindly as a zero-cost sampler rule (forced re-mask of k tokens at step 4), the
+same intervention gives 59–63 % on dev2 vs 65.3 % without it.  Intervention value is not predictable from the state, so
+no re-masking policy or joint-transition student was trained; the global line's remaining lever is a structural error
+signal (duplicates, syntax), not confidence or teacher mismatch.
