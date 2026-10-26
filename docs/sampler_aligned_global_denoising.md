@@ -276,6 +276,16 @@ its corrected targets imitate): the two references disagree on ~40 % of tokens, 
 "mismatch with T" falls too (§7.1).  Neither is an error rate (§3.2); the task metric (§6) is what counts, and it
 improved under the global sampler.
 
+### 6.2 GSM8K test rows (settings fixed on dev2)
+
+| decoder | GSM8K test | paired vs the undistilled left-to-right S = 8 (72.9 %) |
+|---|---|---|
+| arm B (left states, plain), left-to-right S = 8 | **77.2 %** | +175 / −118, p = 0.0010 |
+| arm E (remask states, plain + corrected), non-monotonic re-masking S = 8 | __ETEST__ | (vs the undistilled global sampler — no test row exists for it; dev2 58.0 → 65.3) |
+
+The dev2 → test shrinkage seen in every phase recurs (arm B: dev2 84.0, test 77.2); the B10.5 arm B
+(teacher-followed pair states) reached 77.8 % on test with the same recipe — the two are the same result within noise.
+
 ## 9. Forward counts, speed, VRAM, GPU time
 
 All students are LoRAs merged into the same 4B weights, so inference cost is the sampler's: non-monotonic re-masking
