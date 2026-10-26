@@ -224,6 +224,11 @@ generation on dev-50 (results/pure/b11_state_dist_remask.json).
 | original recipe (random masks over gold) | 4 536 | 3.18 | 1.29 | 87 % | 0 % | 0.50 / 0.64 / 0.72 / **0.46** |
 | arm B/D left states (left sampler on training prompts) | 28 840 | 1.0 | 7.0 | 0 % | 26 % | 0.44 / 0.55 / 0.41 / 0.92 |
 
+Against the *left-to-right* sampler's inference states instead (results/pure/b11_state_dist_leftinf.json): the left
+states overlap 1.0 on every geometric feature and 0.99 on wrong-visible; the remask states 0.45 / 0.55 / 0.40 / 0.91;
+the original gold-random recipe **0.15 / 0.28 / 0.13 / 0.44** — the recipe the B-series was trained with is farthest of
+all from the sampler it is actually used with.
+
 **Gate 1 (state alignment): the on-policy states cover the inference distribution** (overlap ≥ 0.97 on every feature;
 the sampler is the same, the prompts differ), and the original recipe's states do not: half the mass is elsewhere on
 islands and prefix, and the wrong-visible dimension — the one that matters (§2.1, §3) — overlaps 0.46 because the
