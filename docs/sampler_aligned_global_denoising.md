@@ -200,5 +200,19 @@ W→C / C→W per step, side by side with the monotonic samplers on the same mod
 
 ## 8. Training distribution vs inference distribution (bench/diag_state_dist.py)
 
-(histogram overlap per feature between each arm's training states and the states the non-monotonic sampler visits in
-free generation on dev-50; filled when the collections are in)
+Features per state (mask ratio, mask islands, visible prefix length, right-visible flag, fraction of visible tokens ≠ T);
+histogram intersection (0–1) between each training set and the 4 480 states the non-monotonic sampler visits in free
+generation on dev-50 (results/pure/b11_state_dist_remask.json).
+
+| training set | n states | islands (mean) | prefix | right-visible | wrong-visible frac | overlap: islands / prefix / right-visible / wrong-visible |
+|---|---|---|---|---|---|---|
+| inference (remask sampler, dev-50, free) | 4 480 | 1.77 | 3.76 | 59 % | 29.7 % | – |
+| **arm C/E states** (remask sampler on training prompts, on-policy) | 27 872 | 1.76 | 3.76 | 60 % | 30.0 % | **0.998 / 0.967 / 0.996 / 0.974** |
+| original recipe (random masks over gold) | 4 536 | 3.18 | 1.29 | 87 % | 0 % | 0.50 / 0.64 / 0.72 / **0.46** |
+| arm B/D left states | __LEFTDIST__ | | | | | |
+
+**Gate 1 (state alignment): the on-policy states cover the inference distribution** (overlap ≥ 0.97 on every feature;
+the sampler is the same, the prompts differ), and the original recipe's states do not: half the mass is elsewhere on
+islands and prefix, and the wrong-visible dimension — the one that matters (§2.1, §3) — overlaps 0.46 because the
+training states never contain a wrong visible token.  Whether closing this gap changes generation is the separate
+question of §5–§6 (brief v2 §7: "distribution closer" and "quality better" are verified separately).
