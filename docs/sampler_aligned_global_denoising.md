@@ -44,3 +44,50 @@ The all-mask state (step 1), random-looking states (the re-masking sampler at mi
 "structured mask" and "global refinement" states of the brief are the re-masking sampler's own states at steps 2–8.
 Per state the number of visible tokens differing from T is recorded (the wrong-visible statistic of free generation).
 Cost: ~2 × n_mask teacher forwards per state (plain + the shared T): ~40 s per prompt.
+
+### 2.1 State geometry and visible-token correctness per step (dev items 0–49, 296 reference blocks, S = 8; results/pure/b11_states_*.json)
+
+"islands" = runs of [MASK]; "prefix" = longest visible run from position 0; "right-visible" = some mask has a visible
+token to its right (impossible under left-to-right unmasking); "wrong visible" = visible tokens ≠ REF.
+
+| sampler, step | mask ratio | islands | prefix | right-visible states | wrong visible / state | wrong-visible fraction | states with ≥ 1 wrong visible |
+|---|---|---|---|---|---|---|---|
+| **training distribution** (random masks on gold), s2 / s5 / s8 | .875 / .5 / .125 | 2.7 / 4.4 / 1.9 | 0.1 / 0.9 / 4.8 | 99 / 100 / 99 % | **0 / 0 / 0** | 0 | 0 % |
+| non-monotonic re-masking (global), s2 / s5 / s8 | .875 / .5 / .125 | 1.3 / 2.3 / 1.7 | 1.7 / 3.4 / 6.8 | 27 / 82 / 85 % | 0.3 / 2.9 / 6.4 | 15 / 36 / **46 %** | 24 / 63 / 80 % |
+| full-block synchronous (Jacobi), s2 / s5 / s8 | 0 / 0 / 0 | 0 | 16 | 0 % | 10.5 / 14.4 / 14.7 | 66 / 90 / 92 % | 100 % |
+| left-to-right monotonic, s2 / s5 / s8 | .875 / .5 / .125 | 1 / 1 / 1 | 2 / 8 / 14 | 0 / 0 / 0 % | __L2__ | __LF__ | __LS__ |
+
+**Gate 1 — what differs between the training states and the sampler states.**  Not the mask geometry: the random
+training masks have *more* islands and *always* have visible tokens to the right of masks, so the global sampler's
+layouts (1.3–2.3 islands, right-visible in 27–85 % of states) are inside the training support, and it is the
+left-to-right sampler whose contiguous-prefix layout is the rare one.  The difference is the **visible tokens**: in
+training every visible token is correct; in the global sampler 15 % of the visible tokens are wrong at step 2 and
+46 % at step 8 (80 % of the late states contain at least one wrong token); in full-block Jacobi 66–92 % of the block
+is wrong and nothing is masked.  The denoiser's conditional accuracy at the masked positions shows the consequence
+directly: 51–94 % masked accuracy on training-distribution states vs 34–41 % on the re-masking sampler's states at
+the same mask ratios (§3).
+
+## 3. B11-B — teacher correction from the visited states (Gate 2)
+
+From each visited state: `fill` = one denoiser forward at the masks; `seqfill` = masks filled one per forward, left to
+right over the masks (the chain-rule teacher generalised to any mask layout); `oracle` = visible tokens ≠ REF are
+re-masked first (uses REF: an upper bound, never an inference method), then seqfill.  Token accuracy of the whole
+16-token block vs REF after the update (W→C per block in brackets).
+
+| state source, step | fill | seqfill (teacher) | oracle re-mask + seqfill |
+|---|---|---|---|
+| all-mask (every sampler, s1) | 34.4 % (5.5) | **63.3 %** (10.1) | 63.3 % |
+| training distribution, s2 / s5 / s8 | 57.5 / 91.6 / 99.3 % | 77.3 / 94.9 / 99.5 % | = seqfill (no wrong visible) |
+| re-masking sampler, s2 / s5 / s8 | 40.6 / 49.7 / 52.5 % | 60.3 / 55.2 / 52.5 % | **65.2 / 72.5 / 74.6 %** |
+| full-block Jacobi, s2 / s5 / s8 | 34.4 / 9.7 / 7.9 % (no masks: nothing to fill) | same | **77.2 / 71.7 / 70.7 %** |
+| left-to-right, s2 / s5 / s8 | __LC__ | | |
+
+Reading: (1) the sequential teacher is strong where the context is right (training states: 95–99 % at ≤ 50 % masks;
+all-mask: 63 %), (2) on the global sampler's states its gain shrinks step by step (60 → 52 %) because the masks it fills
+are conditioned on more and more wrong visible tokens — **the teacher cannot correct what it is not allowed to touch**,
+(3) if the wrong visible tokens are re-masked (oracle), 65–75 % of the block is recovered from the same states, and
+even the fully wrong Jacobi blocks come back to 71–77 %.  So a consistent correction *is reachable* from global states,
+and the whole question of global refinement reduces to one capability the current model lacks: deciding which visible
+tokens to re-mask (B7 measured its current opinion of visible tokens as uninformative — because it never saw a wrong
+one in training).  This is exactly the capability the sampler-aligned states of §4 expose the model to, and the
+"corrected" variant is its supervised form.

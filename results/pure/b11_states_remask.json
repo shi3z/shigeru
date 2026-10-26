@@ -1,0 +1,524 @@
+{
+  "model": "runs/zeta_sft_final_e5/final",
+  "adapter": "runs/bdiff_e5_lr1e4/adapter",
+  "adapter2": null,
+  "K": 16,
+  "steps": 8,
+  "n": 50,
+  "gpu": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_visible_devices": "6",
+    "torch": "2.6.0+cu124",
+    "total_mem_gib": 79.2
+  },
+  "forwards": 99334,
+  "seconds": 2226.4,
+  "results": {
+    "remask": {
+      "per_step": {
+        "1": {
+          "n": 296,
+          "mask_ratio": 1.0,
+          "islands": 1.0,
+          "prefix": 0.0,
+          "right_visible_rate": 0.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.3444,
+            "block_exact": 0.0,
+            "w2c": 5.51,
+            "c2w": 0.0,
+            "masked_acc": 0.3444
+          },
+          "seqfill": {
+            "token_acc": 0.6326,
+            "block_exact": 0.3851,
+            "w2c": 10.122,
+            "c2w": 0.0,
+            "masked_acc": 0.6326
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.6326,
+            "block_exact": 0.3851,
+            "w2c": 10.122,
+            "c2w": 0.0,
+            "masked_acc": 0.6326
+          }
+        },
+        "2": {
+          "n": 296,
+          "mask_ratio": 0.875,
+          "islands": 1.31,
+          "prefix": 1.66,
+          "right_visible_rate": 0.274,
+          "wrong_visible_per_state": 0.301,
+          "wrong_visible_frac": 0.1503,
+          "states_with_wrong_visible": 0.243,
+          "fill": {
+            "token_acc": 0.4058,
+            "block_exact": 0.0,
+            "w2c": 4.794,
+            "c2w": 0.0,
+            "masked_acc": 0.3424
+          },
+          "seqfill": {
+            "token_acc": 0.603,
+            "block_exact": 0.3345,
+            "w2c": 7.949,
+            "c2w": 0.0,
+            "masked_acc": 0.5678
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.652,
+            "block_exact": 0.3919,
+            "w2c": 8.733,
+            "c2w": 0.0,
+            "masked_acc": 0.6151
+          }
+        },
+        "3": {
+          "n": 296,
+          "mask_ratio": 0.75,
+          "islands": 1.82,
+          "prefix": 1.92,
+          "right_visible_rate": 0.649,
+          "wrong_visible_per_state": 0.99,
+          "wrong_visible_frac": 0.2475,
+          "states_with_wrong_visible": 0.459,
+          "fill": {
+            "token_acc": 0.4481,
+            "block_exact": 0.0,
+            "w2c": 4.159,
+            "c2w": 0.0,
+            "masked_acc": 0.3466
+          },
+          "seqfill": {
+            "token_acc": 0.583,
+            "block_exact": 0.2872,
+            "w2c": 6.318,
+            "c2w": 0.0,
+            "masked_acc": 0.5265
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.6947,
+            "block_exact": 0.4054,
+            "w2c": 8.105,
+            "c2w": 0.0,
+            "masked_acc": 0.6402
+          }
+        },
+        "4": {
+          "n": 296,
+          "mask_ratio": 0.625,
+          "islands": 1.97,
+          "prefix": 3.52,
+          "right_visible_rate": 0.689,
+          "wrong_visible_per_state": 1.787,
+          "wrong_visible_frac": 0.2979,
+          "states_with_wrong_visible": 0.564,
+          "fill": {
+            "token_acc": 0.4772,
+            "block_exact": 0.0236,
+            "w2c": 3.422,
+            "c2w": 0.0,
+            "masked_acc": 0.3422
+          },
+          "seqfill": {
+            "token_acc": 0.5595,
+            "block_exact": 0.2635,
+            "w2c": 4.74,
+            "c2w": 0.0,
+            "masked_acc": 0.474
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.7109,
+            "block_exact": 0.4155,
+            "w2c": 7.162,
+            "c2w": 0.0,
+            "masked_acc": 0.6345
+          }
+        },
+        "5": {
+          "n": 296,
+          "mask_ratio": 0.5,
+          "islands": 2.26,
+          "prefix": 3.36,
+          "right_visible_rate": 0.818,
+          "wrong_visible_per_state": 2.875,
+          "wrong_visible_frac": 0.3594,
+          "states_with_wrong_visible": 0.628,
+          "fill": {
+            "token_acc": 0.497,
+            "block_exact": 0.0541,
+            "w2c": 2.828,
+            "c2w": 0.0,
+            "masked_acc": 0.3535
+          },
+          "seqfill": {
+            "token_acc": 0.5524,
+            "block_exact": 0.2466,
+            "w2c": 3.713,
+            "c2w": 0.0,
+            "masked_acc": 0.4641
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.7247,
+            "block_exact": 0.4324,
+            "w2c": 6.47,
+            "c2w": 0.0,
+            "masked_acc": 0.6415
+          }
+        },
+        "6": {
+          "n": 296,
+          "mask_ratio": 0.375,
+          "islands": 2.28,
+          "prefix": 4.99,
+          "right_visible_rate": 0.777,
+          "wrong_visible_per_state": 3.973,
+          "wrong_visible_frac": 0.3973,
+          "states_with_wrong_visible": 0.703,
+          "fill": {
+            "token_acc": 0.5139,
+            "block_exact": 0.1014,
+            "w2c": 2.196,
+            "c2w": 0.0,
+            "masked_acc": 0.366
+          },
+          "seqfill": {
+            "token_acc": 0.541,
+            "block_exact": 0.2196,
+            "w2c": 2.628,
+            "c2w": 0.0,
+            "masked_acc": 0.4381
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.7316,
+            "block_exact": 0.4324,
+            "w2c": 5.679,
+            "c2w": 0.0,
+            "masked_acc": 0.6329
+          }
+        },
+        "7": {
+          "n": 296,
+          "mask_ratio": 0.25,
+          "islands": 2.31,
+          "prefix": 4.4,
+          "right_visible_rate": 0.875,
+          "wrong_visible_per_state": 5.24,
+          "wrong_visible_frac": 0.4367,
+          "states_with_wrong_visible": 0.77,
+          "fill": {
+            "token_acc": 0.5224,
+            "block_exact": 0.1588,
+            "w2c": 1.598,
+            "c2w": 0.0,
+            "masked_acc": 0.3995
+          },
+          "seqfill": {
+            "token_acc": 0.5279,
+            "block_exact": 0.1926,
+            "w2c": 1.686,
+            "c2w": 0.0,
+            "masked_acc": 0.4215
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.7449,
+            "block_exact": 0.4392,
+            "w2c": 5.159,
+            "c2w": 0.0,
+            "masked_acc": 0.6554
+          }
+        },
+        "8": {
+          "n": 296,
+          "mask_ratio": 0.125,
+          "islands": 1.7,
+          "prefix": 6.77,
+          "right_visible_rate": 0.845,
+          "wrong_visible_per_state": 6.422,
+          "wrong_visible_frac": 0.4587,
+          "states_with_wrong_visible": 0.804,
+          "fill": {
+            "token_acc": 0.5245,
+            "block_exact": 0.1723,
+            "w2c": 0.814,
+            "c2w": 0.0,
+            "masked_acc": 0.4071
+          },
+          "seqfill": {
+            "token_acc": 0.5249,
+            "block_exact": 0.1791,
+            "w2c": 0.821,
+            "c2w": 0.0,
+            "masked_acc": 0.4105
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.746,
+            "block_exact": 0.4392,
+            "w2c": 4.358,
+            "c2w": 0.0,
+            "masked_acc": 0.6706
+          }
+        }
+      },
+      "final_token_acc": 0.5245
+    },
+    "train_random": {
+      "per_step": {
+        "1": {
+          "n": 296,
+          "mask_ratio": 1.0,
+          "islands": 1.0,
+          "prefix": 0.0,
+          "right_visible_rate": 0.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.3444,
+            "block_exact": 0.0,
+            "w2c": 5.51,
+            "c2w": 0.0,
+            "masked_acc": 0.3444
+          },
+          "seqfill": {
+            "token_acc": 0.6326,
+            "block_exact": 0.3851,
+            "w2c": 10.122,
+            "c2w": 0.0,
+            "masked_acc": 0.6326
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.6326,
+            "block_exact": 0.3851,
+            "w2c": 10.122,
+            "c2w": 0.0,
+            "masked_acc": 0.6326
+          }
+        },
+        "2": {
+          "n": 296,
+          "mask_ratio": 0.875,
+          "islands": 2.66,
+          "prefix": 0.11,
+          "right_visible_rate": 0.993,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.5752,
+            "block_exact": 0.0068,
+            "w2c": 7.203,
+            "c2w": 0.0,
+            "masked_acc": 0.5145
+          },
+          "seqfill": {
+            "token_acc": 0.7732,
+            "block_exact": 0.4459,
+            "w2c": 10.372,
+            "c2w": 0.0,
+            "masked_acc": 0.7408
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.7732,
+            "block_exact": 0.4459,
+            "w2c": 10.372,
+            "c2w": 0.0,
+            "masked_acc": 0.7408
+          }
+        },
+        "3": {
+          "n": 296,
+          "mask_ratio": 0.75,
+          "islands": 3.74,
+          "prefix": 0.28,
+          "right_visible_rate": 1.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.7361,
+            "block_exact": 0.0946,
+            "w2c": 7.777,
+            "c2w": 0.0,
+            "masked_acc": 0.6481
+          },
+          "seqfill": {
+            "token_acc": 0.8663,
+            "block_exact": 0.5203,
+            "w2c": 9.861,
+            "c2w": 0.0,
+            "masked_acc": 0.8218
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.8663,
+            "block_exact": 0.5203,
+            "w2c": 9.861,
+            "c2w": 0.0,
+            "masked_acc": 0.8218
+          }
+        },
+        "4": {
+          "n": 296,
+          "mask_ratio": 0.625,
+          "islands": 4.35,
+          "prefix": 0.5,
+          "right_visible_rate": 1.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.848,
+            "block_exact": 0.1993,
+            "w2c": 7.568,
+            "c2w": 0.0,
+            "masked_acc": 0.7568
+          },
+          "seqfill": {
+            "token_acc": 0.9179,
+            "block_exact": 0.5878,
+            "w2c": 8.686,
+            "c2w": 0.0,
+            "masked_acc": 0.8686
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.9179,
+            "block_exact": 0.5878,
+            "w2c": 8.686,
+            "c2w": 0.0,
+            "masked_acc": 0.8686
+          }
+        },
+        "5": {
+          "n": 296,
+          "mask_ratio": 0.5,
+          "islands": 4.44,
+          "prefix": 0.94,
+          "right_visible_rate": 1.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.9158,
+            "block_exact": 0.3818,
+            "w2c": 6.652,
+            "c2w": 0.0,
+            "masked_acc": 0.8315
+          },
+          "seqfill": {
+            "token_acc": 0.9493,
+            "block_exact": 0.6655,
+            "w2c": 7.189,
+            "c2w": 0.0,
+            "masked_acc": 0.8986
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.9493,
+            "block_exact": 0.6655,
+            "w2c": 7.189,
+            "c2w": 0.0,
+            "masked_acc": 0.8986
+          }
+        },
+        "6": {
+          "n": 296,
+          "mask_ratio": 0.375,
+          "islands": 4.1,
+          "prefix": 1.28,
+          "right_visible_rate": 1.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.962,
+            "block_exact": 0.5878,
+            "w2c": 5.392,
+            "c2w": 0.0,
+            "masked_acc": 0.8986
+          },
+          "seqfill": {
+            "token_acc": 0.9713,
+            "block_exact": 0.75,
+            "w2c": 5.541,
+            "c2w": 0.0,
+            "masked_acc": 0.9234
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.9713,
+            "block_exact": 0.75,
+            "w2c": 5.541,
+            "c2w": 0.0,
+            "masked_acc": 0.9234
+          }
+        },
+        "7": {
+          "n": 296,
+          "mask_ratio": 0.25,
+          "islands": 3.26,
+          "prefix": 2.2,
+          "right_visible_rate": 1.0,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.9799,
+            "block_exact": 0.7703,
+            "w2c": 3.679,
+            "c2w": 0.0,
+            "masked_acc": 0.9198
+          },
+          "seqfill": {
+            "token_acc": 0.9848,
+            "block_exact": 0.8243,
+            "w2c": 3.757,
+            "c2w": 0.0,
+            "masked_acc": 0.9392
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.9848,
+            "block_exact": 0.8243,
+            "w2c": 3.757,
+            "c2w": 0.0,
+            "masked_acc": 0.9392
+          }
+        },
+        "8": {
+          "n": 296,
+          "mask_ratio": 0.125,
+          "islands": 1.88,
+          "prefix": 4.79,
+          "right_visible_rate": 0.993,
+          "wrong_visible_per_state": 0.0,
+          "wrong_visible_frac": 0.0,
+          "states_with_wrong_visible": 0.0,
+          "fill": {
+            "token_acc": 0.993,
+            "block_exact": 0.8919,
+            "w2c": 1.889,
+            "c2w": 0.0,
+            "masked_acc": 0.9443
+          },
+          "seqfill": {
+            "token_acc": 0.9949,
+            "block_exact": 0.9257,
+            "w2c": 1.919,
+            "c2w": 0.0,
+            "masked_acc": 0.9595
+          },
+          "oracle_remask_seqfill": {
+            "token_acc": 0.9949,
+            "block_exact": 0.9257,
+            "w2c": 1.919,
+            "c2w": 0.0,
+            "masked_acc": 0.9595
+          }
+        }
+      },
+      "final_token_acc": null
+    }
+  }
+}
