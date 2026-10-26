@@ -172,7 +172,7 @@ improves, but only with the outcome; the pre-registered stopping rule applies to
 | left-to-right S = 8, undistilled | 70.0 | 72.9 | 8.5 | 1.9 |
 | left-to-right S = 8, B10.5 arm B / B11 arm B | 83.3 / 84.0 | 77.8 / 77.2 | – | – |
 | global re-masking S = 8, undistilled | 58.0 | – | – | – |
-| global re-masking S = 8, B11 arm E | 65.3 | __ETEST__ | 8.5 (left-to-right mode) | – |
+| global re-masking S = 8, B11 arm E | 65.3 | 64.7 | 8.5 (left-to-right mode) | – |
 | global + forced re-mask (this phase) | 59.3–64.7 | – | – | – |
 | counterfactual oracle (best of 25, outcome known; 26 × forwards) | 95 (dev-50 states) | – | – | – |
 

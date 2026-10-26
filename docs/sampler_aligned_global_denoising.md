@@ -281,7 +281,7 @@ improved under the global sampler.
 | decoder | GSM8K test | paired vs the undistilled left-to-right S = 8 (72.9 %) |
 |---|---|---|
 | arm B (left states, plain), left-to-right S = 8 | **77.2 %** | +175 / −118, p = 0.0010 |
-| arm E (remask states, plain + corrected), non-monotonic re-masking S = 8 | __ETEST__ | (vs the undistilled global sampler — no test row exists for it; dev2 58.0 → 65.3) |
+| arm E (remask states, plain + corrected), non-monotonic re-masking S = 8 | 64.7 % | (vs the undistilled global sampler — no test row exists for it; dev2 58.0 → 65.3) |
 
 The dev2 → test shrinkage seen in every phase recurs (arm B: dev2 84.0, test 77.2); the B10.5 arm B
 (teacher-followed pair states) reached 77.8 % on test with the same recipe — the two are the same result within noise.
