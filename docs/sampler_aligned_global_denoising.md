@@ -293,7 +293,7 @@ Phase total ≈ 16 GPU-hours on GPUs 4/6/7 and zeta.
 | 2 repair feasibility | **conditional** | from the global sampler's states a block ≈ 73 % identical to REF is reachable only if the wrong visible tokens are re-masked with knowledge of REF (oracle) and refilled sequentially; without that knowledge the sequential teacher's gain shrinks to zero by step 8; and ~43 of the 45 "wrong" points are wording freedom, not error — §3, §3.1, §3.2 |
 | 3 free generation with the global sampler | **partly** | arm E: dev2 S = 4 20.0 → 43.3 (p < 1e-4), S = 16 63.3 → 74.0 (p = 0.03), S = 8 58.0 → 65.3 (p = 0.14); arm C (plain targets only) no gain; the global sampler stays 13 points behind left-to-right on the same model — §6 |
 | 4 non-autoregressive behaviour | **no** | revisits remain inert (≤ 5 % of visible tokens ever overturned, 0 by the end), duplicates per block unchanged (1.23 → 1.38), gains come from better first placements — §7.1 |
-| 5 generalisation beyond GSM8K | **no** | HumanEval S = 8 8.5 % → 8.5 % (arm E), S = 16 __EH16__ |
+| 5 generalisation beyond GSM8K | **no** (no damage either) | HumanEval S = 8 8.5 % → 8.5 % (arm E), S = 16 50.6 → 50.0 % — code generation is unchanged by the GSM8K-state training |
 
 Failure causes recorded: (i) the mismatch between the training states and the sampler's states was real and is now
 closed (Gate 1), and closing it does move the global sampler (Gate 3) — but what it buys is the same thing it bought
