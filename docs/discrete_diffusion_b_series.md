@@ -485,4 +485,4 @@ sampler on dev2 from 20.0 / 58.0 / 63.3 to 43.3 / 65.3 / 74.0 % at S = 4 / 8 / 1
 left-to-right sampler 70.0 → 78.7 at S = 8, with HumanEval unchanged; plain targets alone (arms C/D) do not help the
 global sampler.  The gains come from better first placements under the global mask layouts, not from iterative
 repair — revisits stay inert — so Gate 4 (true non-autoregressive correction) is not met; the global sampler remains
-13 points behind left-to-right on the same model.  Arm B (left states only): __B11B__.
+13 points behind left-to-right on the same model.  Arm B (left states only): dev2 left-to-right S = 8 **84.0 %** (best of the series), global sampler 50.0 % (−8): each sampler is improved by its own states and only by them.

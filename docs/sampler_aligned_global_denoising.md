@@ -207,7 +207,10 @@ block), dev2 = 150 fresh items, paired against the undistilled adapter under the
 
 The sampler-aligned model improves the global sampler at every budget (+23, +7, +11 points), significantly at S = 4
 and S = 16, not yet at S = 8 on 150 items; the gain needs the corrected half of the targets (arm C, plain only, does
-not improve the global sampler and costs 8 points at S = 16 on dev-50).  The global sampler remains behind
+not improve the global sampler and costs 8 points at S = 16 on dev-50).  The mirror image holds too: training on the
+*left-to-right* sampler's states (arm B) gives the best left-to-right result of the series (dev2 S = 8 **84.0 %**, vs
+70.0 baseline and 83.3 for B10.5 arm B) and *hurts* the global sampler (dev2 S = 8 50.0 %, −8).  Each sampler is
+improved by its own states and only by them — Gate 1's alignment is necessary, and it is sampler-specific.  The global sampler remains behind
 left-to-right at every budget on the same model (65.3 vs 78.7 at S = 8).  Whether the improvement is "global denoising"
 or better first placements is the subject of §7.1 (dynamics with arm E).
 
