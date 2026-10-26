@@ -191,7 +191,7 @@ training on exactly these states changes any of it.
 | B11-B left states, plain | left S = 8 on-policy states | teacher completion given the visible tokens | __B__ | | | |
 | B11-C remask states, plain | non-monotonic re-masking S = 8 on-policy states (35.5 k) | same | 36 / 60 / 66 | 60 / 82 / 86 | __C2R__ | __C2L__ |
 | B11-D mixed, plain | remask + left states | same | __D__ | | | |
-| B11-E remask states, plain + corrected | remask states (35.5 k); half the updates use the corrected state (visible ≠ T re-masked) with T as target | 50 / **62** / 74 | 56 / **86** / 92 | __E2R__ | __E2L__ |
+| B11-E remask states, plain + corrected | remask states (35.5 k); half the updates use the corrected state (visible ≠ T re-masked) with T as target | 50 / **62** / 74 | 56 / **86** / 92 | 65.3 | 78.7 |
 
 ## 6. B11-E — true global refinement with the sampler-aligned models
 
