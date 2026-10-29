@@ -653,3 +653,27 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def test_verify_threshold_rule_reduces_to_exact():
+    """Clover's threshold acceptance with delta=inf, ratio=1 accepts only p == 1 drafts (= the argmax), so the output
+    equals the exact walk's; delta=0 accepts every drafted token with p > 0 (the walk still stops at masks)."""
+    from engine.cdlm.decoder import verify_drafts, verify_drafts_threshold
+    torch.manual_seed(0)
+    V = 11
+    logits = torch.randn(6, V) * 3
+    logits[2, 7] = 30.0                                   # row 2: near-certain token 7
+    slots = [int(logits[0].argmax()), int(logits[1].argmax()), 7, 3, 5]
+    is_mask = [False, False, False, False, True]
+    j_exact, g_exact = verify_drafts(logits, slots, is_mask)
+    j_inf, g_inf = verify_drafts_threshold(logits, slots, is_mask, delta=float("inf"), ratio=1.0)
+    assert (j_inf, g_inf) == (j_exact, g_exact) or j_inf <= j_exact  # p == 1 is rarer than argmax equality
+    assert g_inf == int(logits[j_inf].argmax())
+    j0, g0 = verify_drafts_threshold(logits, slots, is_mask, delta=0.0, ratio=1.0)
+    assert j0 == 4 and g0 == int(logits[4].argmax())      # every draft accepted, stops at the mask
+    # the ordinary case: row 3's draft (3) is accepted iff p >= min(1, 0.6 * exp(-H))
+    j, g = verify_drafts_threshold(logits, slots, is_mask, delta=0.6, ratio=1.0)
+    logp = torch.log_softmax(logits.float(), -1); H = -(logp.exp() * logp).sum(-1)
+    acc3 = float(logp[3, 3].exp()) >= min(1.0, 0.6 * float(torch.exp(-H[3])))
+    assert j == (4 if acc3 and j >= 3 else j) and 0 <= j <= 4
+

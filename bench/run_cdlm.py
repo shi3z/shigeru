@@ -34,6 +34,11 @@ def main():
     ap.add_argument("--margin-tau", type=float, default=None, help="fill only masks with top1-top2 prob margin >= this")
     ap.add_argument("--fill-mode", default="all", choices=["all", "leftmost_run"])
     ap.add_argument("--verify", action="store_true", help="verified (speculative) decoding: fills are drafts checked against the AR logits; output == AR greedy (engine/cdlm/decoder.py)")
+    ap.add_argument("--accept-rule", default="exact", choices=["exact", "threshold"],
+                    help="verified decoding acceptance: exact (output == AR greedy) or Clover's threshold rule "
+                         "p_AR(draft) >= min(ratio, delta * exp(-entropy_AR))")
+    ap.add_argument("--accept-delta", type=float, default=0.6)
+    ap.add_argument("--accept-ratio", type=float, default=1.0)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model)
@@ -66,7 +71,8 @@ def main():
                              "graphs": [list(k) for k in sorted(dec_model.graphs)]}
             print(f"captured {len(done)} CUDA graphs (window x cache buckets up to {max_ctx}) in {graph_capture['seconds']}s", flush=True)
     configs = [("ar", None)] if a.ar else []
-    configs += [(f"tau={t}", None if t == "none" else float(t)) for t in a.tau.split(",")]
+    rule = f",{a.accept_rule}:d{a.accept_delta}:r{a.accept_ratio}" if (a.verify and a.accept_rule != "exact") else ""
+    configs += [(f"tau={t}{rule}", None if t == "none" else float(t)) for t in a.tau.split(",")]
     runs = []
     for name, tau in configs:
         for p in prompts:
@@ -79,7 +85,8 @@ def main():
             else:
                 new, stats = generate(dec_model, tok, ids[0].tolist(), a.max_new_tokens, window=a.window, tau=tau, lam=a.lam,
                                       mask_id=mask_id, stop_ids=stop_ids, greedy=True, no_adjacent=a.no_adjacent,
-                                      max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode, verify=a.verify)
+                                      max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode, verify=a.verify,
+                                      accept_rule=a.accept_rule, accept_delta=a.accept_delta, accept_ratio=a.accept_ratio)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),

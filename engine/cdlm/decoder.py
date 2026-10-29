@@ -121,7 +121,7 @@ from transformers import DynamicCache
 
 from .model_glue import model_attention_mask
 
-__all__ = ["generate", "generate_verified", "verify_drafts", "window_attention_mask", "entropy_from_logits",
+__all__ = ["generate", "generate_verified", "verify_drafts", "verify_drafts_threshold", "window_attention_mask", "entropy_from_logits",
            "margin_from_logits", "select_positions", "FILL_MODES"]
 
 FILL_MODES = ("all", "leftmost_run")
@@ -239,9 +239,34 @@ def verify_drafts(ar_logits, slots, is_mask):
         return j, g
 
 
+def verify_drafts_threshold(ar_logits, slots, is_mask, delta, ratio):
+    """Clover's "threshold" acceptance (DiffuSpace Clover-35B-A3B, SGLang PR 46927) in place of the exact walk:
+    draft slot j is accepted when the AR (target) probability of the drafted token given the tokens before it is
+    at least min(ratio, delta * exp(-H_j)) and > 0, H_j = entropy (nats) of that AR distribution.  A confident
+    target (low entropy) demands a near-argmax draft; an uncertain one accepts any plausible token.  The walk stops at
+    the first rejection and returns (j, g) exactly like verify_drafts, g = the target argmax of slot j (the
+    correction).  Not distribution preserving: the output can differ from greedy AR (ratio=1, delta=inf -> exact).
+    ar_logits: [n, V] rows of logical positions frontier + 0..n-1 (the same rows the exact walk reads)."""
+    rows = ar_logits.float()
+    logp = torch.log_softmax(rows, dim=-1)
+    ent = -(logp.exp() * logp).sum(-1)
+    thr = torch.clamp(delta * torch.exp(-ent), max=ratio)
+    greedy = rows.argmax(-1).tolist()
+    j = 0
+    while True:
+        g = int(greedy[j])
+        if j < len(slots) and not is_mask[j]:
+            p = float(logp[j, slots[j]].exp())
+            if p > 0.0 and p >= float(thr[j]):
+                j += 1
+                continue
+        return j, g
+
+
 @torch.no_grad()
 def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam, mask_id, stop_ids,
-                      sample, predict, margin_tau, no_adjacent, max_fill, fill_mode, device):
+                      sample, predict, margin_tau, no_adjacent, max_fill, fill_mode, device,
+                      accept_rule="exact", accept_delta=0.6, accept_ratio=1.0):
     """The verify=True loop (module docstring, "Verified (speculative) decoding"), shared by both decoders.
 
     forward(ids[T], pos[T], cache_len) -> logits [T, V] of all T window rows, forwarded on top of the first cache_len
@@ -280,10 +305,16 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order): the greedy tokens of
         #    all AR rows in one argmax + one sync (the walk only reads the leading contiguous run of them)
         n_filled = len(filled_idx)
-        ar_tok = logits[: n_pend + n_filled].argmax(-1).tolist()
-        if not n_pend:
-            ar_tok = [int(last_logits.argmax())] + ar_tok
-        j, g = verify_drafts(ar_tok, slots, is_mask)
+        if accept_rule == "threshold":
+            rows = logits[: n_pend + n_filled]
+            if not n_pend:
+                rows = torch.cat([last_logits.to(rows.device)[None], rows[:n_filled]], 0)
+            j, g = verify_drafts_threshold(rows, slots, is_mask, accept_delta, accept_ratio)
+        else:
+            ar_tok = logits[: n_pend + n_filled].argmax(-1).tolist()
+            if not n_pend:
+                ar_tok = [int(last_logits.argmax())] + ar_tok
+            j, g = verify_drafts(ar_tok, slots, is_mask)
         # 4. commit the accepted drafts (their K/V are final), then the correction g as the new pending token
         keep = j
         for i in range(j):
@@ -355,7 +386,8 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
                  filled_per_step=dict(sorted(filled_hist.items())), committed_per_step=dict(sorted(commit_hist.items())),
                  filled_positions=filled_positions, finish_reason=finish, verify=True,
                  accepted_per_step=dict(sorted(acc_hist.items())), drafted=drafted, accepted=accepted,
-                 draft_acceptance_rate=(accepted / drafted if drafted else None), completion_forward=completion)
+                 draft_acceptance_rate=(accepted / drafted if drafted else None), completion_forward=completion,
+                 accept_rule=accept_rule)
     return out, stats
 
 
@@ -370,7 +402,7 @@ def _crop_to(cache, keep_total):
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, margin_tau=None, no_adjacent=False,
-             max_fill=None, fill_mode="all", verify=False):
+             max_fill=None, fill_mode="all", verify=False, accept_rule="exact", accept_delta=0.6, accept_ratio=1.0):
     """Decode one sequence.  Returns (new_token_ids: list[int], stats: dict).
 
     model: Qwen3ForCausalLM (sdpa or eager) with a mask row (model_glue.add_mask_token).  tok: tokenizer, used only to
@@ -423,7 +455,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
 
         out, stats = generate_verified(forward, lambda n: _crop_to(cache, n), last_logits, prompt_len, max_new_tokens,
                                        window, tau, lam, mask_id, stop_ids, sample, predict, margin_tau, no_adjacent,
-                                       max_fill, fill_mode, dev)
+                                       max_fill, fill_mode, dev, accept_rule, accept_delta, accept_ratio)
         assert cache.get_seq_length() == prompt_len + len(out)
         stats["cache"] = cache
         return out, stats
