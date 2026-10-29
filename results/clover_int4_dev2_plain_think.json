@@ -1,0 +1,4227 @@
+{
+  "base_url": "http://127.0.0.1:8081/v1",
+  "model": "clover",
+  "args": {
+    "base_url": "http://127.0.0.1:8081/v1",
+    "model": "clover",
+    "prompts": "bench/prompts_gsm8k_dev2.json",
+    "n": 150,
+    "max_tokens": 2048,
+    "temperature": 0.0,
+    "extra": "{\"chat_template_kwargs\": {\"enable_thinking\": true}}",
+    "timeout": 1800.0,
+    "tag": "plain_think",
+    "out": "results/clover_int4_dev2_plain_think.json"
+  },
+  "runs": [
+    {
+      "id": "gsm8k_dev2_0000",
+      "n_tokens": 276,
+      "seconds": 3.658,
+      "tok_s": 75.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Anna has 50 pencils. Harry initially has twice that number, which is \\(2 \\times 50 = 100\\) pencils. After losing 19 pencils, Harry has \\(100 - 19 = 81\\) pencils left.\n\n#### 81",
+      "usage": {
+        "completion_tokens": 276,
+        "prompt_tokens": 66,
+        "total_tokens": 342,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 66,
+        "prompt_ms": 130.001,
+        "prompt_per_token_ms": 1.9697121212121214,
+        "prompt_per_second": 507.6884023969046,
+        "predicted_n": 276,
+        "predicted_ms": 3393.436,
+        "predicted_per_token_ms": 12.339767272727274,
+        "predicted_per_second": 81.03880550568803
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0001",
+      "n_tokens": 460,
+      "seconds": 5.781,
+      "tok_s": 79.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The saline drip delivers 20 drops per minute. Over 2 hours (120 minutes), the total number of drops is \\(20 \\times 120 = 2400\\) drops. Given that 100 drops equal 5 ml, the volume in milliliters is \\(2400 \\times \\frac{5}{100} = 120\\) ml.\n\n#### 120",
+      "usage": {
+        "completion_tokens": 460,
+        "prompt_tokens": 91,
+        "total_tokens": 551,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 151.6,
+        "prompt_per_token_ms": 1.6659340659340658,
+        "prompt_per_second": 600.2638522427441,
+        "predicted_n": 460,
+        "predicted_ms": 5516.222,
+        "predicted_per_token_ms": 12.0179128540305,
+        "predicted_per_second": 83.20912392575934
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0002",
+      "n_tokens": 403,
+      "seconds": 5.11,
+      "tok_s": 78.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Lara uses four baking trays. On each tray, she places five rows of cookies, with six cookies in each row.  \nFirst, calculate the number of cookies on one tray: \\(5 \\times 6 = 30\\) cookies.  \nThen, multiply by the number of trays: \\(4 \\times 30 = 120\\) cookies.  \n\n#### 120",
+      "usage": {
+        "completion_tokens": 403,
+        "prompt_tokens": 68,
+        "total_tokens": 471,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 68,
+        "prompt_ms": 131.038,
+        "prompt_per_token_ms": 1.927029411764706,
+        "prompt_per_second": 518.9334391550542,
+        "predicted_n": 403,
+        "predicted_ms": 4873.29,
+        "predicted_per_token_ms": 12.122611940298507,
+        "predicted_per_second": 82.49047358150244
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0003",
+      "n_tokens": 682,
+      "seconds": 8.555,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Samantha uses the washer twice, costing $4 per load, so the washer cost is \\(2 \\times 4 = \\$8\\). She uses three dryers, each running for 40 minutes. The dryer cost is $0.25 per 10 minutes, so each dryer costs \\(4 \\times 0.25 = \\$1\\). The total dryer cost is \\(3 \\times 1 = \\$3\\). Therefore, the total amount spent is \\(8 + 3 = \\$11\\).\n\n#### 11",
+      "usage": {
+        "completion_tokens": 682,
+        "prompt_tokens": 105,
+        "total_tokens": 787,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 105,
+        "prompt_ms": 160.405,
+        "prompt_per_token_ms": 1.5276666666666667,
+        "prompt_per_second": 654.59306131355,
+        "predicted_n": 682,
+        "predicted_ms": 8283.905,
+        "predicted_per_token_ms": 12.164324522760648,
+        "predicted_per_second": 82.20760619538731
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0004",
+      "n_tokens": 302,
+      "seconds": 3.86,
+      "tok_s": 78.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Seth lost 17.5 pounds. Jerome lost three times that amount: \\(3 \\times 17.5 = 52.5\\) pounds. Veronica lost 1.5 pounds more than Seth: \\(17.5 + 1.5 = 19\\) pounds. The total is \\(17.5 + 52.5 + 19 = 89\\) pounds.\n\n#### 89",
+      "usage": {
+        "completion_tokens": 302,
+        "prompt_tokens": 73,
+        "total_tokens": 375,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 73,
+        "prompt_ms": 143.752,
+        "prompt_per_token_ms": 1.9692054794520548,
+        "prompt_per_second": 507.8190216483944,
+        "predicted_n": 302,
+        "predicted_ms": 3607.652,
+        "predicted_per_token_ms": 11.985554817275748,
+        "predicted_per_second": 83.43376800201351
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0005",
+      "n_tokens": 332,
+      "seconds": 4.269,
+      "tok_s": 77.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jenson uses \\(3 \\times 2 = 6\\) yards of fabric per day for shirts. Kingsley uses \\(5 \\times 5 = 25\\) yards of fabric per day for pants. Together, they use \\(6 + 25 = 31\\) yards per day. Over 3 days, they need \\(31 \\times 3 = 93\\) yards of fabric.\n\n#### 93",
+      "usage": {
+        "completion_tokens": 332,
+        "prompt_tokens": 96,
+        "total_tokens": 428,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 96,
+        "prompt_ms": 156.675,
+        "prompt_per_token_ms": 1.63203125,
+        "prompt_per_second": 612.7333652465294,
+        "predicted_n": 332,
+        "predicted_ms": 4007.927,
+        "predicted_per_token_ms": 12.108540785498489,
+        "predicted_per_second": 82.58633453154212
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0006",
+      "n_tokens": 654,
+      "seconds": 8.189,
+      "tok_s": 79.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The craftsman made 16 jars, which is twice the number of clay pots, so he made \\(16 / 2 = 8\\) clay pots. Each jar contains 5 marbles, and each clay pot contains three times as many marbles as a jar, so each clay pot contains \\(3 \\times 5 = 15\\) marbles. The total number of marbles is \\((16 \\times 5) + (8 \\times 15) = 80 + 120 = 200\\).\n\n#### 200",
+      "usage": {
+        "completion_tokens": 654,
+        "prompt_tokens": 78,
+        "total_tokens": 732,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 78,
+        "prompt_ms": 143.473,
+        "prompt_per_token_ms": 1.839397435897436,
+        "prompt_per_second": 543.6562977006126,
+        "predicted_n": 654,
+        "predicted_ms": 7943.502,
+        "predicted_per_token_ms": 12.16462787136294,
+        "predicted_per_second": 82.20555618919715
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0007",
+      "n_tokens": 778,
+      "seconds": 9.499,
+      "tok_s": 81.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tyrone has two $1 bills ($2), a $5 bill ($5), 13 quarters ($3.25), 20 dimes ($2), 8 nickels ($0.40), and 35 pennies ($0.35). Adding these amounts gives a total of $13.\n\n#### 13",
+      "usage": {
+        "completion_tokens": 778,
+        "prompt_tokens": 84,
+        "total_tokens": 862,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 144.931,
+        "prompt_per_token_ms": 1.7253690476190477,
+        "prompt_per_second": 579.5861478910654,
+        "predicted_n": 778,
+        "predicted_ms": 9227.986,
+        "predicted_per_token_ms": 11.876429858429859,
+        "predicted_per_second": 84.2003878202676
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0008",
+      "n_tokens": 376,
+      "seconds": 4.722,
+      "tok_s": 79.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Margaux receives payments from three people each day: her friend pays $5, her brother pays $8, and her cousin pays $4. The total amount she collects per day is $5 + $8 + $4 = $17. Over 7 days, the total collected is $17 × 7 = $119.\n\n#### 119",
+      "usage": {
+        "completion_tokens": 376,
+        "prompt_tokens": 75,
+        "total_tokens": 451,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 75,
+        "prompt_ms": 139.826,
+        "prompt_per_token_ms": 1.8643466666666666,
+        "prompt_per_second": 536.3809305851559,
+        "predicted_n": 376,
+        "predicted_ms": 4470.422,
+        "predicted_per_token_ms": 11.921125333333332,
+        "predicted_per_second": 83.88469813364377
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0009",
+      "n_tokens": 361,
+      "seconds": 4.535,
+      "tok_s": 79.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Each clerk processes 25 forms per hour, so in an 8-hour day, one clerk processes \\(25 \\times 8 = 200\\) forms. To process 2400 forms in a day, the number of clerks needed is \\(2400 \\div 200 = 12\\).\n\n#### 12",
+      "usage": {
+        "completion_tokens": 361,
+        "prompt_tokens": 71,
+        "total_tokens": 432,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 71,
+        "prompt_ms": 144.659,
+        "prompt_per_token_ms": 2.037450704225352,
+        "prompt_per_second": 490.80942077575537,
+        "predicted_n": 361,
+        "predicted_ms": 4281.901,
+        "predicted_per_token_ms": 11.894169444444444,
+        "predicted_per_second": 84.0748069607401
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0010",
+      "n_tokens": 301,
+      "seconds": 3.834,
+      "tok_s": 78.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Nate needs 2 scallops per person for 8 people:\n\\[\n2 \\times 8 = 16 \\text{ scallops}\n\\]\n\nSince 8 scallops weigh 1 pound:\n\\[\n16 \\div 8 = 2 \\text{ pounds}\n\\]\n\nAt $24.00 per pound:\n\\[\n2 \\times 24.00 = 48.00\n\\]\n\n#### 48",
+      "usage": {
+        "completion_tokens": 301,
+        "prompt_tokens": 88,
+        "total_tokens": 389,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 149.007,
+        "prompt_per_token_ms": 1.6932613636363636,
+        "prompt_per_second": 590.5762816511975,
+        "predicted_n": 301,
+        "predicted_ms": 3581.496,
+        "predicted_per_token_ms": 11.938320000000001,
+        "predicted_per_second": 83.76387967486212
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0011",
+      "n_tokens": 422,
+      "seconds": 5.446,
+      "tok_s": 77.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Leo finished the first part in 25 minutes. The second part took twice as long, so it took \\(2 \\times 25 = 50\\) minutes. The total time for the assignment was 2 hours, which is \\(2 \\times 60 = 120\\) minutes. Therefore, the third part took \\(120 - (25 + 50) = 120 - 75 = 45\\) minutes.\n\n#### 45",
+      "usage": {
+        "completion_tokens": 422,
+        "prompt_tokens": 93,
+        "total_tokens": 515,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 143.92,
+        "prompt_per_token_ms": 1.54752688172043,
+        "prompt_per_second": 646.1923290717065,
+        "predicted_n": 422,
+        "predicted_ms": 5198.064,
+        "predicted_per_token_ms": 12.346945368171022,
+        "predicted_per_second": 80.99169229159163
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0012",
+      "n_tokens": 203,
+      "seconds": 2.722,
+      "tok_s": 74.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Hunter saw:\n\n- 5 frogs on lily pads\n- 3 frogs on logs\n- 2 dozen baby frogs, which is \\(2 \\times 12 = 24\\) frogs\n\nTotal frogs:\n\\[\n5 + 3 + 24 = 32\n\\]\n\n#### 32",
+      "usage": {
+        "completion_tokens": 203,
+        "prompt_tokens": 91,
+        "total_tokens": 294,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 148.576,
+        "prompt_per_token_ms": 1.6327032967032966,
+        "prompt_per_second": 612.4811544260177,
+        "predicted_n": 203,
+        "predicted_ms": 2465.32,
+        "predicted_per_token_ms": 12.204554455445546,
+        "predicted_per_second": 81.93662486005873
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0013",
+      "n_tokens": 788,
+      "seconds": 9.944,
+      "tok_s": 79.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Initially, each car has 2 passengers and 1 driver, totaling 3 people per car. At the halfway point, each car gains an additional passenger, increasing the total to 4 people per car. With 20 cars, the total number of people by the end of the race is \\(20 \\times 4 = 80\\).\n\n#### 80",
+      "usage": {
+        "completion_tokens": 788,
+        "prompt_tokens": 126,
+        "total_tokens": 914,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 126,
+        "prompt_ms": 169.353,
+        "prompt_per_token_ms": 1.3440714285714286,
+        "prompt_per_second": 744.0080778019875,
+        "predicted_n": 788,
+        "predicted_ms": 9686.698,
+        "predicted_per_token_ms": 12.30838373570521,
+        "predicted_per_second": 81.24543575117134
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0014",
+      "n_tokens": 737,
+      "seconds": 9.174,
+      "tok_s": 80.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The MSRP of the toaster is $30. The insurance plan costs 20% of the MSRP, which is \\(0.20 \\times 30 = \\$6\\). Adding this to the MSRP gives a subtotal of \\(30 + 6 = \\$36\\). The mandatory state tax rate is 50% applied after the insurance calculation, so the tax is \\(0.50 \\times 36 = \\$18\\). Therefore, the total amount Jon must pay is \\(36 + 18 = \\$54\\).\n\n#### 54",
+      "usage": {
+        "completion_tokens": 737,
+        "prompt_tokens": 90,
+        "total_tokens": 827,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 90,
+        "prompt_ms": 160.763,
+        "prompt_per_token_ms": 1.7862555555555557,
+        "prompt_per_second": 559.8303092129407,
+        "predicted_n": 737,
+        "predicted_ms": 8856.037,
+        "predicted_per_token_ms": 12.032658967391304,
+        "predicted_per_second": 83.1071505234226
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0015",
+      "n_tokens": 370,
+      "seconds": 4.793,
+      "tok_s": 77.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Vins rides 6 miles to school and 7 miles back home, so each round trip is \\(6 + 7 = 13\\) miles. He completed 5 such trips this week, so the total distance is \\(5 \\times 13 = 65\\) miles.\n\n#### 65",
+      "usage": {
+        "completion_tokens": 370,
+        "prompt_tokens": 82,
+        "total_tokens": 452,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 82,
+        "prompt_ms": 138.389,
+        "prompt_per_token_ms": 1.6876707317073172,
+        "prompt_per_second": 592.5326434904508,
+        "predicted_n": 370,
+        "predicted_ms": 4543.644,
+        "predicted_per_token_ms": 12.313398373983741,
+        "predicted_per_second": 81.21234850265557
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0016",
+      "n_tokens": 1375,
+      "seconds": 16.654,
+      "tok_s": 82.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Cassy packs 12 jars per box in 10 boxes, so she uses \\(12 \\times 10 = 120\\) jars. She also packs 10 jars per box in 30 boxes, so she uses \\(10 \\times 30 = 300\\) jars. The total number of jars packed when all boxes are full is \\(120 + 300 = 420\\). With 500 jars total, the number of jars left is \\(500 - 420 = 80\\).\n\n#### 80",
+      "usage": {
+        "completion_tokens": 1375,
+        "prompt_tokens": 88,
+        "total_tokens": 1463,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 143.696,
+        "prompt_per_token_ms": 1.6329090909090909,
+        "prompt_per_second": 612.4039639238392,
+        "predicted_n": 1375,
+        "predicted_ms": 16405.772,
+        "predicted_per_token_ms": 11.940154294032023,
+        "predicted_per_second": 83.75101153423319
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0017",
+      "n_tokens": 260,
+      "seconds": 3.391,
+      "tok_s": 76.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "They picked 34 apples, but 6 are not ripe, so there are 34 - 6 = 28 ripe apples. Each pie requires 4 apples, so they can make 28 ÷ 4 = 7 pies.\n\n#### 7",
+      "usage": {
+        "completion_tokens": 260,
+        "prompt_tokens": 102,
+        "total_tokens": 362,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 102,
+        "prompt_ms": 159.069,
+        "prompt_per_token_ms": 1.5594999999999999,
+        "prompt_per_second": 641.2311638345624,
+        "predicted_n": 260,
+        "predicted_ms": 3104.803,
+        "predicted_per_token_ms": 11.98765637065637,
+        "predicted_per_second": 83.4191412466427
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0018",
+      "n_tokens": 280,
+      "seconds": 3.625,
+      "tok_s": 77.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jenna has $40, while Bob has $60. The difference is $20, meaning Jenna has $20 less than Bob.\n\n#### 20",
+      "usage": {
+        "completion_tokens": 280,
+        "prompt_tokens": 86,
+        "total_tokens": 366,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 86,
+        "prompt_ms": 162.723,
+        "prompt_per_token_ms": 1.8921279069767443,
+        "prompt_per_second": 528.5054970717108,
+        "predicted_n": 280,
+        "predicted_ms": 3360.698,
+        "predicted_per_token_ms": 12.045512544802866,
+        "predicted_per_second": 83.01846818726348
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0019",
+      "n_tokens": 561,
+      "seconds": 7.128,
+      "tok_s": 78.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The original cost of the jeans before discounts is found by solving the equation \\(0.5x - 10 = 14.50\\), where \\(x\\) is the original cost. Solving gives \\(x = 49\\).\n\n#### 49",
+      "usage": {
+        "completion_tokens": 561,
+        "prompt_tokens": 112,
+        "total_tokens": 673,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 112,
+        "prompt_ms": 158.577,
+        "prompt_per_token_ms": 1.4158660714285713,
+        "prompt_per_second": 706.2814910106763,
+        "predicted_n": 561,
+        "predicted_ms": 6871.023,
+        "predicted_per_token_ms": 12.269683928571428,
+        "predicted_per_second": 81.50169196057122
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0020",
+      "n_tokens": 1356,
+      "seconds": 16.55,
+      "tok_s": 81.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "James's base weight for 20 meters without straps is increased by 50 pounds, making it 350 pounds per hand. For 10 meters without straps, he can lift 30% more, so \\(350 \\times 1.3 = 455\\) pounds per hand. With lifting straps, he gains an additional 20%, so \\(455 \\times 1.2 = 546\\) pounds per hand.\n\n#### 546",
+      "usage": {
+        "completion_tokens": 1356,
+        "prompt_tokens": 121,
+        "total_tokens": 1477,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 121,
+        "prompt_ms": 164.14,
+        "prompt_per_token_ms": 1.3565289256198345,
+        "prompt_per_second": 737.1755818203973,
+        "predicted_n": 1356,
+        "predicted_ms": 16281.58,
+        "predicted_per_token_ms": 12.015926199261992,
+        "predicted_per_second": 83.22288131741514
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0021",
+      "n_tokens": 276,
+      "seconds": 3.542,
+      "tok_s": 77.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Mara has \\(12 \\times 2 = 24\\) marbles.  \nMarkus has \\(2 \\times 13 = 26\\) marbles.  \nThe difference is \\(26 - 24 = 2\\).  \n\n#### 2",
+      "usage": {
+        "completion_tokens": 276,
+        "prompt_tokens": 72,
+        "total_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 72,
+        "prompt_ms": 134.791,
+        "prompt_per_token_ms": 1.872097222222222,
+        "prompt_per_second": 534.160292601138,
+        "predicted_n": 276,
+        "predicted_ms": 3291.621,
+        "predicted_per_token_ms": 11.96953090909091,
+        "predicted_per_second": 83.54546285857333
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0022",
+      "n_tokens": 293,
+      "seconds": 3.725,
+      "tok_s": 78.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Andrew started with 750 stickers. Daniel received 250 stickers, and Fred received 120 more than Daniel, which is 250 + 120 = 370 stickers. Together, they received 250 + 370 = 620 stickers. Andrew kept the remaining stickers: 750 - 620 = 130.\n\n#### 130",
+      "usage": {
+        "completion_tokens": 293,
+        "prompt_tokens": 89,
+        "total_tokens": 382,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 89,
+        "prompt_ms": 157.878,
+        "prompt_per_token_ms": 1.7739101123595504,
+        "prompt_per_second": 563.7264216673635,
+        "predicted_n": 293,
+        "predicted_ms": 3470.16,
+        "predicted_per_token_ms": 11.884109589041095,
+        "predicted_per_second": 84.14597597805289
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0023",
+      "n_tokens": 711,
+      "seconds": 8.891,
+      "tok_s": 80.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The neighborhood has 20 homes, each requiring 10 solar panels, so the total required is \\(20 \\times 10 = 200\\) panels. The supplier brought 50 fewer panels than needed, resulting in \\(200 - 50 = 150\\) panels available. Since each home needs exactly 10 panels and installation stops when panels are exhausted, the number of homes that can be fully installed is \\(150 / 10 = 15\\).\n\n#### 15",
+      "usage": {
+        "completion_tokens": 711,
+        "prompt_tokens": 106,
+        "total_tokens": 817,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 106,
+        "prompt_ms": 155.893,
+        "prompt_per_token_ms": 1.4706886792452831,
+        "prompt_per_second": 679.953557889065,
+        "predicted_n": 711,
+        "predicted_ms": 8637.706,
+        "predicted_per_token_ms": 12.16578309859155,
+        "predicted_per_second": 82.19775018969156
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0024",
+      "n_tokens": 1250,
+      "seconds": 15.213,
+      "tok_s": 82.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The pond initially contains 2400 pollywogs. Pollywogs mature and leave at a constant rate of 50 per day. For the first 20 days, Melvin also catches 10 pollywogs per day, so the total removal rate during this period is 60 pollywogs per day.\n\nAfter 20 days, only the maturation rate of 50 pollywogs per day applies.\n\nFirst, calculate the number of pollywogs remaining after 20 days:\n\\[\n2400 - 60 \\times 20 = 2400 - 1200 = 1200.\n\\]\n\nNext, determine how many additional days are needed for the remaining pollywogs to disappear at a rate of 50 per day:\n\\[\n1200 / 50 = 24 \\text{ days}.\n\\]\n\nThus, the total time is:\n\\[\n20 + 24 = 44 \\text{ days}.\n\\]\n\n#### 44",
+      "usage": {
+        "completion_tokens": 1250,
+        "prompt_tokens": 165,
+        "total_tokens": 1415,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 165,
+        "prompt_ms": 167.768,
+        "prompt_per_token_ms": 1.0167757575757577,
+        "prompt_per_second": 983.5010252253112,
+        "predicted_n": 1250,
+        "predicted_ms": 14938.12,
+        "predicted_per_token_ms": 11.960064051240993,
+        "predicted_per_second": 83.61159235566456
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0025",
+      "n_tokens": 570,
+      "seconds": 7.082,
+      "tok_s": 80.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Bucky earned $35 last weekend. This Sunday, he caught 5 fish, with 60% being trout (3 trout) and the rest blue-gill (2 blue-gill). He earns $5 per trout and $4 per blue-gill, so his earnings this Sunday are \\(3 \\times 5 + 2 \\times 4 = 15 + 8 = 23\\) dollars. His total savings are \\(35 + 23 = 58\\) dollars. The video game costs $60, so he needs \\(60 - 58 = 2\\) dollars more.\n\n#### 2",
+      "usage": {
+        "completion_tokens": 570,
+        "prompt_tokens": 121,
+        "total_tokens": 691,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 121,
+        "prompt_ms": 166.226,
+        "prompt_per_token_ms": 1.3737685950413223,
+        "prompt_per_second": 727.9246327289353,
+        "predicted_n": 570,
+        "predicted_ms": 6809.442,
+        "predicted_per_token_ms": 11.967384885764499,
+        "predicted_per_second": 83.56044445345155
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0026",
+      "n_tokens": 288,
+      "seconds": 3.657,
+      "tok_s": 78.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Kyle and Tasha each caught the same number of fish, and Carla caught 8 fish. Together they caught 36 fish. Let \\(x\\) be the number of fish Kyle caught. Then Tasha also caught \\(x\\) fish. The total is \\(8 + x + x = 36\\), so \\(8 + 2x = 36\\). Subtracting 8 gives \\(2x = 28\\), and dividing by 2 gives \\(x = 14\\). Kyle caught 14 fish.\n\n#### 14",
+      "usage": {
+        "completion_tokens": 288,
+        "prompt_tokens": 70,
+        "total_tokens": 358,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 70,
+        "prompt_ms": 144.836,
+        "prompt_per_token_ms": 2.0690857142857144,
+        "prompt_per_second": 483.3052555994366,
+        "predicted_n": 288,
+        "predicted_ms": 3411.934,
+        "predicted_per_token_ms": 11.888271777003485,
+        "predicted_per_second": 84.11651573565022
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0027",
+      "n_tokens": 474,
+      "seconds": 5.981,
+      "tok_s": 79.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Let \\( c \\) be the number of children. Then the number of adults is \\( c + 25 \\). The total cost is given by:\n\n\\[\n15(c + 25) + 8c = 720\n\\]\n\nExpanding and simplifying:\n\n\\[\n15c + 375 + 8c = 720\n\\]\n\\[\n23c + 375 = 720\n\\]\n\\[\n23c = 345\n\\]\n\\[\nc = \\frac{345}{23} = 15\n\\]\n\nThus, there are 15 children in the group.\n\n#### 15",
+      "usage": {
+        "completion_tokens": 474,
+        "prompt_tokens": 86,
+        "total_tokens": 560,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 86,
+        "prompt_ms": 145.077,
+        "prompt_per_token_ms": 1.6869418604651163,
+        "prompt_per_second": 592.7886570579761,
+        "predicted_n": 474,
+        "predicted_ms": 5733.806,
+        "predicted_per_token_ms": 12.122211416490485,
+        "predicted_per_second": 82.49319910718988
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0028",
+      "n_tokens": 412,
+      "seconds": 5.186,
+      "tok_s": 79.4,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Calvin has completed 8 haircuts and needs 2 more to reach his goal, so the total number of haircuts required is \\(8 + 2 = 10\\). The percentage towards his goal is \\(\\frac{8}{10} \\times 100\\% = 80\\%\\).\n\n#### 80",
+      "usage": {
+        "completion_tokens": 412,
+        "prompt_tokens": 81,
+        "total_tokens": 493,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 81,
+        "prompt_ms": 141.171,
+        "prompt_per_token_ms": 1.7428518518518517,
+        "prompt_per_second": 573.772233674055,
+        "predicted_n": 412,
+        "predicted_ms": 4938.416,
+        "predicted_per_token_ms": 12.015610705596108,
+        "predicted_per_second": 83.22506649905556
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0029",
+      "n_tokens": 582,
+      "seconds": 7.198,
+      "tok_s": 80.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The balloon increases by \\(\\frac{2}{5}\\) of its previous volume each hour, meaning its volume multiplies by \\(1 + \\frac{2}{5} = \\frac{7}{5}\\) every hour.\n\nStarting volume: \\(500 \\, \\text{cm}^3\\).\n\nAfter 1 hour:  \n\\[\n500 \\times \\frac{7}{5} = 500 \\times 1.4 = 700 \\, \\text{cm}^3.\n\\]\n\nAfter 2 hours:  \n\\[\n700 \\times \\frac{7}{5} = 700 \\times 1.4 = 980 \\, \\text{cm}^3.\n\\]\n\nAlternatively, using the formula for exponential growth:  \n\\[\n500 \\times \\left(\\frac{7}{5}\\right)^2 = 500 \\times \\frac{49}{25} = \\frac{500 \\times 49}{25} = 20 \\times 49 = 980.\n\\]\n\nThus, the volume after 2 hours is \\(980 \\, \\text{cm}^3\\).\n\n#### 980",
+      "usage": {
+        "completion_tokens": 582,
+        "prompt_tokens": 75,
+        "total_tokens": 657,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 75,
+        "prompt_ms": 136.636,
+        "prompt_per_token_ms": 1.8218133333333333,
+        "prompt_per_second": 548.9036564302234,
+        "predicted_n": 582,
+        "predicted_ms": 6956.379,
+        "predicted_per_token_ms": 11.973113597246128,
+        "predicted_per_second": 83.52046373551528
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0030",
+      "n_tokens": 356,
+      "seconds": 4.469,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jacob has 18 hours left. Greg has 6 hours less than Jacob, so Greg has \\(18 - 6 = 12\\) hours left. Patrick has 4 hours less than twice Greg's time, so Patrick has \\(2 \\times 12 - 4 = 24 - 4 = 20\\) hours left. The total is \\(18 + 12 + 20 = 50\\) hours.\n\n#### 50",
+      "usage": {
+        "completion_tokens": 356,
+        "prompt_tokens": 94,
+        "total_tokens": 450,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 145.639,
+        "prompt_per_token_ms": 1.5493510638297874,
+        "prompt_per_second": 645.4315121636374,
+        "predicted_n": 356,
+        "predicted_ms": 4220.05,
+        "predicted_per_token_ms": 11.887464788732395,
+        "predicted_per_second": 84.12222603997583
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0031",
+      "n_tokens": 436,
+      "seconds": 5.456,
+      "tok_s": 79.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tabitha caught 22 pieces of candy.  \nStan caught 13 pieces.  \nJulie caught half the amount Tabitha caught: \\(22 \\div 2 = 11\\) pieces.  \nCarlos caught twice as much as Stan: \\(2 \\times 13 = 26\\) pieces.  \nThe total number of pieces caught is \\(22 + 13 + 11 + 26 = 72\\).\n\n#### 72",
+      "usage": {
+        "completion_tokens": 436,
+        "prompt_tokens": 114,
+        "total_tokens": 550,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 114,
+        "prompt_ms": 161.411,
+        "prompt_per_token_ms": 1.4158859649122808,
+        "prompt_per_second": 706.2715676131119,
+        "predicted_n": 436,
+        "predicted_ms": 5195.719,
+        "predicted_per_token_ms": 11.944181609195402,
+        "predicted_per_second": 83.72277253639005
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0032",
+      "n_tokens": 599,
+      "seconds": 7.565,
+      "tok_s": 79.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jordyn buys 50 bags of cherries at $5 each and 50 bags of olives at $7 each. The total cost before discount is calculated as follows:\n\n- Cost for cherries: \\(50 \\times 5 = 250\\) dollars.\n- Cost for olives: \\(50 \\times 7 = 350\\) dollars.\n- Total before discount: \\(250 + 350 = 600\\) dollars.\n\nA 10% discount is applied to the total, so the discounted price is \\(600 \\times (1 - 0.10) = 600 \\times 0.9 = 540\\) dollars.\n\nThus, Jordyn would pay $540.\n\n#### 540",
+      "usage": {
+        "completion_tokens": 599,
+        "prompt_tokens": 80,
+        "total_tokens": 679,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 80,
+        "prompt_ms": 138.426,
+        "prompt_per_token_ms": 1.730325,
+        "prompt_per_second": 577.9261121465621,
+        "predicted_n": 599,
+        "predicted_ms": 7325.625,
+        "predicted_per_token_ms": 12.250209030100335,
+        "predicted_per_second": 81.6312601313881
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0033",
+      "n_tokens": 408,
+      "seconds": 5.141,
+      "tok_s": 79.4,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Milo's grades are three 2s, four 3s, one 4, and one 5. The total number of grades is \\(3 + 4 + 1 + 1 = 9\\). The sum of the grades is \\(3 \\times 2 + 4 \\times 3 + 4 + 5 = 6 + 12 + 4 + 5 = 27\\). The average grade is \\(27 / 9 = 3\\). The cash reward is $5 times the average, so \\(5 \\times 3 = 15\\).\n\n#### 15",
+      "usage": {
+        "completion_tokens": 408,
+        "prompt_tokens": 88,
+        "total_tokens": 496,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 146.465,
+        "prompt_per_token_ms": 1.664375,
+        "prompt_per_second": 600.8261359369133,
+        "predicted_n": 408,
+        "predicted_ms": 4892.828,
+        "predicted_per_token_ms": 12.021690417690419,
+        "predicted_per_second": 83.18297720663796
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0034",
+      "n_tokens": 367,
+      "seconds": 4.725,
+      "tok_s": 77.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Boris starts with 24 books and donates a fourth, so he gives away \\(24 \\times \\frac{1}{4} = 6\\) books, leaving him with \\(24 - 6 = 18\\) books. Cameron starts with 30 books and donates a third, so he gives away \\(30 \\times \\frac{1}{3} = 10\\) books, leaving him with \\(30 - 10 = 20\\) books. Together, they have \\(18 + 20 = 38\\) books.\n\n#### 38",
+      "usage": {
+        "completion_tokens": 367,
+        "prompt_tokens": 88,
+        "total_tokens": 455,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 181.068,
+        "prompt_per_token_ms": 2.057590909090909,
+        "prompt_per_second": 486.0052576932423,
+        "predicted_n": 367,
+        "predicted_ms": 4442.34,
+        "predicted_per_token_ms": 12.137540983606558,
+        "predicted_per_second": 82.38901119680168
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0035",
+      "n_tokens": 325,
+      "seconds": 4.133,
+      "tok_s": 78.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total cost of the keyboards is \\(15 \\times 20 = 300\\) dollars. Subtracting this from the total gives \\(2050 - 300 = 1750\\) dollars for the printers. Dividing by the number of printers gives \\(1750 / 25 = 70\\) dollars per printer.\n\n#### 70",
+      "usage": {
+        "completion_tokens": 325,
+        "prompt_tokens": 69,
+        "total_tokens": 394,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 69,
+        "prompt_ms": 135.082,
+        "prompt_per_token_ms": 1.957710144927536,
+        "prompt_per_second": 510.8008468929983,
+        "predicted_n": 325,
+        "predicted_ms": 3899.027,
+        "predicted_per_token_ms": 12.034033950617284,
+        "predicted_per_second": 83.09765487646021
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0036",
+      "n_tokens": 658,
+      "seconds": 8.163,
+      "tok_s": 80.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The book has 98 pages total. Half of them are filled with images, so there are \\( \\frac{98}{2} = 49 \\) pages with images. Additionally, there are 11 pages with an introduction. Therefore, the number of pages already accounted for is \\( 49 + 11 = 60 \\). The remaining pages are \\( 98 - 60 = 38 \\). Of these remaining pages, half are blank and half are filled with text, so the number of pages with text is \\( \\frac{38}{2} = 19 \\).\n\n#### 19",
+      "usage": {
+        "completion_tokens": 658,
+        "prompt_tokens": 84,
+        "total_tokens": 742,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 136.548,
+        "prompt_per_token_ms": 1.6255714285714287,
+        "prompt_per_second": 615.1682924685824,
+        "predicted_n": 658,
+        "predicted_ms": 7938.602,
+        "predicted_per_token_ms": 12.08310806697108,
+        "predicted_per_second": 82.76016356532297
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0037",
+      "n_tokens": 464,
+      "seconds": 5.851,
+      "tok_s": 79.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jason drives 60 miles per hour for 30 minutes, covering 30 miles. The total distance is 120 miles, so the remaining distance is 90 miles. The total time allowed is 1 hour 30 minutes (1.5 hours), and he has already used 0.5 hours, leaving 1 hour for the remainder. To cover 90 miles in 1 hour, he must average 90 miles per hour.\n\n#### 90",
+      "usage": {
+        "completion_tokens": 464,
+        "prompt_tokens": 88,
+        "total_tokens": 552,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 146.191,
+        "prompt_per_token_ms": 1.6612613636363636,
+        "prompt_per_second": 601.9522405620045,
+        "predicted_n": 464,
+        "predicted_ms": 5600.93,
+        "predicted_per_token_ms": 12.097041036717064,
+        "predicted_per_second": 82.6648431599752
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0038",
+      "n_tokens": 446,
+      "seconds": 5.599,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jack bought a squat rack for $2500. The barbell cost 1/10 of that amount, which is \\( \\frac{1}{10} \\times 2500 = 250 \\) dollars. Adding both costs gives \\( 2500 + 250 = 2750 \\) dollars.\n\n#### 2750",
+      "usage": {
+        "completion_tokens": 446,
+        "prompt_tokens": 66,
+        "total_tokens": 512,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 66,
+        "prompt_ms": 122.711,
+        "prompt_per_token_ms": 1.8592575757575758,
+        "prompt_per_second": 537.849092583387,
+        "predicted_n": 446,
+        "predicted_ms": 5376.285,
+        "predicted_per_token_ms": 12.081539325842696,
+        "predicted_per_second": 82.77090965229708
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0039",
+      "n_tokens": 639,
+      "seconds": 7.863,
+      "tok_s": 81.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The team has played 50 games and won 35, leaving 25 games remaining. The total number of games in the season is \\(50 + 25 = 75\\). To achieve a 64% win percentage over the entire season, the team must win \\(0.64 \\times 75 = 48\\) games. Since they have already won 35 games, they need to win \\(48 - 35 = 13\\) of the remaining 25 games.\n\n#### 13",
+      "usage": {
+        "completion_tokens": 639,
+        "prompt_tokens": 90,
+        "total_tokens": 729,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 90,
+        "prompt_ms": 144.989,
+        "prompt_per_token_ms": 1.610988888888889,
+        "prompt_per_second": 620.7367455462139,
+        "predicted_n": 639,
+        "predicted_ms": 7619.238,
+        "predicted_per_token_ms": 11.942379310344828,
+        "predicted_per_second": 83.73540766150106
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0040",
+      "n_tokens": 896,
+      "seconds": 10.89,
+      "tok_s": 82.3,
+      "finish_reason": "stop",
+      "correct": false,
+      "text": "The company initially produced 7000 toilet paper per day. After ramping up production three times more, the new daily production is \\(3 \\times 7000 = 21000\\) toilet paper per day. March has 31 days, so the total production for March is \\(21000 \\times 31 = 651000\\).\n\n#### 651000",
+      "usage": {
+        "completion_tokens": 896,
+        "prompt_tokens": 92,
+        "total_tokens": 988,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 147.708,
+        "prompt_per_token_ms": 1.6055217391304348,
+        "prompt_per_second": 622.8504888022314,
+        "predicted_n": 896,
+        "predicted_ms": 10639.297,
+        "predicted_per_token_ms": 11.887482681564247,
+        "predicted_per_second": 84.1220994206666
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0041",
+      "n_tokens": 1534,
+      "seconds": 18.8,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "After one month, the number of pets remaining from adoptions is calculated as follows:\n\n- Dogs: \\(30 \\times (1 - 0.5) = 15\\)  \n- Cats: \\(28 \\times (1 - 0.25) = 21\\)  \n- Lizards: \\(20 \\times (1 - 0.2) = 16\\)  \n\nTotal remaining pets: \\(15 + 21 + 16 = 52\\).\n\nThen, adding the 13 new pets taken in during the month gives a total of \\(52 + 13 = 65\\).\n\n#### 65",
+      "usage": {
+        "completion_tokens": 1534,
+        "prompt_tokens": 112,
+        "total_tokens": 1646,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 112,
+        "prompt_ms": 157.578,
+        "prompt_per_token_ms": 1.4069464285714286,
+        "prompt_per_second": 710.7591161202706,
+        "predicted_n": 1534,
+        "predicted_ms": 18524.56,
+        "predicted_per_token_ms": 12.08386170906719,
+        "predicted_per_second": 82.75500200814486
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0042",
+      "n_tokens": 686,
+      "seconds": 8.588,
+      "tok_s": 79.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The class has 30 students, each contributing $2 every Friday. The total contribution per Friday is \\(30 \\times 2 = 60\\) dollars. Assuming there are approximately 4 Fridays in a month, over 2 months there are about 8 Fridays. Therefore, the total amount after 2 months is \\(8 \\times 60 = 480\\) dollars.\n\n#### 480",
+      "usage": {
+        "completion_tokens": 686,
+        "prompt_tokens": 71,
+        "total_tokens": 757,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 71,
+        "prompt_ms": 137.065,
+        "prompt_per_token_ms": 1.9304929577464789,
+        "prompt_per_second": 518.0024076168241,
+        "predicted_n": 686,
+        "predicted_ms": 8321.846,
+        "predicted_per_token_ms": 12.148680291970802,
+        "predicted_per_second": 82.31346746863618
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0043",
+      "n_tokens": 2048,
+      "seconds": 24.995,
+      "tok_s": 81.9,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 92,
+        "total_tokens": 2140,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 165.704,
+        "prompt_per_token_ms": 1.8011304347826087,
+        "prompt_per_second": 555.2068749094772,
+        "predicted_n": 2048,
+        "predicted_ms": 24726.83,
+        "predicted_per_token_ms": 12.079545676599903,
+        "predicted_per_second": 82.78457044433111
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0044",
+      "n_tokens": 362,
+      "seconds": 4.583,
+      "tok_s": 79.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total number of hoots per minute heard is 5 less than 20, which is \\(20 - 5 = 15\\). Each owl makes 5 hoots per minute, so the number of owls is \\(15 \\div 5 = 3\\).\n\n#### 3",
+      "usage": {
+        "completion_tokens": 362,
+        "prompt_tokens": 80,
+        "total_tokens": 442,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 80,
+        "prompt_ms": 138.306,
+        "prompt_per_token_ms": 1.728825,
+        "prompt_per_second": 578.4275447196795,
+        "predicted_n": 362,
+        "predicted_ms": 4330.88,
+        "predicted_per_token_ms": 11.996897506925208,
+        "predicted_per_second": 83.35488399586227
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0045",
+      "n_tokens": 748,
+      "seconds": 9.256,
+      "tok_s": 80.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Sabina's total tuition is $30,000. After using her savings of $10,000, the remainder is $20,000. The grant covers 40% of this remainder, which is $8,000. Therefore, the remaining amount to cover is $12,000. To fully cover her tuition, she needs to apply for a loan of $12,000.\n\n#### 12000",
+      "usage": {
+        "completion_tokens": 748,
+        "prompt_tokens": 104,
+        "total_tokens": 852,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 104,
+        "prompt_ms": 162.859,
+        "prompt_per_token_ms": 1.5659519230769232,
+        "prompt_per_second": 638.5892090704228,
+        "predicted_n": 748,
+        "predicted_ms": 8995.74,
+        "predicted_per_token_ms": 12.042489959839358,
+        "predicted_per_second": 83.0393052711617
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0046",
+      "n_tokens": 430,
+      "seconds": 5.355,
+      "tok_s": 80.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The train's speed is calculated as \\( \\frac{270 \\text{ miles}}{3 \\text{ hours}} = 90 \\text{ miles per hour} \\).  \nTo travel an additional 180 miles at the same speed, the time required is \\( \\frac{180 \\text{ miles}}{90 \\text{ miles per hour}} = 2 \\text{ hours} \\).  \n\n#### 2",
+      "usage": {
+        "completion_tokens": 430,
+        "prompt_tokens": 67,
+        "total_tokens": 497,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 67,
+        "prompt_ms": 122.936,
+        "prompt_per_token_ms": 1.834865671641791,
+        "prompt_per_second": 544.9990238823452,
+        "predicted_n": 430,
+        "predicted_ms": 5131.221,
+        "predicted_per_token_ms": 11.96088811188811,
+        "predicted_per_second": 83.60583182833092
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0047",
+      "n_tokens": 163,
+      "seconds": 2.171,
+      "tok_s": 75.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jack waited 20 hours for customs and 14 days in quarantine.  \nFirst, convert the quarantine time to hours:  \n14 days × 24 hours/day = 336 hours.  \nThen add the customs wait:  \n20 hours + 336 hours = 356 hours.\n\n#### 356",
+      "usage": {
+        "completion_tokens": 163,
+        "prompt_tokens": 70,
+        "total_tokens": 233,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 70,
+        "prompt_ms": 133.357,
+        "prompt_per_token_ms": 1.9051,
+        "prompt_per_second": 524.9068290378458,
+        "predicted_n": 163,
+        "predicted_ms": 1937.303,
+        "predicted_per_token_ms": 11.95866049382716,
+        "predicted_per_second": 83.62140563453418
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0048",
+      "n_tokens": 550,
+      "seconds": 6.796,
+      "tok_s": 80.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Let \\( J \\) represent the number of votes Joey got, \\( B \\) for Barry, and \\( M \\) for Marcy.\n\nGiven:\n- Joey got 8 votes: \\( J = 8 \\).\n- Barry got twice as many votes as 3 more than Joey's votes: \\( B = 2 \\times (J + 3) \\).\n- Marcy got three times as many votes as Barry: \\( M = 3 \\times B \\).\n\nStep-by-step calculation:\n1. Compute \\( J + 3 = 8 + 3 = 11 \\).\n2. Then \\( B = 2 \\times 11 = 22 \\).\n3. Finally, \\( M = 3 \\times 22 = 66 \\).\n\nThus, Marcy got 66 votes.\n\n#### 66",
+      "usage": {
+        "completion_tokens": 550,
+        "prompt_tokens": 86,
+        "total_tokens": 636,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 86,
+        "prompt_ms": 137.051,
+        "prompt_per_token_ms": 1.5936162790697672,
+        "prompt_per_second": 627.5036300355342,
+        "predicted_n": 550,
+        "predicted_ms": 6565.859,
+        "predicted_per_token_ms": 11.959670309653918,
+        "predicted_per_second": 83.61434505370887
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0049",
+      "n_tokens": 1014,
+      "seconds": 12.384,
+      "tok_s": 81.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Kataleya bought 400 peaches at $0.40 each, so the total cost before discount is \\(400 \\times 0.40 = 160\\) dollars. The store offers a $2 discount for every $10 purchase, meaning for each full $10 increment in the total, she gets $2 off. Since $160 contains 16 increments of $10, the discount is \\(16 \\times 2 = 32\\) dollars. Therefore, the amount she paid is \\(160 - 32 = 128\\) dollars.\n\n#### 128",
+      "usage": {
+        "completion_tokens": 1014,
+        "prompt_tokens": 88,
+        "total_tokens": 1102,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 143.212,
+        "prompt_per_token_ms": 1.6274090909090908,
+        "prompt_per_second": 614.4736474597102,
+        "predicted_n": 1014,
+        "predicted_ms": 12125.484,
+        "predicted_per_token_ms": 11.96987561697927,
+        "predicted_per_second": 83.54305692044953
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0050",
+      "n_tokens": 378,
+      "seconds": 4.853,
+      "tok_s": 77.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Glenn spends $10 on Wednesday and $25 on Saturday, totaling $35.\n\n#### 35",
+      "usage": {
+        "completion_tokens": 378,
+        "prompt_tokens": 78,
+        "total_tokens": 456,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 78,
+        "prompt_ms": 132.997,
+        "prompt_per_token_ms": 1.7050897435897439,
+        "prompt_per_second": 586.4793942720512,
+        "predicted_n": 378,
+        "predicted_ms": 4615.076,
+        "predicted_per_token_ms": 12.241580901856764,
+        "predicted_per_second": 81.6887955907985
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0051",
+      "n_tokens": 201,
+      "seconds": 2.647,
+      "tok_s": 75.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Morgan's total cost is $4 + $2 + $3 = $9. He pays with a $20 bill, so his change is $20 - $9 = $11.\n\n#### 11",
+      "usage": {
+        "completion_tokens": 201,
+        "prompt_tokens": 84,
+        "total_tokens": 285,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 134.089,
+        "prompt_per_token_ms": 1.596297619047619,
+        "prompt_per_second": 626.4495969095153,
+        "predicted_n": 201,
+        "predicted_ms": 2416.571,
+        "predicted_per_token_ms": 12.082855,
+        "predicted_per_second": 82.76189691922977
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0052",
+      "n_tokens": 2048,
+      "seconds": 24.935,
+      "tok_s": 82.1,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 114,
+        "total_tokens": 2162,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 114,
+        "prompt_ms": 149.541,
+        "prompt_per_token_ms": 1.3117631578947369,
+        "prompt_per_second": 762.3327381788273,
+        "predicted_n": 2048,
+        "predicted_ms": 24687.279,
+        "predicted_per_token_ms": 12.060224230581339,
+        "predicted_per_second": 82.91719796256201
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0053",
+      "n_tokens": 362,
+      "seconds": 4.628,
+      "tok_s": 78.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "To determine the total amount of nylon needed, first calculate the nylon required for the dog collars and cat collars separately, then add them together.\n\n- Nylon for 9 dog collars: \\(9 \\times 18 = 162\\) inches.\n- Nylon for 3 cat collars: \\(3 \\times 10 = 30\\) inches.\n- Total nylon: \\(162 + 30 = 192\\) inches.\n\n#### 192",
+      "usage": {
+        "completion_tokens": 362,
+        "prompt_tokens": 91,
+        "total_tokens": 453,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 149.165,
+        "prompt_per_token_ms": 1.639175824175824,
+        "prompt_per_second": 610.0626822646063,
+        "predicted_n": 362,
+        "predicted_ms": 4364.827,
+        "predicted_per_token_ms": 12.09093351800554,
+        "predicted_per_second": 82.70659982629323
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0054",
+      "n_tokens": 563,
+      "seconds": 7.066,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Joanie needs to pay a one-time down payment of $50 and monthly payments of $12 for 3 years. First, calculate the number of months in 3 years:  \n\\[ 3 \\text{ years} \\times 12 \\text{ months/year} = 36 \\text{ months} \\]  \nThen, compute the total monthly payments:  \n\\[ \\$12/\\text{month} \\times 36 \\text{ months} = \\$432 \\]  \nFinally, add the down payment:  \n\\[ \\$432 + \\$50 = \\$482 \\]  \nThus, Joanie will need to pay $482 for the first 3 years.\n\n#### 482",
+      "usage": {
+        "completion_tokens": 563,
+        "prompt_tokens": 75,
+        "total_tokens": 638,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 75,
+        "prompt_ms": 153.839,
+        "prompt_per_token_ms": 2.0511866666666667,
+        "prompt_per_second": 487.5226698041459,
+        "predicted_n": 563,
+        "predicted_ms": 6809.957,
+        "predicted_per_token_ms": 12.117361209964413,
+        "predicted_per_second": 82.5262185943318
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0055",
+      "n_tokens": 329,
+      "seconds": 4.185,
+      "tok_s": 78.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Darla has 6 books. Katie has half as many, so she has \\( \\frac{1}{2} \\times 6 = 3 \\) books. Together, Darla and Katie have \\( 6 + 3 = 9 \\) books. Gary has 5 times that combined amount, so he has \\( 5 \\times 9 = 45 \\) books. The total number of books is \\( 6 + 3 + 45 = 54 \\).\n\n#### 54",
+      "usage": {
+        "completion_tokens": 329,
+        "prompt_tokens": 81,
+        "total_tokens": 410,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 81,
+        "prompt_ms": 134.569,
+        "prompt_per_token_ms": 1.6613456790123455,
+        "prompt_per_second": 601.9216907311492,
+        "predicted_n": 329,
+        "predicted_ms": 3949.199,
+        "predicted_per_token_ms": 12.040240853658537,
+        "predicted_per_second": 83.05481693882734
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0056",
+      "n_tokens": 287,
+      "seconds": 3.702,
+      "tok_s": 77.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The shopkeeper bought 150 packets, each containing 250 ml of milk. The total volume in milliliters is \\(150 \\times 250 = 37500\\) ml. Given that 1 fluid ounce equals 30 ml, the number of ounces is \\(37500 \\div 30 = 1250\\).\n\n#### 1250",
+      "usage": {
+        "completion_tokens": 287,
+        "prompt_tokens": 76,
+        "total_tokens": 363,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 76,
+        "prompt_ms": 132.67,
+        "prompt_per_token_ms": 1.745657894736842,
+        "prompt_per_second": 572.849928393759,
+        "predicted_n": 287,
+        "predicted_ms": 3474.44,
+        "predicted_per_token_ms": 12.14839160839161,
+        "predicted_per_second": 82.31542349270673
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0057",
+      "n_tokens": 617,
+      "seconds": 7.676,
+      "tok_s": 80.4,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Mitch needs 3 cups of flour and 2 cups of sugar, but he only has a 1/3 cup scoop. To find the total number of scoops, we calculate separately for each ingredient.\n\nFor the flour:  \nNumber of scoops = \\( 3 \\div \\frac{1}{3} = 3 \\times 3 = 9 \\) scoops.\n\nFor the sugar:  \nNumber of scoops = \\( 2 \\div \\frac{1}{3} = 2 \\times 3 = 6 \\) scoops.\n\nTotal scoops = \\( 9 + 6 = 15 \\).\n\n#### 15",
+      "usage": {
+        "completion_tokens": 617,
+        "prompt_tokens": 77,
+        "total_tokens": 694,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 77,
+        "prompt_ms": 133.238,
+        "prompt_per_token_ms": 1.7303636363636363,
+        "prompt_per_second": 577.9132079436797,
+        "predicted_n": 617,
+        "predicted_ms": 7457.981,
+        "predicted_per_token_ms": 12.107112012987013,
+        "predicted_per_second": 82.59608062825583
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0058",
+      "n_tokens": 1028,
+      "seconds": 12.583,
+      "tok_s": 81.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total amount raised from the first group of donors is \\(500 \\times 1200 = 600,000\\) dollars.  \nThe second group consists of three times as many people, so \\(3 \\times 500 = 1500\\) people, each donating half of $1200, which is $600. Their total contribution is \\(1500 \\times 600 = 900,000\\) dollars.  \nThe combined total from both groups is \\(600,000 + 900,000 = 1,500,000\\) dollars.  \nThis amount represents 40% of the total money raised, so the total raised is \\(1,500,000 / 0.4 = 3,750,000\\) dollars.\n\n#### 3750000",
+      "usage": {
+        "completion_tokens": 1028,
+        "prompt_tokens": 102,
+        "total_tokens": 1130,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 102,
+        "prompt_ms": 152.928,
+        "prompt_per_token_ms": 1.4992941176470589,
+        "prompt_per_second": 666.9805398618957,
+        "predicted_n": 1028,
+        "predicted_ms": 12330.506,
+        "predicted_per_token_ms": 12.006334956183057,
+        "predicted_per_second": 83.28936379415411
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0059",
+      "n_tokens": 373,
+      "seconds": 4.661,
+      "tok_s": 80.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The shirt price is $10 each. Jeans cost twice as much, so each pair costs $20. Selling 20 shirts yields $200, and selling 10 pairs of jeans yields $200. The total earnings are $400.\n\n#### 400",
+      "usage": {
+        "completion_tokens": 373,
+        "prompt_tokens": 80,
+        "total_tokens": 453,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 80,
+        "prompt_ms": 136.567,
+        "prompt_per_token_ms": 1.7070875,
+        "prompt_per_second": 585.7930539588626,
+        "predicted_n": 373,
+        "predicted_ms": 4405.971,
+        "predicted_per_token_ms": 11.844008064516128,
+        "predicted_per_second": 84.43087800623292
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0060",
+      "n_tokens": 584,
+      "seconds": 7.194,
+      "tok_s": 81.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "On a tough week, Haji's mother sells goods worth $800, which is half the amount she sells on a good week. Therefore, on a good week, she sells \\(2 \\times 800 = 1600\\) dollars.\n\nFor 5 good weeks, the total sales are \\(5 \\times 1600 = 8000\\) dollars.  \nFor 3 tough weeks, the total sales are \\(3 \\times 800 = 2400\\) dollars.\n\nAdding these together gives the total amount of money she makes:  \n\\(8000 + 2400 = 10400\\) dollars.\n\n#### 10400",
+      "usage": {
+        "completion_tokens": 584,
+        "prompt_tokens": 82,
+        "total_tokens": 666,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 82,
+        "prompt_ms": 152.271,
+        "prompt_per_token_ms": 1.8569634146341463,
+        "prompt_per_second": 538.5135711987182,
+        "predicted_n": 584,
+        "predicted_ms": 6937.562,
+        "predicted_per_token_ms": 11.899763293310462,
+        "predicted_per_second": 84.03528501799336
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0061",
+      "n_tokens": 461,
+      "seconds": 5.74,
+      "tok_s": 80.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Mary's grocery bag has a maximum capacity of 20 pounds. She currently has:\n\n- Green beans: 4 pounds  \n- Milk: 6 pounds  \n- Carrots: twice the amount of green beans, so \\(2 \\times 4 = 8\\) pounds  \n\nThe total weight of these items is \\(4 + 6 + 8 = 18\\) pounds.  \n\nTo find how many more pounds she can fit, subtract the current weight from the maximum capacity:  \n\\(20 - 18 = 2\\) pounds.\n\n#### 2",
+      "usage": {
+        "completion_tokens": 461,
+        "prompt_tokens": 83,
+        "total_tokens": 544,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 83,
+        "prompt_ms": 135.996,
+        "prompt_per_token_ms": 1.6385060240963856,
+        "prompt_per_second": 610.312068002,
+        "predicted_n": 461,
+        "predicted_ms": 5489.741,
+        "predicted_per_token_ms": 11.934219565217392,
+        "predicted_per_second": 83.79265979943317
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0062",
+      "n_tokens": 316,
+      "seconds": 4.07,
+      "tok_s": 77.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Shawna has 7 acorns.  \nSheila has 5 times as many as Shawna, so Sheila has \\(5 \\times 7 = 35\\) acorns.  \nSheila has 3 fewer acorns than Danny, so Danny has \\(35 + 3 = 38\\) acorns.  \nTogether, they have \\(7 + 35 + 38 = 80\\) acorns.\n\n#### 80",
+      "usage": {
+        "completion_tokens": 316,
+        "prompt_tokens": 72,
+        "total_tokens": 388,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 72,
+        "prompt_ms": 130.456,
+        "prompt_per_token_ms": 1.8118888888888887,
+        "prompt_per_second": 551.9102226037899,
+        "predicted_n": 316,
+        "predicted_ms": 3842.587,
+        "predicted_per_token_ms": 12.198688888888888,
+        "predicted_per_second": 81.9760229241394
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0063",
+      "n_tokens": 355,
+      "seconds": 4.411,
+      "tok_s": 80.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tom's deck consists of three types of cards with different costs:\n\n- Rare cards: 19 cards at $1 each → \\(19 \\times 1 = 19\\) dollars.\n- Uncommon cards: 11 cards at $0.50 each → \\(11 \\times 0.50 = 5.50\\) dollars.\n- Common cards: 30 cards at $0.25 each → \\(30 \\times 0.25 = 7.50\\) dollars.\n\nAdding these amounts together:\n\\[19 + 5.50 + 7.50 = 32\\]\n\nThus, the total cost of his deck is $32.\n\n#### 32",
+      "usage": {
+        "completion_tokens": 355,
+        "prompt_tokens": 93,
+        "total_tokens": 448,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 147.167,
+        "prompt_per_token_ms": 1.5824408602150537,
+        "prompt_per_second": 631.9351485047599,
+        "predicted_n": 355,
+        "predicted_ms": 4183.708,
+        "predicted_per_token_ms": 11.818384180790959,
+        "predicted_per_second": 84.61393577180817
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0064",
+      "n_tokens": 242,
+      "seconds": 3.117,
+      "tok_s": 77.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Estevan initially has 24 blankets, and one-third of them are polka-dot blankets, so he has \\( \\frac{1}{3} \\times 24 = 8 \\) polka-dot blankets. After receiving 2 more polka-dot blankets, the total becomes \\( 8 + 2 = 10 \\).\n\n#### 10",
+      "usage": {
+        "completion_tokens": 242,
+        "prompt_tokens": 83,
+        "total_tokens": 325,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 83,
+        "prompt_ms": 134.078,
+        "prompt_per_token_ms": 1.615397590361446,
+        "prompt_per_second": 619.0426468175241,
+        "predicted_n": 242,
+        "predicted_ms": 2885.365,
+        "predicted_per_token_ms": 11.97246887966805,
+        "predicted_per_second": 83.5249613133867
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0065",
+      "n_tokens": 376,
+      "seconds": 4.669,
+      "tok_s": 80.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Ocho has 8 friends total. Half are girls, so there are \\( \\frac{8}{2} = 4 \\) girls. The remaining friends are boys, so there are also 4 boys. Since all the boys like to play theater with him, the number of boys who play theater with him is 4.\n\n#### 4",
+      "usage": {
+        "completion_tokens": 376,
+        "prompt_tokens": 63,
+        "total_tokens": 439,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 63,
+        "prompt_ms": 121.412,
+        "prompt_per_token_ms": 1.9271746031746033,
+        "prompt_per_second": 518.894343228017,
+        "predicted_n": 376,
+        "predicted_ms": 4467.369,
+        "predicted_per_token_ms": 11.912984,
+        "predicted_per_second": 83.94202493682525
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0066",
+      "n_tokens": 352,
+      "seconds": 4.361,
+      "tok_s": 80.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Harper collected 30% more than Maggie, who collected 50 pieces. Harper's amount is \\(50 \\times 1.30 = 65\\) pieces. Neil collected 40% more than Harper, so Neil's amount is \\(65 \\times 1.40 = 91\\) pieces.\n\n#### 91",
+      "usage": {
+        "completion_tokens": 352,
+        "prompt_tokens": 79,
+        "total_tokens": 431,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 79,
+        "prompt_ms": 132.912,
+        "prompt_per_token_ms": 1.6824303797468356,
+        "prompt_per_second": 594.3782352233056,
+        "predicted_n": 352,
+        "predicted_ms": 4140.226,
+        "predicted_per_token_ms": 11.795515669515668,
+        "predicted_per_second": 84.77798071892694
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0067",
+      "n_tokens": 1285,
+      "seconds": 15.663,
+      "tok_s": 82.0,
+      "finish_reason": "stop",
+      "correct": false,
+      "text": "Let \\( P \\) be the initial population before any changes. After 100 new people move in, the population becomes \\( P + 100 \\). Then 400 of the original population move out, leaving \\( (P - 400) + 100 = P - 300 \\). Each year afterward, the population halves. After 4 years, it is halved four times, so the population becomes \\( \\frac{P - 300}{16} \\). Given that this equals 60, we solve:\n\n\\[\n\\frac{P - 300}{16} = 60\n\\]\n\\[\nP - 300 = 960\n\\]\n\\[\nP = 1260\n\\]\n\nThus, before the new people moved in, there were 1260 people.\n\n#### 1260",
+      "usage": {
+        "completion_tokens": 1285,
+        "prompt_tokens": 95,
+        "total_tokens": 1380,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 95,
+        "prompt_ms": 145.417,
+        "prompt_per_token_ms": 1.5307052631578948,
+        "prompt_per_second": 653.29363141861,
+        "predicted_n": 1285,
+        "predicted_ms": 15436.006,
+        "predicted_per_token_ms": 12.02181152647975,
+        "predicted_per_second": 83.18213921399098
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0068",
+      "n_tokens": 235,
+      "seconds": 3.102,
+      "tok_s": 75.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The artist spends 30 hours per week painting, and each painting takes 3 hours. Therefore, she can complete \\(30 \\div 3 = 10\\) paintings per week. Over four weeks, she can make \\(10 \\times 4 = 40\\) paintings.\n\n#### 40",
+      "usage": {
+        "completion_tokens": 235,
+        "prompt_tokens": 65,
+        "total_tokens": 300,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 65,
+        "prompt_ms": 130.401,
+        "prompt_per_token_ms": 2.006169230769231,
+        "prompt_per_second": 498.46243510402525,
+        "predicted_n": 235,
+        "predicted_ms": 2849.346,
+        "predicted_per_token_ms": 12.176692307692308,
+        "predicted_per_second": 82.12410847963007
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0069",
+      "n_tokens": 368,
+      "seconds": 4.64,
+      "tok_s": 79.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The first cooler holds 100 liters.  \nThe second cooler is 50% bigger than the first, so it holds \\(100 + 0.5 \\times 100 = 150\\) liters.  \nThe third cooler is half the size of the second, so it holds \\(150 / 2 = 75\\) liters.  \nAdding them together: \\(100 + 150 + 75 = 325\\) liters.\n\n#### 325",
+      "usage": {
+        "completion_tokens": 368,
+        "prompt_tokens": 82,
+        "total_tokens": 450,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 82,
+        "prompt_ms": 153.897,
+        "prompt_per_token_ms": 1.876792682926829,
+        "prompt_per_second": 532.823901700488,
+        "predicted_n": 368,
+        "predicted_ms": 4407.065,
+        "predicted_per_token_ms": 12.008351498637602,
+        "predicted_per_second": 83.27537715009878
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0070",
+      "n_tokens": 778,
+      "seconds": 9.604,
+      "tok_s": 81.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total number of fruits is 36, evenly split among oranges, apples, and watermelons, so there are 12 of each fruit. The price of one orange is $0.50, so the cost for oranges is \\(12 \\times 0.50 = 6\\) dollars. Let \\(A\\) be the price of one apple and \\(W\\) be the price of one watermelon. Given that 4 apples cost the same as 1 watermelon, we have \\(4A = W\\). The total bill is $66, so:\n\n\\[\n12 \\times 0.50 + 12A + 12W = 66\n\\]\n\nSimplifying:\n\n\\[\n6 + 12A + 12W = 66 \\implies 12A + 12W = 60 \\implies A + W = 5\n\\]\n\nSubstituting \\(W = 4A\\):\n\n\\[\nA + 4A = 5 \\implies 5A = 5 \\implies A = 1\n\\]\n\nThus, one apple costs $1.\n\n#### 1",
+      "usage": {
+        "completion_tokens": 778,
+        "prompt_tokens": 95,
+        "total_tokens": 873,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 95,
+        "prompt_ms": 139.629,
+        "prompt_per_token_ms": 1.4697789473684209,
+        "prompt_per_second": 680.3744207865129,
+        "predicted_n": 778,
+        "predicted_ms": 9370.139,
+        "predicted_per_token_ms": 12.059380952380952,
+        "predicted_per_second": 82.92299612631147
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0071",
+      "n_tokens": 466,
+      "seconds": 5.88,
+      "tok_s": 79.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The show airs from 2:00 pm to 2:30 pm each weekday, so each episode is 30 minutes long.  \nMax watches every episode during the week except Friday, meaning he watches Monday, Tuesday, Wednesday, and Thursday. That's 4 episodes.  \nTotal viewing time: \\(4 \\times 30 = 120\\) minutes.  \nConverting to hours: \\(120 \\div 60 = 2\\) hours.\n\n#### 2",
+      "usage": {
+        "completion_tokens": 466,
+        "prompt_tokens": 84,
+        "total_tokens": 550,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 137.35,
+        "prompt_per_token_ms": 1.6351190476190476,
+        "prompt_per_second": 611.5762650163815,
+        "predicted_n": 466,
+        "predicted_ms": 5637.497,
+        "predicted_per_token_ms": 12.123649462365591,
+        "predicted_per_second": 82.4834141818612
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0072",
+      "n_tokens": 408,
+      "seconds": 5.15,
+      "tok_s": 79.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The attendance for the three games this week is calculated as follows:  \n- Second game: 80 people  \n- First game: 20 fewer than the second game → 80 - 20 = 60 people  \n- Third game: 15 more than the second game → 80 + 15 = 95 people  \n\nTotal attendance this week: 60 + 80 + 95 = 235 people.  \n\nLast week's total attendance was 200 people.  \n\nThe difference is 235 - 200 = 35 more people watched the games this week than last week.  \n\n#### 35",
+      "usage": {
+        "completion_tokens": 408,
+        "prompt_tokens": 105,
+        "total_tokens": 513,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 105,
+        "prompt_ms": 151.496,
+        "prompt_per_token_ms": 1.4428190476190477,
+        "prompt_per_second": 693.0876062734329,
+        "predicted_n": 408,
+        "predicted_ms": 4920.445,
+        "predicted_per_token_ms": 12.089545454545453,
+        "predicted_per_second": 82.71609580027823
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0073",
+      "n_tokens": 1574,
+      "seconds": 18.972,
+      "tok_s": 83.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jake delivers 234 newspapers per week. Miranda delivers twice as many, so she delivers \\(2 \\times 234 = 468\\) newspapers per week. The difference in their weekly deliveries is \\(468 - 234 = 234\\) newspapers per week. Assuming a month has 4 weeks, the difference over a month is \\(234 \\times 4 = 936\\) newspapers.\n\n#### 936",
+      "usage": {
+        "completion_tokens": 1574,
+        "prompt_tokens": 64,
+        "total_tokens": 1638,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 64,
+        "prompt_ms": 121.603,
+        "prompt_per_token_ms": 1.900046875,
+        "prompt_per_second": 526.3028050294812,
+        "predicted_n": 1574,
+        "predicted_ms": 18760.151,
+        "predicted_per_token_ms": 11.926351557533376,
+        "predicted_per_second": 83.8479391770354
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0074",
+      "n_tokens": 582,
+      "seconds": 7.253,
+      "tok_s": 80.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tina earns $18 per hour for regular hours and $27 per hour for overtime (since overtime is hourly wage plus half of it). She works 10 hours per day for 5 days, so each day she has 8 regular hours and 2 overtime hours.\n\nDaily earnings:  \nRegular pay: \\(8 \\times 18 = 144\\) dollars  \nOvertime pay: \\(2 \\times 27 = 54\\) dollars  \nTotal per day: \\(144 + 54 = 198\\) dollars  \n\nOver 5 days: \\(5 \\times 198 = 990\\) dollars.\n\nAlternatively, total regular hours: \\(8 \\times 5 = 40\\) hours, total overtime hours: \\(2 \\times 5 = 10\\) hours.  \nTotal pay: \\(40 \\times 18 + 10 \\times 27 = 720 + 270 = 990\\) dollars.\n\n#### 990",
+      "usage": {
+        "completion_tokens": 582,
+        "prompt_tokens": 100,
+        "total_tokens": 682,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 100,
+        "prompt_ms": 148.377,
+        "prompt_per_token_ms": 1.48377,
+        "prompt_per_second": 673.9589019861568,
+        "predicted_n": 582,
+        "predicted_ms": 7000.357,
+        "predicted_per_token_ms": 12.048807228915663,
+        "predicted_per_second": 82.995767215872
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0075",
+      "n_tokens": 702,
+      "seconds": 8.674,
+      "tok_s": 80.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total cost before discount is calculated as follows:  \n- Quiches: 2 × $15.00 = $30.00  \n- Croissants: 6 × $3.00 = $18.00  \n- Biscuits: 6 × $2.00 = $12.00  \nTotal = $30.00 + $18.00 + $12.00 = $60.00  \n\nSince the total exceeds $50.00, a 10% discount applies:  \nDiscount = 10% of $60.00 = $6.00  \nFinal cost = $60.00 − $6.00 = $54.00  \n\n#### 54.00",
+      "usage": {
+        "completion_tokens": 702,
+        "prompt_tokens": 106,
+        "total_tokens": 808,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 106,
+        "prompt_ms": 170.377,
+        "prompt_per_token_ms": 1.6073301886792453,
+        "prompt_per_second": 622.1497033050235,
+        "predicted_n": 702,
+        "predicted_ms": 8404.467,
+        "predicted_per_token_ms": 11.98925392296719,
+        "predicted_per_second": 83.40802575582723
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0076",
+      "n_tokens": 2048,
+      "seconds": 25.119,
+      "tok_s": 81.5,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 88,
+        "total_tokens": 2136,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 144.417,
+        "prompt_per_token_ms": 1.6411022727272728,
+        "prompt_per_second": 609.3465450743333,
+        "predicted_n": 2048,
+        "predicted_ms": 24892.711,
+        "predicted_per_token_ms": 12.160581827063996,
+        "predicted_per_second": 82.23290745632326
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0077",
+      "n_tokens": 405,
+      "seconds": 5.057,
+      "tok_s": 80.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The number of students for the scavenger hunting trip is 4000. The number for the skiing trip is twice that, so it is \\(2 \\times 4000 = 8000\\). The total number of students is the sum of both groups: \\(4000 + 8000 = 12000\\).\n\n#### 12000",
+      "usage": {
+        "completion_tokens": 405,
+        "prompt_tokens": 88,
+        "total_tokens": 493,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 149.765,
+        "prompt_per_token_ms": 1.7018749999999998,
+        "prompt_per_second": 587.5872199779656,
+        "predicted_n": 405,
+        "predicted_ms": 4802.201,
+        "predicted_per_token_ms": 11.886636138613861,
+        "predicted_per_second": 84.12809043186655
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0078",
+      "n_tokens": 619,
+      "seconds": 7.589,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tom swims for 2 hours at 2 miles per hour, covering a distance of \\(2 \\times 2 = 4\\) miles.  \nHe then runs for half the swimming time, which is \\(2 / 2 = 1\\) hour, at 4 times the swimming speed, which is \\(4 \\times 2 = 8\\) miles per hour. The running distance is \\(8 \\times 1 = 8\\) miles.  \nThe total distance covered is \\(4 + 8 = 12\\) miles.\n\n#### 12",
+      "usage": {
+        "completion_tokens": 619,
+        "prompt_tokens": 71,
+        "total_tokens": 690,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 71,
+        "prompt_ms": 143.404,
+        "prompt_per_token_ms": 2.0197746478873237,
+        "prompt_per_second": 495.1047390588826,
+        "predicted_n": 619,
+        "predicted_ms": 7352.222,
+        "predicted_per_token_ms": 11.896799352750808,
+        "predicted_per_second": 84.05622137089985
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0079",
+      "n_tokens": 318,
+      "seconds": 4.084,
+      "tok_s": 77.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The nurse must check a total of 26 + 19 + 20 + 25 = 90 students. Each check takes 2 minutes, so the total time in minutes is 90 × 2 = 180 minutes. Converting to hours: 180 ÷ 60 = 3 hours.\n\n#### 3",
+      "usage": {
+        "completion_tokens": 318,
+        "prompt_tokens": 98,
+        "total_tokens": 416,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 98,
+        "prompt_ms": 148.479,
+        "prompt_per_token_ms": 1.515091836734694,
+        "prompt_per_second": 660.0259969423284,
+        "predicted_n": 318,
+        "predicted_ms": 3836.7,
+        "predicted_per_token_ms": 12.10315457413249,
+        "predicted_per_second": 82.62308754919593
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0080",
+      "n_tokens": 256,
+      "seconds": 3.299,
+      "tok_s": 77.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Rocky had 190 fights total.  \n50% of those were knockouts: \\(0.5 \\times 190 = 95\\) knockouts.  \n20% of the knockouts were in the first round: \\(0.2 \\times 95 = 19\\).  \n\nThus, Rocky had 19 first-round knockouts.\n\n#### 19",
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 84,
+        "total_tokens": 340,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 137.326,
+        "prompt_per_token_ms": 1.6348333333333334,
+        "prompt_per_second": 611.6831481292691,
+        "predicted_n": 256,
+        "predicted_ms": 3074.462,
+        "predicted_per_token_ms": 12.056713725490196,
+        "predicted_per_second": 82.94134063130396
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0081",
+      "n_tokens": 633,
+      "seconds": 7.856,
+      "tok_s": 80.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jason joined the military at age 18. It took him 8 years to reach chief, so he became chief at age 26. The time from chief to master chief was 25% longer than that, which is \\(8 \\times 1.25 = 10\\) years, so he became master chief at age 36. He then spent 10 more years in the military before retiring, making his retirement age \\(36 + 10 = 46\\).\n\n#### 46",
+      "usage": {
+        "completion_tokens": 633,
+        "prompt_tokens": 99,
+        "total_tokens": 732,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 99,
+        "prompt_ms": 145.795,
+        "prompt_per_token_ms": 1.4726767676767676,
+        "prompt_per_second": 679.0356322233273,
+        "predicted_n": 633,
+        "predicted_ms": 7629.632,
+        "predicted_per_token_ms": 12.07220253164557,
+        "predicted_per_second": 82.83492572118814
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0082",
+      "n_tokens": 426,
+      "seconds": 5.474,
+      "tok_s": 77.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Initially, there are 74 apples in the basket. Ricki removes 14 apples, leaving \\(74 - 14 = 60\\) apples. Samson removes twice as many as Ricki, which is \\(2 \\times 14 = 28\\) apples. After Samson removes 28 apples, there are \\(60 - 28 = 32\\) apples left.\n\n#### 32",
+      "usage": {
+        "completion_tokens": 426,
+        "prompt_tokens": 82,
+        "total_tokens": 508,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 82,
+        "prompt_ms": 137.679,
+        "prompt_per_token_ms": 1.6790121951219512,
+        "prompt_per_second": 595.588288700528,
+        "predicted_n": 426,
+        "predicted_ms": 5237.917,
+        "predicted_per_token_ms": 12.324510588235295,
+        "predicted_per_second": 81.13912457948456
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0083",
+      "n_tokens": 535,
+      "seconds": 6.708,
+      "tok_s": 79.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Pauly has three dozen eggs, which is \\(3 \\times 12 = 36\\) eggs. Each omelet requires 4 eggs, so he can make \\(36 \\div 4 = 9\\) omelets. Including himself, there are 3 people, so each person gets \\(9 \\div 3 = 3\\) omelets.\n\n#### 3",
+      "usage": {
+        "completion_tokens": 535,
+        "prompt_tokens": 85,
+        "total_tokens": 620,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 85,
+        "prompt_ms": 142.993,
+        "prompt_per_token_ms": 1.682270588235294,
+        "prompt_per_second": 594.4346926073305,
+        "predicted_n": 535,
+        "predicted_ms": 6473.947,
+        "predicted_per_token_ms": 12.123496254681648,
+        "predicted_per_second": 82.48445654559731
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0084",
+      "n_tokens": 434,
+      "seconds": 5.468,
+      "tok_s": 79.4,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jett's total cost includes the purchase price, daily food expenses for 40 days, and vaccination/deworming costs.  \n- Purchase price: $600  \n- Food cost: $20/day × 40 days = $800  \n- Vaccination/deworming: $500  \nTotal cost = $600 + $800 + $500 = $1900.  \nSelling price = $2500.  \nProfit = $2500 - $1900 = $600.  \n\n#### 600",
+      "usage": {
+        "completion_tokens": 434,
+        "prompt_tokens": 110,
+        "total_tokens": 544,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 110,
+        "prompt_ms": 154.711,
+        "prompt_per_token_ms": 1.4064636363636365,
+        "prompt_per_second": 711.0030960953002,
+        "predicted_n": 434,
+        "predicted_ms": 5221.471,
+        "predicted_per_token_ms": 12.058824480369514,
+        "predicted_per_second": 82.92682272869082
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0085",
+      "n_tokens": 780,
+      "seconds": 9.665,
+      "tok_s": 80.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total distance between the two towns is 200 miles. Roger and his friend drove \\(\\frac{1}{4}\\) of the total distance, which is \\(200 \\times \\frac{1}{4} = 50\\) miles, in 1 hour. This gives a speed of 50 miles per hour. After lunch for 1 hour, they drove the remaining distance of \\(200 - 50 = 150\\) miles at the same speed, taking \\(150 / 50 = 3\\) hours. The total time is the sum of the initial driving time, lunch time, and remaining driving time: \\(1 + 1 + 3 = 5\\) hours.\n\n#### 5",
+      "usage": {
+        "completion_tokens": 780,
+        "prompt_tokens": 113,
+        "total_tokens": 893,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 113,
+        "prompt_ms": 152.208,
+        "prompt_per_token_ms": 1.3469734513274336,
+        "prompt_per_second": 742.4051298223484,
+        "predicted_n": 780,
+        "predicted_ms": 9411.082,
+        "predicted_per_token_ms": 12.080978177150193,
+        "predicted_per_second": 82.77475427373813
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0086",
+      "n_tokens": 1420,
+      "seconds": 17.584,
+      "tok_s": 80.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total number of customers is equal to the total number of purchases since each customer makes exactly one purchase. The sports store made 20 sales and the music store made 30 sales, so the total number of customers is \\(20 + 30 = 50\\). There are 10 cars, each with the same number of customers, so the number of customers per car is \\(50 / 10 = 5\\).\n\n#### 5",
+      "usage": {
+        "completion_tokens": 1420,
+        "prompt_tokens": 92,
+        "total_tokens": 1512,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 92,
+        "prompt_ms": 146.327,
+        "prompt_per_token_ms": 1.5905108695652175,
+        "prompt_per_second": 628.7288060303293,
+        "predicted_n": 1420,
+        "predicted_ms": 17356.134,
+        "predicted_per_token_ms": 12.231243128964058,
+        "predicted_per_second": 81.75783846794454
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0087",
+      "n_tokens": 531,
+      "seconds": 6.656,
+      "tok_s": 79.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "John started with a 500-pound bench press. After the injury, his bench press decreased by 80%, meaning he could only lift 20% of his original weight:  \n\\[ 500 \\times (1 - 0.80) = 500 \\times 0.20 = 100 \\text{ pounds}. \\]  \nAfter training, he tripled the weight he could bench after the injury:  \n\\[ 100 \\times 3 = 300 \\text{ pounds}. \\]  \nThus, his current bench press is 300 pounds.\n\n#### 300",
+      "usage": {
+        "completion_tokens": 531,
+        "prompt_tokens": 91,
+        "total_tokens": 622,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 149.696,
+        "prompt_per_token_ms": 1.645010989010989,
+        "prompt_per_second": 607.8986746472852,
+        "predicted_n": 531,
+        "predicted_ms": 6405.661,
+        "predicted_per_token_ms": 12.086152830188679,
+        "predicted_per_second": 82.73931449072938
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0088",
+      "n_tokens": 573,
+      "seconds": 7.021,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The train consists of passenger cars \\(P\\), cargo cars \\(C\\), an engine, and a caboose. The total number of cars is 71, so \\(P + C + 2 = 71\\), which simplifies to \\(P + C = 69\\). The number of cargo cars is given by \\(C = \\frac{1}{2}P + 3\\). Substituting into the equation:\n\n\\[\nP + \\left(\\frac{1}{2}P + 3\\right) = 69\n\\]\n\n\\[\n\\frac{3}{2}P + 3 = 69\n\\]\n\n\\[\n\\frac{3}{2}P = 66\n\\]\n\n\\[\nP = 66 \\times \\frac{2}{3} = 44\n\\]\n\nThus, there are 44 passenger cars.\n\n#### 44",
+      "usage": {
+        "completion_tokens": 573,
+        "prompt_tokens": 83,
+        "total_tokens": 656,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 83,
+        "prompt_ms": 152.301,
+        "prompt_per_token_ms": 1.8349518072289155,
+        "prompt_per_second": 544.9734407521947,
+        "predicted_n": 573,
+        "predicted_ms": 6779.321,
+        "predicted_per_token_ms": 11.85195979020979,
+        "predicted_per_second": 84.37423157864924
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0089",
+      "n_tokens": 460,
+      "seconds": 5.88,
+      "tok_s": 78.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Andy has a limit of 50 demerits per month before being fired. He already received 12 demerits for showing up late (2 demerits × 6 times) and 15 demerits for an inappropriate joke, totaling 27 demerits. Therefore, he can receive 23 more demerits before reaching the limit.\n\n#### 23",
+      "usage": {
+        "completion_tokens": 460,
+        "prompt_tokens": 93,
+        "total_tokens": 553,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 142.671,
+        "prompt_per_token_ms": 1.5340967741935483,
+        "prompt_per_second": 651.8493597157096,
+        "predicted_n": 460,
+        "predicted_ms": 5661.389,
+        "predicted_per_token_ms": 12.33418082788671,
+        "predicted_per_second": 81.07550991461636
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0090",
+      "n_tokens": 436,
+      "seconds": 5.547,
+      "tok_s": 78.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Ms. Hatcher teaches 20 third-graders and twice as many fourth-graders, which is \\(2 \\times 20 = 40\\). She also substitutes for a fifth-grade class with half as many students as the third-graders, which is \\(20 / 2 = 10\\). The total number of students she taught that day is \\(20 + 40 + 10 = 70\\).\n\n#### 70",
+      "usage": {
+        "completion_tokens": 436,
+        "prompt_tokens": 100,
+        "total_tokens": 536,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 100,
+        "prompt_ms": 144.527,
+        "prompt_per_token_ms": 1.4452699999999998,
+        "prompt_per_second": 691.912237851751,
+        "predicted_n": 436,
+        "predicted_ms": 5308.497,
+        "predicted_per_token_ms": 12.203441379310345,
+        "predicted_per_second": 81.94409830127059
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0091",
+      "n_tokens": 2048,
+      "seconds": 25.244,
+      "tok_s": 81.1,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 75,
+        "total_tokens": 2123,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 75,
+        "prompt_ms": 152.391,
+        "prompt_per_token_ms": 2.0318799999999997,
+        "prompt_per_second": 492.1550485264878,
+        "predicted_n": 2048,
+        "predicted_ms": 24940.872,
+        "predicted_per_token_ms": 12.184109428431851,
+        "predicted_per_second": 82.07411513117906
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0092",
+      "n_tokens": 1632,
+      "seconds": 19.743,
+      "tok_s": 82.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Catherine initially had 60 pens and 60 pencils because she had an equal number of each. She gave away 8 pens and 6 pencils to each of her 7 friends, totaling 56 pens and 42 pencils given away. After giving these away, she had 4 pens and 18 pencils left, making a total of 22 items remaining.\n\n#### 22",
+      "usage": {
+        "completion_tokens": 1632,
+        "prompt_tokens": 81,
+        "total_tokens": 1713,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 81,
+        "prompt_ms": 142.032,
+        "prompt_per_token_ms": 1.7534814814814816,
+        "prompt_per_second": 570.2940182494085,
+        "predicted_n": 1632,
+        "predicted_ms": 19484.093,
+        "predicted_per_token_ms": 11.946102391171062,
+        "predicted_per_second": 83.70931097485523
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0093",
+      "n_tokens": 430,
+      "seconds": 5.409,
+      "tok_s": 79.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Robin buys one bracelet for each letter in her friends' first names. The friends are Jessica, Tori, Lily, and Patrice.\n\n- Jessica has 7 letters.\n- Tori has 4 letters.\n- Lily has 4 letters.\n- Patrice has 7 letters.\n\nTotal number of bracelets = 7 + 4 + 4 + 7 = 22.\n\nEach bracelet costs $2, so total cost = 22 × $2 = $44.\n\n#### 44",
+      "usage": {
+        "completion_tokens": 430,
+        "prompt_tokens": 90,
+        "total_tokens": 520,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 90,
+        "prompt_ms": 149.63,
+        "prompt_per_token_ms": 1.6625555555555556,
+        "prompt_per_second": 601.4836596939117,
+        "predicted_n": 430,
+        "predicted_ms": 5155.389,
+        "predicted_per_token_ms": 12.017223776223776,
+        "predicted_per_second": 83.21389520751974
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0094",
+      "n_tokens": 1255,
+      "seconds": 15.556,
+      "tok_s": 80.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jack will have ten times more trophies than Michael has right now in three years, so Jack's trophies in three years are \\(10 \\times 30 = 300\\). Michael currently has 30 trophies and will gain 100 more in three years, so he will have \\(30 + 100 = 130\\) trophies. The total number of trophies they will have altogether after three years is \\(300 + 130 = 430\\).\n\n#### 430",
+      "usage": {
+        "completion_tokens": 1255,
+        "prompt_tokens": 91,
+        "total_tokens": 1346,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 91,
+        "prompt_ms": 156.011,
+        "prompt_per_token_ms": 1.7144065934065933,
+        "prompt_per_second": 583.2922037548634,
+        "predicted_n": 1255,
+        "predicted_ms": 15305.008,
+        "predicted_per_token_ms": 12.204950558213715,
+        "predicted_per_second": 81.93396566666283
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0095",
+      "n_tokens": 335,
+      "seconds": 4.245,
+      "tok_s": 78.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "David has 15 shells. Mia has 4 times as many shells as David, so Mia has \\(4 \\times 15 = 60\\) shells. Ava has 20 more shells than Mia, so Ava has \\(60 + 20 = 80\\) shells. Alice has half the number of shells Ava has, so Alice has \\(80 / 2 = 40\\) shells. The total number of shells is \\(15 + 60 + 80 + 40 = 195\\).\n\n#### 195",
+      "usage": {
+        "completion_tokens": 335,
+        "prompt_tokens": 84,
+        "total_tokens": 419,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 142.811,
+        "prompt_per_token_ms": 1.7001309523809525,
+        "prompt_per_second": 588.189985365273,
+        "predicted_n": 335,
+        "predicted_ms": 4005.51,
+        "predicted_per_token_ms": 11.99254491017964,
+        "predicted_per_second": 83.38513697381856
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0096",
+      "n_tokens": 959,
+      "seconds": 11.974,
+      "tok_s": 80.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Horatio wrote 7 sonnets that his lady fair heard, and she never heard 70 lines from additional sonnets. Since each sonnet has 14 lines, the number of unread sonnets is \\(70 \\div 14 = 5\\). Therefore, the total number of sonnets written is \\(7 + 5 = 12\\).\n\n#### 12",
+      "usage": {
+        "completion_tokens": 959,
+        "prompt_tokens": 117,
+        "total_tokens": 1076,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 117,
+        "prompt_ms": 174.636,
+        "prompt_per_token_ms": 1.4926153846153847,
+        "prompt_per_second": 669.9649556792414,
+        "predicted_n": 959,
+        "predicted_ms": 11718.802,
+        "predicted_per_token_ms": 12.232569937369519,
+        "predicted_per_second": 81.74897058590119
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0097",
+      "n_tokens": 1228,
+      "seconds": 15.03,
+      "tok_s": 81.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "James starts with 500 Legos. He uses half of them to build the castle, which is \\(500 \\div 2 = 250\\) pieces. The remaining pieces are \\(500 - 250 = 250\\). When he puts these leftover pieces back into the box, 5 are missing and cannot be found, so only \\(250 - 5 = 245\\) Legos go into the box.\n\n#### 245",
+      "usage": {
+        "completion_tokens": 1228,
+        "prompt_tokens": 114,
+        "total_tokens": 1342,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 114,
+        "prompt_ms": 160.638,
+        "prompt_per_token_ms": 1.4091052631578949,
+        "prompt_per_second": 709.6701901169088,
+        "predicted_n": 1228,
+        "predicted_ms": 14763.679,
+        "predicted_per_token_ms": 12.032338223308884,
+        "predicted_per_second": 83.10936589721301
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0098",
+      "n_tokens": 921,
+      "seconds": 11.282,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Carrie worked a total of \\(2 \\times 4 = 8\\) hours.  \nHer earnings from labor are \\(8 \\times 22 = 176\\) dollars.  \nThe cost of supplies is \\(54\\) dollars.  \nProfit is calculated as earnings minus costs: \\(176 - 54 = 122\\) dollars.\n\n#### 122",
+      "usage": {
+        "completion_tokens": 921,
+        "prompt_tokens": 85,
+        "total_tokens": 1006,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 85,
+        "prompt_ms": 147.057,
+        "prompt_per_token_ms": 1.7300823529411764,
+        "prompt_per_second": 578.0071672888744,
+        "predicted_n": 921,
+        "predicted_ms": 11023.395,
+        "predicted_per_token_ms": 11.981951086956522,
+        "predicted_per_second": 83.45886181162881
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0099",
+      "n_tokens": 1129,
+      "seconds": 13.835,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Grady gives Gage \\(\\frac{2}{5}\\) of his red cubes and \\(\\frac{1}{3}\\) of his blue cubes.  \n- Red cubes given: \\(\\frac{2}{5} \\times 20 = 8\\)  \n- Blue cubes given: \\(\\frac{1}{3} \\times 15 = 5\\)  \n\nGage initially had 10 red cubes and 12 blue cubes. After receiving the cubes from Grady:  \n- Red cubes: \\(10 + 8 = 18\\)  \n- Blue cubes: \\(12 + 5 = 17\\)  \n\nTotal cubes Gage has: \\(18 + 17 = 35\\)  \n\n#### 35",
+      "usage": {
+        "completion_tokens": 1129,
+        "prompt_tokens": 103,
+        "total_tokens": 1232,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 103,
+        "prompt_ms": 164.91,
+        "prompt_per_token_ms": 1.6010679611650485,
+        "prompt_per_second": 624.5831059365714,
+        "predicted_n": 1129,
+        "predicted_ms": 13564.439,
+        "predicted_per_token_ms": 12.025211879432625,
+        "predicted_per_second": 83.15861791261695
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0100",
+      "n_tokens": 854,
+      "seconds": 10.347,
+      "tok_s": 82.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The three employees each earn $10 per hour, work 10 hours a day, and five days a week, resulting in a weekly salary of $500. Over four weeks, each earns $2000.\n\n- Robby saves \\(\\frac{2}{5}\\) of his salary: \\( \\frac{2}{5} \\times 2000 = 800 \\)\n- Jaylen saves \\(\\frac{3}{5}\\) of his salary: \\( \\frac{3}{5} \\times 2000 = 1200 \\)\n- Miranda saves \\(\\frac{1}{2}\\) of her salary: \\( \\frac{1}{2} \\times 2000 = 1000 \\)\n\nThe combined savings are \\(800 + 1200 + 1000 = 3000\\).\n\n#### 3000",
+      "usage": {
+        "completion_tokens": 854,
+        "prompt_tokens": 112,
+        "total_tokens": 966,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 112,
+        "prompt_ms": 175.706,
+        "prompt_per_token_ms": 1.5688035714285713,
+        "prompt_per_second": 637.4284315845789,
+        "predicted_n": 854,
+        "predicted_ms": 10064.699,
+        "predicted_per_token_ms": 11.799178194607268,
+        "predicted_per_second": 84.75166520131401
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0101",
+      "n_tokens": 392,
+      "seconds": 4.916,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Zane buys 2 polo shirts at a regular price of $50 each, with a 40% discount. The discounted price per shirt is $50 × (1 - 0.40) = $50 × 0.60 = $30. For two shirts, the total cost is 2 × $30 = $60.\n\n#### 60",
+      "usage": {
+        "completion_tokens": 392,
+        "prompt_tokens": 77,
+        "total_tokens": 469,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 77,
+        "prompt_ms": 135.533,
+        "prompt_per_token_ms": 1.760168831168831,
+        "prompt_per_second": 568.1273195457933,
+        "predicted_n": 392,
+        "predicted_ms": 4677.575,
+        "predicted_per_token_ms": 11.963107416879796,
+        "predicted_per_second": 83.59032190825376
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0102",
+      "n_tokens": 632,
+      "seconds": 7.938,
+      "tok_s": 79.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Rita needs to swim a total of 1,500 hours. She has already completed 50 hours of backstroke, 9 hours of breaststroke, and 121 hours of butterfly, totaling 180 hours. The remaining hours needed are 1,500 - 180 = 1,320 hours. Rita plans to dedicate 220 hours per month practicing freestyle and sidestroke. Dividing the remaining hours by the monthly commitment gives 1,320 ÷ 220 = 6 months.\n\n#### 6",
+      "usage": {
+        "completion_tokens": 632,
+        "prompt_tokens": 128,
+        "total_tokens": 760,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 128,
+        "prompt_ms": 169.397,
+        "prompt_per_token_ms": 1.3234140625,
+        "prompt_per_second": 755.6214100603908,
+        "predicted_n": 632,
+        "predicted_ms": 7680.054,
+        "predicted_per_token_ms": 12.171242472266243,
+        "predicted_per_second": 82.16088063964133
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0103",
+      "n_tokens": 328,
+      "seconds": 4.194,
+      "tok_s": 78.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The average temperature is calculated by summing the temperatures and dividing by the number of years.\n\nSum = 90 + 90 + 90 + 79 + 71 = 420  \nNumber of years = 5  \nAverage = 420 / 5 = 84  \n\n#### 84",
+      "usage": {
+        "completion_tokens": 328,
+        "prompt_tokens": 130,
+        "total_tokens": 458,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 130,
+        "prompt_ms": 171.095,
+        "prompt_per_token_ms": 1.3161153846153846,
+        "prompt_per_second": 759.8118004617318,
+        "predicted_n": 328,
+        "predicted_ms": 3917.608,
+        "predicted_per_token_ms": 11.98045259938838,
+        "predicted_per_second": 83.46930065488941
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0104",
+      "n_tokens": 311,
+      "seconds": 3.971,
+      "tok_s": 78.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Marco's score is 10% less than the average of 90, which is \\(90 \\times 0.9 = 81\\). Margaret scored 5 points more than Marco, so her score is \\(81 + 5 = 86\\).\n\n#### 86",
+      "usage": {
+        "completion_tokens": 311,
+        "prompt_tokens": 79,
+        "total_tokens": 390,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 79,
+        "prompt_ms": 141.133,
+        "prompt_per_token_ms": 1.7864936708860761,
+        "prompt_per_second": 559.7556914399892,
+        "predicted_n": 311,
+        "predicted_ms": 3741.605,
+        "predicted_per_token_ms": 12.069693548387097,
+        "predicted_per_second": 82.85214500194435
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0105",
+      "n_tokens": 398,
+      "seconds": 5.009,
+      "tok_s": 79.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The first student counted 12 squirrels. The second student counted a third more than the first, meaning an additional \\(\\frac{1}{3} \\times 12 = 4\\) squirrels. Thus, the second student counted \\(12 + 4 = 16\\) squirrels. The combined total is \\(12 + 16 = 28\\) squirrels.\n\n#### 28",
+      "usage": {
+        "completion_tokens": 398,
+        "prompt_tokens": 67,
+        "total_tokens": 465,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 67,
+        "prompt_ms": 128.382,
+        "prompt_per_token_ms": 1.9161492537313434,
+        "prompt_per_second": 521.8800143322272,
+        "predicted_n": 398,
+        "predicted_ms": 4782.309,
+        "predicted_per_token_ms": 12.04611838790932,
+        "predicted_per_second": 83.01429288655333
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0106",
+      "n_tokens": 417,
+      "seconds": 5.236,
+      "tok_s": 79.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The average number of carnations is calculated by summing the carnations in all bouquets and dividing by the number of bouquets.\n\n- Carnations in first bouquet: 9  \n- Carnations in second bouquet: 14  \n- Carnations in third bouquet: 13  \n\nTotal carnations: \\(9 + 14 + 13 = 36\\)  \nNumber of bouquets: 3  \n\nAverage: \\(36 \\div 3 = 12\\)\n\n#### 12",
+      "usage": {
+        "completion_tokens": 417,
+        "prompt_tokens": 82,
+        "total_tokens": 499,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 82,
+        "prompt_ms": 142.221,
+        "prompt_per_token_ms": 1.7344024390243904,
+        "prompt_per_second": 576.5674548765653,
+        "predicted_n": 417,
+        "predicted_ms": 5007.59,
+        "predicted_per_token_ms": 12.037475961538462,
+        "predicted_per_second": 83.07389382916732
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0107",
+      "n_tokens": 1746,
+      "seconds": 21.476,
+      "tok_s": 81.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Eric initially had 150 pencils distributed evenly among 5 containers, so each container held \\(150 \\div 5 = 30\\) pencils. After receiving 30 more pencils, the total number of pencils became \\(150 + 30 = 180\\). To distribute all pencils evenly among the 5 containers, each container will hold \\(180 \\div 5 = 36\\) pencils.\n\n#### 36",
+      "usage": {
+        "completion_tokens": 1746,
+        "prompt_tokens": 74,
+        "total_tokens": 1820,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 74,
+        "prompt_ms": 132.743,
+        "prompt_per_token_ms": 1.7938243243243241,
+        "prompt_per_second": 557.4681904130539,
+        "predicted_n": 1746,
+        "predicted_ms": 21243.272,
+        "predicted_per_token_ms": 12.173794842406878,
+        "predicted_per_second": 82.14365470629949
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0108",
+      "n_tokens": 301,
+      "seconds": 3.878,
+      "tok_s": 77.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The heights are: Reese = 60 inches, Daisy = 68 inches, Parker = 64 inches. The sum is 192 inches, and the average is 192 ÷ 3 = 64 inches.\n\n#### 64",
+      "usage": {
+        "completion_tokens": 301,
+        "prompt_tokens": 71,
+        "total_tokens": 372,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 71,
+        "prompt_ms": 149.858,
+        "prompt_per_token_ms": 2.1106760563380282,
+        "prompt_per_second": 473.7818468149848,
+        "predicted_n": 301,
+        "predicted_ms": 3605.729,
+        "predicted_per_token_ms": 12.019096666666666,
+        "predicted_per_second": 83.20092830049069
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0109",
+      "n_tokens": 935,
+      "seconds": 11.387,
+      "tok_s": 82.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The theater's total revenue from tickets is calculated as follows:  \n- Matinee tickets: \\(32 \\times 5 = 160\\) dollars  \n- Evening tickets: \\(40 \\times 7 = 280\\) dollars  \n- Opening night tickets: \\(58 \\times 10 = 580\\) dollars  \nTotal ticket revenue: \\(160 + 280 + 580 = 1020\\) dollars.\n\nThe total number of customers is \\(32 + 40 + 58 = 130\\). Half of them bought popcorn, so the number of popcorn buyers is \\(130 / 2 = 65\\). Each popcorn bucket costs $10, so popcorn revenue is \\(65 \\times 10 = 650\\) dollars.\n\nThe total money made on Friday night is the sum of ticket and popcorn revenue: \\(1020 + 650 = 1670\\) dollars.\n\n#### 1670",
+      "usage": {
+        "completion_tokens": 935,
+        "prompt_tokens": 119,
+        "total_tokens": 1054,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 119,
+        "prompt_ms": 181.663,
+        "prompt_per_token_ms": 1.5265798319327732,
+        "prompt_per_second": 655.0590929358207,
+        "predicted_n": 935,
+        "predicted_ms": 11119.569,
+        "predicted_per_token_ms": 11.905320128479657,
+        "predicted_per_second": 83.99606135813357
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0110",
+      "n_tokens": 703,
+      "seconds": 8.732,
+      "tok_s": 80.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Let \\( x \\) be the number of $20 bills. Then the number of $10 bills is \\( 2x \\). The total value from the $10 bills is \\( 10 \\times 2x = 20x \\) dollars, and from the $20 bills is \\( 20 \\times x = 20x \\) dollars. The combined total is \\( 20x + 20x = 40x \\) dollars. Given that the total amount is $120, we have \\( 40x = 120 \\). Solving for \\( x \\) gives \\( x = 120 / 40 = 3 \\). Thus, there are 3 $20 bills.\n\n#### 3",
+      "usage": {
+        "completion_tokens": 703,
+        "prompt_tokens": 85,
+        "total_tokens": 788,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 85,
+        "prompt_ms": 146.503,
+        "prompt_per_token_ms": 1.7235647058823527,
+        "prompt_per_second": 580.1928970737802,
+        "predicted_n": 703,
+        "predicted_ms": 8466.445,
+        "predicted_per_token_ms": 12.060462962962962,
+        "predicted_per_second": 82.91555664744766
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0111",
+      "n_tokens": 194,
+      "seconds": 2.567,
+      "tok_s": 75.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Hannah spent $45 on sweatshirts and $20 on T-shirts, totaling $65.\n\n#### 65",
+      "usage": {
+        "completion_tokens": 194,
+        "prompt_tokens": 72,
+        "total_tokens": 266,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 72,
+        "prompt_ms": 138.153,
+        "prompt_per_token_ms": 1.9187916666666665,
+        "prompt_per_second": 521.1613211439491,
+        "predicted_n": 194,
+        "predicted_ms": 2328.255,
+        "predicted_per_token_ms": 12.063497409326425,
+        "predicted_per_second": 82.8947001080208
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0112",
+      "n_tokens": 527,
+      "seconds": 6.5,
+      "tok_s": 81.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Roxy initially has 7 flowering plants and twice as many fruiting plants, so she has \\(2 \\times 7 = 14\\) fruiting plants. The total number of plants initially is \\(7 + 14 = 21\\).\n\nOn Saturday, she buys 3 flowering plants and 2 fruiting plants, increasing the counts to \\(7 + 3 = 10\\) flowering plants and \\(14 + 2 = 16\\) fruiting plants. The total becomes \\(10 + 16 = 26\\).\n\nOn Sunday, she gives away 1 flowering plant and 4 fruiting plants, reducing the counts to \\(10 - 1 = 9\\) flowering plants and \\(16 - 4 = 12\\) fruiting plants. The total remaining is \\(9 + 12 = 21\\).\n\nThus, there are 21 plants remaining in her garden.\n\n#### 21",
+      "usage": {
+        "completion_tokens": 527,
+        "prompt_tokens": 112,
+        "total_tokens": 639,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 112,
+        "prompt_ms": 160.648,
+        "prompt_per_token_ms": 1.4343571428571429,
+        "prompt_per_second": 697.1764354364823,
+        "predicted_n": 527,
+        "predicted_ms": 6241.664,
+        "predicted_per_token_ms": 11.866281368821292,
+        "predicted_per_second": 84.27239915509712
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0113",
+      "n_tokens": 1699,
+      "seconds": 20.694,
+      "tok_s": 82.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Tony's speed from the first trip is calculated as follows:  \n\\[ \\text{Speed} = \\frac{\\text{Distance}}{\\text{Time}} = \\frac{120 \\text{ miles}}{3 \\text{ hours}} = 40 \\text{ mph}. \\]  \n\nFor the second trip, he drives 200 miles at the same speed. The time required is:  \n\\[ \\text{Time} = \\frac{\\text{Distance}}{\\text{Speed}} = \\frac{200 \\text{ miles}}{40 \\text{ mph}} = 5 \\text{ hours}. \\]  \n\nThus, the drive will take 5 hours.\n\n#### 5",
+      "usage": {
+        "completion_tokens": 1699,
+        "prompt_tokens": 102,
+        "total_tokens": 1801,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 102,
+        "prompt_ms": 151.056,
+        "prompt_per_token_ms": 1.4809411764705884,
+        "prompt_per_second": 675.2462662853511,
+        "predicted_n": 1699,
+        "predicted_ms": 20442.189,
+        "predicted_per_token_ms": 12.038980565371023,
+        "predicted_per_second": 83.06351144684163
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0114",
+      "n_tokens": 854,
+      "seconds": 10.404,
+      "tok_s": 82.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jonah burns 30 calories per hour.  \nIn 2 hours, he burns \\(2 \\times 30 = 60\\) calories.  \nIf he ran for 5 hours, he would burn \\(5 \\times 30 = 150\\) calories.  \nThe additional calories lost compared to the original 2 hours is \\(150 - 60 = 90\\).\n\n#### 90",
+      "usage": {
+        "completion_tokens": 854,
+        "prompt_tokens": 64,
+        "total_tokens": 918,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 64,
+        "prompt_ms": 132.919,
+        "prompt_per_token_ms": 2.076859375,
+        "prompt_per_second": 481.49624959561834,
+        "predicted_n": 854,
+        "predicted_ms": 10163.902,
+        "predicted_per_token_ms": 11.91547713950762,
+        "predicted_per_second": 83.92446129449104
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0115",
+      "n_tokens": 2048,
+      "seconds": 24.929,
+      "tok_s": 82.2,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 121,
+        "total_tokens": 2169,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 121,
+        "prompt_ms": 180.097,
+        "prompt_per_token_ms": 1.488404958677686,
+        "prompt_per_second": 671.8601642448235,
+        "predicted_n": 2048,
+        "predicted_ms": 24635.17,
+        "predicted_per_token_ms": 12.034767953102099,
+        "predicted_per_second": 83.092586736767
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0116",
+      "n_tokens": 472,
+      "seconds": 5.866,
+      "tok_s": 80.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Nadia buys 20 roses. The number of lilies is \\( \\frac{3}{4} \\) times the number of roses, so she buys \\( \\frac{3}{4} \\times 20 = 15 \\) lilies.\n\nRoses cost $5 each, so the cost for roses is \\( 20 \\times 5 = 100 \\) dollars.\n\nLilies cost twice as much as roses, so each lily costs \\( 2 \\times 5 = 10 \\) dollars. The cost for lilies is \\( 15 \\times 10 = 150 \\) dollars.\n\nThe total amount spent is \\( 100 + 150 = 250 \\) dollars.\n\n#### 250",
+      "usage": {
+        "completion_tokens": 472,
+        "prompt_tokens": 89,
+        "total_tokens": 561,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 89,
+        "prompt_ms": 150.099,
+        "prompt_per_token_ms": 1.686505617977528,
+        "prompt_per_second": 592.9419916188649,
+        "predicted_n": 472,
+        "predicted_ms": 5593.807,
+        "predicted_per_token_ms": 11.876447983014861,
+        "predicted_per_second": 84.20025932249719
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0117",
+      "n_tokens": 206,
+      "seconds": 2.688,
+      "tok_s": 76.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Nancy starts with 22 tortilla chips. She gives away 7 to her brother and 5 to her sister, totaling 12 chips given away. Subtracting the chips given away from the initial amount gives the number she keeps: \\(22 - 12 = 10\\).\n\n#### 10",
+      "usage": {
+        "completion_tokens": 206,
+        "prompt_tokens": 79,
+        "total_tokens": 285,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 79,
+        "prompt_ms": 147.266,
+        "prompt_per_token_ms": 1.864126582278481,
+        "prompt_per_second": 536.4442573302732,
+        "predicted_n": 206,
+        "predicted_ms": 2456.49,
+        "predicted_per_token_ms": 11.982878048780487,
+        "predicted_per_second": 83.45240566825024
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0118",
+      "n_tokens": 595,
+      "seconds": 7.289,
+      "tok_s": 81.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Cora needs to finish the 158-page book by Friday. She has already read 23 pages on Monday, 38 on Tuesday, and 61 on Wednesday, totaling 122 pages. Let \\(x\\) be the number of pages she reads on Thursday. On Friday, she reads twice as much, so \\(2x\\) pages. The total pages read from Monday to Friday must equal 158:\n\n\\[\n23 + 38 + 61 + x + 2x = 158\n\\]\n\nSimplifying:\n\n\\[\n122 + 3x = 158\n\\]\n\n\\[\n3x = 36\n\\]\n\n\\[\nx = 12\n\\]\n\nThus, Cora must read 12 pages on Thursday.\n\n#### 12",
+      "usage": {
+        "completion_tokens": 595,
+        "prompt_tokens": 120,
+        "total_tokens": 715,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 120,
+        "prompt_ms": 161.271,
+        "prompt_per_token_ms": 1.3439249999999998,
+        "prompt_per_second": 744.0891418791972,
+        "predicted_n": 595,
+        "predicted_ms": 7031.381,
+        "predicted_per_token_ms": 11.837341750841752,
+        "predicted_per_second": 84.47842607305734
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0119",
+      "n_tokens": 439,
+      "seconds": 5.635,
+      "tok_s": 77.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The teacher needs to make sandwiches for all students. Each group consists of 6 students (the student plus 5 others), and there are 5 groups, so there are \\(5 \\times 6 = 30\\) students total. Each student needs 2 sandwiches, so the total number of sandwiches is \\(30 \\times 2 = 60\\). Each sandwich requires 2 pieces of bread, so the total pieces of bread needed is \\(60 \\times 2 = 120\\).\n\n#### 120",
+      "usage": {
+        "completion_tokens": 439,
+        "prompt_tokens": 89,
+        "total_tokens": 528,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 89,
+        "prompt_ms": 146.134,
+        "prompt_per_token_ms": 1.641955056179775,
+        "prompt_per_second": 609.0300682934841,
+        "predicted_n": 439,
+        "predicted_ms": 5389.119,
+        "predicted_per_token_ms": 12.303924657534246,
+        "predicted_per_second": 81.27487999429962
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0120",
+      "n_tokens": 574,
+      "seconds": 7.17,
+      "tok_s": 80.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Josh works 8 hours a day, 5 days a week, and 4 weeks a month, so his monthly hours are \\(8 \\times 5 \\times 4 = 160\\) hours. At $9 per hour, Josh earns \\(160 \\times 9 = 1440\\) dollars per month.\n\nCarl works 2 hours less than Josh each day, so he works \\(8 - 2 = 6\\) hours a day. With the same schedule, Carl's monthly hours are \\(6 \\times 5 \\times 4 = 120\\) hours. Carl earns half of Josh's hourly wage, which is \\(9 / 2 = 4.5\\) dollars per hour, so his monthly pay is \\(120 \\times 4.5 = 540\\) dollars.\n\nTogether, the company pays \\(1440 + 540 = 1980\\) dollars for both in one month.\n\n#### 1980",
+      "usage": {
+        "completion_tokens": 574,
+        "prompt_tokens": 94,
+        "total_tokens": 668,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 94,
+        "prompt_ms": 144.956,
+        "prompt_per_token_ms": 1.5420851063829786,
+        "prompt_per_second": 648.4726399735093,
+        "predicted_n": 574,
+        "predicted_ms": 6931.595,
+        "predicted_per_token_ms": 12.097024432809773,
+        "predicted_per_second": 82.66495662253782
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0121",
+      "n_tokens": 372,
+      "seconds": 4.714,
+      "tok_s": 78.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The price of one kilogram of cucumbers is $5. Since tomatoes are 20% cheaper, their price is \\(5 \\times (1 - 0.20) = 5 \\times 0.80 = 4\\) dollars per kilogram.\n\nTwo kilograms of tomatoes cost \\(2 \\times 4 = 8\\) dollars, and three kilograms of cucumbers cost \\(3 \\times 5 = 15\\) dollars. The total price is \\(8 + 15 = 23\\) dollars.\n\n#### 23",
+      "usage": {
+        "completion_tokens": 372,
+        "prompt_tokens": 77,
+        "total_tokens": 449,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 77,
+        "prompt_ms": 141.298,
+        "prompt_per_token_ms": 1.835038961038961,
+        "prompt_per_second": 544.947557644128,
+        "predicted_n": 372,
+        "predicted_ms": 4473.601,
+        "predicted_per_token_ms": 12.05822371967655,
+        "predicted_per_second": 82.9309542804555
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0122",
+      "n_tokens": 558,
+      "seconds": 6.961,
+      "tok_s": 80.2,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Elliot has already read 149 pages out of 381 total pages. If he reads 20 pages a day for a week (7 days), he will read an additional \\(20 \\times 7 = 140\\) pages. After that, the total number of pages read will be \\(149 + 140 = 289\\). The remaining pages are \\(381 - 289 = 92\\).\n\n#### 92",
+      "usage": {
+        "completion_tokens": 558,
+        "prompt_tokens": 79,
+        "total_tokens": 637,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 79,
+        "prompt_ms": 136.686,
+        "prompt_per_token_ms": 1.7302025316455698,
+        "prompt_per_second": 577.9670192997088,
+        "predicted_n": 558,
+        "predicted_ms": 6744.963,
+        "predicted_per_token_ms": 12.109448833034111,
+        "predicted_per_second": 82.58014165533599
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0123",
+      "n_tokens": 484,
+      "seconds": 6.053,
+      "tok_s": 80.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The area of Bill's TV is \\(48 \\times 100 = 4800\\) square inches, and its weight is \\(4800 \\times 4 = 19200\\) ounces. The area of Bob's TV is \\(70 \\times 60 = 4200\\) square inches, and its weight is \\(4200 \\times 4 = 16800\\) ounces. Bill's TV is heavier by \\(19200 - 16800 = 2400\\) ounces. Converting to pounds: \\(2400 \\div 16 = 150\\) pounds.\n\n#### 150",
+      "usage": {
+        "completion_tokens": 484,
+        "prompt_tokens": 104,
+        "total_tokens": 588,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 104,
+        "prompt_ms": 156.797,
+        "prompt_per_token_ms": 1.5076634615384614,
+        "prompt_per_second": 663.277996390237,
+        "predicted_n": 484,
+        "predicted_ms": 5794.92,
+        "predicted_per_token_ms": 11.99776397515528,
+        "predicted_per_second": 83.34886417759003
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0124",
+      "n_tokens": 240,
+      "seconds": 3.275,
+      "tok_s": 73.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Ian started with 20 roses. He gave away 6 to his mother, 9 to his grandmother, and 4 to his sister. The total number of roses given away is \\(6 + 9 + 4 = 19\\). Subtracting this from the initial amount gives \\(20 - 19 = 1\\). Therefore, Ian kept 1 rose.\n\n#### 1",
+      "usage": {
+        "completion_tokens": 240,
+        "prompt_tokens": 71,
+        "total_tokens": 311,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 71,
+        "prompt_ms": 139.746,
+        "prompt_per_token_ms": 1.9682535211267607,
+        "prompt_per_second": 508.0646315458045,
+        "predicted_n": 240,
+        "predicted_ms": 3034.186,
+        "predicted_per_token_ms": 12.695338912133892,
+        "predicted_per_second": 78.76906689306456
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0125",
+      "n_tokens": 2048,
+      "seconds": 24.738,
+      "tok_s": 82.8,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 116,
+        "total_tokens": 2164,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 116,
+        "prompt_ms": 156.153,
+        "prompt_per_token_ms": 1.3461465517241378,
+        "prompt_per_second": 742.8611682132268,
+        "predicted_n": 2048,
+        "predicted_ms": 24496.61,
+        "predicted_per_token_ms": 11.967078651685394,
+        "predicted_per_second": 83.56258274104049
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0126",
+      "n_tokens": 584,
+      "seconds": 7.328,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Harry needs to buy three packets of pumpkin seeds at $2.50 each, four packets of tomato seeds at $1.50 each, and five packets of chili pepper seeds at $0.90 each. The total cost is calculated as follows:\n\n- Pumpkin seeds: \\(3 \\times 2.50 = 7.50\\)  \n- Tomato seeds: \\(4 \\times 1.50 = 6.00\\)  \n- Chili pepper seeds: \\(5 \\times 0.90 = 4.50\\)  \n\nAdding these amounts gives \\(7.50 + 6.00 + 4.50 = 18.00\\).\n\n#### 18",
+      "usage": {
+        "completion_tokens": 584,
+        "prompt_tokens": 113,
+        "total_tokens": 697,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 113,
+        "prompt_ms": 163.475,
+        "prompt_per_token_ms": 1.4466814159292034,
+        "prompt_per_second": 691.237192231228,
+        "predicted_n": 584,
+        "predicted_ms": 7039.767,
+        "predicted_per_token_ms": 12.075072041166381,
+        "predicted_per_second": 82.81524090214917
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0127",
+      "n_tokens": 405,
+      "seconds": 5.12,
+      "tok_s": 79.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Mark needs to jump 54,000 times at a rate of 3 jumps per second.  \nFirst, calculate the total time in seconds:  \n\\[\n\\frac{54,000}{3} = 18,000 \\text{ seconds}.\n\\]  \nThen convert seconds to hours (since there are 3600 seconds in an hour):  \n\\[\n\\frac{18,000}{3600} = 5 \\text{ hours}.\n\\]  \nThus, Mark would need to jump rope for 5 hours.\n\n#### 5",
+      "usage": {
+        "completion_tokens": 405,
+        "prompt_tokens": 77,
+        "total_tokens": 482,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 77,
+        "prompt_ms": 156.338,
+        "prompt_per_token_ms": 2.0303636363636364,
+        "prompt_per_second": 492.5226112653354,
+        "predicted_n": 405,
+        "predicted_ms": 4877.081,
+        "predicted_per_token_ms": 12.071982673267327,
+        "predicted_per_second": 82.83643433438976
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0128",
+      "n_tokens": 2048,
+      "seconds": 25.397,
+      "tok_s": 80.6,
+      "finish_reason": "length",
+      "correct": false,
+      "text": "",
+      "usage": {
+        "completion_tokens": 2048,
+        "prompt_tokens": 97,
+        "total_tokens": 2145,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 97,
+        "prompt_ms": 152.51,
+        "prompt_per_token_ms": 1.5722680412371133,
+        "prompt_per_second": 636.023867287391,
+        "predicted_n": 2048,
+        "predicted_ms": 25158.55,
+        "predicted_per_token_ms": 12.290449438202247,
+        "predicted_per_second": 81.36398957809573
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0129",
+      "n_tokens": 814,
+      "seconds": 10.14,
+      "tok_s": 80.3,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Kyle delivers newspapers to 100 houses every day from Monday through Saturday, which is 6 days.  \nSo, the number of papers delivered from Monday to Saturday is:  \n\\[ 6 \\times 100 = 600 \\]  \n\nOn Sunday, among the 100 regular customers, 10 do not receive the Sunday paper, so Kyle delivers to \\(100 - 10 = 90\\) of them. Additionally, he delivers 30 papers to other houses that only get the newspaper on Sunday.  \nThus, the total number of papers delivered on Sunday is:  \n\\[ 90 + 30 = 120 \\]  \n\nThe total number of papers delivered each week is:  \n\\[ 600 + 120 = 720 \\]  \n\n#### 720",
+      "usage": {
+        "completion_tokens": 814,
+        "prompt_tokens": 104,
+        "total_tokens": 918,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 104,
+        "prompt_ms": 163.733,
+        "prompt_per_token_ms": 1.5743557692307693,
+        "prompt_per_second": 635.1804462142634,
+        "predicted_n": 814,
+        "predicted_ms": 9848.733,
+        "predicted_per_token_ms": 12.114062730627307,
+        "predicted_per_second": 82.5486892577959
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0130",
+      "n_tokens": 399,
+      "seconds": 5.047,
+      "tok_s": 79.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Rikki writes at a rate of 25 words every 5 minutes, which is equivalent to 5 words per minute. Over 2 hours (120 minutes), he can write \\(120 \\times 5 = 600\\) words. Selling his poems for $0.01 per word, his earnings are \\(600 \\times 0.01 = 6\\) dollars.\n\n#### 6",
+      "usage": {
+        "completion_tokens": 399,
+        "prompt_tokens": 83,
+        "total_tokens": 482,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 83,
+        "prompt_ms": 160.231,
+        "prompt_per_token_ms": 1.9304939759036144,
+        "prompt_per_second": 518.0021344184335,
+        "predicted_n": 399,
+        "predicted_ms": 4780.526,
+        "predicted_per_token_ms": 12.011371859296482,
+        "predicted_per_second": 83.25443685485655
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0131",
+      "n_tokens": 295,
+      "seconds": 3.749,
+      "tok_s": 78.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The class has 13 female students. Since there are three times as many male students, the number of male students is \\(3 \\times 13 = 39\\). The total number of students is the sum of female and male students: \\(13 + 39 = 52\\).\n\n#### 52",
+      "usage": {
+        "completion_tokens": 295,
+        "prompt_tokens": 64,
+        "total_tokens": 359,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 64,
+        "prompt_ms": 122.089,
+        "prompt_per_token_ms": 1.907640625,
+        "prompt_per_second": 524.2077500839551,
+        "predicted_n": 295,
+        "predicted_ms": 3526.856,
+        "predicted_per_token_ms": 11.996108843537415,
+        "predicted_per_second": 83.36036401826442
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0132",
+      "n_tokens": 325,
+      "seconds": 4.133,
+      "tok_s": 78.6,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Randy needs a score of 96 on the fifth quiz to achieve an average of 94 across all five quizzes.\n\n#### 96",
+      "usage": {
+        "completion_tokens": 325,
+        "prompt_tokens": 88,
+        "total_tokens": 413,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 88,
+        "prompt_ms": 144.944,
+        "prompt_per_token_ms": 1.647090909090909,
+        "prompt_per_second": 607.1310299150017,
+        "predicted_n": 325,
+        "predicted_ms": 3898.34,
+        "predicted_per_token_ms": 12.031913580246915,
+        "predicted_per_second": 83.11229908114736
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0133",
+      "n_tokens": 853,
+      "seconds": 10.698,
+      "tok_s": 79.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "James eats 30 ounces of pistachios every 5 days, which is equivalent to 6 ounces per day (30 ÷ 5 = 6). Over a week (7 days), he consumes 42 ounces (6 × 7 = 42). Each can contains 5 ounces and costs $10, so the cost per ounce is $2 ($10 ÷ 5 = $2). Therefore, his weekly spending is 42 ounces × $2/ounce = $84.\n\n#### 84",
+      "usage": {
+        "completion_tokens": 853,
+        "prompt_tokens": 81,
+        "total_tokens": 934,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 81,
+        "prompt_ms": 134.855,
+        "prompt_per_token_ms": 1.6648765432098764,
+        "prompt_per_second": 600.6451373697676,
+        "predicted_n": 853,
+        "predicted_ms": 10454.19,
+        "predicted_per_token_ms": 12.270176056338029,
+        "predicted_per_second": 81.49842312029912
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0134",
+      "n_tokens": 265,
+      "seconds": 3.422,
+      "tok_s": 77.4,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Isaac cut the 30-meter ribbon into 6 equal parts, so each part is \\(30 \\div 6 = 5\\) meters. He used 4 parts, which is \\(4 \\times 5 = 20\\) meters. The unused ribbon is \\(30 - 20 = 10\\) meters.\n\n#### 10",
+      "usage": {
+        "completion_tokens": 265,
+        "prompt_tokens": 66,
+        "total_tokens": 331,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 66,
+        "prompt_ms": 129.279,
+        "prompt_per_token_ms": 1.958772727272727,
+        "prompt_per_second": 510.52375095723204,
+        "predicted_n": 265,
+        "predicted_ms": 3185.771,
+        "predicted_per_token_ms": 12.067314393939395,
+        "predicted_per_second": 82.86847987504439
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0135",
+      "n_tokens": 359,
+      "seconds": 4.544,
+      "tok_s": 79.0,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Mo wants to give a Valentine to 60% of the 30 students, which is \\(0.6 \\times 30 = 18\\) Valentinies. Each costs $2, so the total cost is \\(18 \\times 2 = \\$36\\). He has $40, so the percentage of his money spent is \\(\\frac{36}{40} \\times 100\\% = 90\\%\\).\n\n#### 90",
+      "usage": {
+        "completion_tokens": 359,
+        "prompt_tokens": 89,
+        "total_tokens": 448,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 89,
+        "prompt_ms": 144.064,
+        "prompt_per_token_ms": 1.618696629213483,
+        "prompt_per_second": 617.780986228343,
+        "predicted_n": 359,
+        "predicted_ms": 4295.697,
+        "predicted_per_token_ms": 11.999153631284917,
+        "predicted_per_second": 83.33921130843261
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0136",
+      "n_tokens": 470,
+      "seconds": 5.952,
+      "tok_s": 79.0,
+      "finish_reason": "stop",
+      "correct": false,
+      "text": "Palmer initially had 100 photos under her bed. During her trip to Bali, she took 50 photos in the first week, twice that (100) in the second week, and 80 photos total across the third and fourth weeks. The total number of new photos from Bali is \\(50 + 100 + 80 = 230\\). Adding these to her existing collection gives \\(100 + 230 = 330\\) photos.\n\n#### 330",
+      "usage": {
+        "completion_tokens": 470,
+        "prompt_tokens": 140,
+        "total_tokens": 610,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 140,
+        "prompt_ms": 156.215,
+        "prompt_per_token_ms": 1.1158214285714285,
+        "prompt_per_second": 896.2007489677688,
+        "predicted_n": 470,
+        "predicted_ms": 5707.547,
+        "predicted_per_token_ms": 12.169609808102345,
+        "predicted_per_second": 82.17190327123018
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0137",
+      "n_tokens": 764,
+      "seconds": 9.372,
+      "tok_s": 81.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Let \\( x \\) be the amount Mark had when he entered the first store.\n\nAt the first store, he spent \\(\\frac{1}{2}x + 14\\), leaving him with \\( x - \\left( \\frac{1}{2}x + 14 \\right) = \\frac{x}{2} - 14 \\).\n\nAt the second store, he spent \\(\\frac{1}{3}x + 16\\), and after that he had no money left. Therefore:\n\n\\[\n\\left( \\frac{x}{2} - 14 \\right) - \\left( \\frac{x}{3} + 16 \\right) = 0\n\\]\n\nSimplify:\n\n\\[\n\\frac{x}{2} - 14 - \\frac{x}{3} - 16 = 0\n\\]\n\\[\n\\frac{x}{2} - \\frac{x}{3} - 30 = 0\n\\]\n\\[\n\\frac{3x - 2x}{6} - 30 = 0\n\\]\n\\[\n\\frac{x}{6} - 30 = 0\n\\]\n\\[\n\\frac{x}{6} = 30\n\\]\n\\[\nx = 180\n\\]\n\nThus, Mark had $180 when he entered the first store.\n\n#### 180",
+      "usage": {
+        "completion_tokens": 764,
+        "prompt_tokens": 98,
+        "total_tokens": 862,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 98,
+        "prompt_ms": 152.564,
+        "prompt_per_token_ms": 1.5567755102040817,
+        "prompt_per_second": 642.3533730106709,
+        "predicted_n": 764,
+        "predicted_ms": 9117.438,
+        "predicted_per_token_ms": 11.94946002621232,
+        "predicted_per_second": 83.68578980191585
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0138",
+      "n_tokens": 747,
+      "seconds": 9.351,
+      "tok_s": 79.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The company was contracted to install 4000 bollards on each side of the road, meaning there are two sides. The total number of bollards required is \\(4000 \\times 2 = 8000\\). They installed only \\(\\frac{3}{4}\\) of this total, which is \\(\\frac{3}{4} \\times 8000 = 6000\\) bollards. The remaining number of bollards needed is \\(8000 - 6000 = 2000\\).\n\n#### 2000",
+      "usage": {
+        "completion_tokens": 747,
+        "prompt_tokens": 98,
+        "total_tokens": 845,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 98,
+        "prompt_ms": 167.837,
+        "prompt_per_token_ms": 1.7126224489795918,
+        "prompt_per_second": 583.8998552166686,
+        "predicted_n": 747,
+        "predicted_ms": 9077.983,
+        "predicted_per_token_ms": 12.168878016085792,
+        "predicted_per_second": 82.17684479030198
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0139",
+      "n_tokens": 311,
+      "seconds": 4.032,
+      "tok_s": 77.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The company cleans 80 cars per day and earns $5 per car, so their daily earnings are \\(80 \\times 5 = 400\\) dollars. Over 5 days, they will earn \\(400 \\times 5 = 2000\\) dollars.\n\n#### 2000",
+      "usage": {
+        "completion_tokens": 311,
+        "prompt_tokens": 64,
+        "total_tokens": 375,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 64,
+        "prompt_ms": 134.447,
+        "prompt_per_token_ms": 2.100734375,
+        "prompt_per_second": 476.0240094609772,
+        "predicted_n": 311,
+        "predicted_ms": 3789.941,
+        "predicted_per_token_ms": 12.225616129032257,
+        "predicted_per_second": 81.79546858381173
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0140",
+      "n_tokens": 426,
+      "seconds": 5.336,
+      "tok_s": 79.8,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The crown costs $20,000. The tip is 10% of this amount, which is $2,000. Adding the tip to the cost gives a total payment of $22,000.\n\n#### 22000",
+      "usage": {
+        "completion_tokens": 426,
+        "prompt_tokens": 68,
+        "total_tokens": 494,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 68,
+        "prompt_ms": 123.954,
+        "prompt_per_token_ms": 1.8228529411764705,
+        "prompt_per_second": 548.5906061926198,
+        "predicted_n": 426,
+        "predicted_ms": 5115.882,
+        "predicted_per_token_ms": 12.037369411764704,
+        "predicted_per_second": 83.0746291646289
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0141",
+      "n_tokens": 422,
+      "seconds": 5.278,
+      "tok_s": 79.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total number of minnows is found by dividing the number with red bellies by the percentage that have red bellies:  \n\\( T = \\frac{20}{0.4} = 50 \\).  \n\nThe percentage with white bellies is \\( 100\\% - 40\\% - 30\\% = 30\\% \\).  \nThus, the number with white bellies is \\( 0.3 \\times 50 = 15 \\).  \n\nAlternatively, subtracting the known numbers from the total:  \n\\( 50 - 20 - (0.3 \\times 50) = 50 - 20 - 15 = 15 \\).  \n\n#### 15",
+      "usage": {
+        "completion_tokens": 422,
+        "prompt_tokens": 93,
+        "total_tokens": 515,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 93,
+        "prompt_ms": 150.867,
+        "prompt_per_token_ms": 1.6222258064516129,
+        "prompt_per_second": 616.4369941736761,
+        "predicted_n": 422,
+        "predicted_ms": 5016.781,
+        "predicted_per_token_ms": 11.916344418052256,
+        "predicted_per_second": 83.91835322291325
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0142",
+      "n_tokens": 416,
+      "seconds": 5.196,
+      "tok_s": 80.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Jake starts with $5000. After spending $2800 on a motorcycle, he has $2200 left. He then spends half of that ($1100) on a concert ticket, leaving him with $1100. Finally, he loses a fourth of his remaining money ($275), so he ends up with $825.\n\n#### 825",
+      "usage": {
+        "completion_tokens": 416,
+        "prompt_tokens": 84,
+        "total_tokens": 500,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 139.381,
+        "prompt_per_token_ms": 1.659297619047619,
+        "prompt_per_second": 602.6646386523271,
+        "predicted_n": 416,
+        "predicted_ms": 4954.341,
+        "predicted_per_token_ms": 11.93817108433735,
+        "predicted_per_second": 83.76492453789514
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0143",
+      "n_tokens": 523,
+      "seconds": 6.579,
+      "tok_s": 79.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The dance team initially has 25 people. After 8 people quit, there are \\(25 - 8 = 17\\) people left. Then 13 new people join, making the total \\(17 + 13 = 30\\).\n\n#### 30",
+      "usage": {
+        "completion_tokens": 523,
+        "prompt_tokens": 79,
+        "total_tokens": 602,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 79,
+        "prompt_ms": 135.214,
+        "prompt_per_token_ms": 1.7115696202531645,
+        "prompt_per_second": 584.2590264321742,
+        "predicted_n": 523,
+        "predicted_ms": 6358.203,
+        "predicted_per_token_ms": 12.18046551724138,
+        "predicted_per_second": 82.09866844452749
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0144",
+      "n_tokens": 1245,
+      "seconds": 15.095,
+      "tok_s": 82.5,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Helen cuts her lawn from March through October, which includes 8 months. For March, April, September, and October, she cuts the lawn 2 times per month, totaling \\(2 \\times 4 = 8\\) cuts. For May, June, July, and August, she cuts the lawn 4 times per month, totaling \\(4 \\times 4 = 16\\) cuts. The total number of cuts is \\(8 + 16 = 24\\).\n\nThe lawn mower uses 2 gallons of gas every 4th cut, meaning that for every 4 cuts, 2 gallons are needed. With 24 cuts, there are \\(24 / 4 = 6\\) groups of 4 cuts. Each group requires 2 gallons, so the total gas needed is \\(6 \\times 2 = 12\\) gallons.\n\n#### 12",
+      "usage": {
+        "completion_tokens": 1245,
+        "prompt_tokens": 126,
+        "total_tokens": 1371,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 126,
+        "prompt_ms": 171.746,
+        "prompt_per_token_ms": 1.363063492063492,
+        "prompt_per_second": 733.6415404143327,
+        "predicted_n": 1245,
+        "predicted_ms": 14816.685,
+        "predicted_per_token_ms": 11.91051848874598,
+        "predicted_per_second": 83.95940117509416
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0145",
+      "n_tokens": 581,
+      "seconds": 7.165,
+      "tok_s": 81.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Lorenzo tested 120 boards, using one tack from each can per board. Thus, each can lost 120 tacks. Each can had 30 tacks remaining, so initially each can contained \\(120 + 30 = 150\\) tacks. With three cans, the total number of thumbtacks was \\(3 \\times 150 = 450\\).\n\n#### 450",
+      "usage": {
+        "completion_tokens": 581,
+        "prompt_tokens": 152,
+        "total_tokens": 733,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 152,
+        "prompt_ms": 164.022,
+        "prompt_per_token_ms": 1.079092105263158,
+        "prompt_per_second": 926.7049542134592,
+        "predicted_n": 581,
+        "predicted_ms": 6891.676,
+        "predicted_per_token_ms": 11.882200000000001,
+        "predicted_per_second": 84.15949908266145
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0146",
+      "n_tokens": 460,
+      "seconds": 5.7,
+      "tok_s": 80.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The total number of marbles is 19, with 5 yellow marbles. The remaining marbles are \\(19 - 5 = 14\\). These are split into blue and red marbles in the ratio 3:4. Let the number of blue marbles be \\(3k\\) and red marbles be \\(4k\\). Then \\(3k + 4k = 7k = 14\\), so \\(k = 2\\). Thus, there are \\(3 \\times 2 = 6\\) blue marbles and \\(4 \\times 2 = 8\\) red marbles. The difference between red and yellow marbles is \\(8 - 5 = 3\\).\n\n#### 3",
+      "usage": {
+        "completion_tokens": 460,
+        "prompt_tokens": 84,
+        "total_tokens": 544,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 84,
+        "prompt_ms": 150.486,
+        "prompt_per_token_ms": 1.7914999999999999,
+        "prompt_per_second": 558.1914596706671,
+        "predicted_n": 460,
+        "predicted_ms": 5462.477,
+        "predicted_per_token_ms": 11.900821350762527,
+        "predicted_per_second": 84.02781375555449
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0147",
+      "n_tokens": 887,
+      "seconds": 10.703,
+      "tok_s": 82.9,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "The first TV has an area of \\(24 \\times 16 = 384\\) square inches and costs $672, so its cost per square inch is \\(672 / 384 = 1.75\\) dollars.  \nThe second TV has an area of \\(48 \\times 32 = 1536\\) square inches and costs $1152, so its cost per square inch is \\(1152 / 1536 = 0.75\\) dollars.  \nThe difference in cost per square inch is \\(1.75 - 0.75 = 1.00\\) dollars.\n\n#### 1",
+      "usage": {
+        "completion_tokens": 887,
+        "prompt_tokens": 105,
+        "total_tokens": 992,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 105,
+        "prompt_ms": 157.593,
+        "prompt_per_token_ms": 1.5008857142857142,
+        "prompt_per_second": 666.2732481772669,
+        "predicted_n": 887,
+        "predicted_ms": 10440.678,
+        "predicted_per_token_ms": 11.784060948081263,
+        "predicted_per_second": 84.86038933486887
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0148",
+      "n_tokens": 742,
+      "seconds": 9.087,
+      "tok_s": 81.7,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Arman's sister is currently 6 years old because she was 2 years old four years ago. Arman is six times older than his sister, so he is currently 36 years old. To reach age 40, it will take 4 more years.\n\n#### 4",
+      "usage": {
+        "completion_tokens": 742,
+        "prompt_tokens": 67,
+        "total_tokens": 809,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 67,
+        "prompt_ms": 137.963,
+        "prompt_per_token_ms": 2.059149253731343,
+        "prompt_per_second": 485.6374535201468,
+        "predicted_n": 742,
+        "predicted_ms": 8833.543,
+        "predicted_per_token_ms": 11.921110661268555,
+        "predicted_per_second": 83.88480137584659
+      }
+    },
+    {
+      "id": "gsm8k_dev2_0149",
+      "n_tokens": 280,
+      "seconds": 3.539,
+      "tok_s": 79.1,
+      "finish_reason": "stop",
+      "correct": true,
+      "text": "Brian has twice as many tennis balls as Frodo, and Frodo has 8 more than Lily. Given that Lily has 3 tennis balls, we calculate:\n\n- Lily's tennis balls: \\( L = 3 \\)\n- Frodo's tennis balls: \\( F = L + 8 = 3 + 8 = 11 \\)\n- Brian's tennis balls: \\( B = 2 \\times F = 2 \\times 11 = 22 \\)\n\nThus, Brian has 22 tennis balls.\n\n#### 22",
+      "usage": {
+        "completion_tokens": 280,
+        "prompt_tokens": 65,
+        "total_tokens": 345,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "server_timings": {
+        "cache_n": 0,
+        "prompt_n": 65,
+        "prompt_ms": 138.356,
+        "prompt_per_token_ms": 2.1285538461538462,
+        "prompt_per_second": 469.8025383792535,
+        "predicted_n": 280,
+        "predicted_ms": 3295.626,
+        "predicted_per_token_ms": 11.812279569892473,
+        "predicted_per_second": 84.65766443158294
+      }
+    }
+  ],
+  "summary": {
+    "n": 150,
+    "errors": 0,
+    "accuracy": 0.9333333333333333,
+    "tok_s_mean": 79.7,
+    "tokens_mean": 648.6,
+    "seconds_total": 1208.0,
+    "server_predicted_tok_s_mean": 83.0
+  }
+}

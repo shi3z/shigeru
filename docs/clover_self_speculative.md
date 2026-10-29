@@ -142,3 +142,43 @@ not drop (+7 and +4 items, within noise), throughput +4 % / +3 %.
    (on-policy trajectory training, B10/B11), not the walk.
 4. Clover itself can serve as a comparison row (INT4 on GPU 5 via llama.cpp) or as a text-level trajectory teacher
    (vocab differs from Qwen3, so no logit distillation); running it inside SHIGERU's engines is not worth it.
+
+## 6. Clover itself as a comparison row — INT4 on one shared A100 (GPU 5, llama.cpp PR 31306)
+
+Setup: `maternion/Clover-35B-A3B-Preview-GGUF` Q4_K_M (21.2 GB, /mnt/raid6/models/gguf/clover), llama.cpp at the open
+PR 31306 (`/mnt/ssdraid/git/llama.cpp-clover`, CUDA 11.8 build, sm80) with three local fixes: llama-server never handed
+the target context to the `draft-self` drafter (it silently fell back to plain decoding), the acceptance flags
+`--spec-accept-ratio/-delta` were registered for the speculative example only, and the GGUF's built-in chat template
+cannot switch thinking off (HF `chat_template.jinja` + `--jinja`).  `-c 8192 -b 512 -ctk/-ctv bf16`, greedy, GPU 5
+shared with other tenants (~36 GB free).  Runner: bench/run_api.py (OpenAI chat API, one request at a time).
+
+### 6.1 dev2 (150 items)
+
+| mode | max tokens | accuracy | truncated | accuracy, non-truncated | tok/s (client / server) | mean tokens |
+|---|---:|---:|---:|---:|---:|---:|
+| draft-self + threshold (ratio 0.9, delta 0.6) | 384 | 81.3 % | 29 | 98.3 % | 50.7 / 53.2 | 283 |
+| draft-self + exact acceptance | 384 | 84.0 % | 24 | 97.6 % | 54.6 / 57.6 | 283 |
+| plain decoding | 384 | 86.7 % | 25 | 98.4 % | 77.3 / 83.0 | 284 |
+| plain decoding, thinking off | 1024 | **95.3 %** | 2 | 96.6 % | 77.2 / 82.8 | 314 |
+| plain decoding, thinking on | 2048 | 93.3 % | 7 | 97.9 % | 79.7 / 83.0 | 649 |
+
+Reading: with enough budget Clover INT4 scores 95.3 % on dev2 without thinking (SHIGERU-4B verified: 93.3 %; the
+4B AR: 92.0 %) at 77 tok/s on a shared A100 through llama.cpp — the same ballpark as the 4B's AR speed on this GPU
+class (49 tok/s on an idle A100, 78 on zeta) and far below SHIGERU's verified 156–186 tok/s.  The PR's self-speculative
+path is slower than plain here (50–55 tok/s; the PR itself reports ~32 tok/s on an H200 "with optimisation potential"),
+so Clover's advertised 450–680 tok/s is a property of the SGLang implementation (BF16, one full H200/GB300), not
+reproducible on this box's free capacity.  The threshold acceptance is 2.7 points below exact on dev2 (noise level,
+same direction as in SHIGERU).  Clover writes long answers even with thinking off (283–314 tokens vs ~200 for the
+4B), so a 384-token budget truncates 14–19 % of them — the budget must be ≥ 1024 for a fair accuracy number.
+
+Thinking on (2048 budget) does not beat thinking off on GSM8K dev2 at INT4 (93.3 % vs 95.3 %, 649 vs 314 tokens): the
+math is easy enough that the reasoning block only costs tokens; the truncations at 2048 are the losses.
+
+### 6.2 Verdict for SHIGERU's comparison table
+
+Clover INT4 on a shared A100 via llama.cpp: 95.3 % dev2 at 77 tok/s.  SHIGERU-4B verified (exact walk) on the same
+GPU class: 92–93 % dev2 at 155 tok/s (A100) / 186 tok/s (zeta).  Clover wins on accuracy (+2 points on dev2, and
+much more on the hard benchmarks it was trained for), SHIGERU wins on tokens per second by 2x on this hardware;
+Clover's 450+ tok/s needs SGLang on a full H200-class GPU.  As a *product* for this box, Clover BF16 + SGLang on one
+dedicated A100 is the thing to measure next (needs the fleet off GPU 4); as a *research* base it still gives SHIGERU
+nothing trainable until the SFT recipe is released.
