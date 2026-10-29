@@ -239,6 +239,15 @@ def verify_drafts(ar_logits, slots, is_mask):
         return j, g
 
 
+_DIAG_P_EDGES = (0.01, 0.05, 0.1, 0.3, 0.5, 0.9, 1.01)   # buckets of p_AR(draft)
+
+
+def new_draft_diag():
+    """Histograms for generate_verified(draft_diag=...): p_AR(draft) buckets (_DIAG_P_EDGES) and AR entropy buckets
+    (0.5 nat wide, last = >= 3.5) of drafts the exact walk accepted ("acc") / rejected ("rej")."""
+    return {"acc_p": [0] * 7, "rej_p": [0] * 7, "acc_H": [0] * 8, "rej_H": [0] * 8}
+
+
 def verify_drafts_threshold(ar_logits, slots, is_mask, delta, ratio):
     """Clover's "threshold" acceptance (DiffuSpace Clover-35B-A3B, SGLang PR 46927) in place of the exact walk:
     draft slot j is accepted when the AR (target) probability of the drafted token given the tokens before it is
@@ -266,7 +275,7 @@ def verify_drafts_threshold(ar_logits, slots, is_mask, delta, ratio):
 @torch.no_grad()
 def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam, mask_id, stop_ids,
                       sample, predict, margin_tau, no_adjacent, max_fill, fill_mode, device,
-                      accept_rule="exact", accept_delta=0.6, accept_ratio=1.0):
+                      accept_rule="exact", accept_delta=0.6, accept_ratio=1.0, draft_diag=None, keep_right=False):
     """The verify=True loop (module docstring, "Verified (speculative) decoding"), shared by both decoders.
 
     forward(ids[T], pos[T], cache_len) -> logits [T, V] of all T window rows, forwarded on top of the first cache_len
@@ -305,6 +314,27 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order): the greedy tokens of
         #    all AR rows in one argmax + one sync (the walk only reads the leading contiguous run of them)
         n_filled = len(filled_idx)
+        if draft_diag is not None and n_filled:
+            # diagnostic (DSV41 Clover study): AR probability and entropy of every draft the walk can examine
+            # (the leading drafted run and the first rejection), bucketed; costs one softmax per step
+            rows = logits[: n_pend + n_filled]
+            if not n_pend:
+                rows = torch.cat([last_logits.to(rows.device)[None], rows[:n_filled]], 0)
+            logp = torch.log_softmax(rows.float(), -1)
+            ent = (-(logp.exp() * logp).sum(-1)).tolist()
+            gre = logp.argmax(-1).tolist()
+            k = 0
+            while k < len(slots) and not is_mask[k]:
+                p = float(logp[k, slots[k]].exp())
+                acc = slots[k] == gre[k]
+                b = next(i for i, e in enumerate(_DIAG_P_EDGES) if p < e)
+                h = min(int(ent[k] / 0.5), 7)
+                key = ("acc" if acc else "rej")
+                draft_diag[key + "_p"][b] += 1
+                draft_diag[key + "_H"][h] += 1
+                if not acc:
+                    break
+                k += 1
         if accept_rule == "threshold":
             rows = logits[: n_pend + n_filled]
             if not n_pend:
@@ -352,8 +382,12 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         mismatch = j < len(slots) and not is_mask[j]
         drop = j + 1
         new_slots, new_mask = slots[drop:], is_mask[drop:]
-        if mismatch:
+        if mismatch and not keep_right:
             new_slots, new_mask = [mask_id] * len(new_slots), [True] * len(new_mask)
+        # keep_right: the drafts to the right of a rejection stay drafts (they are re-verified against the AR rows
+        # conditioned on the correction before anything is committed, so the output is still exactly greedy AR);
+        # a draft equal to the greedy continuation is then accepted without being re-drafted.  Clover study 2026-10-29:
+        # 83 % of rejected drafts have p_AR < 0.01, so the loss is the re-masking of the right side, not the rule.
         # 6. draft: the rows forwarded as masks this step and still in the window
         draftable = [s for s in mask_idx if s >= drop]
         sel_pos = []
@@ -387,7 +421,7 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
                  filled_positions=filled_positions, finish_reason=finish, verify=True,
                  accepted_per_step=dict(sorted(acc_hist.items())), drafted=drafted, accepted=accepted,
                  draft_acceptance_rate=(accepted / drafted if drafted else None), completion_forward=completion,
-                 accept_rule=accept_rule)
+                 accept_rule=accept_rule, draft_diag=draft_diag, keep_right=keep_right)
     return out, stats
 
 
@@ -402,7 +436,8 @@ def _crop_to(cache, keep_total):
 @torch.no_grad()
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, margin_tau=None, no_adjacent=False,
-             max_fill=None, fill_mode="all", verify=False, accept_rule="exact", accept_delta=0.6, accept_ratio=1.0):
+             max_fill=None, fill_mode="all", verify=False, accept_rule="exact", accept_delta=0.6, accept_ratio=1.0,
+             draft_diag=None, keep_right=False):
     """Decode one sequence.  Returns (new_token_ids: list[int], stats: dict).
 
     model: Qwen3ForCausalLM (sdpa or eager) with a mask row (model_glue.add_mask_token).  tok: tokenizer, used only to
@@ -455,7 +490,8 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
 
         out, stats = generate_verified(forward, lambda n: _crop_to(cache, n), last_logits, prompt_len, max_new_tokens,
                                        window, tau, lam, mask_id, stop_ids, sample, predict, margin_tau, no_adjacent,
-                                       max_fill, fill_mode, dev, accept_rule, accept_delta, accept_ratio)
+                                       max_fill, fill_mode, dev, accept_rule, accept_delta, accept_ratio, draft_diag,
+                                       keep_right)
         assert cache.get_seq_length() == prompt_len + len(out)
         stats["cache"] = cache
         return out, stats

@@ -39,6 +39,8 @@ def main():
                          "p_AR(draft) >= min(ratio, delta * exp(-entropy_AR))")
     ap.add_argument("--accept-delta", type=float, default=0.6)
     ap.add_argument("--accept-ratio", type=float, default=1.0)
+    ap.add_argument("--draft-diag", action="store_true", help="verified decoding: histogram p_AR(draft) / entropy of examined drafts")
+    ap.add_argument("--keep-right", action="store_true", help="verified decoding: keep the drafts right of a rejection as drafts (still verified; output unchanged)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model)
@@ -72,8 +74,11 @@ def main():
             print(f"captured {len(done)} CUDA graphs (window x cache buckets up to {max_ctx}) in {graph_capture['seconds']}s", flush=True)
     configs = [("ar", None)] if a.ar else []
     rule = f",{a.accept_rule}:d{a.accept_delta}:r{a.accept_ratio}" if (a.verify and a.accept_rule != "exact") else ""
+    rule += ",keep_right" if (a.verify and a.keep_right) else ""
     configs += [(f"tau={t}{rule}", None if t == "none" else float(t)) for t in a.tau.split(",")]
     runs = []
+    from engine.cdlm.decoder import new_draft_diag, _DIAG_P_EDGES
+    diag = new_draft_diag()
     for name, tau in configs:
         for p in prompts:
             ids = torch.tensor([p["ids"]]).cuda()
@@ -86,7 +91,8 @@ def main():
                 new, stats = generate(dec_model, tok, ids[0].tolist(), a.max_new_tokens, window=a.window, tau=tau, lam=a.lam,
                                       mask_id=mask_id, stop_ids=stop_ids, greedy=True, no_adjacent=a.no_adjacent,
                                       max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode, verify=a.verify,
-                                      accept_rule=a.accept_rule, accept_delta=a.accept_delta, accept_ratio=a.accept_ratio)
+                                      accept_rule=a.accept_rule, accept_delta=a.accept_delta, accept_ratio=a.accept_ratio,
+                                      draft_diag=(diag if a.draft_diag else None), keep_right=a.keep_right)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),
@@ -108,6 +114,8 @@ def main():
     if a.ar and any(n == "tau=none" for n, _ in configs):
         ar = {r["id"]: r["text"] for r in runs if r["config"] == "ar"}
         summary["tau_none_equals_ar"] = sum(r["text"] == ar[r["id"]] for r in runs if r["config"] == "tau=none")
+    if a.draft_diag:
+        summary["draft_diag"] = dict(p_edges=list(_DIAG_P_EDGES), H_width=0.5, **diag)
     print("=== cdlm", json.dumps(summary), flush=True)
     for p in prompts:
         p.pop("ids", None)
