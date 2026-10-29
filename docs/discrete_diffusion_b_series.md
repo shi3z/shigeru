@@ -496,3 +496,15 @@ confidence, adjacency) are no better than random sets of the same size; an outco
 same intervention gives 59–63 % on dev2 vs 65.3 % without it.  Intervention value is not predictable from the state, so
 no re-masking policy or joint-transition student was trained; the global line's remaining lever is a structural error
 signal (duplicates, syntax), not confidence or teacher mismatch.
+
+## 19. Clover study — self-speculative acceptance rule (summary; full record in clover_self_speculative.md)
+
+DiffuSpace Clover-35B-A3B-Preview (2026) is the B-series block design (preview = bidirectional block over the prefix
+cache, commit = causal pass) on Qwen3.6-35B-A3B, served by self-speculative decoding with an entropy-calibrated
+acceptance rule (accept a draft when p_AR >= min(ratio, delta * exp(-H_AR))).  Implemented in engine/cdlm verified
+decoding (`--accept-rule threshold`).  dev2: acceptance 16.5 -> 17.9 %, 186 -> 194 tok/s (zeta), accuracy unchanged;
+GSM8K test: 88.0 -> 88.6 % (delta 0.3), 183 -> 191 tok/s.  Diagnostic: the exact walk accepts 73 % of the drafts it
+examines and 83 % of its rejections have p_AR < 0.01, so no acceptance rule can add more than a few points — the
+drafter is the bottleneck (consistent with B10/B11).  Keeping the unverified right side after a rejection is a
+negative (1.07 tokens per step).
+

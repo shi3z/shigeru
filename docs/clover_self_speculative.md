@@ -116,3 +116,29 @@ Kept drafts are stale (drafted under the old left context: 25,213 of the examine
 draft row is not a mask row, so it is never re-drafted — each stale draft costs one step to reject, and the loop
 degenerates to AR.  Re-drafting the right side with the corrected context (what the exact walk does) is right;
 the flag stays available, default off.
+
+### 4.4 GSM8K test (1 319 items, zeta, same settings; results/clover_test_*.json)
+
+| decoding | accuracy | tokens / step | draft acceptance | accepted / step | tok/s |
+|---|---:|---:|---:|---:|---:|
+| verified, exact walk (output == greedy AR) | 88.0 % | 2.15 | 15.5 % | 1.16 | 183.4 |
+| verified, Clover threshold delta 0.3 | 88.6 % | 2.28 | 17.2 % | 1.29 | 191.1 |
+| verified, Clover threshold delta 0.6 (Clover default) | 88.3 % | 2.24 | 16.7 % | 1.25 | 188.6 |
+
+(The exact row reproduces the A-series A100 measurement: 87.6 % / 2.15 / 15.5 %, 156 tok/s there.)  Accuracy does
+not drop (+7 and +4 items, within noise), throughput +4 % / +3 %.
+
+## 5. Conclusions
+
+1. Clover is the B-series design at 35B-A3B; its released code confirms the preview/commit two-pass block diffusion
+   and a no-remask confidence sampler, and ships AR self-verification as the product path.  Nothing in the released
+   artefacts tells how the diffusion ability was trained; the SFT release is the thing to watch.
+2. Its acceptance rule is a small, safe win here: +1.4–1.7 points of acceptance, +3–4 % tok/s, accuracy unchanged on
+   dev2 and test.  `--accept-rule threshold --accept-delta 0.3` is the setting to use if the 0.5-point accuracy
+   wobble is acceptable; the exact walk stays the lossless default.
+3. The rule cannot do more because the exact walk already accepts 73 % of what it examines and 83 % of its
+   rejections are < 1 % probability under the AR model: the drafter is the bottleneck.  Keeping the unverified right
+   side (keep_right) makes it worse (1.07 tokens per step).  The path to Clover-class acceptance is a better drafter
+   (on-policy trajectory training, B10/B11), not the walk.
+4. Clover itself can serve as a comparison row (INT4 on GPU 5 via llama.cpp) or as a text-level trajectory teacher
+   (vocab differs from Qwen3, so no logit distillation); running it inside SHIGERU's engines is not worth it.
