@@ -11,6 +11,7 @@ right after the checkpoint at step N is written, to exercise the resume path).
 Config keys (distill/configs/phaseC_pilot_4b.yaml documents each): model, data_train, out_dir, mask_token, block, max_len,
 batch, grad_accum, lr, epochs, warmup_ratio | warmup_steps, min_lr_ratio, weight_decay, betas, grad_clip, ar_weight,
 mlm_normalize, gamma {min, max}, ar_on_prompt, mask_mode, seed, save_steps, save_total_limit, logging_steps, attn,
+aux_tokens / aux_base / align_weight / align_dec_layer / align_enc_layer (B13, engine/cdlm/aux.py: 0 / unset = off),
 grad_ckpt, master_fp32, num_workers.
 
 What one example becomes.  prompt = chat template of instruction (+ "\n\n" + context) with add_generation_prompt and
@@ -256,6 +257,19 @@ def build_model(cfg, mask_id, dist):
     dtype = torch.float32 if cfg.get("master_fp32", False) else torch.bfloat16
     model = AutoModelForCausalLM.from_pretrained(cfg["model"], dtype=dtype, attn_implementation=cfg.get("attn", "sdpa"))
     info = add_mask_token(model, mask_id)                 # new row (resize if beyond the matrix), mean init, config.cdlm_mask_token_id
+    n_aux = int(cfg.get("aux_tokens", 0))                 # B13 (engine/cdlm/aux.py): auxiliary ids replace [MASK] on the xt rows
+    if n_aux > 0:
+        from engine.cdlm.aux import add_aux_tokens
+        info["aux"] = add_aux_tokens(model, mask_id, n_aux, cfg.get("aux_base"), seed=int(cfg.get("seed", 0)))
+    if float(cfg.get("align_weight", 0.0)) > 0:           # B13 representation alignment: learned map on the decoder side
+        H = model.config.hidden_size
+        proj = torch.nn.Linear(H, H, bias=False, dtype=model.get_input_embeddings().weight.dtype)
+        with torch.no_grad():
+            proj.weight.copy_(torch.eye(H, dtype=proj.weight.dtype))
+        model.cdlm_align_proj = proj                      # a submodule: in named_parameters (optimizer) and state_dict (resume)
+        nl = model.config.num_hidden_layers
+        info["align"] = {"dec_layer": int(cfg.get("align_dec_layer", nl // 3)), "enc_layer": int(cfg.get("align_enc_layer", nl // 2)),
+                         "weight": float(cfg["align_weight"])}
     model.config.use_cache = False
     if cfg.get("grad_ckpt", True):
         model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
@@ -269,9 +283,14 @@ class DualStreamForward:
     Wrapped in an nn.Module so that DDP's forward hook sees every forward (forward_rows calls model.model/lm_head
     directly, which DDP would not intercept)."""
 
-    def __init__(self, model, dist):
+    def __init__(self, model, dist, mask_id=None, aux=None, align=None):
+        """aux: (base, n_aux) -> the xt mask rows are forwarded with auxiliary ids (engine/cdlm/aux.py assign_aux, one
+        extra no-grad causal pass over the x0 rows per micro-batch).  align: {"dec_layer", "enc_layer"} -> the call also
+        returns the alignment loss (hooks on those two layers, model.cdlm_align_proj)."""
         import torch
         from engine.cdlm import IGNORE, forward_rows
+        self.lm, self.mask_id, self.aux, self.align = model, mask_id, aux, align
+        self.last_stats = {}
 
         class Inner(torch.nn.Module):
             def __init__(self, lm):
@@ -292,15 +311,28 @@ class DualStreamForward:
         return self.module.no_sync() if self.dist.enabled else contextlib.nullcontext()
 
     def __call__(self, batch, device):
-        import torch
+        """Returns (mlm_logits, mlm_labels, mlm_weights, ar_logits, ar_labels, align_loss or None)."""
+        import contextlib, torch
         mlm_rows = (batch["mlm_labels"] != self.IGNORE).nonzero(as_tuple=True)
         ar_rows = (batch["ar_labels"] != self.IGNORE).nonzero(as_tuple=True)
         rows = (torch.cat([mlm_rows[0], ar_rows[0]]).to(device), torch.cat([mlm_rows[1], ar_rows[1]]).to(device))
-        logits = self.module(batch["input_ids"].to(device), batch["position_ids"].to(device),
-                             batch["attention_mask"].to(device), rows)
+        input_ids = batch["input_ids"].to(device)
+        if self.aux is not None:
+            from engine.cdlm.aux import assign_aux
+            input_ids, self.last_stats = assign_aux(self.lm, batch, self.mask_id, self.aux[0], self.aux[1], device)
+        hooks = contextlib.nullcontext()
+        if self.align is not None:
+            from engine.cdlm.aux import AlignHooks
+            hooks = AlignHooks(self.lm, self.align["dec_layer"], self.align["enc_layer"])
+        with hooks as hk:
+            logits = self.module(input_ids, batch["position_ids"].to(device), batch["attention_mask"].to(device), rows)
+            al = None
+            if self.align is not None:
+                from engine.cdlm.aux import align_loss
+                al = align_loss(hk, self.lm.cdlm_align_proj, batch, device)
         n = mlm_rows[0].numel()
         return (logits[:n], batch["mlm_labels"][mlm_rows].to(device), batch["mlm_weights"][mlm_rows].to(device),
-                logits[n:], batch["ar_labels"][ar_rows].to(device))
+                logits[n:], batch["ar_labels"][ar_rows].to(device), al)
 
 
 
@@ -450,7 +482,8 @@ def main():
 
     # --- model, optimizer, schedule
     model, mask_info = build_model(cfg, mask_id, dist)
-    fwd = DualStreamForward(model, dist)
+    aux_ids = (mask_info["aux"]["aux_base"], mask_info["aux"]["aux_n"]) if mask_info.get("aux") else None
+    fwd = DualStreamForward(model, dist, mask_id, aux_ids, mask_info.get("align"))
     opt, sched = build_optim(model, cfg, total_steps, warmup_steps, dist.device)
     use_autocast = bool(cfg.get("master_fp32", False))
     ar_weight, mlm_norm = float(cfg.get("ar_weight", 1.0)), cfg.get("mlm_normalize", "wedlm")
@@ -551,6 +584,8 @@ def main():
         lm = model
         lm.config.cdlm_mask_token_id = mask_id
         lm.config.cdlm_block = block
+        if hasattr(lm, "cdlm_align_proj"):                   # training-only module: not part of the saved model
+            del lm.cdlm_align_proj
         if use_autocast:
             lm = lm.to(torch.bfloat16)
         lm.save_pretrained(final, safe_serialization=True)
@@ -581,21 +616,27 @@ def run_step(loader_batches, fwd, opt, sched, dist, micro_bs, use_autocast, ar_w
     chunks = [examples[i:i + micro_bs] for i in range(0, len(examples), micro_bs)]
     device = dist.device
     t0 = time.time()
-    sums = torch.zeros(5, dtype=torch.float64)                   # mlm, ar, tokens, rows, n_masked
+    sums = torch.zeros(8, dtype=torch.float64)                   # mlm, ar, tokens, rows, n_masked, align, aux_rank0, aux_rows
+    align_w = float(getattr(fwd, "align", None) and fwd.align.get("weight", 0.0) or 0.0)
     try:
         for ci, chunk in enumerate(chunks):
             batch = collate(chunk, pad_id)
             sync = fwd.no_sync() if ci < len(chunks) - 1 else contextlib.nullcontext()
             ac = torch.autocast(device_type=device.type, dtype=torch.bfloat16) if use_autocast else contextlib.nullcontext()
             with sync, ac:
-                mlm_logits, mlm_labels, mlm_w, ar_logits, ar_labels = fwd(batch, device)
+                mlm_logits, mlm_labels, mlm_w, ar_logits, ar_labels, al = fwd(batch, device)
                 mlm = mlm_loss_fn(mlm_logits, mlm_labels, mlm_w, normalize=mlm_norm)
                 ar = ar_loss_fn(ar_logits, ar_labels)
-                loss = total_loss_fn(mlm, ar, ar_weight) / len(chunks)
+                loss = total_loss_fn(mlm, ar, ar_weight)
+                if al is not None:
+                    loss = loss + align_w * al
+                loss = loss / len(chunks)
             loss.backward()
+            st = getattr(fwd, "last_stats", {}) or {}
             sums += torch.tensor([float(mlm.detach()), float(ar.detach()), int(batch["seq_lens"].sum()),
-                                  batch["input_ids"].numel(), int(mlm_labels.numel())], dtype=torch.float64)
-            del mlm_logits, ar_logits, mlm, ar, loss, batch
+                                  batch["input_ids"].numel(), int(mlm_labels.numel()), float(al.detach()) if al is not None else 0.0,
+                                  st.get("aux_rank0_frac", 0.0) * st.get("aux_rows", 0), st.get("aux_rows", 0)], dtype=torch.float64)
+            del mlm_logits, ar_logits, mlm, ar, loss, batch, al
     except torch.cuda.OutOfMemoryError as e:
         opt.zero_grad(set_to_none=True)
         if torch.cuda.is_available():
@@ -609,12 +650,17 @@ def run_step(loader_batches, fwd, opt, sched, dist, micro_bs, use_autocast, ar_w
     sched.step()
     opt.zero_grad(set_to_none=True)
     dt = time.time() - t0
-    stats = torch.cat([sums[:2] / len(chunks), sums[2:]])
+    stats = torch.cat([sums[:2] / len(chunks), sums[2:5], sums[5:6] / len(chunks), sums[6:]])
     stats = dist.all_reduce_sum(stats.to(device) if dist.enabled else stats).cpu()
-    lm, la = float(stats[0]) / dist.world, float(stats[1]) / dist.world
-    return {"loss": float(total_loss_fn(lm, la, ar_weight)), "loss_mlm": round(lm, 5), "loss_ar": round(la, 5), "lr": lr_used,
-            "grad_norm": round(float(gnorm), 4), "tokens_s": round(float(stats[2]) / dt, 1), "rows_s": round(float(stats[3]) / dt, 1),
-            "n_masked": int(stats[4]), "n_examples": len(examples) * dist.world, "step_s": round(dt, 3)}
+    lm, la, lal = float(stats[0]) / dist.world, float(stats[1]) / dist.world, float(stats[5]) / dist.world
+    rec = {"loss": float(total_loss_fn(lm, la, ar_weight)) + align_w * lal, "loss_mlm": round(lm, 5), "loss_ar": round(la, 5), "lr": lr_used,
+           "grad_norm": round(float(gnorm), 4), "tokens_s": round(float(stats[2]) / dt, 1), "rows_s": round(float(stats[3]) / dt, 1),
+           "n_masked": int(stats[4]), "n_examples": len(examples) * dist.world, "step_s": round(dt, 3)}
+    if align_w > 0:
+        rec["loss_align"] = round(lal, 5)
+    if float(stats[7]) > 0:
+        rec["aux_rank0_frac"] = round(float(stats[6]) / float(stats[7]), 4)
+    return rec
 
 
 if __name__ == "__main__":

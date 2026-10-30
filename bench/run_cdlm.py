@@ -41,11 +41,23 @@ def main():
     ap.add_argument("--accept-ratio", type=float, default=1.0)
     ap.add_argument("--draft-diag", action="store_true", help="verified decoding: histogram p_AR(draft) / entropy of examined drafts")
     ap.add_argument("--keep-right", action="store_true", help="verified decoding: keep the drafts right of a rejection as drafts (still verified; output unchanged)")
+    ap.add_argument("--draft-input", default="mask", choices=["mask", "aux0", "mask_excl"],
+                    help="B13: id fed on the mask rows: the [MASK] id, or aux0 = the rank-0 auxiliary (config cdlm_aux_base); aux0 / mask_excl also remove every id >= [MASK] from the argmaxes")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     tok = AutoTokenizer.from_pretrained(a.model)
     model = AutoModelForCausalLM.from_pretrained(a.model, dtype=torch.bfloat16, attn_implementation="sdpa").cuda().eval()
     mask_id = getattr(model.config, "cdlm_mask_token_id", None) or tok.convert_tokens_to_ids("<|mask|>")
+    exclude_from = None
+    if a.draft_input != "mask":
+        exclude_from = int(mask_id)                              # [MASK] and the auxiliaries sit above every token id
+    if a.draft_input == "aux0":
+        from engine.cdlm.aux import aux_ids_of
+        aux = aux_ids_of(model.config)
+        if aux is None:
+            raise SystemExit(f"{a.model}: config has no cdlm_aux_base/cdlm_aux_n (not a B13 checkpoint)")
+        mask_id = aux[0]
+        print(f"draft input: rank-0 auxiliary id {mask_id} (aux base {aux[0]}, n {aux[1]}); ids >= {exclude_from} excluded from argmax", flush=True)
     stop_ids = [tok.eos_token_id] + ([tok.convert_tokens_to_ids("<|im_end|>")] if "<|im_end|>" in tok.get_vocab() else [])
     prompts = load_prompts(a.prompts)[: a.n]
     for p in prompts:
@@ -75,6 +87,7 @@ def main():
     configs = [("ar", None)] if a.ar else []
     rule = f",{a.accept_rule}:d{a.accept_delta}:r{a.accept_ratio}" if (a.verify and a.accept_rule != "exact") else ""
     rule += ",keep_right" if (a.verify and a.keep_right) else ""
+    rule += f",{a.draft_input}" if a.draft_input != "mask" else ""
     configs += [(f"tau={t}{rule}", None if t == "none" else float(t)) for t in a.tau.split(",")]
     runs = []
     from engine.cdlm.decoder import new_draft_diag, _DIAG_P_EDGES
@@ -92,7 +105,7 @@ def main():
                                       mask_id=mask_id, stop_ids=stop_ids, greedy=True, no_adjacent=a.no_adjacent,
                                       max_fill=a.max_fill, margin_tau=a.margin_tau, fill_mode=a.fill_mode, verify=a.verify,
                                       accept_rule=a.accept_rule, accept_delta=a.accept_delta, accept_ratio=a.accept_ratio,
-                                      draft_diag=(diag if a.draft_diag else None), keep_right=a.keep_right)
+                                      draft_diag=(diag if a.draft_diag else None), keep_right=a.keep_right, exclude_from=exclude_from)
             torch.cuda.synchronize(); dt = time.time() - t0
             text = tok.decode(new, skip_special_tokens=True)
             r = {"config": name, "id": p["id"], "n_tokens": len(new), "seconds": round(dt, 3), "tok_s": round(len(new) / dt, 1),

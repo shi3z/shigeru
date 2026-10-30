@@ -135,6 +135,9 @@ def window_attention_mask(model, past_len, n_rows, device=None):
     return model_attention_mask(model, (k <= q)[None, None])
 
 
+EXCLUDED = -1e9                                 # logit of an excluded id (generate_verified exclude_from)
+
+
 def entropy_from_logits(logits):
     """Shannon entropy (nats) of softmax(logits) per row, computed in float32 like the reference's Categorical."""
     logp = torch.log_softmax(logits.float(), dim=-1)
@@ -275,7 +278,8 @@ def verify_drafts_threshold(ar_logits, slots, is_mask, delta, ratio):
 @torch.no_grad()
 def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam, mask_id, stop_ids,
                       sample, predict, margin_tau, no_adjacent, max_fill, fill_mode, device,
-                      accept_rule="exact", accept_delta=0.6, accept_ratio=1.0, draft_diag=None, keep_right=False):
+                      accept_rule="exact", accept_delta=0.6, accept_ratio=1.0, draft_diag=None, keep_right=False,
+                      exclude_from=None):
     """The verify=True loop (module docstring, "Verified (speculative) decoding"), shared by both decoders.
 
     forward(ids[T], pos[T], cache_len) -> logits [T, V] of all T window rows, forwarded on top of the first cache_len
@@ -284,8 +288,14 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
     sample(logits [n, V]) -> draft tokens [n] (argmax or a sample; the verification itself is always argmax).
     device: where the ids/pos tensors handed to forward are built (the own engine passes "cpu": its run() stages them
     itself, so no per-step host->device tensor is created here).
+    exclude_from: ids >= exclude_from (the [MASK] / B13 auxiliary rows, never tokens) are removed from every argmax
+    (verification and drafts) by setting their logits to EXCLUDED (a large finite negative: -inf would make the draft
+    entropy NaN and nothing would be drafted); None = off.
     Returns (new_token_ids, stats) without the cache entry (the caller adds cache / cache_len).
     """
+    if exclude_from is not None:
+        last_logits = last_logits.clone()
+        last_logits[exclude_from:] = EXCLUDED
     cur = prompt_len                            # prompt_len + len(out); the cache holds cur - (pending is not None) rows
     out, pending = [], None
     slots, is_mask = [], []                     # window slot i <-> logical position cur + i
@@ -309,6 +319,8 @@ def generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, 
         pos = torch.tensor(([cur - 1] if n_pend else []) + [cur + i for i in order], dtype=torch.long, device=device)
         T = int(ids.numel())
         logits = forward(ids, pos, cur - n_pend)
+        if exclude_from is not None:
+            logits[:, exclude_from:] = EXCLUDED
         steps += 1
         window_rows += T
         # 3. verify the leading drafted run (physical rows n_pend.. are the drafts in slot order): the greedy tokens of
@@ -437,7 +449,7 @@ def _crop_to(cache, keep_total):
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, margin_tau=None, no_adjacent=False,
              max_fill=None, fill_mode="all", verify=False, accept_rule="exact", accept_delta=0.6, accept_ratio=1.0,
-             draft_diag=None, keep_right=False):
+             draft_diag=None, keep_right=False, exclude_from=None):
     """Decode one sequence.  Returns (new_token_ids: list[int], stats: dict).
 
     model: Qwen3ForCausalLM (sdpa or eager) with a mask row (model_glue.add_mask_token).  tok: tokenizer, used only to
@@ -491,7 +503,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         out, stats = generate_verified(forward, lambda n: _crop_to(cache, n), last_logits, prompt_len, max_new_tokens,
                                        window, tau, lam, mask_id, stop_ids, sample, predict, margin_tau, no_adjacent,
                                        max_fill, fill_mode, dev, accept_rule, accept_delta, accept_ratio, draft_diag,
-                                       keep_right)
+                                       keep_right, exclude_from)
         assert cache.get_seq_length() == prompt_len + len(out)
         stats["cache"] = cache
         return out, stats

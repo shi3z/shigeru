@@ -28,7 +28,7 @@ __all__ = ["generate"]
 def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.02, mask_id=None, stop_ids=None,
              greedy=True, temperature=1.0, predict="mask", generator=None, static=False, use_graph=False,
              prefill_chunk=512, margin_tau=None, no_adjacent=False, max_fill=None, fill_mode="all", verify=False,
-             accept_rule="exact", accept_delta=0.6, accept_ratio=1.0, draft_diag=None, keep_right=False):
+             accept_rule="exact", accept_delta=0.6, accept_ratio=1.0, draft_diag=None, keep_right=False, exclude_from=None):
     """Decode one sequence with a FastQwen3.  Arguments as decoder.generate (mask_id defaults to the checkpoint's
     cdlm_mask_token_id; tok only defaults stop_ids to [tok.eos_token_id]; margin_tau / no_adjacent / max_fill /
     fill_mode are the fill-selection rules of decoder.py, all off by default; verify=True is verified decoding,
@@ -74,7 +74,7 @@ def generate(model, tok, prompt_ids, max_new_tokens, window=16, tau=None, lam=0.
         out, stats = generate_verified(forward, commit, last_logits, prompt_len, max_new_tokens, window, tau, lam,
                                        mask_id, stop_ids, sample, predict, margin_tau, no_adjacent, max_fill,
                                        fill_mode, torch.device("cpu"), accept_rule, accept_delta, accept_ratio,
-                                       draft_diag, keep_right)
+                                       draft_diag, keep_right, exclude_from)
         assert state["cache_len"] == prompt_len + len(out)
         stats.update(prompt_len=prompt_len, cache_len=state["cache_len"])
         return out, stats
