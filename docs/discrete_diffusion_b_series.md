@@ -508,3 +508,25 @@ examines and 83 % of its rejections have p_AR < 0.01, so no acceptance rule can 
 drafter is the bottleneck (consistent with B10/B11).  Keeping the unverified right side after a rejection is a
 negative (1.07 tokens per step).
 
+
+## 20. Phase B13 — auxiliary-conditioned drafter + representation alignment (summary; full record in b13_auxiliary_drafter.md)
+
+PLM (arXiv 2610.26693) replaces the parallel decoder's uninformative [MASK] input with an AUXILIARY token carrying a
+coarse summary of the AR model's predictive distribution at that position, and adds a cosine alignment loss between a
+decoder layer's mask-row hidden state and an encoder layer's hidden state for the row before it; the paper's 150M
+ablation goes 1.44 -> 1.785 tokens per call from the auxiliary and 1.85 with alignment.  Ported here as: aux(t) = the
+RANK of the true token under the model's own AR distribution (128 auxiliary ids added after [MASK], rank >= 128 keeps
+[MASK]), computed in one no-grad causal pass over the x0 rows per micro-batch; at inference every mask row is fed the
+rank-0 id ("every token is the greedy continuation"), which is the conditioning the AR verifier checks.  Two runs on
+the stage-2 recipe: auxiliaries + alignment, and auxiliaries alone.
+
+Result: no gain.  GSM8K test (1319) 2.21 tokens per step for both against the control's 2.22; dev2 2.26 / 2.28 against
+2.22 is inside the noise of 150 prompts.  Accuracy unchanged (88.3 / 88.9 vs 88.0).  Alignment moved no decoding
+metric although its loss fell 0.64 -> 0.16.  Fed [MASK] instead, both B13 checkpoints collapse to 1.16-1.18 tokens per
+step (2 % draft acceptance vs the control's 16.5 %): the drafter did learn to read the auxiliary, so the auxiliary
+carries information during TRAINING — but the constant rank-0 auxiliary fed at inference says only "this is the AR
+argmax", which the verifier already enforces, and the mask-trained drafter already drafts that mode.  PLM's auxiliary
+is informative because it is SAMPLED per position from Q_t, and sampling is incompatible with the exactly-greedy
+verification this engine ships (same wall the Clover study hit in §19: the drafter, not the acceptance rule, is the
+bottleneck).  Kept: engine/cdlm/aux.py, `bench/run_cdlm.py --draft-input aux0`, the decoders' `exclude_from`
+argument, and both checkpoints.

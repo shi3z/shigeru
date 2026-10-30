@@ -75,34 +75,51 @@ the control on the same GPU: results/clover_dev2_exact.json — 2.22 tokens/step
 
 ## 4. Results
 
-GSM8K dev2 (150 prompts, fast engine with CUDA graphs, verified decoding W=16, tau=1e9 = exactly greedy; A100 on zeta).
-Control = phaseC_sft3_4b, same recipe without auxiliaries / alignment.
+GSM8K, fast engine with CUDA graphs, verified decoding W=16, tau=1e9 (exactly greedy); zeta (RTX PRO 6000).
+Control = phaseC_sft3_4b, the same recipe without auxiliaries and without alignment.
+
+dev2 (150 prompts):
 
 | model | draft input | tok/step | tok/s | accuracy | draft acceptance |
 |---|---|---|---|---|---|
 | control phaseC_sft3_4b | [MASK] | 2.22 | 186 | 93.3 % | 16.5 % |
-| B13 aux+align (b13_auxalign_4b) | rank-0 auxiliary (`aux0`) | **2.26** | **190** | 92.0 % | 16.9 % |
-| B13 aux+align, same checkpoint | [MASK] (`mask_excl`) | 1.18 | 99.5 | 92.0 % | 2.5 % |
-| AR reference (same checkpoint) | — | 1.00 | 79 | 92.0 % | — |
+| B13 aux + align | rank-0 auxiliary | 2.26 | 190 | 92.0 % | 16.9 % |
+| B13 aux only | rank-0 auxiliary | 2.28 | 192 | 92.7 % | 17.2 % |
+| B13 aux + align | [MASK] | 1.18 | 99.5 | 92.0 % | 2.5 % |
+| B13 aux only | [MASK] | 1.16 | 97.2 | 92.7 % | 2.1 % |
+| B13 aux only, AR reference | — | 1.00 | 79.1 | 91.3 % | — |
 
-- **No gain.**  Feeding "every token is the greedy continuation" through the auxiliary rows gives 2.26 tokens per
-  step against 2.22 for the mask-trained control: inside noise (150 prompts), 1.8 % more tokens per step, 2 % more
-  tok/s, 1.3 points less accuracy (2 prompts).  The acceptance rate is the same 17 %.
-- The auxiliary-trained drafter has *lost* the ability to draft from [MASK] rows (2.5 % acceptance, 1.18 tok/step):
-  the model relies on the auxiliary, so the auxiliary carries information during training — but at inference the
-  rank-0 constant carries none beyond what the AR verifier already enforces.  This is the conversion caveat of PLM
-  Table 6 in action: a sampled auxiliary is informative because it is *sampled* per position from the AR
-  distribution; a deterministic "rank 0 everywhere" is the mode, and the mask-trained drafter already drafts the mode.
-- Training-side signals (same seed, same examples as the control): mlm loss lower than the control from step ~500 on
-  (3.12 vs 3.35 at 500, 1.88 vs 1.97 at 713, 1.51 at 1500), align loss 0.64 → 0.16, aux_rank0_frac 0.72 → 0.83 while
-  training; the lower masked loss is the auxiliary leaking the answer's rank, not a better drafter.
-- Train time 4 h 04 min on the A100 (6.3 s/step → 5.9 s/step), peak 48 GB (control 14,853 s, 35.7 GiB): the no-grad AR
-  pass per micro-batch and the alignment hooks cost ~16 % time and 12 GB.
+GSM8K test (1319 prompts):
 
-Pending: the aux-only ablation (b13_aux_4b, no alignment) and the GSM8K test (1319) runs of both — the chain continues
-on zeta (results/b13_chain.log).  Unless the aux-only run differs, B13 is closed as a negative result: the auxiliary
-has to be *sampled* (PLM's Voronoi cell of a sample from Q_t) to add information, and sampling breaks exact greedy
-verification, which is what this engine ships.
+| model | draft input | tok/step | tok/s | accuracy |
+|---|---|---|---|---|
+| control phaseC_sft3_4b | [MASK] | 2.22 | 183 | 88.0 % |
+| B13 aux + align | rank-0 auxiliary | 2.21 | 187 | 88.3 % |
+| B13 aux only | rank-0 auxiliary | 2.21 | 188 | 88.9 % |
+
+- **Negative result.**  On the full test set both B13 models draft 2.21 tokens per step against the control's 2.22.
+  The dev2 edge (2.26 / 2.28 vs 2.22) does not survive 1319 prompts.  Accuracy is unchanged (88.3 / 88.9 vs 88.0,
+  and exact greedy decoding guarantees the verified output equals the AR output of the same checkpoint).
+- **Alignment adds nothing.**  aux only is 2.28 on dev2 and 2.21 on test; aux + align is 2.26 and 2.21.  The
+  representation-alignment loss fell from 0.64 to 0.16 during training without moving a decoding metric.
+- **The auxiliary does carry information during training, and none at inference.**  Fed [MASK] rows, both B13
+  models collapse to 1.16-1.18 tokens per step (2 % acceptance): they learned to read the auxiliary instead of
+  marginalising over the previous token.  But the auxiliary they are fed at inference is the constant "rank 0",
+  whose content ("this is the AR argmax") is exactly what the verifier already enforces, so the drafter gains
+  nothing over the mask-trained control.  This is PLM Table 6's conversion caveat in practice: the auxiliary is
+  informative because it is *sampled* per position from Q_t, and sampling is incompatible with exact greedy
+  verification, which is what this engine ships.
+- Training-side signals (same seed, same examples as the control): mlm loss below the control from step ~500 on
+  (3.12 vs 3.35 at 500, 1.88 vs 1.97 at 713, 1.51 at 1500), aux_rank0_frac 0.72 to 0.83.  The lower masked loss is
+  the auxiliary leaking the target's rank, not a better drafter.
+- Cost: 4 h 04 min per run on the RTX PRO 6000 (5.9-6.3 s/step), peak 48 GB, against 4 h 08 min / 35.7 GiB for the
+  control on an A100: the no-grad AR pass per micro-batch and the alignment hooks cost ~12 GB and no wall-clock
+  here (different GPU).
+
+B13 is closed.  The engine keeps the auxiliary machinery (engine/cdlm/aux.py, `--draft-input aux0`, the
+`exclude_from` argument of the decoders) because it is the only way to measure this family, and the two trained
+checkpoints stay in runs/ for the sampled-auxiliary follow-up in §5 should the acceptance rule ever stop being
+exact.
 
 ## 5. Follow-ups considered
 
