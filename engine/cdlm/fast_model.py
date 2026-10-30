@@ -345,6 +345,16 @@ class FastQwen3(nn.Module):
             self._alloc_static()
         if self.pool is None:
             self.pool = torch.cuda.graph_pool_handle()
+        # Capture must not read what the last step left in the static buffers.  Row 3 holds indices into the window
+        # of THAT step's bucket, and an index >= Wb is out of range for this bucket's logits gather: 2026-10-31 a
+        # fast_graph eval died in capture_graphs with "indexSelectSmallIndex: srcIndex < srcSelectDimSize" because
+        # run_cdlm's warm-up generation left rows of a wider window behind (it depends on where the warm-up stopped,
+        # so the same command crashed for one checkpoint and passed for another).  Zeros are in range for every
+        # bucket, and the mask keeps one visible key per row so the capture's two eager passes stay finite; run()
+        # fills all of them with the step's real values before any replay.
+        st = self.static
+        st["idx"].zero_()
+        st["key_mask"][:Wb, :Cb] = st["kpos"][:, :Cb] <= st["qpos"][:Wb]
         args = self._static_args(Wb, Cb)
         s = torch.cuda.Stream(); s.wait_stream(torch.cuda.current_stream())
         with torch.cuda.stream(s):
@@ -449,6 +459,7 @@ class FastQwen3(nn.Module):
         st = self.static
         rows = list(rows) if rows is not None else list(range(T))
         assert len(rows) <= Wb                      # rows may be empty: the step still writes the window K/V
+        assert not rows or max(rows) < Wb, (rows, Wb)   # a row index past the window would gather out of range
         Wmax = BUCKETS[-1]                          # the four index rows are always copied in full (one contiguous copy)
         tl, pl = tokens.tolist(), pos_ids.tolist()
         host = [tl + [0] * (Wmax - T), pl + [pl[-1]] * (Wmax - T), list(range(cache_len, cache_len + Wmax)),
