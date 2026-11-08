@@ -1,0 +1,4051 @@
+{
+ "direction_layer": 20,
+ "ablated_layers": [
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24
+ ],
+ "before": {
+  "n": 200,
+  "accuracy": 0.95,
+  "loops": 11,
+  "loop_pct": 5.5,
+  "errors": 10,
+  "errors_that_loop": 4,
+  "capped": 8,
+  "mean_tokens": 430.3
+ },
+ "after": {
+  "n": 200,
+  "accuracy": 0.935,
+  "loops": 2,
+  "loop_pct": 1.0,
+  "errors": 13,
+  "errors_that_loop": 2,
+  "capped": 5,
+  "mean_tokens": 397.5
+ },
+ "flips": {
+  "loop_to_clean": 11,
+  "clean_to_loop": 2,
+  "right_to_wrong": 6,
+  "wrong_to_right": 3
+ },
+ "rows_before": [
+  {
+   "id": "gsm8k_0450",
+   "hit": true,
+   "loop": false,
+   "tokens": 429,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "$3 for soda, totaling $15 + p. Since you saved $2 by choosing the regular option, we have:\n\n$15 + p = $21 - $2 = $19\n\nSolving for p:\n\np = $19 - $15 = $4\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0451",
+   "hit": true,
+   "loop": false,
+   "tokens": 317,
+   "capped": false,
+   "got": "11050",
+   "want": "11050",
+   "tail": "r the increase, the cost per balloon becomes $45 + $20 = $65. Bentley fills 170 balloons at the new price, so the total cost is 170 × $65 = $11,050.\n\n#### 11050"
+  },
+  {
+   "id": "gsm8k_0452",
+   "hit": true,
+   "loop": false,
+   "tokens": 329,
+   "capped": false,
+   "got": "50",
+   "want": "50",
+   "tail": " = 30 mph × 1 hour = 30 miles.\n- Total distance = 120 + 30 = 150 miles.\n- Total time = 2 + 1 = 3 hours.\n- Average speed = 150 miles / 3 hours = 50 mph.\n\n#### 50"
+  },
+  {
+   "id": "gsm8k_0453",
+   "hit": true,
+   "loop": false,
+   "tokens": 260,
+   "capped": false,
+   "got": "6400",
+   "want": "6400",
+   "tail": "res and 2 rubies left. The value of 5 sapphires is 5 × $800 = $4000. The value of 2 rubies is 2 × $1200 = $2400. Total value = $4000 + $2400 = $6400.\n\n#### 6400"
+  },
+  {
+   "id": "gsm8k_0454",
+   "hit": false,
+   "loop": false,
+   "tokens": 142,
+   "capped": false,
+   "got": "240",
+   "want": "150",
+   "tail": "in and Nancy each eat 4 apples per day, so together they eat 4 + 4 = 8 apples per day. Over 30 days, the total number of apples eaten is 8 × 30 = 240.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0455",
+   "hit": true,
+   "loop": false,
+   "tokens": 270,
+   "capped": false,
+   "got": "1920",
+   "want": "1920",
+   "tail": "g of potting soil holds 2 cubic feet, so the number of bags needed is 320 ÷ 2 = 160 bags. Each bag costs $12, so the total cost is 160 × $12 = $1920.\n\n#### 1920"
+  },
+  {
+   "id": "gsm8k_0456",
+   "hit": true,
+   "loop": false,
+   "tokens": 304,
+   "capped": false,
+   "got": "78",
+   "want": "78",
+   "tail": "cards: \nGreen = 15 + (60/100)*15 = 15 + 9 = 24. \nYellow cards equal the sum of red and green: \nYellow = 15 + 24 = 39. \nTotal cards = 15 + 24 + 39 = 78.\n\n#### 78"
+  },
+  {
+   "id": "gsm8k_0457",
+   "hit": true,
+   "loop": false,
+   "tokens": 373,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": "think>\n\nKatelyn initially saw 50 fairies. After 20 minutes, 25 fairies (half of 50) joined, making the total 75. Then 30 fairies flew away, leaving 45.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0458",
+   "hit": true,
+   "loop": false,
+   "tokens": 219,
+   "capped": false,
+   "got": "35",
+   "want": "35",
+   "tail": " Brandon has 12 puppies, 4 with spots.\n\nTotal puppies = 8 + 12 = 20.\nTotal spotted puppies = 3 + 4 = 7.\n\nPercentage with spots = (7 / 20) × 100% = 35%.\n\n#### 35"
+  },
+  {
+   "id": "gsm8k_0459",
+   "hit": true,
+   "loop": false,
+   "tokens": 672,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "s\n\nTotal weight = 2 + 48 + 3150 + 1300 = 4500 lbs.\n\nThe truck can carry 2250 lbs per trip. The number of trips needed is the ceiling of 4500 / 2250 = 2.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0460",
+   "hit": true,
+   "loop": false,
+   "tokens": 209,
+   "capped": false,
+   "got": "84",
+   "want": "84",
+   "tail": "5 bottles × 3 cents = 15 cents \nTotal per week = 6 + 15 = 21 cents.\n\nIn a four-week month, her total earnings are:\n\n21 cents/week × 4 weeks = 84 cents.\n\n#### 84"
+  },
+  {
+   "id": "gsm8k_0461",
+   "hit": true,
+   "loop": false,
+   "tokens": 252,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": "as 10 plants. \nToni has 60% more plants than Frederick: 10 + (0.60 × 10) = 10 + 6 = 16 plants. \nShondra has 7 fewer plants than Toni: 16 - 7 = 9 plants.\n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0462",
+   "hit": true,
+   "loop": false,
+   "tokens": 133,
+   "capped": false,
+   "got": "71",
+   "want": "71",
+   "tail": "swer is 71.\n</think>\n\nAli initially has $21. Leila gives him half of her $100, which is $50. Adding this to Ali's initial amount gives $21 + $50 = $71.\n\n#### 71"
+  },
+  {
+   "id": "gsm8k_0463",
+   "hit": true,
+   "loop": false,
+   "tokens": 183,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": " give a tip equal to 1/5 of the amount ordered. The tip is (1/5) * $15 = $3. The total amount she should give is the cost plus the tip: $15 + $3 = $18.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0464",
+   "hit": true,
+   "loop": false,
+   "tokens": 458,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "1 + 5 = 6th. \n- Moved ahead 2 spots: 6 - 2 = 4th. \n- Fell behind 3 spots: 4 + 3 = 7th. \n- Jumped ahead 1 spot: 7 - 1 = 6th. \n\nShe finished in 6th place.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0465",
+   "hit": true,
+   "loop": false,
+   "tokens": 377,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "50 + 200 = 350. She keeps 50 cards, so she gives away 350 - 50 = 300 cards. Each student receives 10 cards, so the number of students is 300 ÷ 10 = 30.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0466",
+   "hit": true,
+   "loop": false,
+   "tokens": 725,
+   "capped": false,
+   "got": "1.00",
+   "want": "1",
+   "tail": " 50 cents = 1000 cents. After a 10% discount (100 cents), she pays 1000 - 100 = 900 cents = $9.00.\n\nKelly paid $9.00 - $8.00 = $1.00 more than Becky.\n\n#### 1.00"
+  },
+  {
+   "id": "gsm8k_0467",
+   "hit": true,
+   "loop": false,
+   "tokens": 279,
+   "capped": false,
+   "got": "1200",
+   "want": "1200",
+   "tail": "ets = 2 × 2 = 4\n- Towels: twice as many as pillow cases = 2 × 4 = 8\n\nTotal per room = 2 + 1 + 4 + 8 = 15 pieces.\nFor 80 rooms: 15 × 80 = 1200 pieces.\n\n#### 1200"
+  },
+  {
+   "id": "gsm8k_0468",
+   "hit": true,
+   "loop": false,
+   "tokens": 476,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "s → 210 + 30 = 240 \n- Friday: gains 30 pairs = 60 shoes → 240 + 60 = 300 \n- Saturday: loses 180 shoes → 300 - 180 = 120 \n\nOn Sunday, he has 120 shoes.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0469",
+   "hit": true,
+   "loop": false,
+   "tokens": 145,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": ", so the total number of cupcakes she can decorate is 6 × 8 = 48 cupcakes. Each pan holds 12 cupcakes, so the number of pans needed is 48 ÷ 12 = 4 pans.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0470",
+   "hit": true,
+   "loop": false,
+   "tokens": 245,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "osts $1 less than three times the price of the pen: 3 × $2 = $6, then $6 - $1 = $5. Total cost = $2 + $5 = $7. Theo gave $10, so change = $10 - $7 = $3.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0471",
+   "hit": true,
+   "loop": false,
+   "tokens": 269,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": "pencils were used, leaving 300 - 60 = 240 pencils. At the end of the year, 1/3 of the remaining pencils were left, so 240 × 1/3 = 80 pencils were left.\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0472",
+   "hit": true,
+   "loop": false,
+   "tokens": 320,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "frac{1}{2}x + 2 = 5\n\\]\n\nSubtract 2 from both sides:\n\n\\[\n\\frac{1}{2}x = 3\n\\]\n\nMultiply both sides by 2:\n\n\\[\nx = 6\n\\]\n\nSo Matt has to eat 6 carrot sticks.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0473",
+   "hit": true,
+   "loop": false,
+   "tokens": 331,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "ngth is 10 feet, which is 10 × 12 = 120 inches. The combined length of the two remoras is 2 × 6 = 12 inches. The percentage is (12 / 120) × 100% = 10%.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0474",
+   "hit": true,
+   "loop": false,
+   "tokens": 212,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": "3}{4} = \\frac{1}{4}\\). This fraction corresponds to 20 students. Therefore, the total number of students is \\(20 \\div \\frac{1}{4} = 20 \\times 4 = 80\\).\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0475",
+   "hit": true,
+   "loop": false,
+   "tokens": 252,
+   "capped": false,
+   "got": "20",
+   "want": "20",
+   "tail": "im 3 × 4 = 12 days. To find the number of minutes he must walk each day, divide the total minutes by the number of days: 240 ÷ 12 = 20 minutes per day.\n\n#### 20"
+  },
+  {
+   "id": "gsm8k_0476",
+   "hit": true,
+   "loop": false,
+   "tokens": 221,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "Sarah spent $300 on books at $15 each, so she bought 300 / 15 = 20 books. She gave these equally to her 4 kids, so each child received 20 / 4 = 5 books.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0477",
+   "hit": true,
+   "loop": false,
+   "tokens": 283,
+   "capped": false,
+   "got": "20",
+   "want": "20",
+   "tail": "y| + |Peanuts| - |Both| = 9 + 6 - 3 = 12. \nThe number of kids not allergic to anything is the total minus those allergic to at least one: 32 - 12 = 20.\n\n#### 20"
+  },
+  {
+   "id": "gsm8k_0478",
+   "hit": true,
+   "loop": false,
+   "tokens": 337,
+   "capped": false,
+   "got": "621",
+   "want": "621",
+   "tail": "ups × 7 tour guides per group = 21 tour guides. \nThe total number of people going on the tour is the sum of employees and tour guides: 600 + 21 = 621.\n\n#### 621"
+  },
+  {
+   "id": "gsm8k_0479",
+   "hit": true,
+   "loop": false,
+   "tokens": 426,
+   "capped": false,
+   "got": "15400",
+   "want": "15400",
+   "tail": "nsive, so the price per day is $1500 × 1.20 = $1800. For 3 days, the hotel cost is $1800 × 3 = $5400.\n- Total trip cost = $10,000 + $5400 = $15,400.\n\n#### 15400"
+  },
+  {
+   "id": "gsm8k_0480",
+   "hit": true,
+   "loop": false,
+   "tokens": 137,
+   "capped": false,
+   "got": "11",
+   "want": "11",
+   "tail": "ow = 3*3 = 9. Total tubes = 2+9 = 11. So answer is 11.\n</think>\n\nJasper has 2 tubes of blue paint and 9 tubes of yellow paint, for a total of 11 tubes.\n\n#### 11"
+  },
+  {
+   "id": "gsm8k_0481",
+   "hit": true,
+   "loop": false,
+   "tokens": 354,
+   "capped": false,
+   "got": "84",
+   "want": "84",
+   "tail": "ny weighs 48 grains. The 2010 penny weighs three-quarters of that, so its weight is (3/4) × 48 = 36 grains. The combined weight is 48 + 36 = 84 grains.\n\n#### 84"
+  },
+  {
+   "id": "gsm8k_0482",
+   "hit": true,
+   "loop": false,
+   "tokens": 219,
+   "capped": false,
+   "got": "26",
+   "want": "26",
+   "tail": " $83 and Tashay earned $91. Their total earnings so far are $83 + $91 = $174. They need to raise $200, so the amount still needed is $200 - $174 = $26.\n\n#### 26"
+  },
+  {
+   "id": "gsm8k_0483",
+   "hit": true,
+   "loop": false,
+   "tokens": 411,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "riel, so Luri has 3 × 20 = 60 songs, and can add 100 - 60 = 40 songs. The difference is 80 - 40 = 40, meaning Luri can add 40 fewer songs than Gabriel.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0484",
+   "hit": true,
+   "loop": false,
+   "tokens": 247,
+   "capped": false,
+   "got": "240",
+   "want": "240",
+   "tail": "ges they picked. \nNumber of oranges eaten = (2/5) × 60 = 24 oranges. \nFor each orange eaten, he gives up $10. \nTotal money given up = 24 × $10 = $240.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0485",
+   "hit": true,
+   "loop": false,
+   "tokens": 159,
+   "capped": false,
+   "got": "220",
+   "want": "220",
+   "tail": " 220.\n</think>\n\nThe handbag cost $20 less than 3 times the cost of the shoes. The shoes cost $80, so 3 times that is $240. Subtracting $20 gives $220.\n\n#### 220"
+  },
+  {
+   "id": "gsm8k_0486",
+   "hit": true,
+   "loop": false,
+   "tokens": 211,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": " 5 days, so his total weekly distance is 12 × 5 = 60 miles. He runs at a speed of 10 miles per hour, so the time he spends running is 60 ÷ 10 = 6 hours.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0487",
+   "hit": true,
+   "loop": false,
+   "tokens": 239,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "ounds per day. Over 5 days, the total oats needed is 40 × 5 = 200 pounds. Each bag holds 50 pounds, so the number of bags required is 200 ÷ 50 = 4 bags.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0488",
+   "hit": true,
+   "loop": false,
+   "tokens": 210,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "meranians, so the number of Pomeranians is (2/3) × 27 = 18. One-third of the Pomeranians are girls, so the number of girl Pomeranians is (1/3) × 18 = 6.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0489",
+   "hit": true,
+   "loop": false,
+   "tokens": 200,
+   "capped": false,
+   "got": "-10",
+   "want": "-10",
+   "tail": "average highest temperature is calculated by summing the three temperatures and dividing by 3.\n\nSum = (-48) + 21 + (-3) = -30 \nAverage = -30 / 3 = -10\n\n#### -10"
+  },
+  {
+   "id": "gsm8k_0490",
+   "hit": true,
+   "loop": false,
+   "tokens": 227,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "so he needs to save an additional $8. He saves $2 each day. To find the number of days, divide the amount needed by the daily savings: $8 ÷ $2 = 4 days.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0491",
+   "hit": true,
+   "loop": false,
+   "tokens": 170,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "ime has 2 trays, each holding 24 eggs, so the total capacity is 2 × 24 = 48 eggs. He has 64 eggs, so the number of eggs that won't fit is 64 - 48 = 16.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0492",
+   "hit": true,
+   "loop": false,
+   "tokens": 138,
+   "capped": false,
+   "got": "32",
+   "want": "32",
+   "tail": "ink>\n\nSally buys a small pizza for $8. The family-size pizza costs 3 times as much, so it costs 3 × $8 = $24. The total amount spent is $8 + $24 = $32.\n\n#### 32"
+  },
+  {
+   "id": "gsm8k_0493",
+   "hit": true,
+   "loop": false,
+   "tokens": 728,
+   "capped": false,
+   "got": "25",
+   "want": "25",
+   "tail": "pon, reducing the total to $2.00. Each pack contains 4 razors, so 2 packs contain 8 razors. The cost per razor is $2.00 ÷ 8 = $0.25, which is 25 cents.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0494",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "53",
+   "want": "21",
+   "tail": "ghts because the shoulders are not at the top of the head. But in many such problems, they assume that the height of a person is measured from the ground to the"
+  },
+  {
+   "id": "gsm8k_0495",
+   "hit": true,
+   "loop": false,
+   "tokens": 241,
+   "capped": false,
+   "got": "200",
+   "want": "200",
+   "tail": "8 hours per day. For each hour worked, she walks for 5 minutes. So per day, she walks 8 × 5 = 40 minutes. Over 5 days, she walks 5 × 40 = 200 minutes.\n\n#### 200"
+  },
+  {
+   "id": "gsm8k_0496",
+   "hit": true,
+   "loop": false,
+   "tokens": 244,
+   "capped": false,
+   "got": "38",
+   "want": "38",
+   "tail": " Angela will be three times Brett's current age, which is \\(3 \\times 14 = 42\\) years old. Therefore, Angela's current age is \\(42 - 4 = 38\\) years old.\n\n#### 38"
+  },
+  {
+   "id": "gsm8k_0497",
+   "hit": true,
+   "loop": false,
+   "tokens": 291,
+   "capped": false,
+   "got": "112",
+   "want": "112",
+   "tail": "de = $6, so total morning cost = 14 × $6 = $84.\nCost per afternoon ride = $2, so total afternoon cost = 14 × $2 = $28.\n\nTotal cost = $84 + $28 = $112.\n\n#### 112"
+  },
+  {
+   "id": "gsm8k_0498",
+   "hit": true,
+   "loop": false,
+   "tokens": 296,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "s 50 + 20 = 70 oranges. \nTotal oranges = 50 + 70 = 120 oranges. \nEach pie requires 3 oranges, so the number of pies they can make is 120 ÷ 3 = 40 pies.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0499",
+   "hit": true,
+   "loop": false,
+   "tokens": 449,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "\n\nSubtract \\(5x\\) from both sides:\n\n\\[\n200 = 20x\n\\]\n\nDivide by 20:\n\n\\[\nx = 10\n\\]\n\nThus, 10 guests are necessary for the two venues to be equal in cost.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0500",
+   "hit": true,
+   "loop": false,
+   "tokens": 209,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "en Lily found D+7 = 16.\nSo answer is 16.\n\nCheck: David 9, Lily 16, Bodhi 18, total 9+16+18=43. Yes.\n\nFinal answer: 16.\n</think>\n\nLily found 16 insects.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0501",
+   "hit": true,
+   "loop": false,
+   "tokens": 207,
+   "capped": false,
+   "got": "273",
+   "want": "273",
+   "tail": "d 1/2 of a skein. Together, they used 1/4 + 1/2 = 3/4 of a skein. Since one skein contains 364 yards, the total yards used is (3/4) × 364 = 273 yards.\n\n#### 273"
+  },
+  {
+   "id": "gsm8k_0502",
+   "hit": true,
+   "loop": false,
+   "tokens": 301,
+   "capped": false,
+   "got": "26",
+   "want": "26",
+   "tail": "ds want 2 gifts each, so that's 3 × 2 = 6 gifts. Total gifts for friends = 10 + 6 = 16. She then buys 10 more random gifts. Total gifts = 16 + 10 = 26.\n\n#### 26"
+  },
+  {
+   "id": "gsm8k_0503",
+   "hit": true,
+   "loop": false,
+   "tokens": 248,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "hair, so the rug is 3 + 5 = 8 feet wide. The couch is 2 feet longer than twice the width of the rug, so the couch is 2 × 8 + 2 = 16 + 2 = 18 feet long.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0504",
+   "hit": true,
+   "loop": false,
+   "tokens": 516,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "m cost half as much, so $1. The total cost is $7, so the two strawberry packs cost $7 - $2 - $1 = $4. Therefore, each strawberry pack costs $4 ÷ 2 = $2.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0505",
+   "hit": false,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "8",
+   "want": "1600",
+   "tail": "pest lumber\" to indicate that he will choose the lumber that is cheapest per stick, i.e., the one that gives the most sticks per dollar. But that is not typical"
+  },
+  {
+   "id": "gsm8k_0506",
+   "hit": true,
+   "loop": false,
+   "tokens": 369,
+   "capped": false,
+   "got": "144",
+   "want": "144",
+   "tail": "requires 2 pairs of snowshoes. Each pair costs $12.00, so the cost per dog is 2 × $12.00 = $24.00. For 6 dogs, the total cost is 6 × $24.00 = $144.00.\n\n#### 144"
+  },
+  {
+   "id": "gsm8k_0507",
+   "hit": true,
+   "loop": false,
+   "tokens": 361,
+   "capped": false,
+   "got": "2.00",
+   "want": "2",
+   "tail": " $2.20 per trip, her weekly cost without a pass is 10 × $2.20 = $22.00. The weekly bus pass costs $20.00, so her savings are $22.00 - $20.00 = $2.00.\n\n#### 2.00"
+  },
+  {
+   "id": "gsm8k_0508",
+   "hit": true,
+   "loop": false,
+   "tokens": 553,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "÷ 2 = 10 sheep.\n\nTotal animals on the farm: 30 cows + 10 sheep = 40.\nTotal animals on the zoo: 60 cows + 20 sheep = 80.\nCombined total: 40 + 80 = 120.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0509",
+   "hit": true,
+   "loop": false,
+   "tokens": 425,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "x+y=4. So Sophia bought 4 items total. So answer is 4.\n\nThus final answer: 4.\n</think>\n\nSophia bought a total of 4 items (onions and potatoes combined).\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0510",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "200",
+   "want": "525",
+   "tail": "18 is 200 days? Actually, we need to be careful.\n\nLet's define: The number of days from date A to date B (exclusive of A, inclusive of B) is B - A. For example,"
+  },
+  {
+   "id": "gsm8k_0511",
+   "hit": true,
+   "loop": false,
+   "tokens": 265,
+   "capped": false,
+   "got": "110",
+   "want": "110",
+   "tail": " per day. Working for an entire week means he worked 7 days. Total earnings = $30 × 7 = $210. He spent $100, so the amount left is $210 - $100 = $110.\n\n#### 110"
+  },
+  {
+   "id": "gsm8k_0512",
+   "hit": true,
+   "loop": false,
+   "tokens": 150,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "er is 120.\n</think>\n\nHannah runs 8 laps, each 0.25 km, so total distance = 8 × 0.25 = 2 km. She needs 60 ml per km, so water needed = 2 × 60 = 120 ml.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0513",
+   "hit": true,
+   "loop": false,
+   "tokens": 258,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": "tarted with $500. She spent 20% on clothes, which is $100, leaving $400. Then she spent 25% of the remaining $400 on CDs, which is $100, leaving $300.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0514",
+   "hit": true,
+   "loop": false,
+   "tokens": 229,
+   "capped": false,
+   "got": "90000",
+   "want": "90000",
+   "tail": "costs \\(3x\\). The sum is \\(x + 3x = 4x = 120,000\\). Solving for \\(x\\) gives \\(x = 30,000\\). Therefore, the house costs \\(3 \\times 30,000 = 90,000\\).\n\n#### 90000"
+  },
+  {
+   "id": "gsm8k_0515",
+   "hit": true,
+   "loop": false,
+   "tokens": 290,
+   "capped": false,
+   "got": "160",
+   "want": "160",
+   "tail": " total cost is 40 × $4 = $160. She sold each bag for $8, so her total revenue is 40 × $8 = $320. Her profit is revenue minus cost: $320 - $160 = $160.\n\n#### 160"
+  },
+  {
+   "id": "gsm8k_0516",
+   "hit": true,
+   "loop": false,
+   "tokens": 190,
+   "capped": false,
+   "got": "375",
+   "want": "375",
+   "tail": "ists of 5 rounds, each lasting 3 minutes, so the total time is 5 × 3 = 15 minutes. Multiplying the rate by the total time gives 25 × 15 = 375 punches.\n\n#### 375"
+  },
+  {
+   "id": "gsm8k_0517",
+   "hit": true,
+   "loop": false,
+   "tokens": 1461,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": " made \\(36 \\div 4 = 9\\) cookies. Kelsie made two times more cookies than Josh, which means she made twice as many as Josh: \\(2 \\times 9 = 18\\) cookies.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0518",
+   "hit": true,
+   "loop": false,
+   "tokens": 236,
+   "capped": false,
+   "got": "32",
+   "want": "32",
+   "tail": "ls, totaling $40 + $120 = $160. He gives half to his sister, leaving $80. He then spends 3/5 of the remaining $80 on dinner, which is $48, leaving $32.\n\n#### 32"
+  },
+  {
+   "id": "gsm8k_0519",
+   "hit": true,
+   "loop": false,
+   "tokens": 243,
+   "capped": false,
+   "got": "280",
+   "want": "280",
+   "tail": "ouble Rob's time. Rob takes 2 hours, which is 120 minutes. Double Rob's time is 2 × 120 = 240 minutes. Adding 40 minutes gives 240 + 40 = 280 minutes.\n\n#### 280"
+  },
+  {
+   "id": "gsm8k_0520",
+   "hit": true,
+   "loop": false,
+   "tokens": 254,
+   "capped": false,
+   "got": "63",
+   "want": "63",
+   "tail": "eater (12), mittens (1), socks (2). For one grandchild, the total is 2 + 4 + 12 + 1 + 2 = 21 skeins. For three grandchildren, it is 21 × 3 = 63 skeins.\n\n#### 63"
+  },
+  {
+   "id": "gsm8k_0521",
+   "hit": true,
+   "loop": false,
+   "tokens": 267,
+   "capped": false,
+   "got": "39",
+   "want": "39",
+   "tail": "36 = 52. \n- Wednesday: completes one-quarter of the remaining = (1/4) × 52 = 13, remaining = 52 - 13 = 39. \nThus, on Thursday, he has 39 problems left.\n\n#### 39"
+  },
+  {
+   "id": "gsm8k_0522",
+   "hit": true,
+   "loop": false,
+   "tokens": 236,
+   "capped": false,
+   "got": "29",
+   "want": "29",
+   "tail": " many as Bobby: 2 × 5 = 10 quarts per hour. \nRicky picks two fewer than Kathy: 10 - 2 = 8 quarts per hour. \nTotal per hour: 6 + 5 + 10 + 8 = 29 quarts.\n\n#### 29"
+  },
+  {
+   "id": "gsm8k_0523",
+   "hit": true,
+   "loop": false,
+   "tokens": 308,
+   "capped": false,
+   "got": "74",
+   "want": "74",
+   "tail": "68 loaves left. Then a grocery store returned 6 unsold loaves, so they added 6 to their inventory. Therefore, the number of loaves left is 68 + 6 = 74.\n\n#### 74"
+  },
+  {
+   "id": "gsm8k_0524",
+   "hit": true,
+   "loop": false,
+   "tokens": 483,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": "8 blue tulips. The number of rows for red tulips is 36 ÷ 6 = 6 rows. The number of rows for blue tulips is 24 ÷ 8 = 3 rows. Total rows = 6 + 3 = 9 rows.\n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0525",
+   "hit": true,
+   "loop": false,
+   "tokens": 395,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": "okies requires \\(\\frac{3}{4}\\) cup of raisins. The number of batches she can make with 9 cups is:\n\\[\n9 \\div \\frac{3}{4} = 9 \\times \\frac{4}{3} = 12.\n\\]\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0526",
+   "hit": true,
+   "loop": false,
+   "tokens": 677,
+   "capped": false,
+   "got": "21",
+   "want": "21",
+   "tail": "er day. The weekly consumption difference is (14 - 12) × 7 = 2 × 7 = 14 kWh. At $1.50 per kWh, the difference in the weekly bill is 14 × 1.50 = $21.00.\n\n#### 21"
+  },
+  {
+   "id": "gsm8k_0527",
+   "hit": true,
+   "loop": false,
+   "tokens": 370,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": " paints a whole house in 10 days. With 5 people working together, the time required is 10 days ÷ 5 = 2 days. Since 1 day = 24 hours, 2 days = 48 hours.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0528",
+   "hit": true,
+   "loop": false,
+   "tokens": 577,
+   "capped": false,
+   "got": "172",
+   "want": "172",
+   "tail": "'s chairs = 3 × 22 = 66. Jenna's sofas = 66 - 2 = 64. Total sofas = 20 + 64 = 84. Total chairs = 22 + 66 = 88. Total sofas and chairs = 84 + 88 = 172.\n\n#### 172"
+  },
+  {
+   "id": "gsm8k_0529",
+   "hit": false,
+   "loop": true,
+   "tokens": 496,
+   "capped": false,
+   "got": "10",
+   "want": "11",
+   "tail": "on CDs. At $4 per CD, he could buy $44 / $4 = 11 CDs. Since he already bought one CD, the number of additional CDs he could have bought is 11 - 1 = 10.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0530",
+   "hit": true,
+   "loop": false,
+   "tokens": 832,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": "maining 5 weeks are at the normal 4 hours each.\n\nTotal hours = (5 weeks × 4 hours) + (2 weeks × 5 hours) + (1 week × 6 hours) = 20 + 10 + 6 = 36 hours.\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0531",
+   "hit": true,
+   "loop": false,
+   "tokens": 855,
+   "capped": false,
+   "got": "66",
+   "want": "66",
+   "tail": "t off. \n- \"3 times fewer\" means one-third as many as those who got off get on: \\(21 \\div 3 = 7\\) passengers get on. \n- New total: \\(80 - 21 + 7 = 66\\).\n\n#### 66"
+  },
+  {
+   "id": "gsm8k_0532",
+   "hit": true,
+   "loop": false,
+   "tokens": 391,
+   "capped": false,
+   "got": "25",
+   "want": "25",
+   "tail": "twice Jame's age, so cousin's age in 8 years = 2 × 30 - 5 = 55. Therefore, cousin's current age is 55 - 8 = 47. The age difference now is 47 - 22 = 25.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0533",
+   "hit": true,
+   "loop": false,
+   "tokens": 343,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": " printer is $1,100 + $700 = $1,800. The remaining amount for the two monitors is $2,400 - $1,800 = $600. Therefore, one monitor costs $600 / 2 = $300.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0534",
+   "hit": true,
+   "loop": true,
+   "tokens": 1160,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": " times that number, which is \\(600 + 4 \\times 600 = 5 \\times 600 = 3000\\) shells in total. Therefore, each girl brought \\(3000 \\div 10 = 300\\) shells.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0535",
+   "hit": true,
+   "loop": false,
+   "tokens": 268,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "e had 3 left, meaning he originally had 3 + 5 = 8 candies. Therefore, Nick had 2 × 8 = 16 candies. Since Nick did not eat any candies, he still has 16.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0536",
+   "hit": true,
+   "loop": false,
+   "tokens": 139,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": "Chenny is 10 years old. Alyana is 4 years younger, so Alyana is 10 - 4 = 6 years old. Anne is 2 years older than Alyana, so Anne is 6 + 2 = 8 years old.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0537",
+   "hit": true,
+   "loop": false,
+   "tokens": 239,
+   "capped": false,
+   "got": "188",
+   "want": "188",
+   "tail": "ated as follows:\n\n- First book: 31 mm\n- Second book: 50 mm\n- Third book: 50 - 5 = 45 mm\n- Fourth book: 2 × 31 = 62 mm\n\nSum: 31 + 50 + 45 + 62 = 188 mm\n\n#### 188"
+  },
+  {
+   "id": "gsm8k_0538",
+   "hit": true,
+   "loop": false,
+   "tokens": 402,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "t is 72 vlogs. She has already made 18 + 21 + 15 = 54 vlogs in the first three weeks. To complete the month, she needs to make 72 - 54 = 18 more vlogs.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0539",
+   "hit": true,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "35",
+   "want": "35",
+   "tail": "0% tip on the bill. That might mean that the tip is to be paid by me, and then the rest is split evenly. So I pay the tip plus half of the bill. That is $35.\n\nI"
+  },
+  {
+   "id": "gsm8k_0540",
+   "hit": false,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "8",
+   "want": "39",
+   "tail": "e., he added some money) and then he was able to triple the amount he had left after spending the $8. That could be interpreted as: He saved some more, and then"
+  },
+  {
+   "id": "gsm8k_0541",
+   "hit": true,
+   "loop": false,
+   "tokens": 484,
+   "capped": false,
+   "got": "50",
+   "want": "50",
+   "tail": "\\[\n45x = 1125\n\\]\n\nSolving for \\(x\\):\n\n\\[\nx = \\frac{1125}{45} = 25\n\\]\n\nThus, the daily savings in the second half are \\(2x = 2 \\times 25 = 50\\) dollars.\n\n#### 50"
+  },
+  {
+   "id": "gsm8k_0542",
+   "hit": true,
+   "loop": false,
+   "tokens": 380,
+   "capped": false,
+   "got": "7.00",
+   "want": "7",
+   "tail": ": 3 × $1.50 = $4.50\n- Oranges: 5 × $0.80 = $4.00\n- Peaches: 6 × $0.75 = $4.50\nTotal = $4.50 + $4.00 + $4.50 = $13.00\nChange = $20.00 - $13.00 = $7.00\n\n#### 7.00"
+  },
+  {
+   "id": "gsm8k_0543",
+   "hit": true,
+   "loop": false,
+   "tokens": 234,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "earns $0.5 per task. Each completed 20 tasks.\n\nJairus's total: 20 × 0.8 = $16.00 \nJenny's total: 20 × 0.5 = $10.00 \n\nDifference: $16.00 - $10.00 = $6.00\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0544",
+   "hit": true,
+   "loop": false,
+   "tokens": 118,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": "l = 100. Let Brad's amount = x, then Jeff = 4x. So x + 4x = 5x = 100 => x = 20. Then Jeff = 4*20 = 80. So answer is 80.\n</think>\n\nJeff gets 80 dollars.\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0545",
+   "hit": true,
+   "loop": false,
+   "tokens": 139,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": " So answer is 30.\n</think>\n\nJeff walks 3 miles to work and 3 miles back each day, totaling 6 miles per day. Over 5 workdays, he walks 6 × 5 = 30 miles.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0546",
+   "hit": true,
+   "loop": false,
+   "tokens": 1200,
+   "capped": false,
+   "got": "130",
+   "want": "130",
+   "tail": "65 letters. \nShe then re-writes everything she has already written, meaning she writes another 65 letters. \nTotal letters written: 52 + 13 + 65 = 130.\n\n#### 130"
+  },
+  {
+   "id": "gsm8k_0547",
+   "hit": true,
+   "loop": false,
+   "tokens": 329,
+   "capped": false,
+   "got": "81",
+   "want": "81",
+   "tail": "ified.\n- Round 3: 9 × 3 = 27 families notified.\n- Round 4: 27 × 3 = 81 families notified.\n\nThus, during the fourth round, 81 families will be notified.\n\n#### 81"
+  },
+  {
+   "id": "gsm8k_0548",
+   "hit": true,
+   "loop": false,
+   "tokens": 171,
+   "capped": false,
+   "got": "100",
+   "want": "100",
+   "tail": "nds per month for 3 months, so total weight loss = 10 × 3 = 30 pounds. His final weight was 70 pounds, so his initial weight was 70 + 30 = 100 pounds.\n\n#### 100"
+  },
+  {
+   "id": "gsm8k_0549",
+   "hit": true,
+   "loop": false,
+   "tokens": 590,
+   "capped": false,
+   "got": "398",
+   "want": "398",
+   "tail": "'s (5 × 80 = 400). He currently has \\(x\\) toys, and he needs 2 more than he already has to have enough, so \\(x + 2 = 400\\). Solving gives \\(x = 398\\).\n\n#### 398"
+  },
+  {
+   "id": "gsm8k_0550",
+   "hit": true,
+   "loop": false,
+   "tokens": 520,
+   "capped": false,
+   "got": "27",
+   "want": "27",
+   "tail": "e discount: $7.50 + $0.50 + $12.00 + $10.00 = $30.00\n\nA 10% discount is applied: $30.00 × 0.10 = $3.00 discount.\n\nFinal amount: $30.00 - $3.00 = $27.00\n\n#### 27"
+  },
+  {
+   "id": "gsm8k_0551",
+   "hit": true,
+   "loop": false,
+   "tokens": 283,
+   "capped": false,
+   "got": "17",
+   "want": "17",
+   "tail": "urgers: 5 × $4 = $20\n- Potato fries: 10 × $0.30 = $3\n- Fruit drinks: 5 × $2 = $10\nTotal = $20 + $3 + $10 = $33\nChange from a $50 bill = $50 - $33 = $17\n\n#### 17"
+  },
+  {
+   "id": "gsm8k_0552",
+   "hit": true,
+   "loop": false,
+   "tokens": 472,
+   "capped": false,
+   "got": "450",
+   "want": "450",
+   "tail": "0% commission on any amount over $1000.\n\nFirst $1000: $1000 × 0.30 = $300.\nRemaining $1500: $1500 × 0.10 = $150.\nTotal commission: $300 + $150 = $450.\n\n#### 450"
+  },
+  {
+   "id": "gsm8k_0553",
+   "hit": true,
+   "loop": false,
+   "tokens": 182,
+   "capped": false,
+   "got": "92",
+   "want": "92",
+   "tail": "× 24 = 48 bottles. He needs 2 bottles per guest for 70 guests, which is 70 × 2 = 140 bottles. The additional bottles he needs to buy are 140 - 48 = 92.\n\n#### 92"
+  },
+  {
+   "id": "gsm8k_0554",
+   "hit": true,
+   "loop": false,
+   "tokens": 391,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": "the cold day time is \\(3 \\times 16 = 48\\) minutes, and the warm day time is \\(3 \\times 34 = 102\\) minutes. The difference is \\(102 - 48 = 54\\) minutes.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0555",
+   "hit": true,
+   "loop": false,
+   "tokens": 224,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "4 days/week = 20 hours/week. \nWeekly earnings = 20 hours/week × $2/hour = $40/week. \nTo save $80, the number of weeks needed = $80 ÷ $40/week = 2 weeks.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0556",
+   "hit": true,
+   "loop": false,
+   "tokens": 429,
+   "capped": false,
+   "got": "160",
+   "want": "160",
+   "tail": "ot-long fish sub is $40. The six-inch cold-cut combo sub costs thrice as much, which is 3 × $40 = $120. The total cost for lunch is $40 + $120 = $160.\n\n#### 160"
+  },
+  {
+   "id": "gsm8k_0557",
+   "hit": true,
+   "loop": false,
+   "tokens": 213,
+   "capped": false,
+   "got": "70",
+   "want": "70",
+   "tail": "he remaining buttons are \\(21 - 7 = 14\\), and each has 4 holes, contributing \\(14 \\times 4 = 56\\) holes. The total number of holes is \\(14 + 56 = 70\\).\n\n#### 70"
+  },
+  {
+   "id": "gsm8k_0558",
+   "hit": true,
+   "loop": false,
+   "tokens": 155,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "ker is 24 cubic inches. Zack's locker is half as big, so 24 / 2 = 12 cubic inches. Peter's locker is 1/4 as big as Zack's, so 12 * 1/4 = 3 cubic inches.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0559",
+   "hit": true,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "16",
+   "want": "16",
+   "tail": "t\" but it's \"By contract\" meaning \"By contract\" but it's \"By contract\" meaning \"By contract\" but it's \"By contract\" meaning \"By contract\" but it's \"By contract\""
+  },
+  {
+   "id": "gsm8k_0560",
+   "hit": true,
+   "loop": false,
+   "tokens": 194,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": "ers each, so 3 × 10 = 30 hamsters. It also has 3 cages with 5 guinea pigs each, so 3 × 5 = 15 guinea pigs. The total number of rodents is 30 + 15 = 45.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0561",
+   "hit": true,
+   "loop": false,
+   "tokens": 230,
+   "capped": false,
+   "got": "180",
+   "want": "180",
+   "tail": "s twice as much as Susan, so Bob = 2 × 130 = 260 pounds. The total weight is 150 + 130 + 260 = 540 pounds. The average weight is 540 ÷ 3 = 180 pounds.\n\n#### 180"
+  },
+  {
+   "id": "gsm8k_0562",
+   "hit": true,
+   "loop": true,
+   "tokens": 1446,
+   "capped": false,
+   "got": "82",
+   "want": "82",
+   "tail": "und. The sun moves upward at a rate of 5° per hour. Over 10 hours, it moves 5 × 10 = 50° upward. Therefore, the sun's altitude becomes 32° + 50° = 82°.\n\n#### 82"
+  },
+  {
+   "id": "gsm8k_0563",
+   "hit": true,
+   "loop": false,
+   "tokens": 319,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": " Total candles needed = 12 + 8 = 20. Each pack contains 5 candles and costs $3. Number of packs required = 20 ÷ 5 = 4 packs. Total cost = 4 × $3 = $12.\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0564",
+   "hit": true,
+   "loop": false,
+   "tokens": 462,
+   "capped": false,
+   "got": "240",
+   "want": "240",
+   "tail": "= 4/3 pages per minute. Pages read in the first week = 105 × (4/3) = 140 pages. In the second week, she read 100 pages. Total pages = 140 + 100 = 240.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0565",
+   "hit": true,
+   "loop": false,
+   "tokens": 317,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": " = 4 sandwiches. \nTrevor ate 1/4 of 12 sandwiches, which is 12 × 1/4 = 3 sandwiches. \nTotal eaten = 4 + 3 = 7 sandwiches. \nSandwiches left = 12 - 7 = 5.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0566",
+   "hit": true,
+   "loop": false,
+   "tokens": 252,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "times as old as his nephew, so his nephew's age in 7 years will be 51 / 3 = 17 years old. Therefore, his nephew's current age is 17 - 7 = 10 years old.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0567",
+   "hit": true,
+   "loop": false,
+   "tokens": 434,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": " she gave half the amount per tooth as the previous three teeth, which is $0.50 each, totaling $1.00. The total amount is $5.00 + $3.00 + $1.00 = $9.00.\n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0568",
+   "hit": true,
+   "loop": false,
+   "tokens": 238,
+   "capped": false,
+   "got": "175",
+   "want": "175",
+   "tail": " - 20 = 60 goals. He scored 45 more than Anna, so Anna scored 80 - 45 = 35 goals. The total number of goals scored by all three is 80 + 60 + 35 = 175.\n\n#### 175"
+  },
+  {
+   "id": "gsm8k_0569",
+   "hit": true,
+   "loop": false,
+   "tokens": 249,
+   "capped": false,
+   "got": "21",
+   "want": "21",
+   "tail": "\nThus final answer: #### 21\n</think>\n\nMitchell sold 21 lemonades at $4 each, so he made 21 × 4 = $84. Liam made $63. The difference is $84 - $63 = $21.\n\n#### 21"
+  },
+  {
+   "id": "gsm8k_0570",
+   "hit": false,
+   "loop": false,
+   "tokens": 419,
+   "capped": false,
+   "got": "25",
+   "want": "23",
+   "tail": " he spends $10, so he buys $10 ÷ $2 = 5 plastic figures per day. Over 3 days, he buys 3 × 5 = 15 plastic figures.\n\nTotal action figures = 10 + 15 = 25.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0571",
+   "hit": true,
+   "loop": false,
+   "tokens": 230,
+   "capped": false,
+   "got": "308",
+   "want": "308",
+   "tail": "ink>\n\nThe total cost is calculated as follows:\n- Spaying: $200\n- Vaccines: 3 × $20 = $60\n- Broken vases: 4 × $12 = $48\nTotal = $200 + $60 + $48 = $308\n\n#### 308"
+  },
+  {
+   "id": "gsm8k_0572",
+   "hit": true,
+   "loop": false,
+   "tokens": 551,
+   "capped": false,
+   "got": "100",
+   "want": "100",
+   "tail": "ops is 20 + 15 + 30 = 65 roses. Therefore, Ford lacks 65 - 40 = 25 roses per week. Over a month (assuming 4 weeks), the deficit is 25 × 4 = 100 roses.\n\n#### 100"
+  },
+  {
+   "id": "gsm8k_0573",
+   "hit": true,
+   "loop": false,
+   "tokens": 245,
+   "capped": false,
+   "got": "600",
+   "want": "600",
+   "tail": " with $3000. She withdraws $100 each month for 2 years. \n2 years = 24 months. \nTotal withdrawn = $100 × 24 = $2400. \nRemaining = $3000 - $2400 = $600.\n\n#### 600"
+  },
+  {
+   "id": "gsm8k_0574",
+   "hit": true,
+   "loop": false,
+   "tokens": 357,
+   "capped": false,
+   "got": "37",
+   "want": "37",
+   "tail": "dwiches, they need 1 loaf of bread costing $3, and $30 for cheese and condiments, so total cost is $33. \nNet profit = revenue - cost = $70 - $33 = $37.\n\n#### 37"
+  },
+  {
+   "id": "gsm8k_0575",
+   "hit": true,
+   "loop": false,
+   "tokens": 504,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": ", so the number of muffins she can make is \\(192 \\div 8 = 24\\). Selling each muffin for $1.50, the total money she can make is \\(24 \\times 1.50 = 36\\).\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0576",
+   "hit": true,
+   "loop": false,
+   "tokens": 409,
+   "capped": false,
+   "got": "11232",
+   "want": "11232",
+   "tail": "t: \n- New carpet: $12 \n- Padding: $2 \n- Removal: $4 \n- Installation: $34 \nTotal per sq ft = 12 + 2 + 4 + 34 = $52. \nTotal cost = 216 × 52 = $11,232.\n\n#### 11232"
+  },
+  {
+   "id": "gsm8k_0577",
+   "hit": true,
+   "loop": false,
+   "tokens": 453,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "20 birds \n- Day 7: 90 birds \n\nTotal = 50 + 0 + 120 + 20 + 90 = 280 birds. \nThe week has 7 days, so the average number of birds per day is 280 ÷ 7 = 40.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0578",
+   "hit": true,
+   "loop": false,
+   "tokens": 576,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": "ue was multiplied by the starting value minus 12\": \n Starting value minus 12 is \\( 20 - 12 = 8 \\). \n So, \\( 6 \\times 8 = 48 \\).\n\nThe final value is 48.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0579",
+   "hit": true,
+   "loop": false,
+   "tokens": 132,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": ". So answer is 7.\n</think>\n\nThe boy has 5 cards. His brother has 3 fewer cards, so the brother has 5 - 3 = 2 cards. Together, they have 5 + 2 = 7 cards.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0580",
+   "hit": true,
+   "loop": false,
+   "tokens": 471,
+   "capped": false,
+   "got": "500",
+   "want": "500",
+   "tail": "ure, as determined by the ratio 468/450 = 1.04. To achieve an actual temperature of 520 degrees, the set temperature must be 520 / 1.04 = 500 degrees.\n\n#### 500"
+  },
+  {
+   "id": "gsm8k_0581",
+   "hit": true,
+   "loop": false,
+   "tokens": 251,
+   "capped": false,
+   "got": "215",
+   "want": "215",
+   "tail": "+ 30 = 90 minutes. The second movie is 2 hours and 5 minutes long, which is 120 + 5 = 125 minutes. Adding these together gives 90 + 125 = 215 minutes.\n\n#### 215"
+  },
+  {
+   "id": "gsm8k_0582",
+   "hit": true,
+   "loop": false,
+   "tokens": 235,
+   "capped": false,
+   "got": "129200",
+   "want": "129200",
+   "tail": "s house is 30% less expensive, so its value is $76,000 × (1 - 0.30) = $76,000 × 0.70 = $53,200. The combined value is $76,000 + $53,200 = $129,200.\n\n#### 129200"
+  },
+  {
+   "id": "gsm8k_0583",
+   "hit": true,
+   "loop": false,
+   "tokens": 411,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "40 cups and 20 more dishes than Judy, so 24 + 20 = 44 dishes. Friend's total utensils = 40 + 44 = 84.\n\nTotal utensils brought by both = 36 + 84 = 120.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0584",
+   "hit": true,
+   "loop": true,
+   "tokens": 821,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "= $180. The total number of contacts is 90 × 2 = 180. The cost per contact is $180 ÷ 180 = $1. Therefore, the cost per pair (2 contacts) is $1 × 2 = $2.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0585",
+   "hit": true,
+   "loop": false,
+   "tokens": 308,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "unday, he worked three times as long as Jill: 3 × 1 = 3 hours. John's total hours are 4 + 3 = 7 hours, earning $70.\n\nThe difference is $70 - $30 = $40.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0586",
+   "hit": true,
+   "loop": false,
+   "tokens": 368,
+   "capped": false,
+   "got": "800",
+   "want": "800",
+   "tail": "our), for a total of 1600 calories. She needs 100 ml of water for every 200 calories, so she needs 1600 ÷ 200 = 8 sets of 100 ml, which equals 800 ml.\n\n#### 800"
+  },
+  {
+   "id": "gsm8k_0587",
+   "hit": true,
+   "loop": false,
+   "tokens": 396,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "= 3B = 4500\\), so \\(B = 1500\\). Then red = \\(0.99 \\times 1500 = 1485\\) and green = \\(1.01 \\times 1500 = 1515\\). The difference is \\(1515 - 1485 = 30\\).\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0588",
+   "hit": true,
+   "loop": false,
+   "tokens": 181,
+   "capped": false,
+   "got": "52",
+   "want": "52",
+   "tail": " 52. The answer is 52.\n</think>\n\nThe three measurements are 47 WPM, 52 WPM, and 57 WPM. The average is calculated as (47 + 52 + 57) / 3 = 156 / 3 = 52.\n\n#### 52"
+  },
+  {
+   "id": "gsm8k_0589",
+   "hit": true,
+   "loop": false,
+   "tokens": 344,
+   "capped": false,
+   "got": "15",
+   "want": "15",
+   "tail": " weeks = -6.25 pounds.\n- Weight change with donuts: +1.75 pounds/week × 5 weeks = +8.75 pounds.\n- Difference: 8.75 - (-6.25) = 8.75 + 6.25 = 15 pounds.\n\n#### 15"
+  },
+  {
+   "id": "gsm8k_0590",
+   "hit": true,
+   "loop": false,
+   "tokens": 988,
+   "capped": false,
+   "got": "319",
+   "want": "319",
+   "tail": "Among these 10, 8 bring their spouses, adding 8 more. Total guests = 100 + 200 + 10 + 8 = 318. Alex also needs a seat, so total seats = 318 + 1 = 319.\n\n#### 319"
+  },
+  {
+   "id": "gsm8k_0591",
+   "hit": true,
+   "loop": false,
+   "tokens": 228,
+   "capped": false,
+   "got": "220",
+   "want": "220",
+   "tail": "llon weighs one-fourth as much as the Dachshund, so 20 ÷ 4 = 5 pounds. The Mastiff weighs 44 times the weight of the Papillon, so 44 × 5 = 220 pounds.\n\n#### 220"
+  },
+  {
+   "id": "gsm8k_0592",
+   "hit": true,
+   "loop": false,
+   "tokens": 329,
+   "capped": false,
+   "got": "1",
+   "want": "1",
+   "tail": " On eBay, the boots cost $13 and shipping is twice Amazon's shipping, so $4 × 2 = $8, making the total $13 + $8 = $21. The difference is $21 - $20 = $1.\n\n#### 1"
+  },
+  {
+   "id": "gsm8k_0593",
+   "hit": true,
+   "loop": false,
+   "tokens": 356,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "y. \n- Day 0: 4 feet \n- Day 1: 8 feet \n- Day 2: 16 feet \n- Day 3: 32 feet \n\nThe window is 20 feet off the ground. The beanstalk exceeds 20 feet on day 3.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0594",
+   "hit": true,
+   "loop": false,
+   "tokens": 248,
+   "capped": false,
+   "got": "42",
+   "want": "42",
+   "tail": "t per gram is 3/100 = 0.03 grams. Therefore, daily protein intake is 200 * 0.03 = 6 grams. Over a week (7 days), the total protein is 6 * 7 = 42 grams.\n\n#### 42"
+  },
+  {
+   "id": "gsm8k_0595",
+   "hit": true,
+   "loop": false,
+   "tokens": 192,
+   "capped": false,
+   "got": "13",
+   "want": "13",
+   "tail": "rry is currently 10 years old.\nIn 3 years, he will be 10 + 3 = 13.\nThus answer is 13.\n</think>\n\nJerry's current age is 10, so in 3 years he will be 13.\n\n#### 13"
+  },
+  {
+   "id": "gsm8k_0596",
+   "hit": true,
+   "loop": false,
+   "tokens": 375,
+   "capped": false,
+   "got": "260",
+   "want": "260",
+   "tail": "$4500. He has already paid a $600 deposit, so the remaining amount is $4500 - $600 = $3900. At $15 per hour, he needs to work $3900 / $15 = 260 hours.\n\n#### 260"
+  },
+  {
+   "id": "gsm8k_0597",
+   "hit": true,
+   "loop": false,
+   "tokens": 392,
+   "capped": false,
+   "got": "90",
+   "want": "90",
+   "tail": ":\n\n\\[\nx + 2x + 3x = 180\n\\]\n\\[\n6x = 180\n\\]\n\\[\nx = 30\n\\]\n\nThe angles are \\(30^\\circ\\), \\(60^\\circ\\), and \\(90^\\circ\\). The largest angle is \\(90^\\circ\\).\n\n#### 90"
+  },
+  {
+   "id": "gsm8k_0598",
+   "hit": true,
+   "loop": false,
+   "tokens": 443,
+   "capped": false,
+   "got": "69",
+   "want": "69",
+   "tail": "s\n- 14 nickels × 5 cents = 70 cents\n- 15 pennies × 1 cent = 15 cents\n\nTotal money = 200 + 60 + 70 + 15 = 345 cents.\n\nNumber of gumballs = 345 ÷ 5 = 69.\n\n#### 69"
+  },
+  {
+   "id": "gsm8k_0599",
+   "hit": true,
+   "loop": false,
+   "tokens": 208,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": " has 2 cats, each with 4 legs, so 2 × 4 = 8 legs. It has 10 birds, each with 2 legs, so 10 × 2 = 20 legs. Adding these together: 20 + 8 + 20 = 48 legs.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0600",
+   "hit": true,
+   "loop": false,
+   "tokens": 165,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "eight. He increases it by 50%, so the new weight is 8 + (0.5 × 8) = 8 + 4 = 12 pounds. Then he uses a weight two pounds lighter, so 12 - 2 = 10 pounds.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0601",
+   "hit": true,
+   "loop": true,
+   "tokens": 1027,
+   "capped": false,
+   "got": "104",
+   "want": "104",
+   "tail": "stmas games.\n- Year 3: 4 games per month × 12 months = 48 games, plus 5 Christmas games.\n\nTotal games = 5 (birthday) + 12 + 5 + 24 + 5 + 48 + 5 = 104.\n\n#### 104"
+  },
+  {
+   "id": "gsm8k_0602",
+   "hit": true,
+   "loop": false,
+   "tokens": 209,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": " miles / 3 hours = 400 miles per hour. To travel an additional 2000 miles at this speed, the time required is 2000 miles / 400 miles per hour = 5 hours.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0603",
+   "hit": true,
+   "loop": false,
+   "tokens": 508,
+   "capped": false,
+   "got": "1800",
+   "want": "1800",
+   "tail": "ds per hour. \nBoth work for 12 hours, so Ruiz makes 12 * 60 = 720 pounds, and Marissa makes 12 * 90 = 1080 pounds. \nTotal = 720 + 1080 = 1800 pounds.\n\n#### 1800"
+  },
+  {
+   "id": "gsm8k_0604",
+   "hit": true,
+   "loop": false,
+   "tokens": 214,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": "On Wednesday, he spends 4 times as much as Tuesday: $16 × 4 = $64. Total spent: $8 + $16 + $64 = $88. Starting with $100, he has $100 - $88 = $12 left.\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0605",
+   "hit": true,
+   "loop": false,
+   "tokens": 284,
+   "capped": false,
+   "got": "42",
+   "want": "42",
+   "tail": " final answer as '#### <number>'. So '#### 42'.\n</think>\n\nPatrick earned $30 in the first four hours and $12 in the next two hours, for a total of $42.\n\n#### 42"
+  },
+  {
+   "id": "gsm8k_0606",
+   "hit": true,
+   "loop": false,
+   "tokens": 585,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "rotations, so the number of months until replacement is 10,440,000 ÷ 145,000 = 72 months. Since there are 12 months in a year, 72 months equals 6 years.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0607",
+   "hit": true,
+   "loop": false,
+   "tokens": 409,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": " $24.00 and contains 240 pumps (since 2 pumps per wash × 120 washings = 240 pumps). Therefore, each pump costs $24.00 ÷ 240 = $0.10, which is 10 cents.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0608",
+   "hit": true,
+   "loop": false,
+   "tokens": 383,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": "pays 70% of the original prices.\n\nShirt: $25 × 0.70 = $17.50 \nShorts: $35 × 0.70 = $24.50 \nTotal: $17.50 + $24.50 = $42.00 \n\nMoney left: $50 - $42 = $8.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0609",
+   "hit": true,
+   "loop": false,
+   "tokens": 236,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": "s is \\(4 \\times 7 = 28\\) dozen. Each dozen requires \\(\\frac{1}{4}\\) pound of butter, so the total butter needed is \\(28 \\times \\frac{1}{4} = 7\\) pounds.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0610",
+   "hit": true,
+   "loop": false,
+   "tokens": 419,
+   "capped": false,
+   "got": "65960",
+   "want": "65960",
+   "tail": "$95,060 - 29,100 = \\$65,960$. Alternatively, the difference in length is $490 - 150 = 340$ meters, so the extra cost is $194 \\times 340 = \\$65,960$.\n\n#### 65960"
+  },
+  {
+   "id": "gsm8k_0611",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "50",
+   "want": "1450000",
+   "tail": "hat's even larger.\n\nMaybe \"10 times that long\" means the research took 10 times the initial funding? No, \"that long\" refers to the first 5 months. So 50 months."
+  },
+  {
+   "id": "gsm8k_0612",
+   "hit": true,
+   "loop": false,
+   "tokens": 265,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "k, which is 16 ounces. \nThe fourth and fifth players ordered vegetarian meals, so they consumed no meat. \nTotal meat consumed = 6 + 8 + 16 = 30 ounces.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0613",
+   "hit": true,
+   "loop": false,
+   "tokens": 273,
+   "capped": false,
+   "got": "93000",
+   "want": "93000",
+   "tail": " March has 31 days.\n\nTotal posts = (number of members) × (posts per member per day) × (number of days in March)\n= 1000 × 3 × 31\n= 3000 × 31\n= 93,000\n\n#### 93000"
+  },
+  {
+   "id": "gsm8k_0614",
+   "hit": true,
+   "loop": false,
+   "tokens": 424,
+   "capped": false,
+   "got": "312",
+   "want": "312",
+   "tail": " = 104 loads. Each load uses 20 gallons of water, so total water used is 104 × 20 = 2080 gallons. At $0.15 per gallon, the cost is 2080 × 0.15 = $312.\n\n#### 312"
+  },
+  {
+   "id": "gsm8k_0615",
+   "hit": true,
+   "loop": false,
+   "tokens": 473,
+   "capped": false,
+   "got": "33.00",
+   "want": "33",
+   "tail": "00 each: 3 × $2.00 = $6.00\n- 20 fish at $0.50 each: 20 × $0.50 = $10.00\n- Fish food: $2.00\n\nTotal = $10.00 + $5.00 + $6.00 + $10.00 + $2.00 = $33.00\n\n#### 33.00"
+  },
+  {
+   "id": "gsm8k_0616",
+   "hit": true,
+   "loop": false,
+   "tokens": 220,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "stalk is 3 inches tall. \nIn the second week, it doubles in height: 3 × 2 = 6 inches. \nIn the third week, it grows another 4 inches: 6 + 4 = 10 inches. \n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0617",
+   "hit": true,
+   "loop": false,
+   "tokens": 158,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "t per hour and works 10 hours a day, so he sells 15 × 10 = 150 kg per day. The bull weighs 750 kg, so the number of days required is 750 ÷ 150 = 5 days.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0618",
+   "hit": true,
+   "loop": false,
+   "tokens": 316,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": "emaining seats: 72 - 18 = 54 seats. \nParents occupied 1/3 of the remaining seats: 54 × 1/3 = 18 seats. \nStudents occupied the rest: 54 - 18 = 36 seats.\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0619",
+   "hit": true,
+   "loop": false,
+   "tokens": 264,
+   "capped": false,
+   "got": "76",
+   "want": "76",
+   "tail": ": 6 \n- Street lights per pole: 4 \nTotal street lights = 4 × 6 × 4 = 96. \nNon-functioning street lights = 20. \nFunctioning street lights = 96 - 20 = 76.\n\n#### 76"
+  },
+  {
+   "id": "gsm8k_0620",
+   "hit": true,
+   "loop": false,
+   "tokens": 522,
+   "capped": false,
+   "got": "1509",
+   "want": "1509",
+   "tail": "00 - 135 = 865 more times. The total number of times both DVDs can be played before they break is the sum of their remaining plays: 644 + 865 = 1509.\n\n#### 1509"
+  },
+  {
+   "id": "gsm8k_0621",
+   "hit": true,
+   "loop": false,
+   "tokens": 309,
+   "capped": false,
+   "got": "3000",
+   "want": "3000",
+   "tail": " sessions × 2 hours = 4 hours\n- Total hours: 6 weeks × 4 hours = 24 hours\n\nThen, calculate the total cost:\n- Total cost: 24 hours × $125/hour = $3000\n\n#### 3000"
+  },
+  {
+   "id": "gsm8k_0622",
+   "hit": true,
+   "loop": false,
+   "tokens": 433,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": "otal chewed: 4 + 1 + 1 = 6 pieces. \nRemaining: 20 - 6 = 14 pieces. \nHe gives half to his sister: 14 / 2 = 7 pieces given away. \nLeft: 14 - 7 = 7 pieces.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0623",
+   "hit": true,
+   "loop": false,
+   "tokens": 203,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": "So answer is 8.\n\nThus final answer: 8.\n</think>\n\nCharmaine will be 16 in 12 years, so her current age is 16 - 12 = 4. In 4 years, she will be 4 + 4 = 8.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0624",
+   "hit": true,
+   "loop": false,
+   "tokens": 197,
+   "capped": false,
+   "got": "85",
+   "want": "85",
+   "tail": "\n\nFinal answer: #### 85\n</think>\n\nThe baseball coach spent 9 × $3 = $27. The basketball coach spent 8 × $14 = $112. The difference is $112 - $27 = $85.\n\n#### 85"
+  },
+  {
+   "id": "gsm8k_0625",
+   "hit": true,
+   "loop": false,
+   "tokens": 216,
+   "capped": false,
+   "got": "160",
+   "want": "160",
+   "tail": "flowers each, so the total number of flowers is 10 × 20 = 200. \nOnly 4/5 of these have bloomed, so the number of bloomed flowers is (4/5) × 200 = 160.\n\n#### 160"
+  },
+  {
+   "id": "gsm8k_0626",
+   "hit": true,
+   "loop": false,
+   "tokens": 350,
+   "capped": false,
+   "got": "72",
+   "want": "72",
+   "tail": "o megabytes: 1 Mb = 1000 kb, so 20 kb/s = 20 / 1000 = 0.02 Mb/s.\n2. Convert seconds to hours: 1 hour = 3600 seconds, so 0.02 Mb/s × 3600 s/h = 72 Mb/h.\n\n#### 72"
+  },
+  {
+   "id": "gsm8k_0627",
+   "hit": true,
+   "loop": false,
+   "tokens": 253,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": "e remaining 4 days, it towed 4 fewer cars per day, which is 6 cars per day, totaling 24 cars. The total number of cars towed that week is 30 + 24 = 54.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0628",
+   "hit": true,
+   "loop": false,
+   "tokens": 336,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "er of years \\( y \\) until he reaches 48 inches, solve:\n\n\\[\n40 + 2y = 48\n\\]\n\\[\n2y = 8\n\\]\n\\[\ny = 4\n\\]\n\nAfter 4 years, Adam will be exactly 48 inches tall.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0629",
+   "hit": true,
+   "loop": false,
+   "tokens": 815,
+   "capped": false,
+   "got": "17500",
+   "want": "17500",
+   "tail": "the acquisition cost: $250,000 - $75,000 = $175,000. James receives a 10% commission on the profits, so his commission is 0.10 × $175,000 = $17,500.\n\n#### 17500"
+  },
+  {
+   "id": "gsm8k_0630",
+   "hit": true,
+   "loop": false,
+   "tokens": 346,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "e 25 riders, 60% are women, so the number of women who stay upright is \\(0.60 \\times 25 = 15\\). The number of men who stay upright is \\(25 - 15 = 10\\).\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0631",
+   "hit": true,
+   "loop": false,
+   "tokens": 359,
+   "capped": false,
+   "got": "4800",
+   "want": "4800",
+   "tail": " a silver jewel is $400 less than the price of gold: \nSilver = 1600 - 400 = 1200. \nTotal price = Diamond + Gold + Silver = 2000 + 1600 + 1200 = 4800.\n\n#### 4800"
+  },
+  {
+   "id": "gsm8k_0632",
+   "hit": true,
+   "loop": false,
+   "tokens": 281,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": "amps, so truck stamps = 16 + 3 = 19. \nHe bought 9 fewer rose stamps than truck stamps, so rose stamps = 19 - 9 = 10. \nTotal stamps = 16 + 19 + 10 = 45.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0633",
+   "hit": true,
+   "loop": false,
+   "tokens": 255,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "ial distance between them is 75 miles. The time required for Tom to catch up is the distance divided by the relative speed: 75 miles / 15 mph = 5 hours.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0634",
+   "hit": true,
+   "loop": false,
+   "tokens": 141,
+   "capped": false,
+   "got": "14",
+   "want": "14",
+   "tail": " D.\nTommy = T.\n\nWe have:\nD = N - 6 = 17 - 6 = 11.\nT = D + 3 = 11 + 3 = 14.\n\nSo Tommy caught 14 fish.\n\nFinal answer: 14.\n</think>\n\nTommy caught 14 fish.\n\n#### 14"
+  },
+  {
+   "id": "gsm8k_0635",
+   "hit": true,
+   "loop": false,
+   "tokens": 820,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "e attends 6 classes, costing $10 per class, which is acceptable. If he misses 5 classes, he attends 5 classes, costing $12 per class, which exceeds $10.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0636",
+   "hit": true,
+   "loop": false,
+   "tokens": 280,
+   "capped": false,
+   "got": "1050",
+   "want": "1050",
+   "tail": "processes 100 customers per day. Together, they process 150 customers per day. Over a 7-day week, their total production is 150 × 7 = 1050 customers.\n\n#### 1050"
+  },
+  {
+   "id": "gsm8k_0637",
+   "hit": true,
+   "loop": false,
+   "tokens": 215,
+   "capped": false,
+   "got": "17",
+   "want": "17",
+   "tail": "nk>\n\nPaisley ran 4 miles. \nReggie ran 5 times what Paisley ran: 5 × 4 = 20 miles. \nReggie ran 3 miles farther than Lynn, so Lynn ran 20 − 3 = 17 miles.\n\n#### 17"
+  },
+  {
+   "id": "gsm8k_0638",
+   "hit": true,
+   "loop": false,
+   "tokens": 397,
+   "capped": false,
+   "got": "12.00",
+   "want": "12",
+   "tail": "s $3.30 / 3 = $1.10. For 5 apples, the cost is 5 × $1.30 = $6.50. For 5 oranges, the cost is 5 × $1.10 = $5.50. The total is $6.50 + $5.50 = $12.00.\n\n#### 12.00"
+  },
+  {
+   "id": "gsm8k_0639",
+   "hit": true,
+   "loop": false,
+   "tokens": 521,
+   "capped": false,
+   "got": "216",
+   "want": "216",
+   "tail": "th, width, and depth: \n6 ft × 4 ft × 3 ft = 72 cubic feet. \nSince it takes 3 seconds to shovel one cubic foot, the total time is 72 × 3 = 216 seconds.\n\n#### 216"
+  },
+  {
+   "id": "gsm8k_0640",
+   "hit": true,
+   "loop": false,
+   "tokens": 368,
+   "capped": false,
+   "got": "43500",
+   "want": "43500",
+   "tail": " Upgraded exterior light package: $1,500\n\nTotal extra cost = $7,500 + $2,500 + $2,000 + $1,500 = $13,500.\n\nTotal cost = $30,000 + $13,500 = $43,500.\n\n#### 43500"
+  },
+  {
+   "id": "gsm8k_0641",
+   "hit": false,
+   "loop": false,
+   "tokens": 837,
+   "capped": false,
+   "got": "262000",
+   "want": "262500",
+   "tail": " his current salary before the raise, which is $20,000:\n\n\\[\n0.5 \\times 20000 = 10000\n\\]\n\nTotal money made in a year:\n\n\\[\n252000 + 10000 = 262000\n\\]\n\n#### 262000"
+  },
+  {
+   "id": "gsm8k_0642",
+   "hit": true,
+   "loop": false,
+   "tokens": 488,
+   "capped": false,
+   "got": "10800",
+   "want": "10800",
+   "tail": "pants × $150 = $1,500\n- Dress shirts: 3 shirts per suit × 10 suits = 30 shirts. 30 shirts × $60 = $1,800\n\nTotal = $7,500 + $1,500 + $1,800 = $10,800\n\n#### 10800"
+  },
+  {
+   "id": "gsm8k_0643",
+   "hit": true,
+   "loop": false,
+   "tokens": 320,
+   "capped": false,
+   "got": "840",
+   "want": "840",
+   "tail": "of 10 articles per day. Together, they publish 20 + 10 = 30 articles per day. Over 28 days in February, the total number of articles is 30 × 28 = 840.\n\n#### 840"
+  },
+  {
+   "id": "gsm8k_0644",
+   "hit": true,
+   "loop": false,
+   "tokens": 303,
+   "capped": false,
+   "got": "29",
+   "want": "29",
+   "tail": "eir son is half as old as his mom (Steve's wife), so the son is 64 / 2 = 32. The son's wife is 3 years younger than her husband, so she is 32 - 3 = 29.\n\n#### 29"
+  },
+  {
+   "id": "gsm8k_0645",
+   "hit": true,
+   "loop": true,
+   "tokens": 560,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": "h weighing 2 kg. Therefore, the original weight of one bag is \\(8 \\times 2 = 16\\) kg. For three such bags, the total weight is \\(3 \\times 16 = 48\\) kg.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0646",
+   "hit": true,
+   "loop": false,
+   "tokens": 244,
+   "capped": false,
+   "got": "79",
+   "want": "79",
+   "tail": "s 12 × 4.5 = 54 miles. Stanley biked 10 miles per hour for 2.5 hours, so his distance is 10 × 2.5 = 25 miles. The total distance is 54 + 25 = 79 miles.\n\n#### 79"
+  },
+  {
+   "id": "gsm8k_0647",
+   "hit": true,
+   "loop": false,
+   "tokens": 191,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": " per hour through clay. \nTime for soil: 24 feet ÷ 4 feet/hour = 6 hours. \nTime for clay: 8 feet ÷ 2 feet/hour = 4 hours. \nTotal time: 6 + 4 = 10 hours.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0648",
+   "hit": true,
+   "loop": false,
+   "tokens": 387,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": "t one vanilla and one chocolate cupcake for each person, so each person gets 2 cupcakes. Therefore, the total number of cupcakes needed is 27 × 2 = 54.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0649",
+   "hit": false,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "2",
+   "want": "162000",
+   "tail": "itial + 20000. But we don't know initial. However, we can express initial in terms of 2000: initial = 2000 / 70^{1/4}. Then current = 70 * (2000 / 70^{1/4}) + 2"
+  }
+ ],
+ "rows_after": [
+  {
+   "id": "gsm8k_0450",
+   "hit": true,
+   "loop": false,
+   "tokens": 468,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "ou didn't buy the super ticket and saved $2, the regular option cost $21 - $2 = $19. Setting up the equation: $15 + popcorn = $19, we find popcorn = $4.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0451",
+   "hit": true,
+   "loop": false,
+   "tokens": 339,
+   "capped": false,
+   "got": "11050",
+   "want": "11050",
+   "tail": "r the increase, the cost per balloon became $45 + $20 = $65. Bentley filled 170 balloons at this new price, so the total cost is 170 × $65 = $11050.\n\n#### 11050"
+  },
+  {
+   "id": "gsm8k_0452",
+   "hit": true,
+   "loop": false,
+   "tokens": 235,
+   "capped": false,
+   "got": "50",
+   "want": "50",
+   "tail": "t: 30 mph × 1 hour = 30 miles.\n- Total distance = 120 + 30 = 150 miles.\n- Total time = 2 + 1 = 3 hours.\n- Average speed = 150 miles / 3 hours = 50 mph.\n\n#### 50"
+  },
+  {
+   "id": "gsm8k_0453",
+   "hit": true,
+   "loop": false,
+   "tokens": 481,
+   "capped": false,
+   "got": "6400",
+   "want": "6400",
+   "tail": "The value of 5 sapphires is 5 × $800 = $4000. The value of 2 rubies is 2 × $1200 = $2400. The total value of all her jewels is $4000 + $2400 = $6400.\n\n#### 6400"
+  },
+  {
+   "id": "gsm8k_0454",
+   "hit": false,
+   "loop": false,
+   "tokens": 142,
+   "capped": false,
+   "got": "240",
+   "want": "150",
+   "tail": "ples per day, so together they eat 4 + 4 = 8 apples per day. Over 30 days, the total number of apples they eat is 8 apples/day × 30 days = 240 apples.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0455",
+   "hit": true,
+   "loop": false,
+   "tokens": 284,
+   "capped": false,
+   "got": "1920",
+   "want": "1920",
+   "tail": "ag of potting soil holds 2 cubic feet, so the number of bags needed is 320 ÷ 2 = 160 bags. Each bag costs $12, so the total cost is 160 × 12 = $1920.\n\n#### 1920"
+  },
+  {
+   "id": "gsm8k_0456",
+   "hit": true,
+   "loop": false,
+   "tokens": 292,
+   "capped": false,
+   "got": "78",
+   "want": "78",
+   "tail": " 15 = 15 + 9 = 24. \nYellow cards equal the sum of red and green cards: \nYellow = 15 + 24 = 39. \nTotal cards = red + green + yellow = 15 + 24 + 39 = 78.\n\n#### 78"
+  },
+  {
+   "id": "gsm8k_0457",
+   "hit": true,
+   "loop": false,
+   "tokens": 185,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": "= 25 fairies, and they joined the group. \nSo the total number of fairies became 50 + 25 = 75. \nThen 30 fairies flew away, leaving 75 - 30 = 45 fairies.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0458",
+   "hit": true,
+   "loop": false,
+   "tokens": 252,
+   "capped": false,
+   "got": "35",
+   "want": "35",
+   "tail": " 12 puppies, 4 with spots.\n\nTotal puppies = 8 + 12 = 20.\nTotal spotted puppies = 3 + 4 = 7.\n\nPercentage of puppies with spots = (7 / 20) × 100% = 35%.\n\n#### 35%"
+  },
+  {
+   "id": "gsm8k_0459",
+   "hit": true,
+   "loop": false,
+   "tokens": 555,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": " pounds\n\nTotal weight = 2 + 48 + 3150 + 1300 = 4500 pounds.\n\nThe truck can carry 2250 pounds per trip. Number of trips needed = 4500 ÷ 2250 = 2 exactly.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0460",
+   "hit": true,
+   "loop": false,
+   "tokens": 194,
+   "capped": false,
+   "got": "84",
+   "want": "84",
+   "tail": "ents.\n\nFinal answer: #### 84\n</think>\n\nGrayson earns 21 cents per week from recycling. Over a four-week month, she earns 21 cents × 4 weeks = 84 cents.\n\n#### 84"
+  },
+  {
+   "id": "gsm8k_0461",
+   "hit": true,
+   "loop": false,
+   "tokens": 239,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": "k>\n\nFrederick has 10 plants. \nToni has 60% more than Frederick: 10 + 0.60 × 10 = 10 + 6 = 16 plants. \nShondra has 7 fewer than Toni: 16 - 7 = 9 plants. \n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0462",
+   "hit": true,
+   "loop": false,
+   "tokens": 158,
+   "capped": false,
+   "got": "71",
+   "want": "71",
+   "tail": "er>'.\n</think>\n\nAli initially has $21. Leila gives him half of her $100, which is $100 / 2 = $50. Adding this to Ali's initial amount: $21 + $50 = $71.\n\n#### 71"
+  },
+  {
+   "id": "gsm8k_0463",
+   "hit": true,
+   "loop": false,
+   "tokens": 211,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "l to 1/5 of the amount ordered. The tip amount is (1/5) × $15 = $3. The total amount she should give is the delivery cost plus the tip: $15 + $3 = $18.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0464",
+   "hit": true,
+   "loop": false,
+   "tokens": 397,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "ved ahead 2 spots: 6 - 2 = 4th place. \n- Fell behind 3 spots: 4 + 3 = 7th place. \n- Jumped ahead 1 spot: 7 - 1 = 6th place. \n\nShe finished in 6th place.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0465",
+   "hit": true,
+   "loop": false,
+   "tokens": 309,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "the number of cards she gives to her students is \\(350 - 50 = 300\\). Each student receives 10 cards, so the number of students is \\(300 \\div 10 = 30\\).\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0466",
+   "hit": true,
+   "loop": false,
+   "tokens": 498,
+   "capped": false,
+   "got": "1",
+   "want": "1",
+   "tail": " 10% discount, she pays $10.00 - (10% of $10.00) = $10.00 - $1.00 = $9.00.\n\nKelly paid $9.00, Becky paid $8.00. The difference is $9.00 - $8.00 = $1.00.\n\n#### 1"
+  },
+  {
+   "id": "gsm8k_0467",
+   "hit": true,
+   "loop": false,
+   "tokens": 272,
+   "capped": false,
+   "got": "1200",
+   "want": "1200",
+   "tail": " × 2 = 4)\n- 8 towels (twice as many as pillow cases: 2 × 4 = 8)\n\nTotal pieces of laundry per room = 2 + 1 + 4 + 8 = 15.\nFor 80 rooms: 15 × 80 = 1200.\n\n#### 1200"
+  },
+  {
+   "id": "gsm8k_0468",
+   "hit": true,
+   "loop": false,
+   "tokens": 445,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "y: gains 30 pairs = 30 × 2 = 60 shoes → 240 + 60 = 300 shoes.\n- Saturday: gets rid of 180 shoes → 300 - 180 = 120 shoes.\n\nOn Sunday, he has 120 shoes.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0469",
+   "hit": true,
+   "loop": false,
+   "tokens": 145,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": ". So the total number of cupcakes she can decorate is 6 × 8 = 48 cupcakes. Each pan holds 12 cupcakes, so the number of pans needed is 48 ÷ 12 = 4 pans.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0470",
+   "hit": true,
+   "loop": false,
+   "tokens": 283,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "han that is $6 - $1 = $5. So the paper costs $5. The total cost is $2 + $5 = $7. Theo gave the cashier $10, so the change she received is $10 - $7 = $3.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0471",
+   "hit": true,
+   "loop": false,
+   "tokens": 308,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": "are \\(300 - 60 = 240\\).\n\nAt the end of the year, only \\(\\frac{1}{3}\\) of the remaining pencils were left: \\(\\frac{1}{3} \\times 240 = 80\\) pencils left.\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0472",
+   "hit": true,
+   "loop": false,
+   "tokens": 327,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "frac{1}{2}x + 2 = 5\n\\]\n\nSubtract 2 from both sides:\n\n\\[\n\\frac{1}{2}x = 3\n\\]\n\nMultiply both sides by 2:\n\n\\[\nx = 6\n\\]\n\nSo Matt has to eat 6 carrot sticks.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0473",
+   "hit": true,
+   "loop": false,
+   "tokens": 331,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "hark's body length that the remoras represent, divide the combined length by the shark's length and multiply by 100%: (1 foot / 10 feet) × 100% = 10%.\n\n#### 10%"
+  },
+  {
+   "id": "gsm8k_0474",
+   "hit": true,
+   "loop": false,
+   "tokens": 218,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": " students do not have desktop computers, one-fourth of the total is 20. Therefore, the total number of students is 20 multiplied by 4, which equals 80.\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0475",
+   "hit": true,
+   "loop": false,
+   "tokens": 306,
+   "capped": false,
+   "got": "20",
+   "want": "20",
+   "tail": "/week = 12 days.\n\nNext, divide the total walking time by the number of days to find the daily walking time:\n240 minutes ÷ 12 days = 20 minutes per day.\n\n#### 20"
+  },
+  {
+   "id": "gsm8k_0476",
+   "hit": true,
+   "loop": false,
+   "tokens": 154,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": " $15. The number of books she bought is $300 / $15 = 20 books. She gave an equal number of books to her 4 kids, so each child received 20 / 4 = 5 books.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0477",
+   "hit": true,
+   "loop": false,
+   "tokens": 275,
+   "capped": false,
+   "got": "20",
+   "want": "20",
+   "tail": " + 6 - 3 = 12. \nTherefore, the number of kids not allergic to anything is the total number of kids minus those allergic to at least one: \n32 - 12 = 20.\n\n#### 20"
+  },
+  {
+   "id": "gsm8k_0478",
+   "hit": true,
+   "loop": false,
+   "tokens": 253,
+   "capped": false,
+   "got": "621",
+   "want": "621",
+   "tail": "guides is 3 groups × 7 guides per group = 21 guides. \nThe total number of people going on the tour is the sum of employees and guides: 600 + 21 = 621.\n\n#### 621"
+  },
+  {
+   "id": "gsm8k_0479",
+   "hit": true,
+   "loop": false,
+   "tokens": 474,
+   "capped": false,
+   "got": "15400",
+   "want": "15400",
+   "tail": " 3 days, so the hotel cost is $1800 \\times 3 = $5400$.\n\nThe total trip cost is the sum of the plane tickets and the hotel: $10000 + $5400 = $15400$.\n\n#### 15400"
+  },
+  {
+   "id": "gsm8k_0480",
+   "hit": true,
+   "loop": false,
+   "tokens": 183,
+   "capped": false,
+   "got": "11",
+   "want": "11",
+   "tail": "2 tubes of blue paint. \nJasper has three times as many yellow tubes as Ben: 3 * 3 = 9 tubes of yellow paint. \nTotal tubes Jasper has: 2 + 9 = 11 tubes.\n\n#### 11"
+  },
+  {
+   "id": "gsm8k_0481",
+   "hit": true,
+   "loop": false,
+   "tokens": 280,
+   "capped": false,
+   "got": "84",
+   "want": "84",
+   "tail": "ny weighs 48 grains. The 2010 penny weighs three-quarters of that, so its weight is (3/4) × 48 = 36 grains. The combined weight is 48 + 36 = 84 grains.\n\n#### 84"
+  },
+  {
+   "id": "gsm8k_0482",
+   "hit": true,
+   "loop": false,
+   "tokens": 136,
+   "capped": false,
+   "got": "26",
+   "want": "26",
+   "tail": "rned $83 and Tashay earned $91. Their total earnings are $83 + $91 = $174. They need to raise $200, so the amount they still need is $200 - $174 = $26.\n\n#### 26"
+  },
+  {
+   "id": "gsm8k_0483",
+   "hit": true,
+   "loop": false,
+   "tokens": 286,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "d can add 100 - 60 = 40 songs. The difference in the number of songs they can add is 80 - 40 = 40. Therefore, Luri can add 40 fewer songs than Gabriel.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0484",
+   "hit": true,
+   "loop": false,
+   "tokens": 163,
+   "capped": false,
+   "got": "240",
+   "want": "240",
+   "tail": "\n\nStetson ate 2/5 of the 60 oranges, which is (2/5) * 60 = 24 oranges. For each orange eaten, he gives up $10, so the total amount is 24 * $10 = $240.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0485",
+   "hit": true,
+   "loop": false,
+   "tokens": 236,
+   "capped": false,
+   "got": "220",
+   "want": "220",
+   "tail": "the cost of the shoes. \nFirst, find 3 times the cost of the shoes: 3 × $80 = $240. \nThen, subtract $20: $240 - $20 = $220. \nSo, the handbag cost $220.\n\n#### 220"
+  },
+  {
+   "id": "gsm8k_0486",
+   "hit": true,
+   "loop": false,
+   "tokens": 243,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": " a speed of 10 miles per hour. To find the number of hours he runs per week, divide the total distance by his speed: 60 miles ÷ 10 miles/hour = 6 hours.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0487",
+   "hit": true,
+   "loop": false,
+   "tokens": 239,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "ds per day. Over 5 days, the total oats needed is 40 × 5 = 200 pounds. Each bag contains 50 pounds, so the number of bags required is 200 ÷ 50 = 4 bags.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0488",
+   "hit": true,
+   "loop": false,
+   "tokens": 159,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": "meranians, so the number of Pomeranians is (2/3) × 27 = 18. One-third of the Pomeranians are girls, so the number of girl Pomeranians is (1/3) × 18 = 6.\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0489",
+   "hit": true,
+   "loop": false,
+   "tokens": 224,
+   "capped": false,
+   "got": "-10",
+   "want": "-10",
+   "tail": "average highest temperature is calculated by summing the three temperatures and dividing by 3.\n\nSum = (-48) + 21 + (-3) = -30 \nAverage = -30 / 3 = -10\n\n#### -10"
+  },
+  {
+   "id": "gsm8k_0490",
+   "hit": true,
+   "loop": false,
+   "tokens": 188,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "eeds $12 for the toy car and already has $4, so he needs to save $8 more. He saves $2 each day, so it will take him 4 days to save the remaining amount.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0491",
+   "hit": true,
+   "loop": false,
+   "tokens": 172,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "as 2 trays, each holding 24 eggs, so the total capacity is 2 × 24 = 48 eggs. He has 64 eggs, so the number of eggs that won't fit is 64 - 48 = 16 eggs.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0492",
+   "hit": true,
+   "loop": false,
+   "tokens": 175,
+   "capped": false,
+   "got": "32",
+   "want": "32",
+   "tail": "all pizza, so its cost is 3 × $8 = $24. To find the total amount she spends, add the cost of the small pizza and the family-size pizza: $8 + $24 = $32.\n\n#### 32"
+  },
+  {
+   "id": "gsm8k_0493",
+   "hit": true,
+   "loop": false,
+   "tokens": 1238,
+   "capped": false,
+   "got": "25",
+   "want": "25",
+   "tail": " $2.00.\n\nTo find the cost per individual razor, divide the total cost by the number of razors: $2.00 / 8 = $0.25 per razor. In cents, this is 25 cents.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0494",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "64",
+   "want": "21",
+   "tail": ") + height of next girl (from feet to head) - (height from ground to shoulders of bottom girl)? Actually, let's derive: Let the height of a person be H. Let the"
+  },
+  {
+   "id": "gsm8k_0495",
+   "hit": true,
+   "loop": false,
+   "tokens": 309,
+   "capped": false,
+   "got": "200",
+   "want": "200",
+   "tail": "he walks for 5 minutes every hour she works. So each day, she walks 8 × 5 = 40 minutes. Over 5 days, the total time she walks is 5 × 40 = 200 minutes.\n\n#### 200"
+  },
+  {
+   "id": "gsm8k_0496",
+   "hit": true,
+   "loop": false,
+   "tokens": 263,
+   "capped": false,
+   "got": "38",
+   "want": "38",
+   "tail": "hree times Brett's current age, which is \\(3 \\times 14 = 42\\). So Angela's age in four years is 42. Therefore, Angela's current age is \\(42 - 4 = 38\\).\n\n#### 38"
+  },
+  {
+   "id": "gsm8k_0497",
+   "hit": true,
+   "loop": false,
+   "tokens": 204,
+   "capped": false,
+   "got": "112",
+   "want": "112",
+   "tail": "ch morning ride costs $6, and each afternoon ride costs $2. So the total cost per day is $6 + $2 = $8. Over 14 days, the total cost is 14 × $8 = $112.\n\n#### 112"
+  },
+  {
+   "id": "gsm8k_0498",
+   "hit": true,
+   "loop": false,
+   "tokens": 220,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "70 oranges. Together they have 50 + 70 = 120 oranges. Since each Greek orange pie requires 3 oranges, the number of pies they can make is 120 ÷ 3 = 40.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0499",
+   "hit": true,
+   "loop": false,
+   "tokens": 270,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "00 + 5x = 25x. Subtract 5x from both sides: 200 = 20x. Divide by 20: x = 10. Therefore, 10 guests are necessary for the two venues to be equal in cost.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0500",
+   "hit": true,
+   "loop": false,
+   "tokens": 256,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": " L = D+7 = 9+7 = 16.\nSo Lily found 16 insects.\n\nCheck: David 9, Lily 16, Bodhi 18. Total 9+16+18=43. Yes.\n\nAnswer: 16.\n</think>\n\nLily found 16 insects.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0501",
+   "hit": true,
+   "loop": false,
+   "tokens": 268,
+   "capped": false,
+   "got": "273",
+   "want": "273",
+   "tail": " they used 1/4 + 1/2 = 3/4 of a skein. Since one skein contains 364 yards, the total yards used is (3/4) × 364 = (3 × 364) / 4 = (3 × 91) = 273 yards.\n\n#### 273"
+  },
+  {
+   "id": "gsm8k_0502",
+   "hit": true,
+   "loop": false,
+   "tokens": 209,
+   "capped": false,
+   "got": "26",
+   "want": "26",
+   "tail": "ach, so that's 3 × 2 = 6 gifts. Total gifts for friends: 10 + 6 = 16 gifts. She then buys 10 more random gifts. Total gifts bought: 16 + 10 = 26 gifts.\n\n#### 26"
+  },
+  {
+   "id": "gsm8k_0503",
+   "hit": true,
+   "loop": false,
+   "tokens": 279,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "o the rug's width is 3 + 5 = 8 feet. The couch is 2 feet longer than twice the width of the rug, so the couch's length is 2 * 8 + 2 = 16 + 2 = 18 feet.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0504",
+   "hit": true,
+   "loop": false,
+   "tokens": 325,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "ch strawberry pack be \\(x\\). Then the total cost is \\(2x + 2 + 1 = 7\\). Solving: \\(2x + 3 = 7\\) → \\(2x = 4\\) → \\(x = 2\\). Each strawberry pack costs $2.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0505",
+   "hit": true,
+   "loop": false,
+   "tokens": 903,
+   "capped": false,
+   "got": "1600",
+   "want": "1600",
+   "tail": "24), giving 4 × 400 = 1600 sticks. Any combination including 2x4 pieces yields fewer sticks. Therefore, the most popsicle sticks he can make is 1600.\n\n#### 1600"
+  },
+  {
+   "id": "gsm8k_0506",
+   "hit": true,
+   "loop": false,
+   "tokens": 378,
+   "capped": false,
+   "got": "144",
+   "want": "144",
+   "tail": "shoes consists of 2 snowshoes, so the number of pairs needed is 24 ÷ 2 = 12 pairs. Each pair costs $12.00, so the total cost is 12 × $12.00 = $144.00.\n\n#### 144"
+  },
+  {
+   "id": "gsm8k_0507",
+   "hit": true,
+   "loop": false,
+   "tokens": 289,
+   "capped": false,
+   "got": "2.00",
+   "want": "2",
+   "tail": "out pass: \n2 trips/day × 5 days/week × $2.20/trip = 10 trips/week × $2.20/trip = $22.00\n\nWeekly pass costs $20.00.\n\nSavings = $22.00 - $20.00 = $2.00\n\n#### 2.00"
+  },
+  {
+   "id": "gsm8k_0508",
+   "hit": true,
+   "loop": false,
+   "tokens": 575,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": ", which has 20 sheep). The zoo has 60 cows (twice as many as the farm's 30 cows) and 20 sheep. The total number of animals is 30 + 10 + 60 + 20 = 120.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0509",
+   "hit": true,
+   "loop": false,
+   "tokens": 431,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": " so Rose's total is 12 + 4 = 16. Let Sophia's total be \\(x\\). Then \\(4x = 16\\), so \\(x = 4\\). Therefore, Sophia bought a total of 4 onions and potatoes.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0510",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "19",
+   "want": "525",
+   "tail": "s earlier in the year. So we need to go to the next year. So we can compute the number of days from Dec 31 to July 19 as: (days remaining in December after Dec "
+  },
+  {
+   "id": "gsm8k_0511",
+   "hit": true,
+   "loop": false,
+   "tokens": 161,
+   "capped": false,
+   "got": "110",
+   "want": "110",
+   "tail": "day. He worked for an entire week, which is 7 days. So his total earnings are 7 * $30 = $210. He spent $100, so the amount left is $210 - $100 = $110.\n\n#### 110"
+  },
+  {
+   "id": "gsm8k_0512",
+   "hit": true,
+   "loop": false,
+   "tokens": 158,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": "s 0.25 km, so the total distance is 8 × 0.25 km = 2 km. She needs 60 ml of water per kilometer, so the total water needed is 60 ml/km × 2 km = 120 ml.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0513",
+   "hit": true,
+   "loop": false,
+   "tokens": 298,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": "aining money is $500 - $100 = $400. Then she spent 25% of the remaining $400 on CDs, which is 0.25 × 400 = $100. The money left is $400 - $100 = $300.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0514",
+   "hit": true,
+   "loop": false,
+   "tokens": 350,
+   "capped": false,
+   "got": "90000",
+   "want": "90000",
+   "tail": " 120,000\n\\]\n\nSolving for \\( L \\):\n\n\\[\nL = \\frac{120,000}{4} = 30,000\n\\]\n\nThe house cost is three times the lot:\n\n\\[\n3L = 3 \\times 30,000 = 90,000\n\\]\n\n#### 90000"
+  },
+  {
+   "id": "gsm8k_0515",
+   "hit": false,
+   "loop": false,
+   "tokens": 436,
+   "capped": false,
+   "got": "288",
+   "want": "160",
+   "tail": "the total cost is 8 × $4 = $32. She sold each bag for $8, so the total revenue is 40 × $8 = $320. Her profit is revenue minus cost: $320 - $32 = $288.\n\n#### 288"
+  },
+  {
+   "id": "gsm8k_0516",
+   "hit": true,
+   "loop": false,
+   "tokens": 180,
+   "capped": false,
+   "got": "375",
+   "want": "375",
+   "tail": "he total time is 5 × 3 = 15 minutes. To find the total number of punches, multiply the rate by the time: 25 punches/minute × 15 minutes = 375 punches.\n\n#### 375"
+  },
+  {
+   "id": "gsm8k_0517",
+   "hit": true,
+   "loop": false,
+   "tokens": 449,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "(1/4) × 36 = 9 cookies. \nKelsie made two times more cookies than Josh, which means Kelsie made two times as many as Josh: \nKelsie = 2 × 9 = 18 cookies.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0518",
+   "hit": true,
+   "loop": false,
+   "tokens": 302,
+   "capped": false,
+   "got": "32",
+   "want": "32",
+   "tail": "0 ÷ 2 = $80, so he has $80 left. \nHe uses 3/5 of the remaining amount for dinner: (3/5) × $80 = $48. \nMoney left after buying dinner = $80 - $48 = $32.\n\n#### 32"
+  },
+  {
+   "id": "gsm8k_0519",
+   "hit": true,
+   "loop": false,
+   "tokens": 221,
+   "capped": false,
+   "got": "280",
+   "want": "280",
+   "tail": "akes 2 hours, which is 2 × 60 = 120 minutes. Double Rob's time is 2 × 120 = 240 minutes. Adding 40 minutes gives Royce's time: 240 + 40 = 280 minutes.\n\n#### 280"
+  },
+  {
+   "id": "gsm8k_0520",
+   "hit": true,
+   "loop": false,
+   "tokens": 306,
+   "capped": false,
+   "got": "63",
+   "want": "63",
+   "tail": "Sweater: 12 skeins\n- Mittens: 1 skein\n- Socks: 2 skeins\n\nTotal per grandchild: 2 + 4 + 12 + 1 + 2 = 21 skeins.\nFor 3 grandchildren: 21 × 3 = 63 skeins.\n\n#### 63"
+  },
+  {
+   "id": "gsm8k_0521",
+   "hit": true,
+   "loop": false,
+   "tokens": 272,
+   "capped": false,
+   "got": "39",
+   "want": "39",
+   "tail": " one-quarter of the remaining problems: 52 ÷ 4 = 13 problems. Remaining: 52 - 13 = 39.\n\nThus, on Thursday, Chris has 39 math problems left to complete.\n\n#### 39"
+  },
+  {
+   "id": "gsm8k_0522",
+   "hit": true,
+   "loop": false,
+   "tokens": 238,
+   "capped": false,
+   "got": "29",
+   "want": "29",
+   "tail": "Bobby: 2 * 5 = 10 quarts per hour. \nRicky picks two fewer than Kathy: 10 - 2 = 8 quarts per hour. \nTotal per hour: 6 + 5 + 10 + 8 = 29 quarts per hour.\n\n#### 29"
+  },
+  {
+   "id": "gsm8k_0523",
+   "hit": true,
+   "loop": false,
+   "tokens": 324,
+   "capped": false,
+   "got": "74",
+   "want": "74",
+   "tail": "left. After selling 39 in the afternoon, they had 107 - 39 = 68 loaves left. Then they received 6 returned loaves, so they had 68 + 6 = 74 loaves left.\n\n#### 74"
+  },
+  {
+   "id": "gsm8k_0524",
+   "hit": true,
+   "loop": false,
+   "tokens": 383,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": "t 8 blue tulips in a row, so the number of rows needed for the blue tulips is 24 ÷ 8 = 3 rows. The total number of rows he will plant is 6 + 3 = 9 rows.\n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0525",
+   "hit": true,
+   "loop": false,
+   "tokens": 343,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": " make with the 9 cups allocated to cookies, divide 9 by 3/4:\n\n9 ÷ (3/4) = 9 × (4/3) = 36/3 = 12.\n\nThus, Heather can make 12 batches of oatmeal cookies.\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0526",
+   "hit": true,
+   "loop": false,
+   "tokens": 443,
+   "capped": false,
+   "got": "21",
+   "want": "21",
+   "tail": "l consumption: 2 kWh/day × 7 days = 14 kilowatt-hours per week.\n- Cost per kilowatt-hour: $1.50.\n- Difference in weekly bill: 14 kWh × $1.50/kWh = $21.\n\n#### 21"
+  },
+  {
+   "id": "gsm8k_0527",
+   "hit": true,
+   "loop": false,
+   "tokens": 423,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": "house in 10 days. With 5 people working together, they can paint a whole house in 10/5 = 2 days. Since a day has 24 hours, 2 days is 2 × 24 = 48 hours.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0528",
+   "hit": true,
+   "loop": false,
+   "tokens": 359,
+   "capped": false,
+   "got": "172",
+   "want": "172",
+   "tail": "'s chairs = 3 × 22 = 66. Jenna's sofas = 66 - 2 = 64. Total sofas = 20 + 64 = 84. Total chairs = 22 + 66 = 88. Total sofas and chairs = 84 + 88 = 172.\n\n#### 172"
+  },
+  {
+   "id": "gsm8k_0529",
+   "hit": true,
+   "loop": false,
+   "tokens": 393,
+   "capped": false,
+   "got": "11",
+   "want": "11",
+   "tail": " to spend on CDs. Since each CD costs $4, he could have bought $48 / $4 = 12 CDs. He already bought 1 CD, so he could have bought 12 - 1 = 11 more CDs.\n\n#### 11"
+  },
+  {
+   "id": "gsm8k_0530",
+   "hit": true,
+   "loop": false,
+   "tokens": 563,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": "as follows:\n\n- 2 weeks × 5 hours = 10 hours\n- 1 week × 6 hours = 6 hours\n- 5 weeks × 4 hours = 20 hours\n\nAdding these together: 10 + 6 + 20 = 36 hours.\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0531",
+   "hit": true,
+   "loop": false,
+   "tokens": 337,
+   "capped": false,
+   "got": "66",
+   "want": "66",
+   "tail": "n, so 40 + 40 = 80.\n\nAfter the second stop: \n- 21 passengers get off, leaving 80 - 21 = 59. \n- 3 times fewer get on: 21 ÷ 3 = 7 get on, so 59 + 7 = 66.\n\n#### 66"
+  },
+  {
+   "id": "gsm8k_0532",
+   "hit": true,
+   "loop": false,
+   "tokens": 361,
+   "capped": false,
+   "got": "25",
+   "want": "25",
+   "tail": "5 = 60 - 5 = 55. \nSo in 8 years, the cousin will be 55, meaning the cousin's current age is 55 - 8 = 47. \nThe age difference now is 47 - 22 = 25 years.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0533",
+   "hit": true,
+   "loop": false,
+   "tokens": 400,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": "2400\n\\]\n\nSimplify:\n\n\\[\n1800 + 2m = 2400\n\\]\n\nSubtract 1800 from both sides:\n\n\\[\n2m = 600\n\\]\n\nDivide by 2:\n\n\\[\nm = 300\n\\]\n\nThus, one monitor costs $300.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0534",
+   "hit": true,
+   "loop": false,
+   "tokens": 416,
+   "capped": false,
+   "got": "300",
+   "want": "300",
+   "tail": " four times the boys' total, which is \\(600 + 4 \\times 600 = 5 \\times 600 = 3000\\) shells. Therefore, each girl brought \\(3000 \\div 10 = 300\\) shells.\n\n#### 300"
+  },
+  {
+   "id": "gsm8k_0535",
+   "hit": true,
+   "loop": false,
+   "tokens": 314,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "= 3 + 5 = 8\n\\]\n\nThus, George initially had 8 candies. Nick had twice as many, so Nick had:\n\n\\[\n2G = 2 \\times 8 = 16\n\\]\n\nTherefore, Nick has 16 candies.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0536",
+   "hit": true,
+   "loop": false,
+   "tokens": 138,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": " years old. Alyana is 4 years younger than Chenny, so Alyana is 10 - 4 = 6 years old. Anne is 2 years older than Alyana, so Anne is 6 + 2 = 8 years old.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0537",
+   "hit": true,
+   "loop": false,
+   "tokens": 274,
+   "capped": false,
+   "got": "188",
+   "want": "188",
+   "tail": "The fourth book is twice as thick as the first, so it is 2 × 31 = 62 mm thick. The total thickness is the sum of all four: 31 + 50 + 45 + 62 = 188 mm.\n\n#### 188"
+  },
+  {
+   "id": "gsm8k_0538",
+   "hit": true,
+   "loop": false,
+   "tokens": 276,
+   "capped": false,
+   "got": "18",
+   "want": "18",
+   "tail": "k: 21 vlogs\n- Third week: 15 vlogs\n\nTotal vlogs made so far: 18 + 21 + 15 = 54 vlogs.\n\nTo complete the 72 vlogs, she needs to make: 72 - 54 = 18 vlogs.\n\n#### 18"
+  },
+  {
+   "id": "gsm8k_0539",
+   "hit": false,
+   "loop": false,
+   "tokens": 305,
+   "capped": false,
+   "got": "30",
+   "want": "35",
+   "tail": " = $10. So the total amount to be paid is $50 + $10 = $60. They split this evenly, meaning each pays half of $60 = $30. Therefore, I end up paying $30.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0540",
+   "hit": true,
+   "loop": false,
+   "tokens": 1549,
+   "capped": false,
+   "got": "39",
+   "want": "39",
+   "tail": "spends $8, leaving him with $13. After saving some more, he triples the amount he had after spending the $8, which is $13. So he now has 3 × $13 = $39.\n\n#### 39"
+  },
+  {
+   "id": "gsm8k_0541",
+   "hit": true,
+   "loop": false,
+   "tokens": 583,
+   "capped": false,
+   "got": "50",
+   "want": "50",
+   "tail": "\\( x \\):\n\\[\nx = \\frac{1125}{45} = 25\n\\]\nSo he saves $25 per day in the first half. The daily savings in the second half is \\( 2x = 2 \\times 25 = 50 \\).\n\n#### 50"
+  },
+  {
+   "id": "gsm8k_0542",
+   "hit": true,
+   "loop": false,
+   "tokens": 440,
+   "capped": false,
+   "got": "7.00",
+   "want": "7",
+   "tail": ".80 = $4.00\n- 6 peaches at $0.75 each: 6 × $0.75 = $4.50\n\nTotal cost = $4.50 + $4.00 + $4.50 = $13.00\n\nShe gave $20, so change = $20 - $13.00 = $7.00\n\n#### 7.00"
+  },
+  {
+   "id": "gsm8k_0543",
+   "hit": true,
+   "loop": false,
+   "tokens": 238,
+   "capped": false,
+   "got": "6",
+   "want": "6",
+   "tail": " $0.5 per task. Each completed 20 tasks.\n\n- Jairus's total: 20 × $0.8 = $16.00\n- Jenny's total: 20 × $0.5 = $10.00\n- Difference: $16.00 - $10.00 = $6.00\n\n#### 6"
+  },
+  {
+   "id": "gsm8k_0544",
+   "hit": true,
+   "loop": false,
+   "tokens": 232,
+   "capped": false,
+   "got": "80",
+   "want": "80",
+   "tail": " \\) dollars. The total amount is 100 dollars, so:\n\n\\[\nx + 4x = 100\n\\]\n\\[\n5x = 100\n\\]\n\\[\nx = 20\n\\]\n\nThus, Jeff gets \\( 4x = 4 \\times 20 = 80 \\) dollars.\n\n#### 80"
+  },
+  {
+   "id": "gsm8k_0545",
+   "hit": true,
+   "loop": false,
+   "tokens": 149,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "work and 3 miles back each day, so he walks 6 miles per day. If he works 5 days a week, the total distance he walks is 6 miles/day × 5 days = 30 miles.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0546",
+   "hit": true,
+   "loop": false,
+   "tokens": 621,
+   "capped": false,
+   "got": "130",
+   "want": "130",
+   "tail": "et once: 26 ÷ 2 = 13 letters. \nThen she rewrites everything she has written so far: 52 + 13 = 65 letters. \nTotal letters written = 52 + 13 + 65 = 130.\n\n#### 130"
+  },
+  {
+   "id": "gsm8k_0547",
+   "hit": true,
+   "loop": false,
+   "tokens": 397,
+   "capped": false,
+   "got": "81",
+   "want": "81",
+   "tail": "ogression: round 1: 3, round 2: 3 × 3 = 9, round 3: 9 × 3 = 27, round 4: 27 × 3 = 81. Therefore, during the fourth round, 81 families will be notified.\n\n#### 81"
+  },
+  {
+   "id": "gsm8k_0548",
+   "hit": true,
+   "loop": false,
+   "tokens": 179,
+   "capped": false,
+   "got": "100",
+   "want": "100",
+   "tail": "er month for 3 months, so the total weight lost is 10 × 3 = 30 pounds. His final weight was 70 pounds, so his initial weight was 70 + 30 = 100 pounds.\n\n#### 100"
+  },
+  {
+   "id": "gsm8k_0549",
+   "hit": true,
+   "loop": false,
+   "tokens": 501,
+   "capped": false,
+   "got": "398",
+   "want": "398",
+   "tail": "He needs 2 more than he already has to reach 400, so \\(x + 2 = 400\\). Solving for \\(x\\) gives \\(x = 398\\). Therefore, Jonathan currently has 398 toys.\n\n#### 398"
+  },
+  {
+   "id": "gsm8k_0550",
+   "hit": true,
+   "loop": false,
+   "tokens": 562,
+   "capped": false,
+   "got": "27",
+   "want": "27",
+   "tail": " $10\n\nTotal before discount: $7.50 + $0.50 + $12 + $10 = $30.00\n\nThe shop gives a 10% discount, so Daniel pays 90% of the total: $30.00 × 0.90 = $27.00\n\n#### 27"
+  },
+  {
+   "id": "gsm8k_0551",
+   "hit": true,
+   "loop": false,
+   "tokens": 366,
+   "capped": false,
+   "got": "17",
+   "want": "17",
+   "tail": "ato fries: 10 × $0.30 = $3.00\n- Fruit drinks: 5 × $2 = $10\n\nTotal cost = $20 + $3 + $10 = $33.\n\nShe gives a $50 bill, so the change is $50 - $33 = $17.\n\n#### 17"
+  },
+  {
+   "id": "gsm8k_0552",
+   "hit": true,
+   "loop": false,
+   "tokens": 1198,
+   "capped": false,
+   "got": "450",
+   "want": "450",
+   "tail": "Then, calculate the additional commission on the $1500:\n10% of $1500 = 0.10 × 1500 = $150.\n\nFinally, add the two amounts together:\n$300 + $150 = $450.\n\n#### 450"
+  },
+  {
+   "id": "gsm8k_0553",
+   "hit": true,
+   "loop": false,
+   "tokens": 196,
+   "capped": false,
+   "got": "92",
+   "want": "92",
+   "tail": "s 70 guests and wants 2 bottles per guest, so he needs 70 × 2 = 140 bottles in total. The additional bottles he needs to buy are 140 - 48 = 92 bottles.\n\n#### 92"
+  },
+  {
+   "id": "gsm8k_0554",
+   "hit": true,
+   "loop": false,
+   "tokens": 293,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": "er mile. For 3 miles, the time on a cold day is 3 * 16 = 48 minutes, and on a hot day is 3 * 34 = 102 minutes. The difference is 102 - 48 = 54 minutes.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0555",
+   "hit": true,
+   "loop": false,
+   "tokens": 224,
+   "capped": false,
+   "got": "2",
+   "want": "2",
+   "tail": "ours: 5 hours/day × 4 days/week = 20 hours/week. \nWeekly earnings: 20 hours/week × $2/hour = $40/week. \nTo save $80, he needs: $80 ÷ $40/week = 2 weeks.\n\n#### 2"
+  },
+  {
+   "id": "gsm8k_0556",
+   "hit": true,
+   "loop": false,
+   "tokens": 249,
+   "capped": false,
+   "got": "160",
+   "want": "160",
+   "tail": "osts thrice as much, which means three times the cost of the fish sub: 3 × $40 = $120. The total cost for lunch is the sum of both: $40 + $120 = $160.\n\n#### 160"
+  },
+  {
+   "id": "gsm8k_0557",
+   "hit": true,
+   "loop": false,
+   "tokens": 214,
+   "capped": false,
+   "got": "70",
+   "want": "70",
+   "tail": "e total number of holes:\n- From the seven buttons: 7 × 2 = 14 holes.\n- From the fourteen buttons: 14 × 4 = 56 holes.\n- Total holes: 14 + 56 = 70 holes.\n\n#### 70"
+  },
+  {
+   "id": "gsm8k_0558",
+   "hit": true,
+   "loop": false,
+   "tokens": 154,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "cker is half as big, so Zack's locker is 24 / 2 = 12 cubic inches. Peter's locker is 1/4 as big as Zack's, so Peter's locker is 12 / 4 = 3 cubic inches.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0559",
+   "hit": true,
+   "loop": false,
+   "tokens": 188,
+   "capped": false,
+   "got": "16",
+   "want": "16",
+   "tail": "s. Juan drinks 10 times that amount, so he drinks 10 * 2 = 20 cups. To reduce his intake to the recommended 4 cups, he must reduce by 20 - 4 = 16 cups.\n\n#### 16"
+  },
+  {
+   "id": "gsm8k_0560",
+   "hit": true,
+   "loop": false,
+   "tokens": 198,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": " = 30 hamsters. The other 3 cages have 5 guinea pigs each, so that's 3 × 5 = 15 guinea pigs. Adding these together gives 30 + 15 = 45 rodents in total.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0561",
+   "hit": true,
+   "loop": false,
+   "tokens": 233,
+   "capped": false,
+   "got": "180",
+   "want": "180",
+   "tail": "so Bob weighs 2 * 130 = 260 pounds. The total weight of the three friends is 150 + 130 + 260 = 540 pounds. The average weight is 540 / 3 = 180 pounds.\n\n#### 180"
+  },
+  {
+   "id": "gsm8k_0562",
+   "hit": true,
+   "loop": false,
+   "tokens": 635,
+   "capped": false,
+   "got": "82",
+   "want": "82",
+   "tail": "ur relative to the pyramid. After 10 hours, the sun has moved 5° × 10 = 50° upward. Therefore, the angle from the ground to the sun is 32° + 50° = 82°.\n\n#### 82"
+  },
+  {
+   "id": "gsm8k_0563",
+   "hit": true,
+   "loop": false,
+   "tokens": 445,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": "r of candles by the number of candles per pack: 20 ÷ 5 = 4 packs. Then, multiply the number of packs by the cost per pack: 4 packs × $3 per pack = $12.\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0564",
+   "hit": true,
+   "loop": false,
+   "tokens": 599,
+   "capped": false,
+   "got": "240",
+   "want": "240",
+   "tail": "read (4/3) × 105 = 140 pages. In the second week, she read 100 pages. Therefore, the total number of pages read in two weeks is 140 + 100 = 240 pages.\n\n#### 240"
+  },
+  {
+   "id": "gsm8k_0565",
+   "hit": true,
+   "loop": false,
+   "tokens": 298,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": " quarter of the 12 sandwiches: \\( \\frac{1}{4} \\times 12 = 3 \\) sandwiches. \nTotal eaten: \\( 4 + 3 = 7 \\) sandwiches. \nSandwiches left: \\( 12 - 7 = 5 \\).\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0566",
+   "hit": true,
+   "loop": false,
+   "tokens": 307,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "times as old as his nephew, so his nephew's age in 7 years will be 51 / 3 = 17 years old. Therefore, the nephew's current age is 17 - 7 = 10 years old.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0567",
+   "hit": true,
+   "loop": false,
+   "tokens": 457,
+   "capped": false,
+   "got": "9",
+   "want": "9",
+   "tail": " half of the amount per tooth as for the previous three teeth, which is $0.50 each, totaling $1.00. Adding these amounts: $5.00 + $3.00 + $1.00 = $9.00.\n\n#### 9"
+  },
+  {
+   "id": "gsm8k_0568",
+   "hit": true,
+   "loop": false,
+   "tokens": 276,
+   "capped": false,
+   "got": "175",
+   "want": "175",
+   "tail": "han Mark, so Mark scored 80 - 20 = 60 goals. \n- Richie scored 45 more than Anna, so Anna scored 80 - 45 = 35 goals. \nTotal goals = 80 + 60 + 35 = 175.\n\n#### 175"
+  },
+  {
+   "id": "gsm8k_0569",
+   "hit": true,
+   "loop": false,
+   "tokens": 134,
+   "capped": false,
+   "got": "21",
+   "want": "21",
+   "tail": "des at $4 each, so his total earnings are 21 × $4 = $84. Liam made $63. The difference is $84 - $63 = $21. Therefore, Mitchell made $21 more than Liam.\n\n#### 21"
+  },
+  {
+   "id": "gsm8k_0570",
+   "hit": false,
+   "loop": false,
+   "tokens": 409,
+   "capped": false,
+   "got": "25",
+   "want": "23",
+   "tail": "ch. On each of these days, he buys $10 / $2 = 5 plastic figures. Total plastic figures = 3 days × 5 = 15 figures.\n\nTotal action figures = 10 + 15 = 25.\n\n#### 25"
+  },
+  {
+   "id": "gsm8k_0571",
+   "hit": true,
+   "loop": false,
+   "tokens": 239,
+   "capped": false,
+   "got": "308",
+   "want": "308",
+   "tail": "s follows:\n\n- Spaying: $200\n- Vaccines: 3 vaccines × $20 each = $60\n- Vases: 4 vases × $12 each = $48\n\nAdding these together: $200 + $60 + $48 = $308.\n\n#### 308"
+  },
+  {
+   "id": "gsm8k_0572",
+   "hit": true,
+   "loop": false,
+   "tokens": 617,
+   "capped": false,
+   "got": "100",
+   "want": "100",
+   "tail": "5 roses per week. Therefore, Ford lacks 65 - 40 = 25 roses per week. Assuming a month consists of 4 weeks, the monthly shortage is 25 × 4 = 100 roses.\n\n#### 100"
+  },
+  {
+   "id": "gsm8k_0573",
+   "hit": true,
+   "loop": false,
+   "tokens": 252,
+   "capped": false,
+   "got": "600",
+   "want": "600",
+   "tail": "e 24 months (since 2 years × 12 months/year = 24 months). The total amount removed is $100 × 24 = $2400. The remaining amount is $3000 - $2400 = $600.\n\n#### 600"
+  },
+  {
+   "id": "gsm8k_0574",
+   "hit": true,
+   "loop": false,
+   "tokens": 492,
+   "capped": false,
+   "got": "37.00",
+   "want": "37",
+   "tail": "$30.00 per 10 sandwiches.\nTotal cost is:\n\\[\n\\$3.00 + \\$30.00 = \\$33.00\n\\]\n\nNet profit is revenue minus total cost:\n\\[\n\\$70.00 - \\$33.00 = \\$37.00\n\\]\n\n#### 37.00"
+  },
+  {
+   "id": "gsm8k_0575",
+   "hit": true,
+   "loop": false,
+   "tokens": 497,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": "muffin crayons she can make is \\(192 \\div 8 = 24\\). She sells each muffin crayon for $1.50, so the total money she can make is \\(24 \\times 1.50 = 36\\).\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0576",
+   "hit": true,
+   "loop": false,
+   "tokens": 546,
+   "capped": false,
+   "got": "11232",
+   "want": "11232",
+   "tail": "(padding) + $4 (removal) + $34 (installation) = $52 per square foot. Multiplying the area by this total gives the overall cost: 216 × $52 = $11,232.\n\n#### 11232"
+  },
+  {
+   "id": "gsm8k_0577",
+   "hit": true,
+   "loop": false,
+   "tokens": 369,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": " birds\n- Day 6: 20 birds\n- Day 7: 90 birds\n\nTotal = 50 + 0 + 120 + 20 + 90 = 280 birds.\n\nAverage per day = total birds / number of days = 280 / 7 = 40.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0578",
+   "hit": true,
+   "loop": false,
+   "tokens": 377,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": "10. So the sum is 20 + 10 = 30. Dividing by 5 gives 30 / 5 = 6. The starting value minus 12 is 20 - 12 = 8. Multiplying these results gives 6 × 8 = 48.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0579",
+   "hit": true,
+   "loop": false,
+   "tokens": 117,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": ". So answer is 7.\n</think>\n\nThe boy has 5 cards. His brother has 3 fewer cards, so the brother has 5 - 3 = 2 cards. Together, they have 5 + 2 = 7 cards.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0580",
+   "hit": true,
+   "loop": false,
+   "tokens": 568,
+   "capped": false,
+   "got": "500",
+   "want": "500",
+   "tail": "= 1.04 times the set temperature, so the oven is 4% too high. To achieve an actual temperature of 520, the set temperature should be 520 / 1.04 = 500.\n\n#### 500"
+  },
+  {
+   "id": "gsm8k_0581",
+   "hit": true,
+   "loop": false,
+   "tokens": 327,
+   "capped": false,
+   "got": "215",
+   "want": "215",
+   "tail": "125 minutes.\n\nNow, add the two durations together:\n- 90 minutes + 125 minutes = 215 minutes.\n\nThus, it will take Max 215 minutes to watch both movies.\n\n#### 215"
+  },
+  {
+   "id": "gsm8k_0582",
+   "hit": true,
+   "loop": false,
+   "tokens": 258,
+   "capped": false,
+   "got": "129200",
+   "want": "129200",
+   "tail": "'s house is 30% less expensive, so its value is 70% of Herb's: \n$76,000 \\times 0.70 = $53,200. \nThe combined value is $76,000 + $53,200 = $129,200.\n\n#### 129200"
+  },
+  {
+   "id": "gsm8k_0583",
+   "hit": true,
+   "loop": false,
+   "tokens": 321,
+   "capped": false,
+   "got": "120",
+   "want": "120",
+   "tail": " = 44 dishes. The total number of cups is 12 + 40 = 52, and the total number of dishes is 24 + 44 = 68. The total number of utensils is 52 + 68 = 120.\n\n#### 120"
+  },
+  {
+   "id": "gsm8k_0584",
+   "hit": true,
+   "loop": false,
+   "tokens": 688,
+   "capped": false,
+   "got": "2.00",
+   "want": "2",
+   "tail": " 2 × $90.00 = $180.00.\n- The total number of pairs in 2 boxes is 2 × 45 pairs = 90 pairs.\n- The cost per pair is $180.00 ÷ 90 pairs = $2.00 per pair.\n\n#### 2.00"
+  },
+  {
+   "id": "gsm8k_0585",
+   "hit": true,
+   "loop": false,
+   "tokens": 316,
+   "capped": false,
+   "got": "40",
+   "want": "40",
+   "tail": "ree times as long as Jill: 3 × 1 = 3 hours. His total hours are 4 + 3 = 7 hours, earning 7 × $10 = $70.\n\nThe difference in earnings is $70 - $30 = $40.\n\n#### 40"
+  },
+  {
+   "id": "gsm8k_0586",
+   "hit": true,
+   "loop": false,
+   "tokens": 284,
+   "capped": false,
+   "got": "800",
+   "want": "800",
+   "tail": "tal of 1600 calories. She needs 100 ml of water for every 200 calories, so the amount of water is (100 ml / 200 cal) × 1600 cal = 0.5 × 1600 = 800 ml.\n\n#### 800"
+  },
+  {
+   "id": "gsm8k_0587",
+   "hit": true,
+   "loop": false,
+   "tokens": 467,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": "= 3B = 4500\\), so \\(B = 1500\\). Then red = \\(0.99 \\times 1500 = 1485\\) and green = \\(1.01 \\times 1500 = 1515\\). The difference is \\(1515 - 1485 = 30\\).\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0588",
+   "hit": true,
+   "loop": false,
+   "tokens": 219,
+   "capped": false,
+   "got": "52",
+   "want": "52",
+   "tail": "2.\n</think>\n\nThe three measurements are 47 WPM, 52 WPM, and 57 WPM (since 52 + 5 = 57). The average is calculated as (47 + 52 + 57) / 3 = 156 / 3 = 52.\n\n#### 52"
+  },
+  {
+   "id": "gsm8k_0589",
+   "hit": true,
+   "loop": false,
+   "tokens": 365,
+   "capped": false,
+   "got": "15",
+   "want": "15",
+   "tail": "s 1.75 pounds (gain) minus (-1.25 pounds) (loss) = 3 pounds per week. Over 5 weeks, this difference accumulates to 3 pounds/week × 5 weeks = 15 pounds.\n\n#### 15"
+  },
+  {
+   "id": "gsm8k_0590",
+   "hit": false,
+   "loop": false,
+   "tokens": 740,
+   "capped": false,
+   "got": "318",
+   "want": "319",
+   "tail": "ir spouses, adding 10 + 8 = 18 more people. The total number of guests is 100 + 200 + 10 + 8 = 318. Alex herself is the host and does not need a seat.\n\n#### 318"
+  },
+  {
+   "id": "gsm8k_0591",
+   "hit": true,
+   "loop": false,
+   "tokens": 255,
+   "capped": false,
+   "got": "220",
+   "want": "220",
+   "tail": "llon weighs one-fourth as much as the Dachshund, so 20 ÷ 4 = 5 pounds. The Mastiff weighs 44 times the weight of the Papillon, so 44 × 5 = 220 pounds.\n\n#### 220"
+  },
+  {
+   "id": "gsm8k_0592",
+   "hit": true,
+   "loop": false,
+   "tokens": 374,
+   "capped": false,
+   "got": "1",
+   "want": "1",
+   "tail": " $4 = $8. The total cost on eBay is $13 + $8 = $21. \nThe difference in total cost is $21 - $20 = $1. Therefore, the boots are $1 more expensive on eBay.\n\n#### 1"
+  },
+  {
+   "id": "gsm8k_0593",
+   "hit": true,
+   "loop": false,
+   "tokens": 388,
+   "capped": false,
+   "got": "3",
+   "want": "3",
+   "tail": "Day 2: 8 × 2 = 16 feet\n- Day 3: 16 × 2 = 32 feet\n\nAfter 3 days, the beanstalk is 32 feet tall, which is taller than 20 feet. Therefore, it takes 3 days.\n\n#### 3"
+  },
+  {
+   "id": "gsm8k_0594",
+   "hit": true,
+   "loop": false,
+   "tokens": 282,
+   "capped": false,
+   "got": "42",
+   "want": "42",
+   "tail": "per gram is 3/100 = 0.03 grams. Therefore, the daily protein intake is 200 * 0.03 = 6 grams. Over a week (7 days), he gets 6 * 7 = 42 grams of protein.\n\n#### 42"
+  },
+  {
+   "id": "gsm8k_0595",
+   "hit": true,
+   "loop": false,
+   "tokens": 319,
+   "capped": false,
+   "got": "13",
+   "want": "13",
+   "tail": "\n\\[\nx = 2x - 10\n\\]\n\\[\nx - 2x = -10\n\\]\n\\[\n-x = -10\n\\]\n\\[\nx = 10\n\\]\nSo Jerry is currently 10 years old. In 3 years, he will be \\(10 + 3 = 13\\) years old.\n\n#### 13"
+  },
+  {
+   "id": "gsm8k_0596",
+   "hit": true,
+   "loop": false,
+   "tokens": 385,
+   "capped": false,
+   "got": "260",
+   "want": "260",
+   "tail": "00, so the remaining amount to pay is $4500 - $600 = $3900. He earns $15 per hour, so the number of hours he needs to work is $3900 ÷ $15 = 260 hours.\n\n#### 260"
+  },
+  {
+   "id": "gsm8k_0597",
+   "hit": true,
+   "loop": false,
+   "tokens": 451,
+   "capped": false,
+   "got": "90",
+   "want": "90",
+   "tail": "} = 30\n\\]\n\nThus the angles are \\(30^\\circ\\), \\(2 \\times 30^\\circ = 60^\\circ\\), and \\(3 \\times 30^\\circ = 90^\\circ\\). The largest angle is \\(90^\\circ\\).\n\n#### 90"
+  },
+  {
+   "id": "gsm8k_0598",
+   "hit": true,
+   "loop": false,
+   "tokens": 491,
+   "capped": false,
+   "got": "69",
+   "want": "69",
+   "tail": "1 = 15 cents\nTotal money = 200 + 60 + 70 + 15 = 345 cents.\nEach gumball costs a nickel, which is 5 cents.\nNumber of gumballs he can buy = 345 ÷ 5 = 69.\n\n#### 69"
+  },
+  {
+   "id": "gsm8k_0599",
+   "hit": true,
+   "loop": false,
+   "tokens": 309,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": "at has 4 legs: 2 cats × 4 legs = 8 legs. \n- Each bird has 2 legs: 10 birds × 2 legs = 20 legs. \n\nAdding these together: 20 + 8 + 20 = 48 legs in total.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0600",
+   "hit": true,
+   "loop": false,
+   "tokens": 169,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "which is 50% of 8 = 4 pounds, so the new weight is 8 + 4 = 12 pounds. Since that is too heavy, he uses a weight two pounds lighter: 12 - 2 = 10 pounds.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0601",
+   "hit": false,
+   "loop": false,
+   "tokens": 780,
+   "capped": false,
+   "got": "114",
+   "want": "104",
+   "tail": "r month for 12 months = 48 games\nTotal monthly purchases: 12 + 24 + 48 = 84 games.\n\nAdding everything together: 30 (gifts) + 84 (monthly) = 114 games.\n\n#### 114"
+  },
+  {
+   "id": "gsm8k_0602",
+   "hit": true,
+   "loop": false,
+   "tokens": 214,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "00 miles per hour. To travel an additional 2000 miles at this rate, the time required is 2000 miles divided by 400 miles per hour, which equals 5 hours.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0603",
+   "hit": true,
+   "loop": false,
+   "tokens": 359,
+   "capped": false,
+   "got": "1800",
+   "want": "1800",
+   "tail": " they both work for 12 hours, Ruiz makes 60 * 12 = 720 pounds, and Marissa makes 90 * 12 = 1080 pounds. \nTogether they make 720 + 1080 = 1800 pounds.\n\n#### 1800"
+  },
+  {
+   "id": "gsm8k_0604",
+   "hit": true,
+   "loop": false,
+   "tokens": 207,
+   "capped": false,
+   "got": "12",
+   "want": "12",
+   "tail": "esday, he spends 4 times as much as Tuesday: 4 × $16 = $64. Total spent: $8 + $16 + $64 = $88. He originally had $100, so he has $100 - $88 = $12 left.\n\n#### 12"
+  },
+  {
+   "id": "gsm8k_0605",
+   "hit": true,
+   "loop": false,
+   "tokens": 228,
+   "capped": false,
+   "got": "42",
+   "want": "42",
+   "tail": "al earnings = $30 + $12 = $42.\nSo answer is 42.\n</think>\n\nPatrick earned $30 in the first four hours and $12 in the next two hours, for a total of $42.\n\n#### 42"
+  },
+  {
+   "id": "gsm8k_0606",
+   "hit": false,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "480",
+   "want": "6",
+   "tail": "62.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 4800 * 362.5 = 480"
+  },
+  {
+   "id": "gsm8k_0607",
+   "hit": true,
+   "loop": false,
+   "tokens": 1890,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "pumps. The bottle costs $24.00, so the cost per pump is $24.00 ÷ 240 = $0.10, which is 10 cents. Jackie's usage rate does not affect the cost per pump.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0608",
+   "hit": true,
+   "loop": false,
+   "tokens": 423,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": " total cost is $17.50 + $24.50 = $42.00. Since sales tax is included, no additional tax is added. After the purchase, Joe will have $50 - $42 = $8 left.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0609",
+   "hit": true,
+   "loop": false,
+   "tokens": 274,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": "ber of dozens he will make: \n4 dozen/day × 7 days = 28 dozen.\n\nNext, calculate the total butter needed: \n28 dozen × (1/4 pound/dozen) = 28/4 = 7 pounds.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0610",
+   "hit": true,
+   "loop": false,
+   "tokens": 566,
+   "capped": false,
+   "got": "65960",
+   "want": "65960",
+   "tail": "cost is $95060 - 29100 = 65960$. Alternatively, the difference in length is $490 - 150 = 340$ meters, so the extra cost is $194 \\times 340 = 65960$.\n\n#### 65960"
+  },
+  {
+   "id": "gsm8k_0611",
+   "hit": false,
+   "loop": true,
+   "tokens": 2048,
+   "capped": true,
+   "got": "8396",
+   "want": "1450000",
+   "tail": ",999 = 300,000 * 83,969,999 = 300,000 * 83,969,999 = 300,000 * 83,969,999 = 300,000 * 83,969,999 = 300,000 * 83,969,999 = 300,000 * 83,969,999 = 300,000 * 83,96"
+  },
+  {
+   "id": "gsm8k_0612",
+   "hit": true,
+   "loop": false,
+   "tokens": 225,
+   "capped": false,
+   "got": "30",
+   "want": "30",
+   "tail": " 1 pound = 16 ounces). \nThe fourth and fifth players ordered vegetarian meals, so they consumed no meat. \nTotal meat consumed = 6 + 8 + 16 = 30 ounces.\n\n#### 30"
+  },
+  {
+   "id": "gsm8k_0613",
+   "hit": true,
+   "loop": false,
+   "tokens": 267,
+   "capped": false,
+   "got": "93000",
+   "want": "93000",
+   "tail": "er per day, and then by the number of days in March:\n\nTotal posts = 1000 members × 3 posts/member/day × 31 days = 1000 × 3 × 31 = 1000 × 93 = 93000.\n\n#### 93000"
+  },
+  {
+   "id": "gsm8k_0614",
+   "hit": true,
+   "loop": false,
+   "tokens": 437,
+   "capped": false,
+   "got": "312",
+   "want": "312",
+   "tail": "allons of water, so the total water used in a year is 104 * 20 = 2080 gallons. A gallon of water costs $0.15, so the total cost is 2080 * 0.15 = $312.\n\n#### 312"
+  },
+  {
+   "id": "gsm8k_0615",
+   "hit": false,
+   "loop": false,
+   "tokens": 364,
+   "capped": false,
+   "got": "23.00",
+   "want": "33",
+   "tail": ".00\n- Coral: 3 pieces × $2.00 each = $6.00\n- Fish: 20 fish × $0.50 each = $10.00\n- Fish food: $2.00\n\nTotal = $5.00 + $6.00 + $10.00 + $2.00 = $23.00\n\n#### 23.00"
+  },
+  {
+   "id": "gsm8k_0616",
+   "hit": true,
+   "loop": false,
+   "tokens": 180,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "stalk is 3 inches tall. \nIn the second week, it doubles in height: 3 × 2 = 6 inches. \nIn the third week, it grows another 4 inches: 6 + 4 = 10 inches. \n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0617",
+   "hit": true,
+   "loop": false,
+   "tokens": 173,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "r day. The bull weighs 750 kg. To find the number of days it will take to sell the meat, divide the total weight by the daily sales: 750 ÷ 150 = 5 days.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0618",
+   "hit": true,
+   "loop": false,
+   "tokens": 363,
+   "capped": false,
+   "got": "36",
+   "want": "36",
+   "tail": "ts: \\(\\frac{1}{3} \\times 54 = 18\\) seats.\n\nThe rest were occupied by students: \\(54 - 18 = 36\\) seats.\n\nThus, there were 36 students in the auditorium.\n\n#### 36"
+  },
+  {
+   "id": "gsm8k_0619",
+   "hit": true,
+   "loop": false,
+   "tokens": 193,
+   "capped": false,
+   "got": "76",
+   "want": "76",
+   "tail": "× 6 poles per intersection × 4 lights per pole = 96 street lights. If 20 are not working, then the number of functioning street lights is 96 - 20 = 76.\n\n#### 76"
+  },
+  {
+   "id": "gsm8k_0620",
+   "hit": true,
+   "loop": false,
+   "tokens": 406,
+   "capped": false,
+   "got": "1509",
+   "want": "1509",
+   "tail": "135 = 865 more times. The total number of times both DVDs can be played before they break is the sum of their remaining capacities: 644 + 865 = 1509.\n\n#### 1509"
+  },
+  {
+   "id": "gsm8k_0621",
+   "hit": true,
+   "loop": false,
+   "tokens": 362,
+   "capped": false,
+   "got": "3000",
+   "want": "3000",
+   "tail": ". \nTotal number of hours = 6 weeks × 2 sessions/week × 2 hours/session = 24 hours. \nCost per hour = $125. \nTotal cost = 24 hours × $125/hour = $3000.\n\n#### 3000"
+  },
+  {
+   "id": "gsm8k_0622",
+   "hit": true,
+   "loop": false,
+   "tokens": 412,
+   "capped": false,
+   "got": "7",
+   "want": "7",
+   "tail": " 1 = 6 pieces chewed. He has 20 - 6 = 14 pieces left. He gives half of the remaining to his sister, which is 14/2 = 7 pieces, leaving him with 7 pieces.\n\n#### 7"
+  },
+  {
+   "id": "gsm8k_0623",
+   "hit": true,
+   "loop": false,
+   "tokens": 162,
+   "capped": false,
+   "got": "8",
+   "want": "8",
+   "tail": "wer is 8.\n</think>\n\nCharmaine will be 16 in 12 years, so her current age is 16 - 12 = 4 years old. In 4 years from now, she will be 4 + 4 = 8 years old.\n\n#### 8"
+  },
+  {
+   "id": "gsm8k_0624",
+   "hit": true,
+   "loop": false,
+   "tokens": 197,
+   "capped": false,
+   "got": "85",
+   "want": "85",
+   "tail": "The baseball coach spent 9 baseballs × $3 each = $27. \nThe basketball coach spent 8 basketballs × $14 each = $112. \nThe difference is $112 - $27 = $85.\n\n#### 85"
+  },
+  {
+   "id": "gsm8k_0625",
+   "hit": true,
+   "loop": false,
+   "tokens": 206,
+   "capped": false,
+   "got": "160",
+   "want": "160",
+   "tail": "each, so the total number of flowers is 10 × 20 = 200. Only 4/5 of these have bloomed, so the number of bloomed flowers is (4/5) × 200 = 4 × 40 = 160.\n\n#### 160"
+  },
+  {
+   "id": "gsm8k_0626",
+   "hit": true,
+   "loop": false,
+   "tokens": 495,
+   "capped": false,
+   "got": "72",
+   "want": "72",
+   "tail": " there are 3600 seconds in an hour, so 0.02 Mb/s × 3600 s/h = 72 Mb/h. Alternatively, 20 kb/s × 3600 s/h = 72000 kb/h, and 72000 kb/h ÷ 1000 = 72 Mb/h.\n\n#### 72"
+  },
+  {
+   "id": "gsm8k_0627",
+   "hit": true,
+   "loop": false,
+   "tokens": 339,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": "led 4 fewer cars than the first three days, so 10 - 4 = 6 cars per day: \n4 days × 6 cars/day = 24 cars.\n\nTotal cars towed that week: 30 + 24 = 54 cars.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0628",
+   "hit": true,
+   "loop": false,
+   "tokens": 422,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": " sides:\n\n\\[\n2y \\geq 8\n\\]\n\nDivide by 2:\n\n\\[\ny \\geq 4\n\\]\n\nSo after 4 years, Adam will be 40 + 2(4) = 48 inches tall, which is exactly the required height.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0629",
+   "hit": true,
+   "loop": false,
+   "tokens": 436,
+   "capped": false,
+   "got": "17500",
+   "want": "17500",
+   "tail": "sales revenue minus cost: $250,000 - $75,000 = $175,000. James gets a 10% commission on the profits, so his commission is 0.10 × $175,000 = $17,500.\n\n#### 17500"
+  },
+  {
+   "id": "gsm8k_0630",
+   "hit": true,
+   "loop": false,
+   "tokens": 355,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "right is \\(0.60 \\times 25 = 15\\). The number of men who stay upright is the total number of upright riders minus the number of women: \\(25 - 15 = 10\\).\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0631",
+   "hit": true,
+   "loop": false,
+   "tokens": 458,
+   "capped": false,
+   "got": "4800",
+   "want": "4800",
+   "tail": "ce of gold: \nSilver = $1600 - $400 = $1200. \nThe total price for all three jewels is the sum of their prices: \nTotal = $2000 + $1600 + $1200 = $4800.\n\n#### 4800"
+  },
+  {
+   "id": "gsm8k_0632",
+   "hit": true,
+   "loop": false,
+   "tokens": 189,
+   "capped": false,
+   "got": "45",
+   "want": "45",
+   "tail": "k stamps = 16 + 3 = 19. He bought 9 fewer rose stamps than truck stamps, so rose stamps = 19 - 9 = 10. The total number of stamps is 16 + 19 + 10 = 45.\n\n#### 45"
+  },
+  {
+   "id": "gsm8k_0633",
+   "hit": true,
+   "loop": false,
+   "tokens": 169,
+   "capped": false,
+   "got": "5",
+   "want": "5",
+   "tail": "Since Bob is initially 75 miles ahead, the time it takes for Tom to catch up is the distance divided by the relative speed: 75 miles / 15 mph = 5 hours.\n\n#### 5"
+  },
+  {
+   "id": "gsm8k_0634",
+   "hit": true,
+   "loop": false,
+   "tokens": 131,
+   "capped": false,
+   "got": "14",
+   "want": "14",
+   "tail": "N = 17.\nDarren = D = N - 6 = 17 - 6 = 11.\nTommy = T = D + 3 = 11 + 3 = 14.\n\nSo Tommy caught 14 fish.\n\nFinal answer: 14.\n</think>\n\nTommy caught 14 fish.\n\n#### 14"
+  },
+  {
+   "id": "gsm8k_0635",
+   "hit": true,
+   "loop": false,
+   "tokens": 838,
+   "capped": false,
+   "got": "4",
+   "want": "4",
+   "tail": "r class is exactly $10, which is not more than $10. If he misses 5 classes, he attends 5 classes, and the cost per class becomes $12, which exceeds $10.\n\n#### 4"
+  },
+  {
+   "id": "gsm8k_0636",
+   "hit": true,
+   "loop": false,
+   "tokens": 210,
+   "capped": false,
+   "got": "1050",
+   "want": "1050",
+   "tail": "week, Jewel processes 50 × 7 = 350 customers, and Julie processes 100 × 7 = 700 customers. The total weekly production is 350 + 700 = 1050 customers.\n\n#### 1050"
+  },
+  {
+   "id": "gsm8k_0637",
+   "hit": true,
+   "loop": false,
+   "tokens": 186,
+   "capped": false,
+   "got": "17",
+   "want": "17",
+   "tail": "Paisley ran 4 miles. Reggie ran 5 times that, so Reggie ran 5 × 4 = 20 miles. Reggie also ran 3 miles farther than Lynn, so Lynn ran 20 − 3 = 17 miles.\n\n#### 17"
+  },
+  {
+   "id": "gsm8k_0638",
+   "hit": true,
+   "loop": false,
+   "tokens": 254,
+   "capped": false,
+   "got": "12.00",
+   "want": "12",
+   "tail": " 4 = $1.30. The price per orange is $3.30 / 3 = $1.10. For 5 apples and 5 oranges, the total cost is 5 × $1.30 + 5 × $1.10 = $6.50 + $5.50 = $12.00.\n\n#### 12.00"
+  },
+  {
+   "id": "gsm8k_0639",
+   "hit": true,
+   "loop": false,
+   "tokens": 267,
+   "capped": false,
+   "got": "216",
+   "want": "216",
+   "tail": " of earth. Therefore, the total time required is:\n\nTotal time = volume × time per cubic foot = 72 cubic feet × 3 seconds per cubic foot = 216 seconds.\n\n#### 216"
+  },
+  {
+   "id": "gsm8k_0640",
+   "hit": true,
+   "loop": false,
+   "tokens": 418,
+   "capped": false,
+   "got": "43500",
+   "want": "43500",
+   "tail": "ackage: $1,500\n\nTotal extra cost = $7,500 + $2,500 + $2,000 + $1,500 = $13,500.\n\nTotal cost = base price + extra cost = $30,000 + $13,500 = $43,500.\n\n#### 43500"
+  },
+  {
+   "id": "gsm8k_0641",
+   "hit": false,
+   "loop": false,
+   "tokens": 1586,
+   "capped": false,
+   "got": "262000",
+   "want": "262500",
+   "tail": "one-time bonus worth half a month's salary, which is $20,000 / 2 = $10,000. Therefore, his total annual earnings are $252,000 + $10,000 = $262,000.\n\n#### 262000"
+  },
+  {
+   "id": "gsm8k_0642",
+   "hit": true,
+   "loop": false,
+   "tokens": 388,
+   "capped": false,
+   "got": "10800",
+   "want": "10800",
+   "tail": "dress shirts per suit, so he buys 10 × 3 = 30 dress shirts at $60 each, costing 30 × $60 = $1800. \nThe total cost is $7500 + $1500 + $1800 = $10800.\n\n#### 10800"
+  },
+  {
+   "id": "gsm8k_0643",
+   "hit": true,
+   "loop": false,
+   "tokens": 336,
+   "capped": false,
+   "got": "840",
+   "want": "840",
+   "tail": "es per day. In February, there are 28 days. Therefore, the total number of articles published in February is 30 articles/day × 28 days = 840 articles.\n\n#### 840"
+  },
+  {
+   "id": "gsm8k_0644",
+   "hit": true,
+   "loop": false,
+   "tokens": 172,
+   "capped": false,
+   "got": "29",
+   "want": "29",
+   "tail": "o she is 64. Their son is half as old as his mom, so the son is 64 / 2 = 32. The son's wife is 3 years younger than her husband, so she is 32 - 3 = 29.\n\n#### 29"
+  },
+  {
+   "id": "gsm8k_0645",
+   "hit": true,
+   "loop": false,
+   "tokens": 319,
+   "capped": false,
+   "got": "48",
+   "want": "48",
+   "tail": " are asked for the total amount of flour in three bags before division. Since each bag contains 16 kg, three bags contain:\n\n3 bags × 16 kg/bag = 48 kg.\n\n#### 48"
+  },
+  {
+   "id": "gsm8k_0646",
+   "hit": true,
+   "loop": false,
+   "tokens": 240,
+   "capped": false,
+   "got": "79",
+   "want": "79",
+   "tail": "12 miles per hour × 4.5 hours = 54 miles.\nStanley's distance: 10 miles per hour × 2.5 hours = 25 miles.\nTotal distance: 54 miles + 25 miles = 79 miles.\n\n#### 79"
+  },
+  {
+   "id": "gsm8k_0647",
+   "hit": true,
+   "loop": false,
+   "tokens": 209,
+   "capped": false,
+   "got": "10",
+   "want": "10",
+   "tail": "t of soil: 24 feet ÷ 4 feet/hour = 6 hours. \n- Time to dig 8 feet of clay: 8 feet ÷ 2 feet/hour = 4 hours. \n- Total time: 6 hours + 4 hours = 10 hours.\n\n#### 10"
+  },
+  {
+   "id": "gsm8k_0648",
+   "hit": true,
+   "loop": false,
+   "tokens": 397,
+   "capped": false,
+   "got": "54",
+   "want": "54",
+   "tail": " That's a total of 1 + 1 + 25 = 27 people. Each person gets 2 cupcakes (one vanilla and one chocolate). So the total number of cupcakes is 27 × 2 = 54.\n\n#### 54"
+  },
+  {
+   "id": "gsm8k_0649",
+   "hit": false,
+   "loop": false,
+   "tokens": 2048,
+   "capped": true,
+   "got": "12",
+   "want": "162000",
+   "tail": " - initial) => 70 initial - 2000 = 4000 - 2 initial => 72 initial = 6000 => initial = 6000/72 = 83.333... So initial = 250/3? 6000/72 simplifies: divide by 12: "
+  }
+ ]
+}

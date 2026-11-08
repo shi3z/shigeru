@@ -1,0 +1,500 @@
+{
+ "questions": [
+  "gsm8k_0450",
+  "gsm8k_0451",
+  "gsm8k_0452",
+  "gsm8k_0453",
+  "gsm8k_0454",
+  "gsm8k_0455",
+  "gsm8k_0456",
+  "gsm8k_0457",
+  "gsm8k_0458",
+  "gsm8k_0459",
+  "gsm8k_0460",
+  "gsm8k_0461",
+  "gsm8k_0462",
+  "gsm8k_0463",
+  "gsm8k_0464",
+  "gsm8k_0465",
+  "gsm8k_0466",
+  "gsm8k_0467",
+  "gsm8k_0468",
+  "gsm8k_0469",
+  "gsm8k_0470",
+  "gsm8k_0471",
+  "gsm8k_0472",
+  "gsm8k_0473",
+  "gsm8k_0474",
+  "gsm8k_0475",
+  "gsm8k_0476",
+  "gsm8k_0477",
+  "gsm8k_0478",
+  "gsm8k_0479",
+  "gsm8k_0480",
+  "gsm8k_0481",
+  "gsm8k_0482",
+  "gsm8k_0483",
+  "gsm8k_0484",
+  "gsm8k_0485",
+  "gsm8k_0486",
+  "gsm8k_0487",
+  "gsm8k_0488",
+  "gsm8k_0489",
+  "gsm8k_0490",
+  "gsm8k_0491",
+  "gsm8k_0492",
+  "gsm8k_0493",
+  "gsm8k_0494",
+  "gsm8k_0495",
+  "gsm8k_0496",
+  "gsm8k_0497",
+  "gsm8k_0498",
+  "gsm8k_0499",
+  "gsm8k_0500",
+  "gsm8k_0501",
+  "gsm8k_0502",
+  "gsm8k_0503",
+  "gsm8k_0504",
+  "gsm8k_0505",
+  "gsm8k_0506",
+  "gsm8k_0507",
+  "gsm8k_0508",
+  "gsm8k_0509",
+  "gsm8k_0510",
+  "gsm8k_0511",
+  "gsm8k_0512",
+  "gsm8k_0513",
+  "gsm8k_0514",
+  "gsm8k_0515",
+  "gsm8k_0516",
+  "gsm8k_0517",
+  "gsm8k_0518",
+  "gsm8k_0519",
+  "gsm8k_0520",
+  "gsm8k_0521",
+  "gsm8k_0522",
+  "gsm8k_0523",
+  "gsm8k_0524",
+  "gsm8k_0525",
+  "gsm8k_0526",
+  "gsm8k_0527",
+  "gsm8k_0528",
+  "gsm8k_0529",
+  "gsm8k_0530",
+  "gsm8k_0531",
+  "gsm8k_0532",
+  "gsm8k_0533",
+  "gsm8k_0534",
+  "gsm8k_0535",
+  "gsm8k_0536",
+  "gsm8k_0537",
+  "gsm8k_0538",
+  "gsm8k_0539",
+  "gsm8k_0540",
+  "gsm8k_0541",
+  "gsm8k_0542",
+  "gsm8k_0543",
+  "gsm8k_0544",
+  "gsm8k_0545",
+  "gsm8k_0546",
+  "gsm8k_0547",
+  "gsm8k_0548",
+  "gsm8k_0549",
+  "gsm8k_0550",
+  "gsm8k_0551",
+  "gsm8k_0552",
+  "gsm8k_0553",
+  "gsm8k_0554",
+  "gsm8k_0555",
+  "gsm8k_0556",
+  "gsm8k_0557",
+  "gsm8k_0558",
+  "gsm8k_0559",
+  "gsm8k_0560",
+  "gsm8k_0561",
+  "gsm8k_0562",
+  "gsm8k_0563",
+  "gsm8k_0564",
+  "gsm8k_0565",
+  "gsm8k_0566",
+  "gsm8k_0567",
+  "gsm8k_0568",
+  "gsm8k_0569",
+  "gsm8k_0570",
+  "gsm8k_0571",
+  "gsm8k_0572",
+  "gsm8k_0573",
+  "gsm8k_0574",
+  "gsm8k_0575",
+  "gsm8k_0576",
+  "gsm8k_0577",
+  "gsm8k_0578",
+  "gsm8k_0579",
+  "gsm8k_0580",
+  "gsm8k_0581",
+  "gsm8k_0582",
+  "gsm8k_0583",
+  "gsm8k_0584",
+  "gsm8k_0585",
+  "gsm8k_0586",
+  "gsm8k_0587",
+  "gsm8k_0588",
+  "gsm8k_0589",
+  "gsm8k_0590",
+  "gsm8k_0591",
+  "gsm8k_0592",
+  "gsm8k_0593",
+  "gsm8k_0594",
+  "gsm8k_0595",
+  "gsm8k_0596",
+  "gsm8k_0597",
+  "gsm8k_0598",
+  "gsm8k_0599",
+  "gsm8k_0600",
+  "gsm8k_0601",
+  "gsm8k_0602",
+  "gsm8k_0603",
+  "gsm8k_0604",
+  "gsm8k_0605",
+  "gsm8k_0606",
+  "gsm8k_0607",
+  "gsm8k_0608",
+  "gsm8k_0609",
+  "gsm8k_0610",
+  "gsm8k_0611",
+  "gsm8k_0612",
+  "gsm8k_0613",
+  "gsm8k_0614",
+  "gsm8k_0615",
+  "gsm8k_0616",
+  "gsm8k_0617",
+  "gsm8k_0618",
+  "gsm8k_0619",
+  "gsm8k_0620",
+  "gsm8k_0621",
+  "gsm8k_0622",
+  "gsm8k_0623",
+  "gsm8k_0624",
+  "gsm8k_0625",
+  "gsm8k_0626",
+  "gsm8k_0627",
+  "gsm8k_0628",
+  "gsm8k_0629",
+  "gsm8k_0630",
+  "gsm8k_0631",
+  "gsm8k_0632",
+  "gsm8k_0633",
+  "gsm8k_0634",
+  "gsm8k_0635",
+  "gsm8k_0636",
+  "gsm8k_0637",
+  "gsm8k_0638",
+  "gsm8k_0639",
+  "gsm8k_0640",
+  "gsm8k_0641",
+  "gsm8k_0642",
+  "gsm8k_0643",
+  "gsm8k_0644",
+  "gsm8k_0645",
+  "gsm8k_0646",
+  "gsm8k_0647",
+  "gsm8k_0648",
+  "gsm8k_0649"
+ ],
+ "arms": [
+  {
+   "label": "alpha0.25",
+   "alpha": 0.25,
+   "direction_layer": 20,
+   "layers": [
+    9,
+    24
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 32,
+   "after": {
+    "n": 200,
+    "accuracy": 0.965,
+    "loops": 8,
+    "loop_pct": 4.0,
+    "errors": 7,
+    "errors_that_loop": 4,
+    "mean_tokens": 401.1
+   },
+   "flips": {
+    "loop_to_clean": 5,
+    "clean_to_loop": 2,
+    "right_to_wrong": 0,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.015,
+   "delta_loop_pct": -1.5
+  },
+  {
+   "label": "alpha0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    9,
+    24
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 32,
+   "after": {
+    "n": 200,
+    "accuracy": 0.95,
+    "loops": 3,
+    "loop_pct": 1.5,
+    "errors": 10,
+    "errors_that_loop": 3,
+    "mean_tokens": 396.6
+   },
+   "flips": {
+    "loop_to_clean": 10,
+    "clean_to_loop": 2,
+    "right_to_wrong": 3,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.0,
+   "delta_loop_pct": -4.0
+  },
+  {
+   "label": "alpha0.75",
+   "alpha": 0.75,
+   "direction_layer": 20,
+   "layers": [
+    9,
+    24
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 32,
+   "after": {
+    "n": 200,
+    "accuracy": 0.935,
+    "loops": 3,
+    "loop_pct": 1.5,
+    "errors": 13,
+    "errors_that_loop": 3,
+    "mean_tokens": 403.9
+   },
+   "flips": {
+    "loop_to_clean": 9,
+    "clean_to_loop": 1,
+    "right_to_wrong": 7,
+    "wrong_to_right": 4
+   },
+   "delta_accuracy": -0.015,
+   "delta_loop_pct": -4.0
+  },
+  {
+   "label": "L16-24_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    16,
+    24
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 18,
+   "after": {
+    "n": 200,
+    "accuracy": 0.96,
+    "loops": 8,
+    "loop_pct": 4.0,
+    "errors": 8,
+    "errors_that_loop": 4,
+    "mean_tokens": 401.5
+   },
+   "flips": {
+    "loop_to_clean": 6,
+    "clean_to_loop": 3,
+    "right_to_wrong": 1,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.01,
+   "delta_loop_pct": -1.5
+  },
+  {
+   "label": "L16-31_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    16,
+    31
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 32,
+   "after": {
+    "n": 200,
+    "accuracy": 0.965,
+    "loops": 4,
+    "loop_pct": 2.0,
+    "errors": 7,
+    "errors_that_loop": 1,
+    "mean_tokens": 414.6
+   },
+   "flips": {
+    "loop_to_clean": 7,
+    "clean_to_loop": 0,
+    "right_to_wrong": 1,
+    "wrong_to_right": 4
+   },
+   "delta_accuracy": 0.015,
+   "delta_loop_pct": -3.5
+  },
+  {
+   "label": "L9-31_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    9,
+    31
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 46,
+   "after": {
+    "n": 200,
+    "accuracy": 0.955,
+    "loops": 2,
+    "loop_pct": 1.0,
+    "errors": 9,
+    "errors_that_loop": 2,
+    "mean_tokens": 381.5
+   },
+   "flips": {
+    "loop_to_clean": 11,
+    "clean_to_loop": 2,
+    "right_to_wrong": 2,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.005,
+   "delta_loop_pct": -4.5
+  },
+  {
+   "label": "mlp_only_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    16,
+    31
+   ],
+   "paths": [
+    "mlp.down_proj"
+   ],
+   "matrices": 16,
+   "after": {
+    "n": 200,
+    "accuracy": 0.95,
+    "loops": 11,
+    "loop_pct": 5.5,
+    "errors": 10,
+    "errors_that_loop": 7,
+    "mean_tokens": 418.5
+   },
+   "flips": {
+    "loop_to_clean": 5,
+    "clean_to_loop": 5,
+    "right_to_wrong": 3,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.0,
+   "delta_loop_pct": 0.0
+  },
+  {
+   "label": "attn_only_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 20,
+   "layers": [
+    16,
+    31
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj"
+   ],
+   "matrices": 16,
+   "after": {
+    "n": 200,
+    "accuracy": 0.955,
+    "loops": 5,
+    "loop_pct": 2.5,
+    "errors": 9,
+    "errors_that_loop": 3,
+    "mean_tokens": 394.2
+   },
+   "flips": {
+    "loop_to_clean": 7,
+    "clean_to_loop": 1,
+    "right_to_wrong": 2,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.005,
+   "delta_loop_pct": -3.0
+  },
+  {
+   "label": "dir16_a0.5",
+   "alpha": 0.5,
+   "direction_layer": 16,
+   "layers": [
+    16,
+    31
+   ],
+   "paths": [
+    "linear_attn.out_proj",
+    "self_attn.o_proj",
+    "mlp.down_proj"
+   ],
+   "matrices": 32,
+   "after": {
+    "n": 200,
+    "accuracy": 0.95,
+    "loops": 5,
+    "loop_pct": 2.5,
+    "errors": 10,
+    "errors_that_loop": 3,
+    "mean_tokens": 388.8
+   },
+   "flips": {
+    "loop_to_clean": 8,
+    "clean_to_loop": 2,
+    "right_to_wrong": 3,
+    "wrong_to_right": 3
+   },
+   "delta_accuracy": 0.0,
+   "delta_loop_pct": -3.0
+  }
+ ],
+ "baseline": {
+  "n": 200,
+  "accuracy": 0.95,
+  "loops": 11,
+  "loop_pct": 5.5,
+  "errors": 10,
+  "errors_that_loop": 4,
+  "mean_tokens": 430.3
+ }
+}

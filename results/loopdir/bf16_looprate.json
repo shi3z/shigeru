@@ -1,0 +1,1352 @@
+[
+ {
+  "id": "gsm8k_0000",
+  "hit": true,
+  "tokens": 246,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "per day. She uses 3 eggs for breakfast and 4 eggs for muffins, totaling 7 eggs used. The remaining eggs are 16 - 7 = 9 eggs. She sells each egg for $2, so her daily earnings are 9 × $2 = $18.\n\n#### 18"
+ },
+ {
+  "id": "gsm8k_0001",
+  "hit": true,
+  "tokens": 113,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "al = 2+1=3 bolts. So answer is 3.\n</think>\n\nThe robe requires 2 bolts of blue fiber. The white fiber needed is half of that, which is 1 bolt. Therefore, the total number of bolts is 2 + 1 = 3.\n\n#### 3"
+ },
+ {
+  "id": "gsm8k_0002",
+  "hit": true,
+  "tokens": 643,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "000, so the increase is 150% of $80,000 = 1.5 × $80,000 = $120,000. The new value is $80,000 + $120,000 = $200,000. Profit is the new value minus total cost: $200,000 - $130,000 = $70,000.\n\n#### 70000"
+ },
+ {
+  "id": "gsm8k_0003",
+  "hit": true,
+  "tokens": 206,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ine: #### 540\n</think>\n\nJames runs 3 sprints per session, 3 sessions per week, and each sprint is 60 meters. \nTotal sprints per week = 3 × 3 = 9 sprints. \nTotal meters = 9 × 60 = 540 meters.\n\n#### 540"
+ },
+ {
+  "id": "gsm8k_0004",
+  "hit": true,
+  "tokens": 354,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "daily feed needed for 20 chickens is 20 × 3 = 60 cups. \nMorning feed: 15 cups \nAfternoon feed: 25 cups \nTotal given so far: 15 + 25 = 40 cups \nRemaining for the final meal: 60 - 40 = 20 cups \n\n#### 20"
+ },
+ {
+  "id": "gsm8k_0005",
+  "hit": true,
+  "tokens": 394,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "5, which is $5 × 0.6 = $3. So the pattern is: $5, $3, $5, $3, ... For 16 glasses, there are 8 pairs of (full price, discounted price). Each pair costs $5 + $3 = $8. Total cost = 8 × $8 = $64.\n\n#### 64"
+ },
+ {
+  "id": "gsm8k_0006",
+  "hit": true,
+  "tokens": 233,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "p as Charleston, and Charleston has 4 times as many as Seattle. Given Seattle has 20 sheep:\n\n- Charleston: 4 × 20 = 80 sheep\n- Toulouse: 2 × 80 = 160 sheep\n- Total: 20 + 80 + 160 = 260 sheep\n\n#### 260"
+ },
+ {
+  "id": "gsm8k_0007",
+  "hit": true,
+  "tokens": 1080,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "nload 40% of 200 GB = 80 GB at 2 GB/min = 40 minutes.\n- Restart time = 20 minutes.\n- Time to download the full 200 GB = 200 GB / 2 GB/min = 100 minutes.\n\nTotal = 40 + 20 + 100 = 160 minutes.\n\n#### 160"
+ },
+ {
+  "id": "gsm8k_0008",
+  "hit": true,
+  "tokens": 636,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "remaining 1.5 hours (since 4 - 2.5 = 1.5) he drives at 80 mph, covering 120 miles. Total distance traveled toward home is 15 + 120 = 135 miles. His distance from home is 180 - 135 = 45 miles.\n\n#### 45"
+ },
+ {
+  "id": "gsm8k_0009",
+  "hit": true,
+  "tokens": 288,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " rate is 1.2 times the regular rate, which is $12 per hour. She worked 45 hours, so 40 regular hours and 5 overtime hours.\n\nEarnings = (40 hours × $10) + (5 hours × $12) = $400 + $60 = $460.\n\n#### 460"
+ },
+ {
+  "id": "gsm8k_0010",
+  "hit": true,
+  "tokens": 522,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " third month had a 30% reduction from the second month's downloads: \\(180 \\times (1 - 0.30) = 180 \\times 0.70 = 126\\) downloads. \nTotal downloads over three months: \\(60 + 180 + 126 = 366\\).\n\n#### 366"
+ },
+ {
+  "id": "gsm8k_0011",
+  "hit": true,
+  "tokens": 319,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "m and summing the results:\n\n- Donuts: 3 dozen × $68/dozen = $204\n- Mini cupcakes: 2 dozen × $80/dozen = $160\n- Mini cheesecakes: 6 dozen × $55/dozen = $330\n\nTotal = $204 + $160 + $330 = $694\n\n#### 694"
+ },
+ {
+  "id": "gsm8k_0012",
+  "hit": false,
+  "tokens": 1332,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "fit becomes zero, meaning he starts earning money in the 13th year. However, the question asks how many years it takes before he starts earning money, which is the break-even point: 12 years.\n\n#### 12"
+ },
+ {
+  "id": "gsm8k_0013",
+  "hit": true,
+  "tokens": 345,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "\nCheck: Start with 18. Sold 1/3 = 6 at green, left 12. Sold 2 at red, left 10. Sold half of 10 = 5 at orange, left 5. Yes.\n\nSo answer is 18.\n</think>\n\nMelanie started with 18 vacuum cleaners.\n\n#### 18"
+ },
+ {
+  "id": "gsm8k_0014",
+  "hit": true,
+  "tokens": 406,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ts: 20 - 4 = 16. \n- Jazz dance: 25% of 16 = 4 students. \n- Remaining students: 16 - 4 = 12. \n- Hip-hop dance: 12 students. \n- Percentage of entire students in hip-hop: (12 / 20) × 100% = 60%.\n\n#### 60"
+ },
+ {
+  "id": "gsm8k_0015",
+  "hit": true,
+  "tokens": 504,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ry: $5,000 × 2.5% = $5,000 × 0.025 = $125.\n- For electronic gadgets: $8,000 × 1.2% = $8,000 × 0.012 = $96.\n\nTo maximize profit, the merchant should choose jewelry, yielding a profit of $125.\n\n#### 125"
+ },
+ {
+  "id": "gsm8k_0016",
+  "hit": true,
+  "tokens": 354,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "us final answer: 230.\n</think>\n\nThe total distance covered by each train is the sum of the distances traveled on each day: 80 miles westward plus 150 miles northward, which equals 230 miles.\n\n#### 230"
+ },
+ {
+  "id": "gsm8k_0017",
+  "hit": true,
+  "tokens": 390,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " At $20/hour, this is 1,750 × $20 = $35,000.\n- Coaching: 15 hours/week × 50 weeks = 750 hours. At $30/hour, this is 750 × $30 = $22,500.\n- Total annual salary: $35,000 + $22,500 = $57,500.\n\n#### 57500"
+ },
+ {
+  "id": "gsm8k_0018",
+  "hit": true,
+  "tokens": 236,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "/ 12 = 7 dozens.\n\nThus answer is 7.\n\nFinal answer: #### 7\n</think>\n\nClaire eats 3 eggs per day. Over 4 weeks (28 days), she eats 3 × 28 = 84 eggs. Since a dozen is 12 eggs, 84 ÷ 12 = 7 dozens.\n\n#### 7"
+ },
+ {
+  "id": "gsm8k_0019",
+  "hit": true,
+  "tokens": 293,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " in 2 hours. To achieve an average speed of 4 mph over 12 miles, she needs a total time of 12 / 4 = 3 hours. She has 1 hour remaining to cover the remaining 6 miles, so she must walk at 6 mph.\n\n#### 6"
+ },
+ {
+  "id": "gsm8k_0020",
+  "hit": true,
+  "tokens": 478,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "r of the orange drink is spilled, so only 9 liters of orange drink are added. The water from the added orange drink = (2/3) × 9 = 6 liters. The total water in the mixture = 6 + 9 = 15 liters.\n\n#### 15"
+ },
+ {
+  "id": "gsm8k_0021",
+  "hit": true,
+  "tokens": 354,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s 6 years older than Samantha. Since Samantha is 31, Raymond is 31 + 6 = 37. Raymond had his son at age 23, so the son is now 37 - 23 = 14 years old. Therefore, the son was born 14 years ago.\n\n#### 14"
+ },
+ {
+  "id": "gsm8k_0022",
+  "hit": true,
+  "tokens": 185,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ld DVDs to his first 3 customers, each buying 1 DVD, so that's 3 DVDs. His next 2 customers each bought 2 DVDs, so that's 4 DVDs. His last 3 customers bought none. Total DVDs sold = 3 + 4 = 7.\n\n#### 7"
+ },
+ {
+  "id": "gsm8k_0023",
+  "hit": true,
+  "tokens": 166,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "o answer is 8.\n</think>\n\nThe candle burns from 1:00 PM to 5:00 PM, which is a duration of 4 hours. Since it melts 2 centimeters per hour, the total amount melted is 2 cm/hour × 4 hours = 8 cm.\n\n#### 8"
+ },
+ {
+  "id": "gsm8k_0024",
+  "hit": true,
+  "tokens": 272,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " after a 25% discount, meaning it represents 75% of the original price. To find the original price, divide the sale price by 0.75:\n\n\\[\n\\text{Original price} = \\frac{19.50}{0.75} = 26.00\n\\]\n\n#### 26.00"
+ },
+ {
+  "id": "gsm8k_0025",
+  "hit": true,
+  "tokens": 358,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "eal: $12\n- 5 packs of milk: 5 × $3 = $15\n- 4 apples: 4 × $1.50 = $6\n- x boxes of pizza: x × $8.50\n\nTotal cost: $12 + $15 + $6 + $8.50x = $50\n$33 + $8.50x = $50\n$8.50x = $17\nx = $17 / $8.50 = 2\n\n#### 2"
+ },
+ {
+  "id": "gsm8k_0026",
+  "hit": true,
+  "tokens": 386,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 3 pairs of shoes at $42 each.\n\n- Cost of shorts: 3 × $16.50 = $49.50\n- Cost of pants: 3 × $22.50 = $67.50\n- Cost of shoes: 3 × $42 = $126.00\n\nTotal cost: $49.50 + $67.50 + $126.00 = $243.00\n\n#### 243"
+ },
+ {
+  "id": "gsm8k_0027",
+  "hit": true,
+  "tokens": 250,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " serving per night for 60 days, so she needs 60 servings. Each carton contains 15 servings, so she needs 60 ÷ 15 = 4 cartons. Each carton costs $4.00, so the total cost is 4 × $4.00 = $16.00.\n\n#### 16"
+ },
+ {
+  "id": "gsm8k_0028",
+  "hit": true,
+  "tokens": 325,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s 60 miles. He first stops after 20 miles. The second stop is 15 miles before the end, so it is at 60 - 15 = 45 miles from the start. The distance between the two stops is 45 - 20 = 25 miles.\n\n#### 25"
+ },
+ {
+  "id": "gsm8k_0029",
+  "hit": true,
+  "tokens": 313,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "104\n</think>\n\nThe two pairs of high heels cost $33 and twice that, which is $66. Their total cost is $33 + $66 = $99. This total is $5 less than the boots, so the boots cost $99 + $5 = $104.\n\n#### 104"
+ },
+ {
+  "id": "gsm8k_0030",
+  "hit": true,
+  "tokens": 247,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "think>\n\nDarrell's age is 7x, Allen's age is 11x. Their total age is 7x + 11x = 18x = 162, so x = 9. Allen's current age is 11 × 9 = 99. Ten years from now, Allen's age will be 99 + 10 = 109.\n\n#### 109"
+ },
+ {
+  "id": "gsm8k_0031",
+  "hit": true,
+  "tokens": 476,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ives 60. \nThe third friend says \"25% more than the first one\": 25% of 80 is 20, so 80 + 20 = 100. \nThe three guesses are 80, 60, and 100. \nTheir average is (80 + 60 + 100) / 3 = 240 / 3 = 80.\n\n#### 80"
+ },
+ {
+  "id": "gsm8k_0032",
+  "hit": true,
+  "tokens": 244,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ogs, and each dog requires 0.5 hours of care per day. \nTotal daily time: 10 dogs × 0.5 hours/dog = 5 hours per day. \nAssuming a 7-day week, total weekly time: 5 hours/day × 7 days = 35 hours.\n\n#### 35"
+ },
+ {
+  "id": "gsm8k_0033",
+  "hit": true,
+  "tokens": 301,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ins is:\n\\[\nS + (S + 30) = 110\n\\]\nSimplify:\n\\[\n2S + 30 = 110\n\\]\nSubtract 30 from both sides:\n\\[\n2S = 80\n\\]\nDivide by 2:\n\\[\nS = 40\n\\]\nSo the number of gold coins is:\n\\[\nS + 30 = 40 + 30 = 70\n\\]\n\n#### 70"
+ },
+ {
+  "id": "gsm8k_0034",
+  "hit": true,
+  "tokens": 215,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "al answer: 23.\n</think>\n\nRaymond has 40 jewels. Aaron has 5 more jewels than half of Raymond's jewels: half of 40 is 20, plus 5 is 25. Siobhan has 2 fewer jewels than Aaron: 25 minus 2 is 23.\n\n#### 23"
+ },
+ {
+  "id": "gsm8k_0035",
+  "hit": true,
+  "tokens": 399,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "n the second 20 minutes, he scores 25% more points than in the first 20 minutes. \n25% of 4 is 0.25 × 4 = 1. \nSo in the second 20 minutes, he scores 4 + 1 = 5 points. \nTotal points = 4 + 5 = 9.\n\n#### 9"
+ },
+ {
+  "id": "gsm8k_0036",
+  "hit": true,
+  "tokens": 295,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "onsumes 2 × 30 = 60 yogurts. The sale price is 4 yogurts for $5.00, meaning each set of 4 costs $5.00. The number of sets needed is 60 ÷ 4 = 15 sets. The total cost is 15 × $5.00 = $75.00.\n\n#### 75.00"
+ },
+ {
+  "id": "gsm8k_0037",
+  "hit": false,
+  "tokens": 483,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ives them away. So 0.\n\nThus final answer: 0.\n</think>\n\nJohn sells all 13 of his lego sets, so he no longer has any of them. The information about the video games is irrelevant to the question.\n\n#### 0"
+ },
+ {
+  "id": "gsm8k_0038",
+  "hit": true,
+  "tokens": 745,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "half as much time as the first day, which is 3/2 = 1.5 hours each. Total running time = 3 + 1.5 + 1.5 = 6 hours. His speed is distance divided by time: 60 miles / 6 hours = 10 miles per hour.\n\n#### 10"
+ },
+ {
+  "id": "gsm8k_0039",
+  "hit": true,
+  "tokens": 522,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "1/3) × 6 = 2 hours. Walking time = (2/3) × 6 = 4 hours.\n\nDistance while running = 6 mph × 2 h = 12 miles.\nDistance while walking = 1.5 mph × 4 h = 6 miles.\nTotal distance = 12 + 6 = 18 miles.\n\n#### 18"
+ },
+ {
+  "id": "gsm8k_0040",
+  "hit": true,
+  "tokens": 972,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "Suzy's iPhone is 1 year old.\n\nInterpret \"two times older\" as \"two times as old\" (common in math problems). So Ben's iPhone is 2 × 1 = 2 years old. Then Brandon's iPhone is 4 × 2 = 8 years old.\n\n#### 8"
+ },
+ {
+  "id": "gsm8k_0041",
+  "hit": true,
+  "tokens": 761,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "nce is \\(3 \\times 400 = 1200\\) feet. The dragon's flames reach 1000 feet. To hit the dragon, Polly must stand within 1200 feet. The distance outside the flames is \\(1200 - 1000 = 200\\) feet.\n\n#### 200"
+ },
+ {
+  "id": "gsm8k_0042",
+  "hit": true,
+  "tokens": 258,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 8 pieces, so the total number of pieces is \\(5 \\times 8 = 40\\). After the guests took some, 14 pieces remained. The number of pieces taken is the total minus the remaining: \\(40 - 14 = 26\\).\n\n#### 26"
+ },
+ {
+  "id": "gsm8k_0043",
+  "hit": true,
+  "tokens": 277,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "d weighs 300g. So weight per serving = 300g / 5 = 60g per serving.\n7. Therefore, grams that can be eaten = 0.8 servings * 60g/serving = 48g.\n\nSo answer is 48 grams.\n\nFinal answer: #### 48\n</think>\n\n48"
+ },
+ {
+  "id": "gsm8k_0044",
+  "hit": true,
+  "tokens": 428,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": ", he needs 20 ÷ 10 = 2 pounds of beeswax. The cost for one pound of beeswax and wicks is $10.00, so total cost is 2 × $10.00 = $20.00.\n\nNet profit = revenue - cost = $40.00 - $20.00 = $20.00.\n\n#### 20"
+ },
+ {
+  "id": "gsm8k_0045",
+  "hit": true,
+  "tokens": 867,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "wrote twice the number of articles on Tuesday: \nWednesday = 2 * 7 = 14 articles. \nTotal articles = 5 + 7 + 14 = 26 articles. \nEach article takes 4 hours, so total hours = 26 * 4 = 104 hours.\n\n#### 104"
+ },
+ {
+  "id": "gsm8k_0046",
+  "hit": true,
+  "tokens": 383,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "otes. She used 220 notes at work and had 23 left. The equation is:\n\n\\[\n80 + x - 220 = 23\n\\]\n\nSolving for \\(x\\):\n\n\\[\nx = 23 + 220 - 80 = 163\n\\]\n\nThus, the package contained 163 post-it notes.\n\n#### 163"
+ },
+ {
+  "id": "gsm8k_0047",
+  "hit": true,
+  "tokens": 398,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "e as many red ties, so 2 * 5 = 10 red ties. Red ties cost 50% more than blue ties, so $40 + 0.5 * $40 = $60 each. Total spent on red ties = 10 * $60 = $600. Total spent = $200 + $600 = $800.\n\n#### 800"
+ },
+ {
+  "id": "gsm8k_0048",
+  "hit": true,
+  "tokens": 222,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "/think>\n\nTracy has a wire that is 4 feet long. Since 1 foot equals 12 inches, the total length in inches is 4 × 12 = 48 inches. Each piece is 6 inches long. The number of pieces is 48 ÷ 6 = 8.\n\n#### 8"
+ },
+ {
+  "id": "gsm8k_0049",
+  "hit": true,
+  "tokens": 282,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s each, so the total number of units is 15 × 8 = 120. Since 3/4 of the building is occupied, the number of occupied units is (3/4) × 120 = 90. The number of unoccupied units is 120 − 90 = 30.\n\n#### 30"
+ },
+ {
+  "id": "gsm8k_0050",
+  "hit": true,
+  "tokens": 281,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 252 eggs per day. Since he sells eggs for $2 per dozen (12 eggs), the price per egg is $2/12 = $1/6. His daily earnings are 252 × (1/6) = $42. Over a week (7 days), he makes 7 × $42 = $294.\n\n#### 294"
+ },
+ {
+  "id": "gsm8k_0051",
+  "hit": true,
+  "tokens": 321,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": ".\n</think>\n\nTom sails from 1 to 4 PM, which is 3 hours. At 10 mph, the distance traveled is \\(10 \\times 3 = 30\\) miles. He then returns at 6 mph, so the time to return is \\(30 / 6 = 5\\) hours.\n\n#### 5"
+ },
+ {
+  "id": "gsm8k_0052",
+  "hit": true,
+  "tokens": 318,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "rac{1}{4} = 7.5\\) pounds. The remaining weight to remove is \\(15 - 7.5 = 7.5\\) pounds. Each toy weighs 1/2 pound, so the number of toys needed is \\(7.5 \\div \\frac{1}{2} = 7.5 \\times 2 = 15\\).\n\n#### 15"
+ },
+ {
+  "id": "gsm8k_0053",
+  "hit": true,
+  "tokens": 403,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " = $520 \n\nOn Friday: \n- Car tires: 12 × $40 = $480 \n- Truck tires: 0 × $60 = $0 \n- Total Friday revenue = $480 \n\nThe higher revenue is on Thursday ($520). The difference is $520 - $480 = $40.\n\n#### 40"
+ },
+ {
+  "id": "gsm8k_0054",
+  "hit": true,
+  "tokens": 680,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "\\(3 \\times 7 = 21\\), and Trixie has had 12. The total number of kittens the family now has is the 7 they are driving home plus the 21 from Patchy and the 12 from Trixie: \\(7 + 21 + 12 = 40\\).\n\n#### 40"
+ },
+ {
+  "id": "gsm8k_0055",
+  "hit": true,
+  "tokens": 191,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "answer is 14.\n</think>\n\nJean starts with 30 lollipops. After eating 2, she has 30 - 2 = 28 lollipops left. She puts 2 lollipops in each bag, so the number of bags she can fill is 28 ÷ 2 = 14.\n\n#### 14"
+ },
+ {
+  "id": "gsm8k_0056",
+  "hit": true,
+  "tokens": 160,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "of times = 42 / 14 = 3. So answer is 3.\n</think>\n\nPeter spends $7 on a ticket and $7 on popcorn each time he goes to the movies, so each visit costs $14. With $42, he can go 42 ÷ 14 = 3 times.\n\n#### 3"
+ },
+ {
+  "id": "gsm8k_0057",
+  "hit": true,
+  "tokens": 320,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " is found by solving the inequality:\n\n\\[\n3755 + 15n \\leq 5000\n\\]\n\nSubtract 3755 from both sides:\n\n\\[\n15n \\leq 1245\n\\]\n\nDivide by 15:\n\n\\[\nn \\leq 83\n\\]\n\nThus, the maximum number of boxes is 83.\n\n#### 83"
+ },
+ {
+  "id": "gsm8k_0058",
+  "hit": true,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "n't make sense. So it's the total amount he paid.\n\nThus, answer is 57.\n\nI'll put it as #### 57.\n</think>\n\nThe base price of the groceries is $40.00. A 25% fee is added, which is $10.00. A delivery fee"
+ },
+ {
+  "id": "gsm8k_0059",
+  "hit": true,
+  "tokens": 158,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s is calculated by adding the fruit from the clusters and the individual fruit.\n\n- Fruit from clusters: 6 clusters × 20 fruit per cluster = 120\n- Individual fruit: 67\n- Total: 120 + 67 = 187\n\n#### 187"
+ },
+ {
+  "id": "gsm8k_0060",
+  "hit": true,
+  "tokens": 468,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "1 is bad.\n- 20% are unripe: 20% of 25 = 5.\n- 2 are sour.\n- The rest are good.\n\nAssuming these categories are mutually exclusive, the number of good oranges is:\n25 - (1 + 5 + 2) = 25 - 8 = 17.\n\n#### 17"
+ },
+ {
+  "id": "gsm8k_0061",
+  "hit": true,
+  "tokens": 292,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ink>\n\nJanet pays $500 for material and $800 for construction, totaling $1300. She then pays 10% of that amount for insurance: 10% of $1300 = $130. Her total payment is $1300 + $130 = $1430.\n\n#### 1430"
+ },
+ {
+  "id": "gsm8k_0062",
+  "hit": true,
+  "tokens": 644,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "ch additional year of service. If she works 30 years, she has 10 years beyond the 20-year threshold. Therefore, her pension is 10 × 5% = 50% of the full pension. 50% of $50,000 is $25,000.\n\n#### 25000"
+ },
+ {
+  "id": "gsm8k_0063",
+  "hit": true,
+  "tokens": 415,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "cond half of the year, the charge is 10% less, so \\(140 \\times 0.9 = 126\\) dollars per month, totaling \\(6 \\times 126 = 756\\) dollars. The total amount paid is \\(840 + 756 = 1596\\) dollars.\n\n#### 1596"
+ },
+ {
+  "id": "gsm8k_0064",
+  "hit": false,
+  "tokens": 436,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ons, she used 12 - 4 = 8 gallons for those 100 miles. Her fuel efficiency is 100 miles / 8 gallons = 12.5 miles per gallon. On a full tank of 12 gallons, she can drive 12 * 12.5 = 150 miles.\n\n#### 150"
+ },
+ {
+  "id": "gsm8k_0065",
+  "hit": true,
+  "tokens": 268,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " reads for half as long, which is 1 hour. So each session totals 2 + 1 = 3 hours. He does this 3 times a week, so per week he spends 3 × 3 = 9 hours. Over 4 weeks, he spends 9 × 4 = 36 hours.\n\n#### 36"
+ },
+ {
+  "id": "gsm8k_0066",
+  "hit": true,
+  "tokens": 286,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "a boys' team, each with 5 players, so 10 players per school. Each team also has a coach, so 2 coaches per school. That's 12 people per school. With 4 schools, the total is 4 × 12 = 48 people.\n\n#### 48"
+ },
+ {
+  "id": "gsm8k_0067",
+  "hit": true,
+  "tokens": 288,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "f diamonds is 175. \nThe number of rubies is 35 fewer than diamonds: 175 - 35 = 140. \nThe number of emeralds is twice the number of rubies: 2 × 140 = 280. \nTotal gems = 175 + 140 + 280 = 595.\n\n#### 595"
+ },
+ {
+  "id": "gsm8k_0068",
+  "hit": true,
+  "tokens": 289,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " girls, the number of boys is \\(2 \\times 60 = 120\\). The total number of students is \\(60 + 120 = 180\\). With a student-to-teacher ratio of 5:1, the number of teachers is \\(180 \\div 5 = 36\\).\n\n#### 36"
+ },
+ {
+  "id": "gsm8k_0069",
+  "hit": true,
+  "tokens": 257,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "tal allowance is \\( 5 \\times 8 = 40 \\) dollars. At the end of 8 weeks, her total money is \\( x + 40 = 100 \\). Solving for \\( x \\): \\( x = 100 - 40 = 60 \\). Therefore, Bailey started with $60.\n\n#### 60"
+ },
+ {
+  "id": "gsm8k_0070",
+  "hit": true,
+  "tokens": 346,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " classes per week: 25 + 8 = 33 classes. \n\nEach class has 15 students, so total students per week: 33 × 15 = 495 students. \nShe charges $15 per student, so total revenue: 495 × $15 = $7,425.\n\n#### 7425"
+ },
+ {
+  "id": "gsm8k_0071",
+  "hit": true,
+  "tokens": 169,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "nstructions. The second recipe has twice as many, so 2 × 20 = 40 instructions. To prepare both dishes, Kelian must read all instructions from both recipes, totaling 20 + 40 = 60 instructions.\n\n#### 60"
+ },
+ {
+  "id": "gsm8k_0072",
+  "hit": true,
+  "tokens": 228,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "irst, calculate the money from brownies: \n43 brownies × $3 = $129.\n\nNext, calculate the money from cheesecakes: \n23 cheesecakes × $4 = $92.\n\nAdd the two amounts together: \n$129 + $92 = $221.\n\n#### 221"
+ },
+ {
+  "id": "gsm8k_0073",
+  "hit": false,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "al cost, then divide by 3.\n\nThus answer: 255.\n\nBut let's double-check: If the interest is 2% per month, then total interest = 750 * 0.02 * 3 = 45, total = 795, monthly = 265. Which one is more common?"
+ },
+ {
+  "id": "gsm8k_0074",
+  "hit": true,
+  "tokens": 407,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " Marigolds: $2.74 → $3\n- Petunias: $1.87 → $2\n- Begonias: $2.12 → $2\n\nThen he sells:\n- 12 marigolds × $3 = $36\n- 9 petunias × $2 = $18\n- 17 begonias × $2 = $34\n\nTotal = $36 + $18 + $34 = $88.\n\n#### 88"
+ },
+ {
+  "id": "gsm8k_0075",
+  "hit": true,
+  "tokens": 652,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " Level 1: 16\n- Level 2: 16 × 2 = 32\n- Level 3: 32 × 2 = 64\n- Level 4: 64 × 2 = 128\n\nThe total square footage is 16 + 32 + 64 + 128 = 240. The average square footage per level is 240 ÷ 4 = 60.\n\n#### 60"
+ },
+ {
+  "id": "gsm8k_0076",
+  "hit": true,
+  "tokens": 438,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "rst year:\n- First 180 days: 180 × 1 = 180 cups\n- Next 185 days: 185 × 2 = 370 cups\n- Total: 180 + 370 = 550 cups\n\nEach bag contains 110 cups, so the number of bags used is:\n550 ÷ 110 = 5 bags.\n\n#### 5"
+ },
+ {
+  "id": "gsm8k_0077",
+  "hit": true,
+  "tokens": 280,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "es 400 pounds, Raymond does 400 / 2 = 200 pounds. Sarah does 4 times as much as David, so David does 400 / 4 = 100 pounds. The difference between Raymond and David is 200 - 100 = 100 pounds.\n\n#### 100"
+ },
+ {
+  "id": "gsm8k_0078",
+  "hit": true,
+  "tokens": 1079,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "buy 18 flowers at the better price, he needs 18 / 2 = 9 packages, costing 9 × $1 = $9. At the other price, he needs 18 / 3 = 6 packages, costing 6 × $2.50 = $15. The savings are $15 - $9 = $6.\n\n#### 6"
+ },
+ {
+  "id": "gsm8k_0079",
+  "hit": true,
+  "tokens": 157,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "00 - 30% of $100 = $100 - $30 = $70. So answer is 70.\n</think>\n\nThe original grooming cost is $100. A 30% discount means John pays 70% of the original price. So the cost is $100 × 0.70 = $70.\n\n#### 70"
+ },
+ {
+  "id": "gsm8k_0080",
+  "hit": true,
+  "tokens": 325,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 24 = 4 \\) liters. Two girls together take \\( 4 \\times 2 = 8 \\) liters. Then a boy takes 6 liters, so total taken is \\( 8 + 6 = 14 \\) liters. The remaining water is \\( 24 - 14 = 10 \\) liters.\n\n#### 10"
+ },
+ {
+  "id": "gsm8k_0081",
+  "hit": true,
+  "tokens": 278,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ckers. He bought 21 more, so he had 10 + 21 = 31. He received 23 for his birthday, making it 31 + 23 = 54. He gave 9 to his sister, leaving 54 - 9 = 45. He used 28 on a card, so 45 - 28 = 17.\n\n#### 17"
+ },
+ {
+  "id": "gsm8k_0082",
+  "hit": true,
+  "tokens": 172,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " answer is 623.\n</think>\n\nGrace weighs 125 pounds. Alex weighs 2 pounds less than 4 times Grace's weight: \n4 × 125 = 500, then 500 − 2 = 498 pounds. \nCombined weight: 125 + 498 = 623 pounds.\n\n#### 623"
+ },
+ {
+  "id": "gsm8k_0083",
+  "hit": true,
+  "tokens": 199,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "by multiplying the number of rose bushes by the number of roses per bush and then by the number of thorns per rose:\n\n3 bushes × 25 roses/bush = 75 roses\n75 roses × 8 thorns/rose = 600 thorns\n\n#### 600"
+ },
+ {
+  "id": "gsm8k_0084",
+  "hit": true,
+  "tokens": 241,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ses be \\(L\\). Then the number of wins is \\(L + 8\\). The total games equation is:\n\\[\nL + (L + 8) = 22\n\\]\n\\[\n2L + 8 = 22\n\\]\n\\[\n2L = 14\n\\]\n\\[\nL = 7\n\\]\nThus, the number of wins is \\(7 + 8 = 15\\).\n\n#### 15"
+ },
+ {
+  "id": "gsm8k_0085",
+  "hit": true,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": " ambiguous.\n\nIn many math problems, \"since he was 23\" means from age 23 to now, so the number of years is 34 - 23 = 11. But then if he goes on four vacations a year, total vacations = 11 * 4 = 44. But"
+ },
+ {
+  "id": "gsm8k_0086",
+  "hit": true,
+  "tokens": 354,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "time it rang three times as long as the first, so \\(3 \\times 4 = 12\\) times. \nThe third time it rang half as long as the second, so \\(12 \\div 2 = 6\\) times. \nTotal rings: \\(4 + 12 + 6 = 22\\).\n\n#### 22"
+ },
+ {
+  "id": "gsm8k_0087",
+  "hit": false,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "e salary they will earn for the next year. So if Sylvie just clocked 5 years last December, that means as of last December, she has completed 5 years. So her salary for the next year (the 6th year) is"
+ },
+ {
+  "id": "gsm8k_0088",
+  "hit": true,
+  "tokens": 148,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " copies = H. Then Marilyn's copies = 10H. Combined: H + 10H = 11H = 88,000. So H = 88,000 / 11 = 8,000. So Harald sold 8,000 copies.\n\nFinal answer: 8000.\n</think>\n\nHarald sold 8,000 copies.\n\n#### 8000"
+ },
+ {
+  "id": "gsm8k_0089",
+  "hit": true,
+  "tokens": 421,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "vited guest, which is equivalent to needing gift bags for the expected attendees: \\(16 \\times 0.75 = 12\\) gift bags. Each gift bag costs $2, so the total cost is \\(12 \\times 2 = 24\\) dollars.\n\n#### 24"
+ },
+ {
+  "id": "gsm8k_0090",
+  "hit": true,
+  "tokens": 242,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " * 10 = 200 lbs.\n- Total for children: 5 * 5 = 25 lbs.\n- Total needed: 200 + 25 = 225 lbs.\n\nSo answer is 225.\n\nFinal answer: #### 225\n</think>\n\nTed needs to bring 225 pounds of potato salad.\n\n#### 225"
+ },
+ {
+  "id": "gsm8k_0091",
+  "hit": true,
+  "tokens": 226,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ink>\n\nCindy has 4 pets. Marcia has 2 more than Cindy, so Marcia has 4 + 2 = 6 pets. Jan has 3 times as many as Marcia, so Jan has 3 × 6 = 18 pets. The total number of pets is 4 + 6 + 18 = 28.\n\n#### 28"
+ },
+ {
+  "id": "gsm8k_0092",
+  "hit": true,
+  "tokens": 249,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " and 4: 10 = C - 1 => C = 11.\nThen from 2: A = C - 2 = 11 - 2 = 9.\nThen from 1: A = J + 5 => 9 = J + 5 => J = 4.\n\nSo Jackson is 4 years old.\n\nFinal answer: 4.\n</think>\n\nJackson is 4 years old.\n\n#### 4"
+ },
+ {
+  "id": "gsm8k_0093",
+  "hit": false,
+  "tokens": 1701,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": true,
+  "tail": "8 seconds. Before Gerald's diet change, Lee was 2 seconds faster, so Gerald's old time was 38 + 2 = 40 seconds. After a 10% speed increase, Gerald's new time is 40 / 1.1 = 400/11 seconds.\n\n#### 400/11"
+ },
+ {
+  "id": "gsm8k_0094",
+  "hit": true,
+  "tokens": 362,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "mbined number of dogs and cats is \\(60 + 120 = 180\\). The number of rabbits is 12 less than this combined number, so \\(180 - 12 = 168\\). The total number of pets is \\(60 + 120 + 168 = 348\\).\n\n#### 348"
+ },
+ {
+  "id": "gsm8k_0095",
+  "hit": true,
+  "tokens": 300,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "40\n</think>\n\nThe total number of students is 200. \nBoys = (2/5) × 200 = 80. \nGirls = 200 - 80 = 120. \nGirls in the girl scout = (2/3) × 120 = 80. \nGirls not in the girl scout = 120 - 80 = 40.\n\n#### 40"
+ },
+ {
+  "id": "gsm8k_0096",
+  "hit": true,
+  "tokens": 115,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "pt 9, James slept 6, so Harry slept 3 more hours than James. Answer: 3.\n</think>\n\nHarry slept 9 hours. James slept 2/3 of that, which is (2/3) × 9 = 6 hours. The difference is 9 - 6 = 3 hours.\n\n#### 3"
+ },
+ {
+  "id": "gsm8k_0097",
+  "hit": true,
+  "tokens": 330,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "e of tomatoes was twice the sauce volume: 32 × 2 = 64 ounces. Each can is 16 ounces, so she used 64 ÷ 16 = 4 cans. Each can contains 3 tomatoes, so the total number of tomatoes is 4 × 3 = 12.\n\n#### 12"
+ },
+ {
+  "id": "gsm8k_0098",
+  "hit": true,
+  "tokens": 796,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " these groups equals the total number of cars:\n\n\\[\nx + 20 + 5 = 30\n\\]\n\nSolving for \\(x\\):\n\n\\[\nx + 25 = 30 \\implies x = 5\n\\]\n\nThus, 5 cars drove through the traffic jam in the first 15 minutes.\n\n#### 5"
+ },
+ {
+  "id": "gsm8k_0099",
+  "hit": true,
+  "tokens": 235,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "es 18 new plants, making a total of 80 + 18 = 98 plants. She then gives 1 plant from each of the 40 ledges, so she gives away 40 plants. The number of plants she remains with is 98 - 40 = 58.\n\n#### 58"
+ },
+ {
+  "id": "gsm8k_0100",
+  "hit": true,
+  "tokens": 517,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "*20 = 20 + 5 = 25 times. \nThe fourth friend pressed 60 times. \nThe third friend pressed 10 times more than the fourth, so 60 + 10 = 70 times. \nTotal doorbell rings = 20 + 25 + 70 + 60 = 175.\n\n#### 175"
+ },
+ {
+  "id": "gsm8k_0101",
+  "hit": true,
+  "tokens": 209,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ds to read a total of 4 + 20 + 7 + 8 = 39 pages. He already read 15 pages on Monday, so he has 39 - 15 = 24 pages left. With 4 days remaining, he must read 24 ÷ 4 = 6 pages per day on average.\n\n#### 6"
+ },
+ {
+  "id": "gsm8k_0102",
+  "hit": true,
+  "tokens": 525,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "n weekends (2 days), he replaces the dinner water with a soda, so he drinks water with breakfast, lunch, and before bed (2 days × 3 glasses = 6 glasses). Total glasses per week = 20 + 6 = 26.\n\n#### 26"
+ },
+ {
+  "id": "gsm8k_0103",
+  "hit": true,
+  "tokens": 341,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "inute. The city is 42 miles across, so the time required is 42 miles ÷ 0.3 miles per minute = 140 minutes. Alternatively, using a proportion: (10 minutes / 3 miles) × 42 miles = 140 minutes.\n\n#### 140"
+ },
+ {
+  "id": "gsm8k_0104",
+  "hit": true,
+  "tokens": 317,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "0 pieces: \\(1000 \\div 4 = 250\\) pieces. Remaining pieces: \\(1000 - 250 = 750\\). Her mom places a third of the remaining pieces: \\(750 \\div 3 = 250\\) pieces. Pieces left: \\(750 - 250 = 500\\).\n\n#### 500"
+ },
+ {
+  "id": "gsm8k_0105",
+  "hit": true,
+  "tokens": 128,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": ", so 3*5=15. Together they eat 5+15=20. So answer is 20.\n</think>\n\nAmir eats 5 cookies. Cody eats three times as many, so Cody eats 3 × 5 = 15 cookies. Together, they eat 5 + 15 = 20 cookies.\n\n#### 20"
+ },
+ {
+  "id": "gsm8k_0106",
+  "hit": true,
+  "tokens": 561,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "nsions are (5 - 2) = 3 in, (6 - 2) = 4 in, and (4 - 2) = 2 in. The inner volume of one box is 3 × 4 × 2 = 24 cubic inches. For three boxes, the total inner volume is 3 × 24 = 72 cubic inches.\n\n#### 72"
+ },
+ {
+  "id": "gsm8k_0107",
+  "hit": true,
+  "tokens": 386,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " hours. The total TV time is 7 hours, so the time spent on Wednesday is 7 - 5.5 = 1.5 hours. Since each episode on Wednesday is 30 minutes (0.5 hours), the number of episodes is 1.5 / 0.5 = 3.\n\n#### 3"
+ },
+ {
+  "id": "gsm8k_0108",
+  "hit": true,
+  "tokens": 289,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " L = 50. So last year he baked 50 cookies.\n\nCheck: Last year 50, this year intended 100, actually baked 115, dropped 5, left 110. Yes.\n\nAnswer: 50.\n</think>\n\nHenry baked 50 cookies last year.\n\n#### 50"
+ },
+ {
+  "id": "gsm8k_0109",
+  "hit": true,
+  "tokens": 363,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "0 gallons at $3.00 per gallon is $30.00. The cashback reward is $0.20 per gallon, so for 10 gallons it is $2.00. Subtracting the cashback from the total cost gives $30.00 - $2.00 = $28.00.\n\n#### 28.00"
+ },
+ {
+  "id": "gsm8k_0110",
+  "hit": true,
+  "tokens": 581,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "es 24 = 48\\). Marcell's is 3 roll-ups wide and 14 rolls up long, so he ate \\(3 \\times 14 = 42\\) roll-ups. The average number of roll-ups they ate is \\(\\frac{48 + 42}{2} = \\frac{90}{2} = 45\\).\n\n#### 45"
+ },
+ {
+  "id": "gsm8k_0111",
+  "hit": true,
+  "tokens": 479,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "otal distance rowed is \\(1.25 \\times 64 = 80\\) feet. The boat takes on 2 liters of water for every 10 feet rowed, so for 80 feet, the water taken on is \\(\\frac{2}{10} \\times 80 = 16\\) liters.\n\n#### 16"
+ },
+ {
+  "id": "gsm8k_0112",
+  "hit": true,
+  "tokens": 237,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 24.\n</think>\n\nThe total number of lessons per day is 4 teachers × 2 lessons = 8 lessons. Each lesson involves cleaning the whiteboard 3 times, so the total number of cleanings is 8 × 3 = 24.\n\n#### 24"
+ },
+ {
+  "id": "gsm8k_0113",
+  "hit": true,
+  "tokens": 259,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "wers each day for 15 days, so the total number of flowers planted is \\(2 \\times 15 = 30\\). Since 5 of these did not grow, the number of flowers that grew (and thus he has) is \\(30 - 5 = 25\\).\n\n#### 25"
+ },
+ {
+  "id": "gsm8k_0114",
+  "hit": true,
+  "tokens": 1451,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "one holds \\(1800 \\div 6 = 300\\) photographs. Brittany's phone holds 50 times as many photographs as the number of birds (ducks) in Jamal's photo, so the number of ducks is \\(300 \\div 50 = 6\\).\n\n#### 6"
+ },
+ {
+  "id": "gsm8k_0115",
+  "hit": true,
+  "tokens": 621,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "he cost.\n\nShe has:\n- 10 boards of 2×4×10, each costing $10.\n- 5 boards of 4×4×10, each costing $16.\n\nTotal cost = (10 × $10) + (5 × $16) = $100 + $80 = $180.\n\nTotal profit = 0.5 × $180 = $90.\n\n#### 90"
+ },
+ {
+  "id": "gsm8k_0116",
+  "hit": true,
+  "tokens": 847,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " The total number of teaspoons of sugar and cups of water is given as 120, so:\n\n\\[\n7x + 13x = 120\n\\]\n\\[\n20x = 120\n\\]\n\\[\nx = 6\n\\]\n\nThe number of teaspoons of sugar is \\(7x = 7 \\times 6 = 42\\).\n\n#### 42"
+ },
+ {
+  "id": "gsm8k_0117",
+  "hit": true,
+  "tokens": 194,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "easoning and then final answer.\n</think>\n\nJohn buys 2 pairs of shoes for each of his 3 children. \nTotal number of pairs = 2 × 3 = 6 pairs. \nEach pair costs $60. \nTotal cost = 6 × $60 = $360.\n\n#### 360"
+ },
+ {
+  "id": "gsm8k_0118",
+  "hit": true,
+  "tokens": 312,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "the second day, the total is 30 vehicles, so the additional vehicles are 30 - 10 = 20. Since each container holds 5 vehicles, the number of containers imported on the second day is 20 ÷ 5 = 4.\n\n#### 4"
+ },
+ {
+  "id": "gsm8k_0119",
+  "hit": false,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": " they both increased by the same amount? If they both increased by the same amount, then Lylah's new salary = old Lylah + x, and Adrien's new salary = old Adrien + x = 40000 + x = 56000, so x = 16000."
+ },
+ {
+  "id": "gsm8k_0120",
+  "hit": true,
+  "tokens": 465,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ts used per week is:\n\n2 pads/week × 30 sheets/pad = 60 sheets/week.\n\nAssuming a month has 4 weeks, the number of sheets used per month is:\n\n60 sheets/week × 4 weeks/month = 240 sheets/month.\n\n#### 240"
+ },
+ {
+  "id": "gsm8k_0121",
+  "hit": true,
+  "tokens": 211,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " oranges, so she has 5 + 8 = 13 fruits. \nKael brought twice the apples: 2 × 5 = 10 apples, and half the oranges: 8 ÷ 2 = 4 oranges, so he has 10 + 4 = 14 fruits. \nTotal fruits = 13 + 14 = 27.\n\n#### 27"
+ },
+ {
+  "id": "gsm8k_0122",
+  "hit": true,
+  "tokens": 549,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "han those two days, so 6 + 1 = 7 hours per day.\n\nTotal hours:\n- Monday: 8\n- Tuesday: 6\n- Wednesday: 6\n- Thursday: 7\n- Friday: 7\n- Saturday: 7\n- Sunday: 7\n\nSum: 8 + 6 + 6 + 7 + 7 + 7 + 7 = 48.\n\n#### 48"
+ },
+ {
+  "id": "gsm8k_0123",
+  "hit": true,
+  "tokens": 345,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "g \\(10 \\times 3 = 30\\) miles. After that, she runs at 5 miles per hour for the remaining \\(7 - 3 = 4\\) hours, covering \\(5 \\times 4 = 20\\) miles. The total distance is \\(30 + 20 = 50\\) miles.\n\n#### 50"
+ },
+ {
+  "id": "gsm8k_0124",
+  "hit": true,
+  "tokens": 399,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ch is \\(60 \\div 3 = 20\\) letters. These 20 letters are added to the already-stamped pile, making the total \\(x + 20\\). We are told this total is now 30, so \\(x + 20 = 30\\), giving \\(x = 10\\).\n\n#### 10"
+ },
+ {
+  "id": "gsm8k_0125",
+  "hit": true,
+  "tokens": 296,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ad \\(x + 5\\) spoons, where \\(x\\) is the number in her package. She used 3 spoons, leaving her with 12 spoons. Therefore, \\(x + 5 - 3 = 12\\), which simplifies to \\(x + 2 = 12\\), so \\(x = 10\\).\n\n#### 10"
+ },
+ {
+  "id": "gsm8k_0126",
+  "hit": true,
+  "tokens": 191,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "\n</think>\n\nDylan bought 38 chicken sausages. He bought 6 more fish sausages than chicken sausages, so the number of fish sausages is 38 + 6 = 44. The total number of sausages is 38 + 44 = 82.\n\n#### 82"
+ },
+ {
+  "id": "gsm8k_0127",
+  "hit": true,
+  "tokens": 156,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "hey have 50+70=120 friends. So answer is 120.\n</think>\n\nLily made 50 friends. Amy made 20 more friends than Lily, so Amy made 50 + 20 = 70 friends. Together, they have 50 + 70 = 120 friends.\n\n#### 120"
+ },
+ {
+  "id": "gsm8k_0128",
+  "hit": true,
+  "tokens": 406,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "$5 less than a watermelon: $45 − $5 = $40. \n\nDillon buys:\n- 4 watermelons: 4 × $45 = $180\n- 20 peppers: 20 × $15 = $300\n- 10 oranges: 10 × $40 = $400\n\nTotal cost = $180 + $300 + $400 = $880.\n\n#### 880"
+ },
+ {
+  "id": "gsm8k_0129",
+  "hit": true,
+  "tokens": 547,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s 12,000 / 60 = 200 hours.\n\nRevenue from patients: 200 hours × $200/hour = $40,000.\nCost to doctors: 200 hours × $150/hour = $30,000.\nProfit = Revenue - Cost = $40,000 - $30,000 = $10,000.\n\n#### 10000"
+ },
+ {
+  "id": "gsm8k_0130",
+  "hit": true,
+  "tokens": 229,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": ".\n</think>\n\nNissa starts with 60 elves. A third of them quit, which is 60 × (1/3) = 20 elves. The remaining number is 60 - 20 = 40 elves. Then, 10 more elves quit, leaving 40 - 10 = 30 elves.\n\n#### 30"
+ },
+ {
+  "id": "gsm8k_0131",
+  "hit": true,
+  "tokens": 161,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "/think>\n\nJoseph's expenditure in May was $500. In June, his expenditure was $60 less, so June's expenditure is $500 - $60 = $440. The total expenditure for both months is $500 + $440 = $940.\n\n#### 940"
+ },
+ {
+  "id": "gsm8k_0132",
+  "hit": true,
+  "tokens": 291,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "e the roller coaster 4 times and the luge 2 times, for a total of 6 rides. Together, they rode 4 + 6 = 10 times. Each ride costs 6 tickets, so the total number of tickets used is 10 × 6 = 60.\n\n#### 60"
+ },
+ {
+  "id": "gsm8k_0133",
+  "hit": true,
+  "tokens": 229,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ny miles as on Monday, which is 6 × 4 = 24 miles. The total mileage from Monday through Wednesday is 41 miles. Therefore, the miles walked on Wednesday are 41 - (4 + 24) = 41 - 28 = 13 miles.\n\n#### 13"
+ },
+ {
+  "id": "gsm8k_0134",
+  "hit": true,
+  "tokens": 195,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "t = 60 * 12 = $720\n\nSo final answer: 720.\n</think>\n\nTom gets 4 car washes per month, each costing $15. \nMonthly cost = 4 × $15 = $60. \nA year has 12 months, so annual cost = $60 × 12 = $720.\n\n#### 720"
+ },
+ {
+  "id": "gsm8k_0135",
+  "hit": true,
+  "tokens": 426,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "5 right before the comparison, so at the time of comparison he had 20 - 5 = 15 video games. Bobby has 5 fewer than 3 times as many as Brian, so Bobby has 3 × 15 - 5 = 45 - 5 = 40 video games.\n\n#### 40"
+ },
+ {
+  "id": "gsm8k_0136",
+  "hit": true,
+  "tokens": 203,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ghlands, so there are \\( \\frac{1}{3} \\times 27 = 9 \\) Scottish unicorns. Two thirds of these Scottish unicorns are female, so there are \\( \\frac{2}{3} \\times 9 = 6 \\) female Scottish unicorns.\n\n#### 6"
+ },
+ {
+  "id": "gsm8k_0137",
+  "hit": true,
+  "tokens": 549,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "ip is separate.\n\nThus final answer: 29.00.\n</think>\n\nThe total cost of the items is $20.00. The delivery fee is 20% of $20.00, which is $4.00. Adding the $5.00 tip gives a total of $29.00.\n\n#### 29.00"
+ },
+ {
+  "id": "gsm8k_0138",
+  "hit": true,
+  "tokens": 1450,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "nd test, he had 6 hours, so he could answer \\(5 \\times 6 = 30\\) questions. The test had 100 questions, so he left \\(100 - 30 = 70\\) incomplete. Total incomplete questions: \\(35 + 70 = 105\\).\n\n#### 105"
+ },
+ {
+  "id": "gsm8k_0139",
+  "hit": true,
+  "tokens": 1886,
+  "capped": false,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": "e number of pink gumbails and \\( b \\) be the number of blue gumbails.\nThen \\( p = 4b + 22 \\).\n\nSubstitute \\( b = 12 \\):\n\\( p = 4(12) + 22 = 48 + 22 = 70 \\).\n\nThus, there are 70 pink gumbails.\n\n#### 70"
+ },
+ {
+  "id": "gsm8k_0140",
+  "hit": true,
+  "tokens": 217,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": ". The number of semi-automatic cars is the remainder: 20 - 12 - 4 = 4. To find the percentage, divide the number of semi-automatic cars by the total and multiply by 100: (4 / 20) * 100 = 20%.\n\n#### 20"
+ },
+ {
+  "id": "gsm8k_0141",
+  "hit": true,
+  "tokens": 343,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " bees is \\(2Q\\), and the number of worker bees is \\(2 \\times 2Q = 4Q\\). The sum is \\(Q + 2Q + 4Q = 7Q = 700\\), so \\(Q = 100\\). Therefore, the number of worker bees is \\(4 \\times 100 = 400\\).\n\n#### 400"
+ },
+ {
+  "id": "gsm8k_0142",
+  "hit": true,
+  "tokens": 289,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "d, he would earn $10 per hour. So, his daily earnings from working those hours would be 2 hours × $10/hour = $20. Over one week (7 days), his total earnings would be 7 days × $20/day = $140.\n\n#### 140"
+ },
+ {
+  "id": "gsm8k_0143",
+  "hit": true,
+  "tokens": 347,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "tems: milk ($2) + eggs ($3) = $5\n- Nonfood items: light bulbs ($3) + cups ($3) + roach traps ($4) = $10\n- Tax on nonfood items: 10% of $10 = $1\n- Total cost: $2 + $3 + $3 + $3 + $4 + $1 = $16\n\n#### 16"
+ },
+ {
+  "id": "gsm8k_0144",
+  "hit": true,
+  "tokens": 340,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "loths at $5 each, so the cost per client is (2 × $2) + $5 = $4 + $5 = $9. Total expenses for 8 clients are 8 × $9 = $72. Total income is $92. Profit is income minus expenses: $92 - $72 = $20.\n\n#### 20"
+ },
+ {
+  "id": "gsm8k_0145",
+  "hit": true,
+  "tokens": 347,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": " 10 × 100 = 1000 pineapples. He harvests every 3 months, and there are 12 months in a year, so he harvests 12 ÷ 3 = 4 times per year. Total pineapples harvested in a year = 4 × 1000 = 4000.\n\n#### 4000"
+ },
+ {
+  "id": "gsm8k_0146",
+  "hit": true,
+  "tokens": 745,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "imes 500 = 1500\\) pieces.\n- The third set has \\(\\frac{1}{4}\\) of the number of pieces in the first set: \\(\\frac{1}{4} \\times 500 = 125\\) pieces.\n\nTotal pieces = \\(500 + 1500 + 125 = 2125\\).\n\n#### 2125"
+ },
+ {
+  "id": "gsm8k_0147",
+  "hit": false,
+  "tokens": 2048,
+  "capped": true,
+  "loop_words": true,
+  "loop_tokens": false,
+  "tail": " Then every bee that left before that hadn't already returned returns to the hive in the next 6 hours. How many bees did Debra see return to the hive in the last 6 hours of the day?\"\n\nMaybe the \"first"
+ },
+ {
+  "id": "gsm8k_0148",
+  "hit": true,
+  "tokens": 293,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "st for one adult ticket and one child ticket is $12 + $10 = $22. Since Brittany's mom received $8 in change, the amount she gave the cashier is the total cost plus the change: $22 + $8 = $30.\n\n#### 30"
+ },
+ {
+  "id": "gsm8k_0149",
+  "hit": true,
+  "tokens": 201,
+  "capped": false,
+  "loop_words": false,
+  "loop_tokens": false,
+  "tail": "s, Charlie has \\( 3D \\). Given Charlie has 12 friends, we have \\( 3D = 12 \\), so \\( D = 4 \\). James has four times as many friends as Dorothy, so James has \\( 4D = 4 \\times 4 = 16 \\) friends.\n\n#### 16"
+ }
+]
